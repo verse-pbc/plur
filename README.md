@@ -106,9 +106,25 @@ flutter build appbundle --release
 flutter build apk --release --split-per-abi
 ```
 
-### IOS and MacOS
+### iOS and macOS
 
-build by XCode
+You'll need to clone the `flutter_link_previewer` repo and have it next to your `plur` folder,  assuming that’s where you’ve cloned this repo. For example, your directories will need to look something like this:
+
+```
+~/Code/plur
+~/Code/flutter_link_previewer
+```
+
+So, to get this to build:
+
+1. Clone the flutter_link_previewer repo: `git clone git@github.com:flyerhq/flutter_link_previewer.git`
+2. Change to the `plur` directory where you’ll run the rest of the commands
+2. `git submodule init`
+3. `flutter pub get`
+4. `flutter build ios`
+5. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
+6. In the top middle of Xcode, Select `Runner` and a simulator or device
+7. Build and run!
 
 ### Windows
 
