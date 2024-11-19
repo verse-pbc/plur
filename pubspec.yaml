@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 2.9.3+27
+version: 0.0.1+1
 
 environment:
   sdk: '>=2.19.2 <3.0.0'
@@ -67,7 +67,7 @@ dependencies:
   # flutter_link_previewer: ^3.2.2
   # this package i had fix some bugs, if you havn't download this package, you can use pub package.
   flutter_link_previewer:
-    path: ../flutter_link_previewer
+    path: ../flutter_link_previewer # TODO: use published package rather than path
   easy_image_viewer: ^1.5.1
   flutter_placeholder_textlines: ^1.2.0
   google_fonts: ^6.2.1
