@@ -87,14 +87,14 @@ A flutter nostr client for all platforms.<br/> <a href="https://github.com/haore
 
 ## Git Module
 
-Since version 2.9.1, Nostrmo begin a multi module project, after you clone this project, please run git module scrpit to init the module git repos.
+After you clone this project, be sure to initialize and update git submodules:
 
-``` bash
+```bash
 git submodule init
 git submodule update
 ```
 
-## Build Script
+## Building the app
 
 ### Android
 
@@ -108,20 +108,20 @@ flutter build apk --release --split-per-abi
 
 ### iOS and macOS
 
-You'll need to clone the `flutter_link_previewer` repo and have it next to your `plur` directory, assuming `plur` is the name of the directory that contains this repo. For example, your directories will need to look something like this:
+This project has a local path dependency on [flutter_link_previewer](https://github.com/flyerhq/flutter_link_previewer). Therefore, you'll need to clone the `flutter_link_previewer` repo and have it next to your `plur` directory, assuming `plur` is the name of the directory that contains this repo. For example, your directories will need to look something like this:
 
 ```
 ~/Code/plur
 ~/Code/flutter_link_previewer
 ```
 
-So, to get this to build:
+So, to pull down this dependency and build:
 
-1. Clone the flutter_link_previewer repo: `git clone git@github.com:flyerhq/flutter_link_previewer.git`
+1. Clone the `flutter_link_previewer` repo: `git clone git@github.com:flyerhq/flutter_link_previewer.git`
 2. Change to the `plur` directory where you’ll run the rest of the commands: `cd plur`
-2. `git submodule init`
+2. `git submodule init` (if you haven’t already)
 3. `flutter pub get`
-4. `flutter build ios`
+4. `flutter build ios --debug`
 5. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
 6. In the top middle of Xcode, Select `Runner` and a simulator or device
 7. Build and run!
