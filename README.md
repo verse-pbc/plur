@@ -128,7 +128,7 @@ To run the iOS app from Android Studio, start in Terminal at the root of this re
 5. To the left of the configuration selector is the Flutter Device Selection dropdown where you can choose a device or Open iOS simulator. After a simulator is open, you can choose it as the run destination.
 6. Click the green Run button (to the right of the the configuration selector where `main.dart` is selected)
 
-Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac
+Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac (Designed for iPad) and run from there.
 
 ### Windows
 
