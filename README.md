@@ -108,23 +108,27 @@ flutter build apk --release --split-per-abi
 
 ### iOS and macOS
 
-This project has a local path dependency on [flutter_link_previewer](https://github.com/flyerhq/flutter_link_previewer). Therefore, you'll need to clone the `flutter_link_previewer` repo and have it next to your `plur` directory, assuming `plur` is the name of the directory that contains this repo. For example, your directories will need to look something like this:
+#### Xcode
+To run the iOS or macOS app from Xcode, start in Terminal at the root of this repository:
 
-```
-~/Code/plur
-~/Code/flutter_link_previewer
-```
+1. `git submodule init` (if you haven’t already)
+2. `flutter pub get`
+3. `flutter build ios --debug`
+4. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
+5. In the top middle of Xcode, Select `Runner` and choose a simulator or device
+6. Build and run!
 
-So, to pull down this dependency and build:
+#### Android Studio
+To run the iOS app from Android Studio, start in Terminal at the root of this repository:
 
-1. Clone the `flutter_link_previewer` repo: `git clone git@github.com:flyerhq/flutter_link_previewer.git`
-2. Change to the `plur` directory where you’ll run the rest of the commands: `cd plur`
-2. `git submodule init` (if you haven’t already)
-3. `flutter pub get`
-4. `flutter build ios --debug`
-5. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
-6. In the top middle of Xcode, Select `Runner` and a simulator or device
-7. Build and run!
+1. `git submodule init` (if you haven’t already)
+2. Open the root folder in Android Studio
+3. Install the plugins for Dart and Flutter (Android Studio may prompt you to do this)
+4. In the top bar, near the middle of the screen is the configuration selector. Ensure that `main.dart` is selected.
+5. To the left of the configuration selector is the Flutter Device Selection dropdown where you can choose a device or Open iOS simulator. After a simulator is open, you can choose it as the run destination.
+6. Click the green Run button (to the right of the the configuration selector where `main.dart` is selected)
+
+Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac
 
 ### Windows
 
