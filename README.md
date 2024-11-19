@@ -108,7 +108,7 @@ flutter build apk --release --split-per-abi
 
 ### iOS and macOS
 
-You'll need to clone the `flutter_link_previewer` repo and have it next to your `plur` folder,  assuming that’s where you’ve cloned this repo. For example, your directories will need to look something like this:
+You'll need to clone the `flutter_link_previewer` repo and have it next to your `plur` directory, assuming `plur` is the name of the directory that contains this repo. For example, your directories will need to look something like this:
 
 ```
 ~/Code/plur
@@ -118,7 +118,7 @@ You'll need to clone the `flutter_link_previewer` repo and have it next to your 
 So, to get this to build:
 
 1. Clone the flutter_link_previewer repo: `git clone git@github.com:flyerhq/flutter_link_previewer.git`
-2. Change to the `plur` directory where you’ll run the rest of the commands
+2. Change to the `plur` directory where you’ll run the rest of the commands: `cd plur`
 2. `git submodule init`
 3. `flutter pub get`
 4. `flutter build ios`
