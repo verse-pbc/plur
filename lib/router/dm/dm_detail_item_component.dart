@@ -12,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../../component/user/user_pic_component.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
-import '../../main.dart';
 import '../../provider/setting_provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'dm_plaintext_handle.dart';

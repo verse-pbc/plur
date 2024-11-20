@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/zap/zap_info_util.dart';

@@ -4,8 +4,6 @@ import 'package:nostr_sdk/nip58/badge_definition.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
-import '../provider/badge_definition_provider.dart';
 import 'image_component.dart';
 
 class BedgeComponent extends StatelessWidget {

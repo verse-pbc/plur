@@ -28,7 +28,6 @@ import '../image_component.dart';
 import '../image_preview_dialog.dart';
 import '../zap/zap_bottom_sheet_component.dart';
 import 'follow_btn_component.dart';
-import 'metadata_component.dart';
 
 class MetadataTopComponent extends StatefulWidget {
   static double getPcBannerHeight(double maxHeight) {

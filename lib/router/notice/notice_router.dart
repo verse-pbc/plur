@@ -4,10 +4,8 @@ import 'package:nostrmo/main.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_component.dart';
-import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../provider/notice_provider.dart';
-import '../../util/router_util.dart';
 import '../edit/editor_router.dart';
 import 'notice_list_item_component.dart';
 

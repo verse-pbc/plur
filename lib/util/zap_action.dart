@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
@@ -86,7 +84,7 @@ class ZapAction {
     }
 
     return await Zap.getInvoiceCode(
-      lnurl: lnurl!,
+      lnurl: lnurl ?? '',
       lud16Link: lud16Link!,
       sats: sats,
       recipientPubkey: pubkey,

@@ -31,7 +31,7 @@ class _UserRelayRouter extends State<UserRelayRouter> {
       relays = [];
       var arg = RouterUtil.routerArgs(context);
       if (arg != null && arg is List<dynamic>) {
-        for (var tag in arg as List<dynamic>) {
+        for (var tag in arg) {
           if (tag is List<dynamic>) {
             var length = tag.length;
             bool write = true;

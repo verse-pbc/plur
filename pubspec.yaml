@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 2.9.3+27
 
 environment:
-  sdk: '>=2.19.2 <3.0.0'
+   sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -66,8 +66,7 @@ dependencies:
   pretty_qr_code: ^3.3.0
   # flutter_link_previewer: ^3.2.2
   # this package i had fix some bugs, if you havn't download this package, you can use pub package.
-  flutter_link_previewer:
-    path: ../flutter_link_previewer
+  flutter_link_previewer: ^3.0.1
   easy_image_viewer: ^1.5.1
   flutter_placeholder_textlines: ^1.2.0
   google_fonts: ^6.2.1
@@ -110,7 +109,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 dependency_overrides:
-  photo_manager: ^3.5.0
+  #photo_manager: ^3.5.0
   extended_image: ^8.3.0
   google_fonts: ^6.2.1
   web: ^1.1.0

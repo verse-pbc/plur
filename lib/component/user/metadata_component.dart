@@ -5,7 +5,6 @@ import 'package:nostrmo/component/content/content_component.dart';
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import '../content/content_decoder.dart';
 import 'metadata_top_component.dart';
 import 'user_badges_component.dart';
 

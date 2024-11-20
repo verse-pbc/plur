@@ -263,6 +263,7 @@ class _GroupEditRouter extends State<GroupEditRouter> {
         imageService: settingProvider.imageService,
       );
     }
+    return null;
   }
 
   Future<void> pickPicture() async {

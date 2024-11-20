@@ -8,7 +8,6 @@ import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/setting_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../consts/base.dart';
 import '../cust_state.dart';
 
 class TextTranslateComponent extends StatefulWidget {

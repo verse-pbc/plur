@@ -24,7 +24,6 @@ import 'package:nostrmo/util/store_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_component.dart';
-import '../../component/image_component.dart';
 import '../../component/webview_router.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';

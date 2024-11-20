@@ -36,7 +36,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../router/index/index_app_bar.dart';
-import '../content/content_decoder.dart';
 import '../emoji_picker_component.dart';
 import '../image_component.dart';
 import '../zap/zap_split_icon_component.dart';
@@ -82,7 +81,9 @@ mixin EditorMixin {
   GroupIdentifier? getGroupIdentifier() {}
 
   // group event kind
-  int? getGroupEventKind() {}
+  int? getGroupEventKind() {
+    return null;
+  }
 
   BuildContext getContext();
 

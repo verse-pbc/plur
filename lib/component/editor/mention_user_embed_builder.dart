@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../../consts/base.dart';
 import '../content/content_mention_user_component.dart';
 import 'cust_embed_types.dart';
 

@@ -24,7 +24,6 @@ import '../../component/editor/tag_embed_builder.dart';
 import '../../component/editor/video_embed_builder.dart';
 import '../../component/user/name_component.dart';
 import '../../consts/base.dart';
-import '../../data/dm_session_info.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';

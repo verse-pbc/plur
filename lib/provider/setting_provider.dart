@@ -37,7 +37,7 @@ class SettingProvider extends ChangeNotifier {
   Future<void> _init() async {
     String? settingStr = _sharedPreferences!.getString(DataKey.SETTING);
     if (StringUtil.isNotBlank(settingStr)) {
-      var jsonMap = json.decode(settingStr!);
+      var jsonMap = json.decode(settingStr ?? "{}");
       if (jsonMap != null) {
         var setting = SettingData.fromJson(jsonMap);
         _settingData = setting;
@@ -268,6 +268,7 @@ class SettingProvider extends ChangeNotifier {
     if (StringUtil.isNotBlank(_settingData!.translateSourceArgs)) {
       return _settingData!.translateSourceArgs!;
     }
+    return null;
   }
 
   String? get translateTarget => _settingData!.translateTarget;

@@ -6,10 +6,8 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/metadata.dart';
-import '../../main.dart';
 import '../../provider/metadata_provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import '../image_component.dart';
 import '../user/simple_name_component.dart';
 
 class ReactionEventMetadataComponent extends StatefulWidget {

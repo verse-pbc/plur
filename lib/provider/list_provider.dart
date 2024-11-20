@@ -315,7 +315,7 @@ class ListProvider extends ChangeNotifier {
     }
 
     var event =
-        Event(nostr!.publicKey, EventKind.BOOKMARKS_LIST, tags, content!);
+        Event(nostr!.publicKey, EventKind.BOOKMARKS_LIST, tags, content ?? '');
     var resultEvent = await nostr!.sendEvent(event);
     if (resultEvent != null) {
       _holder[bookmarksKey] = resultEvent;

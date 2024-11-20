@@ -6,7 +6,6 @@ import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 
-import '../../../component/cust_state.dart';
 import '../../../component/keep_alive_cust_state.dart';
 import '../../../component/placeholder/tap_list_placeholder.dart';
 import '../../../component/tag_component.dart';

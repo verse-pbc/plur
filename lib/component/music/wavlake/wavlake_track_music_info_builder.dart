@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/music/music_info_builder.dart';
 import 'package:nostrmo/provider/music_provider.dart';
@@ -46,7 +43,7 @@ class WavlakeTrackMusicInfoBuilder extends MusicInfoBuilder {
     }
 
     String nameAndTitleStr =
-        SpiderUtil.subUntil(source!, "<title>", "</title>");
+        SpiderUtil.subUntil(source ?? "", "<title>", "</title>");
     var strs = nameAndTitleStr.split("•");
     if (strs.length < 2) {
       return null;
@@ -55,9 +52,9 @@ class WavlakeTrackMusicInfoBuilder extends MusicInfoBuilder {
     var title = strs[1].trim();
 
     String imageUrl =
-        SpiderUtil.subUntil(source, '<meta property="og:image" content="', '"');
+        SpiderUtil.subUntil(source ?? "", '<meta property="og:image" content="', '"');
     String audioUrl =
-        SpiderUtil.subUntil(source, '<meta property="og:audio" content="', '"');
+        SpiderUtil.subUntil(source ?? "", '<meta property="og:audio" content="', '"');
 
     if (StringUtil.isBlank(audioUrl) || audioUrl.indexOf("http") != 0) {
       return null;

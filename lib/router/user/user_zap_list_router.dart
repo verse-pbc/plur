@@ -4,12 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_component.dart';
 import '../../component/event/zap_event_list_component.dart';
-import '../../component/user/metadata_component.dart';
-import '../../consts/base.dart';
-import '../../consts/router_path.dart';
-import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
-import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 
 class UserZapListRouter extends StatefulWidget {

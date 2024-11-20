@@ -6,7 +6,6 @@ import 'package:nostrmo/component/user/user_pic_component.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:flutter_seekbar/flutter_seekbar.dart';
 
-import '../user/name_component.dart';
 
 class ZapSplitInputItemComponent extends StatefulWidget {
   EventZapInfo eventZapInfo;

@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +13,6 @@ import 'package:nostrmo/component/content/content_event_tag_infos.dart';
 import 'package:string_validator/string_validator.dart';
 
 import '../../consts/base.dart';
-import '../../consts/base64.dart';
-import '../../main.dart';
 import '../event/event_quote_component.dart';
 import '../translate/line_translate_component.dart';
 import 'content_custom_emoji_component.dart';
@@ -27,10 +22,8 @@ import 'content_link_pre_component.dart';
 import 'content_lnbc_component.dart';
 import 'content_mention_user_component.dart';
 import 'content_relay_component.dart';
-import 'content_str_link_component.dart';
 import 'content_tag_component.dart';
 import 'content_video_component.dart';
-import 'content_youtube_component.dart';
 
 class ContentDecoder {
   static const OTHER_LIGHTNING = "lightning=";

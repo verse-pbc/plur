@@ -16,12 +16,10 @@ import 'package:share_plus/share_plus.dart';
 
 import '../consts/base.dart';
 import '../generated/l10n.dart';
-import '../main.dart';
 import '../provider/metadata_provider.dart';
 import '../util/router_util.dart';
 import '../util/store_util.dart';
 import '../util/theme_util.dart';
-import 'image_component.dart';
 
 class QrcodeDialog extends StatefulWidget {
   String pubkey;
@@ -195,14 +193,12 @@ class _QrcodeDialog extends State<QrcodeDialog> {
   void onShareTap() {
     screenshotController.capture().then((Uint8List? imageData) async {
       if (imageData != null) {
-        if (imageData != null) {
-          var tempFile = await StoreUtil.saveBS2TempFile(
-            "png",
-            imageData,
-          );
-          Share.shareXFiles([XFile(tempFile)]);
-        }
-      }
+        var tempFile = await StoreUtil.saveBS2TempFile(
+          "png",
+          imageData,
+        );
+        Share.shareXFiles([XFile(tempFile)]);
+            }
     }).catchError((onError) {
       print(onError);
     });

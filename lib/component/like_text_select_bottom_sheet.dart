@@ -7,7 +7,6 @@ import '../consts/base.dart';
 import '../generated/l10n.dart';
 import '../router/index/index_drawer_content.dart';
 import '../util/router_util.dart';
-import '../util/theme_util.dart';
 
 class LikeTextSelectBottomSheet extends StatefulWidget {
   @override

@@ -8,10 +8,8 @@ import 'package:nostrmo/component/user/user_pic_component.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
-import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/router_util.dart';
-import '../image_component.dart';
 import 'search_mention_component.dart';
 
 class SearchMentionUserComponent extends StatefulWidget {

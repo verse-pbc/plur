@@ -6,7 +6,6 @@ import '../../consts/base.dart';
 import '../../data/metadata.dart';
 import '../../provider/metadata_provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import '../image_component.dart';
 import '../user/user_pic_component.dart';
 
 class ZapBottomSheetUserComponent extends StatefulWidget {

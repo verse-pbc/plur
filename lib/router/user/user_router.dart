@@ -93,7 +93,7 @@ class _UserRouter extends CustState<UserRouter>
         return Container();
       }
       var events = followEventProvider.eventsByPubkey(pubkey!);
-      if (events != null && events.isNotEmpty) {
+      if (events.isNotEmpty) {
         box.addList(events);
       }
     } else {

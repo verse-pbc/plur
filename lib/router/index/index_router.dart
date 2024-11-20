@@ -24,7 +24,6 @@ import '../../provider/setting_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_router.dart';
-import '../edit/editor_router.dart';
 import '../follow/follow_index_router.dart';
 import '../globals/globals_index_router.dart';
 import '../login/login_router.dart';

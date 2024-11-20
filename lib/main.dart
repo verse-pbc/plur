@@ -682,7 +682,7 @@ class _MyApp extends State<MyApp> {
 
     if (StringUtil.isNotBlank(localeName)) {
       if (GetTimeAgoSupportLocale.containsKey(localeName)) {
-        GetTimeAgo.setDefaultLocale(localeName!);
+        GetTimeAgo.setDefaultLocale(localeName ?? 'en');
       } else if (localeName == "zh_tw") {
         GetTimeAgo.setDefaultLocale("zh_tr");
       }

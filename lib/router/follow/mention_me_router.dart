@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/event_kind.dart';
@@ -21,12 +19,9 @@ import '../../component/event/event_list_component.dart';
 import '../../component/event/zap_event_list_component.dart';
 import '../../component/new_notes_updated_component.dart';
 import '../../component/placeholder/event_list_placeholder.dart';
-import '../../component/placeholder/event_placeholder.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
-import '../../consts/router_path.dart';
 import '../../provider/setting_provider.dart';
-import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
 class MentionMeRouter extends StatefulWidget {

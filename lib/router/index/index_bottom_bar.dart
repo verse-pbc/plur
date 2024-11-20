@@ -6,7 +6,6 @@ import 'package:provider/provider.dart';
 
 import '../../component/add_btn_wrapper_component.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
 import '../edit/editor_router.dart';
 
 class IndexBottomBar extends StatefulWidget {

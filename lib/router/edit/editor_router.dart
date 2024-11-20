@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -416,14 +415,14 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
       }
 
       List<EditorNotifyItem> needDeleds = [];
-      for (var item in editorNotifyItems!) {
+      for (var item in editorNotifyItems) {
         var exist = mentionUserMap.remove(item.pubkey);
         if (exist == null) {
           updated = true;
           needDeleds.add(item);
         }
       }
-      editorNotifyItems!.removeWhere((element) => needDeleds.contains(element));
+      editorNotifyItems.removeWhere((element) => needDeleds.contains(element));
 
       if (mentionUserMap.isNotEmpty) {
         var entries = mentionUserMap.entries;

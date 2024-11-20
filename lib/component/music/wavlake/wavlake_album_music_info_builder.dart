@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/music/music_info_builder.dart';

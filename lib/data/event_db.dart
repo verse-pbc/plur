@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:nostr_sdk/event.dart';
 import 'package:nostr_sdk/utils/string_util.dart';

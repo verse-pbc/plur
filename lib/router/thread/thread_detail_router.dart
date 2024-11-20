@@ -24,7 +24,6 @@ import '../../main.dart';
 import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import '../../util/table_mode_util.dart';
-import 'thread_detail_event.dart';
 import 'thread_detail_event_main_component.dart';
 import 'thread_detail_item_component.dart';
 import 'thread_router_helper.dart';
@@ -301,7 +300,7 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
       },
     ));
 
-    for (var item in rootSubList!) {
+    for (var item in rootSubList) {
       // if (item.event.kind == kind.EventKind.ZAP &&
       //     StringUtil.isBlank(item.event.content)) {
       //   continue;
