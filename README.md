@@ -2,7 +2,7 @@
 
 <img src="./assets/imgs/logo/logo_android.png" alt="Nostrmo Logo" title="Nostrmo logo" width="80"/>
 
-# Nostrmo
+# Plur
 
 A flutter nostr client for all platforms.<br/> <a href="https://github.com/haorendashu/nostrmo_faq?tab=readme-ov-file#ios" target="_blank">IOS</a>, <a href="https://github.com/haorendashu/nostrmo_faq?tab=readme-ov-file#android" target="_blank">Android</a>, <a href="https://github.com/haorendashu/nostrmo_faq?tab=readme-ov-file#macos" target="_blank">MacOS</a>, <a href="https://github.com/haorendashu/nostrmo_faq?tab=readme-ov-file#windows" target="_blank">Windows</a>, <a href="https://web.nostrmo.com/" target="_blank">Web</a> and <a href="https://github.com/haorendashu/nostrmo_faq?tab=readme-ov-file#linux" target="_blank">Linux</a>.
 
@@ -85,16 +85,17 @@ A flutter nostr client for all platforms.<br/> <a href="https://github.com/haore
 - [x] NIP-98 (HTTP Auth)
 - [ ] NIP-99 (Classified Listings)
 
-## Git Module
+## Setting up Git Submodules
 
-Since version 2.9.1, Nostrmo begin a multi module project, after you clone this project, please run git module scrpit to init the module git repos.
+This project uses git submodules, so after you clone this project, be sure to initialize and update git submodules:
 
-``` bash
+```bash
 git submodule init
 git submodule update
 ```
 
-## Build Script
+## Building the app
+Before building the app for any platform, be sure you’ve run `git submodule init` and `git submodule update` in Terminal at the root of the repository.
 
 ### Android
 
@@ -106,9 +107,27 @@ flutter build appbundle --release
 flutter build apk --release --split-per-abi
 ```
 
-### IOS and MacOS
+### iOS and macOS
 
-build by XCode
+#### Xcode
+To run the iOS or macOS app from Xcode, start in Terminal at the root of this repository:
+
+1. `flutter pub get`
+2. `flutter build ios --debug`
+3. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
+4. In the top middle of Xcode, Select `Runner` and choose a simulator or device.
+5. Build and run!
+
+#### Android Studio
+To run the iOS app from Android Studio:
+
+1. Open the root folder (`plur`) in Android Studio.
+2. Android Studio should automatically prompt you to install the plugins for Dart and Flutter since you’ve opened a Flutter project. If not, search for them and install them from Settings > Plugins.
+3. In the top bar, near the middle of the screen is the configuration selector. Ensure that `main.dart` is selected.
+4. In the Flutter Device Selection dropdown, you can choose a device or “Open iOS simulator”. After a simulator is open, you can choose it as the run destination.
+5. Click the green Run button to build and run!
+
+Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac (Designed for iPad) and run from there.
 
 ### Windows
 
