@@ -85,9 +85,9 @@ A flutter nostr client for all platforms.<br/> <a href="https://github.com/haore
 - [x] NIP-98 (HTTP Auth)
 - [ ] NIP-99 (Classified Listings)
 
-## Git Module
+## Setting up Git Submodules
 
-After you clone this project, be sure to initialize and update git submodules:
+This project uses git submodules, so after you clone this project, be sure to initialize and update git submodules:
 
 ```bash
 git submodule init
@@ -95,6 +95,7 @@ git submodule update
 ```
 
 ## Building the app
+Before building the app for any platform, be sure you’ve run `git submodule init` and `git submodule update` in Terminal at the root of the repository.
 
 ### Android
 
@@ -111,22 +112,20 @@ flutter build apk --release --split-per-abi
 #### Xcode
 To run the iOS or macOS app from Xcode, start in Terminal at the root of this repository:
 
-1. `git submodule init` (if you haven’t already)
-2. `flutter pub get`
-3. `flutter build ios --debug`
-4. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
-5. In the top middle of Xcode, Select `Runner` and choose a simulator or device
-6. Build and run!
+1. `flutter pub get`
+2. `flutter build ios --debug`
+3. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
+4. In the top middle of Xcode, Select `Runner` and choose a simulator or device.
+5. Build and run!
 
 #### Android Studio
-To run the iOS app from Android Studio, start in Terminal at the root of this repository:
+To run the iOS app from Android Studio:
 
-1. `git submodule init` (if you haven’t already)
-2. Open the root folder in Android Studio
-3. Install the plugins for Dart and Flutter (Android Studio may prompt you to do this)
-4. In the top bar, near the middle of the screen is the configuration selector. Ensure that `main.dart` is selected.
-5. To the left of the configuration selector is the Flutter Device Selection dropdown where you can choose a device or Open iOS simulator. After a simulator is open, you can choose it as the run destination.
-6. Click the green Run button (to the right of the the configuration selector where `main.dart` is selected)
+1. Open the root folder (`plur`) in Android Studio.
+2. Android Studio should automatically prompt you to install the plugins for Dart and Flutter since you’ve opened a Flutter project. If not, search for them and install them from Settings > Plugins.
+3. In the top bar, near the middle of the screen is the configuration selector. Ensure that `main.dart` is selected.
+4. In the Flutter Device Selection dropdown, you can choose a device or “Open iOS simulator”. After a simulator is open, you can choose it as the run destination.
+5. Click the green Run button to build and run!
 
 Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac (Designed for iPad) and run from there.
 
