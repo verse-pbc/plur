@@ -64,10 +64,11 @@ dependencies:
   media_kit_libs_video: ^1.0.5
   image_picker: ^1.1.2
   pretty_qr_code: ^3.3.0
-  flutter_link_previewer: ^3.2.2
-  # this package i had fix some bugs, if you havn't download this package, you can use pub package.
-  #flutter_link_previewer:
-    #path: ../flutter_link_previewer # TODO: use published package rather than path
+  # The `flutter_link_previewer` fork below contains some minor bug fixes
+  flutter_link_previewer:
+    git:
+      url: https://github.com/haorendashu/flutter_link_previewer.git
+      ref: main
   easy_image_viewer: ^1.5.1
   flutter_placeholder_textlines: ^1.2.0
   google_fonts: ^6.2.1
