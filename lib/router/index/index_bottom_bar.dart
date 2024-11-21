@@ -43,17 +43,17 @@ class _IndexBottomBar extends State<IndexBottomBar> {
     ));
     current++;
 
-    list.add(Expanded(
-      child: IndexBottomBarButton(
-        iconData: Icons.public_rounded, // notifications_active
-        index: current,
-        selected: current == currentTap,
-        onDoubleTap: () {
-          indexProvider.globalScrollToTop();
-        },
-      ),
-    ));
-    current++;
+    //list.add(Expanded(
+    //  child: IndexBottomBarButton(
+    //    iconData: Icons.public_rounded, // notifications_active
+    //    index: current,
+    //    selected: current == currentTap,
+    //    onDoubleTap: () {
+    //      indexProvider.globalScrollToTop();
+    //    },
+    //  ),
+    //));
+    //current++;
 
     if (!nostr!.isReadOnly()) {
       list.add(Expanded(
@@ -71,14 +71,14 @@ class _IndexBottomBar extends State<IndexBottomBar> {
       ));
     }
 
-    list.add(Expanded(
-      child: IndexBottomBarButton(
-        iconData: Icons.search_rounded,
-        index: current,
-        selected: current == currentTap,
-      ),
-    ));
-    current++;
+    //list.add(Expanded(
+    //  child: IndexBottomBarButton(
+    //    iconData: Icons.search_rounded,
+    //    index: current,
+    //    selected: current == currentTap,
+    //  ),
+    //));
+    //current++;
 
     list.add(Expanded(
       child: IndexBottomBarButton(
