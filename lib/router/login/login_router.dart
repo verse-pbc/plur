@@ -102,7 +102,7 @@ class _LoginRouter extends State<LoginRouter>
         bottom: 40,
       ),
       child: Text(
-        Base.APP_NAME,
+        "Communities",
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
@@ -150,14 +150,18 @@ class _LoginRouter extends State<LoginRouter>
 
     mainList.add(Container(
       margin: EdgeInsets.only(bottom: 25),
-      child: GestureDetector(
+      child: InkWell(
         onTap: generatePK,
-        child: Text(
-          s.Generate_a_new_private_key,
-          style: TextStyle(
-            color: mainColor,
-            decoration: TextDecoration.underline,
-            decorationColor: mainColor,
+        child: Container(
+          height: 36,
+          alignment: Alignment.center,
+          child: Text(
+            "Sign Up",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -231,7 +235,7 @@ class _LoginRouter extends State<LoginRouter>
                 WebViewRouter.open(context, Base.PRIVACY_LINK);
               },
               child: Text(
-                s.terms_of_user,
+                "terms of service",
                 style: TextStyle(
                   color: mainColor,
                   decoration: TextDecoration.underline,
