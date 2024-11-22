@@ -133,7 +133,7 @@ class _IndexRouter extends CustState<IndexRouter>
 
     var _settingProvider = Provider.of<SettingProvider>(context);
     if (nostr == null) {
-      return LoginRouter();
+      return LoginSignupWidget();
     }
 
     if (!unlock) {
