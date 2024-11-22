@@ -158,7 +158,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
           child: Text(
             "Sign Up",
             style: TextStyle(
-              color: Colors.white,
+              color: mainColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
