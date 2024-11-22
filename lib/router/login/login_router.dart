@@ -23,14 +23,14 @@ import 'package:nostr_sdk/utils/string_util.dart';
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_component.dart';
 
-class LoginRouter extends StatefulWidget {
+class LoginSignupWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _LoginRouter();
+    return _LoginSignupState();
   }
 }
 
-class _LoginRouter extends State<LoginRouter>
+class _LoginSignupState extends State<LoginSignupWidget>
     with SingleTickerProviderStateMixin {
   bool? checkTerms = false;
 
