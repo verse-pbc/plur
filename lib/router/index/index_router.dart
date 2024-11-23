@@ -13,6 +13,7 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
+import 'package:nostrmo/router/community/communities_widget.dart';
 import 'package:nostrmo/router/follow_suggest/follow_suggest_router.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -151,6 +152,7 @@ class _IndexRouter extends CustState<IndexRouter>
     var mainColor = themeData.primaryColor;
     var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
     var titleTextStyle = TextStyle(
+      fontSize: 20,
       fontWeight: FontWeight.bold,
       color: titleTextColor,
     );
@@ -158,30 +160,11 @@ class _IndexRouter extends CustState<IndexRouter>
 
     Widget? appBarCenter;
     if (_indexProvider.currentTap == 0) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelPadding: EdgeInsets.zero,
-        tabs: [
-          IndexTabItemComponent(
-            s.Posts,
-            titleTextStyle,
-            omitText: "P",
-          ),
-          IndexTabItemComponent(
-            s.Posts_and_replies,
-            titleTextStyle,
-            omitText: "PR",
-          ),
-          IndexTabItemComponent(
-            s.Mentions,
-            titleTextStyle,
-            omitText: "M",
-          ),
-        ],
-        controller: followTabController,
+      appBarCenter = Center(
+        child: Text(
+          'Communities',
+          style: titleTextStyle,
+        ),
       );
     } else if (_indexProvider.currentTap == 1) {
       appBarCenter = TabBar(
@@ -244,9 +227,7 @@ class _IndexRouter extends CustState<IndexRouter>
           child: IndexedStack(
         index: _indexProvider.currentTap,
         children: [
-          FollowIndexRouter(
-            tabController: followTabController,
-          ),
+          const CommunitiesWidget(),
           GlobalsIndexRouter(
             tabController: globalsTabController,
           ),
