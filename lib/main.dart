@@ -21,6 +21,7 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
+import 'package:nostrmo/provider/community_list_provider.dart';
 import 'package:nostrmo/provider/follow_new_event_provider.dart';
 import 'package:nostrmo/provider/gift_wrap_provider.dart';
 import 'package:nostrmo/provider/group_provider.dart';
@@ -162,6 +163,8 @@ late CommunityApprovedProvider communityApprovedProvider;
 
 late CommunityInfoProvider communityInfoProvider;
 
+late CommunityListProvider communityListProvider;
+
 late ReplaceableEventProvider replaceableEventProvider;
 
 late ListProvider listProvider;
@@ -276,6 +279,7 @@ Future<void> main() async {
   // customEmojiProvider = CustomEmojiProvider.load();
   communityApprovedProvider = CommunityApprovedProvider();
   communityInfoProvider = CommunityInfoProvider();
+  communityListProvider = CommunityListProvider();
   replaceableEventProvider = ReplaceableEventProvider();
   listProvider = ListProvider();
   listSetProvider = ListSetProvider();
@@ -456,6 +460,9 @@ class _MyApp extends State<MyApp> {
         ),
         ListenableProvider<CommunityInfoProvider>.value(
           value: communityInfoProvider,
+        ),
+        ListenableProvider<CommunityListProvider>.value(
+          value: communityListProvider,
         ),
         ListenableProvider<ReplaceableEventProvider>.value(
           value: replaceableEventProvider,
