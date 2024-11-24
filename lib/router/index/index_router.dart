@@ -140,10 +140,6 @@ class _IndexRouter extends CustState<IndexRouter>
       return Scaffold();
     }
 
-    if (newUser) {
-      return FollowSuggestRouter();
-    }
-
     var _indexProvider = Provider.of<IndexProvider>(context);
     _indexProvider.setFollowTabController(followTabController);
     _indexProvider.setGlobalTabController(globalsTabController);
