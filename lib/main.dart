@@ -30,7 +30,7 @@ import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_detail_router.dart';
 import 'package:nostrmo/router/group/group_edit_router.dart';
-import 'package:nostrmo/router/group/group_list_rotuer.dart';
+import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members_router.dart';
 import 'package:nostrmo/router/login/login_router.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_router.dart';
@@ -390,7 +390,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.FOLLOW_SET_DETAIL: (context) => FollowSetDetailRouter(),
       RouterPath.FOLLOW_SET_FEED: (context) => FollowSetFeedRouter(),
       RouterPath.NWC_SETTING: (context) => NwcSettingRouter(),
-      RouterPath.GROUP_LIST: (context) => GroupListRouter(),
+      RouterPath.GROUP_LIST: (context) => CommunitiesWidget(),
       RouterPath.GROUP_DETAIL: (context) => GroupDetailRouter(),
       RouterPath.GROUP_EDIT: (context) => GroupEditRouter(),
       RouterPath.GROUP_MEMBERS: (context) => GroupMembersRouter(),
