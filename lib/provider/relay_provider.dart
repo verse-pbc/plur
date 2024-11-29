@@ -59,18 +59,7 @@ class RelayProvider extends ChangeNotifier {
     var relays = parseRelayAddrs(content);
     if (relays.isEmpty) {
       relays = [
-        "wss://nos.lol",
-        "wss://nostr.wine",
-        "wss://atlas.nostr.land",
-        "wss://relay.damus.io",
-        "wss://nostr-relay.app",
-        "wss://nostr.oxtr.dev",
-        "wss://relayable.org",
-        "wss://relay.primal.net",
-        "wss://relay.nostr.bg",
-        "wss://relay.nostr.band",
-        "wss://yabu.me",
-        "wss://nostr.mom"
+        "wss://relay.groups.nip29.com",
       ];
     }
 
