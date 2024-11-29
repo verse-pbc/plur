@@ -13,7 +13,6 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
-import 'package:nostrmo/router/community/communities_widget.dart';
 import 'package:nostrmo/router/follow_suggest/follow_suggest_router.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +27,7 @@ import '../dm/dm_router.dart';
 import '../edit/editor_router.dart';
 import '../follow/follow_index_router.dart';
 import '../globals/globals_index_router.dart';
+import '../group/communities_widget.dart';
 import '../login/login_router.dart';
 import '../search/search_router.dart';
 import 'index_app_bar.dart';
@@ -227,7 +227,7 @@ class _IndexRouter extends CustState<IndexRouter>
           child: IndexedStack(
         index: _indexProvider.currentTap,
         children: [
-          const CommunitiesWidget(),
+          CommunitiesWidget(),
           GlobalsIndexRouter(
             tabController: globalsTabController,
           ),
