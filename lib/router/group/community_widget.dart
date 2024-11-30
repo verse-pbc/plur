@@ -14,8 +14,8 @@ class CommunityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<GroupProvider>(context);
-    final community = provider.getMetadata(groupIdentifier);
-    final imageUrl = community?.picture;
+    final metadata = provider.getMetadata(groupIdentifier);
+    final imageUrl = metadata?.picture;
     const double imageSize = 120;
 
     return Column(
@@ -48,7 +48,7 @@ class CommunityWidget extends StatelessWidget {
           child: SizedBox(
             height: 60,
             child: Text(
-              groupIdentifier.groupId,
+              metadata?.name ?? groupIdentifier.groupId,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
