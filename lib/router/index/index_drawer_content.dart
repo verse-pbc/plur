@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/user/metadata_top_component.dart';
@@ -259,6 +261,26 @@ class _IndexDrawerContentComponnent
       }, selector: (context, _provider) {
         return _provider.url;
       }));
+    }
+
+    if (!kReleaseMode) {
+      centerList.add(IndexDrawerItem(
+        iconData: Icons.group_add,
+        name: 'Add test groups',
+        onTap: () {
+          const host = "wss://relay.groups.nip29.com";
+          final groupIds = [
+            '672U0I7Egc',
+            'Qs5y4i2wFEBafxvP',
+            '0x0tLAXmNmnTTTS7',
+            '7aNtrZngZmPVYu9c'
+          ];
+          for (String groupId in groupIds) {
+            listProvider.addGroup(GroupIdentifier(host, groupId));
+          }
+        },
+        smallMode: widget.smallMode,
+      ));
     }
 
     list.add(Expanded(
