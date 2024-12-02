@@ -281,11 +281,12 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     // mark newUser and will show follow suggest after login.
     newUser = true;
+    BotToast.showText(text: "A new private key has been generated for your account.");
   }
 
   Future<void> doLogin() async {
     if (checkTerms != true) {
-      tipAcceptTerm();
+      showAcceptTermTip();
       return;
     }
 
@@ -370,7 +371,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     indexProvider.setCurrentTap(1);
   }
 
-  void tipAcceptTerm() {
+  void showAcceptTermTip() {
     BotToast.showText(text: S.of(context).Please_accept_the_terms);
     animationController.reset();
     animationController.forward();
@@ -378,7 +379,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
   Future<void> loginByAndroidSigner() async {
     if (checkTerms != true) {
-      tipAcceptTerm();
+      showAcceptTermTip();
       return;
     }
 
@@ -409,7 +410,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
   Future<void> loginWithWebSigner() async {
     if (checkTerms != true) {
-      tipAcceptTerm();
+      showAcceptTermTip();
       return;
     }
 
