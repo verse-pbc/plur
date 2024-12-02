@@ -51,7 +51,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
               )
             : GridView.builder(
                 padding:
-                    const EdgeInsets.only(top: 52.0, left: 20.0, right: 20.0),
+                    const EdgeInsets.symmetric(vertical: 52),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 0.0,
