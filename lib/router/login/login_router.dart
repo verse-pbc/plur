@@ -281,6 +281,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     // mark newUser and will show follow suggest after login.
     newUser = true;
+    BotToast.showText(text: "A new private key has been generated for your account.");
   }
 
   Future<void> doLogin() async {
