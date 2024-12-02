@@ -286,7 +286,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
   Future<void> doLogin() async {
     if (checkTerms != true) {
-      showTip(S.of(context).Please_accept_the_terms);
+      showAcceptTermTip();
       return;
     }
 
@@ -371,15 +371,15 @@ class _LoginSignupState extends State<LoginSignupWidget>
     indexProvider.setCurrentTap(1);
   }
 
-  void showTip(String message) {
-    BotToast.showText(text: message);
+  void showAcceptTermTip() {
+    BotToast.showText(text: S.of(context).Please_accept_the_terms);
     animationController.reset();
     animationController.forward();
   }
 
   Future<void> loginByAndroidSigner() async {
     if (checkTerms != true) {
-      showTip(S.of(context).Please_accept_the_terms);
+      showAcceptTermTip();
       return;
     }
 
@@ -410,7 +410,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
   Future<void> loginWithWebSigner() async {
     if (checkTerms != true) {
-      showTip(S.of(context).Please_accept_the_terms);
+      showAcceptTermTip();
       return;
     }
 
