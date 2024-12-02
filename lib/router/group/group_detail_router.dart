@@ -13,7 +13,9 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_component.dart';
+import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
+import '../../main.dart';
 import 'group_detail_chat_component.dart';
 import 'group_detail_note_list_component.dart';
 
@@ -101,12 +103,12 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
       Container(
         height: APP_BAR_HEIGHT,
         alignment: Alignment.center,
-        child: Text(s.Notes),
+        child: Text(s.Chat),
       ),
       Container(
         height: APP_BAR_HEIGHT,
         alignment: Alignment.center,
-        child: Text(s.Chat),
+        child: Text(s.Notes),
       ),
     ];
 
@@ -135,18 +137,17 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
         unselectedLabelColor: themeData.textTheme.bodyMedium!.color,
       ),
       actions: [
-        GestureDetector(
-          onTap: jumpToAddNote,
-          child: Container(
-            padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING_HALF,
-              right: Base.BASE_PADDING,
-            ),
-            child: Icon(
-              Icons.add,
-              color: themeData.appBarTheme.titleTextStyle!.color,
-            ),
-          ),
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: jumpToAddNote,
+        ),
+        IconButton(
+          icon: const Icon(Icons.edit_outlined),
+          onPressed: editGroup,
+        ),
+        IconButton(
+          icon: const Icon(Icons.group_remove_outlined),
+          onPressed: leaveGroup,
         ),
       ],
     );
@@ -160,8 +161,8 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
         ],
         child: TabBarView(
           children: [
-            GroupDetailNoteListComponent(groupIdentifier!),
             GroupDetailChatComponent(groupIdentifier!),
+            GroupDetailNoteListComponent(groupIdentifier!),
           ],
         ),
       ),
@@ -200,5 +201,17 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
 
   void onEventDelete(Event e) {
     groupDetailProvider.deleteEvent(e);
+  }
+
+  void leaveGroup() {
+    final id = groupIdentifier;
+    if (id != null) {
+      listProvider.removeGroup(id);
+    }
+    RouterUtil.back(context);
+  }
+
+  void editGroup() {
+    RouterUtil.router(context, RouterPath.GROUP_EDIT, groupIdentifier);
   }
 }
