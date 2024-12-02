@@ -27,6 +27,7 @@ import '../dm/dm_router.dart';
 import '../edit/editor_router.dart';
 import '../follow/follow_index_router.dart';
 import '../globals/globals_index_router.dart';
+import '../group/communities_widget.dart';
 import '../login/login_router.dart';
 import '../search/search_router.dart';
 import 'index_app_bar.dart';
@@ -147,6 +148,7 @@ class _IndexRouter extends CustState<IndexRouter>
     var mainColor = themeData.primaryColor;
     var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
     var titleTextStyle = TextStyle(
+      fontSize: 20,
       fontWeight: FontWeight.bold,
       color: titleTextColor,
     );
@@ -154,30 +156,11 @@ class _IndexRouter extends CustState<IndexRouter>
 
     Widget? appBarCenter;
     if (_indexProvider.currentTap == 0) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelPadding: EdgeInsets.zero,
-        tabs: [
-          IndexTabItemComponent(
-            s.Posts,
-            titleTextStyle,
-            omitText: "P",
-          ),
-          IndexTabItemComponent(
-            s.Posts_and_replies,
-            titleTextStyle,
-            omitText: "PR",
-          ),
-          IndexTabItemComponent(
-            s.Mentions,
-            titleTextStyle,
-            omitText: "M",
-          ),
-        ],
-        controller: followTabController,
+      appBarCenter = Center(
+        child: Text(
+          'Communities',
+          style: titleTextStyle,
+        ),
       );
     } else if (_indexProvider.currentTap == 1) {
       appBarCenter = TabBar(
@@ -240,9 +223,7 @@ class _IndexRouter extends CustState<IndexRouter>
           child: IndexedStack(
         index: _indexProvider.currentTap,
         children: [
-          FollowIndexRouter(
-            tabController: followTabController,
-          ),
+          CommunitiesWidget(),
           GlobalsIndexRouter(
             tabController: globalsTabController,
           ),
