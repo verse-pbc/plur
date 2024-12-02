@@ -21,6 +21,7 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
+import 'package:nostrmo/provider/community_list_provider.dart';
 import 'package:nostrmo/provider/follow_new_event_provider.dart';
 import 'package:nostrmo/provider/gift_wrap_provider.dart';
 import 'package:nostrmo/provider/group_provider.dart';
@@ -29,7 +30,7 @@ import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_detail_router.dart';
 import 'package:nostrmo/router/group/group_edit_router.dart';
-import 'package:nostrmo/router/group/group_list_rotuer.dart';
+import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members_router.dart';
 import 'package:nostrmo/router/login/login_router.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_router.dart';
@@ -162,6 +163,8 @@ late CommunityApprovedProvider communityApprovedProvider;
 
 late CommunityInfoProvider communityInfoProvider;
 
+late CommunityListProvider communityListProvider;
+
 late ReplaceableEventProvider replaceableEventProvider;
 
 late ListProvider listProvider;
@@ -276,6 +279,7 @@ Future<void> main() async {
   // customEmojiProvider = CustomEmojiProvider.load();
   communityApprovedProvider = CommunityApprovedProvider();
   communityInfoProvider = CommunityInfoProvider();
+  communityListProvider = CommunityListProvider();
   replaceableEventProvider = ReplaceableEventProvider();
   listProvider = ListProvider();
   listSetProvider = ListSetProvider();
@@ -386,7 +390,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.FOLLOW_SET_DETAIL: (context) => FollowSetDetailRouter(),
       RouterPath.FOLLOW_SET_FEED: (context) => FollowSetFeedRouter(),
       RouterPath.NWC_SETTING: (context) => NwcSettingRouter(),
-      RouterPath.GROUP_LIST: (context) => GroupListRouter(),
+      RouterPath.GROUP_LIST: (context) => CommunitiesWidget(),
       RouterPath.GROUP_DETAIL: (context) => GroupDetailRouter(),
       RouterPath.GROUP_EDIT: (context) => GroupEditRouter(),
       RouterPath.GROUP_MEMBERS: (context) => GroupMembersRouter(),
@@ -456,6 +460,9 @@ class _MyApp extends State<MyApp> {
         ),
         ListenableProvider<CommunityInfoProvider>.value(
           value: communityInfoProvider,
+        ),
+        ListenableProvider<CommunityListProvider>.value(
+          value: communityListProvider,
         ),
         ListenableProvider<ReplaceableEventProvider>.value(
           value: replaceableEventProvider,
