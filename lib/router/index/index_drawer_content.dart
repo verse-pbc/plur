@@ -263,8 +263,7 @@ class _IndexDrawerContentComponnent
       }));
     }
 
-    if (!kReleaseMode) {
-      centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItem(
         iconData: Icons.group_add,
         name: 'Add test groups',
         onTap: () {
@@ -281,7 +280,6 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-    }
 
     list.add(Expanded(
       child: SingleChildScrollView(
