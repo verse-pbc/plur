@@ -1,0 +1,4 @@
+[tools]
+java = "openjdk-17"
+cocoapods = "latest"
+flutter = "3.24.5"
