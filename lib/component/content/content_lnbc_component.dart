@@ -3,15 +3,14 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/zap/zap_info_util.dart';
 import 'package:nostrmo/util/lightning_util.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
-class ContentLnbcComponent extends StatelessWidget {
+class ContentLnbcWidget extends StatelessWidget {
   String lnbc;
 
-  ContentLnbcComponent({required this.lnbc});
+  ContentLnbcWidget({super.key, required this.lnbc});
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +66,6 @@ class ContentLnbcComponent extends StatelessWidget {
               ],
             ),
           ),
-          // Container(
-          //   alignment: Alignment.bottomLeft,
-          //   padding: EdgeInsets.only(top: Base.BASE_PADDING),
-          //   child: Text("Wallet of Satoshi"),
-          // ),
           Container(
             margin: const EdgeInsets.only(
               top: Base.BASE_PADDING,
@@ -99,7 +93,7 @@ class ContentLnbcComponent extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: double.maxFinite,
             child: InkWell(
               onTap: () async {
@@ -114,7 +108,7 @@ class ContentLnbcComponent extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   s.Pay,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.white,
                   ),
                 ),

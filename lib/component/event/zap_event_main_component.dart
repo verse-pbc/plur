@@ -14,18 +14,18 @@ import '../../util/spider_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'reaction_event_item_component.dart';
 
-class ZapEventMainComponent extends StatefulWidget {
+class ZapEventMainWidget extends StatefulWidget {
   Event event;
 
-  ZapEventMainComponent({required this.event});
+  ZapEventMainWidget({super.key, required this.event});
 
   @override
   State<StatefulWidget> createState() {
-    return _ZapEventMainComponent();
+    return _ZapEventMainWidgetState();
   }
 }
 
-class _ZapEventMainComponent extends State<ZapEventMainComponent> {
+class _ZapEventMainWidgetState extends State<ZapEventMainWidget> {
   String? senderPubkey;
 
   late String eventId;
@@ -51,9 +51,9 @@ class _ZapEventMainComponent extends State<ZapEventMainComponent> {
     var zapNum = ZapInfoUtil.getNumFromZapEvent(widget.event);
     String zapNumStr = NumberFormatUtil.format(zapNum);
 
-    var text = "zaped $zapNumStr sats";
+    var text = "zapped $zapNumStr sats";
 
-    return ReactionEventItemComponent(
+    return ReactionEventItemWidget(
         pubkey: senderPubkey!, text: text, createdAt: widget.event.createdAt);
   }
 }

@@ -29,10 +29,10 @@ import 'thread_detail_event_main_component.dart';
 import 'thread_detail_item_component.dart';
 import 'thread_router_helper.dart';
 
-class ThreadDetailRouter extends StatefulWidget {
+class ThreadDetailWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ThreadDetailRouter();
+    return _ThreadDetailWidgetState();
   }
 
   static String getAppBarTitle(Event event) {
@@ -44,7 +44,7 @@ class ThreadDetailRouter extends StatefulWidget {
     var bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
 
     List<Widget> appBarTitleList = [];
-    var nameComponnet = SimpleNameComponent(
+    var nameComponnet = SimpleNameWidget(
       pubkey: pubkey,
       textStyle: TextStyle(
         fontSize: bodyLargeFontSize,
@@ -70,7 +70,7 @@ class ThreadDetailRouter extends StatefulWidget {
   }
 }
 
-class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
+class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
     with PenddingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
   Event? sourceEvent;
 
@@ -160,7 +160,6 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
 
   @override
   Widget doBuild(BuildContext context) {
-    var s = S.of(context);
     if (sourceEvent == null) {
       var obj = RouterUtil.routerArgs(context);
       if (obj != null && obj is Event) {
@@ -191,18 +190,15 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
     }
 
     var themeData = Theme.of(context);
-    var bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
-    var cardColor = themeData.cardColor;
 
     Widget? appBarTitle;
     if (rootEvent != null) {
       titlePubkey = rootEvent!.pubkey;
-      title = ThreadDetailRouter.getAppBarTitle(rootEvent!);
+      title = ThreadDetailWidget.getAppBarTitle(rootEvent!);
     }
     if (showTitle) {
       if (StringUtil.isNotBlank(titlePubkey) && StringUtil.isNotBlank(title)) {
-        appBarTitle = ThreadDetailRouter.detailAppBarTitle(
+        appBarTitle = ThreadDetailWidget.detailAppBarTitle(
             titlePubkey!, title!, themeData);
       }
     }
@@ -213,11 +209,11 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
         rootEventWidget = Selector<SingleEventProvider, Event?>(
             builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListComponent();
+            return EventLoadListWidget();
           }
 
           titlePubkey = event.pubkey;
-          title = ThreadDetailRouter.getAppBarTitle(event);
+          title = ThreadDetailWidget.getAppBarTitle(event);
 
           {
             // check if the rootEvent isn't rootEvent
@@ -241,7 +237,7 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
             }
           }
 
-          return EventListComponent(
+          return EventListWidget(
             event: event,
             jumpable: false,
             showVideo: true,
@@ -255,7 +251,7 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
         rootEventWidget = Selector<ReplaceableEventProvider, Event?>(
             builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListComponent();
+            return EventLoadListWidget();
           }
 
           if (rootId != null) {
@@ -267,9 +263,9 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
           }
 
           titlePubkey = event.pubkey;
-          title = ThreadDetailRouter.getAppBarTitle(event);
+          title = ThreadDetailWidget.getAppBarTitle(event);
 
-          return EventListComponent(
+          return EventListWidget(
             event: event,
             jumpable: false,
             showVideo: true,
@@ -283,7 +279,7 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
         rootEventWidget = Container();
       }
     } else {
-      rootEventWidget = EventListComponent(
+      rootEventWidget = EventListWidget(
         event: rootEvent!,
         jumpable: false,
         showVideo: true,
@@ -301,23 +297,18 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
       },
     ));
 
-    for (var item in rootSubList!) {
-      // if (item.event.kind == kind.EventKind.ZAP &&
-      //     StringUtil.isBlank(item.event.content)) {
-      //   continue;
-      // }
-
+    for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
               (Base.BASE_PADDING +
-                  ThreadDetailItemMainComponent.BORDER_LEFT_WIDTH) +
-          ThreadDetailItemMainComponent.EVENT_MAIN_MIN_WIDTH;
+                  ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
+          ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Container(
+          child: SizedBox(
             width: needWidth,
-            child: ThreadDetailItemComponent(
+            child: ThreadDetailItemWidget(
               item: item,
               totalMaxWidth: needWidth,
               sourceEventId: sourceEvent!.id,
@@ -326,7 +317,7 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
           ),
         ));
       } else {
-        mainList.add(ThreadDetailItemComponent(
+        mainList.add(ThreadDetailItemWidget(
           item: item,
           totalMaxWidth: needWidth,
           sourceEventId: sourceEvent!.id,
@@ -352,7 +343,7 @@ class _ThreadDetailRouter extends CustState<ThreadDetailRouter>
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: appBarTitle,
       ),
       body: EventReplyCallback(

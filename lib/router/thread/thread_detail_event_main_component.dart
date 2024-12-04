@@ -12,7 +12,7 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../provider/setting_provider.dart';
 
-class ThreadDetailItemMainComponent extends StatefulWidget {
+class ThreadDetailItemMainWidget extends StatefulWidget {
   static double BORDER_LEFT_WIDTH = 2;
 
   static double EVENT_MAIN_MIN_WIDTH = 200;
@@ -25,7 +25,8 @@ class ThreadDetailItemMainComponent extends StatefulWidget {
 
   GlobalKey sourceEventKey;
 
-  ThreadDetailItemMainComponent({
+  ThreadDetailItemMainWidget({
+    super.key,
     required this.item,
     required this.totalMaxWidth,
     required this.sourceEventId,
@@ -34,12 +35,11 @@ class ThreadDetailItemMainComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ThreadDetailItemMainComponent();
+    return _ThreadDetailItemMainWidgetState();
   }
 }
 
-class _ThreadDetailItemMainComponent
-    extends State<ThreadDetailItemMainComponent> {
+class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget> {
   ScreenshotController screenshotController = ScreenshotController();
 
   @override
@@ -49,15 +49,15 @@ class _ThreadDetailItemMainComponent
     var hintColor = themeData.hintColor;
     var cardColor = themeData.cardColor;
 
-    var _settingProvider = Provider.of<SettingProvider>(context);
+    var settingProvider = Provider.of<SettingProvider>(context);
 
     bool showSubItems = true;
-    if (_settingProvider.maxSubEventLevel != null &&
-        widget.item.currentLevel > _settingProvider.maxSubEventLevel!) {
+    if (settingProvider.maxSubEventLevel != null &&
+        widget.item.currentLevel > settingProvider.maxSubEventLevel!) {
       showSubItems = false;
     }
 
-    var currentMainEvent = EventMainComponent(
+    var currentMainEvent = EventMainWidget(
       screenshotController: screenshotController,
       event: widget.item.event,
       showReplying: false,
@@ -70,10 +70,10 @@ class _ThreadDetailItemMainComponent
     List<Widget> list = [];
     var currentWidth = mediaDataCache.size.width;
     var leftWidth = (widget.item.currentLevel - 1) *
-        (Base.BASE_PADDING + ThreadDetailItemMainComponent.BORDER_LEFT_WIDTH);
+        (Base.BASE_PADDING + ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH);
     currentWidth = mediaDataCache.size.width - leftWidth;
-    if (currentWidth < ThreadDetailItemMainComponent.EVENT_MAIN_MIN_WIDTH) {
-      currentWidth = ThreadDetailItemMainComponent.EVENT_MAIN_MIN_WIDTH;
+    if (currentWidth < ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH) {
+      currentWidth = ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
     }
     list.add(Container(
       alignment: Alignment.centerLeft,
@@ -88,7 +88,7 @@ class _ThreadDetailItemMainComponent
         for (var subItem in widget.item.subItems) {
           subWidgets.add(
             Container(
-              child: ThreadDetailItemMainComponent(
+              child: ThreadDetailItemMainWidget(
                 item: subItem,
                 totalMaxWidth: widget.totalMaxWidth,
                 sourceEventId: widget.sourceEventId,
@@ -100,14 +100,13 @@ class _ThreadDetailItemMainComponent
         list.add(Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(
-            // top: Base.BASE_PADDING,
             bottom: Base.BASE_PADDING,
             left: Base.BASE_PADDING,
           ),
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                width: ThreadDetailItemMainComponent.BORDER_LEFT_WIDTH,
+                width: ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH,
                 color: hintColor,
               ),
             ),
@@ -121,25 +120,24 @@ class _ThreadDetailItemMainComponent
         list.add(Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(
-            // top: Base.BASE_PADDING,
             bottom: Base.BASE_PADDING,
             left: Base.BASE_PADDING,
           ),
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                width: ThreadDetailItemMainComponent.BORDER_LEFT_WIDTH,
+                width: ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH,
                 color: hintColor,
               ),
             ),
           ),
           child: Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               top: Base.BASE_PADDING_HALF,
               left: Base.BASE_PADDING,
               bottom: Base.BASE_PADDING,
             ),
-            child: ContentStrLinkComponent(
+            child: ContentStrLinkWidget(
               str: s.Show_more_replies,
               onTap: () {
                 RouterUtil.router(

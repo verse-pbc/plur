@@ -17,7 +17,7 @@ class TagEmbedBuilder extends EmbedBuilder {
           left: 4,
           right: 4,
         ),
-        child: ContentTagComponent(tag: "#" + tag),
+        child: ContentTagWidget(tag: "#" + tag),
       ),
     );
   }

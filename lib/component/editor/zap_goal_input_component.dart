@@ -41,18 +41,18 @@ class ZapGoalInputController {
   }
 }
 
-class ZapGoalInputComponent extends StatefulWidget {
+class ZapGoalInputWidget extends StatefulWidget {
   ZapGoalInputController zapGoalInputController;
 
-  ZapGoalInputComponent({required this.zapGoalInputController});
+  ZapGoalInputWidget({required this.zapGoalInputController});
 
   @override
   State<StatefulWidget> createState() {
-    return _ZapGoalInputComponent();
+    return _ZapGoalInputWidgetState();
   }
 }
 
-class _ZapGoalInputComponent extends State<ZapGoalInputComponent> {
+class _ZapGoalInputWidgetState extends State<ZapGoalInputWidget> {
   @override
   void initState() {
     super.initState();
@@ -62,7 +62,6 @@ class _ZapGoalInputComponent extends State<ZapGoalInputComponent> {
   Widget build(BuildContext context) {
     var s = S.of(context);
     var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     List<Widget> list = [];
 
     Widget inputWidget = TextField(

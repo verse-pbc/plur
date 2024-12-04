@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 
-class EventIdRouterComponent extends StatefulWidget {
+class EventIdRouterWidget extends StatefulWidget {
   String eventId;
 
   String? relayAddr;
 
-  EventIdRouterComponent(this.eventId, this.relayAddr);
+  EventIdRouterWidget(this.eventId, this.relayAddr);
 
   static Future<void> router(
     BuildContext context,
@@ -22,7 +22,7 @@ class EventIdRouterComponent extends StatefulWidget {
       context: context,
       useRootNavigator: false,
       builder: (context) {
-        return EventIdRouterComponent(eventId, relayAddr);
+        return EventIdRouterWidget(eventId, relayAddr);
       },
     );
 
@@ -33,16 +33,16 @@ class EventIdRouterComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EventIdRouterComponent();
+    return _EventIdRouterWidgetState();
   }
 }
 
-class _EventIdRouterComponent extends State<EventIdRouterComponent> {
+class _EventIdRouterWidgetState extends State<EventIdRouterWidget> {
   @override
   Widget build(BuildContext context) {
     var s = S.of(context);
-    var _singleEventProvider = Provider.of<SingleEventProvider>(context);
-    var event = _singleEventProvider.getEvent(widget.eventId,
+    var singleEventProvider = Provider.of<SingleEventProvider>(context);
+    var event = singleEventProvider.getEvent(widget.eventId,
         eventRelayAddr: widget.relayAddr);
     if (event != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {

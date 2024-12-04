@@ -19,7 +19,7 @@ class MentionUserEmbedBuilder extends EmbedBuilder {
           left: 4,
           right: 4,
         ),
-        child: ContentMentionUserComponent(pubkey: pubkey),
+        child: ContentMentionUserWidget(pubkey: pubkey),
       ),
     );
   }

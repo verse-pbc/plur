@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/event_relation.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostrmo/component/editor/zap_split_input_item_component.dart';
 import 'package:nostrmo/component/user/metadata_top_component.dart';
 import 'package:nostrmo/main.dart';
 
@@ -9,55 +10,51 @@ import '../../generated/l10n.dart';
 import '../zap/zap_split_icon_component.dart';
 import 'search_mention_user_component.dart';
 import 'text_input_and_search_dialog.dart';
-import 'zap_split_input_item_component.dart';
 
-class ZapSplitInputComponent extends StatefulWidget {
+class ZapSplitInputWidget extends StatefulWidget {
   List<EventZapInfo> eventZapInfos;
 
-  ZapSplitInputComponent(
-    this.eventZapInfos,
+  ZapSplitInputWidget(
+    this.eventZapInfos, {super.key}
   );
 
   @override
   State<StatefulWidget> createState() {
-    return _ZapSplitInputComponent();
+    return _ZapSplitInputWidgetState();
   }
 }
 
-class _ZapSplitInputComponent extends State<ZapSplitInputComponent> {
+class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize!;
-    var hintColor = themeData.hintColor;
     var s = S.of(context);
 
     List<Widget> list = [];
-    list.add(Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-            child: ZapSplitIconComponent(titleFontSize + 2),
+    list.add(Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+          child: ZapSplitIconWidget(titleFontSize + 2),
+        ),
+        Text(
+          s.Split_and_Transfer_Zap,
+          style: TextStyle(
+            fontSize: titleFontSize,
+            fontWeight: FontWeight.bold,
           ),
-          Text(
-            s.Split_and_Transfer_Zap,
-            style: TextStyle(
-              fontSize: titleFontSize,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Expanded(child: Container()),
-          MetadataTextBtn(text: s.Add_User, onTap: addUser),
-        ],
-      ),
+        ),
+        Expanded(child: Container()),
+        MetadataTextBtn(text: s.Add_User, onTap: addUser),
+      ],
     ));
 
-    list.add(Divider());
+    list.add(const Divider());
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Text(
         s.Split_Zap_Tip,
         style: TextStyle(
@@ -68,8 +65,8 @@ class _ZapSplitInputComponent extends State<ZapSplitInputComponent> {
 
     for (var zapInfo in widget.eventZapInfos) {
       list.add(Container(
-        margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
-        child: ZapSplitInputItemComponent(
+        margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+        child: ZapSplitInputItemWidget(
           zapInfo,
           recountWeightAndRefresh,
         ),
@@ -83,7 +80,6 @@ class _ZapSplitInputComponent extends State<ZapSplitInputComponent> {
         right: Base.BASE_PADDING,
       ),
       child: Column(
-        // mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
       ),
@@ -96,7 +92,7 @@ class _ZapSplitInputComponent extends State<ZapSplitInputComponent> {
       context,
       s.Search,
       s.Please_input_user_pubkey,
-      SearchMentionUserComponent(),
+      const SearchMentionUserWidget(),
       hintText: s.User_Pubkey,
     );
 

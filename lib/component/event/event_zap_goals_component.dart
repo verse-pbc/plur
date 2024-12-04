@@ -15,23 +15,23 @@ import '../../util/number_format_util.dart';
 import '../zap/zap_bottom_sheet_component.dart';
 import 'event_quote_component.dart';
 
-class EventZapGoalsComponent extends StatefulWidget {
+class EventZapGoalsWidget extends StatefulWidget {
   Event event;
 
   EventRelation eventRelation;
 
-  EventZapGoalsComponent({
+  EventZapGoalsWidget({
     required this.event,
     required this.eventRelation,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _EventZapGoalsComponent();
+    return _EventZapGoalsWidgetState();
   }
 }
 
-class _EventZapGoalsComponent extends State<EventZapGoalsComponent> {
+class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
   ZapGoalsInfo? zapGoalsInfo;
 
   @override
@@ -41,7 +41,6 @@ class _EventZapGoalsComponent extends State<EventZapGoalsComponent> {
     var hintColor = themeData.hintColor;
     var pollBackgroundColor = hintColor.withOpacity(0.3);
     var mainColor = themeData.primaryColor;
-    // log(jsonEncode(widget.event.toJson()));
 
     return Selector<EventReactionsProvider, EventReactions?>(
       builder: (context, eventReactions, child) {
@@ -119,14 +118,14 @@ class _EventZapGoalsComponent extends State<EventZapGoalsComponent> {
 
         list.add(GestureDetector(
           onTap: () {
-            ZapBottomSheetComponent.show(
+            ZapBottomSheetWidget.show(
                 context, widget.event, widget.eventRelation);
           },
           child: pollItemWidget,
         ));
 
         if (StringUtil.isNotBlank(zapGoalsInfo!.goal)) {
-          list.add(EventQuoteComponent(
+          list.add(EventQuoteWidget(
             id: zapGoalsInfo!.goal,
           ));
         }

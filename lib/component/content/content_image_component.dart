@@ -15,7 +15,7 @@ import '../../consts/base.dart';
 import '../image_component.dart';
 import '../image_preview_dialog.dart';
 
-class ContentImageComponent extends StatefulWidget {
+class ContentImageWidget extends StatefulWidget {
   String imageUrl;
 
   List<String>? imageList;
@@ -30,7 +30,7 @@ class ContentImageComponent extends StatefulWidget {
 
   FileMetadata? fileMetadata;
 
-  ContentImageComponent({
+  ContentImageWidget({super.key,
     required this.imageUrl,
     this.imageList,
     this.imageIndex = 0,
@@ -42,11 +42,12 @@ class ContentImageComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ContentImageComponent();
+    return _ContentImageWidgetState();
   }
 }
 
-class _ContentImageComponent extends CustState<ContentImageComponent> {
+class _ContentImageWidgetState extends CustState<ContentImageWidget> {
+  @override
   Future<void> onReady(BuildContext context) async {}
 
   @override
@@ -60,7 +61,7 @@ class _ContentImageComponent extends CustState<ContentImageComponent> {
         (widget.fileMetadata != null &&
             StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) &&
         !PlatformUtil.isWeb()) {
-      placeholder = genBlurhashImageComponent(
+      placeholder = genBlurhashImageWidget(
           widget.fileMetadata!, themeData.hintColor, widget.imageBoxFix);
     }
     main = GestureDetector(
@@ -68,7 +69,7 @@ class _ContentImageComponent extends CustState<ContentImageComponent> {
         previewImages(context);
       },
       child: Center(
-        child: ImageComponent(
+        child: ImageWidget(
           imageUrl: widget.imageUrl,
           fit: widget.imageBoxFix,
           width: widget.width,

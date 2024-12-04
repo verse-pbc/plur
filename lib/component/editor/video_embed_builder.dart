@@ -8,7 +8,7 @@ class VideoEmbedBuilder extends EmbedBuilder {
   Widget build(BuildContext context, QuillController controller, Embed node,
       bool readOnly, bool inline, TextStyle textStyle) {
     var url = node.value.data as String;
-    return ContentVideoComponent(url: url);
+    return ContentVideoWidget(url: url);
   }
 
   @override

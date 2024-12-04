@@ -12,21 +12,20 @@ import 'package:nostr_sdk/utils/string_util.dart';
 import '../image_component.dart';
 import '../user/simple_name_component.dart';
 
-class ReactionEventMetadataComponent extends StatefulWidget {
+class ReactionEventMetadataWidget extends StatefulWidget {
   String pubkey;
 
-  ReactionEventMetadataComponent({
+  ReactionEventMetadataWidget({
     required this.pubkey,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _ReactionEventMetadataComponent();
+    return _ReactionEventMetadataWidgetState();
   }
 }
 
-class _ReactionEventMetadataComponent
-    extends State<ReactionEventMetadataComponent> {
+class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidget> {
   static const double IMAGE_WIDTH = 20;
 
   @override
@@ -35,9 +34,9 @@ class _ReactionEventMetadataComponent
         builder: (context, metadata, child) {
       List<Widget> list = [];
 
-      var name = SimpleNameComponent.getSimpleName(widget.pubkey, metadata);
+      var name = SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
 
-      list.add(UserPicComponent(
+      list.add(UserPicWidget(
         pubkey: widget.pubkey,
         width: IMAGE_WIDTH,
         metadata: metadata,

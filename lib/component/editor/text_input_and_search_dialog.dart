@@ -82,7 +82,7 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
       mainHeight = mediaDataCache.size.height / 2;
     }
 
-    var textInputWidget = TextInputDialogInnerComponent(
+    var textInputWidget = TextInputDialogInnerWidget(
       widget.title,
       hintText: widget.hintText,
       value: widget.value,
@@ -111,15 +111,15 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
         controller: tabController,
       ),
     ));
-    list.add(Container(
+    list.add(SizedBox(
       height: mainHeight,
       width: double.infinity,
       child: TabBarView(
+        controller: tabController,
         children: [
           widget.searchWidget,
           textInputWidget,
         ],
-        controller: tabController,
       ),
     ));
 
@@ -147,11 +147,11 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),

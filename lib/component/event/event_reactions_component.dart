@@ -37,7 +37,7 @@ import '../event_reply_callback.dart';
 import '../zap/zap_bottom_sheet_component.dart';
 import 'event_top_zaps_component.dart';
 
-class EventReactionsComponent extends StatefulWidget {
+class EventReactionsWidget extends StatefulWidget {
   ScreenshotController screenshotController;
 
   Event event;
@@ -46,7 +46,7 @@ class EventReactionsComponent extends StatefulWidget {
 
   bool showDetailBtn;
 
-  EventReactionsComponent({
+  EventReactionsWidget({
     required this.screenshotController,
     required this.event,
     required this.eventRelation,
@@ -55,11 +55,11 @@ class EventReactionsComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EventReactionsComponent();
+    return _EventReactionsWidgetState();
   }
 }
 
-class _EventReactionsComponent extends State<EventReactionsComponent> {
+class _EventReactionsWidgetState extends State<EventReactionsWidget> {
   List<Event>? myLikeEvents;
 
   bool readOnly = false;
@@ -128,7 +128,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
             );
           }
         }
-        Widget likeWidget = EventReactionNumComponent(
+        Widget likeWidget = EventReactionNumWidget(
           num: likeNum,
           iconText: iconText,
           iconData: likeIconData,
@@ -277,7 +277,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
             Expanded(
                 child: Container(
               alignment: Alignment.centerLeft,
-              child: EventReactionNumComponent(
+              child: EventReactionNumWidget(
                 num: replyNum,
                 iconData: Icons.comment_rounded,
                 onTap: onCommmentTap,
@@ -291,7 +291,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
               onTap: openZapDialog,
               child: Container(
                 height: double.infinity,
-                child: EventReactionNumComponent(
+                child: EventReactionNumWidget(
                   num: zapNum,
                   iconData: Icons.bolt_rounded,
                   onTap: null,
@@ -325,7 +325,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
                     ];
                   },
                   onSelected: onRepostTap,
-                  child: EventReactionNumComponent(
+                  child: EventReactionNumWidget(
                     num: repostNum,
                     iconData: Icons.repeat_rounded,
                     color: hintColor,
@@ -348,7 +348,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
               top: Base.BASE_PADDING,
               bottom: Base.BASE_PADDING_HALF,
             ),
-            child: EventTopZapsComponent(eventReactions.zaps),
+            child: EventTopZapsWidget(eventReactions.zaps),
           ));
         }
 
@@ -379,7 +379,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
 
             ers.add(Container(
               margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-              child: EventReactionEmojiNumComponent(
+              child: EventReactionEmojiNumWidget(
                 iconData: Icons.favorite_rounded,
                 iconText: likeText,
                 num: num,
@@ -468,7 +468,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
       for (var source in widget.event.sources) {
         list.add(EnumObj(source, source));
       }
-      EnumSelectorComponent.show(context, list);
+      EnumSelectorWidget.show(context, list);
     } else if (value == "block") {
       filterProvider.addBlock(widget.event.pubkey);
     } else if (value == "delete") {
@@ -562,7 +562,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
     }
 
     // TODO reply maybe change the placeholder in editor router.
-    var event = await EditorRouter.open(
+    var event = await EditorWidget.open(
       context,
       tags: tags,
       tagsAddedWhenSend: tagsAddedWhenSend,
@@ -602,7 +602,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
         nostr!.broadcase(widget.event);
       }
     } else if (value == "quote") {
-      var event = await EditorRouter.open(context, initEmbeds: [
+      var event = await EditorWidget.open(context, initEmbeds: [
         quill.CustomBlockEmbed(CustEmbedTypes.mention_event, widget.event.id)
       ]);
     }
@@ -652,13 +652,11 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
   void onShareTap() {
     widget.screenshotController.capture().then((Uint8List? imageData) async {
       if (imageData != null) {
-        if (imageData != null) {
-          var tempFile = await StoreUtil.saveBS2TempFile(
-            "png",
-            imageData,
-          );
-          Share.shareXFiles([XFile(tempFile)]);
-        }
+        var tempFile = await StoreUtil.saveBS2TempFile(
+          "png",
+          imageData,
+        );
+        Share.shareXFiles([XFile(tempFile)]);
       }
     }).catchError((onError) {
       print(onError);
@@ -694,7 +692,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
   }
 
   void openZapDialog() {
-    ZapBottomSheetComponent.show(context, widget.event, widget.eventRelation);
+    ZapBottomSheetWidget.show(context, widget.event, widget.eventRelation);
   }
 
   List<String>? getGroupRelays() {
@@ -712,7 +710,7 @@ class _EventReactionsComponent extends State<EventReactionsComponent> {
   }
 }
 
-class EventReactionNumComponent extends StatelessWidget {
+class EventReactionNumWidget extends StatelessWidget {
   String? iconText;
 
   IconData iconData;
@@ -729,7 +727,7 @@ class EventReactionNumComponent extends StatelessWidget {
 
   Widget? showMoreWidget;
 
-  EventReactionNumComponent({
+  EventReactionNumWidget({
     this.iconText,
     required this.iconData,
     required this.num,
@@ -795,7 +793,7 @@ class EventReactionNumComponent extends StatelessWidget {
   }
 }
 
-class EventReactionEmojiNumComponent extends StatelessWidget {
+class EventReactionEmojiNumWidget extends StatelessWidget {
   String? iconText;
 
   IconData iconData;
@@ -806,7 +804,7 @@ class EventReactionEmojiNumComponent extends StatelessWidget {
 
   double fontSize;
 
-  EventReactionEmojiNumComponent({
+  EventReactionEmojiNumWidget({
     this.iconText,
     required this.iconData,
     required this.num,

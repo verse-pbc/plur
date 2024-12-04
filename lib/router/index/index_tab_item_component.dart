@@ -7,26 +7,27 @@ import 'package:widget_size/widget_size.dart';
 
 import 'index_app_bar.dart';
 
-class IndexTabItemComponent extends StatefulWidget {
+class IndexTabItemWidget extends StatefulWidget {
   String text;
 
   String? omitText;
 
   TextStyle textStyle;
 
-  IndexTabItemComponent(
+  IndexTabItemWidget(
     this.text,
     this.textStyle, {
+      super.key,
     this.omitText,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _IndexTabItemComponent();
+    return _IndexTabItemWidgetState();
   }
 }
 
-class _IndexTabItemComponent extends State<IndexTabItemComponent> {
+class _IndexTabItemWidgetState extends State<IndexTabItemWidget> {
   bool showFullText = true;
 
   @override

@@ -27,30 +27,26 @@ import 'package:url_launcher/url_launcher.dart';
 import '../generated/l10n.dart';
 import '../main.dart';
 
-class WebViewRouter extends StatefulWidget {
+class WebViewWidget extends StatefulWidget {
   String url;
 
-  WebViewRouter({super.key, required this.url});
+  WebViewWidget({super.key, required this.url});
 
   static void open(BuildContext context, String link) {
     if (TableModeUtil.isTableMode()) {
       launchUrl(Uri.parse(link));
       return;
     }
-    // Navigator.push(context, MaterialPageRoute(builder: (context) {
-    //   return WebViewRouter(url: link);
-    // }));
     webViewProvider.open(link);
   }
 
   @override
   State<StatefulWidget> createState() {
-    // return _WebViewRouter();
-    return _InAppWebViewRouter();
+    return _InAppWebViewWidgetState();
   }
 }
 
-class _InAppWebViewRouter extends CustState<WebViewRouter> {
+class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
   final GlobalKey webViewKey = GlobalKey();
   double btnWidth = 40;
 
@@ -128,10 +124,8 @@ class _InAppWebViewRouter extends CustState<WebViewRouter> {
 
   @override
   Widget doBuild(BuildContext context) {
-    var s = S.of(context);
     var themeData = Theme.of(context);
     var paddingTop = mediaDataCache.padding.top;
-    var mainColor = themeData.primaryColor;
     var appBarBG = themeData.appBarTheme.backgroundColor;
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     var _settingProvider = Provider.of<SettingProvider>(context);
@@ -144,9 +138,6 @@ class _InAppWebViewRouter extends CustState<WebViewRouter> {
         InAppWebView(
           key: webViewKey,
           initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-          // initialUrlRequest:
-          // URLRequest(url: WebUri(Uri.base.toString().replaceFirst("/#/", "/") + 'page.html')),
-          // initialFile: "assets/index.html",
           initialUserScripts: UnmodifiableListView<UserScript>([]),
           initialSettings: settings,
           contextMenu: contextMenu,
@@ -177,25 +168,6 @@ class _InAppWebViewRouter extends CustState<WebViewRouter> {
               webViewProvider.closeAndReturn(uri.toString());
               return NavigationActionPolicy.CANCEL;
             }
-
-            // if (![
-            //   "http",
-            //   "https",
-            //   "file",
-            //   "chrome",
-            //   "data",
-            //   "javascript",
-            //   "about"
-            // ].contains(uri.scheme)) {
-            //   if (await canLaunchUrl(uri)) {
-            //     // Launch the App
-            //     await launchUrl(
-            //       uri,
-            //     );
-            //     // and cancel the request
-            //     return NavigationActionPolicy.CANCEL;
-            //   }
-            // }
 
             return NavigationActionPolicy.ALLOW;
           },
@@ -259,8 +231,8 @@ class _InAppWebViewRouter extends CustState<WebViewRouter> {
             color: scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(btnWidth / 2),
           ),
-          child: Icon(Icons.arrow_back_ios_new),
           alignment: Alignment.center,
+          child: const Icon(Icons.arrow_back_ios_new),
         ),
       );
 
@@ -284,8 +256,8 @@ class _InAppWebViewRouter extends CustState<WebViewRouter> {
                   color: scaffoldBackgroundColor,
                   borderRadius: BorderRadius.circular(btnWidth / 2),
                 ),
-                child: Icon(Icons.more_horiz),
                 alignment: Alignment.center,
+                child: const Icon(Icons.more_horiz),
               )),
             ),
           ],
@@ -313,8 +285,6 @@ class _InAppWebViewRouter extends CustState<WebViewRouter> {
 
   Widget getMoreWidget(Widget icon) {
     var s = S.of(context);
-    var themeData = Theme.of(context);
-    var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
 
     return PopupMenuButton<String>(
       itemBuilder: (context) {

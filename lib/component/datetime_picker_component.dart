@@ -7,14 +7,15 @@ import '../consts/base.dart';
 import '../generated/l10n.dart';
 import '../util/router_util.dart';
 
-class DatetimePickerComponent extends StatefulWidget {
+class DatetimePickerWidget extends StatefulWidget {
   DateTime? dateTime;
 
   bool showDate;
 
   bool showHour;
 
-  DatetimePickerComponent({
+  DatetimePickerWidget({
+    super.key,
     this.dateTime,
     required this.showDate,
     required this.showHour,
@@ -30,7 +31,7 @@ class DatetimePickerComponent extends StatefulWidget {
       context: context,
       useRootNavigator: false,
       builder: (_context) {
-        return DatetimePickerComponent(
+        return DatetimePickerWidget(
           dateTime: dateTime,
           showDate: showDate,
           showHour: showHour,
@@ -41,11 +42,11 @@ class DatetimePickerComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _DatetimePickerComponent();
+    return _DatetimePickerWidgetState();
   }
 }
 
-class _DatetimePickerComponent extends State<DatetimePickerComponent> {
+class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
   final FocusScopeNode _focusScopeNode = FocusScopeNode();
 
   int hour = 12;
@@ -82,14 +83,14 @@ class _DatetimePickerComponent extends State<DatetimePickerComponent> {
     var titleDateFormat = DateFormat("MMM yyyy");
 
     var datePicker = Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: Base.BASE_PADDING,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               top: Base.BASE_PADDING,
               bottom: Base.BASE_PADDING + Base.BASE_PADDING_HALF,
             ),
@@ -110,15 +111,15 @@ class _DatetimePickerComponent extends State<DatetimePickerComponent> {
               return isSameDay(d, _selectedDay);
             },
             calendarStyle: CalendarStyle(
-              rangeHighlightColor: mainColor!,
+              rangeHighlightColor: mainColor,
               selectedDecoration: BoxDecoration(
                 color: mainColor.withOpacity(0.8),
                 shape: BoxShape.circle,
               ),
-              todayTextStyle: TextStyle(
+              todayTextStyle: const TextStyle(
                 fontSize: 16.0,
               ),
-              todayDecoration: BoxDecoration(
+              todayDecoration: const BoxDecoration(
                 color: null,
               ),
             ),
@@ -144,26 +145,24 @@ class _DatetimePickerComponent extends State<DatetimePickerComponent> {
       fontSize: bigTextSize,
       fontWeight: FontWeight.bold,
     );
-    var timePicker = Container(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          buildNumberPicker(s.Hour, 0, 23, hour, (value) {
-            setState(() {
-              hour = value;
-            });
-          }, timeTitleTextStyle),
-          Text(
-            ":",
-            style: timeTitleTextStyle,
-          ),
-          buildNumberPicker(s.Minute, 0, 59, minute, (value) {
-            setState(() {
-              minute = value;
-            });
-          }, timeTitleTextStyle),
-        ],
-      ),
+    var timePicker = Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        buildNumberPicker(s.Hour, 0, 23, hour, (value) {
+          setState(() {
+            hour = value;
+          });
+        }, timeTitleTextStyle),
+        Text(
+          ":",
+          style: timeTitleTextStyle,
+        ),
+        buildNumberPicker(s.Minute, 0, 59, minute, (value) {
+          setState(() {
+            minute = value;
+          });
+        }, timeTitleTextStyle),
+      ],
     );
 
     List<Widget> mainList = [
@@ -178,6 +177,7 @@ class _DatetimePickerComponent extends State<DatetimePickerComponent> {
     }
 
     mainList.add(InkWell(
+      onTap: confirm,
       child: Container(
         height: 40,
         color: mainColor,
@@ -191,7 +191,6 @@ class _DatetimePickerComponent extends State<DatetimePickerComponent> {
           ),
         ),
       ),
-      onTap: confirm,
     ));
 
     var main = Container(
@@ -208,19 +207,17 @@ class _DatetimePickerComponent extends State<DatetimePickerComponent> {
       body: FocusScope(
         // Overlay 中 textField autoFocus 需要包一层 FocusScope
         node: _focusScopeNode,
-        // autofocus: true,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: cancelFunc,
           child: Container(
             width: double.infinity,
             height: double.infinity,
+            alignment: Alignment.center,
             child: GestureDetector(
-              // 防止误关闭了页面
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),

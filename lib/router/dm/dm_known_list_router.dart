@@ -9,16 +9,16 @@ import '../../provider/dm_provider.dart';
 import 'dm_notice_item_component.dart';
 import 'dm_session_list_item_component.dart';
 
-class DMKnownListRouter extends StatefulWidget {
-  DMKnownListRouter();
+class DMKnownListWidget extends StatefulWidget {
+  const DMKnownListWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _DMKnownListRouter();
+    return _DMKnownListWidgetState();
   }
 }
 
-class _DMKnownListRouter extends State<DMKnownListRouter> {
+class _DMKnownListWidgetState extends State<DMKnownListWidget> {
   @override
   Widget build(BuildContext context) {
     var _settingProvider = Provider.of<SettingProvider>(context);
@@ -47,14 +47,14 @@ class _DMKnownListRouter extends State<DMKnownListRouter> {
               if (_settingProvider.hideRelayNotices != OpenStatus.CLOSE) {
                 return Container();
               } else {
-                return DMNoticeItemComponent(
+                return DMNoticeItemWidget(
                   newestNotice: notices.last,
                   hasNewMessage: hasNewNotice,
                 );
               }
             } else {
               var detail = details[index - flag];
-              return DMSessionListItemComponent(
+              return DMSessionListItemWidget(
                 detail: detail,
               );
             }

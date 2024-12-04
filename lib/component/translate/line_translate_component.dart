@@ -9,20 +9,20 @@ import '../../provider/setting_provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import '../cust_state.dart';
 
-class LineTranslateComponent extends StatefulWidget {
+class LineTranslateWidget extends StatefulWidget {
   List<dynamic> inlines;
 
   Function? textOnTap;
 
-  LineTranslateComponent(this.inlines, {this.textOnTap});
+  LineTranslateWidget(this.inlines, {super.key, this.textOnTap});
 
   @override
   State<StatefulWidget> createState() {
-    return _LineTranslateComponent();
+    return _LineTranslateWidgetState();
   }
 }
 
-class _LineTranslateComponent extends CustState<LineTranslateComponent> {
+class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
   Map<String, String> targetTextMap = {};
 
   String sourceText = "";

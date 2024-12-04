@@ -2,7 +2,7 @@ import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nip94/file_metadata.dart';
 
-Widget? genBlurhashImageComponent(
+Widget? genBlurhashImageWidget(
     FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {
   int? width = fileMetadata.getImageWidth();
   int? height = fileMetadata.getImageHeight();

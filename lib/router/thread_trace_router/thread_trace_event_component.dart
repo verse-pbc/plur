@@ -4,14 +4,14 @@ import 'package:screenshot/screenshot.dart';
 
 import '../../component/event/event_main_component.dart';
 
-class ThreadTraceEventComponent extends StatefulWidget {
+class ThreadTraceEventWidget extends StatefulWidget {
   Event event;
 
   Function? textOnTap;
 
   bool traceMode;
 
-  ThreadTraceEventComponent(
+  ThreadTraceEventWidget(
     this.event, {
     super.key,
     this.textOnTap,
@@ -20,18 +20,18 @@ class ThreadTraceEventComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ThreadTraceEventComponent();
+    return _ThreadTraceEventWidgetState();
   }
 }
 
-class _ThreadTraceEventComponent extends State<ThreadTraceEventComponent> {
+class _ThreadTraceEventWidgetState extends State<ThreadTraceEventWidget> {
   ScreenshotController ssController = ScreenshotController();
 
   @override
   Widget build(BuildContext context) {
     return Screenshot(
       controller: ssController,
-      child: EventMainComponent(
+      child: EventMainWidget(
         screenshotController: ssController,
         event: widget.event,
         showReplying: false,

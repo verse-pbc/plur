@@ -30,7 +30,7 @@ import '../zap/zap_bottom_sheet_component.dart';
 import 'follow_btn_component.dart';
 import 'metadata_component.dart';
 
-class MetadataTopComponent extends StatefulWidget {
+class MetadataTopWidget extends StatefulWidget {
   static double getPcBannerHeight(double maxHeight) {
     var height = maxHeight * 0.2;
     if (height > 200) {
@@ -51,7 +51,8 @@ class MetadataTopComponent extends StatefulWidget {
 
   bool userPicturePreview;
 
-  MetadataTopComponent({
+  MetadataTopWidget({
+    super.key,
     required this.pubkey,
     this.metadata,
     this.isLocal = false,
@@ -61,11 +62,11 @@ class MetadataTopComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MetadataTopComponent();
+    return _MetadataTopWidgetState();
   }
 }
 
-class _MetadataTopComponent extends State<MetadataTopComponent> {
+class _MetadataTopWidgetState extends State<MetadataTopWidget> {
   static const double IMAGE_BORDER = 4;
 
   static const double IMAGE_WIDTH = 80;
@@ -93,7 +94,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
     var bannerHeight = maxWidth / 3;
     if (TableModeUtil.isTableMode()) {
       bannerHeight =
-          MetadataTopComponent.getPcBannerHeight(mediaDataCache.size.height);
+          MetadataTopWidget.getPcBannerHeight(mediaDataCache.size.height);
     }
 
     String nip19Name = Nip19.encodeSimplePubKey(widget.pubkey);
@@ -113,7 +114,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
     Widget? bannerImage;
     if (widget.metadata != null &&
         StringUtil.isNotBlank(widget.metadata!.banner)) {
-      bannerImage = ImageComponent(
+      bannerImage = ImageWidget(
         imageUrl: widget.metadata!.banner!,
         width: maxWidth,
         height: bannerHeight,
@@ -156,7 +157,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
         iconData: Icons.mail,
         onTap: openDMSession,
       )));
-      topBtnList.add(wrapBtn(FollowBtnComponent(
+      topBtnList.add(wrapBtn(FollowBtnWidget(
         pubkey: widget.pubkey,
         followedBorderColor: mainColor,
       )));
@@ -183,16 +184,13 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
       ));
     }
 
-    Widget userNameComponent = Container(
-      // height: 40,
+    Widget userNameWidget = Container(
       width: double.maxFinite,
       margin: const EdgeInsets.only(
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
-        // top: Base.BASE_PADDING_HALF,
         bottom: Base.BASE_PADDING_HALF,
       ),
-      // color: Colors.green,
       child: Text.rich(
         TextSpan(
           children: nameSpans,
@@ -202,9 +200,9 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
       ),
     );
     if (widget.jumpable) {
-      userNameComponent = GestureDetector(
+      userNameWidget = GestureDetector(
         onTap: jumpToUserRouter,
-        child: userNameComponent,
+        child: userNameWidget,
       );
     }
 
@@ -215,14 +213,13 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
       color: hintColor.withOpacity(0.5),
       child: bannerImage,
     ));
-    topList.add(Container(
+    topList.add(SizedBox(
       height: 50,
-      // color: Colors.red,
       child: Row(
         children: topBtnList,
       ),
     ));
-    topList.add(userNameComponent);
+    topList.add(userNameWidget);
     if (widget.metadata != null) {
       topList.add(MetadataIconDataComp(
         iconData: Icons.key,
@@ -235,7 +232,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
           text: widget.metadata!.nip05!,
           leftWidget: Container(
             margin: const EdgeInsets.only(right: 2),
-            child: Nip05ValidComponent(pubkey: widget.pubkey),
+            child: Nip05ValidWidget(pubkey: widget.pubkey),
           ),
         ));
       }
@@ -245,7 +242,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
             iconData: Icons.link,
             text: widget.metadata!.website!,
             onTap: () {
-              WebViewRouter.open(context, widget.metadata!.website!);
+              WebViewWidget.open(context, widget.metadata!.website!);
             },
           ));
         }
@@ -259,7 +256,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
       }
     }
 
-    Widget userImageWidget = UserPicComponent(
+    Widget userImageWidget = UserPicWidget(
       pubkey: widget.pubkey,
       width: IMAGE_WIDTH,
       metadata: widget.metadata,
@@ -334,7 +331,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
       } else if (NIP19Tlv.isNprofile(result)) {
         var nprofile = NIP19Tlv.decodeNprofile(result);
         if (nprofile != null) {
-          RouterUtil.router(context, RouterPath.USER, nprofile!.pubkey);
+          RouterUtil.router(context, RouterPath.USER, nprofile.pubkey);
         }
       } else if (Nip19.isNoteId(result)) {
         var noteId = Nip19.decode(result);
@@ -354,7 +351,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
           }
         }
       } else if (result.indexOf("http") == 0) {
-        WebViewRouter.open(context, result);
+        WebViewWidget.open(context, result);
       } else {
         Clipboard.setData(ClipboardData(text: result)).then((_) {
           BotToast.showText(text: S.of(context).Copy_success);
@@ -392,7 +389,7 @@ class _MetadataTopComponent extends State<MetadataTopComponent> {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext _context) {
-        return ZapBottomSheetComponent(context, list);
+        return ZapBottomSheetWidget(context, list);
       },
     );
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SimpleDateComponent extends StatelessWidget {
+class SimpleDateWidget extends StatelessWidget {
   int date;
 
-  SimpleDateComponent(this.date);
+  SimpleDateWidget(this.date);
 
   int minuteTime = 60;
 

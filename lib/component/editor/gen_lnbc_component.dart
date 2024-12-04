@@ -15,14 +15,14 @@ import '../../util/router_util.dart';
 import '../../util/zap_action.dart';
 import '../content/content_str_link_component.dart';
 
-class GenLnbcComponent extends StatefulWidget {
+class GenLnbcWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _GenLnbcComponent();
+    return _GenLnbcWidgetState();
   }
 }
 
-class _GenLnbcComponent extends State<GenLnbcComponent> {
+class _GenLnbcWidgetState extends State<GenLnbcWidget> {
   late TextEditingController controller;
   late TextEditingController commentController;
 
@@ -35,7 +35,6 @@ class _GenLnbcComponent extends State<GenLnbcComponent> {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
     return Selector<MetadataProvider, Metadata?>(
       builder: (context, metadata, child) {
         var themeData = Theme.of(context);
@@ -59,7 +58,7 @@ class _GenLnbcComponent extends State<GenLnbcComponent> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(Base.BASE_PADDING),
-                    child: ContentStrLinkComponent(
+                    child: ContentStrLinkWidget(
                       str: s.Add_now,
                       onTap: () async {
                         await RouterUtil.router(

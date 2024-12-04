@@ -4,12 +4,12 @@ import '../consts/base.dart';
 import '../consts/base_consts.dart';
 import '../util/router_util.dart';
 
-class EnumSelectorComponent extends StatelessWidget {
+class EnumSelectorWidget extends StatelessWidget {
   final List<EnumObj> list;
 
   Widget Function(BuildContext, EnumObj)? enumItemBuild;
 
-  EnumSelectorComponent({
+  EnumSelectorWidget({
     required this.list,
     this.enumItemBuild,
   });
@@ -19,7 +19,7 @@ class EnumSelectorComponent extends StatelessWidget {
       context: context,
       useRootNavigator: false,
       builder: (_context) {
-        return EnumSelectorComponent(
+        return EnumSelectorWidget(
           list: list,
         );
       },
@@ -38,7 +38,7 @@ class EnumSelectorComponent extends StatelessWidget {
       if (enumItemBuild != null) {
         widgets.add(enumItemBuild!(context, enumObj));
       } else {
-        widgets.add(EnumSelectorItemComponent(
+        widgets.add(EnumSelectorItemWidget(
           enumObj: enumObj,
           isLast: i == list.length - 1,
         ));
@@ -84,11 +84,11 @@ class EnumSelectorComponent extends StatelessWidget {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),
@@ -96,7 +96,7 @@ class EnumSelectorComponent extends StatelessWidget {
   }
 }
 
-class EnumSelectorItemComponent extends StatelessWidget {
+class EnumSelectorItemWidget extends StatelessWidget {
   static const double HEIGHT = 44;
 
   final EnumObj enumObj;
@@ -107,7 +107,7 @@ class EnumSelectorItemComponent extends StatelessWidget {
 
   Color? color;
 
-  EnumSelectorItemComponent({
+  EnumSelectorItemWidget({
     required this.enumObj,
     this.isLast = false,
     this.onTap,

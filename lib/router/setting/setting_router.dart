@@ -44,20 +44,21 @@ import 'package:nostr_sdk/utils/string_util.dart';
 import 'setting_group_item_component.dart';
 import 'setting_group_title_component.dart';
 
-class SettingRouter extends StatefulWidget {
+class SettingWidget extends StatefulWidget {
   Function indexReload;
 
-  SettingRouter({
+  SettingWidget({
+    super.key,
     required this.indexReload,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _SettingRouter();
+    return _SettingWidgetState();
   }
 }
 
-class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
+class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   void resetTheme() {
     widget.indexReload();
   }
@@ -94,19 +95,19 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
     List<Widget> list = [];
 
     list.add(
-      SettingGroupItemComponent(
+      SettingGroupItemWidget(
         name: s.Language,
         value: getI18nList(_settingProvider.i18n, _settingProvider.i18nCC).name,
         onTap: pickI18N,
       ),
     );
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Image_Compress,
       value: getCompressList(settingProvider.imgCompress).name,
       onTap: pickImageCompressList,
     ));
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: s.Privacy_Lock,
         value: getLockOpenList(settingProvider.lockOpen).name,
         onTap: pickLockOpenList,
@@ -117,7 +118,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
     if (StringUtil.isBlank(settingProvider.nwcUrl)) {
       nwcValue = getOpenList(OpenStatus.CLOSE).name;
     }
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: "NWC ${s.Setting}",
       value: nwcValue,
       onTap: () {
@@ -125,21 +126,21 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
       },
     ));
 
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: "Wot ${s.Filter}",
       value: getOpenListDefault(settingProvider.wotFilter).name,
       onTap: pickWotFilter,
     ));
 
-    list.add(SettingGroupTitleComponent(iconData: Icons.palette, title: "UI"));
+    list.add(SettingGroupTitleWidget(iconData: Icons.palette, title: "UI"));
     list.add(
-      SettingGroupItemComponent(
+      SettingGroupItemWidget(
         name: s.Theme_Style,
         value: getThemeStyle(_settingProvider.themeStyle).name,
         onTap: pickThemeStyle,
       ),
     );
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Theme_Color,
       onTap: pickColor,
       child: Container(
@@ -153,67 +154,66 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
       fontWeight: FontWeight.bold,
       fontSize: valueFontSize,
     );
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Card_Color,
       onTap: pickCardColor,
       child: getCustomColorWidget(settingProvider.cardColor, textStyle),
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Main_Font_Color,
       onTap: pickMainFontColor,
       child: getCustomColorWidget(settingProvider.mainFontColor, textStyle),
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Hint_Font_Color,
       onTap: pickHintFontColor,
       child: getCustomColorWidget(settingProvider.hintFontColor, textStyle),
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Background_Image,
       onTap: pickBackgroundImage,
       child: Container(),
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Font_Family,
       value: getFontEnumResult(settingProvider.fontFamily),
       onTap: pickFontEnum,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Font_Size,
       value: getFontSize(settingProvider.fontSize).name,
       onTap: pickFontSize,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Web_Appbar,
       value: getOpenList(settingProvider.webviewAppbarOpen).name,
       onTap: pickWebviewAppbar,
     ));
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: s.Table_Mode,
         value: getOpenMode(settingProvider.tableMode).name,
         onTap: pickOpenMode,
       ));
     }
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: "${s.Pubkey} ${s.Color}",
       value: getOpenList(settingProvider.pubkeyColor).name,
       onTap: pickPubkeyColor,
     ));
 
-    list.add(
-        SettingGroupTitleComponent(iconData: Icons.article, title: s.Notes));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupTitleWidget(iconData: Icons.article, title: s.Notes));
+    list.add(SettingGroupItemWidget(
       name: s.Link_preview,
       value: getOpenList(settingProvider.linkPreview).name,
       onTap: pickLinkPreview,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Video_preview_in_list,
       value: getOpenList(settingProvider.videoPreviewInList).name,
       onTap: pickVideoPreviewInList,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Image_service,
       value: getImageServcie(settingProvider.imageService).name,
       onTap: pickImageServcie,
@@ -221,81 +221,80 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
     if ((settingProvider.imageService == ImageServices.NIP_96 ||
             settingProvider.imageService == ImageServices.BLOSSOM) &&
         StringUtil.isNotBlank(settingProvider.imageServiceAddr)) {
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: s.Image_service_path,
         value: settingProvider.imageServiceAddr,
       ));
     }
 
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Limit_Note_Height,
       value: getOpenList(settingProvider.limitNoteHeight).name,
       onTap: pickLimitNoteHeight,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Forbid_profile_picture,
       value: getOpenList(settingProvider.profilePicturePreview).name,
       onTap: pickProfilePicturePreview,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Forbid_image,
       value: getOpenList(settingProvider.imagePreview).name,
       onTap: pickImagePreview,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Forbid_video,
       value: getOpenList(settingProvider.videoPreview).name,
       onTap: pickVideoPreview,
     ));
     if (!PlatformUtil.isWeb()) {
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: "Blurhash ${s.Image}",
         value: getOpenList(settingProvider.openBlurhashImage).name,
         onTap: pickOpenBlurhashImage,
       ));
     }
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: s.Translate,
         value: getOpenTranslate(settingProvider.openTranslate).name,
         onTap: pickOpenTranslate,
       ));
       if (settingProvider.openTranslate == OpenStatus.OPEN) {
-        list.add(SettingGroupItemComponent(
+        list.add(SettingGroupItemWidget(
           name: s.Translate_Source_Language,
           value: settingProvider.translateSourceArgs,
           onTap: pickTranslateSource,
         ));
-        list.add(SettingGroupItemComponent(
+        list.add(SettingGroupItemWidget(
           name: s.Translate_Target_Language,
           value: settingProvider.translateTarget,
           onTap: pickTranslateTarget,
         ));
       }
     }
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Broadcast_When_Boost,
       value: getOpenList(settingProvider.broadcaseWhenBoost).name,
       onTap: pickBroadcaseWhenBoost,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Auto_Open_Sensitive_Content,
       value: getOpenListDefault(settingProvider.autoOpenSensitive).name,
       onTap: pickAutoOpenSensitive,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Thread_Mode,
       value: getThreadMode(settingProvider.threadMode).name,
       onTap: pickThreadMode,
     ));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Max_Sub_Notes,
       value: "${settingProvider.maxSubEventLevel ?? ""}",
       onTap: inputMaxSubNotesNumber,
     ));
 
-    list.add(
-        SettingGroupTitleComponent(iconData: Icons.cloud, title: s.Network));
+    list.add(SettingGroupTitleWidget(iconData: Icons.cloud, title: s.Network));
     String? networkHintText = settingProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
       networkHintText = s.Please_input + " " + s.Network;
@@ -309,38 +308,38 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
         fontSize: 16,
       ),
     );
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Network,
       onTap: inputNetwork,
       child: networkWidget,
     ));
     if (!PlatformUtil.isWeb()) {
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: s.LocalRelay,
         value: getOpenList(settingProvider.relayLocal).name,
         onTap: pickRelayLocal,
       ));
-      list.add(SettingGroupItemComponent(
+      list.add(SettingGroupItemWidget(
         name: s.Relay_Mode,
         value: getRelayMode(settingProvider.relayMode).name,
         onTap: pickRelayModes,
       ));
       if (settingProvider.relayMode != RelayMode.BASE_MODE) {
-        list.add(SettingGroupItemComponent(
+        list.add(SettingGroupItemWidget(
           name: s.Event_Sign_Check,
           value: getOpenListDefault(settingProvider.eventSignCheck).name,
           onTap: pickEventSignCheck,
         ));
       }
     }
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupItemWidget(
       name: s.Hide_Relay_Notices,
       value: getOpenList(settingProvider.hideRelayNotices).name,
       onTap: pickHideRelayNotices,
     ));
 
-    list.add(SettingGroupTitleComponent(iconData: Icons.source, title: s.Data));
-    list.add(SettingGroupItemComponent(
+    list.add(SettingGroupTitleWidget(iconData: Icons.source, title: s.Data));
+    list.add(SettingGroupItemWidget(
       name: s.Delete_Account,
       nameColor: Colors.red,
       onTap: askToDeleteAccount,
@@ -355,7 +354,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Setting,
           style: TextStyle(
@@ -426,8 +425,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   Future pickI18N() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, i18nList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, i18nList!);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == "") {
         settingProvider.setI18n(null, null);
@@ -467,7 +465,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   Future<void> pickImageCompressList() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, compressList!);
+        await EnumSelectorWidget.show(context, compressList!);
     if (resultEnumObj != null) {
       settingProvider.imgCompress = resultEnumObj.value;
     }
@@ -505,7 +503,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
     var s = S.of(context);
 
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, newLockOpenList);
+        await EnumSelectorWidget.show(context, newLockOpenList);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == OpenStatus.CLOSE) {
         bool didAuthenticate = await AuthUtil.authenticate(
@@ -536,7 +534,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   Future<void> pickDefaultIndex() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, defaultIndexList!);
+        await EnumSelectorWidget.show(context, defaultIndexList!);
     if (resultEnumObj != null) {
       settingProvider.defaultIndex = resultEnumObj.value;
       resetTheme();
@@ -575,7 +573,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   Future<void> pickDefaultTab(List<EnumObj> list) async {
-    EnumObj? resultEnumObj = await EnumSelectorComponent.show(context, list);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, list);
     if (resultEnumObj != null) {
       settingProvider.defaultTab = resultEnumObj.value;
       resetTheme();
@@ -604,7 +602,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   Future<void> pickThemeStyle() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, themeStyleList!);
+        await EnumSelectorWidget.show(context, themeStyleList!);
     if (resultEnumObj != null) {
       settingProvider.themeStyle = resultEnumObj.value;
       resetTheme();
@@ -621,7 +619,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   Future<void> pickColor() async {
-    Color? color = await ColorSelectorComponent.show(context);
+    Color? color = await ColorSelectorWidget.show(context);
     if (color != null) {
       settingProvider.themeColor = color.value;
       resetTheme();
@@ -659,7 +657,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
       oldColor = Color(colorValue);
     }
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, colorStyleEnumList!);
+        await EnumSelectorWidget.show(context, colorStyleEnumList!);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == true) {
         // pick customm color
@@ -733,7 +731,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   Future pickFontEnum() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, fontEnumList!);
+        await EnumSelectorWidget.show(context, fontEnumList!);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == true) {
         pickFont();
@@ -780,7 +778,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   Future<void> pickFontSize() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, fontSizeList);
+        await EnumSelectorWidget.show(context, fontSizeList);
     if (resultEnumObj != null) {
       settingProvider.fontSize = resultEnumObj.value;
       resetTheme();
@@ -788,16 +786,14 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   Future<void> pickLinkPreview() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.linkPreview = resultEnumObj.value;
     }
   }
 
   Future<void> pickVideoPreviewInList() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.videoPreviewInList = resultEnumObj.value;
     }
@@ -851,7 +847,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   Future<void> pickImageServcie() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, imageServcieList!);
+        await EnumSelectorWidget.show(context, imageServcieList!);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == ImageServices.NIP_96) {
         var addr = await TextInputDialog.show(
@@ -875,32 +871,28 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickLimitNoteHeight() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.limitNoteHeight = resultEnumObj.value;
     }
   }
 
   pickProfilePicturePreview() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.profilePicturePreview = resultEnumObj.value;
     }
   }
 
   pickImagePreview() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.imagePreview = resultEnumObj.value;
     }
   }
 
   pickVideoPreview() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.videoPreview = resultEnumObj.value;
     }
@@ -969,7 +961,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
     } finally {
       var index = settingProvider.privateKeyIndex;
       if (index != null) {
-        AccountManagerComponentState.onLogoutTap(index,
+        AccountManagerWidgetState.onLogoutTap(index,
             routerBack: true, context: context);
         metadataProvider.clear();
       } else {
@@ -1003,8 +995,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickOpenTranslate() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       await handleTranslateModel(openTranslate: resultEnumObj.value);
       settingProvider.openTranslate = resultEnumObj.value;
@@ -1020,7 +1011,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
         values.add(EnumObj(str, str));
       }
     }
-    List<EnumObj>? resultEnumObjs = await EnumMultiSelectorComponent.show(
+    List<EnumObj>? resultEnumObjs = await EnumMultiSelectorWidget.show(
         context, translateLanguages!, values);
     if (resultEnumObjs != null) {
       List<String> resultStrs = [];
@@ -1035,7 +1026,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   pickTranslateTarget() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, translateLanguages!);
+        await EnumSelectorWidget.show(context, translateLanguages!);
     if (resultEnumObj != null) {
       await handleTranslateModel(translateTarget: resultEnumObj.value);
       settingProvider.translateTarget = resultEnumObj.value;
@@ -1069,8 +1060,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickBroadcaseWhenBoost() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.broadcaseWhenBoost = resultEnumObj.value;
     }
@@ -1087,16 +1077,14 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickAutoOpenSensitive() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.autoOpenSensitive = resultEnumObj.value;
     }
   }
 
   pickWebviewAppbar() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.webviewAppbarOpen = resultEnumObj.value;
     }
@@ -1116,8 +1104,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickOpenMode() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.tableMode = resultEnumObj.value;
       resetTheme();
@@ -1148,8 +1135,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickRelayLocal() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.relayLocal = resultEnumObj.value;
       resetTheme();
@@ -1158,15 +1144,14 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   pickRelayModes() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, getRelayModes());
+        await EnumSelectorWidget.show(context, getRelayModes());
     if (resultEnumObj != null) {
       settingProvider.relayMode = resultEnumObj.value;
     }
   }
 
   pickEventSignCheck() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.eventSignCheck = resultEnumObj.value;
     }
@@ -1196,7 +1181,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
 
   pickThreadMode() async {
     EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, initThreadModes());
+        await EnumSelectorWidget.show(context, initThreadModes());
     if (resultEnumObj != null) {
       settingProvider.threadMode = resultEnumObj.value;
     }
@@ -1215,8 +1200,7 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickHideRelayNotices() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.hideRelayNotices = resultEnumObj.value;
     }
@@ -1255,24 +1239,21 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
   }
 
   pickOpenBlurhashImage() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.openBlurhashImage = resultEnumObj.value;
     }
   }
 
   pickPubkeyColor() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.pubkeyColor = resultEnumObj.value;
     }
   }
 
   pickWotFilter() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorComponent.show(context, openList!);
+    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.wotFilter = resultEnumObj.value;
 

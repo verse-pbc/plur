@@ -39,7 +39,7 @@ class _IndexAppBar extends State<IndexAppBar> {
         onTap: () {
           Scaffold.of(context).openDrawer();
         },
-        child: UserPicComponent(
+        child: UserPicWidget(
           pubkey: nostr!.publicKey,
           width: picHeight,
         ),

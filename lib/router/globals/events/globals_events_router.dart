@@ -22,14 +22,16 @@ import '../../../util/dio_util.dart';
 import '../../../util/table_mode_util.dart';
 import 'globals_event_item_component.dart';
 
-class GlobalsEventsRouter extends StatefulWidget {
+class GlobalsEventsWidget extends StatefulWidget {
+  const GlobalsEventsWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _GlobalsEventsRouter();
+    return _GlobalsEventsWidgetState();
   }
 }
 
-class _GlobalsEventsRouter extends KeepAliveCustState<GlobalsEventsRouter>
+class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
     with PenddingEventsLaterFunction {
   ScrollController scrollController = ScrollController();
 
@@ -54,7 +56,7 @@ class _GlobalsEventsRouter extends KeepAliveCustState<GlobalsEventsRouter>
         controller: scrollController,
         itemBuilder: (context, index) {
           var event = list[index];
-          return EventListComponent(
+          return EventListWidget(
             event: event,
             showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
           );

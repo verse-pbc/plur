@@ -9,7 +9,7 @@ import '../content/content_decoder.dart';
 import 'metadata_top_component.dart';
 import 'user_badges_component.dart';
 
-class MetadataComponent extends StatefulWidget {
+class MetadataWidget extends StatefulWidget {
   String pubkey;
 
   Metadata? metadata;
@@ -20,7 +20,7 @@ class MetadataComponent extends StatefulWidget {
 
   bool userPicturePreview;
 
-  MetadataComponent({
+  MetadataWidget({
     required this.pubkey,
     this.metadata,
     this.jumpable = false,
@@ -30,17 +30,17 @@ class MetadataComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MetadataComponent();
+    return _MetadataWidgetState();
   }
 }
 
-class _MetadataComponent extends State<MetadataComponent> {
+class _MetadataWidgetState extends State<MetadataWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
     List<Widget> mainList = [];
 
-    mainList.add(MetadataTopComponent(
+    mainList.add(MetadataTopWidget(
       pubkey: widget.pubkey,
       metadata: widget.metadata,
       jumpable: widget.jumpable,
@@ -48,7 +48,7 @@ class _MetadataComponent extends State<MetadataComponent> {
     ));
 
     if (widget.showBadges) {
-      mainList.add(UserBadgesComponent(
+      mainList.add(UserBadgesWidget(
         key: Key("ubc_${widget.pubkey}"),
         pubkey: widget.pubkey,
       ));
@@ -68,7 +68,7 @@ class _MetadataComponent extends State<MetadataComponent> {
           // child: Text(widget.metadata!.about!),
           child: Container(
             width: double.maxFinite,
-            child: ContentComponent(
+            child: ContentWidget(
               content: widget.metadata!.about,
               // TODO this should add source event
               showLinkPreview: false,

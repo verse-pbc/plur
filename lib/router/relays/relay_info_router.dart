@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +11,6 @@ import 'package:nostr_sdk/relay_local/relay_local.dart';
 import 'package:nostr_sdk/relay_local/relay_local_db.dart';
 import 'package:nostrmo/component/confirm_dialog.dart';
 import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/component/user/name_component.dart';
 import 'package:nostrmo/component/sync_upload_dialog.dart';
 import 'package:nostrmo/component/user/user_pic_component.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -24,20 +22,20 @@ import 'package:nostrmo/util/store_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_component.dart';
-import '../../component/image_component.dart';
 import '../../component/webview_router.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
-class RelayInfoRouter extends StatefulWidget {
+class RelayInfoWidget extends StatefulWidget {
+  const RelayInfoWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _RelayInfoRouter();
+    return _RelayInfoWidgetState();
   }
 }
 
-class _RelayInfoRouter extends CustState<RelayInfoRouter> {
+class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
   bool isMyRelay = false;
 
   double IMAGE_WIDTH = 45;
@@ -50,16 +48,15 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
   Widget doBuild(BuildContext context) {
     var themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    var mainColor = themeData.primaryColor;
     var s = S.of(context);
 
     var relayItf = RouterUtil.routerArgs(context);
-    if (relayItf == null || !(relayItf is Relay)) {
+    if (relayItf == null || relayItf is! Relay) {
       RouterUtil.back(context);
       return Container();
     }
 
-    var relay = relayItf as Relay;
+    var relay = relayItf;
     var relayInfo = relay.info!;
     if (nostr!.getRelay(relay.relayStatus.addr) != null) {
       isMyRelay = true;
@@ -68,7 +65,7 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
     List<Widget> list = [];
 
     list.add(Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: Base.BASE_PADDING,
         bottom: Base.BASE_PADDING,
       ),
@@ -92,12 +89,12 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
       child: Text(relayInfo.description),
     ));
 
-    list.add(RelayInfoItemComponent(
+    list.add(RelayInfoItemWidget(
       title: s.Url,
       child: SelectableText(relay.url),
     ));
 
-    list.add(RelayInfoItemComponent(
+    list.add(RelayInfoItemWidget(
       title: s.Owner,
       child: Selector<MetadataProvider, Metadata?>(
         builder: (context, metadata, child) {
@@ -105,7 +102,7 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
 
           list.add(Container(
             alignment: Alignment.center,
-            child: UserPicComponent(
+            child: UserPicWidget(
               pubkey: relayInfo.pubkey,
               width: IMAGE_WIDTH,
               metadata: metadata,
@@ -127,61 +124,57 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
       ),
     ));
 
-    list.add(RelayInfoItemComponent(
+    list.add(RelayInfoItemWidget(
       title: s.Contact,
       child: SelectableText(relayInfo.contact),
     ));
 
-    list.add(RelayInfoItemComponent(
+    list.add(RelayInfoItemWidget(
       title: s.Soft,
       child: SelectableText(relayInfo.software),
     ));
 
-    list.add(RelayInfoItemComponent(
+    list.add(RelayInfoItemWidget(
       title: s.Version,
       child: SelectableText(relayInfo.version),
     ));
 
     List<Widget> nipWidgets = [];
     for (var nip in relayInfo.nips) {
-      nipWidgets.add(NipComponent(nip: nip));
+      nipWidgets.add(NipWidget(nip: nip));
     }
-    list.add(RelayInfoItemComponent(
+    list.add(RelayInfoItemWidget(
       title: "NIPs",
       child: Wrap(
-        children: nipWidgets,
         spacing: Base.BASE_PADDING,
         runSpacing: Base.BASE_PADDING,
+        children: nipWidgets,
       ),
     ));
 
     if (relay is! RelayLocal && isMyRelay) {
-      list.add(Container(
-        child: CheckboxListTile(
-          title: Text(s.Write),
-          value: relay.relayStatus.writeAccess,
-          onChanged: (bool? value) {
-            if (value != null) {
-              relay.relayStatus.writeAccess = value;
-              setState(() {});
-              relayProvider.saveRelay();
-            }
-          },
-        ),
+      list.add(CheckboxListTile(
+        title: Text(s.Write),
+        value: relay.relayStatus.writeAccess,
+        onChanged: (bool? value) {
+          if (value != null) {
+            relay.relayStatus.writeAccess = value;
+            setState(() {});
+            relayProvider.saveRelay();
+          }
+        },
       ));
 
-      list.add(Container(
-        child: CheckboxListTile(
-          title: Text(s.Read),
-          value: relay.relayStatus.readAccess,
-          onChanged: (bool? value) {
-            if (value != null) {
-              relay.relayStatus.readAccess = value;
-              setState(() {});
-              relayProvider.saveRelay();
-            }
-          },
-        ),
+      list.add(CheckboxListTile(
+        title: Text(s.Read),
+        value: relay.relayStatus.readAccess,
+        onChanged: (bool? value) {
+          if (value != null) {
+            relay.relayStatus.readAccess = value;
+            setState(() {});
+            relayProvider.saveRelay();
+          }
+        },
       ));
     }
 
@@ -248,7 +241,7 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Relay_Info,
           style: TextStyle(
@@ -258,7 +251,7 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
           width: double.maxFinite,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -347,12 +340,12 @@ class _RelayInfoRouter extends CustState<RelayInfoRouter> {
   }
 }
 
-class RelayInfoItemComponent extends StatelessWidget {
+class RelayInfoItemWidget extends StatelessWidget {
   String title;
 
   Widget child;
 
-  RelayInfoItemComponent({
+  RelayInfoItemWidget({
     required this.title,
     required this.child,
   });
@@ -361,17 +354,15 @@ class RelayInfoItemComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> list = [];
 
-    list.add(Container(
-      child: Text(
-        "$title :",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
+    list.add(Text(
+      "$title :",
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
       ),
     ));
 
     list.add(Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
       ),
@@ -379,11 +370,11 @@ class RelayInfoItemComponent extends StatelessWidget {
     ));
 
     return Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
       ),
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: Base.BASE_PADDING,
       ),
       width: double.maxFinite,
@@ -396,10 +387,10 @@ class RelayInfoItemComponent extends StatelessWidget {
   }
 }
 
-class NipComponent extends StatelessWidget {
+class NipWidget extends StatelessWidget {
   dynamic nip;
 
-  NipComponent({required this.nip});
+  NipWidget({super.key, required this.nip});
 
   @override
   Widget build(BuildContext context) {
@@ -431,7 +422,7 @@ class NipComponent extends StatelessWidget {
       onTap: () {
         var url =
             "https://github.com/nostr-protocol/nips/blob/master/$nipStr.md";
-        WebViewRouter.open(context, url);
+        WebViewWidget.open(context, url);
       },
       child: Text(
         nipStr,

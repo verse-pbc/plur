@@ -7,18 +7,18 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/number_format_util.dart';
 import 'package:nostrmo/util/router_util.dart';
 
-class EventTopZapsComponent extends StatefulWidget {
+class EventTopZapsWidget extends StatefulWidget {
   List<Event> zapEvents;
 
-  EventTopZapsComponent(this.zapEvents);
+  EventTopZapsWidget(this.zapEvents, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _EventTopZapsComponent();
+    return _EventTopZapsWidgetState();
   }
 }
 
-class _EventTopZapsComponent extends State<EventTopZapsComponent> {
+class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
   double TOP_HEADER_IMAGE_WIDTH = 34;
 
   double HEADER_IMAGE_WIDTH = 22;
@@ -56,7 +56,7 @@ class _EventTopZapsComponent extends State<EventTopZapsComponent> {
       onTap: () {
         RouterUtil.router(context, RouterPath.USER, zapInfos[0].pubkey);
       },
-      child: UserPicComponent(
+      child: UserPicWidget(
         pubkey: zapInfos[0].pubkey,
         width: TOP_HEADER_IMAGE_WIDTH,
       ),
@@ -103,7 +103,7 @@ class _EventTopZapsComponent extends State<EventTopZapsComponent> {
         onTap: () {
           RouterUtil.router(context, RouterPath.USER, pubkey);
         },
-        child: UserPicComponent(
+        child: UserPicWidget(
           pubkey: pubkey,
           width: width,
         ),

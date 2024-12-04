@@ -17,14 +17,16 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 
-class FollowSuggestRouter extends StatefulWidget {
+class FollowSuggestWidget extends StatefulWidget {
+  const FollowSuggestWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowSuggestRouter();
+    return _FollowSuggestWidgetState();
   }
 }
 
-class _FollowSuggestRouter extends CustState<FollowSuggestRouter> {
+class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
   @override
   Widget doBuild(BuildContext context) {
     var s = S.of(context);
@@ -55,7 +57,7 @@ class _FollowSuggestRouter extends CustState<FollowSuggestRouter> {
 
     List<Widget> userWidgetList = [];
     for (var pubkey in pubkeys) {
-      userWidgetList.add(SimpleMetadataComponent(
+      userWidgetList.add(SimpleMetadataWidget(
         pubkey: pubkey,
       ));
     }
@@ -68,7 +70,7 @@ class _FollowSuggestRouter extends CustState<FollowSuggestRouter> {
         itemCount: pubkeys.length,
         builder: (context, index) {
           var pubkey = pubkeys[index];
-          return SimpleMetadataComponent(
+          return SimpleMetadataWidget(
             pubkey: pubkey,
             showFollow: true,
           );
@@ -79,7 +81,7 @@ class _FollowSuggestRouter extends CustState<FollowSuggestRouter> {
     mainList.add(Container(
       width: double.maxFinite,
       alignment: Alignment.centerRight,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: Base.BASE_PADDING * 2,
       ),
       child: GestureDetector(

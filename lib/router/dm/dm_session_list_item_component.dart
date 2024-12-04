@@ -18,21 +18,21 @@ import 'package:pointycastle/export.dart' as pointycastle;
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'dm_plaintext_handle.dart';
 
-class DMSessionListItemComponent extends StatefulWidget {
+class DMSessionListItemWidget extends StatefulWidget {
   DMSessionDetail detail;
 
-  DMSessionListItemComponent({
+  DMSessionListItemWidget({
     super.key,
     required this.detail,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _DMSessionListItemComponent();
+    return _DMSessionListItemWidgetState();
   }
 }
 
-class _DMSessionListItemComponent extends State<DMSessionListItemComponent>
+class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
     with DMPlaintextHandle {
   static const double IMAGE_WIDTH = 34;
 
@@ -62,7 +62,7 @@ class _DMSessionListItemComponent extends State<DMSessionListItemComponent>
 
         var leftWidget = Container(
           margin: EdgeInsets.only(top: 4),
-          child: UserPicComponent(
+          child: UserPicWidget(
             pubkey: dmSession.pubkey,
             width: IMAGE_WIDTH,
           ),
@@ -86,7 +86,7 @@ class _DMSessionListItemComponent extends State<DMSessionListItemComponent>
         ];
         if (hasNewMessage) {
           contentList.add(Container(
-            child: PointComponent(color: mainColor),
+            child: PointWidget(color: mainColor),
           ));
         }
 
@@ -118,7 +118,7 @@ class _DMSessionListItemComponent extends State<DMSessionListItemComponent>
                       Row(
                         children: [
                           Expanded(
-                            child: NameComponent(
+                            child: NameWidget(
                               pubkey: dmSession.pubkey,
                               metadata: metadata,
                               maxLines: 1,

@@ -5,7 +5,7 @@ import 'package:nostrmo/data/metadata.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
 
-class SimpleNameComponent extends StatefulWidget {
+class SimpleNameWidget extends StatefulWidget {
   static String getSimpleName(String pubkey, Metadata? metadata) {
     String? name;
     if (metadata != null) {
@@ -32,7 +32,7 @@ class SimpleNameComponent extends StatefulWidget {
 
   TextOverflow? textOverflow;
 
-  SimpleNameComponent({
+  SimpleNameWidget({
     required this.pubkey,
     this.metadata,
     this.textStyle,
@@ -42,11 +42,11 @@ class SimpleNameComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _SimpleNameComponent();
+    return _SimpleNameWidgetState();
   }
 }
 
-class _SimpleNameComponent extends State<SimpleNameComponent> {
+class _SimpleNameWidgetState extends State<SimpleNameWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.metadata != null) {
@@ -62,7 +62,7 @@ class _SimpleNameComponent extends State<SimpleNameComponent> {
   }
 
   Widget buildWidget(Metadata? metadata) {
-    var name = SimpleNameComponent.getSimpleName(widget.pubkey, metadata);
+    var name = SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
     return Container(
       child: Text(
         name,

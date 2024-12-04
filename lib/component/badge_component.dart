@@ -8,12 +8,12 @@ import '../main.dart';
 import '../provider/badge_definition_provider.dart';
 import 'image_component.dart';
 
-class BedgeComponent extends StatelessWidget {
+class BadgeWidget extends StatelessWidget {
   static const double IMAGE_WIDTH = 28;
 
   BadgeDefinition badgeDefinition;
 
-  BedgeComponent({
+  BadgeWidget({
     required this.badgeDefinition,
   });
 
@@ -27,12 +27,12 @@ class BedgeComponent extends StatelessWidget {
 
     Widget? imageWidget;
     if (StringUtil.isNotBlank(imagePath)) {
-      imageWidget = ImageComponent(
+      imageWidget = ImageWidget(
         imageUrl: imagePath!,
         width: IMAGE_WIDTH,
         height: IMAGE_WIDTH,
         fit: BoxFit.cover,
-        placeholder: (context, url) => CircularProgressIndicator(),
+        placeholder: (context, url) => const CircularProgressIndicator(),
       );
     }
 

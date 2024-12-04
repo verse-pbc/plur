@@ -8,56 +8,54 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class FilterDirtywordComponent extends StatefulWidget {
+class FilterDirtywordWidget extends StatefulWidget {
+  const FilterDirtywordWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FilterDirtywordComponent();
+    return _FilterDirtywordWidgetState();
   }
 }
 
-class _FilterDirtywordComponent extends State<FilterDirtywordComponent> {
+class _FilterDirtywordWidgetState extends State<FilterDirtywordWidget> {
   TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var s = S.of(context);
-    var _filterProvider = Provider.of<FilterProvider>(context);
-    var dirtywordList = _filterProvider.dirtywordList;
+    var filterProvider = Provider.of<FilterProvider>(context);
+    var dirtywordList = filterProvider.dirtywordList;
 
     List<Widget> list = [];
     for (var dirtyword in dirtywordList) {
-      list.add(FilterDirtywordItemComponent(word: dirtyword));
+      list.add(FilterDirtywordItemWidget(word: dirtyword));
     }
 
-    return Container(
-      child: Column(
-        children: [
-          Expanded(
-            child: Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.all(Base.BASE_PADDING),
-              child: Wrap(
-                children: list,
-                spacing: Base.BASE_PADDING,
-                runSpacing: Base.BASE_PADDING,
-              ),
+    return Column(
+      children: [
+        Expanded(
+          child: Container(
+            width: double.maxFinite,
+            padding: const EdgeInsets.all(Base.BASE_PADDING),
+            child: Wrap(
+              spacing: Base.BASE_PADDING,
+              runSpacing: Base.BASE_PADDING,
+              children: list,
             ),
           ),
-          Container(
-            child: TextField(
-              controller: controller,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.abc),
-                hintText: s.Input_dirtyword,
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.add),
-                  onPressed: addDirtyWord,
-                ),
-              ),
+        ),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.abc),
+            hintText: s.Input_dirtyword,
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: addDirtyWord,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -74,19 +72,18 @@ class _FilterDirtywordComponent extends State<FilterDirtywordComponent> {
   }
 }
 
-class FilterDirtywordItemComponent extends StatefulWidget {
+class FilterDirtywordItemWidget extends StatefulWidget {
   String word;
 
-  FilterDirtywordItemComponent({required this.word});
+  FilterDirtywordItemWidget({super.key, required this.word});
 
   @override
   State<StatefulWidget> createState() {
-    return _FilterDirtywordItemComponent();
+    return _FilterDirtywordItemWidgetState();
   }
 }
 
-class _FilterDirtywordItemComponent
-    extends State<FilterDirtywordItemComponent> {
+class _FilterDirtywordItemWidgetState extends State<FilterDirtywordItemWidget> {
   bool showDel = false;
 
   @override
@@ -104,7 +101,7 @@ class _FilterDirtywordItemComponent
           });
         },
         child: Container(
-          padding: EdgeInsets.only(
+          padding: const EdgeInsets.only(
             left: Base.BASE_PADDING_HALF,
             right: Base.BASE_PADDING_HALF,
             top: 4,
@@ -129,7 +126,7 @@ class _FilterDirtywordItemComponent
         onTap: () {
           filterProvider.removeDirtyword(widget.word);
         },
-        child: Icon(
+        child: const Icon(
           Icons.delete,
           color: Colors.red,
         ),

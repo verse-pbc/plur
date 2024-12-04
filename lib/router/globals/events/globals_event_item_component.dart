@@ -11,18 +11,18 @@ import '../../../consts/base.dart';
 import '../../../generated/l10n.dart';
 
 @deprecated
-class GlobalEventItemComponent extends StatefulWidget {
+class GlobalEventItemWidget extends StatefulWidget {
   String eventId;
 
-  GlobalEventItemComponent({required this.eventId});
+  GlobalEventItemWidget({required this.eventId});
 
   @override
   State<StatefulWidget> createState() {
-    return _GlobalEventItemComponent();
+    return _GlobalEventItemWidgetState();
   }
 }
 
-class _GlobalEventItemComponent extends State<GlobalEventItemComponent> {
+class _GlobalEventItemWidgetState extends State<GlobalEventItemWidget> {
   ScreenshotController screenshotController = ScreenshotController();
 
   Event? _event;
@@ -54,21 +54,21 @@ class _GlobalEventItemComponent extends State<GlobalEventItemComponent> {
         _event = event;
 
         var main = Screenshot(
+          controller: screenshotController,
           child: Container(
             color: cardColor,
-            margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-            padding: EdgeInsets.only(
+            margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+            padding: const EdgeInsets.only(
               top: Base.BASE_PADDING,
               // bottom: Base.BASE_PADDING,
             ),
-            child: EventMainComponent(
+            child: EventMainWidget(
               screenshotController: screenshotController,
               event: _event!,
               pagePubkey: null,
               textOnTap: jumpToThread,
             ),
           ),
-          controller: screenshotController,
         );
 
         return GestureDetector(

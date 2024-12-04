@@ -9,18 +9,20 @@ import '../../util/router_util.dart';
 import '../event/event_list_component.dart';
 import 'search_mention_component.dart';
 
-class SearchMentionEventComponent extends StatefulWidget {
+class SearchMentionEventWidget extends StatefulWidget {
+  const SearchMentionEventWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _SearchMentionEventComponent();
+    return _SearchMentionEventWidgetState();
   }
 }
 
-class _SearchMentionEventComponent extends State<SearchMentionEventComponent>
+class _SearchMentionEventWidgetState extends State<SearchMentionEventWidget>
     with WhenStopFunction {
   @override
   Widget build(BuildContext context) {
-    return SaerchMentionComponent(
+    return SearchMentionWidget(
       resultBuildFunc: resultBuild,
       handleSearchFunc: handleSearch,
     );
@@ -39,7 +41,7 @@ class _SearchMentionEventComponent extends State<SearchMentionEventComponent>
             onTap: () {
               RouterUtil.back(context, event.id);
             },
-            child: EventListComponent(
+            child: EventListWidget(
               event: event,
               jumpable: false,
             ),

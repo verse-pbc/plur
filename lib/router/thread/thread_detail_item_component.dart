@@ -8,7 +8,7 @@ import '../../consts/base.dart';
 import 'thread_detail_event.dart';
 import 'thread_detail_event_main_component.dart';
 
-class ThreadDetailItemComponent extends StatefulWidget {
+class ThreadDetailItemWidget extends StatefulWidget {
   double totalMaxWidth;
 
   ThreadDetailEvent item;
@@ -17,7 +17,8 @@ class ThreadDetailItemComponent extends StatefulWidget {
 
   GlobalKey sourceEventKey;
 
-  ThreadDetailItemComponent({
+  ThreadDetailItemWidget({
+    super.key,
     required this.item,
     required this.totalMaxWidth,
     required this.sourceEventId,
@@ -26,18 +27,14 @@ class ThreadDetailItemComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ThreadDetailItemComponent();
+    return _ThreadDetailItemWidgetState();
   }
 }
 
-class _ThreadDetailItemComponent extends State<ThreadDetailItemComponent> {
+class _ThreadDetailItemWidgetState extends State<ThreadDetailItemWidget> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
-
-    Widget main = ThreadDetailItemMainComponent(
+    Widget main = ThreadDetailItemMainWidget(
       item: widget.item,
       totalMaxWidth: widget.totalMaxWidth,
       sourceEventId: widget.sourceEventId,
@@ -51,14 +48,14 @@ class _ThreadDetailItemComponent extends State<ThreadDetailItemComponent> {
           Positioned(
             top: -35,
             right: -10,
-            child: EventBitcionIconComponent(),
+            child: EventBitcoinIconWidget(),
           ),
         ],
       );
     }
 
     return Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: main,
     );
   }

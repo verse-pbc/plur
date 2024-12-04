@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../consts/base.dart';
 
-class SettingGroupTitleComponent extends StatelessWidget {
+class SettingGroupTitleWidget extends StatelessWidget {
   IconData iconData;
 
   String title;
 
-  SettingGroupTitleComponent({
+  SettingGroupTitleWidget({
     required this.iconData,
     required this.title,
   });

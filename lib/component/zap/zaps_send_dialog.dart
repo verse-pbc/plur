@@ -42,11 +42,8 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
 
   @override
   Widget doBuild(BuildContext context) {
-    var s = S.of(context);
     var themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
-    var mainColor = themeData.primaryColor;
-    var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
 
     List<Widget> list = [];
     for (var zapInfo in widget.zapInfos) {
@@ -59,7 +56,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
       }
 
       list.add(Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           top: Base.BASE_PADDING_HALF,
           bottom: Base.BASE_PADDING_HALF,
         ),
@@ -74,7 +71,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
     }
 
     var main = Container(
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.BASE_PADDING),
       decoration: BoxDecoration(
         color: cardColor,
       ),
@@ -88,7 +85,6 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
       body: FocusScope(
-        // autofocus: true,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -96,7 +92,6 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
           },
           child: Container(
             width: double.infinity,
-            // height: double.infinity,
             padding: const EdgeInsets.only(
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
@@ -166,7 +161,7 @@ class ZapsSendDialogItem extends StatelessWidget {
     var s = S.of(context);
     return Selector<MetadataProvider, Metadata?>(
         builder: (context, metadata, child) {
-      var userPicComp = UserPicComponent(pubkey: pubkey, width: height);
+      var userPicComp = UserPicWidget(pubkey: pubkey, width: height);
 
       var nameColum = Container(
         margin: const EdgeInsets.only(
@@ -176,7 +171,7 @@ class ZapsSendDialogItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            NameComponent(
+            NameWidget(
               pubkey: pubkey,
               metadata: metadata,
             ),

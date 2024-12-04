@@ -14,14 +14,16 @@ import '../../util/router_util.dart';
 import '../image_component.dart';
 import 'search_mention_component.dart';
 
-class SearchMentionUserComponent extends StatefulWidget {
+class SearchMentionUserWidget extends StatefulWidget {
+  const SearchMentionUserWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _SearchMentionUserComponent();
+    return _SearchMentionUserWidgetState();
   }
 }
 
-class _SearchMentionUserComponent extends State<SearchMentionUserComponent>
+class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
     with WhenStopFunction {
   double itemWidth = 50;
 
@@ -30,7 +32,7 @@ class _SearchMentionUserComponent extends State<SearchMentionUserComponent>
     var contentWidth = mediaDataCache.size.width - 4 * Base.BASE_PADDING;
     itemWidth = (contentWidth - 10) / 2;
 
-    return SaerchMentionComponent(
+    return SearchMentionWidget(
       resultBuildFunc: resultBuild,
       handleSearchFunc: handleSearch,
     );
@@ -39,7 +41,7 @@ class _SearchMentionUserComponent extends State<SearchMentionUserComponent>
   Widget resultBuild() {
     List<Widget> userWidgetList = [];
     for (var metadata in metadatas) {
-      userWidgetList.add(SearchMentionUserItemComponent(
+      userWidgetList.add(SearchMentionUserItemWidget(
         metadata: metadata,
         width: itemWidth,
       ));
@@ -51,12 +53,12 @@ class _SearchMentionUserComponent extends State<SearchMentionUserComponent>
           top: Base.BASE_PADDING_HALF,
           bottom: Base.BASE_PADDING_HALF,
         ),
-        child: Container(
+        child: SizedBox(
           width: itemWidth * 2 + 10,
           child: Wrap(
-            children: userWidgetList,
             spacing: 10,
             runSpacing: 10,
+            children: userWidgetList,
           ),
         ),
       ),
@@ -79,14 +81,14 @@ class _SearchMentionUserComponent extends State<SearchMentionUserComponent>
   }
 }
 
-class SearchMentionUserItemComponent extends StatelessWidget {
+class SearchMentionUserItemWidget extends StatelessWidget {
   static const double IMAGE_WIDTH = 36;
 
   Metadata metadata;
 
   double width;
 
-  SearchMentionUserItemComponent({
+  SearchMentionUserItemWidget({
     required this.metadata,
     required this.width,
   });
@@ -94,9 +96,7 @@ class SearchMentionUserItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var cardColor = themeData.cardColor;
-    Color hintColor = themeData.hintColor;
 
     String nip19Name = Nip19.encodeSimplePubKey(metadata.pubkey!);
     String displayName = nip19Name;
@@ -116,10 +116,10 @@ class SearchMentionUserItemComponent extends StatelessWidget {
     var main = Container(
       width: width,
       color: cardColor,
-      padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
       child: Row(
         children: [
-          UserPicComponent(
+          UserPicWidget(
             pubkey: metadata.pubkey!,
             width: IMAGE_WIDTH,
             metadata: metadata,
@@ -153,7 +153,7 @@ class SearchMentionUserItemComponent extends StatelessWidget {
                           child: Container(
                             margin: const EdgeInsets.only(left: 3),
                             child:
-                                Nip05ValidComponent(pubkey: metadata.pubkey!),
+                                Nip05ValidWidget(pubkey: metadata.pubkey!),
                           ),
                         ),
                       ],

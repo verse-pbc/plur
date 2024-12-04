@@ -19,14 +19,16 @@ import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'relays_item_component.dart';
 
-class RelaysRouter extends StatefulWidget {
+class RelaysWidget extends StatefulWidget {
+  const RelaysWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _RelaysRouter();
+    return _RelaysWidgetState();
   }
 }
 
-class _RelaysRouter extends CustState<RelaysRouter> with WhenStopFunction {
+class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
   TextEditingController controller = TextEditingController();
 
   int relayType = RelayType.NORMAL;
@@ -45,7 +47,7 @@ class _RelaysRouter extends CustState<RelaysRouter> with WhenStopFunction {
     List<Widget> list = [];
 
     if (relayStatusLocal != null) {
-      list.add(RelaysItemComponent(
+      list.add(RelaysItemWidget(
         addr: relayStatusLocal.addr,
         relayStatus: relayStatusLocal,
         editable: false,
@@ -88,7 +90,7 @@ class _RelaysRouter extends CustState<RelaysRouter> with WhenStopFunction {
         rwText = "W";
       }
 
-      list.add(RelaysItemComponent(
+      list.add(RelaysItemWidget(
         addr: addr,
         relayStatus: relayStatus,
         rwText: rwText,
@@ -122,7 +124,7 @@ class _RelaysRouter extends CustState<RelaysRouter> with WhenStopFunction {
           rwText = "W";
         }
 
-        list.add(RelaysItemComponent(
+        list.add(RelaysItemWidget(
           addr: addr,
           relayStatus: relayStatus,
           rwText: rwText,
@@ -155,7 +157,7 @@ class _RelaysRouter extends CustState<RelaysRouter> with WhenStopFunction {
           rwText = "W";
         }
 
-        list.add(RelaysItemComponent(
+        list.add(RelaysItemWidget(
           addr: relayStatus.addr,
           relayStatus: relayStatus,
           rwText: rwText,
@@ -166,7 +168,7 @@ class _RelaysRouter extends CustState<RelaysRouter> with WhenStopFunction {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Relays,
           style: TextStyle(

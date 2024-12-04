@@ -11,14 +11,16 @@ import '../../util/router_util.dart';
 import '../edit/editor_router.dart';
 import 'notice_list_item_component.dart';
 
-class NoticeRouter extends StatefulWidget {
+class NoticeWidget extends StatefulWidget {
+  const NoticeWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _NoticeRouter();
+    return _NoticeWidgetState();
   }
 }
 
-class _NoticeRouter extends State<NoticeRouter> {
+class _NoticeWidgetState extends State<NoticeWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -35,7 +37,7 @@ class _NoticeRouter extends State<NoticeRouter> {
         child: Center(
           child: GestureDetector(
             onTap: () {
-              EditorRouter.open(context);
+              EditorWidget.open(context);
             },
             child: Text(s.Notices),
           ),
@@ -45,7 +47,7 @@ class _NoticeRouter extends State<NoticeRouter> {
       main = ListView.builder(
         itemBuilder: (BuildContext context, int index) {
           var notice = notices[length - 1 - index];
-          return NoticeListItemComponent(
+          return NoticeListItemWidget(
             notice: notice,
           );
         },
@@ -55,7 +57,7 @@ class _NoticeRouter extends State<NoticeRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Notices,
           style: TextStyle(

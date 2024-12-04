@@ -3,12 +3,12 @@ import 'package:nostrmo/consts/base.dart';
 
 import '../generated/l10n.dart';
 
-class NewNotesUpdatedComponent extends StatelessWidget {
+class NewNotesUpdatedWidget extends StatelessWidget {
   int num;
 
   Function? onTap;
 
-  NewNotesUpdatedComponent({required this.num, this.onTap});
+  NewNotesUpdatedWidget({required this.num, this.onTap});
 
   @override
   Widget build(BuildContext context) {

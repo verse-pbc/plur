@@ -5,12 +5,12 @@ import 'package:nostrmo/util/router_util.dart';
 
 import '../consts/base_consts.dart';
 
-class EnumMultiSelectorComponent extends StatefulWidget {
+class EnumMultiSelectorWidget extends StatefulWidget {
   final List<EnumObj> list;
 
   final List<EnumObj> values;
 
-  EnumMultiSelectorComponent({
+  EnumMultiSelectorWidget({
     required this.list,
     required this.values,
   });
@@ -20,8 +20,8 @@ class EnumMultiSelectorComponent extends StatefulWidget {
     return await showDialog<List<EnumObj>?>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
-        return EnumMultiSelectorComponent(
+      builder: (_) {
+        return EnumMultiSelectorWidget(
           list: list,
           values: values,
         );
@@ -31,11 +31,11 @@ class EnumMultiSelectorComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EnumMultiSelectorComponent();
+    return _EnumMultiSelectorWidgetState();
   }
 }
 
-class _EnumMultiSelectorComponent extends State<EnumMultiSelectorComponent> {
+class _EnumMultiSelectorWidgetState extends State<EnumMultiSelectorWidget> {
   double BTN_WIDTH = 50;
 
   late List<EnumObj> values;
@@ -55,7 +55,7 @@ class _EnumMultiSelectorComponent extends State<EnumMultiSelectorComponent> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        EnumSelectorComponent(list: widget.list, enumItemBuild: enumItemBuild),
+        EnumSelectorWidget(list: widget.list, enumItemBuild: enumItemBuild),
         Positioned(
           bottom: mediaDataCache.size.height / 20,
           child: GestureDetector(
@@ -93,7 +93,7 @@ class _EnumMultiSelectorComponent extends State<EnumMultiSelectorComponent> {
       }
     }
 
-    return EnumSelectorItemComponent(
+    return EnumSelectorItemWidget(
       enumObj: enumObj,
       isLast: isLast,
       onTap: onTap,

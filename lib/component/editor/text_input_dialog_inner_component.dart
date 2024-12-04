@@ -4,7 +4,7 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 
-class TextInputDialogInnerComponent extends StatefulWidget {
+class TextInputDialogInnerWidget extends StatefulWidget {
   String title;
 
   String? hintText;
@@ -13,7 +13,7 @@ class TextInputDialogInnerComponent extends StatefulWidget {
 
   bool Function(BuildContext, String)? valueCheck;
 
-  TextInputDialogInnerComponent(
+  TextInputDialogInnerWidget(
     this.title, {
     this.hintText,
     this.value,
@@ -22,12 +22,12 @@ class TextInputDialogInnerComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _TextInputDialogInnerComponent();
+    return _TextInputDialogInnerWidgetState();
   }
 }
 
-class _TextInputDialogInnerComponent
-    extends State<TextInputDialogInnerComponent> {
+class _TextInputDialogInnerWidgetState
+    extends State<TextInputDialogInnerWidget> {
   late TextEditingController controller;
 
   @override

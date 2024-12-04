@@ -8,14 +8,15 @@ import '../../provider/contact_list_provider.dart';
 import '../follow_set_follow_bottom_sheet.dart';
 import 'metadata_top_component.dart';
 
-class FollowBtnComponent extends StatefulWidget {
+class FollowBtnWidget extends StatefulWidget {
   String pubkey;
 
   Color? borderColor;
 
   Color? followedBorderColor;
 
-  FollowBtnComponent({
+  FollowBtnWidget({
+    super.key,
     required this.pubkey,
     this.borderColor,
     this.followedBorderColor,
@@ -23,15 +24,13 @@ class FollowBtnComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _FollowBtnComponent();
+    return _FollowBtnWidgetState();
   }
 }
 
-class _FollowBtnComponent extends State<FollowBtnComponent> {
+class _FollowBtnWidgetState extends State<FollowBtnWidget> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-
     return Selector<ContactListProvider, Contact?>(
       builder: (context, contact, child) {
         if (contact == null) {

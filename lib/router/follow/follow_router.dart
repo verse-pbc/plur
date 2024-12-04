@@ -17,14 +17,16 @@ import '../../provider/follow_new_event_provider.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/load_more_event.dart';
 
-class FollowRouter extends StatefulWidget {
+class FollowWidget extends StatefulWidget {
+  const FollowWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowRouter();
+    return _FollowWidgetState();
   }
 }
 
-class _FollowRouter extends KeepAliveCustState<FollowRouter>
+class _FollowWidgetState extends KeepAliveCustState<FollowWidget>
     with LoadMoreEvent {
   ScrollController _controller = ScrollController();
 
@@ -54,15 +56,8 @@ class _FollowRouter extends KeepAliveCustState<FollowRouter>
     var main = ListView.builder(
       controller: _controller,
       itemBuilder: (BuildContext context, int index) {
-        // var event = events[index];
-        // return FrameSeparateWidget(
-        //   index: index,
-        //   child: EventListComponent(
-        //     event: event,
-        //   ),
-        // );
         var event = events[index];
-        return EventListComponent(
+        return EventListWidget(
           event: event,
           showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
         );
@@ -96,7 +91,7 @@ class _FollowRouter extends KeepAliveCustState<FollowRouter>
             return Container();
           }
 
-          return NewNotesUpdatedComponent(
+          return NewNotesUpdatedWidget(
             num: newEventNum,
             onTap: () {
               followEventProvider.mergeNewEvent();

@@ -13,14 +13,15 @@ import 'package:provider/provider.dart';
 
 import 'generated/l10n.dart';
 
-class HomeComponent extends StatefulWidget {
+class HomeWidget extends StatefulWidget {
   Widget child;
 
   Locale? locale;
 
   ThemeData? theme;
 
-  HomeComponent({
+  HomeWidget({
+    super.key,
     required this.child,
     this.locale,
     this.theme,
@@ -28,11 +29,11 @@ class HomeComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _HomeComponent();
+    return _HomeWidgetState();
   }
 }
 
-class _HomeComponent extends State<HomeComponent> {
+class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     PlatformUtil.init(context);
@@ -77,7 +78,7 @@ class _HomeComponent extends State<HomeComponent> {
               ? Positioned(
                   child: Offstage(
                   offstage: !_webviewProvider.showable,
-                  child: WebViewRouter(url: _webviewProvider.url!),
+                  child: WebViewWidget(url: _webviewProvider.url!),
                 ))
               : Container()
         ],

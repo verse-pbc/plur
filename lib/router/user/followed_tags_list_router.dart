@@ -7,14 +7,16 @@ import '../../component/appbar_back_btn_component.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 
-class FollowedTagsListRouter extends StatefulWidget {
+class FollowedTagsListWidget extends StatefulWidget {
+  const FollowedTagsListWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowedTagsListRouter();
+    return _FollowedTagsListWidgetState();
   }
 }
 
-class _FollowedTagsListRouter extends State<FollowedTagsListRouter> {
+class _FollowedTagsListWidgetState extends State<FollowedTagsListWidget> {
   ContactList? contactList;
 
   @override
@@ -38,7 +40,7 @@ class _FollowedTagsListRouter extends State<FollowedTagsListRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Followed_Tags,
           style: TextStyle(
@@ -56,7 +58,7 @@ class _FollowedTagsListRouter extends State<FollowedTagsListRouter> {
         itemBuilder: (context, index) {
           var tag = tagList[index];
 
-          return TagInfoComponent(
+          return TagInfoWidget(
             tag: tag,
             jumpable: true,
           );

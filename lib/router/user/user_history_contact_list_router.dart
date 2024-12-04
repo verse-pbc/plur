@@ -7,15 +7,16 @@ import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 import 'user_contact_list_component.dart';
 
-class UserHistoryContactListRouter extends StatefulWidget {
+class UserHistoryContactListWidget extends StatefulWidget {
+  const UserHistoryContactListWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _UserHistoryContactListRouter();
+    return _UserHistoryContactListWidgetState();
   }
 }
 
-class _UserHistoryContactListRouter
-    extends State<UserHistoryContactListRouter> {
+class _UserHistoryContactListWidgetState extends State<UserHistoryContactListWidget> {
   ContactList? contactList;
 
   @override
@@ -38,7 +39,7 @@ class _UserHistoryContactListRouter
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Following,
           style: TextStyle(
@@ -47,22 +48,20 @@ class _UserHistoryContactListRouter
           ),
         ),
         actions: [
-          Container(
-            child: TextButton(
-              child: Text(
-                s.Recovery,
-                style: TextStyle(
-                  color: titleTextColor,
-                  fontSize: 16,
-                ),
+          TextButton(
+            onPressed: doRecovery,
+            style: const ButtonStyle(),
+            child: Text(
+              s.Recovery,
+              style: TextStyle(
+                color: titleTextColor,
+                fontSize: 16,
               ),
-              onPressed: doRecovery,
-              style: ButtonStyle(),
             ),
           ),
         ],
       ),
-      body: UserContactListComponent(contactList: contactList!),
+      body: ContactListWidget(contactList: contactList!),
     );
   }
 

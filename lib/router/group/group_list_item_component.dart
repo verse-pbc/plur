@@ -11,18 +11,18 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 
-class GroupListItemComponent extends StatefulWidget {
+class GroupListItemWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
 
-  GroupListItemComponent(this.groupIdentifier);
+  GroupListItemWidget(this.groupIdentifier, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _GroupListItemComponent();
+    return _GroupListItemWidgetState();
   }
 }
 
-class _GroupListItemComponent extends State<GroupListItemComponent> {
+class _GroupListItemWidgetState extends State<GroupListItemWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);

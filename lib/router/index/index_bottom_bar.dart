@@ -45,14 +45,13 @@ class _IndexBottomBar extends State<IndexBottomBar> {
 
     if (!nostr!.isReadOnly()) {
       list.add(Expanded(
-        child: AddBtnWrapperComponent(
+        child: AddBtnWrapperWidget(
           child: IndexBottomBarButton(
             iconData: Icons.add_circle_outline_rounded, // notifications_active
             index: -1,
             selected: false,
             bigFont: true,
             onTap: (value) {
-              // EditorRouter.open(context);
             },
           ),
         ),
@@ -68,12 +67,6 @@ class _IndexBottomBar extends State<IndexBottomBar> {
     ));
     current++;
 
-    // return Container(
-    //   width: double.infinity,
-    //   child: Row(
-    //     children: list,
-    //   ),
-    // );
     return Container(
       decoration: BoxDecoration(
           border: Border(
@@ -83,7 +76,6 @@ class _IndexBottomBar extends State<IndexBottomBar> {
         ),
       )),
       child: BottomAppBar(
-        // shape: CircularNotchedRectangle(),
         color: themeData.cardColor,
         surfaceTintColor: themeData.cardColor,
         shadowColor: themeData.shadowColor,

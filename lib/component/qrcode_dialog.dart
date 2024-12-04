@@ -61,13 +61,13 @@ class _QrcodeDialog extends State<QrcodeDialog> {
     var nip19Pubkey = Nip19.encodePubKey(widget.pubkey);
     Widget topWidget = Selector<MetadataProvider, Metadata?>(
       builder: (context, metadata, child) {
-        Widget userImageWidget = UserPicComponent(
+        Widget userImageWidget = UserPicWidget(
           pubkey: widget.pubkey,
           width: IMAGE_WIDTH,
           metadata: metadata,
         );
 
-        Widget userNameWidget = NameComponent(
+        Widget userNameWidget = NameWidget(
           pubkey: widget.pubkey,
           metadata: metadata,
         );
@@ -175,11 +175,11 @@ class _QrcodeDialog extends State<QrcodeDialog> {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),
@@ -195,13 +195,11 @@ class _QrcodeDialog extends State<QrcodeDialog> {
   void onShareTap() {
     screenshotController.capture().then((Uint8List? imageData) async {
       if (imageData != null) {
-        if (imageData != null) {
-          var tempFile = await StoreUtil.saveBS2TempFile(
-            "png",
-            imageData,
-          );
-          Share.shareXFiles([XFile(tempFile)]);
-        }
+        var tempFile = await StoreUtil.saveBS2TempFile(
+          "png",
+          imageData,
+        );
+        Share.shareXFiles([XFile(tempFile)]);
       }
     }).catchError((onError) {
       print(onError);

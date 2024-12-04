@@ -32,14 +32,16 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 
-class SearchRouter extends StatefulWidget {
+class SearchWidget extends StatefulWidget {
+  const SearchWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _SearchRouter();
+    return _SearchWidgetState();
   }
 }
 
-class _SearchRouter extends CustState<SearchRouter>
+class _SearchWidgetState extends CustState<SearchWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   TextEditingController controller = TextEditingController();
 
@@ -94,25 +96,25 @@ class _SearchRouter extends CustState<SearchRouter>
       List<Widget> list = [];
       for (var action in searchAbles) {
         if (action == SearchActions.openPubkey) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: s.Open_User_page, onTap: openPubkey));
         } else if (action == SearchActions.openNoteId) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: s.Open_Note_detail, onTap: openNoteId));
         } else if (action == SearchActions.openHashtag) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: "${s.open} ${s.Hashtag}", onTap: openHashtag));
         } else if (action == SearchActions.searchMetadataFromCache) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: s.Search_User_from_cache, onTap: searchMetadataFromCache));
         } else if (action == SearchActions.searchEventFromCache) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: s.Open_Event_from_cache, onTap: searchEventFromCache));
         } else if (action == SearchActions.searchPubkeyEvent) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: s.Search_pubkey_event, onTap: onEditingComplete));
         } else if (action == SearchActions.searchNoteContent) {
-          list.add(SearchActionItemComponent(
+          list.add(SearchActionItemWidget(
               title: "${s.Search_note_content} NIP-50",
               onTap: searchNoteContent));
         }
@@ -138,7 +140,7 @@ class _SearchRouter extends CustState<SearchRouter>
                 onTap: () {
                   RouterUtil.router(context, RouterPath.USER, metadata.pubkey);
                 },
-                child: MetadataTopComponent(
+                child: MetadataTopWidget(
                   pubkey: metadata.pubkey!,
                   metadata: metadata,
                 ),
@@ -155,7 +157,7 @@ class _SearchRouter extends CustState<SearchRouter>
             itemBuilder: (BuildContext context, int index) {
               var event = events[index];
 
-              return EventListComponent(
+              return EventListWidget(
                 event: event,
                 showVideo:
                     _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
@@ -173,7 +175,7 @@ class _SearchRouter extends CustState<SearchRouter>
             itemBuilder: (BuildContext context, int index) {
               var event = events[index];
 
-              return EventListComponent(
+              return EventListWidget(
                 event: event,
                 showVideo:
                     _settingProvider.videoPreviewInList != OpenStatus.CLOSE,

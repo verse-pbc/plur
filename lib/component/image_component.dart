@@ -5,7 +5,7 @@ import 'package:nostr_sdk/utils/platform_util.dart';
 
 import '../main.dart';
 
-class ImageComponent extends StatelessWidget {
+class ImageWidget extends StatelessWidget {
   String imageUrl;
 
   double? width;
@@ -16,7 +16,7 @@ class ImageComponent extends StatelessWidget {
 
   PlaceholderWidgetBuilder? placeholder;
 
-  ImageComponent({
+  ImageWidget({
     required this.imageUrl,
     this.width,
     this.height,

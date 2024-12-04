@@ -6,19 +6,18 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../util/cashu_util.dart';
 
-class ContentCashuComponent extends StatelessWidget {
+class ContentCashuWidget extends StatelessWidget {
   String cashuStr;
 
   Tokens tokens;
 
-  ContentCashuComponent({
+  ContentCashuWidget({
     required this.tokens,
     required this.cashuStr,
   });
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
     var themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var cardColor = themeData.cardColor;

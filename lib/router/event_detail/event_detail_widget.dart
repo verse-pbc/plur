@@ -18,14 +18,16 @@ import '../../provider/single_event_provider.dart';
 import '../../util/router_util.dart';
 import '../thread/thread_detail_router.dart';
 
-class EventDetailRouter extends StatefulWidget {
+class EventDetailWidget extends StatefulWidget {
+  const EventDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _EventDetailRouter();
+    return _EventDetailWidgetState();
   }
 }
 
-class _EventDetailRouter extends State<EventDetailRouter> {
+class _EventDetailWidgetState extends State<EventDetailWidget> {
   String? eventId;
 
   Event? event;
@@ -79,18 +81,18 @@ class _EventDetailRouter extends State<EventDetailRouter> {
     Widget? appBarTitle;
     if (event != null) {
       titlePubkey = event!.pubkey;
-      title = ThreadDetailRouter.getAppBarTitle(event!);
+      title = ThreadDetailWidget.getAppBarTitle(event!);
     }
     if (showTitle) {
       if (StringUtil.isNotBlank(titlePubkey) && StringUtil.isNotBlank(title)) {
-        appBarTitle = ThreadDetailRouter.detailAppBarTitle(
+        appBarTitle = ThreadDetailWidget.detailAppBarTitle(
             titlePubkey!, title!, themeData);
       }
     }
 
     Widget? mainEventWidget;
     if (event != null) {
-      mainEventWidget = EventListComponent(
+      mainEventWidget = EventListWidget(
         event: event!,
         showVideo: true,
         showDetailBtn: false,
@@ -99,12 +101,12 @@ class _EventDetailRouter extends State<EventDetailRouter> {
       mainEventWidget = Selector<SingleEventProvider, Event?>(
         builder: (context, _event, child) {
           if (_event == null) {
-            return EventLoadListComponent();
+            return EventLoadListWidget();
           } else {
             event = _event;
             titlePubkey = event!.pubkey;
-            title = ThreadDetailRouter.getAppBarTitle(event!);
-            return EventListComponent(
+            title = ThreadDetailWidget.getAppBarTitle(event!);
+            return EventListWidget(
               event: _event,
               showVideo: true,
               showDetailBtn: false,
@@ -146,16 +148,16 @@ class _EventDetailRouter extends State<EventDetailRouter> {
 
             var event = allEvent[index - 1];
             if (event.kind == EventKind.ZAP) {
-              return ZapEventListComponent(event: event);
+              return ZapEventListWidget(event: event);
             } else if (event.kind == EventKind.TEXT_NOTE) {
-              return ReactionEventListComponent(event: event, text: s.replied);
+              return ReactionEventListWidget(event: event, text: s.replied);
             } else if (event.kind == EventKind.REPOST ||
                 event.kind == EventKind.GENERIC_REPOST) {
-              return ReactionEventListComponent(event: event, text: s.boosted);
+              return ReactionEventListWidget(event: event, text: s.boosted);
             } else if (event.kind == EventKind.REACTION) {
-              return ReactionEventListComponent(
+              return ReactionEventListWidget(
                   event: event,
-                  text: s.liked + " " + EventReactions.getLikeText(event));
+                  text: "${s.liked} ${EventReactions.getLikeText(event)}");
             }
 
             return Container();
@@ -195,7 +197,7 @@ class _EventDetailRouter extends State<EventDetailRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: appBarTitle,
       ),
       body: mainWidget,

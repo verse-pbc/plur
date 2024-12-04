@@ -4,12 +4,12 @@ import '../consts/base.dart';
 import '../consts/router_path.dart';
 import '../util/router_util.dart';
 
-class TagComponent extends StatelessWidget {
+class TagWidget extends StatelessWidget {
   final String tag;
 
   bool jumpable;
 
-  TagComponent({
+  TagWidget({
     required this.tag,
     this.jumpable = true,
   });
