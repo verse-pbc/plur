@@ -21,22 +21,22 @@ import '../../provider/metadata_provider.dart';
 import '../image_component.dart';
 import '../nip05_valid_component.dart';
 
-class EventTopComponent extends StatefulWidget {
+class EventTopWidget extends StatefulWidget {
   Event event;
   String? pagePubkey;
 
-  EventTopComponent({
+  EventTopWidget({
     required this.event,
     this.pagePubkey,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _EventTopComponent();
+    return _EventTopWidgetState();
   }
 }
 
-class _EventTopComponent extends State<EventTopComponent> {
+class _EventTopWidgetState extends State<EventTopWidget> {
   static const double IMAGE_WIDTH = 34;
 
   static const double HALF_IMAGE_WIDTH = 17;
@@ -92,7 +92,7 @@ class _EventTopComponent extends State<EventTopComponent> {
             children: [
               jumpWrap(Container(
                 margin: const EdgeInsets.only(top: 4),
-                child: UserPicComponent(
+                child: UserPicWidget(
                   width: IMAGE_WIDTH,
                   pubkey: pubkey!,
                   metadata: metadata,
@@ -109,7 +109,7 @@ class _EventTopComponent extends State<EventTopComponent> {
                         children: [
                           Expanded(
                             child: jumpWrap(
-                              NameComponent(
+                              NameWidget(
                                 pubkey: widget.event.pubkey,
                                 metadata: metadata,
                                 maxLines: 1,
@@ -119,7 +119,6 @@ class _EventTopComponent extends State<EventTopComponent> {
                               ),
                             ),
                           ),
-                          // SimpleDateComponent(widget.event.createdAt),
                           Text(
                             GetTimeAgo.parse(
                               DateTime.fromMillisecondsSinceEpoch(
@@ -148,7 +147,7 @@ class _EventTopComponent extends State<EventTopComponent> {
                               baseline: TextBaseline.ideographic,
                               child: Container(
                                 margin: const EdgeInsets.only(left: 3),
-                                child: Nip05ValidComponent(pubkey: pubkey!),
+                                child: Nip05ValidWidget(pubkey: pubkey!),
                               ),
                             ),
                           ],

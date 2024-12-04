@@ -7,12 +7,14 @@ import '../../consts/base.dart';
 import '../../main.dart';
 import '../user/metadata_top_component.dart';
 
-class MetadataTopPlaceholder extends StatelessWidget {
+class MetadataTopPlaceholderWidget extends StatelessWidget {
   static const double IMAGE_BORDER = 4;
 
   static const double IMAGE_WIDTH = 80;
 
   static const double HALF_IMAGE_WIDTH = 40;
+
+  const MetadataTopPlaceholderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class MetadataTopPlaceholder extends StatelessWidget {
     var bannerHeight = maxWidth / 3;
     if (TableModeUtil.isTableMode()) {
       bannerHeight =
-          MetadataTopComponent.getPcBannerHeight(mediaDataCache.size.height);
+          MetadataTopWidget.getPcBannerHeight(mediaDataCache.size.height);
     }
     var textSize = themeData.textTheme.bodyMedium!.fontSize;
 
@@ -34,7 +36,7 @@ class MetadataTopPlaceholder extends StatelessWidget {
     ];
     topBtnList.add(Container(
       width: 140,
-      margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
       child: PlaceholderLines(
         count: 1,
         lineHeight: 30,
@@ -43,16 +45,13 @@ class MetadataTopPlaceholder extends StatelessWidget {
       ),
     ));
 
-    Widget userNameComponent = Container(
-      // height: 40,
+    Widget userNameWidget = Container(
       width: 120,
       margin: const EdgeInsets.only(
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
-        // top: Base.BASE_PADDING_HALF,
         bottom: Base.BASE_PADDING_HALF,
       ),
-      // color: Colors.green,
       child: PlaceholderLines(
         count: 1,
         lineHeight: 18,
@@ -66,14 +65,14 @@ class MetadataTopPlaceholder extends StatelessWidget {
       height: bannerHeight,
       color: hintColor.withOpacity(0.5),
     ));
-    topList.add(Container(
+    topList.add(SizedBox(
       height: 50,
       // color: Colors.red,
       child: Row(
         children: topBtnList,
       ),
     ));
-    topList.add(userNameComponent);
+    topList.add(userNameWidget);
 
     topList.add(Container(
       margin: const EdgeInsets.only(

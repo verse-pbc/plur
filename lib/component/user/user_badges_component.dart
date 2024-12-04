@@ -14,18 +14,18 @@ import '../badge_component.dart';
 import '../badge_detail_dialog.dart';
 import '../cust_state.dart';
 
-class UserBadgesComponent extends StatefulWidget {
+class UserBadgesWidget extends StatefulWidget {
   String pubkey;
 
-  UserBadgesComponent({super.key, required this.pubkey});
+  UserBadgesWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
-    return _UserBadgesComponent();
+    return _UserBadgesWidgetState();
   }
 }
 
-class _UserBadgesComponent extends CustState<UserBadgesComponent>
+class _UserBadgesWidgetState extends CustState<UserBadgesWidget>
     with LaterFunction {
   @override
   Widget doBuild(BuildContext context) {
@@ -60,8 +60,8 @@ class _UserBadgesComponent extends CustState<UserBadgesComponent>
                   BadgeDetailDialog.show(context, badgeDefinition);
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-                  child: BedgeComponent(
+                  margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                  child: BadgeWidget(
                     badgeDefinition: badgeDefinition,
                   ),
                 ),

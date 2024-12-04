@@ -26,18 +26,18 @@ import '../../util/number_format_util.dart';
 import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class UserStatisticsComponent extends StatefulWidget {
+class UserStatisticsWidget extends StatefulWidget {
   String pubkey;
 
-  UserStatisticsComponent({required this.pubkey});
+  UserStatisticsWidget({required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
-    return _UserStatisticsComponent();
+    return _UserStatisticsWidgetState();
   }
 }
 
-class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
+class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
   Event? contactListEvent;
 
   ContactList? contactList;
@@ -88,7 +88,7 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
     if (isLocal) {
       var _provider = Provider.of<ContactListProvider>(context);
       List<Widget> list = [];
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: _provider.total(),
         name: s.Following,
         onTap: onFollowingTap,
@@ -96,7 +96,7 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
         onLongPressEnd: onLongPressEnd,
       ));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
           num: _provider.followSetEventMap.length,
           name: s.Follow_set,
           onTap: () {
@@ -104,7 +104,7 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
           }));
 
       list.add(Selector<ListProvider, int>(builder: (context, num, child) {
-        return UserStatisticsItemComponent(
+        return UserStatisticsItemWidget(
             num: num,
             name: s.Groups,
             onTap: () {
@@ -115,33 +115,33 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
       }));
 
       list.add(Selector<RelayProvider, int>(builder: (context, num, child) {
-        return UserStatisticsItemComponent(
+        return UserStatisticsItemWidget(
             num: num, name: s.Relays, onTap: onRelaysTap);
       }, selector: (context, _provider) {
         return _provider.total();
       }));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: followedNum,
         name: s.Followed,
         onTap: onFollowedTap,
         formatNum: true,
       ));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: zapNum,
         name: "Zap",
         onTap: onZapTap,
         formatNum: true,
       ));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: _provider.totalFollowedTags(),
         name: s.Followed_Tags,
         onTap: onFollowedTagsTap,
       ));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: _provider.totalfollowedCommunities(),
         name: s.Followed_Communities,
         onTap: onFollowedCommunitiesTap,
@@ -165,23 +165,23 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
       if (contactList != null) {
         length = contactList!.list().length;
       }
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
           num: length, name: s.Following, onTap: onFollowingTap));
 
       if (relaysTags != null) {
         relaysNum = relaysTags!.length;
       }
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
           num: relaysNum, name: s.Relays, onTap: onRelaysTap));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: followedNum,
         name: s.Followed,
         onTap: onFollowedTap,
         formatNum: true,
       ));
 
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
         num: zapNum,
         name: "Zap",
         onTap: onZapTap,
@@ -191,7 +191,7 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
       if (contactList != null) {
         followedTagsLength = contactList!.tagList().length;
       }
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
           num: followedTagsLength,
           name: s.Followed_Tags,
           onTap: onFollowedTagsTap));
@@ -200,15 +200,14 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
         followedCommunitiesLength =
             contactList!.followedCommunitiesList().length;
       }
-      list.add(UserStatisticsItemComponent(
+      list.add(UserStatisticsItemWidget(
           num: followedCommunitiesLength,
           name: s.Followed_Communities,
           onTap: onFollowedCommunitiesTap));
 
       return Container(
-        // color: Colors.red,
         height: 18,
-        margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
@@ -252,7 +251,7 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
             EnumObj(event, "${format.encode(dt)} (${_contactList.total()})"));
       }
 
-      var result = await EnumSelectorComponent.show(context, enumList);
+      var result = await EnumSelectorWidget.show(context, enumList);
       if (result != null) {
         var event = result.value as Event;
         var _contactList = ContactList.fromJson(event.tags, event.createdAt);
@@ -415,7 +414,7 @@ class _UserStatisticsComponent extends CustState<UserStatisticsComponent> {
   }
 }
 
-class UserStatisticsItemComponent extends StatelessWidget {
+class UserStatisticsItemWidget extends StatelessWidget {
   int? num;
 
   String name;
@@ -428,7 +427,7 @@ class UserStatisticsItemComponent extends StatelessWidget {
 
   Function(LongPressEndDetails)? onLongPressEnd;
 
-  UserStatisticsItemComponent({
+  UserStatisticsItemWidget({
     required this.num,
     required this.name,
     required this.onTap,

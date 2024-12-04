@@ -17,14 +17,14 @@ import '../../provider/setting_provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'dm_plaintext_handle.dart';
 
-class DMDetailItemComponent extends StatefulWidget {
+class DMDetailItemWidget extends StatefulWidget {
   String sessionPubkey;
 
   Event event;
 
   bool isLocal;
 
-  DMDetailItemComponent({
+  DMDetailItemWidget({
     required this.sessionPubkey,
     required this.event,
     required this.isLocal,
@@ -32,11 +32,11 @@ class DMDetailItemComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _DMDetailItemComponent();
+    return _DMDetailItemWidgetState();
   }
 }
 
-class _DMDetailItemComponent extends State<DMDetailItemComponent>
+class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     with DMPlaintextHandle {
   static const double IMAGE_WIDTH = 34;
 
@@ -49,7 +49,7 @@ class _DMDetailItemComponent extends State<DMDetailItemComponent>
     var mainColor = themeData.primaryColor;
     Widget userHeadWidget = Container(
       margin: const EdgeInsets.only(top: 2),
-      child: UserPicComponent(
+      child: UserPicWidget(
         pubkey: widget.event.pubkey,
         width: IMAGE_WIDTH,
       ),
@@ -142,7 +142,7 @@ class _DMDetailItemComponent extends State<DMDetailItemComponent>
                   : CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                ContentComponent(
+                ContentWidget(
                   content: content,
                   event: widget.event,
                   showLinkPreview:

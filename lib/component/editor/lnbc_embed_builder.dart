@@ -11,7 +11,7 @@ class LnbcEmbedBuilder extends EmbedBuilder {
       bool readOnly, bool inline, TextStyle textStyle) {
     var lnbcStr = node.value.data;
     return AbsorbPointer(
-      child: ContentLnbcComponent(lnbc: lnbcStr),
+      child: ContentLnbcWidget(lnbc: lnbcStr),
     );
   }
 

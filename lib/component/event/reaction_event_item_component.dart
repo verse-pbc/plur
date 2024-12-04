@@ -4,14 +4,14 @@ import 'package:get_time_ago/get_time_ago.dart';
 import '../../consts/base.dart';
 import 'reaction_event_metadata_component.dart';
 
-class ReactionEventItemComponent extends StatefulWidget {
+class ReactionEventItemWidget extends StatefulWidget {
   String pubkey;
 
   String text;
 
   int createdAt;
 
-  ReactionEventItemComponent({
+  ReactionEventItemWidget({
     required this.pubkey,
     required this.text,
     required this.createdAt,
@@ -19,11 +19,11 @@ class ReactionEventItemComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ReactionEventItemComponent();
+    return _ReactionEventItemWidgetState();
   }
 }
 
-class _ReactionEventItemComponent extends State<ReactionEventItemComponent> {
+class _ReactionEventItemWidgetState extends State<ReactionEventItemWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -31,7 +31,7 @@ class _ReactionEventItemComponent extends State<ReactionEventItemComponent> {
 
     List<Widget> list = [];
 
-    list.add(ReactionEventMetadataComponent(pubkey: widget.pubkey));
+    list.add(ReactionEventMetadataWidget(pubkey: widget.pubkey));
 
     list.add(Text(" " + widget.text + " "));
 

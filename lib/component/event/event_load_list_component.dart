@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
-class EventLoadListComponent extends StatelessWidget {
+class EventLoadListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);

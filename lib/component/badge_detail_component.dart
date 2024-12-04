@@ -11,20 +11,21 @@ import 'package:nostrmo/util/router_util.dart';
 
 import '../generated/l10n.dart';
 
-class BadgeDetailComponent extends StatefulWidget {
+class BadgeDetailWidget extends StatefulWidget {
   BadgeDefinition badgeDefinition;
 
-  BadgeDetailComponent({
+  BadgeDetailWidget({
+    super.key,
     required this.badgeDefinition,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _BadgeDetailComponent();
+    return _BadgeDetailWidgetState();
   }
 }
 
-class _BadgeDetailComponent extends State<BadgeDetailComponent> {
+class _BadgeDetailWidgetState extends State<BadgeDetailWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -36,12 +37,12 @@ class _BadgeDetailComponent extends State<BadgeDetailComponent> {
 
     if (StringUtil.isNotBlank(widget.badgeDefinition.image)) {
       list.add(Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: Base.BASE_PADDING,
           left: Base.BASE_PADDING,
           right: Base.BASE_PADDING,
         ),
-        child: ImageComponent(imageUrl: widget.badgeDefinition.image!),
+        child: ImageWidget(imageUrl: widget.badgeDefinition.image!),
       ));
     }
 
@@ -84,11 +85,11 @@ class _BadgeDetailComponent extends State<BadgeDetailComponent> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  UserPicComponent(
+                  UserPicWidget(
                       pubkey: widget.badgeDefinition.pubkey, width: 26),
                   Container(
                     margin: EdgeInsets.only(left: Base.BASE_PADDING_HALF),
-                    child: NameComponent(pubkey: widget.badgeDefinition.pubkey),
+                    child: NameWidget(pubkey: widget.badgeDefinition.pubkey),
                   ),
                 ],
               ),

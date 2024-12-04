@@ -7,18 +7,18 @@ import 'dm_known_list_router.dart';
 import 'dm_session_list_item_component.dart';
 import 'dm_unknown_list_router.dart';
 
-class DMRouter extends StatefulWidget {
+class DMWidget extends StatefulWidget {
   TabController tabController;
 
-  DMRouter({required this.tabController});
+  DMWidget({super.key, required this.tabController});
 
   @override
   State<StatefulWidget> createState() {
-    return _DMRouter();
+    return _DMWidgetState();
   }
 }
 
-class _DMRouter extends State<DMRouter> {
+class _DMWidgetState extends State<DMWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -28,8 +28,8 @@ class _DMRouter extends State<DMRouter> {
       child: TabBarView(
         controller: widget.tabController,
         children: [
-          DMKnownListRouter(),
-          DMUnknownListRouter(),
+          DMKnownListWidget(),
+          DMUnknownListWidget(),
         ],
       ),
     );

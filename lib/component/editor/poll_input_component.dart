@@ -61,18 +61,18 @@ class PollInputController {
   }
 }
 
-class PollInputComponent extends StatefulWidget {
+class PollInputWidget extends StatefulWidget {
   PollInputController pollInputController;
 
-  PollInputComponent({required this.pollInputController});
+  PollInputWidget({super.key, required this.pollInputController});
 
   @override
   State<StatefulWidget> createState() {
-    return _PollInputComponent();
+    return _PollInputWidgetState();
   }
 }
 
-class _PollInputComponent extends State<PollInputComponent> {
+class _PollInputWidgetState extends State<PollInputWidget> {
   @override
   void initState() {
     super.initState();

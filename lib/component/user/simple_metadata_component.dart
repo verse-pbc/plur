@@ -10,14 +10,15 @@ import 'package:provider/provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import '../image_component.dart';
 
-class SimpleMetadataComponent extends StatefulWidget {
+class SimpleMetadataWidget extends StatefulWidget {
   String pubkey;
 
   Metadata? metadata;
 
   bool showFollow;
 
-  SimpleMetadataComponent({
+  SimpleMetadataWidget({
+    super.key,
     required this.pubkey,
     this.metadata,
     this.showFollow = false,
@@ -25,11 +26,11 @@ class SimpleMetadataComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _SimpleMetadataComponent();
+    return _SimpleMetadataWidgetState();
   }
 }
 
-class _SimpleMetadataComponent extends State<SimpleMetadataComponent> {
+class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
   static const double IMAGE_WIDTH = 50;
 
   static const double HALF_IMAGE_WIDTH = 25;
@@ -63,7 +64,7 @@ class _SimpleMetadataComponent extends State<SimpleMetadataComponent> {
 
     Widget? bannerImage;
     if (StringUtil.isNotBlank(metadata.banner)) {
-      bannerImage = ImageComponent(
+      bannerImage = ImageWidget(
         imageUrl: metadata.banner!,
         width: double.maxFinite,
         height: HEIGHT,
@@ -77,7 +78,7 @@ class _SimpleMetadataComponent extends State<SimpleMetadataComponent> {
       margin: const EdgeInsets.only(
         right: Base.BASE_PADDING,
       ),
-      child: UserPicComponent(
+      child: UserPicWidget(
         pubkey: widget.pubkey,
         width: IMAGE_WIDTH,
         metadata: metadata,
@@ -95,7 +96,7 @@ class _SimpleMetadataComponent extends State<SimpleMetadataComponent> {
         child: Row(
           children: [
             userImageWidget,
-            NameComponent(
+            NameWidget(
               pubkey: metadata.pubkey!,
               metadata: metadata,
             ),
@@ -107,7 +108,7 @@ class _SimpleMetadataComponent extends State<SimpleMetadataComponent> {
     if (widget.showFollow) {
       list.add(Positioned(
         right: Base.BASE_PADDING,
-        child: FollowBtnComponent(
+        child: FollowBtnWidget(
           pubkey: widget.pubkey,
           followedBorderColor: themeData.primaryColor,
         ),

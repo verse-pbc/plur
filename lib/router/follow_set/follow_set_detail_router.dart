@@ -13,14 +13,16 @@ import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 import '../index/index_app_bar.dart';
 
-class FollowSetDetailRouter extends StatefulWidget {
+class FollowSetDetailWidget extends StatefulWidget {
+  const FollowSetDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowSetDetailRouter();
+    return _FollowSetDetailWidgetState();
   }
 }
 
-class _FollowSetDetailRouter extends State<FollowSetDetailRouter> {
+class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
   FollowSet? followSet;
 
   late S s;
@@ -36,8 +38,6 @@ class _FollowSetDetailRouter extends State<FollowSetDetailRouter> {
 
     s = S.of(context);
     var themeData = Theme.of(context);
-    var textColor = themeData.textTheme.bodyMedium!.color;
-    var largeTextSize = themeData.textTheme.bodyLarge!.fontSize;
     var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
     var titleTextStyle = TextStyle(
       fontWeight: FontWeight.bold,
@@ -48,21 +48,19 @@ class _FollowSetDetailRouter extends State<FollowSetDetailRouter> {
       indicatorColor = themeData.primaryColor;
     }
 
-    var main = Container(
-      child: TabBarView(
-        children: [
-          buildContacts(
-              followSet!.privateContacts, privateController, addPrivate),
-          buildContacts(followSet!.publicContacts, publicController, addPublic),
-        ],
-      ),
+    var main = TabBarView(
+      children: [
+        buildContacts(
+            followSet!.privateContacts, privateController, addPrivate),
+        buildContacts(followSet!.publicContacts, publicController, addPublic),
+      ],
     );
 
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          leading: AppbarBackBtnComponent(),
+          leading: const AppbarBackBtnWidget(),
           title: TabBar(
             indicatorColor: indicatorColor,
             indicatorWeight: 3,
@@ -130,19 +128,19 @@ class _FollowSetDetailRouter extends State<FollowSetDetailRouter> {
       children: [
         Expanded(
           child: Container(
-            margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
             child: ListView.builder(
               itemBuilder: (context, index) {
                 var contact = contacts[contacts.length - index - 1];
                 return Container(
-                  margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+                  margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
                       RouterUtil.router(
                           context, RouterPath.USER, contact.publicKey);
                     },
-                    child: SimpleMetadataComponent(
+                    child: SimpleMetadataWidget(
                       pubkey: contact.publicKey,
                     ),
                   ),
@@ -152,16 +150,14 @@ class _FollowSetDetailRouter extends State<FollowSetDetailRouter> {
             ),
           ),
         ),
-        Container(
-          child: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-              prefixIcon: Icon(Icons.person),
-              hintText: s.Please_input_user_pubkey,
-              suffixIcon: IconButton(
-                icon: Icon(Icons.add),
-                onPressed: onTap,
-              ),
+        TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(Icons.person),
+            hintText: s.Please_input_user_pubkey,
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: onTap,
             ),
           ),
         ),

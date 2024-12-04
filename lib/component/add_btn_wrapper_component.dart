@@ -5,20 +5,21 @@ import 'package:star_menu/star_menu.dart';
 import '../consts/colors.dart';
 import '../router/edit/editor_router.dart';
 
-class AddBtnWrapperComponent extends StatefulWidget {
+class AddBtnWrapperWidget extends StatefulWidget {
   Widget child;
 
-  AddBtnWrapperComponent({
+  AddBtnWrapperWidget({
+    super.key,
     required this.child,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _AddBtnWrapperComponent();
+    return _AddBtnWrapperWidgetState();
   }
 }
 
-class _AddBtnWrapperComponent extends State<AddBtnWrapperComponent> {
+class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
   StarMenuController starMenuController = StarMenuController();
 
   void closeMenu() {
@@ -44,7 +45,7 @@ class _AddBtnWrapperComponent extends State<AddBtnWrapperComponent> {
       backgroundColor: cardColor,
       onTap: () {
         closeMenu();
-        EditorRouter.open(context);
+        EditorWidget.open(context);
       },
     ));
     entries.add(AddBtnStartItemButton(
@@ -55,7 +56,7 @@ class _AddBtnWrapperComponent extends State<AddBtnWrapperComponent> {
       backgroundColor: cardColor,
       onTap: () {
         closeMenu();
-        EditorRouter.open(context, isLongForm: true);
+        EditorWidget.open(context, isLongForm: true);
       },
     ));
     entries.add(AddBtnStartItemButton(
@@ -76,7 +77,7 @@ class _AddBtnWrapperComponent extends State<AddBtnWrapperComponent> {
       backgroundColor: cardColor,
       onTap: () {
         closeMenu();
-        EditorRouter.open(context, isPoll: true);
+        EditorWidget.open(context, isPoll: true);
       },
     ));
     entries.add(AddBtnStartItemButton(
@@ -87,28 +88,21 @@ class _AddBtnWrapperComponent extends State<AddBtnWrapperComponent> {
       backgroundColor: cardColor,
       onTap: () {
         closeMenu();
-        EditorRouter.open(context, isZapGoal: true);
+        EditorWidget.open(context, isZapGoal: true);
       },
     ));
 
-    return Container(
-      child: StarMenu(
-        params: const StarMenuParameters(
-          shape: MenuShape.linear,
-          linearShapeParams: LinearShapeParams(
-            alignment: LinearAlignment.left,
-            space: Base.BASE_PADDING,
-          ),
+    return StarMenu(
+      params: const StarMenuParameters(
+        shape: MenuShape.linear,
+        linearShapeParams: LinearShapeParams(
+          alignment: LinearAlignment.left,
+          space: Base.BASE_PADDING,
         ),
-        controller: starMenuController,
-        items: entries,
-        child: widget.child,
-        // onItemTapped: (index, controller) {
-        //   if (controller.closeMenu != null) {
-        //     controller.closeMenu!();
-        //   }
-        // },
       ),
+      controller: starMenuController,
+      items: entries,
+      child: widget.child,
     );
   }
 }

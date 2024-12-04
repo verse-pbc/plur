@@ -14,18 +14,18 @@ class EditorNotifyItem {
   EditorNotifyItem({required this.pubkey, this.selected = true});
 }
 
-class EditorNotifyItemComponent extends StatefulWidget {
+class EditorNotifyItemWidget extends StatefulWidget {
   EditorNotifyItem item;
 
-  EditorNotifyItemComponent({required this.item});
+  EditorNotifyItemWidget({required this.item});
 
   @override
   State<StatefulWidget> createState() {
-    return _EditorNotifyItemComponent();
+    return _EditorNotifyItemWidgetState();
   }
 }
 
-class _EditorNotifyItemComponent extends State<EditorNotifyItemComponent> {
+class _EditorNotifyItemWidgetState extends State<EditorNotifyItemWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -36,7 +36,7 @@ class _EditorNotifyItemComponent extends State<EditorNotifyItemComponent> {
     list.add(Selector<MetadataProvider, Metadata?>(
         builder: (context, metadata, child) {
       String name =
-          SimpleNameComponent.getSimpleName(widget.item.pubkey, metadata);
+          SimpleNameWidget.getSimpleName(widget.item.pubkey, metadata);
       return Text(
         name,
         style: TextStyle(color: textColor),
@@ -64,15 +64,15 @@ class _EditorNotifyItemComponent extends State<EditorNotifyItemComponent> {
         color: mainColor.withOpacity(0.65),
         borderRadius: BorderRadius.circular(15),
       ),
-      child: Row(
-        children: list,
-        mainAxisSize: MainAxisSize.min,
-      ),
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
         top: Base.BASE_PADDING_HALF / 2,
         bottom: Base.BASE_PADDING_HALF / 2,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: list,
       ),
     );
   }

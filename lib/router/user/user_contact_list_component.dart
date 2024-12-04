@@ -11,19 +11,19 @@ import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
-class UserContactListComponent extends StatefulWidget {
+class ContactListWidget extends StatefulWidget {
   ContactList contactList;
 
-  UserContactListComponent({required this.contactList});
+  ContactListWidget({super.key, required this.contactList});
 
   @override
   State<StatefulWidget> createState() {
-    return _UserContactListComponent();
+    return _ContactListWidgetState();
   }
 }
 
-class _UserContactListComponent extends State<UserContactListComponent> {
-  ScrollController _controller = ScrollController();
+class _ContactListWidgetState extends State<ContactListWidget> {
+  final ScrollController _controller = ScrollController();
 
   List<Contact>? list;
 
@@ -36,7 +36,7 @@ class _UserContactListComponent extends State<UserContactListComponent> {
       itemBuilder: (context, index) {
         var contact = list![index];
         return Container(
-          margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(
@@ -45,15 +45,15 @@ class _UserContactListComponent extends State<UserContactListComponent> {
                       context, RouterPath.USER, contact.publicKey);
                 },
                 behavior: HitTestBehavior.translucent,
-                child: MetadataComponent(
+                child: MetadataWidget(
                   pubkey: contact.publicKey,
                   metadata: metadata,
                   jumpable: true,
                 ),
               );
             },
-            selector: (context, _provider) {
-              return _provider.getMetadata(contact.publicKey);
+            selector: (context, provider) {
+              return provider.getMetadata(contact.publicKey);
             },
           ),
         );

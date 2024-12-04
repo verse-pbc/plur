@@ -5,18 +5,18 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 
-class RelaySpeedComponent extends StatefulWidget {
+class RelaySpeedWidget extends StatefulWidget {
   String addr;
 
-  RelaySpeedComponent(this.addr);
+  RelaySpeedWidget(this.addr, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _RelaySpeedComponent();
+    return _RelaySpeedWidgetState();
   }
 }
 
-class _RelaySpeedComponent extends State<RelaySpeedComponent> {
+class _RelaySpeedWidgetState extends State<RelaySpeedWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -53,7 +53,7 @@ class _RelaySpeedComponent extends State<RelaySpeedComponent> {
       onTap: beginTest,
       child: Container(
         alignment: Alignment.center,
-        constraints: BoxConstraints(minWidth: 30),
+        constraints: const BoxConstraints(minWidth: 30),
         height: 30,
         margin: const EdgeInsets.only(right: Base.BASE_PADDING),
         child: main,

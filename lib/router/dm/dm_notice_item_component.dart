@@ -9,14 +9,14 @@ import '../../consts/router_path.dart';
 import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class DMNoticeItemComponent extends StatelessWidget {
+class DMNoticeItemWidget extends StatelessWidget {
   static const double IMAGE_WIDTH = 34;
 
   NoticeData newestNotice;
 
   bool hasNewMessage;
 
-  DMNoticeItemComponent({
+  DMNoticeItemWidget({
     required this.newestNotice,
     this.hasNewMessage = false,
   });
@@ -60,7 +60,7 @@ class DMNoticeItemComponent extends StatelessWidget {
     ];
     if (hasNewMessage) {
       contentList.add(Container(
-        child: PointComponent(color: mainColor),
+        child: PointWidget(color: mainColor),
       ));
     }
 

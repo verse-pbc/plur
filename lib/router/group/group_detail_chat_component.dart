@@ -23,19 +23,18 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../dm/dm_detail_item_component.dart';
 
-class GroupDetailChatComponent extends StatefulWidget {
+class GroupDetailChatWidget extends StatefulWidget {
   GroupIdentifier groupIdentifier;
 
-  GroupDetailChatComponent(this.groupIdentifier);
+  GroupDetailChatWidget(this.groupIdentifier, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _GroupDetailChatComponent();
+    return _GroupDetailChatWidgetState();
   }
 }
 
-class _GroupDetailChatComponent
-    extends KeepAliveCustState<GroupDetailChatComponent>
+class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidget>
     with LoadMoreEvent, EditorMixin {
   GroupDetailProvider? groupDetailProvider;
 
@@ -49,10 +48,8 @@ class _GroupDetailChatComponent
   Widget doBuild(BuildContext context) {
     var themeData = Theme.of(context);
     var textColor = themeData.textTheme.bodyMedium!.color;
-    var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     var cardColor = themeData.cardColor;
 
-    var hintColor = themeData.hintColor;
     var s = S.of(context);
 
     groupDetailProvider = Provider.of<GroupDetailProvider>(context);
@@ -71,8 +68,8 @@ class _GroupDetailChatComponent
         }
 
         var event = events[index];
-        return DMDetailItemComponent(
-          sessionPubkey: event.pubkey, // this pubkey maybe should setto null
+        return DMDetailItemWidget(
+          sessionPubkey: event.pubkey, // this pubkey maybe should set to null
           event: event,
           isLocal: localPubkey == event.pubkey,
         );
@@ -121,8 +118,7 @@ class _GroupDetailChatComponent
                 scrollable: true,
                 autoFocus: false,
                 expands: false,
-                // padding: EdgeInsets.zero,
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: Base.BASE_PADDING,
                   right: Base.BASE_PADDING,
                 ),
@@ -133,6 +129,8 @@ class _GroupDetailChatComponent
             ),
           ),
           TextButton(
+            onPressed: send,
+            style: const ButtonStyle(),
             child: Text(
               s.Send,
               style: TextStyle(
@@ -140,8 +138,6 @@ class _GroupDetailChatComponent
                 fontSize: 16,
               ),
             ),
-            onPressed: send,
-            style: ButtonStyle(),
           )
         ],
       ),
@@ -155,7 +151,7 @@ class _GroupDetailChatComponent
       list.add(buildEmojiListsWidget());
     }
 
-    return Container(
+    return SizedBox(
       width: double.maxFinite,
       height: double.maxFinite,
       child: Column(children: list),

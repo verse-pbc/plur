@@ -12,20 +12,20 @@ import '../../generated/l10n.dart';
 import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 
-class UserZapListRouter extends StatefulWidget {
+class UserZapListWidget extends StatefulWidget {
+  const UserZapListWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _UserZapListRouter();
+    return _UserZapListWidgetState();
   }
 }
 
-class _UserZapListRouter extends State<UserZapListRouter> {
+class _UserZapListWidgetState extends State<UserZapListWidget> {
   List<Event>? zapList;
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-
     if (zapList == null) {
       var arg = RouterUtil.routerArgs(context);
       if (arg != null) {
@@ -42,7 +42,7 @@ class _UserZapListRouter extends State<UserZapListRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           "⚡Zaps⚡",
           style: TextStyle(
@@ -54,7 +54,7 @@ class _UserZapListRouter extends State<UserZapListRouter> {
       body: ListView.builder(
         itemBuilder: (context, index) {
           var zapEvent = zapList![index];
-          return ZapEventListComponent(event: zapEvent);
+          return ZapEventListWidget(event: zapEvent);
         },
         itemCount: zapList!.length,
       ),

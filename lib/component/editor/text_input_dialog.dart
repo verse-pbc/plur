@@ -50,7 +50,7 @@ class _TextInputDialog extends State<TextInputDialog> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    var main = TextInputDialogInnerComponent(
+    var main = TextInputDialogInnerWidget(
       widget.title,
       hintText: widget.hintText,
       value: widget.value,
@@ -73,11 +73,11 @@ class _TextInputDialog extends State<TextInputDialog> {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),

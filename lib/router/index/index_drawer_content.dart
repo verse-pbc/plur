@@ -74,7 +74,7 @@ class _IndexDrawerContentComponnent
           onTap: () {
             RouterUtil.router(context, RouterPath.USER, pubkey);
           },
-          child: UserPicComponent(pubkey: pubkey, width: 50),
+          child: UserPicWidget(pubkey: pubkey, width: 50),
         ),
       ));
     } else {
@@ -83,7 +83,7 @@ class _IndexDrawerContentComponnent
         child: Stack(children: [
           Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
-              return MetadataTopComponent(
+              return MetadataTopWidget(
                 pubkey: pubkey,
                 metadata: metadata,
                 isLocal: true,
@@ -125,14 +125,14 @@ class _IndexDrawerContentComponnent
         child: SingleChildScrollView(
           controller: userStatisticscontroller,
           scrollDirection: Axis.horizontal,
-          child: UserStatisticsComponent(pubkey: pubkey),
+          child: UserStatisticsWidget(pubkey: pubkey),
         ),
       ));
     }
 
     List<Widget> centerList = [];
     if (TableModeUtil.isTableMode()) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.home_rounded,
         name: s.Home,
         color: _indexProvider.currentTap == 0 ? mainColor : null,
@@ -144,7 +144,7 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.public_rounded,
         name: s.Globals,
         color: _indexProvider.currentTap == 1 ? mainColor : null,
@@ -156,7 +156,7 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.search_rounded,
         name: s.Search,
         color: _indexProvider.currentTap == 2 ? mainColor : null,
@@ -165,7 +165,7 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.mail_rounded,
         name: "DMs",
         color: _indexProvider.currentTap == 3 ? mainColor : null,
@@ -176,7 +176,7 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItemWidget(
       iconData: Icons.block_rounded,
       name: s.Filter,
       onTap: () {
@@ -186,7 +186,7 @@ class _IndexDrawerContentComponnent
     ));
 
     if (!TableModeUtil.isTableMode()) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.cloud_rounded,
         name: s.Relays,
         onTap: () {
@@ -197,7 +197,7 @@ class _IndexDrawerContentComponnent
     }
 
     if (!readOnly) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.key_rounded,
         name: s.Key_Backup,
         onTap: () {
@@ -207,7 +207,7 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItemWidget(
       iconData: Icons.bookmarks_rounded,
       name: s.Bookmark,
       onTap: () {
@@ -217,7 +217,7 @@ class _IndexDrawerContentComponnent
     ));
 
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.coffee_outlined,
         name: s.Donate,
         onTap: () {
@@ -227,7 +227,7 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
       name: s.Setting,
       onTap: () {
@@ -240,7 +240,7 @@ class _IndexDrawerContentComponnent
       centerList.add(
           Selector<WebViewProvider, String?>(builder: (context, url, child) {
         if (StringUtil.isBlank(url)) {
-          return IndexDrawerItem(
+          return IndexDrawerItemWidget(
             iconData: Icons.view_list_rounded,
             name: s.Web_Utils,
             onTap: () {
@@ -250,7 +250,7 @@ class _IndexDrawerContentComponnent
           );
         }
 
-        return IndexDrawerItem(
+        return IndexDrawerItemWidget(
           iconData: Icons.public_rounded,
           name: s.Show_web,
           onTap: () {
@@ -264,7 +264,7 @@ class _IndexDrawerContentComponnent
     }
 
     if (!kReleaseMode) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.group_add,
         name: 'Add test groups',
         onTap: () {
@@ -293,12 +293,11 @@ class _IndexDrawerContentComponnent
     ));
 
     if (TableModeUtil.isTableMode() && !readOnly) {
-      list.add(AddBtnWrapperComponent(
-        child: IndexDrawerItem(
+      list.add(AddBtnWrapperWidget(
+        child: IndexDrawerItemWidget(
           iconData: Icons.add_rounded,
           name: s.Add,
           onTap: () {
-            // EditorRouter.open(context);
           },
           onLongPress: () {
             Uploader.pickAndUpload2NIP95(context);
@@ -308,7 +307,7 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    list.add(IndexDrawerItem(
+    list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
       name: s.Account_Manager,
       onTap: () {
@@ -320,7 +319,7 @@ class _IndexDrawerContentComponnent
     if (widget.smallMode) {
       list.add(Container(
         margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-        child: IndexDrawerItem(
+        child: IndexDrawerItemWidget(
           iconData: Icons.last_page_rounded,
           name: "",
           onTap: toggleSmallMode,
@@ -336,15 +335,15 @@ class _IndexDrawerContentComponnent
           onTap: toggleSmallMode,
           behavior: HitTestBehavior.translucent,
           child: Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING),
-            child: Icon(Icons.first_page_rounded),
+            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+            child: const Icon(Icons.first_page_rounded),
           ),
         ));
         subList.add(versionWidget);
 
         versionWidget = Row(
-          children: subList,
           crossAxisAlignment: CrossAxisAlignment.start,
+          children: subList,
         );
       }
 
@@ -383,10 +382,10 @@ class _IndexDrawerContentComponnent
 
   void _showBasicModalBottomSheet(context) async {
     showModalBottomSheet(
-      isScrollControlled: false, // true 为 全屏
+      isScrollControlled: false,
       context: context,
       builder: (BuildContext context) {
-        return AccountManagerComponent();
+        return AccountManagerWidget();
       },
     );
   }
@@ -399,7 +398,7 @@ class _IndexDrawerContentComponnent
   }
 }
 
-class IndexDrawerItem extends StatelessWidget {
+class IndexDrawerItemWidget extends StatelessWidget {
   IconData iconData;
 
   String name;
@@ -412,11 +411,10 @@ class IndexDrawerItem extends StatelessWidget {
 
   Color? color;
 
-  // bool borderTop;
-
   bool smallMode;
 
-  IndexDrawerItem({
+  IndexDrawerItemWidget({
+    super.key,
     required this.iconData,
     required this.name,
     required this.onTap,
@@ -424,15 +422,10 @@ class IndexDrawerItem extends StatelessWidget {
     this.onDoubleTap,
     this.onLongPress,
     this.smallMode = false,
-    // this.borderTop = true,
-    // this.borderBottom = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-    var hintColor = themeData.hintColor;
-
     Widget iconWidget = Icon(
       iconData,
       color: color,

@@ -10,14 +10,15 @@ import '../../provider/metadata_provider.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import '../image_component.dart';
 
-class UserPicComponent extends StatefulWidget {
+class UserPicWidget extends StatefulWidget {
   String pubkey;
 
   double width;
 
   Metadata? metadata;
 
-  UserPicComponent({
+  UserPicWidget({
+    super.key,
     required this.pubkey,
     required this.width,
     this.metadata,
@@ -25,11 +26,11 @@ class UserPicComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _UserPicComponent();
+    return _UserPicWidgetState();
   }
 }
 
-class _UserPicComponent extends State<UserPicComponent> {
+class _UserPicWidgetState extends State<UserPicWidget> {
   @override
   Widget build(BuildContext context) {
     if (widget.metadata != null) {
@@ -57,7 +58,7 @@ class _UserPicComponent extends State<UserPicComponent> {
       if (metadata != null) {
         if (_settingProvider.profilePicturePreview != OpenStatus.CLOSE &&
             StringUtil.isNotBlank(metadata.picture)) {
-          imageWidget = ImageComponent(
+          imageWidget = ImageWidget(
             imageUrl: metadata.picture!,
             width: widget.width - imageBorder * 2,
             height: widget.width - imageBorder * 2,
@@ -93,7 +94,7 @@ class _UserPicComponent extends State<UserPicComponent> {
     if (metadata != null) {
       if (_settingProvider.profilePicturePreview != OpenStatus.CLOSE &&
           StringUtil.isNotBlank(metadata.picture)) {
-        imageWidget = ImageComponent(
+        imageWidget = ImageWidget(
           imageUrl: metadata.picture!,
           width: widget.width,
           height: widget.width,

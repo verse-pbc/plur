@@ -19,21 +19,20 @@ import '../../provider/event_reactions_provider.dart';
 import '../../util/number_format_util.dart';
 import '../../util/spider_util.dart';
 import '../../util/zap_action.dart';
-import '../content/content_decoder.dart';
 import '../editor/text_input_dialog.dart';
 
-class EventPollComponent extends StatefulWidget {
+class EventPollWidget extends StatefulWidget {
   Event event;
 
-  EventPollComponent({required this.event});
+  EventPollWidget({super.key, required this.event});
 
   @override
   State<StatefulWidget> createState() {
-    return _EventPollComponent();
+    return _EventPollWidgetState();
   }
 }
 
-class _EventPollComponent extends State<EventPollComponent> {
+class _EventPollWidgetState extends State<EventPollWidget> {
   PollInfo? pollInfo;
 
   @override
@@ -43,7 +42,6 @@ class _EventPollComponent extends State<EventPollComponent> {
     var hintColor = themeData.hintColor;
     var pollBackgroundColor = hintColor.withOpacity(0.3);
     var mainColor = themeData.primaryColor;
-    // log(jsonEncode(widget.event.toJson()));
 
     return Selector<EventReactionsProvider, EventReactions?>(
       builder: (context, eventReactions, child) {
@@ -129,7 +127,7 @@ class _EventPollComponent extends State<EventPollComponent> {
 
           var pollItemWidget = Container(
             width: double.maxFinite,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               top: Base.BASE_PADDING_HALF,
             ),
             decoration: BoxDecoration(
@@ -143,16 +141,10 @@ class _EventPollComponent extends State<EventPollComponent> {
                   padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
                   width: double.maxFinite,
                   child: AbsorbPointer(
-                    child: ContentComponent(
+                    child: ContentWidget(
                       content: pollOption[1],
                       event: widget.event,
                     ),
-                    // child: Column(
-                    //   mainAxisSize: MainAxisSize.min,
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: ContentDecoder.decode(
-                    //       context, pollOption[1], widget.event),
-                    // ),
                   ),
                 ),
                 Positioned.fill(
@@ -174,7 +166,7 @@ class _EventPollComponent extends State<EventPollComponent> {
                   right: Base.BASE_PADDING,
                   child: Text(
                     "${(percent * 100).toStringAsFixed(2)}% ${NumberFormatUtil.format(num)} sats",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

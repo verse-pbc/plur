@@ -10,20 +10,21 @@ import 'package:provider/provider.dart';
 import '../generated/l10n.dart';
 import 'badge_detail_component.dart';
 
-class BadgeAwardComponent extends StatefulWidget {
+class BadgeAwardWidget extends StatefulWidget {
   Event event;
 
-  BadgeAwardComponent({
+  BadgeAwardWidget({
+    super.key,
     required this.event,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _BadgeAwardComponent();
+    return _BadgeAwardWidgetState();
   }
 }
 
-class _BadgeAwardComponent extends State<BadgeAwardComponent> {
+class _BadgeAwardWidgetState extends State<BadgeAwardWidget> {
   @override
   void initState() {
     super.initState();
@@ -50,7 +51,7 @@ class _BadgeAwardComponent extends State<BadgeAwardComponent> {
         return Container();
       }
 
-      return BadgeDetailComponent(
+      return BadgeDetailWidget(
         badgeDefinition: badgeDefinition,
       );
     }, selector: (context, _provider) {

@@ -8,26 +8,26 @@ import 'package:flutter_seekbar/flutter_seekbar.dart';
 
 import '../user/name_component.dart';
 
-class ZapSplitInputItemComponent extends StatefulWidget {
+class ZapSplitInputItemWidget extends StatefulWidget {
   EventZapInfo eventZapInfo;
 
   Function recountWeightAndRefresh;
 
-  ZapSplitInputItemComponent(this.eventZapInfo, this.recountWeightAndRefresh);
+  ZapSplitInputItemWidget(this.eventZapInfo, this.recountWeightAndRefresh, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ZapSplitInputItemComponent();
+    return _ZapSplitInputItemWidgetState();
   }
 }
 
-class _ZapSplitInputItemComponent extends State<ZapSplitInputItemComponent> {
+class _ZapSplitInputItemWidgetState extends State<ZapSplitInputItemWidget> {
   @override
   Widget build(BuildContext context) {
     var pubkey = widget.eventZapInfo.pubkey;
     List<Widget> list = [];
 
-    list.add(UserPicComponent(pubkey: pubkey, width: 46));
+    list.add(UserPicWidget(pubkey: pubkey, width: 46));
 
     list.add(Container(
       padding: EdgeInsets.only(left: Base.BASE_PADDING),
@@ -36,7 +36,7 @@ class _ZapSplitInputItemComponent extends State<ZapSplitInputItemComponent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SimpleNameComponent(
+          SimpleNameWidget(
             pubkey: pubkey,
             textStyle: TextStyle(
               fontWeight: FontWeight.bold,

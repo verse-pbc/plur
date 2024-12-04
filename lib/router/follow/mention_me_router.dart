@@ -29,14 +29,16 @@ import '../../provider/setting_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
-class MentionMeRouter extends StatefulWidget {
+class MentionMeWidget extends StatefulWidget {
+  const MentionMeWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _MentionMeRouter();
+    return _MentionMeWidgetState();
   }
 }
 
-class _MentionMeRouter extends KeepAliveCustState<MentionMeRouter>
+class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
     with LoadMoreEvent {
   ScrollController _controller = ScrollController();
 
@@ -67,18 +69,18 @@ class _MentionMeRouter extends KeepAliveCustState<MentionMeRouter>
       itemBuilder: (BuildContext context, int index) {
         var event = events[index];
         if (event.kind == EventKind.BADGE_AWARD) {
-          return BadgeAwardComponent(event: event);
+          return BadgeAwardWidget(event: event);
         } else {
           if (event.kind == EventKind.ZAP) {
             if (StringUtil.isBlank(event.content)) {
               var innerZapContent = EventRelation.getInnerZapContent(event);
               if (StringUtil.isBlank(innerZapContent)) {
-                return ZapEventListComponent(event: event);
+                return ZapEventListWidget(event: event);
               }
             }
           }
 
-          return EventListComponent(
+          return EventListWidget(
             event: event,
             showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
@@ -113,7 +115,7 @@ class _MentionMeRouter extends KeepAliveCustState<MentionMeRouter>
             return Container();
           }
 
-          return NewNotesUpdatedComponent(
+          return NewNotesUpdatedWidget(
             num: newEventNum,
             onTap: () {
               mentionMeProvider.mergeNewEvent();

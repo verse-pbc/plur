@@ -13,14 +13,16 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 
-class FollowedRouter extends StatefulWidget {
+class FollowedWidget extends StatefulWidget {
+  const FollowedWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowedRouter();
+    return _FollowedWidgetState();
   }
 }
 
-class _FollowedRouter extends State<FollowedRouter> {
+class _FollowedWidgetState extends State<FollowedWidget> {
   ScrollController scrollController = ScrollController();
 
   List<String>? pubkeys;
@@ -59,7 +61,7 @@ class _FollowedRouter extends State<FollowedRouter> {
                   RouterUtil.router(context, RouterPath.USER, pubkey);
                 },
                 behavior: HitTestBehavior.translucent,
-                child: MetadataComponent(
+                child: MetadataWidget(
                   pubkey: pubkey,
                   metadata: metadata,
                   jumpable: true,
@@ -77,7 +79,7 @@ class _FollowedRouter extends State<FollowedRouter> {
 
     var main = Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Followed,
           style: TextStyle(

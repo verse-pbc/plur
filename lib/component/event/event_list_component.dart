@@ -16,7 +16,7 @@ import '../../util/router_util.dart';
 import 'event_bitcion_icon_component.dart';
 import 'event_main_component.dart';
 
-class EventListComponent extends StatefulWidget {
+class EventListWidget extends StatefulWidget {
   Event event;
 
   String? pagePubkey;
@@ -33,7 +33,8 @@ class EventListComponent extends StatefulWidget {
 
   bool showCommunity;
 
-  EventListComponent({
+  EventListWidget({
+    super.key, 
     required this.event,
     this.pagePubkey,
     this.jumpable = true,
@@ -46,11 +47,11 @@ class EventListComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EventListComponent();
+    return _EventListWidgetState();
   }
 }
 
-class _EventListComponent extends State<EventListComponent> {
+class _EventListWidgetState extends State<EventListWidget> {
   ScreenshotController screenshotController = ScreenshotController();
 
   @override
@@ -68,7 +69,7 @@ class _EventListComponent extends State<EventListComponent> {
           top: Base.BASE_PADDING,
           // bottom: Base.BASE_PADDING,
         ),
-        child: EventMainComponent(
+        child: EventMainWidget(
           screenshotController: screenshotController,
           event: widget.event,
           pagePubkey: widget.pagePubkey,
@@ -84,7 +85,7 @@ class _EventListComponent extends State<EventListComponent> {
     );
 
     if (widget.event.kind == EventKind.ZAP) {
-      main = EventBitcionIconComponent.wrapper(main);
+      main = EventBitcoinIconWidget.wrapper(main);
     }
 
     Widget approvedWrap = Selector<CommunityApprovedProvider, bool>(

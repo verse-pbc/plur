@@ -16,27 +16,23 @@ import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import '../user/user_relays_router.dart';
 
-class RelayhubRouter extends StatefulWidget {
+class RelayhubWidget extends StatefulWidget {
+  const RelayhubWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _RelayhubRouter();
+    return _RelayhubWidgetState();
   }
 }
 
-class _RelayhubRouter extends CustState<RelayhubRouter> {
+class _RelayhubWidgetState extends CustState<RelayhubWidget> {
   List<String> addrs = [];
 
   @override
   Widget doBuild(BuildContext context) {
-    var s = S.of(context);
     var themeData = Theme.of(context);
-    var color = themeData.textTheme.bodyLarge!.color;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
 
-    // List<Widget> list = [];
-    // for (var addr in addrs) {
-    //   list.add(ContentRelayComponent(addr));
-    // }
     Widget mainWidget;
     if (addrs.isNotEmpty) {
       mainWidget = ListView.builder(
@@ -44,7 +40,7 @@ class _RelayhubRouter extends CustState<RelayhubRouter> {
           var relayAddr = addrs[index];
           return Selector<RelayProvider, RelayStatus?>(
               builder: (context, relayStatus, child) {
-            return RelayMetadataComponent(
+            return RelayMetadataWidget(
               addr: relayAddr,
               addAble: relayStatus == null,
             );
@@ -65,7 +61,7 @@ class _RelayhubRouter extends CustState<RelayhubRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           "Relayhub",
           style: TextStyle(

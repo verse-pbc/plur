@@ -13,7 +13,7 @@ import 'webview_router.dart';
 class LinkRouterUtil {
   static void router(BuildContext context, String link) {
     if (link.startsWith("http")) {
-      WebViewRouter.open(context, link);
+      WebViewWidget.open(context, link);
       return;
     }
 
@@ -52,7 +52,7 @@ class LinkRouterUtil {
         var relayAddr = (nevent.relays != null && nevent.relays!.isNotEmpty)
             ? nevent.relays![0]
             : null;
-        EventIdRouterComponent.router(context, nevent.id, relayAddr: relayAddr);
+        EventIdRouterWidget.router(context, nevent.id, relayAddr: relayAddr);
       }
     } else if (NIP19Tlv.isNaddr(key)) {
       var index = Nip19.checkBech32End(key);
@@ -67,7 +67,7 @@ class LinkRouterUtil {
           var relayAddr = (naddr.relays != null && naddr.relays!.isNotEmpty)
               ? naddr.relays![0]
               : null;
-          EventIdRouterComponent.router(context, naddr.id,
+          EventIdRouterWidget.router(context, naddr.id,
               relayAddr: relayAddr);
         } else if (naddr.kind == EventKind.LONG_FORM &&
             StringUtil.isNotBlank(naddr.id)) {

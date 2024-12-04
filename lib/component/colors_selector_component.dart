@@ -4,30 +4,27 @@ import '../consts/base.dart';
 import '../consts/colors.dart';
 import '../util/router_util.dart';
 
-class ColorSelectorComponent extends StatelessWidget {
-  ColorSelectorComponent();
+class ColorSelectorWidget extends StatelessWidget {
+  const ColorSelectorWidget({super.key});
 
   static Future<Color?> show(BuildContext context) async {
     return await showDialog(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
-        return ColorSelectorComponent();
+      builder: (_) {
+        return const ColorSelectorWidget();
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-
     List<Widget> widgets = [];
     for (var i = 0; i < ColorList.ALL_COLOR.length; i++) {
       var c = ColorList.ALL_COLOR[i];
       widgets.add(SliverToBoxAdapter(
-        child: ColorSelectorItemComponent(
+        child: ColorSelectorItemWidget(
           color: c,
-          // isLast: i == ColorList.ALL_COLOR.length - 1,
         ),
       ));
     }
@@ -53,7 +50,6 @@ class ColorSelectorComponent extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black.withOpacity(0.2),
       body: FocusScope(
-        // autofocus: true,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -78,33 +74,23 @@ class ColorSelectorComponent extends StatelessWidget {
   }
 }
 
-class ColorSelectorItemComponent extends StatelessWidget {
+class ColorSelectorItemWidget extends StatelessWidget {
   static const double HEIGHT = 44;
 
   final Color color;
 
-  // final bool isLast;
-
-  ColorSelectorItemComponent({
+  const ColorSelectorItemWidget({super.key,
     required this.color,
-    // this.isLast = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-    var dividerColor = themeData.dividerColor;
-
     return GestureDetector(
       onTap: () {
         RouterUtil.back(context, color);
       },
       child: Container(
-        // decoration: BoxDecoration(
-        //     border: isLast
-        //         ? null
-        //         : Border(bottom: BorderSide(color: dividerColor))),
-        margin: EdgeInsets.all(Base.BASE_PADDING),
+        margin: const EdgeInsets.all(Base.BASE_PADDING),
         alignment: Alignment.center,
         height: HEIGHT,
         child: Container(

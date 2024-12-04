@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class ContentStrLinkComponent extends StatelessWidget {
+class ContentStrLinkWidget extends StatelessWidget {
   bool showUnderline;
 
   String str;
 
   Function onTap;
 
-  ContentStrLinkComponent(
+  ContentStrLinkWidget(
       {super.key,
       required this.str,
       required this.onTap,

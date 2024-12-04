@@ -5,18 +5,18 @@ import 'package:nostr_sdk/utils/platform_util.dart';
 import '../consts/base.dart';
 import '../generated/l10n.dart';
 
-class EmojiPickerComponent extends StatefulWidget {
+class EmojiPickerWidget extends StatefulWidget {
   Function(String) onEmojiPick;
 
-  EmojiPickerComponent(this.onEmojiPick);
+  EmojiPickerWidget(this.onEmojiPick, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _EmojiPickerComponent();
+    return _EmojiPickerWidgetState();
   }
 }
 
-class _EmojiPickerComponent extends State<EmojiPickerComponent> {
+class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);

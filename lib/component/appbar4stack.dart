@@ -31,9 +31,7 @@ class _Appbar4Stack extends State<Appbar4Stack> {
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
     var backgroundColor = widget.backgroundColor;
-    if (backgroundColor == null) {
-      backgroundColor = themeData.appBarTheme.backgroundColor;
-    }
+    backgroundColor ??= themeData.appBarTheme.backgroundColor;
 
     List<Widget> list = [
       GestureDetector(

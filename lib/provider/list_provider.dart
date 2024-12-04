@@ -381,9 +381,6 @@ class ListProvider extends ChangeNotifier {
       tags.add(item.toJson());
     }
 
-    var event = Event(nostr!.publicKey, EventKind.GROUP_LIST, tags, "");
-    var resultEvent = await nostr!.sendEvent(event);
-
     notifyListeners();
   }
 

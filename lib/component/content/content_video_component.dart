@@ -11,18 +11,18 @@ import 'package:widget_size/widget_size.dart';
 
 import '../../consts/base64.dart';
 
-class ContentVideoComponent extends StatefulWidget {
+class ContentVideoWidget extends StatefulWidget {
   String url;
 
-  ContentVideoComponent({required this.url});
+  ContentVideoWidget({super.key, required this.url});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContentVideoComponent();
+    return _ContentVideoWidgetState();
   }
 }
 
-class _ContentVideoComponent extends State<ContentVideoComponent> {
+class _ContentVideoWidgetState extends State<ContentVideoWidget> {
   late final player = Player();
   late final controller = VideoController(player);
 

@@ -11,20 +11,20 @@ import 'package:provider/provider.dart';
 import '../../consts/base.dart';
 import '../cust_state.dart';
 
-class TextTranslateComponent extends StatefulWidget {
+class TextTranslateWidget extends StatefulWidget {
   String text;
 
   Function? textOnTap;
 
-  TextTranslateComponent(this.text, {this.textOnTap});
+  TextTranslateWidget(this.text, {super.key, this.textOnTap});
 
   @override
   State<StatefulWidget> createState() {
-    return _TextTranslateComponent();
+    return _TextTranslateWidgetState();
   }
 }
 
-class _TextTranslateComponent extends CustState<TextTranslateComponent> {
+class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
   String? sourceText;
 
   static const double MARGIN = 4;
@@ -39,8 +39,6 @@ class _TextTranslateComponent extends CustState<TextTranslateComponent> {
 
   @override
   Widget doBuild(BuildContext context) {
-    var _settingProvider = Provider.of<SettingProvider>(context);
-
     if (isInited) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         checkAndTranslate();

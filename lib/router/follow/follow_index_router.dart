@@ -4,29 +4,29 @@ import 'package:nostrmo/router/follow/mention_me_router.dart';
 import 'follow_posts_router.dart';
 import 'follow_router.dart';
 
-class FollowIndexRouter extends StatefulWidget {
+class FollowIndexWidget extends StatefulWidget {
   TabController tabController;
 
-  FollowIndexRouter({required this.tabController});
+  FollowIndexWidget({super.key, required this.tabController});
 
   @override
   State<StatefulWidget> createState() {
-    return _FollowIndexRouter();
+    return _FollowIndexWidgetState();
   }
 }
 
-class _FollowIndexRouter extends State<FollowIndexRouter> {
+class _FollowIndexWidgetState extends State<FollowIndexWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
       child: TabBarView(
-        children: [
-          FollowPostsRouter(),
-          FollowRouter(),
-          MentionMeRouter(),
-        ],
         controller: widget.tabController,
+        children: [
+          FollowPostsWidget(),
+          FollowWidget(),
+          MentionMeWidget(),
+        ],
       ),
     );
   }

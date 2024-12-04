@@ -11,14 +11,16 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/router_util.dart';
 
-class FollowedCommunitiesRouter extends StatefulWidget {
+class FollowedCommunitiesWidget extends StatefulWidget {
+  const FollowedCommunitiesWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowedCommunitiesRouter();
+    return _FollowedCommunitiesWidgetState();
   }
 }
 
-class _FollowedCommunitiesRouter extends State<FollowedCommunitiesRouter> {
+class _FollowedCommunitiesWidgetState extends State<FollowedCommunitiesWidget> {
   ContactList? contactList;
 
   @override
@@ -111,7 +113,7 @@ class _FollowedCommunitiesRouter extends State<FollowedCommunitiesRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Followed_Communities,
           style: TextStyle(

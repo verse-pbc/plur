@@ -12,7 +12,7 @@ import '../../util/router_util.dart';
 import '../../util/zap_action.dart';
 import 'zap_bottom_sheet_user_component.dart';
 
-class ZapBottomSheetComponent extends StatefulWidget {
+class ZapBottomSheetWidget extends StatefulWidget {
   static void show(
       BuildContext context, Event event, EventRelation eventRelation) {
     List<EventZapInfo> list = [];
@@ -34,7 +34,7 @@ class ZapBottomSheetComponent extends StatefulWidget {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext _context) {
-        return ZapBottomSheetComponent(
+        return ZapBottomSheetWidget(
           context,
           list,
           eventId: event.id,
@@ -49,7 +49,7 @@ class ZapBottomSheetComponent extends StatefulWidget {
 
   BuildContext parentContext;
 
-  ZapBottomSheetComponent(
+  ZapBottomSheetWidget(
     this.parentContext,
     this.zapInfos, {
     this.eventId,
@@ -57,11 +57,11 @@ class ZapBottomSheetComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ZapBottomSheetComponent();
+    return _ZapBottomSheetWidgetState();
   }
 }
 
-class _ZapBottomSheetComponent extends CustState<ZapBottomSheetComponent> {
+class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
   late S s;
 
   Map<String, int> pubkeySendNum = {};
@@ -80,7 +80,7 @@ class _ZapBottomSheetComponent extends CustState<ZapBottomSheetComponent> {
       configMaxWidth = true;
     }
     for (var zapInfo in widget.zapInfos) {
-      userWidgetList.add(ZapBottomSheetUserComponent(
+      userWidgetList.add(ZapBottomSheetUserWidget(
         zapInfo.pubkey,
         configMaxWidth: configMaxWidth,
       ));

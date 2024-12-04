@@ -13,25 +13,25 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 
-class UserRelayRouter extends StatefulWidget {
+class UserRelayWidget extends StatefulWidget {
+  const UserRelayWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _UserRelayRouter();
+    return _UserRelayWidgetState();
   }
 }
 
-class _UserRelayRouter extends State<UserRelayRouter> {
+class _UserRelayWidgetState extends State<UserRelayWidget> {
   List<RelayMetadata>? relays;
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-
     var s = S.of(context);
     if (relays == null) {
       relays = [];
       var arg = RouterUtil.routerArgs(context);
       if (arg != null && arg is List<dynamic>) {
-        for (var tag in arg as List<dynamic>) {
+        for (var tag in arg) {
           if (tag is List<dynamic>) {
             var length = tag.length;
             bool write = true;
@@ -59,7 +59,7 @@ class _UserRelayRouter extends State<UserRelayRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(s.Relays),
       ),
       body: Container(
@@ -71,7 +71,7 @@ class _UserRelayRouter extends State<UserRelayRouter> {
             var relayMetadata = relays![index];
             return Selector<RelayProvider, RelayStatus?>(
                 builder: (context, relayStatus, child) {
-              return RelayMetadataComponent(
+              return RelayMetadataWidget(
                 relayMetadata: relayMetadata,
                 addAble: relayStatus == null,
               );
@@ -86,14 +86,14 @@ class _UserRelayRouter extends State<UserRelayRouter> {
   }
 }
 
-class RelayMetadataComponent extends StatelessWidget {
+class RelayMetadataWidget extends StatelessWidget {
   RelayMetadata? relayMetadata;
 
   String? addr;
 
   bool addAble;
 
-  RelayMetadataComponent({this.relayMetadata, this.addr, this.addAble = true})
+  RelayMetadataWidget({super.key, this.relayMetadata, this.addr, this.addAble = true})
       : assert(relayMetadata != null || addr != null);
 
   @override
@@ -115,7 +115,7 @@ class RelayMetadataComponent extends StatelessWidget {
 
     List<Widget> rightList = [];
     if (relayAddr != null) {
-      rightList.add(RelaySpeedComponent(relayAddr));
+      rightList.add(RelaySpeedWidget(relayAddr));
     }
     Widget rightBtn = Row(
       children: rightList,
@@ -187,7 +187,6 @@ class RelayMetadataComponent extends StatelessWidget {
               color: hintColor,
             ),
           ),
-          // borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
           children: [

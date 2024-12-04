@@ -109,10 +109,8 @@ mixin EditorMixin {
     var s = S.of(getContext());
     var themeData = Theme.of(getContext());
     var cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
     var mainColor = themeData.primaryColor;
     var groupIdentifier = getGroupIdentifier();
-    var groupEventKind = getGroupEventKind();
 
     List<Widget> inputBtnList = [];
     if (isDM() && groupIdentifier == null) {
@@ -135,14 +133,14 @@ mixin EditorMixin {
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
       inputBtnList.add(quill.QuillToolbarIconButton(
         onPressed: takeAPhoto,
-        icon: Icon(Icons.camera),
+        icon: const Icon(Icons.camera),
         isSelected: false,
         iconTheme: null,
         tooltip: s.Take_photo,
       ));
       inputBtnList.add(quill.QuillToolbarIconButton(
         onPressed: tackAVideo,
-        icon: Icon(Icons.video_call),
+        icon: const Icon(Icons.video_call),
         isSelected: false,
         iconTheme: null,
         tooltip: s.Take_video,
@@ -202,7 +200,7 @@ mixin EditorMixin {
     if (!isDM()) {
       inputBtnList.add(quill.QuillToolbarIconButton(
         onPressed: openZapSplitTap,
-        icon: ZapSplitIconComponent(
+        icon: ZapSplitIconWidget(
           themeData.textTheme.bodyLarge!.fontSize!,
           color: openZapSplit ? mainColor : null,
         ),
@@ -306,7 +304,7 @@ mixin EditorMixin {
   }
 
   Widget buildEmojiSelector() {
-    return EmojiPickerComponent(emojiInsert);
+    return EmojiPickerWidget(emojiInsert);
   }
 
   bool emojiShow = false;
@@ -395,7 +393,7 @@ mixin EditorMixin {
       context,
       s.Search,
       s.Please_input_event_id,
-      SearchMentionEventComponent(),
+      SearchMentionEventWidget(),
       hintText: s.Note_Id,
     );
     if (StringUtil.isNotBlank(value)) {
@@ -426,7 +424,7 @@ mixin EditorMixin {
       context,
       s.Search,
       s.Please_input_user_pubkey,
-      SearchMentionUserComponent(),
+      SearchMentionUserWidget(),
       hintText: s.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {
@@ -456,7 +454,7 @@ mixin EditorMixin {
       context,
       S.of(context).Input_Sats_num,
       S.of(context).Please_input_lnbc_text,
-      GenLnbcComponent(),
+      GenLnbcWidget(),
       hintText: "lnbc...",
     );
     if (StringUtil.isNotBlank(value)) {
@@ -499,8 +497,6 @@ mixin EditorMixin {
   }
 
   void _submitTag(String? value) {
-    var context = getContext();
-
     if (value != null && value.isNotEmpty) {
       final index = editorController.selection.baseOffset;
       final length = editorController.selection.extentOffset - index;
@@ -520,8 +516,8 @@ mixin EditorMixin {
 
     // customEmoji map
     Map<String, int> customEmojiMap = {};
-    var tags = []..addAll(getTags());
-    var tagsAddedWhenSend = []..addAll(getTagsAddedWhenSend());
+    var tags = [...getTags()];
+    var tagsAddedWhenSend = [...getTagsAddedWhenSend()];
 
     List<String> extralRelays = [];
 
@@ -764,7 +760,7 @@ mixin EditorMixin {
           createdAt: getCreatedAt());
     } else if (inputPoll) {
       // poll event
-      // get poll tag from PollInputComponentn
+      // get poll tag from PollInputComponent
       var pollTags = pollInputController.getTags();
       allTags.addAll(pollTags);
       event = Event(nostr!.publicKey, EventKind.POLL, allTags, result,
@@ -1009,7 +1005,7 @@ mixin EditorMixin {
 
           var findMoreBtn = GestureDetector(
             onTap: () {
-              WebViewRouter.open(context, "https://emojis-iota.vercel.app/");
+              WebViewWidget.open(context, "https://emojis-iota.vercel.app/");
             },
             child: Container(
               width: 40,
@@ -1082,12 +1078,10 @@ mixin EditorMixin {
           addEmojiToEditor(emoji);
         },
         child: Container(
-          // constraints:
-          //     BoxConstraints(maxWidth: emojiBtnWidth, maxHeight: emojiBtnWidth),
           width: emojiBtnWidth,
           height: emojiBtnWidth,
           alignment: Alignment.center,
-          child: ImageComponent(
+          child: ImageWidget(
             imageUrl: emoji.filepath!,
           ),
         ),
@@ -1096,16 +1090,15 @@ mixin EditorMixin {
 
     var main = SingleChildScrollView(
       child: Wrap(
-        // runAlignment: WrapAlignment.center,
-        children: list,
         runSpacing: Base.BASE_PADDING_HALF,
         spacing: Base.BASE_PADDING_HALF,
+        children: list,
       ),
     );
 
     return Container(
       height: 260,
-      padding: EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
       width: double.infinity,
       child: main,
     );
@@ -1196,7 +1189,7 @@ mixin EditorMixin {
     } else {
       main = GestureDetector(
         onTap: pickAndUploadLongFormImage,
-        child: ImageComponent(imageUrl: longFormImage!),
+        child: ImageWidget(imageUrl: longFormImage!),
       );
     }
 
@@ -1258,7 +1251,7 @@ mixin EditorMixin {
   }
 
   Future<void> selectedTime() async {
-    var dt = await DatetimePickerComponent.show(getContext(),
+    var dt = await DatetimePickerWidget.show(getContext(),
         dateTime: publishAt != null ? publishAt : DateTime.now());
     publishAt = dt;
     updateUI();

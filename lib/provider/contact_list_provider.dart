@@ -30,10 +30,7 @@ class ContactListProvider extends ChangeNotifier {
   Map<String, FollowSet> _followSetMap = {};
 
   static ContactListProvider getInstance() {
-    if (_contactListProvider == null) {
-      _contactListProvider = ContactListProvider();
-      // _contactListProvider!.reload();
-    }
+    _contactListProvider ??= ContactListProvider();
     return _contactListProvider!;
   }
 

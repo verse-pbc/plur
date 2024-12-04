@@ -19,14 +19,16 @@ import '../../main.dart';
 import 'group_detail_chat_component.dart';
 import 'group_detail_note_list_component.dart';
 
-class GroupDetailRouter extends StatefulWidget {
+class GroupDetailWidget extends StatefulWidget {
+  const GroupDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _GroupDetailRouter();
+    return _GroupDetailWidgetState();
   }
 }
 
-class _GroupDetailRouter extends State<GroupDetailRouter> {
+class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   GroupIdentifier? groupIdentifier;
 
   static const APP_BAR_HEIGHT = 40.0;
@@ -118,7 +120,7 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
       pinned: true,
       primary: true,
       expandedHeight: 200,
-      leading: AppbarBackBtnComponent(),
+      leading: const AppbarBackBtnWidget(),
       title: Text(
         title,
         style: TextStyle(
@@ -161,8 +163,8 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
         ],
         child: TabBarView(
           children: [
-            GroupDetailChatComponent(groupIdentifier!),
-            GroupDetailNoteListComponent(groupIdentifier!),
+            GroupDetailChatWidget(groupIdentifier!),
+            GroupDetailNoteListWidget(groupIdentifier!),
           ],
         ),
       ),
@@ -193,7 +195,7 @@ class _GroupDetailRouter extends State<GroupDetailRouter> {
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
-    EditorRouter.open(context,
+    EditorWidget.open(context,
         groupIdentifier: groupIdentifier,
         groupEventKind: EventKind.GROUP_NOTE,
         tagsAddedWhenSend: tags);
