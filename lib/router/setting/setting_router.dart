@@ -112,22 +112,6 @@ class _SettingRouter extends State<SettingRouter> with WhenStopFunction {
         onTap: pickLockOpenList,
       ));
     }
-    list.add(SettingGroupItemComponent(
-      name: s.Default_index,
-      value: getDefaultIndex(settingProvider.defaultIndex).name,
-      onTap: pickDefaultIndex,
-    ));
-    List<EnumObj> defaultTabList = defaultTabListTimeline!;
-    if (settingProvider.defaultIndex == 1) {
-      defaultTabList = defaultTabListGlobal!;
-    }
-    list.add(SettingGroupItemComponent(
-      name: s.Default_tab,
-      value: getDefaultTab(defaultTabList, settingProvider.defaultTab).name,
-      onTap: () {
-        pickDefaultTab(defaultTabList);
-      },
-    ));
 
     String nwcValue = getOpenList(OpenStatus.OPEN).name;
     if (StringUtil.isBlank(settingProvider.nwcUrl)) {
