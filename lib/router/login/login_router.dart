@@ -368,7 +368,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     settingProvider.notifyListeners();
     firstLogin = true;
-    indexProvider.setCurrentTap(1);
+    indexProvider.setCurrentTap(0);
   }
 
   void showAcceptTermTip() {
@@ -405,7 +405,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     settingProvider.notifyListeners();
     firstLogin = true;
-    indexProvider.setCurrentTap(1);
+    indexProvider.setCurrentTap(0);
   }
 
   Future<void> loginWithWebSigner() async {
@@ -433,7 +433,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     settingProvider.notifyListeners();
     firstLogin = true;
-    indexProvider.setCurrentTap(1);
+    indexProvider.setCurrentTap(0);
   }
 
   void doPreLogin() {
