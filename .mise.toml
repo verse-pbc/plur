@@ -1,4 +1,5 @@
 [tools]
 java = "openjdk-17"
+ruby = "latest"
+cocoapods = "latest"
 flutter = "3.24.5"
-dart = "3.5.4"
