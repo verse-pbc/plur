@@ -21,14 +21,16 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 
-class TagDetailRouter extends StatefulWidget {
+class TagDetailWidget extends StatefulWidget {
+  const TagDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _TagDetailRouter();
+    return _TagDetailWidgetState();
   }
 }
 
-class _TagDetailRouter extends CustState<TagDetailRouter>
+class _TagDetailWidgetState extends CustState<TagDetailWidget>
     with PenddingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
@@ -99,7 +101,7 @@ class _TagDetailRouter extends CustState<TagDetailRouter>
         controller: _controller,
         itemBuilder: (context, index) {
           if (index == 0) {
-            return TagInfoComponent(
+            return TagInfoWidget(
               tag: tag!,
               height: tagHeight,
             );
@@ -110,7 +112,7 @@ class _TagDetailRouter extends CustState<TagDetailRouter>
             return null;
           }
 
-          return EventListComponent(
+          return EventListWidget(
             event: event,
             showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
@@ -131,7 +133,7 @@ class _TagDetailRouter extends CustState<TagDetailRouter>
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         actions: [],
         title: appBarTitle,
       ),

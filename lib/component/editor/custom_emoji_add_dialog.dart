@@ -81,7 +81,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
       )
     ];
     if (StringUtil.isNotBlank(filepath)) {
-      imageWidgetList.add(ContentCustomEmojiComponent(imagePath: filepath!));
+      imageWidgetList.add(ContentCustomEmojiWidget(imagePath: filepath!));
     }
 
     list.add(Row(

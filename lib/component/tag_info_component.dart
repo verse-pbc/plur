@@ -7,14 +7,15 @@ import 'package:provider/provider.dart';
 
 import '../consts/base.dart';
 
-class TagInfoComponent extends StatefulWidget {
+class TagInfoWidget extends StatefulWidget {
   final String tag;
 
   final double height;
 
   bool jumpable;
 
-  TagInfoComponent({
+  TagInfoWidget({
+    super.key,
     required this.tag,
     this.height = 80,
     this.jumpable = false,
@@ -22,11 +23,11 @@ class TagInfoComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _TagInfoComponent();
+    return _TagInfoWidgetState();
   }
 }
 
-class _TagInfoComponent extends State<TagInfoComponent> {
+class _TagInfoWidgetState extends State<TagInfoWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);

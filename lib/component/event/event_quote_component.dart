@@ -16,7 +16,7 @@ import '../../util/router_util.dart';
 import '../cust_state.dart';
 import 'event_main_component.dart';
 
-class EventQuoteComponent extends StatefulWidget {
+class EventQuoteWidget extends StatefulWidget {
   Event? event;
 
   String? id;
@@ -27,7 +27,8 @@ class EventQuoteComponent extends StatefulWidget {
 
   bool showVideo;
 
-  EventQuoteComponent({
+  EventQuoteWidget({
+    super.key,
     this.event,
     this.id,
     this.aId,
@@ -37,11 +38,11 @@ class EventQuoteComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EventQuoteComponent();
+    return _EventQuoteWidgetState();
   }
 }
 
-class _EventQuoteComponent extends CustState<EventQuoteComponent> {
+class _EventQuoteWidgetState extends CustState<EventQuoteWidget> {
   ScreenshotController screenshotController = ScreenshotController();
 
   @override
@@ -98,7 +99,7 @@ class _EventQuoteComponent extends CustState<EventQuoteComponent> {
       Event event, Color cardColor, BoxDecoration boxDecoration) {
     if (event.kind == EventKind.STORAGE_SHARED_FILE ||
         event.kind == EventKind.FILE_HEADER) {
-      return EventMainComponent(
+      return EventMainWidget(
         screenshotController: screenshotController,
         event: event,
         showReplying: false,
@@ -122,7 +123,7 @@ class _EventQuoteComponent extends CustState<EventQuoteComponent> {
             jumpToThread(event);
           },
           behavior: HitTestBehavior.translucent,
-          child: EventMainComponent(
+          child: EventMainWidget(
             screenshotController: screenshotController,
             event: event,
             showReplying: false,

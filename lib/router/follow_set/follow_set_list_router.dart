@@ -13,22 +13,22 @@ import '../../component/editor/text_input_dialog.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 
-class FollowSetListRouter extends StatefulWidget {
+class FollowSetListWidget extends StatefulWidget {
+  const FollowSetListWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowSetListRouter();
+    return _FollowSetListWidgetState();
   }
 }
 
-class _FollowSetListRouter extends CustState<FollowSetListRouter> {
+class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
   @override
   Widget doBuild(BuildContext context) {
     var s = S.of(context);
     var _contactListProvider = Provider.of<ContactListProvider>(context);
 
     var themeData = Theme.of(context);
-    var textColor = themeData.textTheme.bodyMedium!.color;
-    var fontSize = themeData.textTheme.bodyMedium!.fontSize;
     var largeTextSize = themeData.textTheme.bodyLarge!.fontSize;
     var appbarColor = themeData.appBarTheme.titleTextStyle!.color;
 
@@ -38,7 +38,7 @@ class _FollowSetListRouter extends CustState<FollowSetListRouter> {
       itemBuilder: (context, index) {
         var followSet = followSetList[index];
         return Container(
-          margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
           child: GestureDetector(
             onTap: () {
               RouterUtil.router(context, RouterPath.FOLLOW_SET_FEED, followSet);
@@ -54,7 +54,7 @@ class _FollowSetListRouter extends CustState<FollowSetListRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Follow_set,
           style: TextStyle(

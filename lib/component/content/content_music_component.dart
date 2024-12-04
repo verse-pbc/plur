@@ -10,22 +10,22 @@ import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/util/encrypt_util.dart';
 import 'package:nostrmo/util/hash_util.dart';
 
-class ContentMusicComponent extends StatefulWidget {
+class ContentMusicWidget extends StatefulWidget {
   String? eventId;
 
   String content;
 
   MusicInfoBuilder musicInfoBuilder;
 
-  ContentMusicComponent(this.eventId, this.content, this.musicInfoBuilder);
+  ContentMusicWidget(this.eventId, this.content, this.musicInfoBuilder, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContentMusicComponent();
+    return _ContentMusicWidgetState();
   }
 }
 
-class _ContentMusicComponent extends CustState<ContentMusicComponent> {
+class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
   MusicInfo? musicInfo;
 
   @override
@@ -45,7 +45,7 @@ class _ContentMusicComponent extends CustState<ContentMusicComponent> {
         top: Base.BASE_PADDING_HALF,
         bottom: Base.BASE_PADDING_HALF,
       ),
-      child: MusicComponent(
+      child: MusicWidget(
         musicInfo!,
         key: Key(HashUtil.md5(musicInfo!.sourceUrl!)),
       ),

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../consts/base.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class SettingGroupItemComponent extends StatelessWidget {
+class SettingGroupItemWidget extends StatelessWidget {
   String name;
 
   Color? nameColor;
@@ -14,7 +14,7 @@ class SettingGroupItemComponent extends StatelessWidget {
 
   Function? onTap;
 
-  SettingGroupItemComponent({
+  SettingGroupItemWidget({
     required this.name,
     this.nameColor,
     this.value,

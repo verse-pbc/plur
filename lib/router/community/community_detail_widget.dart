@@ -23,14 +23,16 @@ import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import '../edit/editor_router.dart';
 
-class CommunityDetailRouter extends StatefulWidget {
+class CommunityDetailWidget extends StatefulWidget {
+  const CommunityDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _CommunityDetailRouter();
+    return _CommunityDetailWidgetState();
   }
 }
 
-class _CommunityDetailRouter extends CustState<CommunityDetailRouter>
+class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
     with PenddingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
@@ -101,10 +103,10 @@ class _CommunityDetailRouter extends CustState<CommunityDetailRouter>
                 onChange: (s) {
                   infoHeight = s.height;
                 },
-                child: CommunityInfoComponent(info: info!),
+                child: CommunityInfoWidget(info: info),
               );
-            }, selector: (context, _provider) {
-              return _provider.getCommunity(aId!.toAString());
+            }, selector: (_, provider) {
+              return provider.getCommunity(aId!.toAString());
             });
           }
 
@@ -113,7 +115,7 @@ class _CommunityDetailRouter extends CustState<CommunityDetailRouter>
             return null;
           }
 
-          return EventListComponent(
+          return EventListWidget(
             event: event,
             showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
             showCommunity: false,
@@ -125,7 +127,7 @@ class _CommunityDetailRouter extends CustState<CommunityDetailRouter>
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         actions: [
           GestureDetector(
             onTap: addToCommunity,
@@ -151,30 +153,9 @@ class _CommunityDetailRouter extends CustState<CommunityDetailRouter>
 
   var subscribeId = StringUtil.rndNameStr(16);
 
-  // CommunityInfo? communityInfo;
-
   @override
   Future<void> onReady(BuildContext context) async {
     if (aId != null) {
-      // {
-      //   var filter = Filter(kinds: [
-      //     kind.EventKind.COMMUNITY_DEFINITION,
-      //   ], authors: [
-      //     aId!.pubkey
-      //   ], limit: 1);
-      //   var queryArg = filter.toJson();
-      //   queryArg["#d"] = [aId!.title];
-      //   nostr!.query([queryArg], (e) {
-      //     if (communityInfo == null || communityInfo!.createdAt < e.createdAt) {
-      //       var ci = CommunityInfo.fromEvent(e);
-      //       if (ci != null) {
-      //         setState(() {
-      //           communityInfo = ci;
-      //         });
-      //       }
-      //     }
-      //   }, id: infoSubscribeId);
-      // }
       queryEvents();
     }
   }
@@ -215,7 +196,7 @@ class _CommunityDetailRouter extends CustState<CommunityDetailRouter>
         aTag.add(relayProvider.relayAddrs[0]);
       }
 
-      var event = await EditorRouter.open(context, tags: [aTag]);
+      var event = await EditorWidget.open(context, tags: [aTag]);
       if (event != null) {
         queryEvents();
       }

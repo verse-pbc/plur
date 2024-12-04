@@ -4,14 +4,14 @@ import 'package:nostrmo/util/router_util.dart';
 
 import 'content_str_link_component.dart';
 
-class ContentTagComponent extends StatelessWidget {
+class ContentTagWidget extends StatelessWidget {
   String tag;
 
-  ContentTagComponent({required this.tag});
+  ContentTagWidget({super.key, required this.tag});
 
   @override
   Widget build(BuildContext context) {
-    return ContentStrLinkComponent(
+    return ContentStrLinkWidget(
       str: tag,
       onTap: () {
         var plainTag = tag.replaceFirst("#", "");

@@ -9,36 +9,35 @@ import 'package:provider/provider.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
-class FilterBlockComponent extends StatefulWidget {
+class FilterBlockWidget extends StatefulWidget {
+  const FilterBlockWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FilterBlockComponent();
+    return _FilterBlockWidgetState();
   }
 }
 
-class _FilterBlockComponent extends State<FilterBlockComponent> {
+class _FilterBlockWidgetState extends State<FilterBlockWidget> {
   @override
   Widget build(BuildContext context) {
-    var _filterProvider = Provider.of<FilterProvider>(context);
-    var blockMap = _filterProvider.blocks;
+    var filterProvider = Provider.of<FilterProvider>(context);
+    var blockMap = filterProvider.blocks;
     var blocks = blockMap.keys.toList();
-    // print(blocks);
-    return Container(
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          var pubkey = blocks[index];
-          return FilterBlockItemComponent(pubkey: pubkey);
-        },
-        itemCount: blocks.length,
-      ),
+    return ListView.builder(
+      itemBuilder: (context, index) {
+        var pubkey = blocks[index];
+        return FilterBlockItemWidget(pubkey: pubkey);
+      },
+      itemCount: blocks.length,
     );
   }
 }
 
-class FilterBlockItemComponent extends StatelessWidget {
+class FilterBlockItemWidget extends StatelessWidget {
   String pubkey;
 
-  FilterBlockItemComponent({required this.pubkey});
+  FilterBlockItemWidget({super.key, required this.pubkey});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class FilterBlockItemComponent extends StatelessWidget {
             onTap: delBlock,
             child: Container(
               margin: EdgeInsets.only(left: Base.BASE_PADDING_HALF),
-              child: Icon(
+              child: const Icon(
                 Icons.delete,
               ),
             ),

@@ -14,19 +14,18 @@ import '../../consts/base_consts.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/load_more_event.dart';
 
-class GroupDetailNoteListComponent extends StatefulWidget {
+class GroupDetailNoteListWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
 
-  GroupDetailNoteListComponent(this.groupIdentifier);
+  GroupDetailNoteListWidget(this.groupIdentifier, {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _GroupDetailNoteListComponent();
+    return _GroupDetailNoteListWidgetState();
   }
 }
 
-class _GroupDetailNoteListComponent
-    extends KeepAliveCustState<GroupDetailNoteListComponent>
+class _GroupDetailNoteListWidgetState extends KeepAliveCustState<GroupDetailNoteListWidget>
     with LoadMoreEvent, PenddingEventsLaterFunction {
   final ScrollController _controller = ScrollController();
 
@@ -42,7 +41,7 @@ class _GroupDetailNoteListComponent
 
   @override
   Widget doBuild(BuildContext context) {
-    var _settingProvider = Provider.of<SettingProvider>(context);
+    var settingProvider = Provider.of<SettingProvider>(context);
     groupDetailProvider = Provider.of<GroupDetailProvider>(context);
 
     var eventBox = groupDetailProvider!.notesBox;
@@ -54,21 +53,19 @@ class _GroupDetailNoteListComponent
     }
     preBuild();
 
-    var main = Container(
-      child: RefreshIndicator(
-        onRefresh: onRefresh,
-        child: ListView.builder(
-          controller: scrollController,
-          itemBuilder: (context, index) {
-            var event = events[index];
-            return EventListComponent(
-              event: event,
-              showVideo:
-                  _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
-            );
-          },
-          itemCount: events.length,
-        ),
+    var main = RefreshIndicator(
+      onRefresh: onRefresh,
+      child: ListView.builder(
+        controller: scrollController,
+        itemBuilder: (context, index) {
+          var event = events[index];
+          return EventListWidget(
+            event: event,
+            showVideo:
+                settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+          );
+        },
+        itemCount: events.length,
       ),
     );
 
@@ -80,7 +77,7 @@ class _GroupDetailNoteListComponent
     List<Widget> stackList = [main];
     stackList.add(Positioned(
       top: Base.BASE_PADDING,
-      child: NewNotesUpdatedComponent(
+      child: NewNotesUpdatedWidget(
         num: newNotesLength,
         onTap: () {
           groupDetailProvider!.mergeNewEvent();
@@ -89,11 +86,9 @@ class _GroupDetailNoteListComponent
       ),
     ));
 
-    return Container(
-      child: Stack(
-        alignment: Alignment.center,
-        children: stackList,
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      children: stackList,
     );
   }
 

@@ -15,6 +15,7 @@ class LightningQrcodeDialog extends StatefulWidget {
   String text;
 
   LightningQrcodeDialog({
+    super.key,
     this.title,
     required this.text,
   });
@@ -130,11 +131,11 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),

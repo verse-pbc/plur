@@ -18,14 +18,16 @@ import '../../../util/dio_util.dart';
 import '../../../util/router_util.dart';
 import '../../../util/table_mode_util.dart';
 
-class GlobalsUsersRouter extends StatefulWidget {
+class GlobalsUsersWidget extends StatefulWidget {
+  const GlobalsUsersWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _GlobalsUsersRouter();
+    return _GlobalsUsersWidgetState();
   }
 }
 
-class _GlobalsUsersRouter extends KeepAliveCustState<GlobalsUsersRouter> {
+class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
   ScrollController scrollController = ScrollController();
 
   List<String> pubkeys = [];
@@ -57,7 +59,7 @@ class _GlobalsUsersRouter extends KeepAliveCustState<GlobalsUsersRouter> {
                   RouterUtil.router(context, RouterPath.USER, pubkey);
                 },
                 behavior: HitTestBehavior.translucent,
-                child: MetadataComponent(
+                child: MetadataWidget(
                   pubkey: pubkey,
                   metadata: metadata,
                   jumpable: true,

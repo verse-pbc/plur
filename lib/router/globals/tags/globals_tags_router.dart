@@ -13,41 +13,41 @@ import '../../../component/tag_component.dart';
 import '../../../consts/base.dart';
 import '../../../util/dio_util.dart';
 
-class GlobalsTagsRouter extends StatefulWidget {
+class GlobalsTagsWidget extends StatefulWidget {
+  const GlobalsTagsWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _GlobalsTagsRouter();
+    return _GlobalsTagsWidgetState();
   }
 }
 
-class _GlobalsTagsRouter extends KeepAliveCustState<GlobalsTagsRouter> {
+class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
   List<String> topics = [];
 
   @override
   Widget doBuild(BuildContext context) {
     var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
 
     if (topics.isEmpty) {
       return TapListPlaceholder();
     } else {
       List<Widget> list = [];
       for (var topic in topics) {
-        list.add(TagComponent(
+        list.add(TagWidget(
           tag: topic,
         ));
       }
 
       return Container(
-        // padding: EdgeInsets.all(Base.BASE_PADDING),
         color: themeData.cardColor,
         child: Center(
           child: SingleChildScrollView(
             child: Wrap(
-              children: list,
               spacing: 14,
               runSpacing: 14,
               alignment: WrapAlignment.center,
+              children: list,
             ),
           ),
         ),

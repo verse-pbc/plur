@@ -16,14 +16,16 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 
-class NwcSettingRouter extends StatefulWidget {
+class NwcSettingWidget extends StatefulWidget {
+  const NwcSettingWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _NwcSettingRouter();
+    return _NwcSettingWidgetState();
   }
 }
 
-class _NwcSettingRouter extends CustState<NwcSettingRouter> {
+class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
   TextEditingController textEditingController = TextEditingController();
 
   @override
@@ -137,7 +139,7 @@ class _NwcSettingRouter extends CustState<NwcSettingRouter> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           "NWC ${s.Setting}",
           style: TextStyle(

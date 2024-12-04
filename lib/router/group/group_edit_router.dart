@@ -15,14 +15,16 @@ import 'package:nostr_sdk/utils/string_util.dart';
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
 
-class GroupEditRouter extends StatefulWidget {
+class GroupEditWidget extends StatefulWidget {
+  const GroupEditWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _GroupEditRouter();
+    return _GroupEditWidgetState();
   }
 }
 
-class _GroupEditRouter extends State<GroupEditRouter> {
+class _GroupEditWidgetState extends State<GroupEditWidget> {
   TextEditingController hostController = TextEditingController();
   TextEditingController groupIdController = TextEditingController();
 
@@ -77,12 +79,11 @@ class _GroupEditRouter extends State<GroupEditRouter> {
 
     var themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
-    var mainColor = themeData.primaryColor;
     var textColor = themeData.textTheme.bodyMedium!.color;
 
     var submitBtn = TextButton(
       onPressed: doSave,
-      style: ButtonStyle(),
+      style: const ButtonStyle(),
       child: Text(
         s.Submit,
         style: TextStyle(

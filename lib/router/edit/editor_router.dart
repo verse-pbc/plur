@@ -31,7 +31,7 @@ import '../../generated/l10n.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'editor_notify_item_component.dart';
 
-class EditorRouter extends StatefulWidget {
+class EditorWidget extends StatefulWidget {
   static double appbarHeight = 56;
 
   // dm arg
@@ -55,7 +55,8 @@ class EditorRouter extends StatefulWidget {
 
   bool isZapGoal;
 
-  EditorRouter({
+  EditorWidget({
+    super.key,
     required this.tags,
     required this.tagsAddedWhenSend,
     required this.tagPs,
@@ -85,7 +86,7 @@ class EditorRouter extends StatefulWidget {
     tagsAddedWhenSend ??= [];
     tagPs ??= [];
 
-    var editor = EditorRouter(
+    var editor = EditorWidget(
       tags: tags,
       tagsAddedWhenSend: tagsAddedWhenSend,
       tagPs: tagPs,
@@ -105,11 +106,11 @@ class EditorRouter extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EditorRouter();
+    return _EditorWidgetState();
   }
 }
 
-class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
+class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
   List<EditorNotifyItem>? notifyItems;
 
   List<EditorNotifyItem> editorNotifyItems = [];
@@ -150,8 +151,6 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
 
     var s = S.of(context);
     var themeData = Theme.of(context);
-    var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
-    var mainColor = themeData.primaryColor;
     var hintColor = themeData.hintColor;
     var textColor = themeData.textTheme.bodyMedium!.color;
     var cardColor = themeData.cardColor;
@@ -180,7 +179,7 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(right: Base.BASE_PADDING),
+                      margin: const EdgeInsets.only(right: Base.BASE_PADDING),
                       child: Icon(
                         Icons.groups,
                         size: largeTextSize,
@@ -189,7 +188,7 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
                     ),
                     Text(
                       aid.title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -207,26 +206,26 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
       List<Widget> tagPsWidgets = [];
       tagPsWidgets.add(Text("${s.Notify}:"));
       for (var item in notifyItems!) {
-        tagPsWidgets.add(EditorNotifyItemComponent(item: item));
+        tagPsWidgets.add(EditorNotifyItemWidget(item: item));
       }
       for (var editorNotifyItem in editorNotifyItems) {
         var exist = notifyItems!.any((element) {
           return element.pubkey == editorNotifyItem.pubkey;
         });
         if (!exist) {
-          tagPsWidgets.add(EditorNotifyItemComponent(item: editorNotifyItem));
+          tagPsWidgets.add(EditorNotifyItemWidget(item: editorNotifyItem));
         }
       }
       list.add(Container(
         padding:
-            EdgeInsets.only(left: Base.BASE_PADDING, right: Base.BASE_PADDING),
-        margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+            const EdgeInsets.only(left: Base.BASE_PADDING, right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         width: double.maxFinite,
         child: Wrap(
           spacing: Base.BASE_PADDING_HALF,
           runSpacing: Base.BASE_PADDING_HALF,
-          children: tagPsWidgets,
           crossAxisAlignment: WrapCrossAlignment.center,
+          children: tagPsWidgets,
         ),
       ));
     }
@@ -250,12 +249,12 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
         onTap: selectedTime,
         behavior: HitTestBehavior.translucent,
         child: Container(
-          margin: EdgeInsets.only(left: 10, bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(left: 10, bottom: Base.BASE_PADDING_HALF),
           child: Row(
             children: [
-              Icon(Icons.timer_outlined),
+              const Icon(Icons.timer_outlined),
               Container(
-                margin: EdgeInsets.only(left: 4),
+                margin: const EdgeInsets.only(left: 4),
                 child: Text(
                   dateFormate.format(publishAt!),
                 ),
@@ -282,7 +281,7 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
         autoFocus: false,
         expands: false,
         // padding: EdgeInsets.zero,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: Base.BASE_PADDING,
           right: Base.BASE_PADDING,
         ),
@@ -298,31 +297,31 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
     );
     editorList.add(editorInputWidget);
     if (inputPoll) {
-      editorList.add(PollInputComponent(
+      editorList.add(PollInputWidget(
         pollInputController: pollInputController,
       ));
     }
     if (inputZapGoal) {
-      editorList.add(ZapGoalInputComponent(
+      editorList.add(ZapGoalInputWidget(
         zapGoalInputController: zapGoalInputController,
       ));
     }
     if (openZapSplit) {
-      editorList.add(ZapSplitInputComponent(eventZapInfos));
+      editorList.add(ZapSplitInputWidget(eventZapInfos));
     }
 
     list.add(Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          // focus to eidtor input widget
+          // focus to editor input widget
           focusNode.requestFocus();
         },
         child: Container(
           constraints: BoxConstraints(
               maxHeight: mediaDataCache.size.height -
                   mediaDataCache.padding.top -
-                  EditorRouter.appbarHeight -
+                  EditorWidget.appbarHeight -
                   IndexAppBar.height),
           child: SingleChildScrollView(
             child: Column(
@@ -344,21 +343,18 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
 
     return Scaffold(
       appBar: AppBar(
-        // title: Text("Note"),
         backgroundColor: cardColor,
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         actions: [
-          Container(
-            child: TextButton(
-              child: Text(
-                s.Send,
-                style: TextStyle(
-                  color: textColor,
-                  fontSize: fontSize,
-                ),
+          TextButton(
+            onPressed: documentSave,
+            style: const ButtonStyle(),
+            child: Text(
+              s.Send,
+              style: TextStyle(
+                color: textColor,
+                fontSize: fontSize,
               ),
-              onPressed: documentSave,
-              style: ButtonStyle(),
             ),
           ),
         ],
@@ -416,14 +412,14 @@ class _EditorRouter extends CustState<EditorRouter> with EditorMixin {
       }
 
       List<EditorNotifyItem> needDeleds = [];
-      for (var item in editorNotifyItems!) {
+      for (var item in editorNotifyItems) {
         var exist = mentionUserMap.remove(item.pubkey);
         if (exist == null) {
           updated = true;
           needDeleds.add(item);
         }
       }
-      editorNotifyItems!.removeWhere((element) => needDeleds.contains(element));
+      editorNotifyItems.removeWhere((element) => needDeleds.contains(element));
 
       if (mentionUserMap.isNotEmpty) {
         var entries = mentionUserMap.entries;

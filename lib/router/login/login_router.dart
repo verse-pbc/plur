@@ -97,11 +97,11 @@ class _LoginSignupState extends State<LoginSignupWidget>
     List<Widget> mainList = [];
     mainList.add(logoWiget);
     mainList.add(Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: Base.BASE_PADDING,
         bottom: 40,
       ),
-      child: Text(
+      child: const Text(
         "Communities",
         style: TextStyle(
           fontSize: 24,
@@ -129,7 +129,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     ));
 
     mainList.add(Container(
-      margin: EdgeInsets.all(Base.BASE_PADDING * 2),
+      margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
       child: InkWell(
         onTap: doLogin,
         child: Container(
@@ -138,7 +138,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
           alignment: Alignment.center,
           child: Text(
             s.Login,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -149,7 +149,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     ));
 
     mainList.add(Container(
-      margin: EdgeInsets.only(bottom: 25),
+      margin: const EdgeInsets.only(bottom: 25),
       child: InkWell(
         onTap: generatePK,
         child: Container(
@@ -168,9 +168,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     ));
 
     if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
-      mainList.add(Container(
-        child: Text(s.or),
-      ));
+      mainList.add(Text(s.or));
 
       mainList.add(Container(
         margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
@@ -192,9 +190,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
         ),
       ));
     } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
-      mainList.add(Container(
-        child: Text(s.or),
-      ));
+      mainList.add(Text(s.or));
 
       mainList.add(Container(
         margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
@@ -217,52 +213,48 @@ class _LoginSignupState extends State<LoginSignupWidget>
       ));
     }
 
-    var termsWiget = Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Checkbox(
-              value: checkTerms,
-              onChanged: (val) {
-                setState(() {
-                  checkTerms = val;
-                });
-              }),
-          Text("${s.I_accept_the} "),
-          Container(
-            child: GestureDetector(
-              onTap: () {
-                WebViewRouter.open(context, Base.PRIVACY_LINK);
-              },
-              child: Text(
-                "terms of service",
-                style: TextStyle(
-                  color: mainColor,
-                  decoration: TextDecoration.underline,
-                  decorationColor: mainColor,
-                ),
-              ),
+    var termsWiget = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Checkbox(
+            value: checkTerms,
+            onChanged: (val) {
+              setState(() {
+                checkTerms = val;
+              });
+            }),
+        Text("${s.I_accept_the} "),
+        GestureDetector(
+          onTap: () {
+            WebViewWidget.open(context, Base.PRIVACY_LINK);
+          },
+          child: Text(
+            "terms of service",
+            style: TextStyle(
+              color: mainColor,
+              decoration: TextDecoration.underline,
+              decorationColor: mainColor,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     ).animate(controller: animationController, effects: [
-      ShakeEffect(),
+      const ShakeEffect(),
     ]);
 
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         width: double.maxFinite,
         height: double.maxFinite,
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
-            Container(
+            SizedBox(
               width: mainWidth,
               // color: Colors.red,
               child: Column(
-                children: mainList,
                 mainAxisSize: MainAxisSize.min,
+                children: mainList,
               ),
             ),
             Positioned(
@@ -336,9 +328,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
         var bunkerLink = info.toString();
         settingProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
 
-        // var nostrRemoteSigner = NostrRemoteSigner(info);
-        // await nostrRemoteSigner.connect();
-        // signerTest(nostrRemoteSigner);
         nostr = await relayProvider.genNostrWithKey(bunkerLink);
       } finally {
         cancel.call();
@@ -438,7 +427,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
   void doPreLogin() {
     if (backAfterLogin) {
-      AccountManagerComponentState.clearCurrentMemInfo();
+      AccountManagerWidgetState.clearCurrentMemInfo();
       nostr!.close();
       nostr = null;
     }

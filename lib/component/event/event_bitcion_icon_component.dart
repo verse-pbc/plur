@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EventBitcionIconComponent extends StatelessWidget {
+class EventBitcoinIconWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,7 +27,7 @@ class EventBitcionIconComponent extends StatelessWidget {
         Positioned(
           top: -35,
           right: -10,
-          child: EventBitcionIconComponent(),
+          child: EventBitcoinIconWidget(),
         ),
       ],
     );

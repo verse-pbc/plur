@@ -19,14 +19,16 @@ import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
 import '../index/index_app_bar.dart';
 
-class ProfileEditorRouter extends StatefulWidget {
+class ProfileEditorWidget extends StatefulWidget {
+  const ProfileEditorWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _ProfileEditorRouter();
+    return _ProfileEditorWidgetState();
   }
 }
 
-class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
+class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
   TextEditingController displayNameController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController aboutController = TextEditingController();
@@ -39,8 +41,8 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
 
   Metadata? metadata;
 
-  String getText(String? str) {
-    return str != null ? str : "";
+  String _getText(String? str) {
+    return str ?? "";
   }
 
   @override
@@ -53,23 +55,24 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
       }
       metadata ??= Metadata();
 
-      displayNameController.text = getText(metadata!.displayName);
-      nameController.text = getText(metadata!.name);
-      aboutController.text = getText(metadata!.about);
-      pictureController.text = getText(metadata!.picture);
-      bannerController.text = getText(metadata!.banner);
-      websiteController.text = getText(metadata!.website);
-      nip05Controller.text = getText(metadata!.nip05);
-      lud16Controller.text = getText(metadata!.lud16);
-      lud06Controller.text = getText(metadata!.lud06);
+      displayNameController.text = _getText(metadata!.displayName);
+      nameController.text = _getText(metadata!.name);
+      aboutController.text = _getText(metadata!.about);
+      pictureController.text = _getText(metadata!.picture);
+      bannerController.text = _getText(metadata!.banner);
+      websiteController.text = _getText(metadata!.website);
+      nip05Controller.text = _getText(metadata!.nip05);
+      lud16Controller.text = _getText(metadata!.lud16);
+      lud06Controller.text = _getText(metadata!.lud06);
     }
 
     var themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
-    var mainColor = themeData.primaryColor;
     var textColor = themeData.textTheme.bodyMedium!.color;
 
     var submitBtn = TextButton(
+      onPressed: profileSave,
+      style: const ButtonStyle(),
       child: Text(
         s.Submit,
         style: TextStyle(
@@ -77,8 +80,6 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
           fontSize: 16,
         ),
       ),
-      onPressed: profileSave,
-      style: ButtonStyle(),
     );
 
     Color? appbarBackgroundColor = Colors.transparent;
@@ -86,13 +87,13 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
       backgroundColor: appbarBackgroundColor,
       // title: appbarTitle,
       action: Container(
-        margin: EdgeInsets.only(right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(right: Base.BASE_PADDING),
         child: submitBtn,
       ),
     );
 
-    var margin = EdgeInsets.only(bottom: Base.BASE_PADDING);
-    var padding = EdgeInsets.only(left: 20, right: 20);
+    var margin = const EdgeInsets.only(bottom: Base.BASE_PADDING);
+    var padding = const EdgeInsets.only(left: 20, right: 20);
 
     List<Widget> list = [];
 
@@ -113,11 +114,11 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(
+          margin: const EdgeInsets.only(
             left: Base.BASE_PADDING_HALF,
             right: Base.BASE_PADDING_HALF,
           ),
-          child: Text(" @ "),
+          child: const Text(" @ "),
         ),
         Expanded(
           child: TextField(
@@ -147,7 +148,7 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
         decoration: InputDecoration(
           prefixIcon: GestureDetector(
             onTap: pickPicture,
-            child: Icon(Icons.image),
+            child: const Icon(Icons.image),
           ),
           labelText: s.Picture,
         ),
@@ -162,7 +163,7 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
         decoration: InputDecoration(
           prefixIcon: GestureDetector(
             onTap: pickBanner,
-            child: Icon(Icons.image),
+            child: const Icon(Icons.image),
           ),
           labelText: s.Banner,
         ),
@@ -197,15 +198,6 @@ class _ProfileEditorRouter extends CustState<ProfileEditorRouter> {
             hintText: "walletname@walletservice.com"),
       ),
     ));
-
-    // list.add(Container(
-    //   margin: margin,
-    //   padding: padding,
-    //   child: TextField(
-    //     controller: lud06Controller,
-    //     decoration: InputDecoration(labelText: "Lnurl"),
-    //   ),
-    // ));
 
     return Scaffold(
       body: Stack(

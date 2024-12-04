@@ -12,18 +12,18 @@ import '../../generated/l10n.dart';
 import '../main_btn_component.dart';
 import '../tag_component.dart';
 
-class EventTorrentComponent extends StatefulWidget {
+class EventTorrentWidget extends StatefulWidget {
   TorrentInfo torrentInfo;
 
-  EventTorrentComponent(this.torrentInfo);
+  EventTorrentWidget(this.torrentInfo);
 
   @override
   State<StatefulWidget> createState() {
-    return _EventTorrentComponent();
+    return _EventTorrentWidgetState();
   }
 }
 
-class _EventTorrentComponent extends State<EventTorrentComponent> {
+class _EventTorrentWidgetState extends State<EventTorrentWidget> {
   bool showAllFile = false;
 
   @override
@@ -65,18 +65,18 @@ class _EventTorrentComponent extends State<EventTorrentComponent> {
     }
 
     List<Widget> tagWidgets = [];
-    tagWidgets.add(TagComponent(
+    tagWidgets.add(TagWidget(
       tag: StoreUtil.bytesToShowStr(totalSize),
       jumpable: false,
     ));
     for (var tag in widget.torrentInfo.tags!) {
-      tagWidgets.add(TagComponent(tag: tag));
+      tagWidgets.add(TagWidget(tag: tag));
     }
     list.add(Container(
       margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Wrap(
-        children: tagWidgets,
         spacing: Base.BASE_PADDING_HALF,
+        children: tagWidgets,
       ),
     ));
 
@@ -111,7 +111,7 @@ class _EventTorrentComponent extends State<EventTorrentComponent> {
 
     list.add(Container(
       margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
-      child: MainBtnComponent(
+      child: MainBtnWidget(
         text: s.Download,
         onTap: () {
           var link = "magnet:?xt=urn:btih:${widget.torrentInfo.btih}";

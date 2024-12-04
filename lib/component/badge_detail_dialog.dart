@@ -40,7 +40,7 @@ class _BadgeDetailDialog extends State<BadgeDetailDialog> {
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
 
-    Widget main = BadgeDetailComponent(
+    Widget main = BadgeDetailWidget(
       badgeDefinition: widget.badgeDefinition,
     );
     if (PlatformUtil.isPC() || TableModeUtil.isTableMode()) {

@@ -19,12 +19,8 @@ class LikeTextSelectBottomSheet extends StatefulWidget {
 class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-
     var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var hintColor = themeData.hintColor;
-    var backgroundColor = themeData.scaffoldBackgroundColor;
 
     List<Widget> list = [];
     list.add(Container(
@@ -40,23 +36,21 @@ class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
           ),
         ),
       ),
-      child: IndexDrawerItem(
+      child: IndexDrawerItemWidget(
         iconData: Icons.emoji_emotions_outlined,
         name: "Emoji",
         onTap: () {},
       ),
     ));
 
-    list.add(EmojiPickerComponent((emoji) {
+    list.add(EmojiPickerWidget((emoji) {
       RouterUtil.back(context, emoji);
     }));
 
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
     );
   }
 }

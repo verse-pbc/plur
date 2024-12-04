@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class PointComponent extends StatelessWidget {
+class PointWidget extends StatelessWidget {
   double marginTop;
 
   double marginRight;
@@ -9,7 +9,7 @@ class PointComponent extends StatelessWidget {
 
   Color? color;
 
-  PointComponent({
+  PointWidget({
     this.marginRight = 0,
     this.marginTop = 0,
     this.width = 10,

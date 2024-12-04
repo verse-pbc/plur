@@ -3,12 +3,12 @@ import 'package:nostrmo/component/webview_router.dart';
 
 import '../../consts/base.dart';
 
-class WebUtilItemComponent extends StatelessWidget {
+class WebUtilItemWidget extends StatelessWidget {
   String link;
 
   String des;
 
-  WebUtilItemComponent({required this.link, required this.des});
+  WebUtilItemWidget({required this.link, required this.des});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class WebUtilItemComponent extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        WebViewRouter.open(context, link);
+        WebViewWidget.open(context, link);
       },
       behavior: HitTestBehavior.translucent,
       child: main,

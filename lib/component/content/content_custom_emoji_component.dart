@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import '../../main.dart';
 import '../image_component.dart';
 
-class ContentCustomEmojiComponent extends StatelessWidget {
+class ContentCustomEmojiWidget extends StatelessWidget {
   final String imagePath;
 
-  ContentCustomEmojiComponent({required this.imagePath});
+  ContentCustomEmojiWidget({required this.imagePath});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class ContentCustomEmojiComponent extends StatelessWidget {
       // netword image
       return Container(
         constraints: BoxConstraints(maxWidth: 80, maxHeight: 80),
-        child: ImageComponent(
+        child: ImageWidget(
           // width: fontSize! * 2,
           imageUrl: imagePath,
           // fit: imageBoxFix,

@@ -10,14 +10,16 @@ import 'package:nostrmo/main.dart';
 import '../../component/appbar4stack.dart';
 import '../../generated/l10n.dart';
 
-class KeyBackupRouter extends StatefulWidget {
+class KeyBackupWidget extends StatefulWidget {
+  const KeyBackupWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _KeyBackupRouter();
+    return _KeyBackupWidgetState();
   }
 }
 
-class _KeyBackupRouter extends State<KeyBackupRouter> {
+class _KeyBackupWidgetState extends State<KeyBackupWidget> {
   bool check0 = false;
   bool check1 = false;
   bool check2 = false;

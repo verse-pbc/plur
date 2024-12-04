@@ -59,7 +59,7 @@ class MarkdownMentionEventElementBuilder implements MarkdownElementBuilder {
     }
 
     if (key != null) {
-      return EventQuoteComponent(
+      return EventQuoteWidget(
         id: key,
         aId: aid,
         eventRelayAddr: relayAddr,

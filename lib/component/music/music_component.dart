@@ -14,20 +14,20 @@ import 'package:widget_size/widget_size.dart';
 import '../../provider/music_provider.dart';
 import '../image_component.dart';
 
-class MusicComponent extends StatefulWidget {
+class MusicWidget extends StatefulWidget {
   MusicInfo musicInfo;
 
   bool clearAble;
 
-  MusicComponent(this.musicInfo, {super.key, this.clearAble = false});
+  MusicWidget(this.musicInfo, {super.key, this.clearAble = false});
 
   @override
   State<StatefulWidget> createState() {
-    return _MusicComponent();
+    return _MusicWidgetState();
   }
 }
 
-class _MusicComponent extends State<MusicComponent> {
+class _MusicWidgetState extends State<MusicWidget> {
   double progressBarWidth = -1;
 
   @override
@@ -57,7 +57,7 @@ class _MusicComponent extends State<MusicComponent> {
 
     Widget? imageWidget;
     if (StringUtil.isNotBlank(widget.musicInfo.imageUrl)) {
-      imageWidget = ImageComponent(
+      imageWidget = ImageWidget(
         imageUrl: widget.musicInfo.imageUrl!,
         width: imageHeight,
         height: imageHeight,
@@ -209,7 +209,7 @@ class _MusicComponent extends State<MusicComponent> {
       onTap: () {
         if (widget.musicInfo.sourceUrl != null &&
             widget.musicInfo.sourceUrl!.indexOf("http") == 0) {
-          WebViewRouter.open(context, widget.musicInfo.sourceUrl!);
+          WebViewWidget.open(context, widget.musicInfo.sourceUrl!);
         }
       },
       child: Column(

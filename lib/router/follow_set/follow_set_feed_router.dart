@@ -23,14 +23,16 @@ import '../../provider/setting_provider.dart';
 import '../../util/load_more_event.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class FollowSetFeedRouter extends StatefulWidget {
+class FollowSetFeedWidget extends StatefulWidget {
+  const FollowSetFeedWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _FollowSetFeedRouter();
+    return _FollowSetFeedWidgetState();
   }
 }
 
-class _FollowSetFeedRouter extends CustState<FollowSetFeedRouter>
+class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   EventMemBox box = EventMemBox();
 
@@ -88,7 +90,7 @@ class _FollowSetFeedRouter extends CustState<FollowSetFeedRouter>
     var events = box.all();
     if (events.isEmpty) {
       return Scaffold(
-        appBar: AppBar(leading: AppbarBackBtnComponent()),
+        appBar: AppBar(leading: const AppbarBackBtnWidget()),
         body: EventListPlaceholder(
           onRefresh: () {
             box.clear;
@@ -113,7 +115,7 @@ class _FollowSetFeedRouter extends CustState<FollowSetFeedRouter>
         }
 
         var event = events[index];
-        return EventListComponent(
+        return EventListWidget(
           event: event,
           showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
         );

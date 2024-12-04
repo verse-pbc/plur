@@ -33,16 +33,16 @@ import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 import 'dm_detail_item_component.dart';
 
-class DMDetailRouter extends StatefulWidget {
-  DMDetailRouter();
+class DMDetailWidget extends StatefulWidget {
+  const DMDetailWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _DMDetailRouter();
+    return _DMDetailWidgetState();
   }
 }
 
-class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
+class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
   DMSessionDetail? detail;
 
   @override
@@ -55,10 +55,8 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
   Widget doBuild(BuildContext context) {
     var themeData = Theme.of(context);
     var textColor = themeData.textTheme.bodyMedium!.color;
-    var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     var cardColor = themeData.cardColor;
 
-    var hintColor = themeData.hintColor;
     var s = S.of(context);
 
     var arg = RouterUtil.routerArgs(context);
@@ -68,21 +66,21 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
     }
     detail = arg as DMSessionDetail;
 
-    var _dmProvider = Provider.of<DMProvider>(context);
-    var newDetail = _dmProvider.getSessionDetail(detail!.dmSession.pubkey);
+    var dmProvider = Provider.of<DMProvider>(context);
+    var newDetail = dmProvider.getSessionDetail(detail!.dmSession.pubkey);
     if (newDetail != null) {
       detail = newDetail;
     }
 
     var nameComponnet = Selector<MetadataProvider, Metadata?>(
       builder: (context, metadata, child) {
-        return NameComponent(
+        return NameWidget(
           pubkey: detail!.dmSession.pubkey,
           metadata: metadata,
         );
       },
-      selector: (context, _provider) {
-        return _provider.getMetadata(detail!.dmSession.pubkey);
+      selector: (_, provider) {
+        return provider.getMetadata(detail!.dmSession.pubkey);
       },
     );
 
@@ -101,7 +99,7 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
           return null;
         }
 
-        return DMDetailItemComponent(
+        return DMDetailItemWidget(
           sessionPubkey: detail!.dmSession.pubkey,
           event: event,
           isLocal: localPubkey == event.pubkey,
@@ -114,7 +112,7 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
 
     list.add(Expanded(
       child: Container(
-        margin: EdgeInsets.only(
+        margin: const EdgeInsets.only(
           bottom: Base.BASE_PADDING,
         ),
         child: listWidget,
@@ -127,7 +125,7 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            offset: Offset(0, -5),
+            offset: const Offset(0, -5),
             blurRadius: 10,
             spreadRadius: 0,
           ),
@@ -151,8 +149,7 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
                 scrollable: true,
                 autoFocus: false,
                 expands: false,
-                // padding: EdgeInsets.zero,
-                padding: EdgeInsets.only(
+                padding: const EdgeInsets.only(
                   left: Base.BASE_PADDING,
                   right: Base.BASE_PADDING,
                 ),
@@ -163,6 +160,8 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
             ),
           ),
           TextButton(
+            onPressed: send,
+            style: const ButtonStyle(),
             child: Text(
               s.Send,
               style: TextStyle(
@@ -170,8 +169,6 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
                 fontSize: 16,
               ),
             ),
-            onPressed: send,
-            style: ButtonStyle(),
           )
         ],
       ),
@@ -185,14 +182,14 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
       list.add(buildEmojiListsWidget());
     }
 
-    Widget main = Container(
+    Widget main = SizedBox(
       width: double.maxFinite,
       height: double.maxFinite,
       child: Column(children: list),
     );
 
     if (detail!.info == null && detail!.dmSession.newestEvent != null) {
-      main = Container(
+      main = SizedBox(
         width: double.maxFinite,
         height: double.maxFinite,
         child: Stack(
@@ -212,7 +209,7 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
                   child: Center(
                     child: Text(
                       s.Add_to_known_list,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
@@ -228,7 +225,7 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: nameComponnet,
       ),
       body: main,
@@ -283,29 +280,9 @@ class _DMDetailRouter extends CustState<DMDetailRouter> with EditorMixin {
     if (detail != null &&
         detail!.info != null &&
         detail!.dmSession.newestEvent != null) {
-      // detail!.info!.readedTime = detail!.dmSession.newestEvent!.createdAt;
-      // DMSessionInfoDB.update(detail!.info!);
       dmProvider.updateReadedTime(detail);
     }
   }
-
-  // Future<void> jumpToWriteMessage() async {
-  //   var pubkey = detail!.dmSession.pubkey;
-  //   List<dynamic> tags = [
-  //     ["p", pubkey]
-  //   ];
-  //   var event = await EditorRouter.open(
-  //     context,
-  //     agreement: agreement,
-  //     pubkey: pubkey,
-  //     tags: tags,
-  //     tagsAddedWhenSend: [],
-  //   );
-  //   if (event != null) {
-  //     dmProvider.addEventAndUpdateReadedTime(detail!, event);
-  //     setState(() {});
-  //   }
-  // }
 
   @override
   BuildContext getContext() {

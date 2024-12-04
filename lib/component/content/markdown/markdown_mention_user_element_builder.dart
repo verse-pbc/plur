@@ -37,7 +37,7 @@ class MarkdownMentionUserElementBuilder implements MarkdownElementBuilder {
     }
 
     if (key != null) {
-      return ContentMentionUserComponent(pubkey: key);
+      return ContentMentionUserWidget(pubkey: key);
     }
   }
 

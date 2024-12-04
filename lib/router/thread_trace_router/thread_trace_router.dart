@@ -28,14 +28,16 @@ import '../thread/thread_detail_item_component.dart';
 import '../thread/thread_detail_router.dart';
 import '../thread/thread_router_helper.dart';
 
-class ThreadTraceRouter extends StatefulWidget {
+class ThreadTraceWidget extends StatefulWidget {
+  const ThreadTraceWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _ThreadTraceRouter();
+    return _ThreadTraceWidgetState();
   }
 }
 
-class _ThreadTraceRouter extends State<ThreadTraceRouter>
+class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     with PenddingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
   // used to filter parent events
   List<EventTraceInfo> parentEventTraces = [];
@@ -71,8 +73,8 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
     var themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
 
-    var title = ThreadDetailRouter.getAppBarTitle(sourceEvent!);
-    var appBarTitle = ThreadDetailRouter.detailAppBarTitle(
+    var title = ThreadDetailWidget.getAppBarTitle(sourceEvent!);
+    var appBarTitle = ThreadDetailWidget.detailAppBarTitle(
         sourceEvent!.pubkey, title, themeData);
 
     List<Widget> mainList = [];
@@ -89,7 +91,7 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
             RouterUtil.router(
                 context, RouterPath.getThreadDetailPath(), pet.event);
           },
-          child: ThreadTraceEventComponent(
+          child: ThreadTraceEventWidget(
             pet.event,
             textOnTap: () {
               RouterUtil.router(
@@ -100,31 +102,31 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
       }
     }
 
-    Widget mainEventWidget = ThreadTraceEventComponent(
+    Widget mainEventWidget = ThreadTraceEventWidget(
       sourceEvent!,
       key: sourceEventKey,
       traceMode: false,
     );
     if (sourceEvent!.kind == EventKind.ZAP) {
-      mainEventWidget = EventBitcionIconComponent.wrapper(mainEventWidget);
+      mainEventWidget = EventBitcoinIconWidget.wrapper(mainEventWidget);
     }
 
     mainList.add(Container(
       color: cardColor,
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-      padding: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Column(
         children: [
           Stack(
             children: [
               Positioned(
+                top: 38,
+                bottom: 0,
+                left: 28,
                 child: Container(
                   width: 2,
                   color: themeData.hintColor.withOpacity(0.25),
                 ),
-                top: 38,
-                bottom: 0,
-                left: 28,
               ),
               Column(
                 children: traceList,
@@ -140,14 +142,14 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
               (Base.BASE_PADDING +
-                  ThreadDetailItemMainComponent.BORDER_LEFT_WIDTH) +
-          ThreadDetailItemMainComponent.EVENT_MAIN_MIN_WIDTH;
+                  ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
+          ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Container(
             width: needWidth,
-            child: ThreadDetailItemComponent(
+            child: ThreadDetailItemWidget(
               item: item,
               totalMaxWidth: needWidth,
               sourceEventId: sourceEvent!.id,
@@ -156,7 +158,7 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
           ),
         ));
       } else {
-        mainList.add(ThreadDetailItemComponent(
+        mainList.add(ThreadDetailItemWidget(
           item: item,
           totalMaxWidth: needWidth,
           sourceEventId: sourceEvent!.id,
@@ -182,7 +184,7 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: appBarTitle,
       ),
       body: EventReplyCallback(
@@ -206,7 +208,6 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
     var replyId = eventRelation.replyOrRootId;
     if (StringUtil.isNotBlank(replyId)) {
       // this query move onReplyQueryComplete function call, avoid query limit.
-      // findParentEvent(replyId!);
 
       // this sourceEvent has parent event, so it is reply event, only show the sub reply events.
       forceParentId = sourceEvent!.id;
@@ -229,7 +230,6 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
     if (StringUtil.isNotBlank(eventRelation.rootId)) {
       // only the query from root can query all sub replies.
       parentIds.add(eventRelation.rootId!);
-      // parentIds = [eventRelation.rootId!];
     }
     var filter = Filter(e: parentIds, kinds: replyKinds);
 
@@ -314,7 +314,6 @@ class _ThreadTraceRouter extends State<ThreadTraceRouter>
   }
 
   void onParentEvent(Event e) {
-    // log(jsonEncode(e.toJson()));
     singleEventProvider.onEvent(e);
 
     EventTraceInfo? addedEti;

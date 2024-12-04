@@ -5,10 +5,10 @@ import 'package:nostrmo/provider/notice_provider.dart';
 import '../../consts/base.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class NoticeListItemComponent extends StatelessWidget {
+class NoticeListItemWidget extends StatelessWidget {
   NoticeData notice;
 
-  NoticeListItemComponent({required this.notice});
+  NoticeListItemWidget({required this.notice});
 
   @override
   Widget build(BuildContext context) {

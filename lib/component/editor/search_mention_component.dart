@@ -10,23 +10,24 @@ typedef ResultBuildFunc = Widget Function();
 
 typedef HandleSearchFunc = void Function(String);
 
-class SaerchMentionComponent extends StatefulWidget {
+class SearchMentionWidget extends StatefulWidget {
   ResultBuildFunc resultBuildFunc;
 
   HandleSearchFunc handleSearchFunc;
 
-  SaerchMentionComponent({
+  SearchMentionWidget({
+    super.key,
     required this.resultBuildFunc,
     required this.handleSearchFunc,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _SaerchMentionComponent();
+    return _SearchMentionWidgetState();
   }
 }
 
-class _SaerchMentionComponent extends State<SaerchMentionComponent>
+class _SearchMentionWidgetState extends State<SearchMentionWidget>
     with WhenStopFunction {
   TextEditingController controller = TextEditingController();
 

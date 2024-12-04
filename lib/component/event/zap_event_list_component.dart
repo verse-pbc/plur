@@ -6,23 +6,23 @@ import '../../consts/router_path.dart';
 import '../../util/router_util.dart';
 import 'zap_event_main_component.dart';
 
-class ZapEventListComponent extends StatefulWidget {
+class ZapEventListWidget extends StatefulWidget {
   Event event;
 
   bool jumpable;
 
-  ZapEventListComponent({
+  ZapEventListWidget({super.key,
     required this.event,
     this.jumpable = true,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _ZapEventListComponent();
+    return _ZapEventListWidgetState();
   }
 }
 
-class _ZapEventListComponent extends State<ZapEventListComponent> {
+class _ZapEventListWidgetState extends State<ZapEventListWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -35,7 +35,7 @@ class _ZapEventListComponent extends State<ZapEventListComponent> {
         top: Base.BASE_PADDING,
         bottom: Base.BASE_PADDING,
       ),
-      child: ZapEventMainComponent(
+      child: ZapEventMainWidget(
         event: widget.event,
       ),
     );

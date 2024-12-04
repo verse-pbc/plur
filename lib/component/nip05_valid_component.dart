@@ -4,18 +4,18 @@ import 'package:provider/provider.dart';
 import '../consts/nip05status.dart';
 import '../provider/metadata_provider.dart';
 
-class Nip05ValidComponent extends StatefulWidget {
+class Nip05ValidWidget extends StatefulWidget {
   String pubkey;
 
-  Nip05ValidComponent({required this.pubkey});
+  Nip05ValidWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
-    return _Nip05ValidComponent();
+    return _Nip05ValidWidgetState();
   }
 }
 
-class _Nip05ValidComponent extends State<Nip05ValidComponent> {
+class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);

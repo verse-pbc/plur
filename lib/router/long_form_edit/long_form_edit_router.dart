@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/editor/editor_mixin.dart';
 
-class LongFormEditRouter extends StatefulWidget {
+class LongFormEditWidget extends StatefulWidget {
+  const LongFormEditWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _LongFormEditRouter();
+    return _LongFormEditWidgetState();
   }
 }
 
-class _LongFormEditRouter extends CustState<LongFormEditRouter>
+class _LongFormEditWidgetState extends CustState<LongFormEditWidget>
     with EditorMixin {
   @override
   void initState() {

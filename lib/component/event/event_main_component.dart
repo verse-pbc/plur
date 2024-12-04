@@ -56,7 +56,7 @@ import 'event_quote_component.dart';
 import 'event_reactions_component.dart';
 import 'event_top_component.dart';
 
-class EventMainComponent extends StatefulWidget {
+class EventMainWidget extends StatefulWidget {
   ScreenshotController screenshotController;
 
   Event event;
@@ -87,7 +87,7 @@ class EventMainComponent extends StatefulWidget {
 
   bool traceMode;
 
-  EventMainComponent({
+  EventMainWidget({
     super.key,
     required this.screenshotController,
     required this.event,
@@ -108,11 +108,11 @@ class EventMainComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _EventMainComponent();
+    return _EventMainWidgetState();
   }
 }
 
-class _EventMainComponent extends State<EventMainComponent> {
+class _EventMainWidgetState extends State<EventMainWidget> {
   bool showWarning = false;
 
   late EventRelation eventRelation;
@@ -141,17 +141,17 @@ class _EventMainComponent extends State<EventMainComponent> {
   @override
   Widget doBuild(BuildContext context) {
     var s = S.of(context);
-    var _settingProvider = Provider.of<SettingProvider>(context);
+    var settingProvider = Provider.of<SettingProvider>(context);
     if (eventRelation.id != widget.event.id) {
-      // change when thead root load lazy
+      // change when thread root load lazy
       eventRelation = EventRelation.fromEvent(widget.event);
     }
 
-    bool imagePreview = _settingProvider.imagePreview == null ||
-        _settingProvider.imagePreview == OpenStatus.OPEN;
+    bool imagePreview = settingProvider.imagePreview == null ||
+        settingProvider.imagePreview == OpenStatus.OPEN;
     bool videoPreview = widget.showVideo;
-    if (_settingProvider.videoPreview != null) {
-      videoPreview = _settingProvider.videoPreview == OpenStatus.OPEN;
+    if (settingProvider.videoPreview != null) {
+      videoPreview = settingProvider.videoPreview == OpenStatus.OPEN;
     }
 
     var themeData = Theme.of(context);
@@ -181,7 +181,7 @@ class _EventMainComponent extends State<EventMainComponent> {
       }
     }
 
-    if (_settingProvider.autoOpenSensitive == OpenStatus.OPEN) {
+    if (settingProvider.autoOpenSensitive == OpenStatus.OPEN) {
       showWarning = true;
     }
 
@@ -210,7 +210,7 @@ class _EventMainComponent extends State<EventMainComponent> {
         if (longFormInfo.topics.isNotEmpty) {
           List<Widget> topicWidgets = [];
           for (var topic in longFormInfo.topics) {
-            topicWidgets.add(ContentTagComponent(tag: "#$topic"));
+            topicWidgets.add(ContentTagWidget(tag: "#$topic"));
           }
 
           subList.add(Container(
@@ -240,14 +240,14 @@ class _EventMainComponent extends State<EventMainComponent> {
         if (StringUtil.isNotBlank(longFormInfo.image)) {
           subList.add(Container(
             margin: longFormMargin,
-            child: ContentImageComponent(
+            child: ContentImageWidget(
               imageUrl: longFormInfo.image!,
             ),
           ));
         }
 
         list.add(
-          Container(
+          SizedBox(
             width: double.maxFinite,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +260,7 @@ class _EventMainComponent extends State<EventMainComponent> {
         if (widget.showLongContent &&
             StringUtil.isNotBlank(widget.event.content)) {
           var markdownWidget = buildMarkdownWidget(themeData);
-          list.add(Container(
+          list.add(SizedBox(
             width: double.infinity,
             child: RepaintBoundary(child: markdownWidget),
           ));
@@ -270,7 +270,7 @@ class _EventMainComponent extends State<EventMainComponent> {
           list.add(buildZapInfoWidgets(themeData));
         }
 
-        list.add(EventReactionsComponent(
+        list.add(EventReactionsWidget(
           screenshotController: widget.screenshotController,
           event: widget.event,
           eventRelation: eventRelation,
@@ -283,7 +283,7 @@ class _EventMainComponent extends State<EventMainComponent> {
           child: Text("${s.Boost}:"),
         ));
         if (repostEvent != null) {
-          list.add(EventQuoteComponent(
+          list.add(EventQuoteWidget(
             event: repostEvent,
             showVideo: widget.showVideo,
           ));
@@ -309,24 +309,18 @@ class _EventMainComponent extends State<EventMainComponent> {
           }
 
           if (StringUtil.isNotBlank(rootId)) {
-            list.add(EventQuoteComponent(
+            list.add(EventQuoteWidget(
               id: rootId,
               eventRelayAddr: rootRelayAddr,
               showVideo: widget.showVideo,
             ));
           } else {
             list.add(
-              buildContentWidget(_settingProvider, imagePreview, videoPreview),
+              buildContentWidget(settingProvider, imagePreview, videoPreview),
             );
           }
         }
 
-        // list.add(EventReactionsComponent(
-        //   screenshotController: widget.screenshotController,
-        //   event: widget.event,
-        //   eventRelation: eventRelation,
-        //   showDetailBtn: widget.showDetailBtn,
-        // ));
       } else if (widget.event.kind == EventKind.STORAGE_SHARED_FILE) {
         list.add(buildStorageSharedFileWidget());
         if (!widget.inQuote) {
@@ -334,7 +328,7 @@ class _EventMainComponent extends State<EventMainComponent> {
             list.add(buildZapInfoWidgets(themeData));
           }
 
-          list.add(EventReactionsComponent(
+          list.add(EventReactionsWidget(
             screenshotController: widget.screenshotController,
             event: widget.event,
             eventRelation: eventRelation,
@@ -396,16 +390,16 @@ class _EventMainComponent extends State<EventMainComponent> {
         }
 
         list.add(
-          buildContentWidget(_settingProvider, imagePreview, videoPreview),
+          buildContentWidget(settingProvider, imagePreview, videoPreview),
         );
 
         if (widget.event.kind == EventKind.POLL) {
-          list.add(EventPollComponent(
+          list.add(EventPollWidget(
             event: widget.event,
           ));
         } else if (widget.event.kind == EventKind.ZAP_GOALS ||
             StringUtil.isNotBlank(eventRelation.zapraiser)) {
-          list.add(EventZapGoalsComponent(
+          list.add(EventZapGoalsWidget(
             event: widget.event,
             eventRelation: eventRelation,
           ));
@@ -461,34 +455,34 @@ class _EventMainComponent extends State<EventMainComponent> {
                 widget.event.kind == EventKind.VIDEO_VERTICAL) {
               if (settingProvider.videoPreview == OpenStatus.OPEN &&
                   widget.showVideo) {
-                list.add(ContentVideoComponent(url: url!));
+                list.add(ContentVideoWidget(url: url!));
               } else {
-                list.add(ContentLinkComponent(link: url!));
+                list.add(ContentLinkWidget(link: url!));
               }
             } else {
               //  show and decode depend m
               if (StringUtil.isNotBlank(m)) {
                 if (m!.indexOf("image/") == 0) {
-                  list.add(ContentImageComponent(imageUrl: url!));
+                  list.add(ContentImageWidget(imageUrl: url!));
                 } else if (m.indexOf("video/") == 0 && widget.showVideo) {
-                  list.add(ContentVideoComponent(url: url!));
+                  list.add(ContentVideoWidget(url: url!));
                 } else {
-                  list.add(ContentLinkComponent(link: url!));
+                  list.add(ContentLinkWidget(link: url!));
                 }
               } else {
                 var fileType = PathTypeUtil.getPathType(url!);
                 if (fileType == "image") {
-                  list.add(ContentImageComponent(imageUrl: url));
+                  list.add(ContentImageWidget(imageUrl: url));
                 } else if (fileType == "video") {
                   if (settingProvider.videoPreview != OpenStatus.OPEN &&
                       (settingProvider.videoPreviewInList == OpenStatus.OPEN ||
                           widget.showVideo)) {
-                    list.add(ContentVideoComponent(url: url));
+                    list.add(ContentVideoWidget(url: url));
                   } else {
-                    list.add(ContentLinkComponent(link: url));
+                    list.add(ContentLinkWidget(link: url));
                   }
                 } else {
-                  list.add(ContentLinkComponent(link: url));
+                  list.add(ContentLinkWidget(link: url));
                 }
               }
             }
@@ -497,7 +491,7 @@ class _EventMainComponent extends State<EventMainComponent> {
           if (tagList.isNotEmpty) {
             List<Widget> topicWidgets = [];
             for (var topic in tagList) {
-              topicWidgets.add(ContentTagComponent(tag: "#$topic"));
+              topicWidgets.add(ContentTagWidget(tag: "#$topic"));
             }
 
             list.add(Container(
@@ -514,7 +508,7 @@ class _EventMainComponent extends State<EventMainComponent> {
         if (eventRelation.aId != null &&
             eventRelation.aId!.kind == EventKind.LONG_FORM &&
             widget.showLinkedLongForm) {
-          list.add(EventQuoteComponent(
+          list.add(EventQuoteWidget(
             aId: eventRelation.aId!,
           ));
         }
@@ -522,7 +516,7 @@ class _EventMainComponent extends State<EventMainComponent> {
         if (widget.event.kind == EventKind.TORRENTS) {
           var torrentInfo = TorrentInfo.fromEvent(widget.event);
           if (torrentInfo != null) {
-            list.add(EventTorrentComponent(torrentInfo));
+            list.add(EventTorrentWidget(torrentInfo));
           }
         }
 
@@ -532,7 +526,7 @@ class _EventMainComponent extends State<EventMainComponent> {
 
         if (widget.event.kind != EventKind.ZAP &&
             !(widget.event.kind == EventKind.FILE_HEADER && widget.inQuote)) {
-          list.add(EventReactionsComponent(
+          list.add(EventReactionsWidget(
             screenshotController: widget.screenshotController,
             event: widget.event,
             eventRelation: eventRelation,
@@ -602,7 +596,7 @@ class _EventMainComponent extends State<EventMainComponent> {
     if (!(widget.inQuote &&
         (widget.event.kind == EventKind.FILE_HEADER ||
             widget.event.kind == EventKind.STORAGE_SHARED_FILE))) {
-      eventAllList.add(EventTopComponent(
+      eventAllList.add(EventTopWidget(
         event: widget.event,
         pagePubkey: widget.pagePubkey,
       ));
@@ -645,7 +639,7 @@ class _EventMainComponent extends State<EventMainComponent> {
 
     var main = Container(
       width: double.maxFinite,
-      child: ContentComponent(
+      child: ContentWidget(
         content: content,
         event: widget.event,
         textOnTap: widget.textOnTap,
@@ -718,12 +712,12 @@ class _EventMainComponent extends State<EventMainComponent> {
       ],
       imageBuilder: (Uri uri, String? title, String? alt) {
         if (settingProvider.imagePreview == OpenStatus.CLOSE) {
-          return ContentLinkComponent(
+          return ContentLinkWidget(
             link: uri.toString(),
             title: title,
           );
         }
-        return ContentImageComponent(imageUrl: uri.toString());
+        return ContentImageWidget(imageUrl: uri.toString());
       },
       styleSheet: MarkdownStyleSheet(
         a: TextStyle(
@@ -736,7 +730,7 @@ class _EventMainComponent extends State<EventMainComponent> {
         // print("text $text href $href title $title");
         if (StringUtil.isNotBlank(href)) {
           if (href!.indexOf("http") == 0) {
-            WebViewRouter.open(context, href);
+            WebViewWidget.open(context, href);
           } else if (href.indexOf("nostr:") == 0) {
             var link = href.replaceFirst("nostr:", "");
             if (Nip19.isPubkey(link)) {
@@ -842,17 +836,17 @@ class _EventMainComponent extends State<EventMainComponent> {
     }
 
     if (type != null && type.startsWith("image")) {
-      return ContentImageComponent(
+      return ContentImageWidget(
         imageUrl: content,
         fileMetadata: eventRelation.fileMetadatas[content],
       );
     } else if (type != null && type.startsWith("video")) {
-      return ContentVideoComponent(
+      return ContentVideoWidget(
         url: content,
       );
     } else {
       log("buildSharedFileWidget not support type $type");
-      return ContentComponent(
+      return ContentWidget(
         content: widget.event.content,
         event: widget.event,
         eventRelation: eventRelation,
@@ -863,7 +857,7 @@ class _EventMainComponent extends State<EventMainComponent> {
   Widget buildZapInfoWidgets(ThemeData themeData) {
     List<Widget> list = [];
 
-    list.add(ZapSplitIconComponent(themeData.textTheme.bodyMedium!.fontSize!));
+    list.add(ZapSplitIconWidget(themeData.textTheme.bodyMedium!.fontSize!));
 
     var imageWidgetHeight = themeData.textTheme.bodyMedium!.fontSize! + 10;
     var imageWidgetWidth = themeData.textTheme.bodyMedium!.fontSize! + 2;
@@ -883,7 +877,7 @@ class _EventMainComponent extends State<EventMainComponent> {
                 width: imageWidgetWidth,
                 height: imageWidgetHeight,
                 alignment: Alignment.center,
-                child: UserPicComponent(
+                child: UserPicWidget(
                   pubkey: zapInfo.pubkey,
                   width: imgSize,
                   metadata: metadata,
@@ -937,7 +931,7 @@ class _EventReplyingcomponent extends State<EventReplyingcomponent> {
           var hintColor = themeData.hintColor;
           var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
           var displayName =
-              SimpleNameComponent.getSimpleName(widget.pubkey, metadata);
+              SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
 
           return Text(
             displayName,

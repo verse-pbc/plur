@@ -5,16 +5,16 @@ import 'package:provider/provider.dart';
 import '../../provider/dm_provider.dart';
 import 'dm_session_list_item_component.dart';
 
-class DMUnknownListRouter extends StatefulWidget {
-  DMUnknownListRouter();
+class DMUnknownListWidget extends StatefulWidget {
+  const DMUnknownListWidget({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _DMUnknownListRouter();
+    return _DMUnknownListWidgetState();
   }
 }
 
-class _DMUnknownListRouter extends State<DMUnknownListRouter> {
+class _DMUnknownListWidgetState extends State<DMUnknownListWidget> {
   @override
   Widget build(BuildContext context) {
     var _dmProvider = Provider.of<DMProvider>(context);
@@ -29,7 +29,7 @@ class _DMUnknownListRouter extends State<DMUnknownListRouter> {
             }
 
             var detail = details[index];
-            return DMSessionListItemComponent(
+            return DMSessionListItemWidget(
               key: Key(
                   "${detail.dmSession.pubkey}${detail.dmSession.lastTime()}"),
               detail: detail,

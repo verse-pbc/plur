@@ -16,14 +16,16 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 
-class GroupMembersRouter extends StatefulWidget {
+class GroupMembersWidget extends StatefulWidget {
+  const GroupMembersWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _GroupMembersRouter();
+    return _GroupMembersWidgetState();
   }
 }
 
-class _GroupMembersRouter extends State<GroupMembersRouter> {
+class _GroupMembersWidgetState extends State<GroupMembersWidget> {
   GroupIdentifier? groupIdentifier;
 
   @override
@@ -53,7 +55,7 @@ class _GroupMembersRouter extends State<GroupMembersRouter> {
 
       list.add(buildHeader(s.Admins, bodyLargeFontSize!, null));
       for (var groupAdminUser in groupAdmins.users) {
-        list.add(GroupMemberItemComponent(
+        list.add(GroupMemberItemWidget(
             groupIdentifier!, groupAdminUser.pubkey!, isAdmin, groupAdminUser));
       }
     }
@@ -62,13 +64,13 @@ class _GroupMembersRouter extends State<GroupMembersRouter> {
           s.Members, bodyLargeFontSize!, isAdmin ? addMember : null));
       for (var pubkey in groupMembers.members!) {
         list.add(
-            GroupMemberItemComponent(groupIdentifier!, pubkey, isAdmin, null));
+            GroupMemberItemWidget(groupIdentifier!, pubkey, isAdmin, null));
       }
     }
 
     return Scaffold(
       appBar: AppBar(
-        leading: AppbarBackBtnComponent(),
+        leading: const AppbarBackBtnWidget(),
         title: Text(
           s.Members,
           style: TextStyle(
@@ -124,7 +126,7 @@ class _GroupMembersRouter extends State<GroupMembersRouter> {
       context,
       s.Search,
       s.Please_input_user_pubkey,
-      SearchMentionUserComponent(),
+      const SearchMentionUserWidget(),
       hintText: s.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {
@@ -133,7 +135,7 @@ class _GroupMembersRouter extends State<GroupMembersRouter> {
   }
 }
 
-class GroupMemberItemComponent extends StatefulWidget {
+class GroupMemberItemWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
 
   final String pubkey;
@@ -142,17 +144,17 @@ class GroupMemberItemComponent extends StatefulWidget {
 
   GroupAdminUser? groupAdminUser;
 
-  GroupMemberItemComponent(
+  GroupMemberItemWidget(
       this.groupIdentifier, this.pubkey, this.canManger, this.groupAdminUser,
       {super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _GroupMemberItemComponent();
+    return _GroupMemberItemWidgetState();
   }
 }
 
-class _GroupMemberItemComponent extends State<GroupMemberItemComponent> {
+class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
   static double USER_PIC_WIDTH = 30;
 
   @override
@@ -163,9 +165,9 @@ class _GroupMemberItemComponent extends State<GroupMemberItemComponent> {
     List<Widget> list = [];
     list.add(Container(
       margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-      child: UserPicComponent(pubkey: widget.pubkey, width: USER_PIC_WIDTH),
+      child: UserPicWidget(pubkey: widget.pubkey, width: USER_PIC_WIDTH),
     ));
-    list.add(NameComponent(pubkey: widget.pubkey));
+    list.add(NameWidget(pubkey: widget.pubkey));
 
     if (widget.groupAdminUser != null &&
         widget.groupAdminUser!.permissions != null &&

@@ -27,14 +27,16 @@ import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'user_statistics_component.dart';
 
-class UserRouter extends StatefulWidget {
+class UserWidget extends StatefulWidget {
+  const UserWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _UserRouter();
+    return _UserWidgetState();
   }
 }
 
-class _UserRouter extends CustState<UserRouter>
+class _UserWidgetState extends CustState<UserWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
@@ -93,7 +95,7 @@ class _UserRouter extends CustState<UserRouter>
         return Container();
       }
       var events = followEventProvider.eventsByPubkey(pubkey!);
-      if (events != null && events.isNotEmpty) {
+      if (events.isNotEmpty) {
         box.addList(events);
       }
     } else {
@@ -119,7 +121,6 @@ class _UserRouter extends CustState<UserRouter>
     showAppbarBGHeight = showTitleHeight + 100;
 
     var themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
 
     return Selector<MetadataProvider, Metadata?>(
       shouldRebuild: (previous, next) {
@@ -131,13 +132,12 @@ class _UserRouter extends CustState<UserRouter>
       builder: (context, metadata, child) {
         Color? appbarBackgroundColor = Colors.transparent;
         if (showAppbarBG) {
-          // appbarBackgroundColor = Colors.white.withOpacity(0.6);
           appbarBackgroundColor = themeData.cardColor.withOpacity(0.6);
         }
         Widget? appbarTitle;
         if (showTitle) {
           String displayName =
-              SimpleNameComponent.getSimpleName(pubkey!, metadata);
+              SimpleNameWidget.getSimpleName(pubkey!, metadata);
 
           appbarTitle = Container(
             alignment: Alignment.center,
@@ -163,7 +163,7 @@ class _UserRouter extends CustState<UserRouter>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverToBoxAdapter(
-                child: MetadataComponent(
+                child: MetadataWidget(
                   pubkey: pubkey!,
                   metadata: metadata,
                   showBadges: true,
@@ -176,7 +176,7 @@ class _UserRouter extends CustState<UserRouter>
                   color: themeData.cardColor,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: UserStatisticsComponent(
+                    child: UserStatisticsWidget(
                       pubkey: pubkey!,
                     ),
                   ),
@@ -193,7 +193,7 @@ class _UserRouter extends CustState<UserRouter>
                 if (event == null) {
                   return null;
                 }
-                return EventListComponent(
+                return EventListWidget(
                   event: event,
                   showVideo:
                       _settingProvider.videoPreviewInList != OpenStatus.CLOSE,

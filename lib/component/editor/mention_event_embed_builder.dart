@@ -11,7 +11,7 @@ class MentionEventEmbedBuilder extends EmbedBuilder {
       bool readOnly, bool inline, TextStyle textStyle) {
     var id = node.value.data;
     return AbsorbPointer(
-      child: EventQuoteComponent(id: id),
+      child: EventQuoteWidget(id: id),
     );
   }
 

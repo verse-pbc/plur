@@ -30,14 +30,14 @@ import '../../main.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'index_drawer_content.dart';
 
-class AccountManagerComponent extends StatefulWidget {
+class AccountManagerWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return AccountManagerComponentState();
+    return AccountManagerWidgetState();
   }
 }
 
-class AccountManagerComponentState extends State<AccountManagerComponent> {
+class AccountManagerWidgetState extends State<AccountManagerWidget> {
   @override
   Widget build(BuildContext context) {
     var s = S.of(context);
@@ -62,7 +62,7 @@ class AccountManagerComponentState extends State<AccountManagerComponent> {
           ),
         ),
       ),
-      child: IndexDrawerItem(
+      child: IndexDrawerItemWidget(
         iconData: Icons.account_box,
         name: s.Account_Manager,
         onTap: () {},
@@ -75,7 +75,7 @@ class AccountManagerComponentState extends State<AccountManagerComponent> {
         log("parse index key error");
         return;
       }
-      list.add(AccountManagerItemComponent(
+      list.add(AccountManagerItemWidget(
         index: index,
         accountKey: value,
         isCurrent: _settingProvider.privateKeyIndex == index,
@@ -224,7 +224,7 @@ class AccountManagerComponentState extends State<AccountManagerComponent> {
   }
 }
 
-class AccountManagerItemComponent extends StatefulWidget {
+class AccountManagerItemWidget extends StatefulWidget {
   bool isCurrent;
 
   int index;
@@ -235,7 +235,7 @@ class AccountManagerItemComponent extends StatefulWidget {
 
   Function(int)? onLogoutTap;
 
-  AccountManagerItemComponent({
+  AccountManagerItemWidget({
     required this.isCurrent,
     required this.index,
     required this.accountKey,
@@ -245,11 +245,11 @@ class AccountManagerItemComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _AccountManagerItemComponent();
+    return _AccountManagerItemWidgetState();
   }
 }
 
-class _AccountManagerItemComponent extends State<AccountManagerItemComponent> {
+class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
   static const double IMAGE_WIDTH = 26;
 
   static const double LINE_HEIGHT = 44;
@@ -287,7 +287,6 @@ class _AccountManagerItemComponent extends State<AccountManagerItemComponent> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    var hintColor = themeData.hintColor;
     Color? cardColor = themeData.cardColor;
     if (cardColor == Colors.white) {
       cardColor = Colors.grey[300];
@@ -304,10 +303,10 @@ class _AccountManagerItemComponent extends State<AccountManagerItemComponent> {
       list.add(Container(
         width: 24,
         alignment: Alignment.centerLeft,
-        child: Container(
+        child: SizedBox(
           width: 15,
           child: widget.isCurrent
-              ? PointComponent(
+              ? PointWidget(
                   width: 15,
                   color: currentColor,
                 )
@@ -315,15 +314,15 @@ class _AccountManagerItemComponent extends State<AccountManagerItemComponent> {
         ),
       ));
 
-      list.add(UserPicComponent(
+      list.add(UserPicWidget(
         pubkey: pubkey,
         width: IMAGE_WIDTH,
         metadata: metadata,
       ));
 
       list.add(Container(
-        margin: EdgeInsets.only(left: 5, right: 5),
-        child: NameComponent(
+        margin: const EdgeInsets.only(left: 5, right: 5),
+        child: NameWidget(
           pubkey: pubkey,
           metadata: metadata,
         ),
@@ -369,9 +368,9 @@ class _AccountManagerItemComponent extends State<AccountManagerItemComponent> {
       list.add(GestureDetector(
         onTap: onLogout,
         child: Container(
-          padding: EdgeInsets.only(left: 5),
+          padding: const EdgeInsets.only(left: 5),
           height: LINE_HEIGHT,
-          child: Icon(Icons.logout),
+          child: const Icon(Icons.logout),
         ),
       ));
 

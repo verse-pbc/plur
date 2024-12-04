@@ -125,11 +125,11 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
       child: Text(s.Select_relay_to_upload),
     ));
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Wrap(
-        children: subList,
         spacing: Base.BASE_PADDING_HALF,
         runSpacing: Base.BASE_PADDING_HALF,
+        children: subList,
       ),
     ));
 

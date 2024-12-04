@@ -15,7 +15,7 @@ import '../../consts/base.dart';
 import '../../consts/client_connected.dart';
 import '../../generated/l10n.dart';
 
-class RelaysItemComponent extends StatefulWidget {
+class RelaysItemWidget extends StatefulWidget {
   String addr;
 
   RelayStatus relayStatus;
@@ -24,7 +24,8 @@ class RelaysItemComponent extends StatefulWidget {
 
   String rwText;
 
-  RelaysItemComponent({
+  RelaysItemWidget({
+    super.key,
     required this.addr,
     required this.relayStatus,
     this.editable = true,
@@ -33,11 +34,11 @@ class RelaysItemComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _RelaysItemComponent();
+    return _RelaysItemWidgetState();
   }
 }
 
-class _RelaysItemComponent extends State<RelaysItemComponent> {
+class _RelaysItemWidgetState extends State<RelaysItemWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -55,24 +56,22 @@ class _RelaysItemComponent extends State<RelaysItemComponent> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: EdgeInsets.only(bottom: 2),
+          margin: const EdgeInsets.only(bottom: 2),
           child: Text(StringUtil.breakWord(widget.addr)),
         ),
         Row(
           children: [
             Container(
-              margin: EdgeInsets.only(right: Base.BASE_PADDING),
-              child: RelaysItemNumComponent(
+              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+              child: RelaysItemNumWidget(
                 iconData: Icons.mail,
                 num: widget.relayStatus.noteReceived,
               ),
             ),
-            Container(
-              child: RelaysItemNumComponent(
-                iconColor: Colors.red,
-                iconData: Icons.error,
-                num: widget.relayStatus.error,
-              ),
+            RelaysItemNumWidget(
+              iconColor: Colors.red,
+              iconData: Icons.error,
+              num: widget.relayStatus.error,
             ),
             Container(
               margin: const EdgeInsets.only(
@@ -95,7 +94,7 @@ class _RelaysItemComponent extends State<RelaysItemComponent> {
         child: leftWidget,
       ));
 
-      list.add(RelaySpeedComponent(widget.addr));
+      list.add(RelaySpeedWidget(widget.addr));
 
       list.add(GestureDetector(
         onTap: () {
@@ -153,7 +152,6 @@ class _RelaysItemComponent extends State<RelaysItemComponent> {
                 color: borderLeftColor,
               ),
             ),
-            // borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
             children: list,
@@ -177,14 +175,15 @@ class _RelaysItemComponent extends State<RelaysItemComponent> {
   }
 }
 
-class RelaysItemNumComponent extends StatelessWidget {
+class RelaysItemNumWidget extends StatelessWidget {
   Color? iconColor;
 
   IconData iconData;
 
   int num;
 
-  RelaysItemNumComponent({
+  RelaysItemNumWidget({
+    super.key,
     this.iconColor,
     required this.iconData,
     required this.num,
@@ -195,26 +194,24 @@ class RelaysItemNumComponent extends StatelessWidget {
     var themeData = Theme.of(context);
     var smallFontSize = themeData.textTheme.bodySmall!.fontSize;
 
-    return Container(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-            child: Icon(
-              iconData,
-              color: iconColor,
-              size: smallFontSize,
-            ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+          child: Icon(
+            iconData,
+            color: iconColor,
+            size: smallFontSize,
           ),
-          Text(
-            num.toString(),
-            style: TextStyle(
-              fontSize: smallFontSize,
-            ),
+        ),
+        Text(
+          num.toString(),
+          style: TextStyle(
+            fontSize: smallFontSize,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

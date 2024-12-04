@@ -5,7 +5,7 @@ import 'package:nostrmo/data/metadata.dart';
 
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class NameComponent extends StatefulWidget {
+class NameWidget extends StatefulWidget {
   String pubkey;
 
   Metadata? metadata;
@@ -22,7 +22,8 @@ class NameComponent extends StatefulWidget {
 
   bool showName;
 
-  NameComponent({
+  NameWidget({
+    super.key,
     required this.pubkey,
     this.metadata,
     this.showNip05 = true,
@@ -35,11 +36,11 @@ class NameComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _NameComponent();
+    return _NameWidgetState();
   }
 }
 
-class _NameComponent extends State<NameComponent> {
+class _NameWidgetState extends State<NameWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
@@ -55,7 +56,6 @@ class _NameComponent extends State<NameComponent> {
       hintColor = widget.fontColor!;
     }
 
-    int nip05Status = -1;
     if (metadata != null) {
       if (StringUtil.isNotBlank(metadata.displayName)) {
         displayName = metadata.displayName!;
@@ -64,13 +64,6 @@ class _NameComponent extends State<NameComponent> {
         }
       } else if (StringUtil.isNotBlank(metadata.name)) {
         displayName = metadata.name!;
-      }
-
-      if (StringUtil.isNotBlank(metadata.nip05)) {
-        nip05Status = 1;
-      }
-      if (metadata.valid != null && metadata.valid! > 0) {
-        nip05Status = 2;
       }
     }
 
@@ -105,7 +98,7 @@ class _NameComponent extends State<NameComponent> {
     if (widget.showNip05) {
       var nip05Widget = Container(
         margin: const EdgeInsets.only(left: 3),
-        child: Nip05ValidComponent(pubkey: widget.pubkey),
+        child: Nip05ValidWidget(pubkey: widget.pubkey),
       );
 
       nameList.add(WidgetSpan(child: nip05Widget));

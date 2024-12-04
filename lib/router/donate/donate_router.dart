@@ -9,65 +9,63 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 
-class DonateRouter extends StatefulWidget {
+class DonateWidget extends StatefulWidget {
+  const DonateWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _DonateRouter();
+    return _DonateWidgetState();
   }
 }
 
-class _DonateRouter extends CustState<DonateRouter> {
+class _DonateWidgetState extends CustState<DonateWidget> {
   @override
   Widget doBuild(BuildContext context) {
     var s = S.of(context);
 
     var themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
-    var mainColor = themeData.primaryColor;
-    var hintColor = themeData.hintColor;
 
     Color? appbarBackgroundColor = Colors.transparent;
     var appBar = Appbar4Stack(
       backgroundColor: appbarBackgroundColor,
       title: Text(
         s.Donate,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
       ),
     );
 
     List<Widget> list = [];
-    list.add(Container(
-      child: Icon(
-        Icons.coffee_outlined,
-        size: 160,
-        // color: mainColor,
-      ),
+    list.add(const Icon(
+      Icons.coffee_outlined,
+      size: 160,
+      // color: mainColor,
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: 40,
       ),
       child: Text(s.Buy_me_a_coffee),
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         bottom: 20,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          DonateBtn(
+          _DonateButtonWidget(
             name: "X1",
             onTap: () {
               buy(CoffeeIds.COFFEE1);
             },
             price: price1,
           ),
-          DonateBtn(
+          _DonateButtonWidget(
             name: "X2",
             onTap: () {
               buy(CoffeeIds.COFFEE2);
@@ -81,14 +79,14 @@ class _DonateRouter extends CustState<DonateRouter> {
     list.add(Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        DonateBtn(
+        _DonateButtonWidget(
           name: "X5",
           onTap: () {
             buy(CoffeeIds.COFFEE5);
           },
           price: price5,
         ),
-        DonateBtn(
+        _DonateButtonWidget(
           name: "X10",
           onTap: () {
             buy(CoffeeIds.COFFEE2);
@@ -108,7 +106,7 @@ class _DonateRouter extends CustState<DonateRouter> {
             child: Container(
               color: cardColor,
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: mediaDataCache.size.width * 0.8,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -120,7 +118,7 @@ class _DonateRouter extends CustState<DonateRouter> {
           ),
           Positioned(
             top: mediaDataCache.padding.top,
-            child: Container(
+            child: SizedBox(
               width: mediaDataCache.size.width,
               child: appBar,
             ),
@@ -142,25 +140,23 @@ class _DonateRouter extends CustState<DonateRouter> {
       CoffeeIds.COFFEE5,
       CoffeeIds.COFFEE10
     ]);
-    print(list);
-    if (list != null) {
-      for (var item in list) {
-        if (StringUtil.isNotBlank(item.price) &&
-            item.productId == CoffeeIds.COFFEE1) {
-          price1 = item.localizedPrice!;
-        } else if (StringUtil.isNotBlank(item.price) &&
-            item.productId == CoffeeIds.COFFEE2) {
-          price2 = item.localizedPrice!;
-        } else if (StringUtil.isNotBlank(item.price) &&
-            item.productId == CoffeeIds.COFFEE5) {
-          price5 = item.localizedPrice!;
-        } else if (StringUtil.isNotBlank(item.price) &&
-            item.productId == CoffeeIds.COFFEE10) {
-          price10 = item.localizedPrice!;
-        }
+
+    for (var item in list) {
+      if (StringUtil.isNotBlank(item.price) &&
+          item.productId == CoffeeIds.COFFEE1) {
+        price1 = item.localizedPrice!;
+      } else if (StringUtil.isNotBlank(item.price) &&
+          item.productId == CoffeeIds.COFFEE2) {
+        price2 = item.localizedPrice!;
+      } else if (StringUtil.isNotBlank(item.price) &&
+          item.productId == CoffeeIds.COFFEE5) {
+        price5 = item.localizedPrice!;
+      } else if (StringUtil.isNotBlank(item.price) &&
+          item.productId == CoffeeIds.COFFEE10) {
+        price10 = item.localizedPrice!;
       }
-      setState(() {});
     }
+    setState(() {});
   }
 
   Future<void> buy(String id) async {
@@ -173,14 +169,14 @@ class _DonateRouter extends CustState<DonateRouter> {
   }
 }
 
-class DonateBtn extends StatelessWidget {
+class _DonateButtonWidget extends StatelessWidget {
   String name;
 
   Function onTap;
 
   String price;
 
-  DonateBtn({
+  _DonateButtonWidget({
     super.key,
     required this.name,
     required this.onTap,
@@ -195,7 +191,7 @@ class DonateBtn extends StatelessWidget {
     var largeTextSize = themeData.textTheme.bodyLarge!.fontSize;
 
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: 30,
         right: 30,
       ),
@@ -204,30 +200,30 @@ class DonateBtn extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () {
-              this.onTap();
+              onTap();
             },
-            child: Container(
-              width: 60,
-              height: 60,
-              alignment: Alignment.center,
-              child: Text(
-                this.name,
-                style: TextStyle(
-                  fontSize: largeTextSize,
-                  color: textColor,
-                ),
-              ),
-            ),
             style: ButtonStyle(
               side: MaterialStateProperty.all(BorderSide(
                 width: 1,
                 color: hintColor.withOpacity(0.4),
               )),
             ),
+            child: Container(
+              width: 60,
+              height: 60,
+              alignment: Alignment.center,
+              child: Text(
+                name,
+                style: TextStyle(
+                  fontSize: largeTextSize,
+                  color: textColor,
+                ),
+              ),
+            ),
           ),
           Container(
-            margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
-            child: Text(this.price),
+            margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+            child: Text(price),
           ),
         ],
       ),

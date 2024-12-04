@@ -45,7 +45,6 @@ class _NIP07Dialog extends State<NIP07Dialog> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
@@ -96,7 +95,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
       methodDesc = s.NIP07_lightning;
     }
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Row(
         children: [
           Text(methodDesc),
@@ -105,9 +104,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     ));
 
     if (StringUtil.isNotBlank(widget.content)) {
-      list.add(Container(
-        child: Text("${s.Content}:"),
-      ));
+      list.add(Text("${s.Content}:"));
       list.add(Container(
         width: double.maxFinite,
         padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
@@ -124,7 +121,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Row(children: [
         Expanded(
             child: InkWell(

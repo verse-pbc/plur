@@ -22,10 +22,10 @@ class TapListPlaceholder extends StatelessWidget {
       color: themeData.cardColor,
       child: Center(
         child: Wrap(
-          children: list,
           spacing: 14,
           runSpacing: 14,
           alignment: WrapAlignment.center,
+          children: list,
         ),
       ),
     );

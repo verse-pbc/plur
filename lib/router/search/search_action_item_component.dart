@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../../consts/base.dart';
 
-class SearchActionItemComponent extends StatelessWidget {
+class SearchActionItemWidget extends StatelessWidget {
   String title;
 
   Function onTap;
 
-  SearchActionItemComponent({
+  SearchActionItemWidget({
     required this.title,
     required this.onTap,
   });

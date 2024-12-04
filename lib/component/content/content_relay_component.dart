@@ -9,10 +9,10 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import 'content_str_link_component.dart';
 
-class ContentRelayComponent extends StatelessWidget {
+class ContentRelayWidget extends StatelessWidget {
   String addr;
 
-  ContentRelayComponent(this.addr);
+  ContentRelayWidget(this.addr);
 
   @override
   Widget build(BuildContext context) {

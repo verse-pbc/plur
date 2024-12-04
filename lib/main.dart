@@ -67,7 +67,6 @@ import 'provider/dm_provider.dart';
 import 'provider/event_reactions_provider.dart';
 import 'provider/filter_provider.dart';
 import 'provider/follow_event_provider.dart';
-import 'provider/group_provider.dart';
 import 'provider/index_provider.dart';
 import 'provider/link_preview_data_provider.dart';
 import 'provider/list_provider.dart';
@@ -84,15 +83,15 @@ import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
 import 'provider/wot_provider.dart';
-import 'router/bookmark/bookmark_router.dart';
-import 'router/community/community_detail_router.dart';
-import 'router/dm/dm_detail_router.dart';
+import 'router/bookmark/bookmark_widget.dart';
+import 'router/community/community_detail_widget.dart';
+import 'router/dm/dm_detail_widget.dart';
 import 'router/donate/donate_router.dart';
-import 'router/event_detail/event_detail_router.dart';
+import 'router/event_detail/event_detail_widget.dart';
 import 'router/filter/filter_router.dart';
 import 'router/follow_set/follow_set_detail_router.dart';
 import 'router/nwc/nwc_setting_router.dart';
-import 'router/profile_editor/profile_editor_router.dart';
+import 'router/profile_editor/profile_editor_widget.dart';
 import 'router/index/index_router.dart';
 import 'router/keybackup/key_backup_router.dart';
 import 'router/notice/notice_router.dart';
@@ -202,8 +201,6 @@ late WotProvider wotProvider;
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  // FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  // init video package
   try {
     MediaKit.ensureInitialized();
   } catch (e) {
@@ -213,7 +210,7 @@ Future<void> main() async {
   if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
     await windowManager.ensureInitialized();
 
-    WindowOptions windowOptions = WindowOptions(
+    WindowOptions windowOptions = const WindowOptions(
       size: Size(1280, 800),
       center: true,
       backgroundColor: Colors.transparent,
@@ -357,43 +354,43 @@ class _MyApp extends State<MyApp> {
     }
 
     routes = {
-      RouterPath.INDEX: (context) => IndexRouter(reload: reload),
+      RouterPath.INDEX: (context) => IndexWidget(reload: reload),
       RouterPath.LOGIN: (context) => LoginSignupWidget(),
-      RouterPath.DONATE: (context) => DonateRouter(),
-      RouterPath.USER: (context) => UserRouter(),
-      RouterPath.USER_CONTACT_LIST: (context) => UserContactListRouter(),
+      RouterPath.DONATE: (context) => const DonateWidget(),
+      RouterPath.USER: (context) => const UserWidget(),
+      RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),
       RouterPath.USER_HISTORY_CONTACT_LIST: (context) =>
-          UserHistoryContactListRouter(),
-      RouterPath.USER_ZAP_LIST: (context) => UserZapListRouter(),
-      RouterPath.USER_RELAYS: (context) => UserRelayRouter(),
-      RouterPath.DM_DETAIL: (context) => DMDetailRouter(),
-      RouterPath.THREAD_DETAIL: (context) => ThreadDetailRouter(),
-      RouterPath.THREAD_TRACE: (context) => ThreadTraceRouter(),
-      RouterPath.EVENT_DETAIL: (context) => EventDetailRouter(),
-      RouterPath.TAG_DETAIL: (context) => TagDetailRouter(),
-      RouterPath.NOTICES: (context) => NoticeRouter(),
-      RouterPath.KEY_BACKUP: (context) => KeyBackupRouter(),
-      RouterPath.RELAYHUB: (context) => RelayhubRouter(),
-      RouterPath.RELAYS: (context) => RelaysRouter(),
-      RouterPath.FILTER: (context) => FilterRouter(),
-      RouterPath.PROFILE_EDITOR: (context) => ProfileEditorRouter(),
-      RouterPath.SETTING: (context) => SettingRouter(indexReload: reload),
-      RouterPath.QRSCANNER: (context) => QRScannerRouter(),
-      RouterPath.WEBUTILS: (context) => WebUtilsRouter(),
-      RouterPath.RELAY_INFO: (context) => RelayInfoRouter(),
-      RouterPath.FOLLOWED_TAGS_LIST: (context) => FollowedTagsListRouter(),
-      RouterPath.COMMUNITY_DETAIL: (context) => CommunityDetailRouter(),
-      RouterPath.FOLLOWED_COMMUNITIES: (context) => FollowedCommunitiesRouter(),
-      RouterPath.FOLLOWED: (context) => FollowedRouter(),
-      RouterPath.BOOKMARK: (context) => BookmarkRouter(),
-      RouterPath.FOLLOW_SET_LIST: (context) => FollowSetListRouter(),
-      RouterPath.FOLLOW_SET_DETAIL: (context) => FollowSetDetailRouter(),
-      RouterPath.FOLLOW_SET_FEED: (context) => FollowSetFeedRouter(),
-      RouterPath.NWC_SETTING: (context) => NwcSettingRouter(),
-      RouterPath.GROUP_LIST: (context) => CommunitiesWidget(),
-      RouterPath.GROUP_DETAIL: (context) => GroupDetailRouter(),
-      RouterPath.GROUP_EDIT: (context) => GroupEditRouter(),
-      RouterPath.GROUP_MEMBERS: (context) => GroupMembersRouter(),
+          const UserHistoryContactListWidget(),
+      RouterPath.USER_ZAP_LIST: (context) => const UserZapListWidget(),
+      RouterPath.USER_RELAYS: (context) => const UserRelayWidget(),
+      RouterPath.DM_DETAIL: (context) => const DMDetailWidget(),
+      RouterPath.THREAD_DETAIL: (context) => ThreadDetailWidget(),
+      RouterPath.THREAD_TRACE: (context) => const ThreadTraceWidget(),
+      RouterPath.EVENT_DETAIL: (context) => const EventDetailWidget(),
+      RouterPath.TAG_DETAIL: (context) => const TagDetailWidget(),
+      RouterPath.NOTICES: (context) => const NoticeWidget(),
+      RouterPath.KEY_BACKUP: (context) => const KeyBackupWidget(),
+      RouterPath.RELAYHUB: (context) => const RelayhubWidget(),
+      RouterPath.RELAYS: (context) => const RelaysWidget(),
+      RouterPath.FILTER: (context) => const FilterWidget(),
+      RouterPath.PROFILE_EDITOR: (context) => const ProfileEditorWidget(),
+      RouterPath.SETTING: (context) => SettingWidget(indexReload: reload),
+      RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
+      RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
+      RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
+      RouterPath.FOLLOWED_TAGS_LIST: (context) => const FollowedTagsListWidget(),
+      RouterPath.COMMUNITY_DETAIL: (context) => const CommunityDetailWidget(),
+      RouterPath.FOLLOWED_COMMUNITIES: (context) => const FollowedCommunitiesWidget(),
+      RouterPath.FOLLOWED: (context) => const FollowedWidget(),
+      RouterPath.BOOKMARK: (context) => const BookmarkWidget(),
+      RouterPath.FOLLOW_SET_LIST: (context) => const FollowSetListWidget(),
+      RouterPath.FOLLOW_SET_DETAIL: (context) => const FollowSetDetailWidget(),
+      RouterPath.FOLLOW_SET_FEED: (context) => const FollowSetFeedWidget(),
+      RouterPath.NWC_SETTING: (context) => const NwcSettingWidget(),
+      RouterPath.GROUP_LIST: (context) => const CommunitiesWidget(),
+      RouterPath.GROUP_DETAIL: (context) => const GroupDetailWidget(),
+      RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
+      RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
     };
 
     return MultiProvider(
@@ -486,7 +483,7 @@ class _MyApp extends State<MyApp> {
           value: groupProvider,
         ),
       ],
-      child: HomeComponent(
+      child: HomeWidget(
         locale: _locale,
         theme: defaultTheme,
         child: MaterialApp(

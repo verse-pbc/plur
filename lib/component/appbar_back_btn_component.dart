@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 import '../util/router_util.dart';
 
-class AppbarBackBtnComponent extends StatefulWidget {
+class AppbarBackBtnWidget extends StatefulWidget {
+  const AppbarBackBtnWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
-    return _AppbarBackBtnComponent();
+    return _AppbarBackBtnWidgetState();
   }
 }
 
-class _AppbarBackBtnComponent extends State<AppbarBackBtnComponent> {
+class _AppbarBackBtnWidgetState extends State<AppbarBackBtnWidget> {
   @override
   Widget build(BuildContext context) {
     var themeData = Theme.of(context);

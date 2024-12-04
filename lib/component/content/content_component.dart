@@ -47,7 +47,7 @@ const int NPUB_LENGTH = 63;
 
 const int NOTEID_LENGTH = 63;
 
-/// This is the new ContentComponent.
+/// This is the new ContentWidget.
 /// 1. Support image, video, link. These can config showable or replace by a str_line_component.
 /// 2. Support imageListMode, true - use placeholder replaced in content and show imageList in last, false - show image in content.
 /// 3. Support link, use a link preview to replace it.
@@ -59,7 +59,7 @@ const int NOTEID_LENGTH = 63;
 /// 9. Support Emoji (NIP-30)
 /// 10.Show more, hide extral when the content is too long.
 /// 11.Simple Markdown support. (LineStr with pre # - FontWeight blod and bigger fontSize, with pre ## - FontWeight blod and normal fontSize).
-class ContentComponent extends StatefulWidget {
+class ContentWidget extends StatefulWidget {
   String? content;
   Event? event;
 
@@ -73,7 +73,8 @@ class ContentComponent extends StatefulWidget {
 
   EventRelation? eventRelation;
 
-  ContentComponent({
+  ContentWidget({
+    super.key, 
     this.content,
     this.event,
     this.textOnTap,
@@ -87,11 +88,11 @@ class ContentComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _ContentComponent();
+    return _ContentWidgetState();
   }
 }
 
-class _ContentComponent extends State<ContentComponent> {
+class _ContentWidgetState extends State<ContentWidget> {
   // new line
   static const String NL = "\n";
 
@@ -555,7 +556,7 @@ class _ContentComponent extends State<ContentComponent> {
             margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
             width: CONTENT_IMAGE_LIST_HEIGHT,
             height: CONTENT_IMAGE_LIST_HEIGHT,
-            child: ContentImageComponent(
+            child: ContentImageWidget(
               imageUrl: image,
               imageList: images,
               imageIndex: index,
@@ -626,7 +627,7 @@ class _ContentComponent extends State<ContentComponent> {
             currentList.add(WidgetSpan(child: imagePlaceholder));
           } else {
             // show image in content
-            var imageWidget = ContentImageComponent(
+            var imageWidget = ContentImageWidget(
               imageUrl: str,
               imageList: images,
               imageIndex: images.length - 1,
@@ -643,7 +644,7 @@ class _ContentComponent extends State<ContentComponent> {
         if (widget.showVideo) {
           // block
           bufferToList(buffer, currentList, images, removeLastSpan: true);
-          var vComponent = ContentVideoComponent(url: str);
+          var vComponent = ContentVideoWidget(url: str);
           currentList.add(WidgetSpan(child: vComponent));
           counterAddLines(fake_video_counter);
         } else {
@@ -662,7 +663,7 @@ class _ContentComponent extends State<ContentComponent> {
           }
           bufferToList(buffer, currentList, images, removeLastSpan: true);
           var w =
-              ContentMusicComponent(eventId, str, wavlakeTrackMusicInfoBuilder);
+              ContentMusicWidget(eventId, str, wavlakeTrackMusicInfoBuilder);
           currentList.add(WidgetSpan(child: w));
           counterAddLines(fake_music_counter);
 
@@ -676,7 +677,7 @@ class _ContentComponent extends State<ContentComponent> {
           }
           bufferToList(buffer, currentList, images, removeLastSpan: true);
           var w =
-              ContentMusicComponent(eventId, str, wavlakeAlbumMusicInfoBuilder);
+              ContentMusicWidget(eventId, str, wavlakeAlbumMusicInfoBuilder);
           currentList.add(WidgetSpan(child: w));
           counterAddLines(fake_music_counter);
 
@@ -689,7 +690,7 @@ class _ContentComponent extends State<ContentComponent> {
           currentList.add(buildLinkSpan(str));
         } else {
           bufferToList(buffer, currentList, images, removeLastSpan: true);
-          var w = ContentLinkPreComponent(
+          var w = ContentLinkPreWidget(
             link: str,
           );
           currentList.add(WidgetSpan(child: w));
@@ -703,7 +704,7 @@ class _ContentComponent extends State<ContentComponent> {
           eventId = widget.event!.id;
         }
         bufferToList(buffer, currentList, images, removeLastSpan: true);
-        var w = ContentMusicComponent(eventId, str, blankLinkMusicInfoBuilder);
+        var w = ContentMusicWidget(eventId, str, blankLinkMusicInfoBuilder);
         currentList.add(WidgetSpan(child: w));
         counterAddLines(fake_music_counter);
 
@@ -730,7 +731,7 @@ class _ContentComponent extends State<ContentComponent> {
         key = Nip19.decode(key);
         bufferToList(buffer, currentList, images);
         currentList
-            .add(WidgetSpan(child: ContentMentionUserComponent(pubkey: key)));
+            .add(WidgetSpan(child: ContentMentionUserWidget(pubkey: key)));
 
         return otherStr;
       } else if (Nip19.isNoteId(key)) {
@@ -741,7 +742,7 @@ class _ContentComponent extends State<ContentComponent> {
         }
         key = Nip19.decode(key);
         bufferToList(buffer, currentList, images, removeLastSpan: true);
-        var w = EventQuoteComponent(
+        var w = EventQuoteWidget(
           id: key,
           showVideo: widget.showVideo,
         );
@@ -762,7 +763,7 @@ class _ContentComponent extends State<ContentComponent> {
           // mention user
           bufferToList(buffer, currentList, images);
           currentList.add(WidgetSpan(
-              child: ContentMentionUserComponent(pubkey: nprofile.pubkey)));
+              child: ContentMentionUserWidget(pubkey: nprofile.pubkey)));
 
           return otherStr;
         } else {
@@ -780,7 +781,7 @@ class _ContentComponent extends State<ContentComponent> {
           // inline
           bufferToList(buffer, currentList, images);
           currentList
-              .add(WidgetSpan(child: ContentRelayComponent(nrelay.addr)));
+              .add(WidgetSpan(child: ContentRelayWidget(nrelay.addr)));
 
           return otherStr;
         } else {
@@ -799,7 +800,7 @@ class _ContentComponent extends State<ContentComponent> {
                 EventKind.SUPPORTED_EVENTS.contains(nevent.kind))) {
           // block
           bufferToList(buffer, currentList, images, removeLastSpan: true);
-          var w = EventQuoteComponent(
+          var w = EventQuoteWidget(
             id: nevent.id,
             eventRelayAddr: nevent.relays != null && nevent.relays!.isNotEmpty
                 ? nevent.relays![0]
@@ -839,7 +840,7 @@ class _ContentComponent extends State<ContentComponent> {
             // inline
             bufferToList(buffer, currentList, images);
             currentList.add(WidgetSpan(
-                child: ContentMentionUserComponent(pubkey: naddr.author)));
+                child: ContentMentionUserWidget(pubkey: naddr.author)));
 
             return otherStr;
           } else if (StringUtil.isNotBlank(naddr.id) &&
@@ -854,7 +855,7 @@ class _ContentComponent extends State<ContentComponent> {
             }
 
             bufferToList(buffer, currentList, images, removeLastSpan: true);
-            var w = EventQuoteComponent(
+            var w = EventQuoteWidget(
               id: id,
               aId: aid,
               eventRelayAddr: eventRelayAddr,
@@ -866,7 +867,7 @@ class _ContentComponent extends State<ContentComponent> {
             return otherStr;
           } else if (naddr.kind == EventKind.LIVE_EVENT) {
             bufferToList(buffer, currentList, images, removeLastSpan: true);
-            var w = ContentLinkPreComponent(
+            var w = ContentLinkPreWidget(
               link: "https://zap.stream/$key",
             );
             currentList.add(WidgetSpan(child: w));
@@ -879,7 +880,7 @@ class _ContentComponent extends State<ContentComponent> {
     } else if (str.length > 1 &&
         str.substring(0, 1) == "#" &&
         !["[", "#"].contains(str.substring(1, 2))) {
-      // first char is `#`, seconde isn't `[` and `#`
+      // first char is `#`, second isn't `[` and `#`
       // tag
       var extralStr = "";
       var length = str.length;
@@ -890,7 +891,7 @@ class _ContentComponent extends State<ContentComponent> {
           if (str.indexOf(hashtag) == 1) {
             // dua to tagEntryInfos is sorted, so this is the match hashtag
             if (hashtagLength > 0 && length > hashtagLength) {
-              // this str's length is more then hastagLength, maybe there are some extralStr.
+              // this str's length is more then hashtagLength, maybe there are some extralStr.
               extralStr = str.substring(hashtagLength + 1);
               str = "#$hashtag";
             }
@@ -902,7 +903,7 @@ class _ContentComponent extends State<ContentComponent> {
       bufferToList(buffer, currentList, images);
       currentList.add(WidgetSpan(
         alignment: PlaceholderAlignment.bottom,
-        child: ContentTagComponent(tag: str),
+        child: ContentTagWidget(tag: str),
       ));
       if (StringUtil.isNotBlank(extralStr)) {
         return extralStr;
@@ -913,7 +914,7 @@ class _ContentComponent extends State<ContentComponent> {
         str.indexOf(LIGHTNING) == 0 ||
         str.indexOf(OTHER_LIGHTNING) == 0) {
       bufferToList(buffer, currentList, images, removeLastSpan: true);
-      var w = ContentLnbcComponent(lnbc: str);
+      var w = ContentLnbcWidget(lnbc: str);
       currentList.add(WidgetSpan(child: w));
       counterAddLines(fake_zap_counter);
 
@@ -924,7 +925,7 @@ class _ContentComponent extends State<ContentComponent> {
       if (cashuTokens != null) {
         // decode success
         bufferToList(buffer, currentList, images, removeLastSpan: true);
-        var w = ContentCashuComponent(
+        var w = ContentCashuWidget(
           tokens: cashuTokens,
           cashuStr: cashuStr,
         );
@@ -951,7 +952,7 @@ class _ContentComponent extends State<ContentComponent> {
             // block
             // mention event
             bufferToList(buffer, currentList, images, removeLastSpan: true);
-            var w = EventQuoteComponent(
+            var w = EventQuoteWidget(
               id: tag[1],
               eventRelayAddr: relayAddr,
               showVideo: widget.showVideo,
@@ -965,7 +966,7 @@ class _ContentComponent extends State<ContentComponent> {
             // mention user
             bufferToList(buffer, currentList, images);
             currentList.add(
-                WidgetSpan(child: ContentMentionUserComponent(pubkey: tag[1])));
+                WidgetSpan(child: ContentMentionUserWidget(pubkey: tag[1])));
 
             return null;
           }
@@ -1044,7 +1045,7 @@ class _ContentComponent extends State<ContentComponent> {
                 // inline
                 currentList.add(buildLinkSpan(str));
               } else {
-                var w = ContentLinkPreComponent(
+                var w = ContentLinkPreWidget(
                   link: str,
                 );
                 currentList.add(WidgetSpan(child: w));
@@ -1075,7 +1076,7 @@ class _ContentComponent extends State<ContentComponent> {
                 currentList.add(WidgetSpan(child: imagePlaceholder));
               } else {
                 // show image in content
-                var imageWidget = ContentImageComponent(
+                var imageWidget = ContentImageWidget(
                   imageUrl: str,
                   imageList: images,
                   imageIndex: images.length - 1,
@@ -1117,7 +1118,7 @@ class _ContentComponent extends State<ContentComponent> {
         var emojiValue = tagInfos!.emojiMap[emojiKey];
         if (emojiValue != null) {
           currentList.add(WidgetSpan(
-              child: ContentCustomEmojiComponent(
+              child: ContentCustomEmojiWidget(
             imagePath: emojiValue,
           )));
         }
