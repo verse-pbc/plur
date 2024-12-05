@@ -8,8 +8,8 @@ import 'package:nostr_sdk/aid.dart';
 import 'package:nostr_sdk/nip19/nip19.dart';
 import 'package:nostr_sdk/nip19/nip19_tlv.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostrmo/component/content/content_mention_user_component.dart';
-import 'package:nostrmo/component/event/event_quote_component.dart';
+import 'package:nostrmo/component/content/content_mention_user_widget.dart';
+import 'package:nostrmo/component/event/event_quote_widget.dart';
 
 class MarkdownMentionEventElementBuilder implements MarkdownElementBuilder {
   static const String TAG = "mentionEvent";

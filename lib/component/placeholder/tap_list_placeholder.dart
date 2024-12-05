@@ -6,7 +6,7 @@ import 'package:nostrmo/component/placeholder/tap_placeholder.dart';
 class TapListPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
 
     var random = Random();

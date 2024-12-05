@@ -1,7 +1,7 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nostrmo/component/emoji_picker_component.dart';
+import 'package:nostrmo/component/emoji_picker_widget.dart';
 
 import '../consts/base.dart';
 import '../generated/l10n.dart';
@@ -19,7 +19,7 @@ class LikeTextSelectBottomSheet extends StatefulWidget {
 class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
 
     List<Widget> list = [];

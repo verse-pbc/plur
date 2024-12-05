@@ -6,17 +6,17 @@ import 'package:nostrmo/util/table_mode_util.dart';
 import 'package:provider/provider.dart';
 import 'package:widget_size/widget_size.dart';
 
-import '../../component/appbar_back_btn_component.dart';
-import '../../component/event/event_list_component.dart';
-import '../../component/event/event_load_list_component.dart';
-import '../../component/event/reaction_event_list_component.dart';
-import '../../component/event/zap_event_list_component.dart';
+import '../../component/appbar_back_btn_widget.dart';
+import '../../component/event/event_list_widget.dart';
+import '../../component/event/event_load_list_widget.dart';
+import '../../component/event/reaction_event_list_widget.dart';
+import '../../component/event/zap_event_list_widget.dart';
 import '../../data/event_reactions.dart';
 import '../../generated/l10n.dart';
 import '../../provider/event_reactions_provider.dart';
 import '../../provider/single_event_provider.dart';
 import '../../util/router_util.dart';
-import '../thread/thread_detail_router.dart';
+import '../thread/thread_detail_widget.dart';
 
 class EventDetailWidget extends StatefulWidget {
   const EventDetailWidget({super.key});
@@ -60,7 +60,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
+    final localization = S.of(context);
 
     var arg = RouterUtil.routerArgs(context);
     if (arg != null) {
@@ -76,7 +76,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       RouterUtil.back(context);
       return Container();
     }
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
 
     Widget? appBarTitle;
     if (event != null) {
@@ -113,8 +113,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
             );
           }
         },
-        selector: (context, _provider) {
-          return _provider.getEvent(eventId!);
+        selector: (_, provider) {
+          return provider.getEvent(eventId!);
         },
       );
     }
@@ -150,14 +150,14 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
             if (event.kind == EventKind.ZAP) {
               return ZapEventListWidget(event: event);
             } else if (event.kind == EventKind.TEXT_NOTE) {
-              return ReactionEventListWidget(event: event, text: s.replied);
+              return ReactionEventListWidget(event: event, text: localization.replied);
             } else if (event.kind == EventKind.REPOST ||
                 event.kind == EventKind.GENERIC_REPOST) {
-              return ReactionEventListWidget(event: event, text: s.boosted);
+              return ReactionEventListWidget(event: event, text: localization.boosted);
             } else if (event.kind == EventKind.REACTION) {
               return ReactionEventListWidget(
                   event: event,
-                  text: "${s.liked} ${EventReactions.getLikeText(event)}");
+                  text: "${localization.liked} ${EventReactions.getLikeText(event)}");
             }
 
             return Container();
@@ -177,8 +177,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
         return main;
       },
-      selector: (context, _provider) {
-        return _provider.get(eventId!);
+      selector: (_, provider) {
+        return provider.get(eventId!);
       },
       shouldRebuild: (previous, next) {
         if ((previous == null && next != null) ||

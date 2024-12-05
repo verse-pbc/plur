@@ -29,7 +29,7 @@ class Appbar4Stack extends StatefulWidget {
 class _Appbar4Stack extends State<Appbar4Stack> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var backgroundColor = widget.backgroundColor;
     backgroundColor ??= themeData.appBarTheme.backgroundColor;
 

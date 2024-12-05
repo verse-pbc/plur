@@ -4,10 +4,10 @@ import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/add_btn_wrapper_component.dart';
+import '../../component/add_btn_wrapper_widget.dart';
 import '../../main.dart';
 import '../../provider/setting_provider.dart';
-import '../edit/editor_router.dart';
+import '../edit/editor_widget.dart';
 
 class IndexBottomBar extends StatefulWidget {
   static const double HEIGHT = 50;
@@ -23,7 +23,7 @@ class IndexBottomBar extends StatefulWidget {
 class _IndexBottomBar extends State<IndexBottomBar> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var _indexProvider = Provider.of<IndexProvider>(context);
     var currentTap = _indexProvider.currentTap;
 
@@ -115,7 +115,7 @@ class IndexBottomBarButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     // var settingProvider = Provider.of<SettingProvider>(context);
     // var bottomIconColor = settingProvider.bottomIconColor;

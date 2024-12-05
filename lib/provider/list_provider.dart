@@ -106,7 +106,7 @@ class ListProvider extends ChangeNotifier {
     return "${EventKind.EMOJIS_LIST}:${nostr!.publicKey}";
   }
 
-  List<MapEntry<String, List<CustomEmoji>>> emojis(S s, Event? emojiEvent) {
+  List<MapEntry<String, List<CustomEmoji>>> emojis(S localization, Event? emojiEvent) {
     List<MapEntry<String, List<CustomEmoji>>> result = [];
 
     List<CustomEmoji> list = [];
@@ -150,32 +150,7 @@ class ListProvider extends ChangeNotifier {
         }
       }
     }
-    result.insert(0, MapEntry(s.Custom, list));
-    // for (var testAId in testAIds) {
-    //   var listSetEvent = listSetProvider.getByAId(testAId);
-    //   if (listSetEvent != null) {
-    //     // find the listSet
-    //     var aId = AId.fromString(testAId);
-    //     String title = "unknow";
-    //     if (aId != null) {
-    //       title = aId.title;
-    //     }
-
-    //     List<CustomEmoji> subList = [];
-    //     for (var tag in listSetEvent.tags) {
-    //       if (tag is List && tag.length > 2) {
-    //         var tagKey = tag[0];
-    //         var k = tag[1];
-    //         var v = tag[2];
-    //         if (tagKey == "emoji") {
-    //           subList.add(CustomEmoji(name: k, filepath: v));
-    //         }
-    //       }
-    //     }
-
-    //     result.add(MapEntry(title, subList));
-    //   }
-    // }
+    result.insert(0, MapEntry(localization.Custom, list));
 
     return result;
   }
