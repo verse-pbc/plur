@@ -47,7 +47,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
 
   @override
   Widget doBuild(BuildContext context) {
-    var s = S.of(context);
+    final localization = S.of(context);
     if (metadata == null) {
       var arg = RouterUtil.routerArgs(context);
       if (arg != null && arg is Metadata) {
@@ -66,7 +66,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       lud06Controller.text = _getText(metadata!.lud06);
     }
 
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
     var textColor = themeData.textTheme.bodyMedium!.color;
 
@@ -74,7 +74,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       onPressed: profileSave,
       style: const ButtonStyle(),
       child: Text(
-        s.Submit,
+        localization.Submit,
         style: TextStyle(
           color: textColor,
           fontSize: 16,
@@ -110,7 +110,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         Expanded(
           child: TextField(
             controller: displayNameController,
-            decoration: InputDecoration(labelText: s.Display_Name),
+            decoration: InputDecoration(labelText: localization.Display_Name),
           ),
         ),
         Container(
@@ -123,7 +123,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         Expanded(
           child: TextField(
             controller: nameController,
-            decoration: InputDecoration(labelText: s.Name),
+            decoration: InputDecoration(labelText: localization.Name),
           ),
         ),
       ]),
@@ -136,7 +136,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         minLines: 2,
         maxLines: 10,
         controller: aboutController,
-        decoration: InputDecoration(labelText: s.About),
+        decoration: InputDecoration(labelText: localization.About),
       ),
     ));
 
@@ -150,7 +150,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
             onTap: pickPicture,
             child: const Icon(Icons.image),
           ),
-          labelText: s.Picture,
+          labelText: localization.Picture,
         ),
       ),
     ));
@@ -165,7 +165,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
             onTap: pickBanner,
             child: const Icon(Icons.image),
           ),
-          labelText: s.Banner,
+          labelText: localization.Banner,
         ),
       ),
     ));
@@ -175,7 +175,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       padding: padding,
       child: TextField(
         controller: websiteController,
-        decoration: InputDecoration(labelText: s.Website),
+        decoration: InputDecoration(labelText: localization.Website),
       ),
     ));
 
@@ -184,7 +184,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       padding: padding,
       child: TextField(
         controller: nip05Controller,
-        decoration: InputDecoration(labelText: "Nostr ${s.Address}"),
+        decoration: InputDecoration(labelText: "Nostr ${localization.Address}"),
       ),
     ));
 
@@ -194,7 +194,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       child: TextField(
         controller: lud16Controller,
         decoration: InputDecoration(
-            labelText: s.Lightning_Address,
+            labelText: localization.Lightning_Address,
             hintText: "walletname@walletservice.com"),
       ),
     ));

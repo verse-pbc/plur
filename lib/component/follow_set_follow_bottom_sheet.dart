@@ -23,9 +23,9 @@ class FollowSetFollowBottomSheet extends StatefulWidget {
 class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
+    final localization = S.of(context);
 
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var backgroundColor = themeData.scaffoldBackgroundColor;
 
@@ -47,7 +47,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
       ),
       child: IndexDrawerItemWidget(
         iconData: Icons.people,
-        name: s.Follow_set,
+        name: localization.Follow_set,
         onTap: () {},
       ),
     ));
@@ -67,14 +67,14 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
           SizedBox(
             width: 60,
             child: Tooltip(
-              message: s.Private,
+              message: localization.Private,
               child: const Icon(Icons.lock_outline),
             ),
           ),
           SizedBox(
             width: 60,
             child: Tooltip(
-              message: s.Public,
+              message: localization.Public,
               child: const Icon(Icons.lock_open),
             ),
           ),
@@ -169,7 +169,7 @@ class FollowSetFollowItemWidget extends StatefulWidget {
 class _FollowSetFollowItemWidgetState extends State<FollowSetFollowItemWidget> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
 
     return Container(
       padding: const EdgeInsets.only(

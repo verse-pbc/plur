@@ -7,7 +7,7 @@ import 'event_top_placeholder.dart';
 class EventPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     var cardColor = themeData.cardColor;

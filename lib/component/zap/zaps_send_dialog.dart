@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/event_relation.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/component/user/name_component.dart';
-import 'package:nostrmo/component/user/user_pic_component.dart';
+import 'package:nostrmo/component/user/name_widget.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/data/metadata.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ import '../../util/lightning_util.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 import '../../util/zap_action.dart';
-import '../user/metadata_top_component.dart';
+import '../user/metadata_top_widget.dart';
 
 class ZapsSendDialog extends StatefulWidget {
   Map<String, int> pubkeyZapNumbers;
@@ -42,7 +42,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
 
   @override
   Widget doBuild(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
 
     List<Widget> list = [];
@@ -158,7 +158,7 @@ class ZapsSendDialogItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
+    final localization = S.of(context);
     return Selector<MetadataProvider, Metadata?>(
         builder: (context, metadata, child) {
       var userPicComp = UserPicWidget(pubkey: pubkey, width: height);
@@ -199,7 +199,7 @@ class ZapsSendDialogItem extends StatelessWidget {
             height: rightHeight,
             width: rightWidth,
             child: MetadataTextBtn(
-              text: s.Send,
+              text: localization.Send,
               onTap: () {
                 sendZapFunction(pubkey, invoiceCode!, zapNumber);
               },
@@ -207,31 +207,29 @@ class ZapsSendDialogItem extends StatelessWidget {
           ),
         );
       } else if (invoiceCode == null) {
-        rightComp = Container(
+        rightComp = SizedBox(
           height: rightHeight,
           width: rightWidth,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
+              SizedBox(
                 width: rightHeight,
                 height: rightHeight,
-                child: CircularProgressIndicator(),
+                child: const CircularProgressIndicator(),
               ),
             ],
           ),
         );
       }
 
-      return Container(
-        child: Row(
-          children: [
-            userPicComp,
-            nameColum,
-            Expanded(child: Container()),
-            rightComp,
-          ],
-        ),
+      return Row(
+        children: [
+          userPicComp,
+          nameColum,
+          Expanded(child: Container()),
+          rightComp,
+        ],
       );
     }, selector: (context, provider) {
       return provider.getMetadata(pubkey);

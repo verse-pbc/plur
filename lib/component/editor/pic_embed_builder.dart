@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostrmo/consts/base64.dart';
 
-import '../image_component.dart';
+import '../image_widget.dart';
 
 class PicEmbedBuilder extends EmbedBuilder {
   @override

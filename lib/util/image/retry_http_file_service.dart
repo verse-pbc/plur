@@ -12,10 +12,10 @@ import 'package:nostrmo/util/hash_util.dart';
 
 import '../../consts/base64.dart';
 
-class RetryHttpFileServcie extends FileService {
+class RetryHttpFileService extends FileService {
   final http.Client _httpClient;
 
-  RetryHttpFileServcie({http.Client? httpClient})
+  RetryHttpFileService({http.Client? httpClient})
       : _httpClient = httpClient ?? http.Client();
 
   @override

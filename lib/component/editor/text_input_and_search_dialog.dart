@@ -9,8 +9,8 @@ import '../../generated/l10n.dart';
 import '../../router/index/index_app_bar.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
-import 'search_mention_user_component.dart';
-import 'text_input_dialog_inner_component.dart';
+import 'search_mention_user_widget.dart';
+import 'text_input_dialog_inner_widget.dart';
 
 class TextInputAndSearchDialog extends StatefulWidget {
   String searchTabName;
@@ -72,8 +72,8 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-    var themeData = Theme.of(context);
+    final localization = S.of(context);
+    final themeData = Theme.of(context);
     var cardColro = themeData.cardColor;
     var mainColor = themeData.primaryColor;
 
@@ -103,7 +103,7 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
             height: IndexAppBar.height,
             alignment: Alignment.center,
             child: Text(
-              s.Input,
+              localization.Input,
               textAlign: TextAlign.center,
             ),
           ),

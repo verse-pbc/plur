@@ -20,9 +20,9 @@ import 'package:nostr_sdk/utils/path_type_util.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/confirm_dialog.dart';
-import 'package:nostrmo/component/datetime_picker_component.dart';
-import 'package:nostrmo/component/editor/zap_goal_input_component.dart';
-import 'package:nostrmo/component/webview_router.dart';
+import 'package:nostrmo/component/datetime_picker_widget.dart';
+import 'package:nostrmo/component/editor/zap_goal_input_widget.dart';
+import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/sendbox/sendbox.dart';
@@ -37,15 +37,15 @@ import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../router/index/index_app_bar.dart';
 import '../content/content_decoder.dart';
-import '../emoji_picker_component.dart';
-import '../image_component.dart';
-import '../zap/zap_split_icon_component.dart';
+import '../emoji_picker_widget.dart';
+import '../image_widget.dart';
+import '../zap/zap_split_icon_widget.dart';
 import 'cust_embed_types.dart';
 import 'custom_emoji_add_dialog.dart';
-import 'gen_lnbc_component.dart';
-import 'poll_input_component.dart';
-import 'search_mention_event_component.dart';
-import 'search_mention_user_component.dart';
+import 'gen_lnbc_widget.dart';
+import 'poll_input_widget.dart';
+import 'search_mention_event_widget.dart';
+import 'search_mention_user_widget.dart';
 import 'text_input_and_search_dialog.dart';
 import 'text_input_dialog.dart';
 
@@ -106,7 +106,7 @@ mixin EditorMixin {
     bool showShadow = true,
     double? height = IndexAppBar.height,
   }) {
-    var s = S.of(getContext());
+    final localization = S.of(getContext());
     var themeData = Theme.of(getContext());
     var cardColor = themeData.cardColor;
     var mainColor = themeData.primaryColor;
@@ -120,15 +120,15 @@ mixin EditorMixin {
             color: openPrivateDM ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        tooltip: openPrivateDM ? s.Close_Private_DM : s.Open_Private_DM,
+        tooltip: openPrivateDM ? localization.Close_Private_DM : localization.Open_Private_DM,
       ));
     }
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: pickImage,
-      icon: Icon(Icons.image),
+      icon: const Icon(Icons.image),
       isSelected: false,
       iconTheme: null,
-      tooltip: s.Image_or_Video,
+      tooltip: localization.Image_or_Video,
     ));
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
       inputBtnList.add(quill.QuillToolbarIconButton(
@@ -136,48 +136,48 @@ mixin EditorMixin {
         icon: const Icon(Icons.camera),
         isSelected: false,
         iconTheme: null,
-        tooltip: s.Take_photo,
+        tooltip: localization.Take_photo,
       ));
       inputBtnList.add(quill.QuillToolbarIconButton(
         onPressed: tackAVideo,
         icon: const Icon(Icons.video_call),
         isSelected: false,
         iconTheme: null,
-        tooltip: s.Take_video,
+        tooltip: localization.Take_video,
       ));
     }
     if (!isLongForm()) {
       inputBtnList.addAll([
         quill.QuillToolbarIconButton(
           onPressed: customEmojiSelect,
-          icon: Icon(Icons.add_reaction_outlined),
+          icon: const Icon(Icons.add_reaction_outlined),
           isSelected: false,
           iconTheme: null,
-          tooltip: s.Custom_Emoji,
+          tooltip: localization.Custom_Emoji,
         ),
         quill.QuillToolbarIconButton(
           onPressed: emojiBeginToSelect,
           icon: Icon(Icons.tag_faces),
           isSelected: false,
           iconTheme: null,
-          tooltip: s.Emoji,
+          tooltip: localization.Emoji,
         ),
       ]);
     }
     inputBtnList.addAll([
       quill.QuillToolbarIconButton(
         onPressed: _inputMentionUser,
-        icon: Icon(Icons.alternate_email_sharp),
+        icon: const Icon(Icons.alternate_email_sharp),
         isSelected: false,
         iconTheme: null,
-        tooltip: s.Mention_User,
+        tooltip: localization.Mention_User,
       ),
       quill.QuillToolbarIconButton(
         onPressed: _inputMentionEvent,
         icon: Icon(Icons.format_quote),
         isSelected: false,
         iconTheme: null,
-        tooltip: s.Quote,
+        tooltip: localization.Quote,
       ),
     ]);
 
@@ -186,7 +186,7 @@ mixin EditorMixin {
       icon: Icon(Icons.tag),
       isSelected: false,
       iconTheme: null,
-      tooltip: s.Hashtag,
+      tooltip: localization.Hashtag,
     ));
 
     inputBtnList.add(quill.QuillToolbarIconButton(
@@ -194,7 +194,7 @@ mixin EditorMixin {
       icon: Icon(Icons.bolt),
       isSelected: false,
       iconTheme: null,
-      tooltip: s.Lightning_Invoice,
+      tooltip: localization.Lightning_Invoice,
     ));
 
     if (!isDM()) {
@@ -206,7 +206,7 @@ mixin EditorMixin {
         ),
         isSelected: false,
         iconTheme: null,
-        tooltip: s.Split_and_Transfer_Zap,
+        tooltip: localization.Split_and_Transfer_Zap,
       ));
 
       inputBtnList.add(
@@ -215,7 +215,7 @@ mixin EditorMixin {
           icon: Icon(Icons.warning, color: showWarning ? Colors.red : null),
           isSelected: false,
           iconTheme: null,
-          tooltip: s.Sensitive_Content,
+          tooltip: localization.Sensitive_Content,
         ),
       );
       if (!isLongForm()) {
@@ -224,7 +224,7 @@ mixin EditorMixin {
           icon: Icon(Icons.title, color: showTitle ? mainColor : null),
           isSelected: false,
           iconTheme: null,
-          tooltip: s.Subject,
+          tooltip: localization.Subject,
         ));
       }
 
@@ -235,7 +235,7 @@ mixin EditorMixin {
               color: publishAt != null ? mainColor : null),
           isSelected: false,
           iconTheme: null,
-          tooltip: s.Delay_Send,
+          tooltip: localization.Delay_Send,
         ));
       }
     }
@@ -251,16 +251,14 @@ mixin EditorMixin {
         icon: Icon(Icons.poll, color: inputPoll ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        // fillColor: inputPoll ? mainColor.withOpacity(0.5) : null,
-        tooltip: s.Poll,
+        tooltip: localization.Poll,
       ));
       inputBtnList.add(quill.QuillToolbarIconButton(
         onPressed: _inputGoal,
         icon: Icon(Icons.trending_up, color: inputZapGoal ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        // fillColor: inputZapGoal ? mainColor.withOpacity(0.5) : null,
-        tooltip: s.Zap_Goals,
+        tooltip: localization.Zap_Goals,
       ));
     }
 
@@ -388,13 +386,13 @@ mixin EditorMixin {
 
   Future<void> _inputMentionEvent() async {
     var context = getContext();
-    var s = S.of(context);
+    final localization = S.of(context);
     var value = await TextInputAndSearchDialog.show(
       context,
-      s.Search,
-      s.Please_input_event_id,
-      SearchMentionEventWidget(),
-      hintText: s.Note_Id,
+      localization.Search,
+      localization.Please_input_event_id,
+      const SearchMentionEventWidget(),
+      hintText: localization.Note_Id,
     );
     if (StringUtil.isNotBlank(value)) {
       // check nip19 value
@@ -419,13 +417,13 @@ mixin EditorMixin {
 
   Future<void> _inputMentionUser() async {
     var context = getContext();
-    var s = S.of(context);
+    final localization = S.of(context);
     var value = await TextInputAndSearchDialog.show(
       context,
-      s.Search,
-      s.Please_input_user_pubkey,
+      localization.Search,
+      localization.Please_input_user_pubkey,
       SearchMentionUserWidget(),
-      hintText: s.User_Pubkey,
+      hintText: localization.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {
       // check nip19 value
@@ -972,8 +970,8 @@ mixin EditorMixin {
 
   Widget buildEmojiListsWidget() {
     var context = getContext();
-    var s = S.of(context);
-    var themeData = Theme.of(context);
+    final localization = S.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     var labelUnSelectColor = themeData.hintColor;
 
@@ -983,7 +981,7 @@ mixin EditorMixin {
       width: double.infinity,
       child: Selector<ListProvider, Event?>(
         builder: (context, emojiEvent, child) {
-          var emojiLists = listProvider.emojis(s, emojiEvent);
+          var emojiLists = listProvider.emojis(localization, emojiEvent);
 
           List<Widget> tabBarList = [];
           List<Widget> tabBarViewList = [];
@@ -1015,38 +1013,36 @@ mixin EditorMixin {
 
           return DefaultTabController(
               length: tabBarList.length,
-              child: Container(
-                child: Column(
-                  children: [
-                    Container(
-                      height: Base.TABBAR_HEIGHT,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: Base.TABBAR_HEIGHT,
-                              child: TabBar(
-                                tabs: tabBarList,
-                                indicatorColor: mainColor,
-                                labelColor: mainColor,
-                                unselectedLabelColor: labelUnSelectColor,
-                                isScrollable: true,
-                              ),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: Base.TABBAR_HEIGHT,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: Base.TABBAR_HEIGHT,
+                            child: TabBar(
+                              tabs: tabBarList,
+                              indicatorColor: mainColor,
+                              labelColor: mainColor,
+                              unselectedLabelColor: labelUnSelectColor,
+                              isScrollable: true,
                             ),
                           ),
-                          findMoreBtn,
-                        ],
-                      ),
+                        ),
+                        findMoreBtn,
+                      ],
                     ),
-                    Expanded(
-                      child: TabBarView(children: tabBarViewList),
-                    ),
-                  ],
-                ),
+                  ),
+                  Expanded(
+                    child: TabBarView(children: tabBarViewList),
+                  ),
+                ],
               ));
         },
-        selector: (context, _provider) {
-          return _provider.getEmojiEvent();
+        selector: (_, provider) {
+          return provider.getEmojiEvent();
         },
       ),
     );
@@ -1125,7 +1121,7 @@ mixin EditorMixin {
     var themeData = Theme.of(getContext());
     var fontSize = themeData.textTheme.bodyLarge!.fontSize;
     var hintColor = themeData.hintColor;
-    var s = S.of(getContext());
+    final localization = S.of(getContext());
 
     return Container(
       // color: Colors.red,
@@ -1142,7 +1138,7 @@ mixin EditorMixin {
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
-          hintText: s.Please_input_title,
+          hintText: localization.Please_input_title,
           border: InputBorder.none,
           hintStyle: TextStyle(
             fontSize: fontSize,
@@ -1209,7 +1205,7 @@ mixin EditorMixin {
     var themeData = Theme.of(getContext());
     var fontSize = themeData.textTheme.bodyLarge!.fontSize;
     var hintColor = themeData.hintColor;
-    var s = S.of(getContext());
+    final localization = S.of(getContext());
 
     return Container(
       // margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
@@ -1227,7 +1223,7 @@ mixin EditorMixin {
           // fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
-          hintText: s.Please_input_summary,
+          hintText: localization.Please_input_summary,
           border: InputBorder.none,
           hintStyle: TextStyle(
             fontSize: fontSize,
@@ -1252,7 +1248,7 @@ mixin EditorMixin {
 
   Future<void> selectedTime() async {
     var dt = await DatetimePickerWidget.show(getContext(),
-        dateTime: publishAt != null ? publishAt : DateTime.now());
+        dateTime: publishAt ?? DateTime.now());
     publishAt = dt;
     updateUI();
   }

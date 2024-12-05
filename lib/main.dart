@@ -28,21 +28,21 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/mention_me_new_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/nwc_provider.dart';
-import 'package:nostrmo/router/group/group_detail_router.dart';
-import 'package:nostrmo/router/group/group_edit_router.dart';
+import 'package:nostrmo/router/group/group_detail_widget.dart';
+import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
-import 'package:nostrmo/router/group/group_members_router.dart';
-import 'package:nostrmo/router/login/login_router.dart';
-import 'package:nostrmo/router/thread_trace_router/thread_trace_router.dart';
-import 'package:nostrmo/router/follow_set/follow_set_feed_router.dart';
-import 'package:nostrmo/router/follow_set/follow_set_list_router.dart';
-import 'package:nostrmo/router/relayhub/relayhub_router.dart';
-import 'package:nostrmo/router/relays/relay_info_router.dart';
-import 'package:nostrmo/router/user/followed_router.dart';
-import 'package:nostrmo/router/user/followed_tags_list_router.dart';
-import 'package:nostrmo/router/user/user_history_contact_list_router.dart';
-import 'package:nostrmo/router/user/user_zap_list_router.dart';
-import 'package:nostrmo/router/web_utils/web_utils_router.dart';
+import 'package:nostrmo/router/group/group_members_widget.dart';
+import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
+import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
+import 'package:nostrmo/router/follow_set/follow_set_list_widget.dart';
+import 'package:nostrmo/router/relayhub/relayhub_widget.dart';
+import 'package:nostrmo/router/relays/relay_info_widget.dart';
+import 'package:nostrmo/router/user/followed_widget.dart';
+import 'package:nostrmo/router/user/followed_tags_list_widget.dart';
+import 'package:nostrmo/router/user/user_history_contact_list_widget.dart';
+import 'package:nostrmo/router/user/user_zap_list_widget.dart';
+import 'package:nostrmo/router/web_utils/web_utils_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -58,7 +58,7 @@ import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
 import 'generated/l10n.dart';
-import 'home_component.dart';
+import 'home_widget.dart';
 import 'provider/badge_provider.dart';
 import 'provider/community_approved_provider.dart';
 import 'provider/contact_list_provider.dart';
@@ -86,24 +86,24 @@ import 'provider/wot_provider.dart';
 import 'router/bookmark/bookmark_widget.dart';
 import 'router/community/community_detail_widget.dart';
 import 'router/dm/dm_detail_widget.dart';
-import 'router/donate/donate_router.dart';
+import 'router/donate/donate_widget.dart';
 import 'router/event_detail/event_detail_widget.dart';
-import 'router/filter/filter_router.dart';
-import 'router/follow_set/follow_set_detail_router.dart';
-import 'router/nwc/nwc_setting_router.dart';
+import 'router/filter/filter_widget.dart';
+import 'router/follow_set/follow_set_detail_widget.dart';
+import 'router/nwc/nwc_setting_widget.dart';
 import 'router/profile_editor/profile_editor_widget.dart';
-import 'router/index/index_router.dart';
-import 'router/keybackup/key_backup_router.dart';
-import 'router/notice/notice_router.dart';
-import 'router/qrscanner/qrscanner_router.dart';
-import 'router/relays/relays_router.dart';
-import 'router/setting/setting_router.dart';
-import 'router/tag/tag_detail_router.dart';
-import 'router/thread/thread_detail_router.dart';
-import 'router/user/followed_communities_router.dart';
-import 'router/user/user_contact_list_router.dart';
-import 'router/user/user_relays_router.dart';
-import 'router/user/user_router.dart';
+import 'router/index/index_widget.dart';
+import 'router/keybackup/key_backup_widget.dart';
+import 'router/notice/notice_widget.dart';
+import 'router/qrscanner/qrscanner_widget.dart';
+import 'router/relays/relays_widget.dart';
+import 'router/setting/setting_widget.dart';
+import 'router/tag/tag_detail_widget.dart';
+import 'router/thread/thread_detail_widget.dart';
+import 'router/user/followed_communities_widget.dart';
+import 'router/user/user_contact_list_widget.dart';
+import 'router/user/user_relays_widget.dart';
+import 'router/user/user_widget.dart';
 import 'system_timer.dart';
 import 'util/colors_util.dart';
 import 'util/image/cache_manager_builder.dart';
@@ -323,11 +323,6 @@ class _MyApp extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Color mainColor = _getMainColor();
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: mainColor,
-    // ));
-
     Locale? _locale;
     if (StringUtil.isNotBlank(settingProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
@@ -449,9 +444,6 @@ class _MyApp extends State<MyApp> {
         ListenableProvider<WebViewProvider>.value(
           value: webViewProvider,
         ),
-        // ListenableProvider<CustomEmojiProvider>.value(
-        //   value: customEmojiProvider,
-        // ),
         ListenableProvider<CommunityApprovedProvider>.value(
           value: communityApprovedProvider,
         ),
@@ -488,7 +480,6 @@ class _MyApp extends State<MyApp> {
         theme: defaultTheme,
         child: MaterialApp(
           builder: BotToastInit(),
-          // navigatorKey: navigatorKey,
           navigatorObservers: [
             BotToastNavigatorObserver(),
             webViewProvider.webviewNavigatorObserver,
@@ -575,8 +566,6 @@ class _MyApp extends State<MyApp> {
         seedColor: themeColor[500]!,
         brightness: Brightness.light,
       ),
-      // scaffoldBackgroundColor: Base.SCAFFOLD_BACKGROUND_COLOR,
-      // scaffoldBackgroundColor: Colors.grey[100],
       scaffoldBackgroundColor: scaffoldBackgroundColor,
       primaryColor: themeColor[500],
       appBarTheme: AppBarTheme(
@@ -587,11 +576,9 @@ class _MyApp extends State<MyApp> {
       ),
       dividerColor: ColorsUtil.hexToColor("#DFE1EB"),
       cardColor: cardColor,
-      // dividerColor: Colors.grey[200],
-      // indicatorColor: ColorsUtil.hexToColor("#818181"),
       textTheme: textTheme,
       hintColor: hintColor,
-      buttonTheme: ButtonThemeData(),
+      buttonTheme: const ButtonThemeData(),
       shadowColor: Colors.black.withOpacity(0.2),
       tabBarTheme: TabBarTheme(
         indicatorColor: Colors.white,
@@ -608,10 +595,9 @@ class _MyApp extends State<MyApp> {
     MaterialColor themeColor = ColorList.getThemeColor(color500.value);
 
     Color? mainTextColor;
-    // Color? topFontColor = Colors.white;
     Color? topFontColor = Colors.grey[200];
     Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = Color.fromARGB(255, 40, 40, 40);
+    var scaffoldBackgroundColor = const Color.fromARGB(255, 40, 40, 40);
     Color cardColor = Colors.black;
 
     if (settingProvider.mainFontColor != null) {
@@ -633,7 +619,6 @@ class _MyApp extends State<MyApp> {
     );
     var titleTextStyle = TextStyle(
       color: topFontColor,
-      // color: Colors.black,
     );
 
     if (settingProvider.fontFamily != null) {

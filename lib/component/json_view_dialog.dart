@@ -37,8 +37,8 @@ class JsonViewDialog extends StatefulWidget {
 class _JsonViewDialog extends State<JsonViewDialog> {
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-    var themeData = Theme.of(context);
+    final localization = S.of(context);
+    final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
     var mainColor = themeData.primaryColor;
     var maxHeight = mediaDataCache.size.height;
