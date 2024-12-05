@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/user/user_pic_component.dart';
+import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
@@ -15,7 +15,7 @@ class IndexAppBar extends StatefulWidget {
 
   Widget? center;
 
-  IndexAppBar({this.center});
+  IndexAppBar({super.key, this.center});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,7 +28,7 @@ class _IndexAppBar extends State<IndexAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var paddingTop = mediaDataCache.padding.top;
     var textColor = themeData.appBarTheme.titleTextStyle!.color;
     var appBarBackgroundColor = themeData.appBarTheme.backgroundColor;
@@ -59,8 +59,8 @@ class _IndexAppBar extends State<IndexAppBar> {
         relayNum,
         style: TextStyle(color: textColor),
       );
-    }, selector: (context, _provider) {
-      return _provider.relayNumStr();
+    }, selector: (_, provider) {
+      return provider.relayNumStr();
     });
 
     return Container(

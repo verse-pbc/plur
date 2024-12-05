@@ -5,7 +5,7 @@ import 'package:nostrmo/util/table_mode_util.dart';
 
 import '../../consts/base.dart';
 import '../../main.dart';
-import '../user/metadata_top_component.dart';
+import '../user/metadata_top_widget.dart';
 
 class MetadataTopPlaceholderWidget extends StatelessWidget {
   static const double IMAGE_BORDER = 4;
@@ -18,7 +18,7 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     var maxWidth = mediaDataCache.size.width;

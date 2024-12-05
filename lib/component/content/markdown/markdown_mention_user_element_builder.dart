@@ -6,7 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:markdown/src/ast.dart';
 import 'package:nostr_sdk/nip19/nip19.dart';
 import 'package:nostr_sdk/nip19/nip19_tlv.dart';
-import 'package:nostrmo/component/content/content_mention_user_component.dart';
+import 'package:nostrmo/component/content/content_mention_user_widget.dart';
 
 class MarkdownMentionUserElementBuilder implements MarkdownElementBuilder {
   static const String TAG = "mentionUser";

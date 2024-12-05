@@ -3,12 +3,12 @@ import 'package:nostr_sdk/event_kind.dart';
 import 'package:nostr_sdk/nip19/nip19.dart';
 import 'package:nostr_sdk/nip19/nip19_tlv.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostrmo/component/event/event_id_router_component.dart';
+import 'package:nostrmo/component/event/event_id_router_widget.dart';
 
 import '../consts/router_path.dart';
 import '../util/router_util.dart';
-import 'content/content_component.dart';
-import 'webview_router.dart';
+import 'content/content_widget.dart';
+import 'webview_widget.dart';
 
 class LinkRouterUtil {
   static void router(BuildContext context, String link) {

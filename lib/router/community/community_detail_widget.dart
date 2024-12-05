@@ -6,22 +6,22 @@ import 'package:nostr_sdk/event_mem_box.dart';
 import 'package:nostr_sdk/filter.dart';
 import 'package:nostr_sdk/nip172/community_info.dart';
 import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
-import 'package:nostrmo/component/community_info_component.dart';
+import 'package:nostrmo/component/community_info_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:widget_size/widget_size.dart';
 
-import '../../component/appbar_back_btn_component.dart';
+import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
-import '../../component/event/event_list_component.dart';
+import '../../component/event/event_list_widget.dart';
 import '../../component/event_delete_callback.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/router_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import '../edit/editor_router.dart';
+import '../edit/editor_widget.dart';
 
 class CommunityDetailWidget extends StatefulWidget {
   const CommunityDetailWidget({super.key});
@@ -72,8 +72,8 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
       RouterUtil.back(context);
       return Container();
     }
-    var _settingProvider = Provider.of<SettingProvider>(context);
-    var themeData = Theme.of(context);
+    final settingProvider = Provider.of<SettingProvider>(context);
+    final themeData = Theme.of(context);
     var bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
 
     Widget? appBarTitle;
@@ -100,8 +100,8 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
               }
 
               return WidgetSize(
-                onChange: (s) {
-                  infoHeight = s.height;
+                onChange: (localization) {
+                  infoHeight = localization.height;
                 },
                 child: CommunityInfoWidget(info: info),
               );
@@ -117,7 +117,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: _settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
             showCommunity: false,
           );
         },

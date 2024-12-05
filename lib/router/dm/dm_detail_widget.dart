@@ -7,14 +7,14 @@ import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/editor/editor_mixin.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/dm_session_info_db.dart';
-import 'package:nostrmo/router/edit/editor_router.dart';
+import 'package:nostrmo/router/edit/editor_widget.dart';
 import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:pointycastle/ecc/api.dart';
 import 'package:provider/provider.dart';
 import 'package:pointycastle/export.dart' as pointycastle;
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
-import '../../component/appbar_back_btn_component.dart';
+import '../../component/appbar_back_btn_widget.dart';
 import '../../component/editor/custom_emoji_embed_builder.dart';
 import '../../component/editor/lnbc_embed_builder.dart';
 import '../../component/editor/mention_event_embed_builder.dart';
@@ -22,7 +22,7 @@ import '../../component/editor/mention_user_embed_builder.dart';
 import '../../component/editor/pic_embed_builder.dart';
 import '../../component/editor/tag_embed_builder.dart';
 import '../../component/editor/video_embed_builder.dart';
-import '../../component/user/name_component.dart';
+import '../../component/user/name_widget.dart';
 import '../../consts/base.dart';
 import '../../data/dm_session_info.dart';
 import '../../data/metadata.dart';
@@ -31,7 +31,7 @@ import '../../main.dart';
 import '../../provider/dm_provider.dart';
 import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
-import 'dm_detail_item_component.dart';
+import 'dm_detail_item_widget.dart';
 
 class DMDetailWidget extends StatefulWidget {
   const DMDetailWidget({super.key});
@@ -53,11 +53,11 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
 
   @override
   Widget doBuild(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var textColor = themeData.textTheme.bodyMedium!.color;
     var cardColor = themeData.cardColor;
 
-    var s = S.of(context);
+    final localization = S.of(context);
 
     var arg = RouterUtil.routerArgs(context);
     if (arg == null) {
@@ -136,7 +136,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
           Expanded(
             child: quill.QuillEditor(
               configurations: quill.QuillEditorConfigurations(
-                placeholder: s.What_s_happening,
+                placeholder: localization.What_s_happening,
                 embedBuilders: [
                   MentionUserEmbedBuilder(),
                   MentionEventEmbedBuilder(),
@@ -163,7 +163,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
             onPressed: send,
             style: const ButtonStyle(),
             child: Text(
-              s.Send,
+              localization.Send,
               style: TextStyle(
                 color: textColor,
                 fontSize: 16,
@@ -208,7 +208,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
                   ),
                   child: Center(
                     child: Text(
-                      s.Add_to_known_list,
+                      localization.Add_to_known_list,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

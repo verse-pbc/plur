@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../content/content_video_component.dart';
+import '../content/content_video_widget.dart';
 
 class VideoEmbedBuilder extends EmbedBuilder {
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:nostrmo/component/content/content_lnbc_component.dart';
+import 'package:nostrmo/component/content/content_lnbc_widget.dart';
 
 import 'cust_embed_types.dart';
 

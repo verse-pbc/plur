@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 
 import '../../main.dart';
 import '../../provider/dm_provider.dart';
-import 'dm_known_list_router.dart';
-import 'dm_session_list_item_component.dart';
-import 'dm_unknown_list_router.dart';
+import 'dm_known_list_widget.dart';
+import 'dm_session_list_item_widget.dart';
+import 'dm_unknown_list_widget.dart';
 
 class DMWidget extends StatefulWidget {
   TabController tabController;
@@ -21,7 +21,7 @@ class DMWidget extends StatefulWidget {
 class _DMWidgetState extends State<DMWidget> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
 
     return Container(
       color: themeData.scaffoldBackgroundColor,
