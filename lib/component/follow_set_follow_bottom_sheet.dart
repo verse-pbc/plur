@@ -12,7 +12,7 @@ import '../router/index/index_drawer_content.dart';
 class FollowSetFollowBottomSheet extends StatefulWidget {
   String pubkey;
 
-  FollowSetFollowBottomSheet(this.pubkey);
+  FollowSetFollowBottomSheet(this.pubkey, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,10 +23,9 @@ class FollowSetFollowBottomSheet extends StatefulWidget {
 class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
+    final localization = S.of(context);
 
-    var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var backgroundColor = themeData.scaffoldBackgroundColor;
 
@@ -46,9 +45,9 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
           ),
         ),
       ),
-      child: IndexDrawerItem(
+      child: IndexDrawerItemWidget(
         iconData: Icons.people,
-        name: s.Follow_set,
+        name: localization.Follow_set,
         onTap: () {},
       ),
     ));
@@ -65,18 +64,18 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
       child: Row(
         children: [
           Expanded(child: Container()),
-          Container(
+          SizedBox(
             width: 60,
             child: Tooltip(
-              message: s.Private,
-              child: Icon(Icons.lock_outline),
+              message: localization.Private,
+              child: const Icon(Icons.lock_outline),
             ),
           ),
-          Container(
+          SizedBox(
             width: 60,
             child: Tooltip(
-              message: s.Public,
-              child: Icon(Icons.lock_open),
+              message: localization.Public,
+              child: const Icon(Icons.lock_open),
             ),
           ),
         ],
@@ -88,7 +87,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
     for (var followSet in followSets) {
       selectList.add(Container(
         margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-        child: FollowSetFollowItemComponent(
+        child: FollowSetFollowItemWidget(
           followSet,
           followSet.privateFollow(widget.pubkey),
           onPrivateChange,
@@ -108,12 +107,10 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
       ),
     ));
 
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
     );
   }
 
@@ -144,7 +141,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
   }
 }
 
-class FollowSetFollowItemComponent extends StatefulWidget {
+class FollowSetFollowItemWidget extends StatefulWidget {
   FollowSet followSet;
 
   bool privateValue;
@@ -155,7 +152,7 @@ class FollowSetFollowItemComponent extends StatefulWidget {
 
   Function(FollowSet, bool?) onPublicChange;
 
-  FollowSetFollowItemComponent(
+  FollowSetFollowItemWidget(
     this.followSet,
     this.privateValue,
     this.onPrivateChange,
@@ -165,15 +162,14 @@ class FollowSetFollowItemComponent extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _FollowSetFollowItemComponent();
+    return _FollowSetFollowItemWidgetState();
   }
 }
 
-class _FollowSetFollowItemComponent
-    extends State<FollowSetFollowItemComponent> {
+class _FollowSetFollowItemWidgetState extends State<FollowSetFollowItemWidget> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
 
     return Container(
       padding: const EdgeInsets.only(
@@ -188,7 +184,7 @@ class _FollowSetFollowItemComponent
           Expanded(
             child: Text(widget.followSet.displayName()),
           ),
-          Container(
+          SizedBox(
             width: 60,
             child: Checkbox(
               value: widget.privateValue,
@@ -197,7 +193,7 @@ class _FollowSetFollowItemComponent
               },
             ),
           ),
-          Container(
+          SizedBox(
             width: 60,
             child: Checkbox(
               value: widget.publicValue,

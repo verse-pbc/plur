@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:nostrmo/component/content/content_tag_component.dart';
+import 'package:nostrmo/component/content/content_tag_widget.dart';
 
 import 'cust_embed_types.dart';
 
@@ -17,7 +17,7 @@ class TagEmbedBuilder extends EmbedBuilder {
           left: 4,
           right: 4,
         ),
-        child: ContentTagComponent(tag: "#" + tag),
+        child: ContentTagWidget(tag: "#" + tag),
       ),
     );
   }

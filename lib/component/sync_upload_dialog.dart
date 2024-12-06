@@ -44,8 +44,8 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-    var themeData = Theme.of(context);
+    final localization = S.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
@@ -55,7 +55,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
 
     List<Widget> list = [];
     list.add(Text(
-      s.Sync_Upload,
+      localization.Sync_Upload,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: titleFontSize,
@@ -66,13 +66,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
       margin: EdgeInsets.only(top: Base.BASE_PADDING),
       child: Row(
         children: [
-          Text("${s.Upload_num}: ${widget.events.length}"),
+          Text("${localization.Upload_num}: ${widget.events.length}"),
           Container(
             margin: EdgeInsets.only(
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING_HALF,
             ),
-            child: Text("${s.Send_interval}: "),
+            child: Text("${localization.Send_interval}: "),
           ),
           DropdownButton<int>(
             isDense: true,
@@ -122,14 +122,14 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     }
     list.add(Container(
       margin: const EdgeInsets.only(top: Base.BASE_PADDING),
-      child: Text(s.Select_relay_to_upload),
+      child: Text(localization.Select_relay_to_upload),
     ));
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Wrap(
-        children: subList,
         spacing: Base.BASE_PADDING_HALF,
         runSpacing: Base.BASE_PADDING_HALF,
+        children: subList,
       ),
     ));
 
@@ -273,7 +273,7 @@ class SyncUploadItem extends StatefulWidget {
 class _SyncUploadItem extends State<SyncUploadItem> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var mainColor = themeData.primaryColor;
 

@@ -30,7 +30,7 @@ class ColorPickDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
 
     List<Widget> list = [];
