@@ -11,7 +11,7 @@ import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
-import '../content/content_custom_emoji_component.dart';
+import '../content/content_custom_emoji_widget.dart';
 
 class CustomEmojiAddDialog extends StatefulWidget {
   @override
@@ -41,8 +41,8 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-    var themeData = Theme.of(context);
+    final localization = S.of(context);
+    final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
@@ -52,7 +52,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     list.add(Container(
       margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
       child: Text(
-        s.Add_Custom_Emoji,
+        localization.Add_Custom_Emoji,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: titleFontSize,
@@ -68,7 +68,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
         maxLines: 1,
         autofocus: true,
         decoration: InputDecoration(
-          hintText: s.Input_Custom_Emoji_Name,
+          hintText: localization.Input_Custom_Emoji_Name,
           border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
@@ -81,7 +81,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
       )
     ];
     if (StringUtil.isNotBlank(filepath)) {
-      imageWidgetList.add(ContentCustomEmojiComponent(imagePath: filepath!));
+      imageWidgetList.add(ContentCustomEmojiWidget(imagePath: filepath!));
     }
 
     list.add(Row(
@@ -166,15 +166,15 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
   String? filepath;
 
   Future<void> _onConfirm() async {
-    var s = S.of(context);
+    final localization = S.of(context);
     var text = controller.text;
     if (StringUtil.isBlank(text)) {
-      BotToast.showText(text: s.Input_can_not_be_null);
+      BotToast.showText(text: localization.Input_can_not_be_null);
       return;
     }
 
     if (RegExp(_regExp).firstMatch(text) == null) {
-      BotToast.showText(text: s.Input_parse_error);
+      BotToast.showText(text: localization.Input_parse_error);
       return;
     }
 
@@ -187,7 +187,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
       log("$text $imagePath");
 
       if (StringUtil.isBlank(imagePath)) {
-        BotToast.showText(text: s.Upload_fail);
+        BotToast.showText(text: localization.Upload_fail);
         return;
       }
 

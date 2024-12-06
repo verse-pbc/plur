@@ -18,19 +18,18 @@ import 'package:string_validator/string_validator.dart';
 import '../../consts/base.dart';
 import '../../consts/base64.dart';
 import '../../main.dart';
-import '../event/event_quote_component.dart';
-import '../translate/line_translate_component.dart';
-import 'content_custom_emoji_component.dart';
-import 'content_image_component.dart';
-import 'content_link_component.dart';
-import 'content_link_pre_component.dart';
-import 'content_lnbc_component.dart';
-import 'content_mention_user_component.dart';
-import 'content_relay_component.dart';
-import 'content_str_link_component.dart';
-import 'content_tag_component.dart';
-import 'content_video_component.dart';
-import 'content_youtube_component.dart';
+import '../event/event_quote_widget.dart';
+import '../translate/line_translate_widget.dart';
+import 'content_custom_emoji_widget.dart';
+import 'content_image_widget.dart';
+import 'content_link_widget.dart';
+import 'content_link_pre_widget.dart';
+import 'content_lnbc_widget.dart';
+import 'content_mention_user_widget.dart';
+import 'content_relay_widget.dart';
+import 'content_str_link_widget.dart';
+import 'content_tag_widget.dart';
+import 'content_video_widget.dart';
 
 class ContentDecoder {
   static const OTHER_LIGHTNING = "lightning=";
@@ -74,11 +73,7 @@ class ContentDecoder {
     if (inlines.isNotEmpty) {
       if (inlines.length == 1) {
         if (inlines[0] is String) {
-          // list.add(TextTranslateComponent(
-          //   inlines[0],
-          //   textOnTap: textOnTap,
-          // ));
-          list.add(LineTranslateComponent(
+          list.add(LineTranslateWidget(
             []..add(inlines[0]),
             textOnTap: textOnTap,
           ));
@@ -86,22 +81,8 @@ class ContentDecoder {
           list.add(inlines[0]);
         }
       } else {
-        // List<InlineSpan> spans = [];
-        // for (var inline in inlines) {
-        //   if (inline is String) {
-        //     spans.add(WidgetSpan(
-        //         child: TextTranslateComponent(
-        //       inline + " ",
-        //       textOnTap: textOnTap,
-        //     )));
-        //   } else {
-        //     spans.add(WidgetSpan(child: inline));
-        //   }
-        // }
-        // list.add(Text.rich(TextSpan(children: spans)));
-
-        list.add(LineTranslateComponent(
-          []..addAll(inlines),
+        list.add(LineTranslateWidget(
+          [...inlines],
           textOnTap: textOnTap,
         ));
       }
@@ -117,9 +98,6 @@ class ContentDecoder {
 
     ContentDecoderInfo info = ContentDecoderInfo();
     for (var str in strs) {
-      List<dynamic> inlines = [];
-      String handledStr = "";
-
       var subStrs = str.split(" ");
       info.strs.add(subStrs);
       for (var subStr in subStrs) {
@@ -137,7 +115,7 @@ class ContentDecoder {
   }
 
   @Deprecated(
-      "This method had bean Deprecated, it should insteaded by ContentComponent")
+      "This method had bean Deprecated, it should insteaded by ContentWidget")
   static List<Widget> decode(
     BuildContext context,
     String? content,
@@ -224,7 +202,7 @@ class ContentDecoder {
                 handledStr = _closeHandledStr(handledStr, inlines);
                 _closeInlines(inlines, list, textOnTap: textOnTap);
                 var imageIndex = imageList.length - 1;
-                var imageWidget = ContentImageComponent(
+                var imageWidget = ContentImageWidget(
                   imageUrl: subStr,
                   imageList: imageList,
                   imageIndex: imageIndex,
@@ -234,19 +212,19 @@ class ContentDecoder {
             } else {
               // inline
               handledStr = _closeHandledStr(handledStr, inlines);
-              inlines.add(ContentLinkComponent(link: subStr));
+              inlines.add(ContentLinkWidget(link: subStr));
             }
           } else if (pathType == "video") {
             if (showVideo && !PlatformUtil.isPC()) {
               // block
               handledStr = _closeHandledStr(handledStr, inlines);
               _closeInlines(inlines, list, textOnTap: textOnTap);
-              var w = ContentVideoComponent(url: subStr);
+              var w = ContentVideoWidget(url: subStr);
               list.add(w);
             } else {
               // inline
               handledStr = _closeHandledStr(handledStr, inlines);
-              inlines.add(ContentLinkComponent(link: subStr));
+              inlines.add(ContentLinkWidget(link: subStr));
             }
             // // TODO need to handle, this is temp handle
             // handledStr = _addToHandledStr(handledStr, subStr);
@@ -254,24 +232,15 @@ class ContentDecoder {
             if (!showLinkPreview) {
               // inline
               handledStr = _closeHandledStr(handledStr, inlines);
-              inlines.add(ContentLinkComponent(link: subStr));
+              inlines.add(ContentLinkWidget(link: subStr));
             } else {
               // block
               handledStr = _closeHandledStr(handledStr, inlines);
               _closeInlines(inlines, list, textOnTap: textOnTap);
-              // if (!PlatformUtil.isPC() &&
-              //     (subStr.contains("youtube.com") ||
-              //         subStr.contains("youtu.be"))) {
-              //   var w = ContnetYoutubeComponent(
-              //     link: subStr,
-              //   );
-              //   list.add(w);
-              // } else {
-              var w = ContentLinkPreComponent(
+              var w = ContentLinkPreWidget(
                 link: subStr,
               );
               list.add(w);
-              // }
             }
           }
         } else if (subStr.indexOf(NOTE_REFERENCES) == 0 ||
@@ -290,7 +259,7 @@ class ContentDecoder {
             }
             key = Nip19.decode(key);
             handledStr = _closeHandledStr(handledStr, inlines);
-            inlines.add(ContentMentionUserComponent(pubkey: key));
+            inlines.add(ContentMentionUserWidget(pubkey: key));
           } else if (Nip19.isNoteId(key)) {
             // block
             if (key.length > NOTEID_LENGTH) {
@@ -300,7 +269,7 @@ class ContentDecoder {
             key = Nip19.decode(key);
             handledStr = _closeHandledStr(handledStr, inlines);
             _closeInlines(inlines, list, textOnTap: textOnTap);
-            var widget = EventQuoteComponent(
+            var widget = EventQuoteWidget(
               id: key,
               showVideo: showVideo,
             );
@@ -311,7 +280,7 @@ class ContentDecoder {
               // inline
               // mention user
               handledStr = _closeHandledStr(handledStr, inlines);
-              inlines.add(ContentMentionUserComponent(pubkey: nprofile.pubkey));
+              inlines.add(ContentMentionUserWidget(pubkey: nprofile.pubkey));
             } else {
               handledStr = _addToHandledStr(handledStr, subStr);
             }
@@ -320,7 +289,7 @@ class ContentDecoder {
             if (nrelay != null) {
               // inline
               handledStr = _closeHandledStr(handledStr, inlines);
-              inlines.add(ContentRelayComponent(nrelay.addr));
+              inlines.add(ContentRelayWidget(nrelay.addr));
             } else {
               handledStr = _addToHandledStr(handledStr, subStr);
             }
@@ -330,7 +299,7 @@ class ContentDecoder {
               // block
               handledStr = _closeHandledStr(handledStr, inlines);
               _closeInlines(inlines, list, textOnTap: textOnTap);
-              var widget = EventQuoteComponent(
+              var widget = EventQuoteWidget(
                 id: nevent.id,
                 eventRelayAddr:
                     nevent.relays != null && nevent.relays!.isNotEmpty
@@ -350,7 +319,7 @@ class ContentDecoder {
                 // block
                 handledStr = _closeHandledStr(handledStr, inlines);
                 _closeInlines(inlines, list, textOnTap: textOnTap);
-                var widget = EventQuoteComponent(
+                var widget = EventQuoteWidget(
                   id: naddr.id,
                   eventRelayAddr:
                       naddr.relays != null && naddr.relays!.isNotEmpty
@@ -363,7 +332,7 @@ class ContentDecoder {
                   naddr.kind == EventKind.METADATA) {
                 // inline
                 handledStr = _closeHandledStr(handledStr, inlines);
-                inlines.add(ContentMentionUserComponent(pubkey: naddr.author));
+                inlines.add(ContentMentionUserWidget(pubkey: naddr.author));
               } else {
                 handledStr = _addToHandledStr(handledStr, subStr);
               }
@@ -383,14 +352,14 @@ class ContentDecoder {
           // mention user
           key = Nip19.decode(key);
           handledStr = _closeHandledStr(handledStr, inlines);
-          inlines.add(ContentMentionUserComponent(pubkey: key));
+          inlines.add(ContentMentionUserWidget(pubkey: key));
         } else if (subStr.indexOf(MENTION_NOTE) == 0) {
           var key = subStr.replaceFirst("@", "");
           // block
           key = Nip19.decode(key);
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
-          var widget = EventQuoteComponent(
+          var widget = EventQuoteWidget(
             id: key,
             showVideo: showVideo,
           );
@@ -399,19 +368,19 @@ class ContentDecoder {
           // block
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
-          var w = ContentLnbcComponent(lnbc: subStr);
+          var w = ContentLnbcWidget(lnbc: subStr);
           list.add(w);
         } else if (subStr.indexOf(LIGHTNING) == 0) {
           // block
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
-          var w = ContentLnbcComponent(lnbc: subStr);
+          var w = ContentLnbcWidget(lnbc: subStr);
           list.add(w);
         } else if (subStr.contains(OTHER_LIGHTNING)) {
           // block
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
-          var w = ContentLnbcComponent(lnbc: subStr);
+          var w = ContentLnbcWidget(lnbc: subStr);
           list.add(w);
         } else if (subStr.indexOf("#[") == 0 &&
             subStr.length > 3 &&
@@ -433,7 +402,7 @@ class ContentDecoder {
                 // mention event
                 handledStr = _closeHandledStr(handledStr, inlines);
                 _closeInlines(inlines, list, textOnTap: textOnTap);
-                var widget = EventQuoteComponent(
+                var widget = EventQuoteWidget(
                   id: tag[1],
                   eventRelayAddr: relayAddr,
                   showVideo: showVideo,
@@ -443,7 +412,7 @@ class ContentDecoder {
                 // inline
                 // mention user
                 handledStr = _closeHandledStr(handledStr, inlines);
-                inlines.add(ContentMentionUserComponent(pubkey: tag[1]));
+                inlines.add(ContentMentionUserWidget(pubkey: tag[1]));
               } else {
                 handledStr = _addToHandledStr(handledStr, subStr);
               }
@@ -474,7 +443,7 @@ class ContentDecoder {
           }
 
           handledStr = _closeHandledStr(handledStr, inlines);
-          inlines.add(ContentTagComponent(tag: subStr));
+          inlines.add(ContentTagWidget(tag: subStr));
           if (StringUtil.isNotBlank(extralStr)) {
             handledStr = _addToHandledStr(handledStr, extralStr);
           }
@@ -489,7 +458,7 @@ class ContentDecoder {
               // var imagePath = tagInfos.emojiMap[subStr];
               if (StringUtil.isNotBlank(imagePath)) {
                 handledStr = _closeHandledStr(handledStr, inlines);
-                inlines.add(ContentCustomEmojiComponent(imagePath: imagePath!));
+                inlines.add(ContentCustomEmojiWidget(imagePath: imagePath!));
                 continue;
               }
             }
@@ -513,7 +482,7 @@ class ContentDecoder {
             margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
             width: CONTENT_IMAGE_LIST_HEIGHT,
             height: CONTENT_IMAGE_LIST_HEIGHT,
-            child: ContentImageComponent(
+            child: ContentImageWidget(
               imageUrl: image,
               imageList: imageList,
               imageIndex: index,

@@ -228,7 +228,7 @@ class Uploader {
           nostr!, "https://nostr.build/", localPath,
           fileName: fileName);
     } else if (imageService == ImageServices.NOSTO_RE) {
-      return await BolssomUploader.upload(
+      return await BlossomUploader.upload(
           nostr!, "https://nosto.re/", localPath,
           fileName: fileName);
     } else if (imageService == ImageServices.NIP_95) {
@@ -240,14 +240,14 @@ class Uploader {
           fileName: fileName);
     } else if (imageService == ImageServices.BLOSSOM &&
         StringUtil.isNotBlank(settingProvider.imageServiceAddr)) {
-      return await BolssomUploader.upload(
+      return await BlossomUploader.upload(
           nostr!, settingProvider.imageServiceAddr!, localPath,
           fileName: fileName);
     } else if (imageService == ImageServices.VOID_CAT) {
       return await VoidCatUploader.upload(localPath);
     }
     if (PlatformUtil.isWeb()) {
-      return await BolssomUploader.upload(
+      return await BlossomUploader.upload(
           nostr!, "https://nosto.re/", localPath,
           fileName: fileName);
     }
