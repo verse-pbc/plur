@@ -1,7 +1,7 @@
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:nostrmo/component/content/content_lnbc_component.dart';
+import 'package:nostrmo/component/content/content_lnbc_widget.dart';
 
 import 'cust_embed_types.dart';
 
@@ -11,7 +11,7 @@ class LnbcEmbedBuilder extends EmbedBuilder {
       bool readOnly, bool inline, TextStyle textStyle) {
     var lnbcStr = node.value.data;
     return AbsorbPointer(
-      child: ContentLnbcComponent(lnbc: lnbcStr),
+      child: ContentLnbcWidget(lnbc: lnbcStr),
     );
   }
 

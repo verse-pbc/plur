@@ -9,7 +9,7 @@ class EventTopPlaceholder extends StatelessWidget {
   static const double HALF_IMAGE_WIDTH = 17;
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var textSize = themeData.textTheme.bodyMedium!.fontSize;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;

@@ -7,7 +7,7 @@ import 'metadata_top_placeholder.dart';
 class MetadataPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
 
@@ -15,7 +15,7 @@ class MetadataPlaceholder extends StatelessWidget {
 
     List<Widget> mainList = [];
 
-    mainList.add(MetadataTopPlaceholder());
+    mainList.add(MetadataTopPlaceholderWidget());
 
     mainList.add(
       Container(

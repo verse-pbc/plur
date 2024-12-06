@@ -10,7 +10,7 @@ class TopicMap {
     ["Damus", "damus", "DAMUS"],
     ["Amethyst", "amethyst"],
     // coint
-    ["Bitcion", "btc", "BTC", "bition"],
+    ["Bitcoin", "btc", "BTC", "bitcoin"],
     ["nft", "NFT"],
     // country
     ["japan", "jp", "Japan", "JAPAN"],

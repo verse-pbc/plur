@@ -15,8 +15,8 @@ class LightningUtil {
   static Future<void> goToPay(BuildContext context, String invoiceCode,
       {int? zapNum}) async {
     if (nwcProvider.isConnected()) {
-      var s = S.of(context);
-      var themeData = Theme.of(context);
+      final localization = S.of(context);
+      final themeData = Theme.of(context);
       var fontSize = themeData.textTheme.bodyMedium!.fontSize;
 
       var text = "Zap";
@@ -39,7 +39,7 @@ class LightningUtil {
                 color: Colors.orange,
               ),
               Text(
-                "$text ${s.is_sending}...",
+                "$text ${localization.is_sending}...",
                 style: TextStyle(
                   fontSize: fontSize,
                 ),
@@ -50,7 +50,7 @@ class LightningUtil {
         trailing: (cancelFunc) {
           return FilledButton(
             child: Text(
-              s.Cancel,
+              localization.Cancel,
               style: TextStyle(
                 fontSize: fontSize,
               ),

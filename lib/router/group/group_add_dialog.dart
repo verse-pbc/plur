@@ -29,7 +29,7 @@ class _GroupAddDailog extends State<GroupAddDailog> {
   TextEditingController hostController = TextEditingController();
   TextEditingController groupIdController = TextEditingController();
 
-  late S s;
+  late S localization;
 
   // bool joinGroup = true;
 
@@ -37,8 +37,8 @@ class _GroupAddDailog extends State<GroupAddDailog> {
 
   @override
   Widget build(BuildContext context) {
-    s = S.of(context);
-    var themeData = Theme.of(context);
+    localization = S.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
@@ -47,95 +47,31 @@ class _GroupAddDailog extends State<GroupAddDailog> {
     List<Widget> list = [];
 
     list.add(Text(
-      "${s.Add} ${s.Group}",
+      "${localization.Add} ${localization.Group}",
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: titleFontSize,
       ),
     ));
 
-    // list.add(
-    //   Container(
-    //     child: Row(
-    //       children: [
-    //         Checkbox(
-    //           value: joinGroup,
-    //           onChanged: (v) {
-    //             setState(() {
-    //               joinGroup = v!;
-    //             });
-    //           },
-    //         ),
-    //         Text(s.Join_Group),
-    //         Container(
-    //           width: Base.BASE_PADDING,
-    //         ),
-    //         Checkbox(
-    //           value: !joinGroup,
-    //           onChanged: (v) {
-    //             setState(() {
-    //               joinGroup = !v!;
-    //             });
-    //           },
-    //         ),
-    //         Text(s.Create_Group),
-    //       ],
-    //     ),
-    //   ),
-    // );
-
-    // if (joinGroup) {
     list.add(Container(
       margin: EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: hostController,
         autofocus: true,
         decoration: InputDecoration(
-          hintText: "${s.Please_input} ${s.Relay}",
+          hintText: "${localization.Please_input} ${localization.Relay}",
           border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
-    // } else {
-    //   list.add(Container(
-    //     margin: EdgeInsets.only(top: Base.BASE_PADDING),
-    //     child: Row(
-    //       children: [
-    //         Text("${s.Relay} :  "),
-    //         Expanded(
-    //           child: DropdownButton<String>(
-    //             isExpanded: true,
-    //             items: const [
-    //               DropdownMenuItem(
-    //                 value: "wss://groups.fiatjaf.com",
-    //                 child: Text("wss://groups.fiatjaf.com"),
-    //               ),
-    //               DropdownMenuItem(
-    //                 value: "wss://groups.0xchat.com",
-    //                 child: Text("wss://groups.0xchat.com"),
-    //               ),
-    //             ],
-    //             value: crateGroupRelay,
-    //             onChanged: (String? value) {
-    //               if (value != null) {
-    //                 setState(() {
-    //                   crateGroupRelay = value;
-    //                 });
-    //               }
-    //             },
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ));
-    // }
 
     list.add(Container(
       margin: EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: groupIdController,
         decoration: InputDecoration(
-          hintText: "${s.Please_input} ${s.GroupId}",
+          hintText: "${localization.Please_input} ${localization.GroupId}",
           border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
@@ -208,7 +144,7 @@ class _GroupAddDailog extends State<GroupAddDailog> {
     var groupId = groupIdController.text;
 
     if (StringUtil.isBlank(host) && StringUtil.isBlank(groupId)) {
-      BotToast.showText(text: s.Input_can_not_be_null);
+      BotToast.showText(text: localization.Input_can_not_be_null);
       return;
     }
 

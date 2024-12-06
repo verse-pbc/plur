@@ -5,7 +5,7 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
-import 'text_input_dialog_inner_component.dart';
+import 'text_input_dialog_inner_widget.dart';
 
 class TextInputDialog extends StatefulWidget {
   String title;
@@ -49,8 +49,8 @@ class TextInputDialog extends StatefulWidget {
 class _TextInputDialog extends State<TextInputDialog> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-    var main = TextInputDialogInnerComponent(
+    final themeData = Theme.of(context);
+    var main = TextInputDialogInnerWidget(
       widget.title,
       hintText: widget.hintText,
       value: widget.value,
@@ -73,11 +73,11 @@ class _TextInputDialog extends State<TextInputDialog> {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),

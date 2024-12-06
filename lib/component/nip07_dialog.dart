@@ -44,46 +44,43 @@ class NIP07Dialog extends StatefulWidget {
 class _NIP07Dialog extends State<NIP07Dialog> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
+    final themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
 
-    var s = S.of(context);
+    final localization = S.of(context);
 
     List<Widget> list = [];
-    list.add(Container(
-      child: Text(
-        "NIP-07 ${s.Confirm}",
-        style: TextStyle(
-          fontSize: titleFontSize! + 4,
-          fontWeight: FontWeight.bold,
-        ),
+    list.add(Text(
+      "NIP-07 ${localization.Confirm}",
+      style: TextStyle(
+        fontSize: titleFontSize! + 4,
+        fontWeight: FontWeight.bold,
       ),
     ));
 
-    list.add(Divider());
+    list.add(const Divider());
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Row(
         children: [
-          Text("${s.Method}:  "),
+          Text("${localization.Method}:  "),
           Text(widget.method),
         ],
       ),
     ));
 
-    String methodDesc = s.NIP07_getPublicKey;
+    String methodDesc = localization.NIP07_getPublicKey;
     if (widget.method == NIP07Methods.getRelays) {
-      methodDesc = s.NIP07_getRelays;
+      methodDesc = localization.NIP07_getRelays;
     } else if (widget.method == NIP07Methods.nip04_encrypt) {
-      methodDesc = s.NIP07_encrypt;
+      methodDesc = localization.NIP07_encrypt;
     } else if (widget.method == NIP07Methods.nip04_decrypt) {
-      methodDesc = s.NIP07_decrypt;
+      methodDesc = localization.NIP07_decrypt;
     } else if (widget.method == NIP07Methods.signEvent) {
-      methodDesc = s.NIP07_signEvent;
+      methodDesc = localization.NIP07_signEvent;
       try {
         if (StringUtil.isNotBlank(widget.content)) {
           var jsonObj = jsonDecode(widget.content!);
@@ -93,10 +90,10 @@ class _NIP07Dialog extends State<NIP07Dialog> {
         }
       } catch (e) {}
     } else if (widget.method == NIP07Methods.lightning) {
-      methodDesc = s.NIP07_lightning;
+      methodDesc = localization.NIP07_lightning;
     }
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Row(
         children: [
           Text(methodDesc),
@@ -105,9 +102,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     ));
 
     if (StringUtil.isNotBlank(widget.content)) {
-      list.add(Container(
-        child: Text("${s.Content}:"),
-      ));
+      list.add(Text("${localization.Content}:"));
       list.add(Container(
         width: double.maxFinite,
         padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
@@ -124,7 +119,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Row(children: [
         Expanded(
             child: InkWell(
@@ -136,7 +131,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
             color: hintColor.withOpacity(0.3),
             alignment: Alignment.center,
             child: Text(
-              s.Cancel,
+              localization.Cancel,
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.bold,
@@ -157,7 +152,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
             color: hintColor.withOpacity(0.3),
             alignment: Alignment.center,
             child: Text(
-              s.Confirm,
+              localization.Confirm,
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.bold,

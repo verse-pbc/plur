@@ -26,16 +26,6 @@ abstract class KeepAliveCustState<T extends StatefulWidget> extends State<T>
 
   Future<void> onReady(BuildContext context);
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  // }
-
   @override
   bool get wantKeepAlive => true;
 }
