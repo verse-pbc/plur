@@ -6,34 +6,33 @@ import 'package:nostrmo/main.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
+import '../../provider/relay_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 
-class GroupAddDailog extends StatefulWidget {
+class GroupAddDialog extends StatefulWidget {
+  const GroupAddDialog({super.key});
+
   static Future<String?> show(BuildContext context) async {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
-          return GroupAddDailog();
+        builder: (_) {
+          return const GroupAddDialog();
         });
   }
 
   @override
   State<StatefulWidget> createState() {
-    return _GroupAddDailog();
+    return _GroupAddDialog();
   }
 }
 
-class _GroupAddDailog extends State<GroupAddDailog> {
-  TextEditingController hostController = TextEditingController();
+class _GroupAddDialog extends State<GroupAddDialog> {
+  TextEditingController hostController = TextEditingController(text: RelayProvider.defaultGroupsRelayAddress);
   TextEditingController groupIdController = TextEditingController();
 
   late S localization;
-
-  // bool joinGroup = true;
-
-  // String crateGroupRelay = "wss://groups.fiatjaf.com";
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +41,6 @@ class _GroupAddDailog extends State<GroupAddDailog> {
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
 
     List<Widget> list = [];
 
@@ -55,30 +53,30 @@ class _GroupAddDailog extends State<GroupAddDailog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: hostController,
-        autofocus: true,
         decoration: InputDecoration(
           hintText: "${localization.Please_input} ${localization.Relay}",
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: groupIdController,
+        autofocus: true,
         decoration: InputDecoration(
           hintText: "${localization.Please_input} ${localization.GroupId}",
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -90,7 +88,7 @@ class _GroupAddDailog extends State<GroupAddDailog> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -100,22 +98,9 @@ class _GroupAddDailog extends State<GroupAddDailog> {
       ),
     ));
 
-    var main = Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: cardColor,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: list,
-      ),
-    );
-
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
       body: FocusScope(
-        // autofocus: true,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -131,7 +116,17 @@ class _GroupAddDailog extends State<GroupAddDailog> {
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
-              child: main,
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: cardColor,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: list,
+                ),
+              ),
             ),
           ),
         ),
