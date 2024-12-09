@@ -65,6 +65,7 @@ class RelayProvider extends ChangeNotifier {
         "wss://relay.damus.io",
         "wss://purplepag.es",
         "wss://nos.lol",
+        "wss://relay.mostr.pub",
       ];
     }
 
