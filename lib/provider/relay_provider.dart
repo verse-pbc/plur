@@ -61,6 +61,11 @@ class RelayProvider extends ChangeNotifier {
     if (relays.isEmpty) {
       relays = [
         defaultGroupsRelayAddress,
+        "wss://relay.nos.social",
+        "wss://relay.damus.io",
+        "wss://purplepag.es",
+        "wss://nos.lol",
+        "wss://relay.mostr.pub",
       ];
     }
 
