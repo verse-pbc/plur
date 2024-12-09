@@ -74,6 +74,6 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
   }
 
   void groupAdd() {
-    GroupAddDailog.show(context);
+    GroupAddDialog.show(context);
   }
 }
