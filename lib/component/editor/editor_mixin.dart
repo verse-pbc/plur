@@ -744,8 +744,7 @@ mixin EditorMixin {
             createdAt: getCreatedAt());
       }
     } else if (groupIdentifier != null) {
-      var eventKind = getGroupEventKind();
-      eventKind ??= EventKind.GROUP_NOTE;
+      const eventKind = EventKind.GROUP_NOTE;
       // group event
       event = Event(
           nostr!.publicKey,
