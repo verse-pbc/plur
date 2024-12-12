@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostrmo/consts/base64.dart';
 
-import '../image_component.dart';
+import '../image_widget.dart';
 
 class PicEmbedBuilder extends EmbedBuilder {
   @override
@@ -13,7 +13,7 @@ class PicEmbedBuilder extends EmbedBuilder {
     var imageUrl = node.value.data as String;
     if (imageUrl.indexOf("http") == 0 || imageUrl.indexOf(BASE64.PREFIX) == 0) {
       // netword image
-      return ImageComponent(
+      return ImageWidget(
         imageUrl: imageUrl,
         fit: BoxFit.cover,
         placeholder: (context, url) => CircularProgressIndicator(),

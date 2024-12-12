@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 import '../../consts/base.dart';
-import '../content/content_mention_user_component.dart';
+import '../content/content_mention_user_widget.dart';
 import 'cust_embed_types.dart';
 
 class MentionUserEmbedBuilder extends EmbedBuilder {
@@ -19,7 +19,7 @@ class MentionUserEmbedBuilder extends EmbedBuilder {
           left: 4,
           right: 4,
         ),
-        child: ContentMentionUserComponent(pubkey: pubkey),
+        child: ContentMentionUserWidget(pubkey: pubkey),
       ),
     );
   }

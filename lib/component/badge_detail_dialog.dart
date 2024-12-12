@@ -7,7 +7,7 @@ import 'package:nostrmo/util/table_mode_util.dart';
 import '../consts/base.dart';
 import '../util/router_util.dart';
 import '../util/theme_util.dart';
-import 'badge_detail_component.dart';
+import 'badge_detail_widget.dart';
 
 class BadgeDetailDialog extends StatefulWidget {
   BadgeDefinition badgeDefinition;
@@ -38,9 +38,9 @@ class BadgeDetailDialog extends StatefulWidget {
 class _BadgeDetailDialog extends State<BadgeDetailDialog> {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
 
-    Widget main = BadgeDetailComponent(
+    Widget main = BadgeDetailWidget(
       badgeDefinition: widget.badgeDefinition,
     );
     if (PlatformUtil.isPC() || TableModeUtil.isTableMode()) {

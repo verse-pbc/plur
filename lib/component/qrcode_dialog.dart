@@ -5,9 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_sdk/nip19/nip19.dart';
-import 'package:nostrmo/component/user/name_component.dart';
-import 'package:nostrmo/component/user/metadata_top_component.dart';
-import 'package:nostrmo/component/user/user_pic_component.dart';
+import 'package:nostrmo/component/user/name_widget.dart';
+import 'package:nostrmo/component/user/metadata_top_widget.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/data/metadata.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ import '../provider/metadata_provider.dart';
 import '../util/router_util.dart';
 import '../util/store_util.dart';
 import '../util/theme_util.dart';
-import 'image_component.dart';
+import 'image_widget.dart';
 
 class QrcodeDialog extends StatefulWidget {
   String pubkey;
@@ -53,7 +53,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
 
@@ -61,13 +61,13 @@ class _QrcodeDialog extends State<QrcodeDialog> {
     var nip19Pubkey = Nip19.encodePubKey(widget.pubkey);
     Widget topWidget = Selector<MetadataProvider, Metadata?>(
       builder: (context, metadata, child) {
-        Widget userImageWidget = UserPicComponent(
+        Widget userImageWidget = UserPicWidget(
           pubkey: widget.pubkey,
           width: IMAGE_WIDTH,
           metadata: metadata,
         );
 
-        Widget userNameWidget = NameComponent(
+        Widget userNameWidget = NameWidget(
           pubkey: widget.pubkey,
           metadata: metadata,
         );
@@ -175,11 +175,11 @@ class _QrcodeDialog extends State<QrcodeDialog> {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),
@@ -195,13 +195,11 @@ class _QrcodeDialog extends State<QrcodeDialog> {
   void onShareTap() {
     screenshotController.capture().then((Uint8List? imageData) async {
       if (imageData != null) {
-        if (imageData != null) {
-          var tempFile = await StoreUtil.saveBS2TempFile(
-            "png",
-            imageData,
-          );
-          Share.shareXFiles([XFile(tempFile)]);
-        }
+        var tempFile = await StoreUtil.saveBS2TempFile(
+          "png",
+          imageData,
+        );
+        Share.shareXFiles([XFile(tempFile)]);
       }
     }).catchError((onError) {
       print(onError);

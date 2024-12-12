@@ -14,6 +14,6 @@ class CacheManagerBuilder {
 
     imageLocalCacheManager = CacheManager.custom(config,
         cacheStore: imageCacheStore,
-        webHelper: WebHelper(imageCacheStore, RetryHttpFileServcie()));
+        webHelper: WebHelper(imageCacheStore, RetryHttpFileService()));
   }
 }
