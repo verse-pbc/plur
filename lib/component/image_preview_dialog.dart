@@ -127,7 +127,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
+    final localization = S.of(context);
 
     var main = Scaffold(
       backgroundColor: widget.backgroundColor.withOpacity(0.5),
@@ -152,7 +152,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
                 child: IconButton(
                   icon: const Icon(Icons.close),
                   color: widget.closeButtonColor,
-                  tooltip: s.close,
+                  tooltip: localization.close,
                   onPressed: close,
                 )),
             Positioned(
@@ -161,7 +161,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
                 child: IconButton(
                   icon: const Icon(Icons.download),
                   color: widget.closeButtonColor,
-                  tooltip: s.Download,
+                  tooltip: localization.Download,
                   onPressed: saveImage,
                 )),
           ]),

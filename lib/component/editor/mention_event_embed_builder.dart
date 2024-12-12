@@ -2,7 +2,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
-import '../event/event_quote_component.dart';
+import '../event/event_quote_widget.dart';
 import 'cust_embed_types.dart';
 
 class MentionEventEmbedBuilder extends EmbedBuilder {
@@ -11,7 +11,7 @@ class MentionEventEmbedBuilder extends EmbedBuilder {
       bool readOnly, bool inline, TextStyle textStyle) {
     var id = node.value.data;
     return AbsorbPointer(
-      child: EventQuoteComponent(id: id),
+      child: EventQuoteWidget(id: id),
     );
   }
 

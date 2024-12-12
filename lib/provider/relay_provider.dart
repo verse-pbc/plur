@@ -30,6 +30,7 @@ import '../main.dart';
 import 'data_util.dart';
 
 class RelayProvider extends ChangeNotifier {
+  static const defaultGroupsRelayAddress = 'wss://relay.groups.nip29.com';
   static RelayProvider? _relayProvider;
 
   List<String> relayAddrs = [];
@@ -59,7 +60,12 @@ class RelayProvider extends ChangeNotifier {
     var relays = parseRelayAddrs(content);
     if (relays.isEmpty) {
       relays = [
-        "wss://relay.groups.nip29.com",
+        defaultGroupsRelayAddress,
+        "wss://relay.nos.social",
+        "wss://relay.damus.io",
+        "wss://purplepag.es",
+        "wss://nos.lol",
+        "wss://relay.mostr.pub",
       ];
     }
 

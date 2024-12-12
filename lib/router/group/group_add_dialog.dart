@@ -6,143 +6,77 @@ import 'package:nostrmo/main.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
+import '../../provider/relay_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 
-class GroupAddDailog extends StatefulWidget {
+class GroupAddDialog extends StatefulWidget {
+  const GroupAddDialog({super.key});
+
   static Future<String?> show(BuildContext context) async {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
-          return GroupAddDailog();
+        builder: (_) {
+          return const GroupAddDialog();
         });
   }
 
   @override
   State<StatefulWidget> createState() {
-    return _GroupAddDailog();
+    return _GroupAddDialog();
   }
 }
 
-class _GroupAddDailog extends State<GroupAddDailog> {
-  TextEditingController hostController = TextEditingController();
+class _GroupAddDialog extends State<GroupAddDialog> {
+  TextEditingController hostController = TextEditingController(text: RelayProvider.defaultGroupsRelayAddress);
   TextEditingController groupIdController = TextEditingController();
 
-  late S s;
-
-  // bool joinGroup = true;
-
-  // String crateGroupRelay = "wss://groups.fiatjaf.com";
+  late S localization;
 
   @override
   Widget build(BuildContext context) {
-    s = S.of(context);
-    var themeData = Theme.of(context);
+    localization = S.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
 
     List<Widget> list = [];
 
     list.add(Text(
-      "${s.Add} ${s.Group}",
+      "${localization.Add} ${localization.Group}",
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: titleFontSize,
       ),
     ));
 
-    // list.add(
-    //   Container(
-    //     child: Row(
-    //       children: [
-    //         Checkbox(
-    //           value: joinGroup,
-    //           onChanged: (v) {
-    //             setState(() {
-    //               joinGroup = v!;
-    //             });
-    //           },
-    //         ),
-    //         Text(s.Join_Group),
-    //         Container(
-    //           width: Base.BASE_PADDING,
-    //         ),
-    //         Checkbox(
-    //           value: !joinGroup,
-    //           onChanged: (v) {
-    //             setState(() {
-    //               joinGroup = !v!;
-    //             });
-    //           },
-    //         ),
-    //         Text(s.Create_Group),
-    //       ],
-    //     ),
-    //   ),
-    // );
-
-    // if (joinGroup) {
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: hostController,
-        autofocus: true,
         decoration: InputDecoration(
-          hintText: "${s.Please_input} ${s.Relay}",
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          hintText: "${localization.Please_input} ${localization.Relay}",
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
-    // } else {
-    //   list.add(Container(
-    //     margin: EdgeInsets.only(top: Base.BASE_PADDING),
-    //     child: Row(
-    //       children: [
-    //         Text("${s.Relay} :  "),
-    //         Expanded(
-    //           child: DropdownButton<String>(
-    //             isExpanded: true,
-    //             items: const [
-    //               DropdownMenuItem(
-    //                 value: "wss://groups.fiatjaf.com",
-    //                 child: Text("wss://groups.fiatjaf.com"),
-    //               ),
-    //               DropdownMenuItem(
-    //                 value: "wss://groups.0xchat.com",
-    //                 child: Text("wss://groups.0xchat.com"),
-    //               ),
-    //             ],
-    //             value: crateGroupRelay,
-    //             onChanged: (String? value) {
-    //               if (value != null) {
-    //                 setState(() {
-    //                   crateGroupRelay = value;
-    //                 });
-    //               }
-    //             },
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ));
-    // }
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: groupIdController,
+        autofocus: true,
         decoration: InputDecoration(
-          hintText: "${s.Please_input} ${s.GroupId}",
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          hintText: "${localization.Please_input} ${localization.GroupId}",
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -154,7 +88,7 @@ class _GroupAddDailog extends State<GroupAddDailog> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -164,22 +98,9 @@ class _GroupAddDailog extends State<GroupAddDailog> {
       ),
     ));
 
-    var main = Container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: cardColor,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: list,
-      ),
-    );
-
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
       body: FocusScope(
-        // autofocus: true,
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () {
@@ -195,7 +116,17 @@ class _GroupAddDailog extends State<GroupAddDailog> {
             alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
-              child: main,
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: cardColor,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: list,
+                ),
+              ),
             ),
           ),
         ),
@@ -208,7 +139,7 @@ class _GroupAddDailog extends State<GroupAddDailog> {
     var groupId = groupIdController.text;
 
     if (StringUtil.isBlank(host) && StringUtil.isBlank(groupId)) {
-      BotToast.showText(text: s.Input_can_not_be_null);
+      BotToast.showText(text: localization.Input_can_not_be_null);
       return;
     }
 
