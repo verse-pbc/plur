@@ -6,7 +6,7 @@ import '../../consts/base.dart';
 class MusicPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
     var titleFontSize = themeData.textTheme.bodyMedium!.fontSize;
     var nameFontSize = themeData.textTheme.bodySmall!.fontSize;

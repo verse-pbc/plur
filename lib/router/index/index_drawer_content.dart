@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostrmo/component/user/metadata_top_component.dart';
-import 'package:nostrmo/component/user/user_pic_component.dart';
+import 'package:nostrmo/component/user/metadata_top_widget.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/dm_session_info_db.dart';
@@ -14,20 +14,20 @@ import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/webview_provider.dart';
 import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
-import 'package:nostrmo/router/user/user_statistics_component.dart';
+import 'package:nostrmo/router/user/user_statistics_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/add_btn_wrapper_component.dart';
-import '../../component/user/metadata_component.dart';
+import '../../component/add_btn_wrapper_widget.dart';
+import '../../component/user/metadata_widget.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
-import '../edit/editor_router.dart';
-import 'account_manager_component.dart';
+import '../edit/editor_widget.dart';
+import 'account_manager_widget.dart';
 
 class IndexDrawerContentComponnent extends StatefulWidget {
   bool smallMode;
@@ -54,10 +54,10 @@ class _IndexDrawerContentComponnent
   Widget build(BuildContext context) {
     var _indexProvider = Provider.of<IndexProvider>(context);
 
-    var s = S.of(context);
+    final localization = S.of(context);
     var pubkey = nostr!.publicKey;
     var paddingTop = mediaDataCache.padding.top;
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     var cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
@@ -74,47 +74,44 @@ class _IndexDrawerContentComponnent
           onTap: () {
             RouterUtil.router(context, RouterPath.USER, pubkey);
           },
-          child: UserPicComponent(pubkey: pubkey, width: 50),
+          child: UserPicWidget(pubkey: pubkey, width: 50),
         ),
       ));
     } else {
-      list.add(Container(
-        // margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
-        child: Stack(children: [
-          Selector<MetadataProvider, Metadata?>(
-            builder: (context, metadata, child) {
-              return MetadataTopComponent(
-                pubkey: pubkey,
-                metadata: metadata,
-                isLocal: true,
-                jumpable: true,
-              );
-            },
-            selector: (context, _provider) {
-              return _provider.getMetadata(pubkey);
-            },
-          ),
-          Positioned(
-            top: paddingTop + Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING,
-            child: readOnly
-                ? Container()
-                : Container(
-                    height: profileEditBtnWidth,
-                    width: profileEditBtnWidth,
-                    decoration: BoxDecoration(
-                      color: cardColor,
-                      borderRadius:
-                          BorderRadius.circular(profileEditBtnWidth / 2),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(Icons.edit_square),
-                      onPressed: jumpToProfileEdit,
-                    ),
+      list.add(Stack(children: [
+        Selector<MetadataProvider, Metadata?>(
+          builder: (context, metadata, child) {
+            return MetadataTopWidget(
+              pubkey: pubkey,
+              metadata: metadata,
+              isLocal: true,
+              jumpable: true,
+            );
+          },
+          selector: (_, provider) {
+            return provider.getMetadata(pubkey);
+          },
+        ),
+        Positioned(
+          top: paddingTop + Base.BASE_PADDING_HALF,
+          right: Base.BASE_PADDING,
+          child: readOnly
+              ? Container()
+              : Container(
+                  height: profileEditBtnWidth,
+                  width: profileEditBtnWidth,
+                  decoration: BoxDecoration(
+                    color: cardColor,
+                    borderRadius:
+                        BorderRadius.circular(profileEditBtnWidth / 2),
                   ),
-          ),
-        ]),
-      ));
+                  child: IconButton(
+                    icon: const Icon(Icons.edit_square),
+                    onPressed: jumpToProfileEdit,
+                  ),
+                ),
+        ),
+      ]));
 
       list.add(GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -125,16 +122,16 @@ class _IndexDrawerContentComponnent
         child: SingleChildScrollView(
           controller: userStatisticscontroller,
           scrollDirection: Axis.horizontal,
-          child: UserStatisticsComponent(pubkey: pubkey),
+          child: UserStatisticsWidget(pubkey: pubkey),
         ),
       ));
     }
 
     List<Widget> centerList = [];
     if (TableModeUtil.isTableMode()) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.home_rounded,
-        name: s.Home,
+        name: localization.Home,
         color: _indexProvider.currentTap == 0 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(0);
@@ -144,9 +141,9 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.public_rounded,
-        name: s.Globals,
+        name: localization.Globals,
         color: _indexProvider.currentTap == 1 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(1);
@@ -156,16 +153,16 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.search_rounded,
-        name: s.Search,
+        name: localization.Search,
         color: _indexProvider.currentTap == 2 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(2);
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.mail_rounded,
         name: "DMs",
         color: _indexProvider.currentTap == 3 ? mainColor : null,
@@ -176,9 +173,9 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItemWidget(
       iconData: Icons.block_rounded,
-      name: s.Filter,
+      name: localization.Filter,
       onTap: () {
         RouterUtil.router(context, RouterPath.FILTER);
       },
@@ -186,9 +183,9 @@ class _IndexDrawerContentComponnent
     ));
 
     if (!TableModeUtil.isTableMode()) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.cloud_rounded,
-        name: s.Relays,
+        name: localization.Relays,
         onTap: () {
           RouterUtil.router(context, RouterPath.RELAYS);
         },
@@ -197,9 +194,9 @@ class _IndexDrawerContentComponnent
     }
 
     if (!readOnly) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.key_rounded,
-        name: s.Key_Backup,
+        name: localization.Key_Backup,
         onTap: () {
           RouterUtil.router(context, RouterPath.KEY_BACKUP);
         },
@@ -207,9 +204,9 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItemWidget(
       iconData: Icons.bookmarks_rounded,
-      name: s.Bookmark,
+      name: localization.Bookmark,
       onTap: () {
         RouterUtil.router(context, RouterPath.BOOKMARK);
       },
@@ -217,9 +214,9 @@ class _IndexDrawerContentComponnent
     ));
 
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.coffee_outlined,
-        name: s.Donate,
+        name: localization.Donate,
         onTap: () {
           RouterUtil.router(context, RouterPath.DONATE);
         },
@@ -227,9 +224,9 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItem(
+    centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
-      name: s.Setting,
+      name: localization.Setting,
       onTap: () {
         RouterUtil.router(context, RouterPath.SETTING);
       },
@@ -240,9 +237,9 @@ class _IndexDrawerContentComponnent
       centerList.add(
           Selector<WebViewProvider, String?>(builder: (context, url, child) {
         if (StringUtil.isBlank(url)) {
-          return IndexDrawerItem(
+          return IndexDrawerItemWidget(
             iconData: Icons.view_list_rounded,
-            name: s.Web_Utils,
+            name: localization.Web_Utils,
             onTap: () {
               RouterUtil.router(context, RouterPath.WEBUTILS);
             },
@@ -250,20 +247,20 @@ class _IndexDrawerContentComponnent
           );
         }
 
-        return IndexDrawerItem(
+        return IndexDrawerItemWidget(
           iconData: Icons.public_rounded,
-          name: s.Show_web,
+          name: localization.Show_web,
           onTap: () {
             webViewProvider.show();
           },
           smallMode: widget.smallMode,
         );
-      }, selector: (context, _provider) {
-        return _provider.url;
+      }, selector: (_, provider) {
+        return provider.url;
       }));
     }
 
-    centerList.add(IndexDrawerItem(
+      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.group_add,
         name: 'Add test groups',
         onTap: () {
@@ -291,12 +288,11 @@ class _IndexDrawerContentComponnent
     ));
 
     if (TableModeUtil.isTableMode() && !readOnly) {
-      list.add(AddBtnWrapperComponent(
-        child: IndexDrawerItem(
+      list.add(AddBtnWrapperWidget(
+        child: IndexDrawerItemWidget(
           iconData: Icons.add_rounded,
-          name: s.Add,
+          name: localization.Add,
           onTap: () {
-            // EditorRouter.open(context);
           },
           onLongPress: () {
             Uploader.pickAndUpload2NIP95(context);
@@ -306,9 +302,9 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    list.add(IndexDrawerItem(
+    list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
-      name: s.Account_Manager,
+      name: localization.Account_Manager,
       onTap: () {
         _showBasicModalBottomSheet(context);
       },
@@ -318,7 +314,7 @@ class _IndexDrawerContentComponnent
     if (widget.smallMode) {
       list.add(Container(
         margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-        child: IndexDrawerItem(
+        child: IndexDrawerItemWidget(
           iconData: Icons.last_page_rounded,
           name: "",
           onTap: toggleSmallMode,
@@ -334,15 +330,15 @@ class _IndexDrawerContentComponnent
           onTap: toggleSmallMode,
           behavior: HitTestBehavior.translucent,
           child: Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING),
-            child: Icon(Icons.first_page_rounded),
+            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+            child: const Icon(Icons.first_page_rounded),
           ),
         ));
         subList.add(versionWidget);
 
         versionWidget = Row(
-          children: subList,
           crossAxisAlignment: CrossAxisAlignment.start,
+          children: subList,
         );
       }
 
@@ -381,10 +377,10 @@ class _IndexDrawerContentComponnent
 
   void _showBasicModalBottomSheet(context) async {
     showModalBottomSheet(
-      isScrollControlled: false, // true 为 全屏
+      isScrollControlled: false,
       context: context,
       builder: (BuildContext context) {
-        return AccountManagerComponent();
+        return AccountManagerWidget();
       },
     );
   }
@@ -397,7 +393,7 @@ class _IndexDrawerContentComponnent
   }
 }
 
-class IndexDrawerItem extends StatelessWidget {
+class IndexDrawerItemWidget extends StatelessWidget {
   IconData iconData;
 
   String name;
@@ -410,11 +406,10 @@ class IndexDrawerItem extends StatelessWidget {
 
   Color? color;
 
-  // bool borderTop;
-
   bool smallMode;
 
-  IndexDrawerItem({
+  IndexDrawerItemWidget({
+    super.key,
     required this.iconData,
     required this.name,
     required this.onTap,
@@ -422,15 +417,10 @@ class IndexDrawerItem extends StatelessWidget {
     this.onDoubleTap,
     this.onLongPress,
     this.smallMode = false,
-    // this.borderTop = true,
-    // this.borderBottom = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
-    var hintColor = themeData.hintColor;
-
     Widget iconWidget = Icon(
       iconData,
       color: color,

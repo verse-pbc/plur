@@ -4,19 +4,19 @@ import 'package:flutter_placeholder_textlines/placeholder_lines.dart';
 import '../../consts/base.dart';
 
 class UserRelayPlaceholder extends StatelessWidget {
+  const UserRelayPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var themeData = Theme.of(context);
+    final themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
 
     Widget rightBtn = GestureDetector(
       onTap: () {},
-      child: Container(
-        child: const Icon(
-          Icons.add,
-        ),
+      child: const Icon(
+        Icons.add,
       ),
     );
 

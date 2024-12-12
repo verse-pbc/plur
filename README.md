@@ -87,25 +87,57 @@ A flutter nostr client for all platforms.<br/> <a href="https://github.com/haore
 
 ## Setting up Git Submodules
 
-This project uses git submodules, so after you clone this project, be sure to initialize and update git submodules:
+This project uses git submodules, so after you clone, be sure to initialize and update git submodules:
 
 ```bash
 git submodule init
 git submodule update
 ```
 
+## Installing required tools
+Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
+
+### Using mise-en-place
+[mise-en-place](https://mise.jdx.dev) is a development environment setup tool. It allows you to define which tools you’re using for a given project and what versions of those tools to use. For Plur, mise specifies the versions of Java and Flutter that are required to build the app.
+
+1. [Install and activate](https://mise.jdx.dev/getting-started.html) mise
+2. Install Java, CocoaPods, and Flutter from the `plur` directory: `mise install`
+3. Point Flutter at the proper version of Java: `flutter config --jdk-dir $(mise where java)`
+3. Ensure everything is set up properly (look for green checkmarks): `flutter doctor -v`
+4. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
+
+### Using Homebrew and FVM
+Homebrew is a package manager for macOS. It allows you to install tools and use them from the command line. For Plur, FVM specifies the version of Flutter that’s required to build the app. With the Homebrew setup, the required version of Java is not specified outside of this README.
+
+1. Install [Homebrew](https://brew.sh)
+2. Install CocoaPods
+3. Install Java 17: `brew install openjdk@17`
+4. Install [FVM](https://fvm.app), then remember to always preface Flutter commands with `fvm`.
+5. Install Flutter 3.24.5 with FVM from the `plur` directory: `fvm use 3.24.5`
+6. Point Flutter at the proper version of Java: `fvm flutter config --jdk-dir /opt/homebrew/opt/openjdk@17`
+7. Ensure everything is set up properly (look for green checkmarks): `fvm flutter doctor -v`
+8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
+
 ## Building the app
 Before building the app for any platform, be sure you’ve run `git submodule init` and `git submodule update` in Terminal at the root of the repository.
 
 ### Android
 
-```
--- build for appbundle
-flutter build appbundle --release
+#### Command line
+Remember that if you’re using FVM, you always want to preface your Flutter commands with `fvm` so you can be sure you’re using the version of Flutter specified in the `.fvmrc` file. If you’re using `mise`, that’s handled internally by `mise` and the `.mise.toml` file, so you can just run `flutter` commands on their own.
 
--- build for apk
-flutter build apk --release --split-per-abi
-```
+1. Get dependencies with `[fvm] flutter pub get`
+2. Build the app with `[fvm] flutter build apk --debug`
+
+#### Android Studio
+1. Open the root folder (`plur`) in Android Studio.
+2. Android Studio may automatically prompt you to install the plugins for Dart and Flutter since you’ve opened a Flutter project. If so, you can install them from the prompt. Otherwise, search for them and install them from Settings > Plugins.
+3. When prompted, restart Android Studio.
+4. In Android Studio, open Settings > Languages & Frameworks > Dart. Check "Enable Dart support for the project 'plur’”.
+5. Set the Dart SDK path. The location will depend on which setup you used. For mise, you run the following from your `plur` directory to copy your Dart SDK path to the clipboard: `echo $(mise where flutter)/bin/cache/dart-sdk | pbcopy`, then paste it into Android Studio (it’ll be something like `/Users/josh/.local/share/mise/installs/flutter/3.24.5-stable/bin/cache/dart-sdk`). For FVM, the path will contain your project folder and will look something like this: `/Users/josh/Code/plur/.fvm/flutter_sdk/bin/cache/dart-sdk`.
+6. In Settings > Languages & Frameworks > Flutter, ensure that the path is set properly. It should either be like `/Users/josh/.local/share/mise/installs/flutter/3.24.5-stable` or  `/Users/josh/Code/plur/.fvm/flutter_sdk`.
+7. Run an Android emulator using the Device Manager in the right side bar.
+8. Select the running emulator in the top bar, then click the Run button.
 
 ### iOS and macOS
 

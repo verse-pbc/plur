@@ -4,33 +4,23 @@ class DataUtil {
   static SharedPreferences? _prefs;
 
   static Future<SharedPreferences> getInstance() async {
-    if (_prefs == null) {
-      _prefs = await SharedPreferences.getInstance();
-    }
+    _prefs ??= await SharedPreferences.getInstance();
     return _prefs!;
   }
 }
 
 class DataKey {
-  static final String SETTING = "setting";
+  static const String SETTING = "setting";
 
-  // static final String RELAYS = "relays";
+  static const String CONTACT_LISTS = "contactLists";
 
-  static final String CONTACT_LISTS = "contactLists";
+  static const String BLOCK_LIST = "blockList";
 
-  // static final String CONTACT_LIST = "contactList";
+  static const String DIRTYWORD_LIST = "dirtywordList";
 
-  // static final String RELAY_LIST = "relayList";
+  static const String CUSTOM_EMOJI_LIST = "customEmojiList";
 
-  // static final String RELAY_UPDATED_TIME = "relayUpdatedTime";
+  static const String CACHE_RELAYS = "cacheRelays";
 
-  static final String BLOCK_LIST = "blockList";
-
-  static final String DIRTYWORD_LIST = "dirtywordList";
-
-  static final String CUSTOM_EMOJI_LIST = "customEmojiList";
-
-  static final String CACHE_RELAYS = "cacheRelays";
-
-  static final String WOT_PRE = "wot_";
+  static const String WOT_PRE = "wot_";
 }

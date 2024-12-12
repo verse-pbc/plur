@@ -1,7 +1,7 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nostrmo/component/emoji_picker_component.dart';
+import 'package:nostrmo/component/emoji_picker_widget.dart';
 
 import '../consts/base.dart';
 import '../generated/l10n.dart';
@@ -19,12 +19,8 @@ class LikeTextSelectBottomSheet extends StatefulWidget {
 class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-
-    var themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
+    final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
-    var backgroundColor = themeData.scaffoldBackgroundColor;
 
     List<Widget> list = [];
     list.add(Container(
@@ -40,23 +36,21 @@ class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
           ),
         ),
       ),
-      child: IndexDrawerItem(
+      child: IndexDrawerItemWidget(
         iconData: Icons.emoji_emotions_outlined,
         name: "Emoji",
         onTap: () {},
       ),
     ));
 
-    list.add(EmojiPickerComponent((emoji) {
+    list.add(EmojiPickerWidget((emoji) {
       RouterUtil.back(context, emoji);
     }));
 
-    return Container(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: list,
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
     );
   }
 }

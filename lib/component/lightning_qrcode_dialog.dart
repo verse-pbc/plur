@@ -15,6 +15,7 @@ class LightningQrcodeDialog extends StatefulWidget {
   String text;
 
   LightningQrcodeDialog({
+    super.key,
     this.title,
     required this.text,
   });
@@ -45,21 +46,17 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
 
   @override
   Widget build(BuildContext context) {
-    var s = S.of(context);
-    var themeData = Theme.of(context);
+    final localization = S.of(context);
+    final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
 
     List<Widget> list = [];
     if (widget.title == null) {
-      list.add(Container(
-        child: Text(s.Use_lightning_wallet_scan_and_send_sats),
-      ));
+      list.add(Text(localization.Use_lightning_wallet_scan_and_send_sats));
     } else {
       if (StringUtil.isNotBlank(widget.title)) {
-        list.add(Container(
-          child: Text(s.Use_lightning_wallet_scan_and_send_sats),
-        ));
+        list.add(Text(localization.Use_lightning_wallet_scan_and_send_sats));
       }
     }
     list.add(Container(
@@ -130,11 +127,11 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING,
             ),
+            alignment: Alignment.center,
             child: GestureDetector(
               onTap: () {},
               child: main,
             ),
-            alignment: Alignment.center,
           ),
         ),
       ),
