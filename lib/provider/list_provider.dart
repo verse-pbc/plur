@@ -324,8 +324,6 @@ class ListProvider extends ChangeNotifier {
   get groupIdentifiers => _groupIdentifiers;
 
   void addGroup(GroupIdentifier gi) async {
-    if (_groupIdentifiers.contains(gi)) return;
-
     final cancelFunc = BotToast.showLoading();
 
     // try to send join message
@@ -350,8 +348,6 @@ class ListProvider extends ChangeNotifier {
   }
 
   void removeGroup(GroupIdentifier gi) async {
-    if (!_groupIdentifiers.contains(gi)) return;
-
     final cancelFunc = BotToast.showLoading();
 
     _groupIdentifiers.removeWhere((groupIdentifier) =>
