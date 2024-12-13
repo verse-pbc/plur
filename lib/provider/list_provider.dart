@@ -319,42 +319,60 @@ class ListProvider extends ChangeNotifier {
     return false;
   }
 
-  List<GroupIdentifier> _groupIdentifiers = [];
+  final List<GroupIdentifier> _groupIdentifiers = [];
 
   get groupIdentifiers => _groupIdentifiers;
 
-  void addGroup(GroupIdentifier gi) {
-    // try to send join message
-    var event = Event(
-        nostr!.publicKey,
-        EventKind.GROUP_JOIN,
-        [
-          ["h", gi.groupId]
-        ],
-        "");
-    nostr!.sendEvent(event, tempRelays: [gi.host], targetRelays: [gi.host]);
+  void addGroup(GroupIdentifier gi) async {
+    if (_groupIdentifiers.contains(gi)) return;
 
-    _groupIdentifiers.add(gi);
-    _updateGroups();
+    final cancelFunc = BotToast.showLoading();
+
+    // try to send join message
+    final joinEvent = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_JOIN,
+      [
+        ["h", gi.groupId]
+      ],
+      "",
+    );
+
+    final sentEvent = await nostr!.sendEvent(
+        joinEvent, tempRelays: [gi.host], targetRelays: [gi.host]
+    );
+
+    if (sentEvent != null) {
+      _groupIdentifiers.add(gi);
+      _updateGroups();
+    }
+    cancelFunc.call();
   }
 
-  void removeGroup(GroupIdentifier gi) {
-    _groupIdentifiers.removeWhere((groupIdentifier) {
-      if (gi.groupId == groupIdentifier.groupId &&
-          gi.host == groupIdentifier.host) {
-        return true;
-      }
+  void removeGroup(GroupIdentifier gi) async {
+    if (!_groupIdentifiers.contains(gi)) return;
 
-      return false;
-    });
+    final cancelFunc = BotToast.showLoading();
+
+    _groupIdentifiers.removeWhere((groupIdentifier) =>
+        gi.groupId == groupIdentifier.groupId &&
+        gi.host == groupIdentifier.host);
+
     _updateGroups();
+
+    cancelFunc.call();
   }
 
   void _updateGroups() async {
-    List tags = [];
-    for (var item in _groupIdentifiers) {
-      tags.add(item.toJson());
-    }
+    final tags = _groupIdentifiers.map((groupId) => groupId.toJson()).toList();
+
+    final updateGroupListEvent = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_LIST,
+      tags,
+      "",
+    );
+    await nostr!.sendEvent(updateGroupListEvent);
 
     notifyListeners();
   }
