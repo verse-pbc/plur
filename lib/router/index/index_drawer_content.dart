@@ -260,23 +260,23 @@ class _IndexDrawerContentComponnent
       }));
     }
 
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.group_add,
-        name: 'Add test groups',
-        onTap: () {
-          const host = "wss://relay.groups.nip29.com";
-          final groupIds = [
-            '672U0I7Egc',
-            'Qs5y4i2wFEBafxvP',
-            '0x0tLAXmNmnTTTS7',
-            '7aNtrZngZmPVYu9c'
-          ];
-          for (String groupId in groupIds) {
-            listProvider.addGroup(GroupIdentifier(host, groupId));
-          }
-        },
-        smallMode: widget.smallMode,
-      ));
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.group_add,
+      name: 'Add test groups',
+      onTap: () {
+        const host = "wss://relay.groups.nip29.com";
+        final groupIds = [
+          '672U0I7Egc',
+          'Qs5y4i2wFEBafxvP',
+          '0x0tLAXmNmnTTTS7',
+          '7aNtrZngZmPVYu9c'
+        ];
+        for (String groupId in groupIds) {
+          listProvider.addGroup(GroupIdentifier(host, groupId));
+        }
+      },
+      smallMode: widget.smallMode,
+    ));
 
     list.add(Expanded(
       child: SingleChildScrollView(
