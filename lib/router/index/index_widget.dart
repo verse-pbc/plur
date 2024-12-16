@@ -357,7 +357,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
             smallMode: false,
           ),
         ),
-        bottomNavigationBar: IndexBottomBar(),
       );
     }
   }
