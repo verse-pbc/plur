@@ -44,10 +44,8 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
       body: Container(
         color: ColorList.plurPurple,
         child: groupIds.isEmpty
-            ? const Expanded(
-                child: Center(
-                  child: NoCommunitiesWidget(),
-                ),
+            ? const Center(
+                child: NoCommunitiesWidget(),
               )
             : GridView.builder(
                 padding:
