@@ -143,7 +143,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
       return;
     }
 
-    listProvider.addGroup(GroupIdentifier(host, groupId));
+    listProvider.joinGroup(GroupIdentifier(host, groupId));
     RouterUtil.back(context);
   }
 }
