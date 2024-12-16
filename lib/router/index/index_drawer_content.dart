@@ -271,9 +271,7 @@ class _IndexDrawerContentComponnent
           '0x0tLAXmNmnTTTS7',
           '7aNtrZngZmPVYu9c'
         ];
-        for (String groupId in groupIds) {
-          listProvider.addGroup(GroupIdentifier(host, groupId));
-        }
+        listProvider.joinGroups(groupIds.map((gi) => GroupIdentifier(host, gi)).toList());
       },
       smallMode: widget.smallMode,
     ));

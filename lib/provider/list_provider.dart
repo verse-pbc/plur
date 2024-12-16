@@ -323,29 +323,40 @@ class ListProvider extends ChangeNotifier {
 
   get groupIdentifiers => _groupIdentifiers;
 
-  void addGroup(GroupIdentifier gi) async {
-    if (_groupIdentifiers.contains(gi)) return;
+  void joinGroup(GroupIdentifier gi) async {
+    joinGroups([gi]);
+  }
+
+  void joinGroups(List<GroupIdentifier> groupIds) async {
+    final groupIdsToJoin = groupIds.where((groupId) => !_groupIdentifiers.contains(groupId));
+    if (groupIdsToJoin.isEmpty) return;
 
     final cancelFunc = BotToast.showLoading();
+    List<Future<(GroupIdentifier, Event?)>> sendTasks = groupIdsToJoin.map((groupId) async {
+      final joinEvent = Event(
+        nostr!.publicKey,
+        EventKind.GROUP_JOIN,
+        [
+          ["h", groupId.groupId]
+        ],
+        "",
+      );
+      return (groupId, await nostr!.sendEvent(
+          joinEvent, tempRelays: [groupId.host], targetRelays: [groupId.host]
+      ));
+    }).toList();
 
-    // try to send join message
-    final joinEvent = Event(
-      nostr!.publicKey,
-      EventKind.GROUP_JOIN,
-      [
-        ["h", gi.groupId]
-      ],
-      "",
-    );
+    List<(GroupIdentifier, Event?)> results = await Future.wait(sendTasks);
+    final successfullyJoinedGroupIds = results
+        .where((result) => result.$2 != null)
+        .map((result) => result.$1)
+        .toList();
 
-    final sentEvent = await nostr!.sendEvent(
-        joinEvent, tempRelays: [gi.host], targetRelays: [gi.host]
-    );
-
-    if (sentEvent != null) {
-      _groupIdentifiers.add(gi);
+    if (successfullyJoinedGroupIds.isNotEmpty) {
+      _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
     }
+
     cancelFunc.call();
   }
 
