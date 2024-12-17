@@ -321,6 +321,16 @@ class MyApp extends StatefulWidget {
       final String link = call.arguments;
       // Handle the deep link
       print('Received deep link: $link');
+
+      Uri uri = Uri.parse(link);
+      if (uri.scheme == 'plur' && uri.host == 'join-community') {
+        // Extract query parameters
+        String? groupId = uri.queryParameters['group-id'];
+        String? code = uri.queryParameters['code'];
+        // Handle the extracted parameters
+        print('Group ID: $groupId');
+        print('Code: $code');
+      }
     }
   }
 
