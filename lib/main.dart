@@ -310,6 +310,34 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
+  static const platform = MethodChannel('com.example.app/deeplink');
+
+  MyApp() {
+    platform.setMethodCallHandler(_handleDeepLink);
+  }
+
+  Future<void> _handleDeepLink(MethodCall call) async {
+    if (call.method == 'onDeepLink') {
+      final String link = call.arguments;
+      // Handle the deep link
+      print('Received deep link: $link');
+    }
+  }
+
+  @override // TODO: will this `build` be used or the one in _MyApp?
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Deep Link Example'),
+        ),
+        body: Center(
+          child: Text('Listening for plur:// links'),
+        ),
+      ),
+    );
+  }
+
   @override
   State<StatefulWidget> createState() {
     return _MyApp();
