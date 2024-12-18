@@ -90,8 +90,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
 
   void _onCreateCommunity(String communityName) {
     setState(() {
-
-      showInviteCommunity = true;
+      // TODO: Add functionality to show invite
     });
   }
 }
