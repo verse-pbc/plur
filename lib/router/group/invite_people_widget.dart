@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class InviteCommunityWidget extends StatelessWidget {
+class InvitePeopleWidget extends StatelessWidget {
   final String shareableLink;
 
-  const InviteCommunityWidget({super.key, required this.shareableLink});
+  const InvitePeopleWidget({super.key, required this.shareableLink});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +33,7 @@ class InviteCommunityWidget extends StatelessWidget {
                       fontSize: 16,
                       color: theme.colorScheme.primary,
                       decoration: TextDecoration.underline,
-                      decorationColor:
-                          theme.colorScheme.primary,
+                      decorationColor: theme.colorScheme.primary,
                     ),
                   ),
                 ),
@@ -50,9 +49,7 @@ class InviteCommunityWidget extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 40),
-
           Center(
             child: InkWell(
               onTap: () {
