@@ -3,6 +3,7 @@ import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/router/group/invite_community_widget.dart';
 
 class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -25,6 +26,7 @@ class CreateCommunityDialog extends StatefulWidget {
 
 class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   bool showInviteCommunity = false;
+  String? communityInviteLink;
 
   late S localization;
 
@@ -75,8 +77,10 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                       ),
                       if (!showInviteCommunity)
                         CreateCommunityWidget(
-                          onCreateCommunity: _onCreateCommunity
-                        ),
+                            onCreateCommunity: _onCreateCommunity),
+                      if (showInviteCommunity)
+                        InviteCommunityWidget(
+                            shareableLink: communityInviteLink ?? ''),
                     ],
                   ),
                 ),
@@ -90,7 +94,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
 
   void _onCreateCommunity(String communityName) {
     setState(() {
-      // TODO: Add functionality to show invite
+      communityInviteLink = communityName; // using this as a placeholder for the invite link
+      showInviteCommunity = true;
     });
   }
 }
