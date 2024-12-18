@@ -360,10 +360,23 @@ class ListProvider extends ChangeNotifier {
     cancelFunc.call();
   }
 
-  void removeGroup(GroupIdentifier gi) async {
+  void leaveGroup(GroupIdentifier gi) async {
     if (!_groupIdentifiers.contains(gi)) return;
 
     final cancelFunc = BotToast.showLoading();
+
+    final event = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_LEAVE,
+      [
+        ["h", gi.groupId]
+      ],
+      "",
+    );
+
+    await nostr!.sendEvent(
+        event, tempRelays: [gi.host], targetRelays: [gi.host]
+    );
 
     _groupIdentifiers.removeWhere((groupIdentifier) =>
         gi.groupId == groupIdentifier.groupId &&
