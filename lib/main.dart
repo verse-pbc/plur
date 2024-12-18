@@ -326,6 +326,11 @@ class MyApp extends StatefulWidget {
   }
 
   Future<void> _handleDeepLink(MethodCall call) async {
+    if (nostr == null) {
+      print('nostr is null; the user is probably not logged in. aborting.');
+      return;
+    }
+
     if (call.method == 'onDeepLink') {
       final String link = call.arguments;
       print('Received deep link: $link');
