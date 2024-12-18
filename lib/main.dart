@@ -13,6 +13,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:nostr_sdk/client_utils/keys.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/relay_local/relay_local_db.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
@@ -311,9 +312,16 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   static const platform = MethodChannel('com.example.app/deeplink');
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   MyApp() {
     platform.setMethodCallHandler(_handleDeepLink);
+  }
+
+  void joinGroupExample(BuildContext context, String host, String groupId) {
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final groupIdentifier = GroupIdentifier(host, groupId);
+    listProvider.joinGroup(groupIdentifier);
   }
 
   Future<void> _handleDeepLink(MethodCall call) async {
@@ -330,6 +338,26 @@ class MyApp extends StatefulWidget {
         // Handle the extracted parameters
         print('Group ID: $groupId');
         print('Code: $code');
+
+        // Check if groupId is null
+        if (groupId == null || groupId.isEmpty) {
+          print('Group ID is null or empty, aborting.');
+          return;
+        }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          print('navigatorKey: $navigatorKey');
+          final currentState = navigatorKey.currentState;
+          print('navigatorKey.currentState: $currentState'); // prints null
+          final currentContext = navigatorKey.currentContext;
+          print('navigatorKey.currentContext: $currentContext'); // prints null
+          final context = navigatorKey.currentState?.context;
+          if (context != null) {
+            joinGroupExample(context, 'wss://relay.groups.nip29.com', groupId);
+          } else {
+            print('Context is null, cannot join group.');
+          }
+        });
       }
     }
   }
@@ -337,11 +365,12 @@ class MyApp extends StatefulWidget {
   @override // TODO: will this `build` be used or the one in _MyApp?
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Deep Link Example'),
+          title: const Text('Deep Link Example'),
         ),
-        body: Center(
+        body: const Center(
           child: Text('Listening for plur:// links'),
         ),
       ),
@@ -411,9 +440,11 @@ class _MyApp extends State<MyApp> {
       RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
       RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
       RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
-      RouterPath.FOLLOWED_TAGS_LIST: (context) => const FollowedTagsListWidget(),
+      RouterPath.FOLLOWED_TAGS_LIST: (context) =>
+          const FollowedTagsListWidget(),
       RouterPath.COMMUNITY_DETAIL: (context) => const CommunityDetailWidget(),
-      RouterPath.FOLLOWED_COMMUNITIES: (context) => const FollowedCommunitiesWidget(),
+      RouterPath.FOLLOWED_COMMUNITIES: (context) =>
+          const FollowedCommunitiesWidget(),
       RouterPath.FOLLOWED: (context) => const FollowedWidget(),
       RouterPath.BOOKMARK: (context) => const BookmarkWidget(),
       RouterPath.FOLLOW_SET_LIST: (context) => const FollowSetListWidget(),
