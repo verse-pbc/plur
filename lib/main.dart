@@ -312,7 +312,8 @@ Future<void> main() async {
 
 class MyApp extends StatefulWidget {
   static const platform = MethodChannel('com.example.app/deeplink');
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
 
   MyApp() {
     platform.setMethodCallHandler(_handleDeepLink);
@@ -327,60 +328,35 @@ class MyApp extends StatefulWidget {
   Future<void> _handleDeepLink(MethodCall call) async {
     if (call.method == 'onDeepLink') {
       final String link = call.arguments;
-      // Handle the deep link
       print('Received deep link: $link');
 
       Uri uri = Uri.parse(link);
       if (uri.scheme == 'plur' && uri.host == 'join-community') {
-        // Extract query parameters
         String? groupId = uri.queryParameters['group-id'];
         String? code = uri.queryParameters['code'];
         // Handle the extracted parameters
         print('Group ID: $groupId');
         print('Code: $code');
 
-        // Check if groupId is null
         if (groupId == null || groupId.isEmpty) {
           print('Group ID is null or empty, aborting.');
           return;
         }
 
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          print('navigatorKey: $navigatorKey');
-          final currentState = navigatorKey.currentState;
-          print('navigatorKey.currentState: $currentState'); // prints null
-          final currentContext = navigatorKey.currentContext;
-          print('navigatorKey.currentContext: $currentContext'); // prints null
-          final context = navigatorKey.currentState?.context;
-          if (context != null) {
+        final context = navigatorKey.currentContext;
+        if (context != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             joinGroupExample(context, 'wss://relay.groups.nip29.com', groupId);
-          } else {
-            print('Context is null, cannot join group.');
-          }
-        });
+          });
+        } else {
+          print('Context is null, waiting for app to initialize...');
+        }
       }
     }
   }
 
-  @override // TODO: will this `build` be used or the one in _MyApp?
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      navigatorKey: navigatorKey,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Deep Link Example'),
-        ),
-        body: const Center(
-          child: Text('Listening for plur:// links'),
-        ),
-      ),
-    );
-  }
-
   @override
-  State<StatefulWidget> createState() {
-    return _MyApp();
-  }
+  State<StatefulWidget> createState() => _MyApp();
 }
 
 class _MyApp extends State<MyApp> {
@@ -548,6 +524,7 @@ class _MyApp extends State<MyApp> {
         locale: _locale,
         theme: defaultTheme,
         child: MaterialApp(
+          navigatorKey: MyApp.navigatorKey,
           builder: BotToastInit(),
           navigatorObservers: [
             BotToastNavigatorObserver(),
