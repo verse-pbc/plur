@@ -20,6 +20,7 @@ import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
 import 'package:nostrmo/provider/community_list_provider.dart';
@@ -319,9 +320,10 @@ class MyApp extends StatefulWidget {
     platform.setMethodCallHandler(_handleDeepLink);
   }
 
-  void joinGroupExample(BuildContext context, String host, String groupId) {
+  void joinGroup(
+      BuildContext context, String host, String groupId, String? code) {
     final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = GroupIdentifier(host, groupId);
+    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
     listProvider.joinGroup(groupIdentifier);
   }
 
@@ -351,7 +353,7 @@ class MyApp extends StatefulWidget {
         final context = navigatorKey.currentContext;
         if (context != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            joinGroupExample(context, 'wss://relay.groups.nip29.com', groupId);
+            joinGroup(context, 'wss://relay.groups.nip29.com', groupId, code);
           });
         } else {
           print('Context is null, waiting for app to initialize...');
