@@ -12,9 +12,11 @@ import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/main.dart';
 
+import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
 import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
+import '../util/router_util.dart';
 
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
@@ -325,11 +327,12 @@ class ListProvider extends ChangeNotifier {
 
   get groupIdentifiers => _groupIdentifiers;
 
-  void joinGroup(JoinGroupParameters request) async {
-    joinGroups([request]);
+  void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
+    joinGroups([request], context: context);
   }
 
-  void joinGroups(List<JoinGroupParameters> requests) async {
+  void joinGroups(List<JoinGroupParameters> requests,
+      {BuildContext? context}) async {
     if (requests.isEmpty) return;
 
     final cancelFunc = BotToast.showLoading();
@@ -367,6 +370,12 @@ class ListProvider extends ChangeNotifier {
     if (successfullyJoinedGroupIds.isNotEmpty) {
       _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
+
+      // Navigate to the first successfully joined group if context is provided
+      if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
+        RouterUtil.router(
+            context, RouterPath.GROUP_DETAIL, successfullyJoinedGroupIds[0]);
+      }
     }
 
     cancelFunc.call();

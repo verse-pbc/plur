@@ -12,8 +12,6 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/relay_local/relay_local_db.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
@@ -324,7 +322,7 @@ class MyApp extends StatefulWidget {
       BuildContext context, String host, String groupId, String? code) {
     final listProvider = Provider.of<ListProvider>(context, listen: false);
     final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier);
+    listProvider.joinGroup(groupIdentifier, context: context);
   }
 
   Future<void> _handleDeepLink(MethodCall call) async {
