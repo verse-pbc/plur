@@ -3,7 +3,7 @@ import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
-import 'package:nostrmo/router/group/invite_community_widget.dart';
+import 'package:nostrmo/router/group/invite_people_widget.dart';
 
 class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -79,7 +79,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                         CreateCommunityWidget(
                             onCreateCommunity: _onCreateCommunity),
                       if (showInviteCommunity)
-                        InviteCommunityWidget(
+                        InvitePeopleWidget(
                             shareableLink: communityInviteLink ?? ''),
                     ],
                   ),
@@ -94,7 +94,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
 
   void _onCreateCommunity(String communityName) {
     setState(() {
-      communityInviteLink = communityName; // using this as a placeholder for the invite link
+      communityInviteLink =
+          communityName; // using this as a placeholder for the invite link
       showInviteCommunity = true;
     });
   }
