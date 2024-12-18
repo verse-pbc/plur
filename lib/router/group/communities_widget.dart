@@ -31,7 +31,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
       appBar: AppBar(
         actions: [
           GestureDetector(
-            onTap: groupAdd,
+            onTap: showCreateCommunityDialog,
             behavior: HitTestBehavior.translucent,
             child: Container(
               width: 50,
@@ -70,7 +70,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
     );
   }
 
-  void groupAdd() {
+  void showCreateCommunityDialog() {
     CreateCommunityDialog.show(context);
   }
 }
