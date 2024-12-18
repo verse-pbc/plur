@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/generated/l10n.dart';
+import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
@@ -23,8 +24,7 @@ class CreateCommunityDialog extends StatefulWidget {
 }
 
 class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
-  final TextEditingController communityNameController = TextEditingController();
-  String selectedVisibility = 'Public + anyone can join and post';
+  bool showInviteCommunity = false;
 
   late S localization;
 
@@ -33,88 +33,6 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
     localization = S.of(context);
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
-
-    List<Widget> dialogContent = [
-      const Text(
-        "Create your community",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-        ),
-      ),
-      const SizedBox(height: 20),
-      const Text("Name your community"),
-      const SizedBox(height: 10),
-      TextField(
-        controller: communityNameController,
-        decoration: const InputDecoration(
-          hintText: "Field community name",
-          border: OutlineInputBorder(),
-        ),
-        onChanged: (text) {
-          setState(() {});
-        },
-      ),
-      const SizedBox(height: 20),
-      const Text("Select visibility and posting options:"),
-      const SizedBox(height: 10),
-      ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: const Text("Public + anyone can join and post"),
-        leading: Radio<String>(
-          value: "Public + anyone can join and post",
-          groupValue: selectedVisibility,
-          onChanged: (value) {
-            setState(() {
-              selectedVisibility = value!;
-            });
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: const Text("Public + request to join and post"),
-        leading: Radio<String>(
-          value: "Public + request to join and post",
-          groupValue: selectedVisibility,
-          onChanged: (value) {
-            setState(() {
-              selectedVisibility = value!;
-            });
-          },
-        ),
-      ),
-      ListTile(
-        contentPadding: EdgeInsets.zero,
-        title: const Text("Private + request to join"),
-        leading: Radio<String>(
-          value: "Private + request to join",
-          groupValue: selectedVisibility,
-          onChanged: (value) {
-            setState(() {
-              selectedVisibility = value!;
-            });
-          },
-        ),
-      ),
-      const SizedBox(height: 20),
-      InkWell(
-        onTap: communityNameController.text.isNotEmpty ? _onCreateCommunity : null,
-        highlightColor: Theme.of(context).primaryColor.withOpacity(0.2),
-        child: Container(
-          color: communityNameController.text.isNotEmpty ? Theme.of(context).primaryColor : Colors.grey,
-          height: 40,
-          alignment: Alignment.center,
-          child: Text(
-            S.of(context).Confirm,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-      ),
-    ];
 
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
@@ -155,7 +73,10 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                           },
                         ),
                       ),
-                      ...dialogContent,
+                      if (!showInviteCommunity)
+                        CreateCommunityWidget(
+                          onCreateCommunity: _onCreateCommunity
+                        ),
                     ],
                   ),
                 ),
@@ -167,10 +88,10 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
     );
   }
 
-  void _onCreateCommunity() {
-    final communityName = communityNameController.text;
+  void _onCreateCommunity(String communityName) {
+    setState(() {
 
-    // Handle community creation logic here in next PR
-    RouterUtil.back(context);
+      showInviteCommunity = true;
+    });
   }
 }
