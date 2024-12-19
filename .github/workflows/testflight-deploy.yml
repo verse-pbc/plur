@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - 'release/**'
-      - 'testflight-cd'
+      - 'testflight-cd' # TOOD: Remove this
   # Enable manual run
   workflow_dispatch:
 
@@ -24,6 +24,7 @@ jobs:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
       - name: Deploy with fastlane
+        working-directory: ./ios
         run: |
           bundle install
           bundle exec fastlane release
