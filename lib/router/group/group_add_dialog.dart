@@ -1,6 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/main.dart';
 
@@ -9,6 +8,7 @@ import '../../generated/l10n.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
+import '../../data/join_group_parameters.dart';
 
 class GroupAddDialog extends StatefulWidget {
   const GroupAddDialog({super.key});
@@ -29,7 +29,8 @@ class GroupAddDialog extends StatefulWidget {
 }
 
 class _GroupAddDialog extends State<GroupAddDialog> {
-  TextEditingController hostController = TextEditingController(text: RelayProvider.defaultGroupsRelayAddress);
+  TextEditingController hostController =
+      TextEditingController(text: RelayProvider.defaultGroupsRelayAddress);
   TextEditingController groupIdController = TextEditingController();
 
   late S localization;
@@ -143,7 +144,8 @@ class _GroupAddDialog extends State<GroupAddDialog> {
       return;
     }
 
-    listProvider.joinGroup(GroupIdentifier(host, groupId));
+    listProvider.joinGroup(JoinGroupParameters(host, groupId),
+        context: context);
     RouterUtil.back(context);
   }
 }

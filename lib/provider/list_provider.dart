@@ -12,8 +12,11 @@ import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/main.dart';
 
+import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
 import '../generated/l10n.dart';
+import '../data/join_group_parameters.dart';
+import '../util/router_util.dart';
 
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
@@ -106,7 +109,8 @@ class ListProvider extends ChangeNotifier {
     return "${EventKind.EMOJIS_LIST}:${nostr!.publicKey}";
   }
 
-  List<MapEntry<String, List<CustomEmoji>>> emojis(S localization, Event? emojiEvent) {
+  List<MapEntry<String, List<CustomEmoji>>> emojis(
+      S localization, Event? emojiEvent) {
     List<MapEntry<String, List<CustomEmoji>>> result = [];
 
     List<CustomEmoji> list = [];
@@ -323,27 +327,38 @@ class ListProvider extends ChangeNotifier {
 
   get groupIdentifiers => _groupIdentifiers;
 
-  void joinGroup(GroupIdentifier gi) async {
-    joinGroups([gi]);
+  void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
+    joinGroups([request], context: context);
   }
 
-  void joinGroups(List<GroupIdentifier> groupIds) async {
-    final groupIdsToJoin = groupIds.where((groupId) => !_groupIdentifiers.contains(groupId));
-    if (groupIdsToJoin.isEmpty) return;
+  void joinGroups(List<JoinGroupParameters> requests,
+      {BuildContext? context}) async {
+    if (requests.isEmpty) return;
 
     final cancelFunc = BotToast.showLoading();
-    List<Future<(GroupIdentifier, Event?)>> sendTasks = groupIdsToJoin.map((groupId) async {
+    List<Future<(GroupIdentifier, Event?)>> sendTasks =
+        requests.map((request) async {
+      final List<List<String>> eventTags = [
+        ["h", request.groupId]
+      ];
+
+      if (request.code != null) {
+        eventTags.add(["code", request.code!]);
+      }
+
       final joinEvent = Event(
         nostr!.publicKey,
         EventKind.GROUP_JOIN,
-        [
-          ["h", groupId.groupId]
-        ],
+        eventTags,
         "",
       );
-      return (groupId, await nostr!.sendEvent(
-          joinEvent, tempRelays: [groupId.host], targetRelays: [groupId.host]
-      ));
+
+      final groupId = GroupIdentifier(request.host, request.groupId);
+      return (
+        groupId,
+        await nostr!.sendEvent(joinEvent,
+            tempRelays: [request.host], targetRelays: [request.host])
+      );
     }).toList();
 
     List<(GroupIdentifier, Event?)> results = await Future.wait(sendTasks);
@@ -355,6 +370,12 @@ class ListProvider extends ChangeNotifier {
     if (successfullyJoinedGroupIds.isNotEmpty) {
       _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
+
+      // Navigate to the first successfully joined group if context is provided
+      if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
+        RouterUtil.router(
+            context, RouterPath.GROUP_DETAIL, successfullyJoinedGroupIds[0]);
+      }
     }
 
     cancelFunc.call();
