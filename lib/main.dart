@@ -351,7 +351,7 @@ class MyApp extends StatefulWidget {
         final context = navigatorKey.currentContext;
         if (context != null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            joinGroup(context, 'wss://relay.groups.nip29.com', groupId, code);
+            joinGroup(context, 'wss://communities.nos.social', groupId, code);
           });
         } else {
           print('Context is null, waiting for app to initialize...');
