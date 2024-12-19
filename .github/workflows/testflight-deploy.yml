@@ -17,13 +17,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@main
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yml
+          channel: 'stable'
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+      - name: Build Flutter .app
+        run: flutter build ios --release --no-codesign
       - uses: nomasystems/action-xcode-select@v0.1
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
-      - name: Deploy with fastlane
+      - name: Fastlane build and deploy
         working-directory: ./ios
         run: |
           bundle install
