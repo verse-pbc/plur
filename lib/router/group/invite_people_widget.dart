@@ -4,8 +4,13 @@ import 'package:bot_toast/bot_toast.dart';
 
 class InvitePeopleWidget extends StatelessWidget {
   final String shareableLink;
+  final bool showCreatePostButton;
 
-  const InvitePeopleWidget({super.key, required this.shareableLink});
+  const InvitePeopleWidget({
+    super.key,
+    required this.shareableLink,
+    this.showCreatePostButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -50,27 +55,29 @@ class InvitePeopleWidget extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 40),
-          Center(
-            child: InkWell(
-              onTap: () {
-                // TODO: Go to next screen
-              },
-              highlightColor: theme.primaryColor.withOpacity(0.2),
-              child: Container(
-                color: theme.primaryColor,
-                height: 40,
-                alignment: Alignment.center,
-                child: const Text(
-                  'Create your first post',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          if (showCreatePostButton) ...[
+            const SizedBox(height: 40),
+            Center(
+              child: InkWell(
+                onTap: () {
+                  // TODO: Go to next screen
+                },
+                highlightColor: theme.primaryColor.withOpacity(0.2),
+                child: Container(
+                  color: theme.primaryColor,
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Create your first post',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+          ],
         ],
       ),
     );
