@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 
 class InvitePeopleWidget extends StatelessWidget {
   final String shareableLink;
+  final GroupIdentifier groupIdentifier;
 
-  const InvitePeopleWidget({super.key, required this.shareableLink});
+  const InvitePeopleWidget(
+      {super.key, required this.shareableLink, required this.groupIdentifier});
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +59,9 @@ class InvitePeopleWidget extends StatelessWidget {
           Center(
             child: InkWell(
               onTap: () {
-                // TODO: Go to next screen
+                RouterUtil.back(context);
+                RouterUtil.router(
+                    context, RouterPath.GROUP_DETAIL, groupIdentifier);
               },
               highlightColor: theme.primaryColor.withOpacity(0.2),
               child: Container(
