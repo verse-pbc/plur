@@ -107,7 +107,7 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
   }
 
   void delGroup() {
-    listProvider.removeGroup(widget.groupIdentifier);
+    listProvider.leaveGroup(widget.groupIdentifier);
   }
 
   void editGroupMetadata() {
