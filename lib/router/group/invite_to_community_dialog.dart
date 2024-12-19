@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/router/group/create_community_widget.dart';
-import 'package:nostrmo/util/invite_util.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
-import 'package:nostrmo/router/group/invite_people_widget.dart';
+import 'package:nostrmo/util/invite_util.dart';
 
-class CreateCommunityDialog extends StatefulWidget {
-  const CreateCommunityDialog({super.key});
+class InviteToCommunityDialog extends StatelessWidget {
+  final GroupIdentifier groupIdentifier;
+  final String inviteCode;
 
-  static Future<void> show(BuildContext context) async {
+  InviteToCommunityDialog({super.key, required this.groupIdentifier})
+      : inviteCode = InviteUtil.generateInviteCode();
+
+  static Future<void> show(
+      BuildContext context, GroupIdentifier groupIdentifier) async {
     await showDialog<void>(
       context: context,
       useRootNavigator: false,
       builder: (_) {
-        return const CreateCommunityDialog();
+        return InviteToCommunityDialog(groupIdentifier: groupIdentifier);
       },
     );
   }
 
   @override
-  State<CreateCommunityDialog> createState() => _CreateCommunityDialogState();
-}
-
-class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
-  bool _showInviteCommunity = false;
-  String? _communityInviteLink;
-
-  @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
+    final inviteLink =
+        'plur://join-community?group-id=${groupIdentifier.groupId}&code=$inviteCode';
 
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
@@ -37,12 +36,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
       body: Stack(
         children: [
           GestureDetector(
-            onTap: () {
-              RouterUtil.back(context);
-            },
-            child: Container(
-              color: Colors.black54,
-            ),
+            onTap: () => RouterUtil.back(context),
+            child: Container(color: Colors.black54),
           ),
           SingleChildScrollView(
             child: Container(
@@ -65,19 +60,12 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                         alignment: Alignment.topRight,
                         child: IconButton(
                           icon: const Icon(Icons.close),
-                          onPressed: () {
-                            RouterUtil.back(context);
-                          },
+                          onPressed: () => RouterUtil.back(context),
                         ),
                       ),
-                      if (!_showInviteCommunity)
-                        CreateCommunityWidget(
-                            onCreateCommunity: _onCreateCommunity),
-                      if (_showInviteCommunity)
-                        InvitePeopleWidget(
-                          shareableLink: _communityInviteLink ?? '',
-                          showCreatePostButton: true,
-                        ),
+                      InvitePeopleWidget(
+                          shareableLink: inviteLink,
+                          showCreatePostButton: false),
                     ],
                   ),
                 ),
@@ -87,14 +75,5 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
         ],
       ),
     );
-  }
-
-  void _onCreateCommunity(String communityName) {
-    setState(() {
-      final inviteCode = InviteUtil.generateInviteCode();
-      _communityInviteLink =
-          'plur://join-community?group-id=$communityName&code=$inviteCode';
-      _showInviteCommunity = true;
-    });
   }
 }
