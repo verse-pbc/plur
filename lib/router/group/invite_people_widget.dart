@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class InvitePeopleWidget extends StatelessWidget {
   final String shareableLink;
@@ -42,8 +43,8 @@ class InvitePeopleWidget extends StatelessWidget {
                 icon: const Icon(Icons.copy),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: shareableLink));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Link copied to clipboard')),
+                  BotToast.showText(
+                    text: 'Link copied to clipboard',
                   );
                 },
               ),
