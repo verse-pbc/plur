@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'release/**'
+      - 'testflight-cd'
   # Enable manual run
   workflow_dispatch:
 
