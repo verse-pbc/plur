@@ -20,7 +20,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version-file: pubspec.yml
+          flutter-version-file: pubspec.yaml
           channel: 'stable'
       - name: Install Flutter Dependencies
         run: flutter pub get
