@@ -3,7 +3,7 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/router/group/group_add_dialog.dart';
+import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
       appBar: AppBar(
         actions: [
           GestureDetector(
-            onTap: groupAdd,
+            onTap: showCreateCommunityDialog,
             behavior: HitTestBehavior.translucent,
             child: Container(
               width: 50,
@@ -48,8 +48,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
                 child: NoCommunitiesWidget(),
               )
             : GridView.builder(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 52),
+                padding: const EdgeInsets.symmetric(vertical: 52),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 0.0,
@@ -71,7 +70,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
     );
   }
 
-  void groupAdd() {
-    GroupAddDialog.show(context);
+  void showCreateCommunityDialog() {
+    CreateCommunityDialog.show(context);
   }
 }
