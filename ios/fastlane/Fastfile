@@ -20,7 +20,7 @@ default_platform(:ios)
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60" 
 
 platform :ios do
-  asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"]
+  asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n")
   asc_issuer_id = ENV["APP_STORE_CONNECT_ISSUER_ID"]
   asc_key_id = ENV["APP_STORE_CONNECT_API_KEY_ID"]
   keychain_pass = ENV["KEYCHAIN_PASS"]
@@ -126,7 +126,6 @@ platform :ios do
       key_content: asc_key_content
     )
     match(type: "appstore", app_identifier: ["app.verse.prototype.plur"])
-    match(type: "development", app_identifier: ["app.verse.prototype.plur"])
   end
 
   desc "Clean App Store Connect of certificates"
