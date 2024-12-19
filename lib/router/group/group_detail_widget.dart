@@ -35,6 +35,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   void initState() {
     super.initState();
     groupDetailProvider.startQueryTask();
+    groupDetailProvider.refresh();
   }
 
   @override
