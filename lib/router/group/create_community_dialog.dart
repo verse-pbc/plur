@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
+import 'package:nostrmo/provider/list_provider.dart';
+import 'package:provider/provider.dart';
 
 class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -24,6 +27,7 @@ class CreateCommunityDialog extends StatefulWidget {
 class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   bool _showInviteCommunity = false;
   String? _communityInviteLink;
+  GroupIdentifier? _groupIdentifier;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,9 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                             onCreateCommunity: _onCreateCommunity),
                       if (_showInviteCommunity)
                         InvitePeopleWidget(
-                            shareableLink: _communityInviteLink ?? ''),
+                          shareableLink: _communityInviteLink ?? '',
+                          groupIdentifier: _groupIdentifier!,
+                        ),
                     ],
                   ),
                 ),
@@ -86,10 +92,14 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
     );
   }
 
-  void _onCreateCommunity(String communityName) {
+  void _onCreateCommunity(String communityName) async {
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final groupDetails =
+        await listProvider.createGroupAndGenerateInvite(communityName);
+
     setState(() {
-      _communityInviteLink =
-          communityName; // using this as a placeholder for the invite link
+      _communityInviteLink = groupDetails.$1;
+      _groupIdentifier = groupDetails.$2;
       _showInviteCommunity = true;
     });
   }
