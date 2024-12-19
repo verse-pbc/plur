@@ -1,6 +1,6 @@
-package com.github.haorendashu.nostrmo
+package app.verse.prototype.plur
 
-import com.github.haorendashu.nostrmo.NostrmoPlugin
+import app.verse.prototype.plur.NostrmoPlugin
 
 import androidx.annotation.NonNull
 import android.os.Bundle
@@ -30,7 +30,7 @@ class MainActivity: FlutterFragmentActivity() {
                 flutterEngine.getPlugins().add(nostrmoPlugin!!)
             }
         } catch (e : Exception) {
-            Log.e(TAG, "Error registering plugin NostrmoPlugin, com.github.haorendashu.nostrmo.NostrmoPlugin", e)
+            Log.e(TAG, "Error registering plugin NostrmoPlugin, app.verse.prototype.plur.NostrmoPlugin", e)
         }
     }
 
