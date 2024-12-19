@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/router/group/invite_people_widget.dart';
 
 class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -21,7 +22,8 @@ class CreateCommunityDialog extends StatefulWidget {
 }
 
 class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
-  final bool _showInviteCommunity = false;
+  bool _showInviteCommunity = false;
+  String? _communityInviteLink;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +72,9 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                       if (!_showInviteCommunity)
                         CreateCommunityWidget(
                             onCreateCommunity: _onCreateCommunity),
+                      if (_showInviteCommunity)
+                        InvitePeopleWidget(
+                            shareableLink: _communityInviteLink ?? ''),
                     ],
                   ),
                 ),
@@ -83,7 +88,9 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
 
   void _onCreateCommunity(String communityName) {
     setState(() {
-      // TODO: Add functionality to show invite
+      _communityInviteLink =
+          communityName; // using this as a placeholder for the invite link
+      _showInviteCommunity = true;
     });
   }
 }
