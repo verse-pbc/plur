@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -18,19 +17,14 @@ class CreateCommunityDialog extends StatefulWidget {
   }
 
   @override
-  State<StatefulWidget> createState() {
-    return _CreateCommunityDialogState();
-  }
+  State<CreateCommunityDialog> createState() => _CreateCommunityDialogState();
 }
 
 class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
-  bool showInviteCommunity = false;
-
-  late S localization;
+  final bool _showInviteCommunity = false;
 
   @override
   Widget build(BuildContext context) {
-    localization = S.of(context);
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
 
@@ -73,10 +67,9 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                           },
                         ),
                       ),
-                      if (!showInviteCommunity)
+                      if (!_showInviteCommunity)
                         CreateCommunityWidget(
-                          onCreateCommunity: _onCreateCommunity
-                        ),
+                            onCreateCommunity: _onCreateCommunity),
                     ],
                   ),
                 ),
