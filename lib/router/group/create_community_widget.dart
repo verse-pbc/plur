@@ -7,7 +7,7 @@ class CreateCommunityWidget extends StatefulWidget {
   const CreateCommunityWidget({super.key, required this.onCreateCommunity});
 
   @override
-  _CreateCommunityWidgetState createState() => _CreateCommunityWidgetState();
+  State<CreateCommunityWidget> createState() => _CreateCommunityWidgetState();
 }
 
 enum CommunityVisibility {
@@ -17,7 +17,8 @@ enum CommunityVisibility {
 }
 
 class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
-  final TextEditingController communityNameController = TextEditingController();
+  final TextEditingController _communityNameController =
+      TextEditingController();
   CommunityVisibility selectedVisibility = CommunityVisibility.publicAnyone;
 
   @override
@@ -37,7 +38,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
         const Text("Name your community"),
         const SizedBox(height: 10),
         TextField(
-          controller: communityNameController,
+          controller: _communityNameController,
           decoration: const InputDecoration(
             hintText: "community name",
             border: OutlineInputBorder(),
@@ -49,7 +50,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
         const SizedBox(height: 20),
         const Text("Select visibility and posting options:"),
         const SizedBox(height: 10),
-       ListTile(
+        ListTile(
           contentPadding: EdgeInsets.zero,
           title: const Text("Public + anyone can join and post"),
           leading: Radio<CommunityVisibility>(
@@ -105,12 +106,12 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
         ),
         const SizedBox(height: 20),
         InkWell(
-          onTap: communityNameController.text.isNotEmpty
-              ? () => widget.onCreateCommunity(communityNameController.text)
+          onTap: _communityNameController.text.isNotEmpty
+              ? () => widget.onCreateCommunity(_communityNameController.text)
               : null,
           highlightColor: theme.primaryColor.withOpacity(0.2),
           child: Container(
-            color: communityNameController.text.isNotEmpty
+            color: _communityNameController.text.isNotEmpty
                 ? theme.primaryColor
                 : theme.disabledColor,
             height: 40,

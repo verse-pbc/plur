@@ -1,4 +1,4 @@
-package com.github.haorendashu.nostrmo;
+package app.verse.prototype.plur;
 
 import java.util.HashMap;
 import java.util.List;
