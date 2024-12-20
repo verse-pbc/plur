@@ -476,7 +476,7 @@ class ListProvider extends ChangeNotifier {
       EventKind.GROUP_CREATE_INVITE,
       [
         ["h", group.groupId],
-        ["invite", inviteCode]
+        ["code", inviteCode]
       ],
       "",
     );
