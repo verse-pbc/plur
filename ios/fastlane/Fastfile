@@ -36,10 +36,7 @@ platform :ios do
       issuer_id: asc_issuer_id,
       key_content: asc_key_content
     )
-    version_number = get_version_number(
-      xcodeproj: "Runner.xcodeproj",
-      target: "Runner"
-    )
+    version_number = sh("cd .. && flutter pub run flutter_version_manager get version")
     puts "Version number: #{version_number}"
   end
 
