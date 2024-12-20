@@ -10,7 +10,7 @@ class NoNotesWidget extends StatelessWidget {
     required this.onRefresh,
   }) : super(key: key);
 
-@override
+  @override
   Widget build(BuildContext context) => RefreshIndicator(
         onRefresh: onRefresh ?? () async {},
         child: Center(
@@ -25,21 +25,23 @@ class NoNotesWidget extends StatelessWidget {
                     children: [
                       Text(
                         groupName,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 20.0,
+                          fontSize:
+                              Theme.of(context).textTheme.bodyLarge!.fontSize,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                          color: Theme.of(context).textTheme.bodyLarge!.color,
                         ),
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 18),
-                      const Text(
+                      Text(
                         'Write a note to welcome your community!',
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: 18.0,
-                          color: Colors.white,
+                          fontSize:
+                              Theme.of(context).textTheme.bodyMedium!.fontSize,
+                          color: Theme.of(context).textTheme.bodyMedium!.color,
                         ),
                         textAlign: TextAlign.center,
                       ),
