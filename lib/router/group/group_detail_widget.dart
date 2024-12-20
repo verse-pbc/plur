@@ -35,6 +35,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   void initState() {
     super.initState();
     groupDetailProvider.startQueryTask();
+    groupDetailProvider.refresh();
   }
 
   @override
@@ -150,7 +151,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   void _leaveGroup() {
     final id = groupIdentifier;
     if (id != null) {
-      listProvider.removeGroup(id);
+      listProvider.leaveGroup(id);
     }
     RouterUtil.back(context);
   }
