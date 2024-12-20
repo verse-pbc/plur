@@ -1,33 +1,26 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/user/metadata_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/dm_session_info_db.dart';
-import 'package:nostrmo/data/event_db.dart';
-import 'package:nostrmo/data/metadata_db.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/webview_provider.dart';
-import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/router/user/user_statistics_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/add_btn_wrapper_widget.dart';
-import '../../component/user/metadata_widget.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
-import '../edit/editor_widget.dart';
 import 'account_manager_widget.dart';
+import '../../data/join_group_parameters.dart';
 
 class IndexDrawerContentComponnent extends StatefulWidget {
   bool smallMode;
@@ -271,7 +264,8 @@ class _IndexDrawerContentComponnent
           '0x0tLAXmNmnTTTS7',
           '7aNtrZngZmPVYu9c'
         ];
-        listProvider.joinGroups(groupIds.map((gi) => GroupIdentifier(host, gi)).toList());
+        listProvider.joinGroups(
+            groupIds.map((gi) => JoinGroupParameters(host, gi)).toList());
       },
       smallMode: widget.smallMode,
     ));
@@ -290,8 +284,7 @@ class _IndexDrawerContentComponnent
         child: IndexDrawerItemWidget(
           iconData: Icons.add_rounded,
           name: localization.Add,
-          onTap: () {
-          },
+          onTap: () {},
           onLongPress: () {
             Uploader.pickAndUpload2NIP95(context);
           },
