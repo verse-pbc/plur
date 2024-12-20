@@ -10,16 +10,9 @@ class CreateCommunityWidget extends StatefulWidget {
   State<CreateCommunityWidget> createState() => _CreateCommunityWidgetState();
 }
 
-enum CommunityVisibility {
-  publicAnyone,
-  publicRequest,
-  privateRequest,
-}
-
 class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
   final TextEditingController _communityNameController =
       TextEditingController();
-  CommunityVisibility selectedVisibility = CommunityVisibility.publicAnyone;
 
   @override
   Widget build(BuildContext context) {
@@ -45,63 +38,6 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           ),
           onChanged: (text) {
             setState(() {});
-          },
-        ),
-        const SizedBox(height: 20),
-        const Text("Select visibility and posting options:"),
-        const SizedBox(height: 10),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: const Text("Public + anyone can join and post"),
-          leading: Radio<CommunityVisibility>(
-            value: CommunityVisibility.publicAnyone,
-            groupValue: selectedVisibility,
-            onChanged: (value) {
-              setState(() {
-                selectedVisibility = value!;
-              });
-            },
-          ),
-          onTap: () {
-            setState(() {
-              selectedVisibility = CommunityVisibility.publicAnyone;
-            });
-          },
-        ),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: const Text("Public + request to join and post"),
-          leading: Radio<CommunityVisibility>(
-            value: CommunityVisibility.publicRequest,
-            groupValue: selectedVisibility,
-            onChanged: (value) {
-              setState(() {
-                selectedVisibility = value!;
-              });
-            },
-          ),
-          onTap: () {
-            setState(() {
-              selectedVisibility = CommunityVisibility.publicRequest;
-            });
-          },
-        ),
-        ListTile(
-          contentPadding: EdgeInsets.zero,
-          title: const Text("Private + request to join"),
-          leading: Radio<CommunityVisibility>(
-            value: CommunityVisibility.privateRequest,
-            groupValue: selectedVisibility,
-            onChanged: (value) {
-              setState(() {
-                selectedVisibility = value!;
-              });
-            },
-          ),
-          onTap: () {
-            setState(() {
-              selectedVisibility = CommunityVisibility.privateRequest;
-            });
           },
         ),
         const SizedBox(height: 20),
