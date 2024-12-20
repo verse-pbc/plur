@@ -25,7 +25,8 @@ class GroupDetailNoteListWidget extends StatefulWidget {
   }
 }
 
-class _GroupDetailNoteListWidgetState extends KeepAliveCustState<GroupDetailNoteListWidget>
+class _GroupDetailNoteListWidgetState
+    extends KeepAliveCustState<GroupDetailNoteListWidget>
     with LoadMoreEvent, PenddingEventsLaterFunction {
   final ScrollController _controller = ScrollController();
 
@@ -53,6 +54,13 @@ class _GroupDetailNoteListWidgetState extends KeepAliveCustState<GroupDetailNote
     }
     preBuild();
 
+    // Check if there are new notes and update the state if necessary
+    if (groupDetailProvider!.newNotesBox.length() > 0) {
+      setState(() {
+        groupDetailProvider!.mergeNewEvent();
+      });
+    }
+
     var main = RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView.builder(
@@ -61,8 +69,7 @@ class _GroupDetailNoteListWidgetState extends KeepAliveCustState<GroupDetailNote
           var event = events[index];
           return EventListWidget(
             event: event,
-            showVideo:
-                settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
         },
         itemCount: events.length,
