@@ -8,6 +8,7 @@ import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/router/edit/editor_widget.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
+import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
@@ -61,6 +62,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     final groupProvider = Provider.of<GroupProvider>(context);
     final groupMetadata = groupProvider.getMetadata(groupIdentifier!);
     final groupAdmins = groupProvider.getAdmins(groupIdentifier!);
+    final isAdmin = groupAdmins?.contains(nostr!.publicKey) != null;
 
     String title = "${localization.Group} ${localization.Detail}";
     Widget flexBackground = Container(
@@ -90,6 +92,14 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
         background: flexBackground,
       ),
       actions: [
+        if (isAdmin)
+          IconButton(
+            icon: const Icon(Icons.person_add),
+            tooltip: 'Invite to Community',
+            onPressed: () {
+              InviteToCommunityDialog.show(context, groupIdentifier!);
+            },
+          ),
         IconButton(
           icon: const Icon(Icons.add),
           onPressed: _jumpToAddNote,
