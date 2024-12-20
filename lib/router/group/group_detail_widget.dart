@@ -122,7 +122,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             value: groupDetailProvider,
           ),
         ],
-        child: GroupDetailNoteListWidget(groupIdentifier!),
+        child: GroupDetailNoteListWidget(groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
       ),
     );
 
