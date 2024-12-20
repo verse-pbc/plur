@@ -1,0 +1,158 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+# Work around
+# https://github.com/fastlane/fastlane/issues/20919
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60" 
+
+platform :ios do
+  asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n")
+  asc_issuer_id = ENV["APP_STORE_CONNECT_ISSUER_ID"]
+  asc_key_id = ENV["APP_STORE_CONNECT_API_KEY_ID"]
+  keychain_pass = ENV["KEYCHAIN_PASS"]
+  sentry_auth = ENV["SENTRY_AUTH"]
+  is_ci = ENV["CI"]
+  app_secrets = ENV["APP_SECRETS"]
+  changelog_path = "../CHANGELOG.md"
+
+  desc "Push a new build to TestFlight using the provided scheme and identifier"
+  private_lane :push_build do |options|
+    app_store_connect_api_key(
+      key_id: asc_key_id,
+      issuer_id: asc_issuer_id,
+      key_content: asc_key_content
+    )
+    if is_ci 
+      # Create a keychain because Github Action machines don't come with one
+      create_keychain(
+          name: "keychain",
+          password: keychain_pass,
+          default_keychain: true,
+          unlock: true,
+          timeout: 3600,
+          lock_when_sleeps: false,
+          add_to_search_list: true
+      )
+      match(
+          type: "appstore",  
+          readonly: true,
+          app_identifier: options[:appidentifier],
+          keychain_name: "keychain",
+          keychain_password: keychain_pass,
+          generate_apple_certs: true
+        )
+    else
+      match(
+        type: "appstore", 
+        readonly: false,
+        app_identifier: options[:appidentifier]
+      )
+    end
+    version_number = get_version_number(
+      xcodeproj: "Runner.xcodeproj",
+      target: "Runner"
+    )
+    build_number = latest_testflight_build_number(app_identifier: options[:appidentifier]) + 1
+    increment_build_number(build_number: build_number)
+    gym(
+      scheme: options[:scheme], 
+      clean: true#,
+      #xcargs: "-skipPackagePluginValidation -skipMacroValidation" # TODO: Do we need these?
+    )
+    changelog = read_changelog(changelog_path: changelog_path)
+
+    testflight_groups = options[:distribution_groups] || []
+    upload_to_testflight(
+      changelog: changelog,
+      app_identifier: options[:app_identifier],
+      skip_waiting_for_build_processing: is_ci,
+      distribute_external: !testflight_groups.empty?,
+      groups: testflight_groups 
+    )
+    
+    add_git_tag(tag: "v#{options[:tagprefix]}#{version_number}-#{build_number}")
+    push_git_tags
+    notification(
+      subtitle: "Build uploaded", 
+      message: "tap to open App Store Connect", 
+      sound: "Pebble", 
+      open: options[:appstoreconnect]
+    )
+  end
+
+  desc "Push a new Nos Release build to TestFlight"
+  lane :release do
+    push_build(
+      scheme: "Runner",
+      appidentifier: "app.verse.prototype.plur",
+      tagprefix: "",
+      appstoreconnect: "https://appstoreconnect.apple.com/apps/6738932333/testflight/ios",
+      distribution_groups: []
+    )
+  end
+
+  desc "Mark a deployed commit as having been deployed to our public beta testers"
+  lane :stamp_release do
+    changelog = read_changelog(changelog_path: changelog_path)
+    version_number = get_version_number(
+      xcodeproj: "Nos.xcodeproj",
+      target: "Nos"
+    )
+    build_number = get_build_number(
+      xcodeproj: "Nos.xcodeproj"
+    )
+    stamp_changelog(changelog_path: changelog_path, section_identifier: "#{version_number}")
+    git_commit(message: "Stamping beta deployment", path: "*")
+    push_to_git_remote
+  end
+
+  desc "Refresh certificates in the match repo"
+  lane :certs do
+    app_store_connect_api_key(
+      key_id: asc_key_id,
+      issuer_id: asc_issuer_id,
+      key_content: asc_key_content
+    )
+    match(type: "appstore", app_identifier: ["app.verse.prototype.plur"])
+  end
+
+  desc "Clean App Store Connect of certificates"
+  lane :nuke_certs do
+    app_store_connect_api_key(
+      key_id: asc_key_id,
+      issuer_id: asc_issuer_id,
+      key_content: asc_key_content
+    )
+    match_nuke(type: "appstore")
+  end
+end
+
+# Dynamically define 3 lanes:
+# bump_major
+# bump_minor
+# bump_patch
+# from: https://benscheirman.com/2020/10/managing-version-numbers-with-fastlane/
+%w{major minor patch}.each do |part|
+  lane "bump_#{part}".to_sym do
+    increment_version_number_in_xcodeproj(bump_type: part, target: "Nos")
+  end
+end
+
+lane :bump_version do
+  increment_build_number(xcodeproj: "Runner.xcodeproj")
+end
+
