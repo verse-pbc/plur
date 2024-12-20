@@ -464,7 +464,7 @@ class ListProvider extends ChangeNotifier {
       _createInvite(newGroup, inviteCode);
 
       // Construct the invite link
-      inviteLink = 'plur://join-community?group-id=$groupId.g=$inviteCode';
+      inviteLink = 'plur://join-community?group-id=$groupId&code=$inviteCode';
     }
 
     cancelFunc.call();
