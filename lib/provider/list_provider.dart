@@ -430,7 +430,7 @@ class ListProvider extends ChangeNotifier {
 
     // Generate a random string for the group ID
     final groupId =
-        _generateRandomString(12, 'abcdefghijklmnopqrstuvwxyz0123456789');
+        _generateRandomString(12, 'abcdefghijkmnopqrstuvwxyz0123456789');
 
     // Create the event for creating a group.
     // We only support private closed group for now.
@@ -459,7 +459,7 @@ class ListProvider extends ChangeNotifier {
 
       // Generate an invite code
       final inviteCode =
-          _generateRandomString(8, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+          _generateRandomString(8, 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789');
       _createInvite(newGroup, inviteCode);
 
       // Construct the invite link
