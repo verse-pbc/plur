@@ -463,7 +463,7 @@ class ListProvider extends ChangeNotifier {
       _createInvite(newGroup, inviteCode);
 
       // Construct the invite link
-      inviteLink = 'plur://join-community?group-id=$groupId.g=$inviteCode';
+      inviteLink = 'plur://join-community?group-id=$groupId&code=$inviteCode';
     }
 
     cancelFunc.call();
@@ -479,27 +479,10 @@ class ListProvider extends ChangeNotifier {
     groupProvider.udpateMetadata(group, groupMetadata);
   }
 
-  void _createInvite(GroupIdentifier group, String inviteCode) {
-    final inviteEvent = Event(
-      nostr!.publicKey,
-      EventKind.GROUP_CREATE_INVITE,
-      [
-        ["h", group.groupId],
-        ["code", inviteCode]
-      ],
-      "",
-    );
-
-    nostr!.sendEvent(inviteEvent,
-        tempRelays: [group.host], targetRelays: [group.host]);
-  }
-
-  /// Josh's version from create_community_dialog.dart (essentially a duplicate of _createInvite)
-  Future<Event?> publishCreateInviteEvent(
-      GroupIdentifier groupIdentifier, String inviteCode,
-      {List<String>? roles}) async {
+  void _createInvite(GroupIdentifier group, String inviteCode,
+      {List<String>? roles}) {
     final tags = [
-      ["h", groupIdentifier.groupId],
+      ["h", group.groupId],
       ["code", inviteCode],
     ];
 
@@ -510,19 +493,15 @@ class ListProvider extends ChangeNotifier {
       tags.add(["roles", "member"]);
     }
 
-    final event = Event(
+    final inviteEvent = Event(
       nostr!.publicKey,
       EventKind.GROUP_CREATE_INVITE,
       tags,
       "", // Empty content as per example
     );
 
-    // Send to specific relay for the community
-    return await nostr!.sendEvent(
-      event,
-      tempRelays: [groupIdentifier.host],
-      targetRelays: [groupIdentifier.host],
-    );
+    nostr!.sendEvent(inviteEvent,
+        tempRelays: [group.host], targetRelays: [group.host]);
   }
 
   void clear() {
