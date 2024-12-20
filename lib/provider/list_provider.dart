@@ -12,6 +12,7 @@ import 'package:nostr_sdk/nip51/bookmarks.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/main.dart';
+import 'package:nostrmo/util/string_code_generator.dart';
 
 import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
@@ -430,8 +431,7 @@ class ListProvider extends ChangeNotifier {
     const host = RelayProvider.defaultGroupsRelayAddress;
 
     // Generate a random string for the group ID
-    final groupId =
-        _generateRandomString(12, 'abcdefghijkmnopqrstuvwxyz0123456789');
+    final groupId = StringCodeGenerator.generateGroupId();
 
     // Create the event for creating a group.
     // We only support private closed group for now.
@@ -459,8 +459,7 @@ class ListProvider extends ChangeNotifier {
       _updateGroups();
 
       // Generate an invite code
-      final inviteCode =
-          _generateRandomString(8, 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789');
+      final inviteCode = StringCodeGenerator.generateInviteCode();
       _createInvite(newGroup, inviteCode);
 
       // Construct the invite link
@@ -495,11 +494,35 @@ class ListProvider extends ChangeNotifier {
         tempRelays: [group.host], targetRelays: [group.host]);
   }
 
-  // Generate random string for invite code and group id.
-  String _generateRandomString(int length, String chars) {
-    final random = Random();
-    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
-        .join();
+  /// Josh's version from create_community_dialog.dart (essentially a duplicate of _createInvite)
+  Future<Event?> publishCreateInviteEvent(
+      GroupIdentifier groupIdentifier, String inviteCode,
+      {List<String>? roles}) async {
+    final tags = [
+      ["h", groupIdentifier.groupId],
+      ["code", inviteCode],
+    ];
+
+    // Add roles if provided, default to "member"
+    if (roles != null && roles.isNotEmpty) {
+      tags.add(["roles", ...roles]);
+    } else {
+      tags.add(["roles", "member"]);
+    }
+
+    final event = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_CREATE_INVITE,
+      tags,
+      "", // Empty content as per example
+    );
+
+    // Send to specific relay for the community
+    return await nostr!.sendEvent(
+      event,
+      tempRelays: [groupIdentifier.host],
+      targetRelays: [groupIdentifier.host],
+    );
   }
 
   void clear() {
