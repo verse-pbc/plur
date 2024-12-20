@@ -7,6 +7,7 @@ import 'package:nostr_sdk/event.dart';
 import 'package:nostr_sdk/event_kind.dart';
 import 'package:nostr_sdk/filter.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostr_sdk/nip29/group_metadata.dart';
 import 'package:nostr_sdk/nip51/bookmarks.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
@@ -438,8 +439,7 @@ class ListProvider extends ChangeNotifier {
       nostr!.publicKey,
       EventKind.GROUP_CREATE_GROUP,
       [
-        ["h", groupId],
-        ["name", groupName]
+        ["h", groupId]
       ],
       "",
     );
@@ -455,6 +455,7 @@ class ListProvider extends ChangeNotifier {
 
       //  Add the group to the list
       _groupIdentifiers.add(newGroup);
+      _editMetadata(newGroup, groupName);
       _updateGroups();
 
       // Generate an invite code
@@ -468,6 +469,15 @@ class ListProvider extends ChangeNotifier {
 
     cancelFunc.call();
     return (inviteLink, newGroup);
+  }
+
+  void _editMetadata(GroupIdentifier group, String groupName) {
+    GroupMetadata groupMetadata = GroupMetadata(
+      group.groupId,
+      0,
+      name: groupName,
+    );
+    groupProvider.udpateMetadata(group, groupMetadata);
   }
 
   void _createInvite(GroupIdentifier group, String inviteCode) {
