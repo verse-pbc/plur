@@ -7,6 +7,7 @@ import 'package:nostr_sdk/event.dart';
 import 'package:nostr_sdk/event_kind.dart';
 import 'package:nostr_sdk/filter.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostr_sdk/nip29/group_metadata.dart';
 import 'package:nostr_sdk/nip51/bookmarks.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
@@ -17,6 +18,8 @@ import '../data/custom_emoji.dart';
 import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
+import '../provider/relay_provider.dart';
+import 'dart:math';
 
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
@@ -395,9 +398,8 @@ class ListProvider extends ChangeNotifier {
       "",
     );
 
-    await nostr!.sendEvent(
-        event, tempRelays: [gi.host], targetRelays: [gi.host]
-    );
+    await nostr!
+        .sendEvent(event, tempRelays: [gi.host], targetRelays: [gi.host]);
 
     _groupIdentifiers.removeWhere((groupIdentifier) =>
         gi.groupId == groupIdentifier.groupId &&
@@ -420,6 +422,84 @@ class ListProvider extends ChangeNotifier {
     await nostr!.sendEvent(updateGroupListEvent);
 
     notifyListeners();
+  }
+
+  Future<(String?, GroupIdentifier?)> createGroupAndGenerateInvite(
+      String groupName) async {
+    final cancelFunc = BotToast.showLoading();
+    const host = RelayProvider.defaultGroupsRelayAddress;
+
+    // Generate a random string for the group ID
+    final groupId =
+        _generateRandomString(12, 'abcdefghijkmnopqrstuvwxyz0123456789');
+
+    // Create the event for creating a group.
+    // We only support private closed group for now.
+    final createGroupEvent = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_CREATE_GROUP,
+      [
+        ["h", groupId]
+      ],
+      "",
+    );
+
+    final resultEvent = await nostr!
+        .sendEvent(createGroupEvent, tempRelays: [host], targetRelays: [host]);
+
+    String? inviteLink;
+    GroupIdentifier? newGroup;
+    // Event was successfully sent
+    if (resultEvent != null) {
+      newGroup = GroupIdentifier(host, groupId);
+
+      //  Add the group to the list
+      _groupIdentifiers.add(newGroup);
+      _editMetadata(newGroup, groupName);
+      _updateGroups();
+
+      // Generate an invite code
+      final inviteCode =
+          _generateRandomString(8, 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789');
+      _createInvite(newGroup, inviteCode);
+
+      // Construct the invite link
+      inviteLink = 'plur://join-community?group-id=$groupId&code=$inviteCode';
+    }
+
+    cancelFunc.call();
+    return (inviteLink, newGroup);
+  }
+
+  void _editMetadata(GroupIdentifier group, String groupName) {
+    GroupMetadata groupMetadata = GroupMetadata(
+      group.groupId,
+      0,
+      name: groupName,
+    );
+    groupProvider.udpateMetadata(group, groupMetadata);
+  }
+
+  void _createInvite(GroupIdentifier group, String inviteCode) {
+    final inviteEvent = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_CREATE_INVITE,
+      [
+        ["h", group.groupId],
+        ["code", inviteCode]
+      ],
+      "",
+    );
+
+    nostr!.sendEvent(inviteEvent,
+        tempRelays: [group.host], targetRelays: [group.host]);
+  }
+
+  // Generate random string for invite code and group id.
+  String _generateRandomString(int length, String chars) {
+    final random = Random();
+    return List.generate(length, (index) => chars[random.nextInt(chars.length)])
+        .join();
   }
 
   void clear() {
