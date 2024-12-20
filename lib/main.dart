@@ -12,13 +12,13 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/relay_local/relay_local_db.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
 import 'package:nostrmo/provider/community_list_provider.dart';
@@ -310,10 +310,58 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _MyApp();
+  static const platform = MethodChannel('com.example.app/deeplink');
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
+
+  MyApp() {
+    platform.setMethodCallHandler(_handleDeepLink);
   }
+
+  void joinGroup(
+      BuildContext context, String host, String groupId, String? code) {
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
+    listProvider.joinGroup(groupIdentifier, context: context);
+  }
+
+  Future<void> _handleDeepLink(MethodCall call) async {
+    if (nostr == null) {
+      print('nostr is null; the user is probably not logged in. aborting.');
+      return;
+    }
+
+    if (call.method == 'onDeepLink') {
+      final String link = call.arguments;
+      print('Received deep link: $link');
+
+      Uri uri = Uri.parse(link);
+      if (uri.scheme == 'plur' && uri.host == 'join-community') {
+        String? groupId = uri.queryParameters['group-id'];
+        String? code = uri.queryParameters['code'];
+        // Handle the extracted parameters
+        print('Group ID: $groupId');
+        print('Code: $code');
+
+        if (groupId == null || groupId.isEmpty) {
+          print('Group ID is null or empty, aborting.');
+          return;
+        }
+
+        final context = navigatorKey.currentContext;
+        if (context != null) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            joinGroup(context, 'wss://communities.nos.social', groupId, code);
+          });
+        } else {
+          print('Context is null, waiting for app to initialize...');
+        }
+      }
+    }
+  }
+
+  @override
+  State<StatefulWidget> createState() => _MyApp();
 }
 
 class _MyApp extends State<MyApp> {
@@ -373,9 +421,11 @@ class _MyApp extends State<MyApp> {
       RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
       RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
       RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
-      RouterPath.FOLLOWED_TAGS_LIST: (context) => const FollowedTagsListWidget(),
+      RouterPath.FOLLOWED_TAGS_LIST: (context) =>
+          const FollowedTagsListWidget(),
       RouterPath.COMMUNITY_DETAIL: (context) => const CommunityDetailWidget(),
-      RouterPath.FOLLOWED_COMMUNITIES: (context) => const FollowedCommunitiesWidget(),
+      RouterPath.FOLLOWED_COMMUNITIES: (context) =>
+          const FollowedCommunitiesWidget(),
       RouterPath.FOLLOWED: (context) => const FollowedWidget(),
       RouterPath.BOOKMARK: (context) => const BookmarkWidget(),
       RouterPath.FOLLOW_SET_LIST: (context) => const FollowSetListWidget(),
@@ -479,6 +529,7 @@ class _MyApp extends State<MyApp> {
         locale: _locale,
         theme: defaultTheme,
         child: MaterialApp(
+          navigatorKey: MyApp.navigatorKey,
           builder: BotToastInit(),
           navigatorObservers: [
             BotToastNavigatorObserver(),
