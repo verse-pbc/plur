@@ -19,15 +19,15 @@ jobs:
         uses: actions/checkout@main
         with:
           submodules: 'recursive'
-      #- name: Setup Flutter
-      #  uses: subosito/flutter-action@v2
-      #  with:
-      #    flutter-version-file: pubspec.yaml
-      #    channel: 'stable'
-      #- name: Install Flutter Dependencies
-      #  run: flutter pub get
-      #- name: Build Flutter .app
-      #  run: flutter build ios --release --no-codesign
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: 'stable'
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+      - name: Build Flutter .app
+        run: flutter build ios --release --no-codesign
       - uses: nomasystems/action-xcode-select@v0.1
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -38,7 +38,7 @@ jobs:
         working-directory: ./ios
         run: |
           bundle install
-          bundle exec fastlane print_version
+          bundle exec fastlane release
         env:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}
