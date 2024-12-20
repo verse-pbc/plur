@@ -61,7 +61,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     final groupProvider = Provider.of<GroupProvider>(context);
     final groupMetadata = groupProvider.getMetadata(groupIdentifier!);
     final groupAdmins = groupProvider.getAdmins(groupIdentifier!);
-    
+
     String title = "${localization.Group} ${localization.Detail}";
     Widget flexBackground = Container(
       color: themeData.hintColor.withOpacity(0.3),
@@ -112,7 +112,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             value: groupDetailProvider,
           ),
         ],
-        child: GroupDetailNoteListWidget(groupIdentifier!),
+        child: GroupDetailNoteListWidget(groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
       ),
     );
 
