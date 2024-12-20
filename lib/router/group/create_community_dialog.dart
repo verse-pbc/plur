@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/event_kind.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/invite_util.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
+import 'package:nostrmo/main.dart';
 
 class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -90,11 +94,44 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   }
 
   void _onCreateCommunity(String communityName) {
+    final inviteCode = InviteUtil.generateInviteCode();
+    final groupIdentifier =
+        GroupIdentifier(communityName, 'wss://communities.nos.social');
     setState(() {
-      final inviteCode = InviteUtil.generateInviteCode();
       _communityInviteLink =
           'plur://join-community?group-id=$communityName&code=$inviteCode';
       _showInviteCommunity = true;
     });
+    publishCreateInviteEvent(groupIdentifier, inviteCode);
+  }
+
+  Future<Event?> publishCreateInviteEvent(
+      GroupIdentifier groupIdentifier, String inviteCode,
+      {List<String>? roles}) async {
+    final tags = [
+      ["h", groupIdentifier.groupId],
+      ["code", inviteCode],
+    ];
+
+    // Add roles if provided, default to "member"
+    if (roles != null && roles.isNotEmpty) {
+      tags.add(["roles", ...roles]);
+    } else {
+      tags.add(["roles", "member"]);
+    }
+
+    final event = Event(
+      nostr!.publicKey,
+      EventKind.GROUP_CREATE_INVITE,
+      tags,
+      "", // Empty content as per example
+    );
+
+    // Send to specific relay for the community
+    return await nostr!.sendEvent(
+      event,
+      tempRelays: [groupIdentifier.host],
+      targetRelays: [groupIdentifier.host],
+    );
   }
 }
