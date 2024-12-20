@@ -14,9 +14,8 @@ class NoNotesWidget extends StatelessWidget {
   Widget build(BuildContext context) => RefreshIndicator(
         onRefresh: onRefresh ?? () async {},
         child: Center(
-          // Added Center widget here
           child: ListView(
-            shrinkWrap: true, // Added shrinkWrap to true
+            shrinkWrap: true,
             children: [
               Center(
                 child: Container(
