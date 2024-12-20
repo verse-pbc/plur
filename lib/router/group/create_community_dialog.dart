@@ -93,16 +93,21 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
     );
   }
 
-  void _onCreateCommunity(String communityName) {
+  Future<GroupIdentifier> _onCreateCommunity(String communityName) async {
     final inviteCode = InviteUtil.generateInviteCode();
-    final groupIdentifier =
-        GroupIdentifier(communityName, 'wss://communities.nos.social');
+    final groupIdentifier = GroupIdentifier('wss://communities.nos.social',
+        communityName); // TODO: groupId, not communityName
+
+    // TODO: publish create group event
+
     setState(() {
+      // TODO: groupId, not communityName
       _communityInviteLink =
           'plur://join-community?group-id=$communityName&code=$inviteCode';
       _showInviteCommunity = true;
     });
-    publishCreateInviteEvent(groupIdentifier, inviteCode);
+    await publishCreateInviteEvent(groupIdentifier, inviteCode);
+    return groupIdentifier;
   }
 
   Future<Event?> publishCreateInviteEvent(
