@@ -24,8 +24,8 @@ jobs:
         with:
           flutter-version-file: pubspec.yaml
           channel: 'stable'
-      #- name: Install Flutter Dependencies
-      #  run: flutter pub get
+      - name: Install Flutter Dependencies
+        run: flutter pub get
       #- name: Build Flutter .app
       #  run: flutter build ios --release --no-codesign
       - uses: nomasystems/action-xcode-select@v0.1
