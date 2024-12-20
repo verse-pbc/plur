@@ -29,6 +29,22 @@ platform :ios do
   app_secrets = ENV["APP_SECRETS"]
   changelog_path = "../CHANGELOG.md"
 
+  desc "test"
+  lane :print_version do |options|
+    app_store_connect_api_key(
+      key_id: asc_key_id,
+      issuer_id: asc_issuer_id,
+      key_content: asc_key_content,
+      is_key_content_base64: true
+    )
+    version_number = get_version_number(
+      xcodeproj: "Runner.xcodeproj",
+      target: "Runner"
+    )
+    puts "Version number: #{version_number}"
+  end
+
+
   desc "Push a new build to TestFlight using the provided scheme and identifier"
   private_lane :push_build do |options|
     app_store_connect_api_key(
