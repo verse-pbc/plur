@@ -79,18 +79,16 @@ class _GroupDetailNoteListWidgetState
     }
 
     List<Widget> stackList = [main];
-    if (!groupDetailProvider!.hasNewEventFromCurrentUser) {
-      stackList.add(Positioned(
-        top: Base.BASE_PADDING,
-        child: NewNotesUpdatedWidget(
-          num: newNotesLength,
-          onTap: () {
-            groupDetailProvider!.mergeNewEvent();
-            scrollController.jumpTo(0);
-          },
-        ),
-      ));
-    }
+    stackList.add(Positioned(
+      top: Base.BASE_PADDING,
+      child: NewNotesUpdatedWidget(
+        num: newNotesLength,
+        onTap: () {
+          groupDetailProvider!.mergeNewEvent();
+          scrollController.jumpTo(0);
+        },
+      ),
+    ));
 
     return Stack(
       alignment: Alignment.center,
