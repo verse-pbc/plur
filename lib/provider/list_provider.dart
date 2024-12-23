@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
@@ -10,6 +11,7 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/nip29/group_metadata.dart';
 import 'package:nostr_sdk/nip51/bookmarks.dart';
 import 'package:nostr_sdk/nostr.dart';
+import 'package:nostr_sdk/relay/relay_type.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
@@ -20,7 +22,6 @@ import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
 import '../provider/relay_provider.dart';
-import 'dart:math';
 
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
@@ -340,7 +341,8 @@ class ListProvider extends ChangeNotifier {
     if (requests.isEmpty) return;
 
     final cancelFunc = BotToast.showLoading();
-    List<Future<(GroupIdentifier, Event?)>> sendTasks =
+
+    List<Future<(GroupIdentifier, bool)>> joinTasks =
         requests.map((request) async {
       final List<List<String>> eventTags = [
         ["h", request.groupId]
@@ -358,16 +360,60 @@ class ListProvider extends ChangeNotifier {
       );
 
       final groupId = GroupIdentifier(request.host, request.groupId);
-      return (
-        groupId,
-        await nostr!.sendEvent(joinEvent,
-            tempRelays: [request.host], targetRelays: [request.host])
+      final joinResult = await nostr!.sendEvent(joinEvent,
+          tempRelays: [request.host], targetRelays: [request.host]);
+
+      if (joinResult == null) {
+        return (groupId, false);
+      }
+
+      // Check membership
+      final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
+      final filterMap = filter.toJson();
+      filterMap["#d"] = [request.groupId];
+
+      final completer = Completer<bool>();
+
+      nostr!.query(
+        [filterMap],
+        (Event event) {
+          if (event.kind == EventKind.GROUP_MEMBERS) {
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1) {
+                if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
+                  if (!completer.isCompleted) {
+                    completer.complete(true);
+                  }
+                  return;
+                }
+              }
+            }
+            if (!completer.isCompleted) {
+              completer.complete(false);
+            }
+          }
+        },
+        tempRelays: [request.host],
+        relayTypes: RelayType.ONLY_TEMP,
+        sendAfterAuth: true,
       );
+
+      bool membershipConfirmed = false;
+      try {
+        membershipConfirmed = await completer.future.timeout(
+          Duration(seconds: 5),
+          onTimeout: () => false,
+        );
+      } catch (e) {
+        membershipConfirmed = false;
+      }
+
+      return (groupId, membershipConfirmed);
     }).toList();
 
-    List<(GroupIdentifier, Event?)> results = await Future.wait(sendTasks);
+    List<(GroupIdentifier, bool)> results = await Future.wait(joinTasks);
     final successfullyJoinedGroupIds = results
-        .where((result) => result.$2 != null)
+        .where((result) => result.$2)
         .map((result) => result.$1)
         .toList();
 
@@ -375,11 +421,15 @@ class ListProvider extends ChangeNotifier {
       _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
 
-      // Navigate to the first successfully joined group if context is provided
       if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
         RouterUtil.router(
             context, RouterPath.GROUP_DETAIL, successfullyJoinedGroupIds[0]);
       }
+    } else {
+      BotToast.showText(
+          text:
+              "Sorry, something went wrong and you weren't added to the group.");
+      print("Failed to join group: $requests");
     }
 
     cancelFunc.call();
