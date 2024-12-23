@@ -93,7 +93,11 @@ class GroupDetailProvider extends ChangeNotifier
         if (e.createdAt > _initTime) {
           _initTime = e.createdAt;
         }
-        mergeNewEvent();
+        if (e.pubkey == nostr!.publicKey) {
+          mergeNewEvent();
+        } else {
+          notifyListeners();
+        }
       }
     } else if (e.kind == EventKind.GROUP_CHAT_MESSAGE ||
         e.kind == EventKind.GROUP_CHAT_REPLY) {
