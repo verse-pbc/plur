@@ -10,7 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
 ### Release Notes
+- Added UI to create a group
+- Added code to generate an invitation link for a group
+- Added ability to redeem plur:// invitation links to join a group
+
+### Known Issues
+- Notes do not show up in the group immediately after posting them.
+- Communities.nos.social relay is having trouble with group creation.
 
 ### Internal Changes
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)

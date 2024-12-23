@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/event_kind.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
+import 'package:nostrmo/util/string_code_generator.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/provider/list_provider.dart';
+import 'package:nostrmo/main.dart';
 import 'package:provider/provider.dart';
 
 class CreateCommunityDialog extends StatefulWidget {
@@ -80,6 +84,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                         InvitePeopleWidget(
                           shareableLink: _communityInviteLink ?? '',
                           groupIdentifier: _groupIdentifier!,
+                          showCreatePostButton: true,
                         ),
                     ],
                   ),
