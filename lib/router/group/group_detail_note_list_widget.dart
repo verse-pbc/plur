@@ -4,11 +4,11 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:nostrmo/router/group/no_notes_widget.dart';
 
 import '../../component/event/event_list_widget.dart';
 import '../../component/keep_alive_cust_state.dart';
 import '../../component/new_notes_updated_widget.dart';
-import '../../component/placeholder/event_list_placeholder.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/setting_provider.dart';
@@ -16,8 +16,10 @@ import '../../util/load_more_event.dart';
 
 class GroupDetailNoteListWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
+  final String groupName;
 
-  GroupDetailNoteListWidget(this.groupIdentifier, {super.key});
+  const GroupDetailNoteListWidget(this.groupIdentifier, this.groupName,
+      {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -47,8 +49,10 @@ class _GroupDetailNoteListWidgetState
 
     var eventBox = groupDetailProvider!.notesBox;
     var events = eventBox.all();
+
     if (events.isEmpty) {
-      return EventListPlaceholder(
+      return NoNotesWidget(
+        groupName: widget.groupName,
         onRefresh: onRefresh,
       );
     }
