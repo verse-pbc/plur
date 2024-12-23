@@ -342,81 +342,102 @@ class ListProvider extends ChangeNotifier {
 
     final cancelFunc = BotToast.showLoading();
 
-    List<Future<(GroupIdentifier, bool)>> joinTasks =
-        requests.map((request) async {
-      final List<List<String>> eventTags = [
-        ["h", request.groupId]
-      ];
-
-      if (request.code != null) {
-        eventTags.add(["code", request.code!]);
-      }
-
-      final joinEvent = Event(
-        nostr!.publicKey,
-        EventKind.GROUP_JOIN,
-        eventTags,
-        "",
-      );
-
-      final groupId = GroupIdentifier(request.host, request.groupId);
-      final joinResult = await nostr!.sendEvent(joinEvent,
-          tempRelays: [request.host], targetRelays: [request.host]);
-
-      if (joinResult == null) {
-        return (groupId, false);
-      }
-
-      // Check membership
-      final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
-      final filterMap = filter.toJson();
-      filterMap["#d"] = [request.groupId];
-
-      final completer = Completer<bool>();
-
-      nostr!.query(
-        [filterMap],
-        (Event event) {
-          if (event.kind == EventKind.GROUP_MEMBERS) {
-            for (var tag in event.tags) {
-              if (tag is List && tag.length > 1) {
-                if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
-                  if (!completer.isCompleted) {
-                    completer.complete(true);
-                  }
-                  return;
-                }
-              }
-            }
-            if (!completer.isCompleted) {
-              completer.complete(false);
-            }
-          }
-        },
-        tempRelays: [request.host],
-        relayTypes: RelayType.ONLY_TEMP,
-        sendAfterAuth: true,
-      );
-
-      bool membershipConfirmed = false;
-      try {
-        membershipConfirmed = await completer.future.timeout(
-          Duration(seconds: 5),
-          onTimeout: () => false,
-        );
-      } catch (e) {
-        membershipConfirmed = false;
-      }
-
-      return (groupId, membershipConfirmed);
-    }).toList();
-
-    List<(GroupIdentifier, bool)> results = await Future.wait(joinTasks);
+    List<(GroupIdentifier, bool)> results =
+        await _processJoinRequests(requests);
     final successfullyJoinedGroupIds = results
         .where((result) => result.$2)
         .map((result) => result.$1)
         .toList();
 
+    _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    cancelFunc.call();
+  }
+
+  Future<List<(GroupIdentifier, bool)>> _processJoinRequests(
+      List<JoinGroupParameters> requests) async {
+    List<Future<(GroupIdentifier, bool)>> joinTasks =
+        requests.map((request) => _processJoinRequest(request)).toList();
+    return await Future.wait(joinTasks);
+  }
+
+  Future<(GroupIdentifier, bool)> _processJoinRequest(
+      JoinGroupParameters request) async {
+    final joinEvent = _createJoinEvent(request);
+    final groupId = GroupIdentifier(request.host, request.groupId);
+
+    final joinResult = await nostr!.sendEvent(joinEvent,
+        tempRelays: [request.host], targetRelays: [request.host]);
+
+    if (joinResult == null) {
+      return (groupId, false);
+    }
+
+    bool membershipConfirmed = await _verifyMembership(request);
+    return (groupId, membershipConfirmed);
+  }
+
+  Event _createJoinEvent(JoinGroupParameters request) {
+    final List<List<String>> eventTags = [
+      ["h", request.groupId]
+    ];
+
+    if (request.code != null) {
+      eventTags.add(["code", request.code!]);
+    }
+
+    return Event(
+      nostr!.publicKey,
+      EventKind.GROUP_JOIN,
+      eventTags,
+      "",
+    );
+  }
+
+  Future<bool> _verifyMembership(JoinGroupParameters request) async {
+    final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
+    final filterMap = filter.toJson();
+    filterMap["#d"] = [request.groupId];
+
+    final completer = Completer<bool>();
+
+    nostr!.query(
+      [filterMap],
+      (Event event) => _checkTagsForMembership(event, completer),
+      tempRelays: [request.host],
+      relayTypes: RelayType.ONLY_TEMP,
+      sendAfterAuth: true,
+    );
+
+    try {
+      return await completer.future.timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => false,
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void _checkTagsForMembership(Event event, Completer<bool> completer) {
+    if (event.kind == EventKind.GROUP_MEMBERS) {
+      for (var tag in event.tags) {
+        if (tag is List && tag.length > 1) {
+          if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
+            if (!completer.isCompleted) {
+              completer.complete(true);
+            }
+            return;
+          }
+        }
+      }
+      if (!completer.isCompleted) {
+        completer.complete(false);
+      }
+    }
+  }
+
+  void _handleJoinResults(List<GroupIdentifier> successfullyJoinedGroupIds,
+      BuildContext? context, List<JoinGroupParameters> requests) {
     if (successfullyJoinedGroupIds.isNotEmpty) {
       _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
@@ -431,8 +452,6 @@ class ListProvider extends ChangeNotifier {
               "Sorry, something went wrong and you weren't added to the group.");
       print("Failed to join group: $requests");
     }
-
-    cancelFunc.call();
   }
 
   void leaveGroup(GroupIdentifier gi) async {
