@@ -58,13 +58,6 @@ class _GroupDetailNoteListWidgetState
     }
     preBuild();
 
-    // Check if there are new notes and update the state if necessary
-    if (groupDetailProvider!.newNotesBox.length() > 0) {
-      setState(() {
-        groupDetailProvider!.mergeNewEvent();
-      });
-    }
-
     var main = RefreshIndicator(
       onRefresh: onRefresh,
       child: ListView.builder(
