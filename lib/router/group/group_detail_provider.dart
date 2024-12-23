@@ -25,8 +25,6 @@ class GroupDetailProvider extends ChangeNotifier
 
   EventMemBox chatsBox = EventMemBox(sortAfterAdd: false);
 
-  bool hasNewEventFromCurrentUser = false;
-
   GroupDetailProvider() {
     _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
   }
@@ -97,7 +95,6 @@ class GroupDetailProvider extends ChangeNotifier
         }
         if (e.pubkey == nostr!.publicKey) {
           mergeNewEvent();
-          hasNewEventFromCurrentUser = true;
         } else {
           notifyListeners();
         }
@@ -112,8 +109,12 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   void mergeNewEvent() {
+    var isNotEmpty = newNotesBox.all().isNotEmpty;
     notesBox.addBox(newNotesBox);
-    notifyListeners();
+    if (isNotEmpty) {
+      newNotesBox.clear();
+      notifyListeners();
+    }
   }
 
   static List<int> supportEventKinds = [
