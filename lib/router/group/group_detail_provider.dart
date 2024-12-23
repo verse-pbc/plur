@@ -93,7 +93,7 @@ class GroupDetailProvider extends ChangeNotifier
         if (e.createdAt > _initTime) {
           _initTime = e.createdAt;
         }
-        notifyListeners();
+        mergeNewEvent();
       }
     } else if (e.kind == EventKind.GROUP_CHAT_MESSAGE ||
         e.kind == EventKind.GROUP_CHAT_REPLY) {
