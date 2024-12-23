@@ -60,8 +60,8 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
       }
     }
     if (groupMembers != null && groupMembers.members != null) {
-      list.add(buildHeader(
-          localization.Members, bodyLargeFontSize!, isAdmin ? addMember : null));
+      list.add(buildHeader(localization.Members, bodyLargeFontSize!,
+          isAdmin ? addMember : null));
       for (var pubkey in groupMembers.members!) {
         list.add(
             GroupMemberItemWidget(groupIdentifier!, pubkey, isAdmin, null));

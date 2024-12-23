@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 
 class InvitePeopleWidget extends StatelessWidget {
   final String shareableLink;
+  final GroupIdentifier groupIdentifier;
+  final bool showCreatePostButton;
 
-  const InvitePeopleWidget({super.key, required this.shareableLink});
+  const InvitePeopleWidget({
+    super.key,
+    required this.shareableLink,
+    required this.groupIdentifier,
+    this.showCreatePostButton = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,26 +61,29 @@ class InvitePeopleWidget extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 40),
-          Center(
-            child: InkWell(
-              onTap: () {
-                // TODO: Go to next screen
-              },
-              highlightColor: theme.primaryColor.withOpacity(0.2),
-              child: Container(
-                color: theme.primaryColor,
-                height: 40,
-                alignment: Alignment.center,
-                child: const Text(
-                  'Create your first post',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+          if (showCreatePostButton)
+            Center(
+              child: InkWell(
+                onTap: () {
+                  RouterUtil.back(context);
+                  RouterUtil.router(
+                      context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                },
+                highlightColor: theme.primaryColor.withOpacity(0.2),
+                child: Container(
+                  color: theme.primaryColor,
+                  height: 40,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Create your first post',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
         ],
       ),
     );
