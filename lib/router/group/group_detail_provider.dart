@@ -89,14 +89,16 @@ class GroupDetailProvider extends ChangeNotifier
   void _onNewEvent(Event e) {
     if (e.kind == EventKind.GROUP_NOTE ||
         e.kind == EventKind.GROUP_NOTE_REPLY) {
-      if (newNotesBox.add(e)) {
-        if (e.createdAt > _initTime) {
-          _initTime = e.createdAt;
-        }
-        if (e.pubkey == nostr!.publicKey) {
-          mergeNewEvent();
-        } else {
-          notifyListeners();
+      if (!notesBox.contains(e.id)) {
+        if (newNotesBox.add(e)) {
+          if (e.createdAt > _initTime) {
+            _initTime = e.createdAt;
+          }
+          if (e.pubkey == nostr!.publicKey) {
+            mergeNewEvent();
+          } else {
+            notifyListeners();
+          }
         }
       }
     } else if (e.kind == EventKind.GROUP_CHAT_MESSAGE ||
@@ -109,12 +111,14 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   void mergeNewEvent() {
-    var isNotEmpty = newNotesBox.all().isNotEmpty;
-    notesBox.addBox(newNotesBox);
-    if (isNotEmpty) {
-      newNotesBox.clear();
-      notifyListeners();
+    var isEmpty = newNotesBox.isEmpty();
+    if (isEmpty) {
+      return;
     }
+    notesBox.addBox(newNotesBox);
+    newNotesBox.clear();
+    notesBox.sort();
+    notifyListeners();
   }
 
   static List<int> supportEventKinds = [
