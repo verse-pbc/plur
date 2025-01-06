@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
@@ -66,6 +67,7 @@ class InvitePeopleWidget extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   RouterUtil.back(context);
+                  GroupDetailWidget.showTooltipOnGroupCreation = true;
                   RouterUtil.router(
                       context, RouterPath.GROUP_DETAIL, groupIdentifier);
                 },
