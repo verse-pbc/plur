@@ -333,7 +333,23 @@ class ListProvider extends ChangeNotifier {
   get groupIdentifiers => _groupIdentifiers;
 
   void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
+    // Check if already a member first
+    if (isGroupMember(request)) {
+      BotToast.showText(text: "You're already a member of this group.");
+      if (context != null) {
+        RouterUtil.router(context, RouterPath.GROUP_DETAIL,
+            GroupIdentifier(request.host, request.groupId));
+      }
+      return;
+    }
+
     joinGroups([request], context: context);
+  }
+
+  bool isGroupMember(JoinGroupParameters request) {
+    final groupId = GroupIdentifier(request.host, request.groupId);
+    return _groupIdentifiers
+        .any((gi) => gi.groupId == groupId.groupId && gi.host == groupId.host);
   }
 
   void joinGroups(List<JoinGroupParameters> requests,
