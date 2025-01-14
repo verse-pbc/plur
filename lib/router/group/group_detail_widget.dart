@@ -111,7 +111,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
           controller: _tooltipController,
           backgroundColor: themeData.primaryColor,
           content: Text(
-            "There are no notes here, write a note to welcome community members.",
+            "Write a note to welcome your community!",
             softWrap: true,
             style: TextStyle(
               color: themeData.textTheme.bodyMedium!.color,
