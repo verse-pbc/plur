@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Release Notes
+- Fixed an issue where you could join the same group twice.
+- Added an error message when joining a group fails.
 - Added UI to create a private community.
 - Added the ability for admins to generate a new invitation link for a community.
 - Added ability to join a group via an invitation link (assuming Plur is installed).
