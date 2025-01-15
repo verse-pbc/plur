@@ -12,13 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ### Release Notes
-- Added UI to create a group
-- Added code to generate an invitation link for a group
-- Added ability to redeem plur:// invitation links to join a group
+- Fixed an issue where you could join the same group twice.
+- Added an error message when joining a group fails.
+- Added UI to create a private community.
+- Added the ability for admins to generate a new invitation link for a community.
+- Added ability to join a group via an invitation link (assuming Plur is installed).
+- Added a new screen when viewing an empty group.
+- Fixed an issue where notes wouldn't show up after being posted.
+- Changed the default relay to communities.nos.social.
 
 ### Known Issues
-- Notes do not show up in the group immediately after posting them.
-- Communities.nos.social relay is having trouble with group creation.
+- Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
 
 ### Internal Changes
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)
