@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a new screen when viewing an empty group.
 - Fixed an issue where notes wouldn't show up after being posted.
 - Changed the default relay to communities.nos.social.
+- Fix posting note on new group bugs.
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
