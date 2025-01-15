@@ -10,11 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-
 ### Release Notes
-- Added UI to create a group
-- Added code to generate an invitation link for a group
-- Added ability to redeem plur:// invitation links to join a group
+- Added UI to create a group.
+- Added code to generate an invitation link for a group.
+- Added ability to redeem plur:// invitation links to join a group.
+- Added "write post" tooltip to newly created group. [#81](https://github.com/verse-pbc/issues/issues/81)
 
 ### Known Issues
 - Notes do not show up in the group immediately after posting them.
