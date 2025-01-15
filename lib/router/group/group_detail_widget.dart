@@ -114,7 +114,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             "Write a note to welcome your community!",
             softWrap: true,
             style: TextStyle(
-              color: themeData.textTheme.bodyMedium!.color,
+              color: Colors.white,
             ),
           ),
           child: IconButton(
