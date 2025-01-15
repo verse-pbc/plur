@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/event.dart' as nostr_event;
 import 'package:nostr_sdk/event_kind.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
@@ -11,6 +11,7 @@ import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
+import 'package:super_tooltip/super_tooltip.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
@@ -19,6 +20,7 @@ import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
 
 class GroupDetailWidget extends StatefulWidget {
+  static bool showTooltipOnGroupCreation = false;
   const GroupDetailWidget({super.key});
 
   @override
@@ -29,12 +31,17 @@ class GroupDetailWidget extends StatefulWidget {
 
 class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   GroupIdentifier? groupIdentifier;
+  final _tooltipController = SuperTooltipController();
 
   GroupDetailProvider groupDetailProvider = GroupDetailProvider();
 
   @override
   void initState() {
     super.initState();
+    if (GroupDetailWidget.showTooltipOnGroupCreation) {
+      GroupDetailWidget.showTooltipOnGroupCreation = false;
+      _showTooltipAfterDelay();
+    }
     groupDetailProvider.startQueryTask();
     groupDetailProvider.refresh();
   }
@@ -100,9 +107,20 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               InviteToCommunityDialog.show(context, groupIdentifier!);
             },
           ),
-        IconButton(
-          icon: const Icon(Icons.add),
-          onPressed: _jumpToAddNote,
+        SuperTooltip(
+          controller: _tooltipController,
+          backgroundColor: themeData.primaryColor,
+          content: Text(
+            "Write a note to welcome your community!",
+            softWrap: true,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+          child: IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: _jumpToAddNote,
+          ),
         ),
         IconButton(
           icon: const Icon(Icons.edit_outlined),
@@ -122,7 +140,8 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             value: groupDetailProvider,
           ),
         ],
-        child: GroupDetailNoteListWidget(groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
+        child: GroupDetailNoteListWidget(
+            groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
       ),
     );
 
@@ -145,6 +164,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   }
 
   void _jumpToAddNote() {
+    _hideTooltip();
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
@@ -154,7 +174,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
         tagsAddedWhenSend: tags);
   }
 
-  void _onEventDelete(Event e) {
+  void _onEventDelete(nostr_event.Event e) {
     groupDetailProvider.deleteEvent(e);
   }
 
@@ -168,5 +188,20 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
 
   void _editGroup() {
     RouterUtil.router(context, RouterPath.GROUP_EDIT, groupIdentifier);
+  }
+
+  void _makeTooltip() {
+    _tooltipController.showTooltip();
+  }
+
+  void _hideTooltip() {
+    _tooltipController.hideTooltip();
+  }
+
+  Future<void> _showTooltipAfterDelay() async {
+    await Future.delayed(const Duration(seconds: 1));
+    if (mounted) {
+      _makeTooltip();
+    }
   }
 }
