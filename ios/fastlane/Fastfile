@@ -31,6 +31,7 @@ platform :ios do
 
   desc "Push a new build to TestFlight using the provided scheme and identifier"
   private_lane :push_build do |options|
+    xcodes # verify version from .xcode-version is used 
     app_store_connect_api_key(
       key_id: asc_key_id,
       issuer_id: asc_issuer_id,
