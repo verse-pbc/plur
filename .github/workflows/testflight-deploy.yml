@@ -1,4 +1,6 @@
 name: TestFlight Release Deployment
+permissions:
+  contents: write  # This is needed for tag pushing
 on:
   push:
     branches:
@@ -12,7 +14,7 @@ concurrency:
 
 jobs:
   fastlane-deploy:
-    runs-on: macOS-14
+    runs-on: macOS-15
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -46,4 +48,5 @@ jobs:
           KEYCHAIN_PASS: ${{ Secrets.KEYCHAIN_PASS }}
           SENTRY_AUTH: ${{ Secrets.SENTRY_AUTH }}
           APP_SECRETS: ${{ Secrets.APP_SECRETS }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CI: true
