@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
@@ -10,6 +11,7 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/nip29/group_metadata.dart';
 import 'package:nostr_sdk/nip51/bookmarks.dart';
 import 'package:nostr_sdk/nostr.dart';
+import 'package:nostr_sdk/relay/relay_type.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
@@ -20,7 +22,6 @@ import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
 import '../provider/relay_provider.dart';
-import 'dart:math';
 
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
@@ -332,7 +333,23 @@ class ListProvider extends ChangeNotifier {
   get groupIdentifiers => _groupIdentifiers;
 
   void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
+    // Check if already a member first
+    if (isGroupMember(request)) {
+      BotToast.showText(text: "You're already a member of this group.");
+      if (context != null) {
+        RouterUtil.router(context, RouterPath.GROUP_DETAIL,
+            GroupIdentifier(request.host, request.groupId));
+      }
+      return;
+    }
+
     joinGroups([request], context: context);
+  }
+
+  bool isGroupMember(JoinGroupParameters request) {
+    final groupId = GroupIdentifier(request.host, request.groupId);
+    return _groupIdentifiers
+        .any((gi) => gi.groupId == groupId.groupId && gi.host == groupId.host);
   }
 
   void joinGroups(List<JoinGroupParameters> requests,
@@ -340,49 +357,117 @@ class ListProvider extends ChangeNotifier {
     if (requests.isEmpty) return;
 
     final cancelFunc = BotToast.showLoading();
-    List<Future<(GroupIdentifier, Event?)>> sendTasks =
-        requests.map((request) async {
-      final List<List<String>> eventTags = [
-        ["h", request.groupId]
-      ];
 
-      if (request.code != null) {
-        eventTags.add(["code", request.code!]);
-      }
-
-      final joinEvent = Event(
-        nostr!.publicKey,
-        EventKind.GROUP_JOIN,
-        eventTags,
-        "",
-      );
-
-      final groupId = GroupIdentifier(request.host, request.groupId);
-      return (
-        groupId,
-        await nostr!.sendEvent(joinEvent,
-            tempRelays: [request.host], targetRelays: [request.host])
-      );
-    }).toList();
-
-    List<(GroupIdentifier, Event?)> results = await Future.wait(sendTasks);
+    List<(GroupIdentifier, bool)> results =
+        await _processJoinRequests(requests);
     final successfullyJoinedGroupIds = results
-        .where((result) => result.$2 != null)
+        .where((result) => result.$2)
         .map((result) => result.$1)
         .toList();
 
+    _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    cancelFunc.call();
+  }
+
+  Future<List<(GroupIdentifier, bool)>> _processJoinRequests(
+      List<JoinGroupParameters> requests) async {
+    List<Future<(GroupIdentifier, bool)>> joinTasks =
+        requests.map((request) => _processJoinRequest(request)).toList();
+    return await Future.wait(joinTasks);
+  }
+
+  Future<(GroupIdentifier, bool)> _processJoinRequest(
+      JoinGroupParameters request) async {
+    final joinEvent = _createJoinEvent(request);
+    final groupId = GroupIdentifier(request.host, request.groupId);
+
+    final joinResult = await nostr!.sendEvent(joinEvent,
+        tempRelays: [request.host], targetRelays: [request.host]);
+
+    if (joinResult == null) {
+      return (groupId, false);
+    }
+
+    bool membershipConfirmed = await _verifyMembership(request);
+    return (groupId, membershipConfirmed);
+  }
+
+  Event _createJoinEvent(JoinGroupParameters request) {
+    final List<List<String>> eventTags = [
+      ["h", request.groupId]
+    ];
+
+    if (request.code != null) {
+      eventTags.add(["code", request.code!]);
+    }
+
+    return Event(
+      nostr!.publicKey,
+      EventKind.GROUP_JOIN,
+      eventTags,
+      "",
+    );
+  }
+
+  Future<bool> _verifyMembership(JoinGroupParameters request) async {
+    final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
+    final filterMap = filter.toJson();
+    filterMap["#d"] = [request.groupId];
+
+    final completer = Completer<bool>();
+
+    nostr!.query(
+      [filterMap],
+      (Event event) => _checkTagsForMembership(event, completer),
+      tempRelays: [request.host],
+      relayTypes: RelayType.ONLY_TEMP,
+      sendAfterAuth: true,
+    );
+
+    try {
+      return await completer.future.timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => false,
+      );
+    } catch (e) {
+      return false;
+    }
+  }
+
+  void _checkTagsForMembership(Event event, Completer<bool> completer) {
+    if (event.kind == EventKind.GROUP_MEMBERS) {
+      for (var tag in event.tags) {
+        if (tag is List && tag.length > 1) {
+          if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
+            if (!completer.isCompleted) {
+              completer.complete(true);
+            }
+            return;
+          }
+        }
+      }
+      if (!completer.isCompleted) {
+        completer.complete(false);
+      }
+    }
+  }
+
+  void _handleJoinResults(List<GroupIdentifier> successfullyJoinedGroupIds,
+      BuildContext? context, List<JoinGroupParameters> requests) {
     if (successfullyJoinedGroupIds.isNotEmpty) {
       _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
 
-      // Navigate to the first successfully joined group if context is provided
       if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
         RouterUtil.router(
             context, RouterPath.GROUP_DETAIL, successfullyJoinedGroupIds[0]);
       }
+    } else {
+      BotToast.showText(
+          text:
+              "Sorry, something went wrong and you weren't added to the group.");
+      print("Failed to join group: $requests");
     }
-
-    cancelFunc.call();
   }
 
   void leaveGroup(GroupIdentifier gi) async {
