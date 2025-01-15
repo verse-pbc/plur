@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-
 ### Release Notes
 - Fixed an issue where you could join the same group twice.
 - Added an error message when joining a group fails.
@@ -20,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a new screen when viewing an empty group.
 - Fixed an issue where notes wouldn't show up after being posted.
 - Changed the default relay to communities.nos.social.
+- Added "write post" tooltip to newly created group. [#81](https://github.com/verse-pbc/issues/issues/81)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
