@@ -29,6 +29,8 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
     return false;
   }
 
+  compile this lol
+
   void laterFunction() {
     if (eids.isNotEmpty) {
       // load
