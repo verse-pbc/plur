@@ -27,7 +27,7 @@ import '../provider/relay_provider.dart';
 /// These list usually publish by user himself and the provider will hold the newest one.
 class ListProvider extends ChangeNotifier {
   // holder, hold the events.
-  // key - “kind:pubkey”, value - event
+  // key - "kind:pubkey", value - event
   final Map<String, Event> _holder = {};
 
   void load(
@@ -102,6 +102,7 @@ class ListProvider extends ChangeNotifier {
           }
         }
       }
+      queryAllGroupsOnDefaultRelay();
     }
     notifyListeners();
   }
@@ -593,5 +594,67 @@ class ListProvider extends ChangeNotifier {
     _holder.clear();
     _bookmarks = Bookmarks();
     _groupIdentifiers.clear();
+  }
+
+  // Add a group identifier to the list and fetch its metadata
+  void _addGroupIdentifier(GroupIdentifier groupId) {
+    if (!_groupIdentifiers.contains(groupId)) {
+      _groupIdentifiers.add(groupId);
+      // Fetch metadata for just this new group
+      _queryGroupMetadata(groupId);
+    }
+  }
+
+  // Fetch metadata for a specific group
+    void _queryGroupMetadata(GroupIdentifier groupId) async {
+    // Create filter for group metadata
+    final filter = Filter(kinds: [EventKind.GROUP_METADATA], limit: 1);
+    final filterMap = filter.toJson();
+    filterMap["#d"] = [groupId.groupId];
+
+    nostr!.query(
+      [filterMap],
+      (Event event) {
+        if (event.kind == EventKind.GROUP_METADATA) {
+          groupProvider.onEvent(groupId, event);
+        }
+      },
+      tempRelays: [groupId.host],
+      relayTypes: RelayType.ONLY_TEMP,
+      sendAfterAuth: true,
+    );
+  }
+
+  // Fetch all groups that the user is a member or admin of
+  void queryAllGroupsOnDefaultRelay() async {
+    // Create separate filters for members and admins
+    final memberFilter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 100);
+    final memberFilterMap = memberFilter.toJson();
+    memberFilterMap["#p"] = [nostr!.publicKey];
+
+    final adminFilter = Filter(kinds: [EventKind.GROUP_ADMINS], limit: 100);
+    final adminFilterMap = adminFilter.toJson();
+    adminFilterMap["#p"] = [nostr!.publicKey];
+
+    nostr!.query(
+      [memberFilterMap, adminFilterMap],
+      (Event event) {
+        if (event.kind == EventKind.GROUP_MEMBERS ||
+            event.kind == EventKind.GROUP_ADMINS) {
+          for (var tag in event.tags) {
+            if (tag is List && tag.length > 1 && tag[0] == "d") {
+              final groupId = tag[1];
+              final groupIdentifier = GroupIdentifier(
+                  RelayProvider.defaultGroupsRelayAddress, groupId);
+              _addGroupIdentifier(groupIdentifier);
+            }
+          }
+          notifyListeners();
+        }
+      },
+      tempRelays: [RelayProvider.defaultGroupsRelayAddress],
+      relayTypes: RelayType.ONLY_TEMP,
+      sendAfterAuth: true,
+    );
   }
 }
