@@ -644,8 +644,7 @@ class ListProvider extends ChangeNotifier {
           for (var tag in event.tags) {
             if (tag is List && tag.length > 1 && tag[0] == "d") {
               final groupId = tag[1];
-              final groupIdentifier = GroupIdentifier(
-                  RelayProvider.defaultGroupsRelayAddress, groupId);
+              final groupIdentifier = GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, groupId);
               _addGroupIdentifier(groupIdentifier);
             }
           }
