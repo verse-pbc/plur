@@ -660,18 +660,8 @@ class ListProvider extends ChangeNotifier {
   /// Handles group deletion events by removing the group from _groupIdentifiers
   /// and updating the UI
   void handleGroupDeleteEvent(Event event) {
-event.tags
-    .where((tag) => tag is List && tag.length > 1 && tag[0] == "h")
-    .forEach((tag) {
-  final groupId = tag[1];
-  // Look for relay tag first, fallback to default relay
-  final relay = event.tags.firstWhere(
-    (t) => t is List && t.length > 1 && t[0] == "relay",
-    orElse: () => ["relay", RelayProvider.defaultGroupsRelayAddress],
-  )[1];
-  final groupIdentifier = GroupIdentifier(relay, groupId);
-  _groupIdentifiers.remove(groupIdentifier);
-});
+    _extractGroupIdentifiers(event, tagPrefix: "h")
+        .forEach(_groupIdentifiers.remove);
     _updateGroups();
     notifyListeners();
   }
@@ -680,14 +670,8 @@ event.tags
   void handleAdminMembershipEvent(Event event) {
     if (event.kind == EventKind.GROUP_MEMBERS ||
         event.kind == EventKind.GROUP_ADMINS) {
-      for (var tag in event.tags) {
-        if (tag is List && tag.length > 1 && tag[0] == "d") {
-          final groupId = tag[1];
-          final groupIdentifier =
-              GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, groupId);
-          _addGroupIdentifier(groupIdentifier);
-        }
-      }
+      _extractGroupIdentifiers(event, tagPrefix: "d")
+          .forEach(_addGroupIdentifier);
       notifyListeners();
     }
   }
@@ -695,17 +679,24 @@ event.tags
   /// Handles metadata update events by updating the group metadata in GroupProvider
   void handleEditMetadataEvent(Event event) {
     if (event.kind == EventKind.GROUP_EDIT_METADATA) {
-      for (var tag in event.tags) {
-        if (tag is List && tag.length > 1 && tag[0] == "h") {
-          final groupId = tag[1];
-          final groupIdentifier =
-              GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, groupId);
-
-          groupProvider.onEvent(groupIdentifier, event);
-
-           notifyListeners();
-        }
-      }
+      _extractGroupIdentifiers(event, tagPrefix: "h")
+          .forEach((groupId) => groupProvider.onEvent(groupId, event));
+      notifyListeners();
     }
   }
+}
+
+/// Extracts group identifiers from event tags with specified prefix ("h" or "d").
+/// Optionally accepts a custom relay address, defaults to the default groups relay.
+List<GroupIdentifier> _extractGroupIdentifiers(
+  Event event, {
+  required String tagPrefix,
+  String? relayAddress,
+}) {
+  relayAddress ??= RelayProvider.defaultGroupsRelayAddress;
+
+  return event.tags
+      .where((tag) => tag is List && tag.length > 1 && tag[0] == tagPrefix)
+      .map((tag) => GroupIdentifier(relayAddress!, tag[1]))
+      .toList();
 }

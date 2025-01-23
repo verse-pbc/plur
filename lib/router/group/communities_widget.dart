@@ -133,13 +133,17 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     later(event, (list) {
       final listProvider = Provider.of<ListProvider>(context, listen: false);
 
-      if (event.kind == EventKind.GROUP_DELETE_GROUP) {
-        listProvider.handleGroupDeleteEvent(event);
-      } else if (event.kind == EventKind.GROUP_MEMBERS ||
-          event.kind == EventKind.GROUP_ADMINS) {
-        listProvider.handleAdminMembershipEvent(event);
-      } else if (event.kind == EventKind.GROUP_EDIT_METADATA) {
-        listProvider.handleEditMetadataEvent(event);
+      switch (event.kind) {
+        case EventKind.GROUP_DELETE_GROUP:
+          listProvider.handleGroupDeleteEvent(event);
+          break;
+        case EventKind.GROUP_MEMBERS:
+        case EventKind.GROUP_ADMINS:
+          listProvider.handleAdminMembershipEvent(event);
+          break;
+        case EventKind.GROUP_EDIT_METADATA:
+          listProvider.handleEditMetadataEvent(event);
+          break;
       }
     }, null);
   }
