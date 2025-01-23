@@ -40,53 +40,13 @@ class GroupDetailProvider extends ChangeNotifier
     chatsBox.clear();
   }
 
-  Timer? timer;
-
-  void startQueryTask() {
-    clearTimer();
-
-    timer = Timer.periodic(const Duration(seconds: 8), (t) {
-      try {
-        _queryNewEvent();
-      } catch (e) {}
-    });
-  }
-
   @override
   void dispose() {
     super.dispose;
     clear();
-
-    clearTimer();
   }
 
-  void clearTimer() {
-    if (timer != null) {
-      timer!.cancel();
-      timer = null;
-    }
-  }
-
-  void _queryNewEvent() {
-    if (_groupIdentifier != null) {
-      var relays = [_groupIdentifier!.host];
-      var filter = Filter(
-        since: _initTime,
-        kinds: supportEventKinds,
-      );
-      var jsonMap = filter.toJson();
-      jsonMap["#h"] = [_groupIdentifier!.groupId];
-      nostr!.query(
-        [jsonMap],
-        _onNewEvent,
-        tempRelays: relays,
-        relayTypes: RelayType.ONLY_TEMP,
-        sendAfterAuth: true,
-      );
-    }
-  }
-
-  void _onNewEvent(Event e) {
+  void onNewEvent(Event e) {
     if (e.kind == EventKind.GROUP_NOTE ||
         e.kind == EventKind.GROUP_NOTE_REPLY) {
       if (!notesBox.contains(e.id)) {
@@ -249,5 +209,21 @@ class GroupDetailProvider extends ChangeNotifier
     }
 
     return previous;
+  }
+
+  void handleDirectEvent(Event event) {
+    if (event.kind == EventKind.GROUP_NOTE ||
+        event.kind == EventKind.GROUP_NOTE_REPLY) {
+      if (notesBox.add(event)) {
+        notesBox.sort();
+        notifyListeners();
+      }
+    } else if (event.kind == EventKind.GROUP_CHAT_MESSAGE ||
+        event.kind == EventKind.GROUP_CHAT_REPLY) {
+      if (chatsBox.add(event)) {
+        chatsBox.sort();
+        notifyListeners();
+      }
+    }
   }
 }
