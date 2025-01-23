@@ -35,12 +35,12 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
   @override
   Future<void> onReady(BuildContext context) async {
-    subscribe();
+    _subscribe();
   }
 
-  void subscribe() {
+  void _subscribe() {
     if (StringUtil.isNotBlank(subscribeId)) {
-      unsubscribe();
+      _unsubscribe();
     }
 
     final memberFilter = Filter(kinds: [EventKind.GROUP_MEMBERS]);
@@ -65,7 +65,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
           groupDeleteFilterMap,
           groupEditMetadataFilterMap
         ],
-        _handleEvent,
+        _handleSubscriptionEvent,
         id: subscribeId,
         relayTypes: [RelayType.TEMP],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
@@ -76,7 +76,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     }
   }
 
-  void _handleEvent(Event event) {
+  void _handleSubscriptionEvent(Event event) {
     later(event, (list) {
       final listProvider = Provider.of<ListProvider>(context, listen: false);
 
@@ -92,10 +92,10 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
   }
 
   Future<void> refresh() async {
-    subscribe();
+    _subscribe();
   }
 
-  void unsubscribe() {
+  void _unsubscribe() {
     try {
       nostr!.unsubscribe(subscribeId);
     } catch (e) {
@@ -105,7 +105,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
   @override
   void dispose() {
-    unsubscribe();
+    _unsubscribe();
     disposeLater();
     super.dispose();
   }
