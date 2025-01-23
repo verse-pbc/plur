@@ -190,6 +190,9 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     } else if (e.kind == EventKind.GROUP_MEMBERS) {
       updated = handleEvent(
           groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
+    } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {
+      updated = handleEvent(
+          groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     }
 
     if (updated) {
