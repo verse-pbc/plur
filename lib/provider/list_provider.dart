@@ -661,18 +661,18 @@ class ListProvider extends ChangeNotifier {
   /// Handles group deletion events by removing the group from _groupIdentifiers
   /// and updating the UI
   void handleGroupDeleteEvent(Event event) {
-    for (var tag in event.tags) {
-      if (tag is List && tag.length > 1 && tag[0] == "h") {
-        final groupId = tag[1];
-        // Look for relay tag first, fallback to default relay
-        final relay = event.tags.firstWhere(
-          (t) => t is List && t.length > 1 && t[0] == "relay",
-          orElse: () => ["relay", RelayProvider.defaultGroupsRelayAddress],
-        )[1];
-        final groupIdentifier = GroupIdentifier(relay, groupId);
-        _groupIdentifiers.remove(groupIdentifier);
-      }
-    }
+event.tags
+    .where((tag) => tag is List && tag.length > 1 && tag[0] == "h")
+    .forEach((tag) {
+  final groupId = tag[1];
+  // Look for relay tag first, fallback to default relay
+  final relay = event.tags.firstWhere(
+    (t) => t is List && t.length > 1 && t[0] == "relay",
+    orElse: () => ["relay", RelayProvider.defaultGroupsRelayAddress],
+  )[1];
+  final groupIdentifier = GroupIdentifier(relay, groupId);
+  _groupIdentifiers.remove(groupIdentifier);
+});
     _updateGroups();
     notifyListeners();
   }
