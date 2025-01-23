@@ -113,7 +113,7 @@ Homebrew is a package manager for macOS. It allows you to install tools and use 
 2. Install CocoaPods
 3. Install Java 17: `brew install openjdk@17`
 4. Install [FVM](https://fvm.app), then remember to always preface Flutter commands with `fvm`.
-5. Install Flutter with FVM from the `plur` directory. The correct version is specified in pubspec.yml. Install it with `fvm install`.
+5. Install Flutter with FVM from the `plur` directory. The correct version is specified in `.fvmrc`. Install it with `fvm install`.
 6. Point Flutter at the proper version of Java: `fvm flutter config --jdk-dir /opt/homebrew/opt/openjdk@17`
 7. Ensure everything is set up properly (look for green checkmarks): `fvm flutter doctor -v`
 8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
