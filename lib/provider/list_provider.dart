@@ -30,8 +30,6 @@ class ListProvider extends ChangeNotifier {
   // key - "kind:pubkey", value - event
   final Map<String, Event> _holder = {};
 
-  Timer? _groupPollingTimer;
-
   void load(
     String pubkey,
     List<int> kinds, {
@@ -52,10 +50,6 @@ class ListProvider extends ChangeNotifier {
 
     if (initQuery) {
       targetNostr!.addInitQuery(filters, onEvent);
-      // Start polling if we're loading group kinds
-      if (kinds.contains(EventKind.GROUP_LIST)) {
-        _startGroupPolling();
-      }
     } else {
       targetNostr!.query(filters, onEvent);
     }
@@ -108,7 +102,7 @@ class ListProvider extends ChangeNotifier {
           }
         }
       }
-      queryAllGroupsOnDefaultRelay();
+      _queryAllGroupsOnDefaultRelay();
     }
     notifyListeners();
   }
@@ -597,13 +591,12 @@ class ListProvider extends ChangeNotifier {
   }
 
   void clear() {
-    _stopGroupPolling();
     _holder.clear();
     _bookmarks = Bookmarks();
     _groupIdentifiers.clear();
   }
 
-  // Add a group identifier to the list and fetch its metadata
+  /// Add a group identifier to the list and fetch its metadata
   void _addGroupIdentifier(GroupIdentifier groupId) {
     if (!_groupIdentifiers.contains(groupId)) {
       _groupIdentifiers.add(groupId);
@@ -612,7 +605,7 @@ class ListProvider extends ChangeNotifier {
     }
   }
 
-  // Fetch metadata for a specific group
+  /// Fetch metadata for a specific group
   void _queryGroupMetadata(GroupIdentifier groupId) async {
     // Create filter for group metadata
     final filter = Filter(kinds: [EventKind.GROUP_METADATA], limit: 1);
@@ -632,8 +625,8 @@ class ListProvider extends ChangeNotifier {
     );
   }
 
-  // Fetch all groups that the user is a member or admin of
-  void queryAllGroupsOnDefaultRelay() async {
+  /// Fetch all groups that the user is a member or admin of
+  void _queryAllGroupsOnDefaultRelay() async {
     // Create separate filters for members and admins
     final memberFilter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 100);
     final memberFilterMap = memberFilter.toJson();
@@ -665,24 +658,55 @@ class ListProvider extends ChangeNotifier {
     );
   }
 
-  void _startGroupPolling() {
-    // Cancel any existing timer
-    _stopGroupPolling();
-
-    // Start a new polling timer that runs every 2 minutes
-    _groupPollingTimer = Timer.periodic(const Duration(minutes: 2), (timer) {
-      queryAllGroupsOnDefaultRelay();
-    });
+  /// Handles group deletion events by removing the group from _groupIdentifiers
+  /// and updating the UI
+  void handleGroupDeleteEvent(Event event) {
+    for (var tag in event.tags) {
+      if (tag is List && tag.length > 1 && tag[0] == "h") {
+        final groupId = tag[1];
+        // Look for relay tag first, fallback to default relay
+        final relay = event.tags.firstWhere(
+          (t) => t is List && t.length > 1 && t[0] == "relay",
+          orElse: () => ["relay", RelayProvider.defaultGroupsRelayAddress],
+        )[1];
+        final groupIdentifier = GroupIdentifier(relay, groupId);
+        _groupIdentifiers.remove(groupIdentifier);
+      }
+    }
+    _updateGroups();
+    notifyListeners();
   }
 
-  void _stopGroupPolling() {
-    _groupPollingTimer?.cancel();
-    _groupPollingTimer = null;
+  /// Handles membership/admin events by adding new groups to _groupIdentifiers
+  void handleAdminMembershipEvent(Event event) {
+    if (event.kind == EventKind.GROUP_MEMBERS ||
+        event.kind == EventKind.GROUP_ADMINS) {
+      for (var tag in event.tags) {
+        if (tag is List && tag.length > 1 && tag[0] == "d") {
+          final groupId = tag[1];
+          final groupIdentifier =
+              GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, groupId);
+          _addGroupIdentifier(groupIdentifier);
+        }
+      }
+      notifyListeners();
+    }
   }
 
-  @override
-  void dispose() {
-    _stopGroupPolling();
-    super.dispose();
+  /// Handles metadata update events by updating the group metadata in GroupProvider
+  void handleEditMetadataEvent(Event event) {
+    if (event.kind == EventKind.GROUP_EDIT_METADATA) {
+      for (var tag in event.tags) {
+        if (tag is List && tag.length > 1 && tag[0] == "h") {
+          final groupId = tag[1];
+          final groupIdentifier =
+              GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, groupId);
+
+          groupProvider.onEvent(groupIdentifier, event);
+
+           notifyListeners();
+        }
+      }
+    }
   }
 }
