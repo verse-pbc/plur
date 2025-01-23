@@ -34,6 +34,58 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
   var subscribeId = StringUtil.rndNameStr(16);
 
   @override
+  Widget doBuild(BuildContext context) {
+    final listProvider = Provider.of<ListProvider>(context);
+    final groupIds = listProvider.groupIdentifiers;
+
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          GestureDetector(
+            onTap: showCreateCommunityDialog,
+            behavior: HitTestBehavior.translucent,
+            child: Container(
+              width: 50,
+              alignment: Alignment.center,
+              child: const Icon(Icons.group_add),
+            ),
+          ),
+        ],
+      ),
+      body: Container(
+        color: ColorList.plurPurple,
+        child: groupIds.isEmpty
+            ? const Center(
+                child: NoCommunitiesWidget(),
+              )
+            : GridView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 52),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 0.0,
+                  mainAxisSpacing: 32.0,
+                  childAspectRatio: 1,
+                ),
+                itemCount: groupIds.length,
+                itemBuilder: (context, index) {
+                  final groupIdentifier = groupIds[index];
+                  return InkWell(
+                    onTap: () {
+                      RouterUtil.router(
+                          context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                    },
+                    child: CommunityWidget(groupIdentifier),
+                  );
+                }),
+      ),
+    );
+  }
+
+  void showCreateCommunityDialog() {
+    CreateCommunityDialog.show(context);
+  }
+
+  @override
   Future<void> onReady(BuildContext context) async {
     _subscribe();
   }
@@ -54,7 +106,8 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     final groupDeleteFilter = Filter(kinds: [EventKind.GROUP_DELETE_GROUP]);
     final groupDeleteFilterMap = groupDeleteFilter.toJson();
 
-    final groupEditMetadataFilter = Filter(kinds: [EventKind.GROUP_EDIT_METADATA]);
+    final groupEditMetadataFilter =
+        Filter(kinds: [EventKind.GROUP_EDIT_METADATA]);
     final groupEditMetadataFilterMap = groupEditMetadataFilter.toJson();
 
     try {
@@ -108,57 +161,5 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     _unsubscribe();
     disposeLater();
     super.dispose();
-  }
-
-  @override
-  Widget doBuild(BuildContext context) {
-    final listProvider = Provider.of<ListProvider>(context);
-    final groupIds = listProvider.groupIdentifiers;
-
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          GestureDetector(
-            onTap: showCreateCommunityDialog,
-            behavior: HitTestBehavior.translucent,
-            child: Container(
-              width: 50,
-              alignment: Alignment.center,
-              child: const Icon(Icons.group_add),
-            ),
-          ),
-        ],
-      ),
-      body: Container(
-        color: ColorList.plurPurple,
-        child: groupIds.isEmpty
-            ? const Center(
-                child: NoCommunitiesWidget(),
-              )
-            : GridView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 52),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 32.0,
-                  childAspectRatio: 1,
-                ),
-                itemCount: groupIds.length,
-                itemBuilder: (context, index) {
-                  final groupIdentifier = groupIds[index];
-                  return InkWell(
-                    onTap: () {
-                      RouterUtil.router(
-                          context, RouterPath.GROUP_DETAIL, groupIdentifier);
-                    },
-                    child: CommunityWidget(groupIdentifier),
-                  );
-                }),
-      ),
-    );
-  }
-
-  void showCreateCommunityDialog() {
-    CreateCommunityDialog.show(context);
   }
 }
