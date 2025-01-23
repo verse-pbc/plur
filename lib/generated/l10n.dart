@@ -160,10 +160,10 @@ class S {
     );
   }
 
-  /// `Setting`
+  /// `Settings`
   String get Setting {
     return Intl.message(
-      'Setting',
+      'Settings',
       name: 'Setting',
       desc: '',
       args: [],

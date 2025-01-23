@@ -380,7 +380,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_interval": MessageLookupByLibrary.simpleMessage("Send interval"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Sensitive Content"),
-        "Setting": MessageLookupByLibrary.simpleMessage("Setting"),
+        "Setting": MessageLookupByLibrary.simpleMessage("Settings"),
         "Share": MessageLookupByLibrary.simpleMessage("Share"),
         "Show": MessageLookupByLibrary.simpleMessage("Show"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Show more"),
