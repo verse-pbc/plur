@@ -35,7 +35,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   @override
   void initState() {
     super.initState();
-    groupDetailProvider.startQueryTask();
     groupDetailProvider.refresh();
   }
 
@@ -122,7 +121,8 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             value: groupDetailProvider,
           ),
         ],
-        child: GroupDetailNoteListWidget(groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
+        child: GroupDetailNoteListWidget(
+            groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
       ),
     );
 
@@ -149,9 +149,16 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
     EditorWidget.open(context,
-        groupIdentifier: groupIdentifier,
-        groupEventKind: EventKind.GROUP_NOTE,
-        tagsAddedWhenSend: tags);
+            groupIdentifier: groupIdentifier,
+            groupEventKind: EventKind.GROUP_NOTE,
+            tagsAddedWhenSend: tags)
+        .then((event) {
+      if (event != null &&
+          (event.kind == EventKind.GROUP_NOTE ||
+              event.kind == EventKind.GROUP_NOTE_REPLY)) {
+        groupDetailProvider.handleDirectEvent(event);
+      }
+    });
   }
 
   void _onEventDelete(Event e) {
