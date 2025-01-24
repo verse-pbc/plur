@@ -114,22 +114,26 @@ class _GroupDetailNoteListWidgetState
       _unsubscribe();
     }
 
-    final noteFilter = Filter(kinds: [EventKind.GROUP_NOTE]);
-    final noteFilterMap = noteFilter.toJson();
-    // Use #h tag to match how notes are created
-    noteFilterMap["#h"] = [widget.groupIdentifier.groupId];
-
-    final noteReplyFilter = Filter(kinds: [EventKind.GROUP_NOTE_REPLY]);
-    final noteReplyFilterMap = noteReplyFilter.toJson();
-    // Use #h tag to match how notes are created
-    noteReplyFilterMap["#h"] = [widget.groupIdentifier.groupId];
+    final filters = [
+      {
+        // Listen for group notes
+        // Use #h tag to match how notes are created
+        "kinds": [EventKind.GROUP_NOTE],
+        "#h": [widget.groupIdentifier.groupId],
+        "since": DateTime.now().millisecondsSinceEpoch
+      },
+      {
+        // Listen for group note replies
+        // Use #h tag to match how notes are created
+        "kinds": [EventKind.GROUP_NOTE_REPLY],
+        "#h": [widget.groupIdentifier.groupId],
+        "since": DateTime.now().millisecondsSinceEpoch
+      }
+    ];
 
     try {
       nostr!.subscribe(
-        [
-          noteFilterMap,
-          noteReplyFilterMap,
-        ],
+        filters,
         _handleSubscriptionEvent,
         id: subscribeId,
         relayTypes: [RelayType.TEMP],
