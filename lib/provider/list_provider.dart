@@ -627,29 +627,23 @@ class ListProvider extends ChangeNotifier {
 
   /// Fetch all groups that the user is a member or admin of
   void _queryAllGroupsOnDefaultRelay() async {
-    // Create separate filters for members and admins
-    final memberFilter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 100);
-    final memberFilterMap = memberFilter.toJson();
-    memberFilterMap["#p"] = [nostr!.publicKey];
-
-    final adminFilter = Filter(kinds: [EventKind.GROUP_ADMINS], limit: 100);
-    final adminFilterMap = adminFilter.toJson();
-    adminFilterMap["#p"] = [nostr!.publicKey];
+    final filters = [
+      {
+        // Get groups where user is a member
+        "kinds": [EventKind.GROUP_MEMBERS],
+        "#p": [nostr!.publicKey],
+      },
+      {
+        // Get groups where user is an admin
+        "kinds": [EventKind.GROUP_ADMINS],
+        "#p": [nostr!.publicKey],
+      }
+    ];
 
     nostr!.query(
-      [memberFilterMap, adminFilterMap],
+      filters,
       (Event event) {
-        if (event.kind == EventKind.GROUP_MEMBERS ||
-            event.kind == EventKind.GROUP_ADMINS) {
-          for (var tag in event.tags) {
-            if (tag is List && tag.length > 1 && tag[0] == "d") {
-              final groupId = tag[1];
-              final groupIdentifier = GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, groupId);
-              _addGroupIdentifier(groupIdentifier);
-            }
-          }
-          notifyListeners();
-        }
+        _extractGroupIdentifiersFromTags(event, tagPrefix: "d").forEach(_addGroupIdentifier);
       },
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
       relayTypes: RelayType.ONLY_TEMP,
@@ -660,7 +654,7 @@ class ListProvider extends ChangeNotifier {
   /// Handles group deletion events by removing the group from _groupIdentifiers
   /// and updating the UI
   void handleGroupDeleteEvent(Event event) {
-    _extractGroupIdentifiers(event, tagPrefix: "h")
+    _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
         .forEach(_groupIdentifiers.remove);
     _updateGroups();
     notifyListeners();
@@ -670,7 +664,7 @@ class ListProvider extends ChangeNotifier {
   void handleAdminMembershipEvent(Event event) {
     if (event.kind == EventKind.GROUP_MEMBERS ||
         event.kind == EventKind.GROUP_ADMINS) {
-      _extractGroupIdentifiers(event, tagPrefix: "d")
+      _extractGroupIdentifiersFromTags(event, tagPrefix: "d")
           .forEach(_addGroupIdentifier);
       notifyListeners();
     }
@@ -679,7 +673,7 @@ class ListProvider extends ChangeNotifier {
   /// Handles metadata update events by updating the group metadata in GroupProvider
   void handleEditMetadataEvent(Event event) {
     if (event.kind == EventKind.GROUP_EDIT_METADATA) {
-      _extractGroupIdentifiers(event, tagPrefix: "h")
+      _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
           .forEach((groupId) => groupProvider.onEvent(groupId, event));
       notifyListeners();
     }
@@ -688,7 +682,7 @@ class ListProvider extends ChangeNotifier {
 
 /// Extracts group identifiers from event tags with specified prefix ("h" or "d").
 /// Optionally accepts a custom relay address, defaults to the default groups relay.
-List<GroupIdentifier> _extractGroupIdentifiers(
+List<GroupIdentifier> _extractGroupIdentifiersFromTags(
   Event event, {
   required String tagPrefix,
   String? relayAddress,
