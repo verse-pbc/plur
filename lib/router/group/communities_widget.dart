@@ -96,7 +96,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       _unsubscribe();
     }
 
-// Get current timestamp to only receive events from now onwards.
+    // Get current timestamp to only receive events from now onwards.
     final since = currentUnixTimestamp();
     final filters = [
       {
