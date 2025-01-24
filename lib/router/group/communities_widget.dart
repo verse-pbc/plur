@@ -19,6 +19,7 @@ import 'package:nostrmo/main.dart';
 import '../../consts/colors.dart';
 import 'community_widget.dart';
 import '../../provider/relay_provider.dart';
+import '../../util/time_util.dart';
 
 class CommunitiesWidget extends StatefulWidget {
   const CommunitiesWidget({super.key});
@@ -95,29 +96,36 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       _unsubscribe();
     }
 
-    final memberFilter = Filter(kinds: [EventKind.GROUP_MEMBERS]);
-    final memberFilterMap = memberFilter.toJson();
-    memberFilterMap["#p"] = [nostr!.publicKey];
-
-    final adminFilter = Filter(kinds: [EventKind.GROUP_ADMINS]);
-    final adminFilterMap = adminFilter.toJson();
-    adminFilterMap["#p"] = [nostr!.publicKey];
-
-    final groupDeleteFilter = Filter(kinds: [EventKind.GROUP_DELETE_GROUP]);
-    final groupDeleteFilterMap = groupDeleteFilter.toJson();
-
-    final groupEditMetadataFilter =
-        Filter(kinds: [EventKind.GROUP_EDIT_METADATA]);
-    final groupEditMetadataFilterMap = groupEditMetadataFilter.toJson();
+// Get current timestamp to only receive events from now onwards.
+    final since = currentUnixTimestamp();
+    final filters = [
+      {
+        // Listen for communities where user is a member
+        "kinds": [EventKind.GROUP_MEMBERS],
+        "#p": [nostr!.publicKey],
+        "since": since,
+      },
+      {
+        // Listen for communities where user is an admin
+        "kinds": [EventKind.GROUP_ADMINS],
+        "#p": [nostr!.publicKey],
+        "since": since,
+      },
+      {
+        // Listen for community deletions
+        "kinds": [EventKind.GROUP_DELETE_GROUP],
+        "since": since,
+      },
+      {
+        // Listen for community metadata edits
+        "kinds": [EventKind.GROUP_EDIT_METADATA],
+        "since": since,
+      }
+    ];
 
     try {
       nostr!.subscribe(
-        [
-          memberFilterMap,
-          adminFilterMap,
-          groupDeleteFilterMap,
-          groupEditMetadataFilterMap
-        ],
+        filters,
         _handleSubscriptionEvent,
         id: subscribeId,
         relayTypes: [RelayType.TEMP],
