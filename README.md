@@ -97,15 +97,6 @@ git submodule update
 ## Installing required tools
 Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
 
-### Using mise-en-place
-[mise-en-place](https://mise.jdx.dev) is a development environment setup tool. It allows you to define which tools you’re using for a given project and what versions of those tools to use. For Plur, mise specifies the versions of Java and Flutter that are required to build the app.
-
-1. [Install and activate](https://mise.jdx.dev/getting-started.html) mise
-2. Install Java, CocoaPods, and Flutter from the `plur` directory: `mise install`
-3. Point Flutter at the proper version of Java: `flutter config --jdk-dir $(mise where java)`
-3. Ensure everything is set up properly (look for green checkmarks): `flutter doctor -v`
-4. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
-
 ### Using Homebrew and FVM
 Homebrew is a package manager for macOS. It allows you to install tools and use them from the command line. For Plur, FVM specifies the version of Flutter that’s required to build the app. With the Homebrew setup, the required version of Java is not specified outside of this README.
 
@@ -113,7 +104,7 @@ Homebrew is a package manager for macOS. It allows you to install tools and use 
 2. Install CocoaPods
 3. Install Java 17: `brew install openjdk@17`
 4. Install [FVM](https://fvm.app), then remember to always preface Flutter commands with `fvm`.
-5. Install Flutter with FVM from the `plur` directory. The correct version is specified in pubspec.yml. Install it with `FLUTTER_VERSION=$(awk '/environment:/{p=NR+2}(NR==p){print $2}' pubspec.yaml | tr -d "'") && fvm install $FLUTTER_VERSION && fvm use $FLUTTER_VERSION`
+5. Install Flutter with FVM from the `plur` directory. The correct version is specified in `.fvmrc`. Install it with `fvm install`.
 6. Point Flutter at the proper version of Java: `fvm flutter config --jdk-dir /opt/homebrew/opt/openjdk@17`
 7. Ensure everything is set up properly (look for green checkmarks): `fvm flutter doctor -v`
 8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
