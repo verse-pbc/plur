@@ -97,15 +97,6 @@ git submodule update
 ## Installing required tools
 Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
 
-### Using mise-en-place
-[mise-en-place](https://mise.jdx.dev) is a development environment setup tool. It allows you to define which tools you’re using for a given project and what versions of those tools to use. For Plur, mise specifies the versions of Java and Flutter that are required to build the app.
-
-1. [Install and activate](https://mise.jdx.dev/getting-started.html) mise
-2. Install Java, CocoaPods, and Flutter from the `plur` directory: `mise install`
-3. Point Flutter at the proper version of Java: `flutter config --jdk-dir $(mise where java)`
-3. Ensure everything is set up properly (look for green checkmarks): `flutter doctor -v`
-4. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
-
 ### Using Homebrew and FVM
 Homebrew is a package manager for macOS. It allows you to install tools and use them from the command line. For Plur, FVM specifies the version of Flutter that’s required to build the app. With the Homebrew setup, the required version of Java is not specified outside of this README.
 
