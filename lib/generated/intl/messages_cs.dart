@@ -302,7 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("selže odeslání"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Citlivý obsah"),
-        "Setting": MessageLookupByLibrary.simpleMessage("nastavit"),
+        "Settings": MessageLookupByLibrary.simpleMessage("nastavit"),
         "Share": MessageLookupByLibrary.simpleMessage("sdílet"),
         "Show": MessageLookupByLibrary.simpleMessage("displej"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Zobrazit více"),
