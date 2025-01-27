@@ -240,7 +240,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("發送"),
         "Send_fail": MessageLookupByLibrary.simpleMessage("發送失敗"),
         "Sensitive_Content": MessageLookupByLibrary.simpleMessage("敏感內容"),
-        "Setting": MessageLookupByLibrary.simpleMessage("設定"),
+        "Settings": MessageLookupByLibrary.simpleMessage("設定"),
         "Share": MessageLookupByLibrary.simpleMessage("分享"),
         "Show": MessageLookupByLibrary.simpleMessage("顯示"),
         "Show_more": MessageLookupByLibrary.simpleMessage("查看更多"),

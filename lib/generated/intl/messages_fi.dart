@@ -306,7 +306,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("epäonnistui lähetyksessä"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Herkkä sisältö"),
-        "Setting": MessageLookupByLibrary.simpleMessage("perustaa"),
+        "Settings": MessageLookupByLibrary.simpleMessage("perustaa"),
         "Share": MessageLookupByLibrary.simpleMessage("osuus"),
         "Show": MessageLookupByLibrary.simpleMessage("näyttö"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Katso lisää"),

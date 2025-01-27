@@ -293,7 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("فشل إرسال"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("المحتوى الحساس"),
-        "Setting": MessageLookupByLibrary.simpleMessage("ضبط"),
+        "Settings": MessageLookupByLibrary.simpleMessage("ضبط"),
         "Share": MessageLookupByLibrary.simpleMessage("شارك"),
         "Show": MessageLookupByLibrary.simpleMessage("عرض ."),
         "Show_more": MessageLookupByLibrary.simpleMessage("شاهد المزيد"),

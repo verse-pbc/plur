@@ -312,7 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("eșec în trimitere"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Conținut sensibil"),
-        "Setting": MessageLookupByLibrary.simpleMessage("înființat"),
+        "Settings": MessageLookupByLibrary.simpleMessage("înființat"),
         "Share": MessageLookupByLibrary.simpleMessage("share"),
         "Show": MessageLookupByLibrary.simpleMessage("afișare"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Vezi mai multe"),

@@ -297,7 +297,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("ส่งล้มเหลว"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("เนื้อหาที่ละเอียดอ่อน"),
-        "Setting": MessageLookupByLibrary.simpleMessage("การตั้งค่า"),
+        "Settings": MessageLookupByLibrary.simpleMessage("การตั้งค่า"),
         "Share": MessageLookupByLibrary.simpleMessage("แบ่งปัน"),
         "Show": MessageLookupByLibrary.simpleMessage("แสดง"),
         "Show_more": MessageLookupByLibrary.simpleMessage("ดูเพิ่มเติม"),
