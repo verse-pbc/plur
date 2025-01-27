@@ -319,7 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Грешка при изпращане"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Чувствително съдържание"),
-        "Setting": MessageLookupByLibrary.simpleMessage("настройване"),
+        "Settings": MessageLookupByLibrary.simpleMessage("настройване"),
         "Share": MessageLookupByLibrary.simpleMessage("дял"),
         "Show": MessageLookupByLibrary.simpleMessage("дисплей"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Виж повече"),
