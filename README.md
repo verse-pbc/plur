@@ -185,6 +185,14 @@ sudo apt-get -y install libsqlite3-0 libsqlite3-dev libmpv-dev mpv
 flutter build linux --release
 ```
 
+## Managing Translations
+
+This project uses the [intl_utils](https://pub.dev/packages/intl_utils) Dart package to generate Dart code from the translation files. Anytime you update the translation files (`.arb` files), make sure to run the following command to regenerate the translations and make them available in your code:
+
+```bash
+fvm flutter pub run intl_utils:generate
+```
+
 ## FAQ
 
 You can find more info from this [FAQ](https://github.com/haorendashu/nostrmo_faq)
