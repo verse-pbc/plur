@@ -308,7 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ni uspelo pošiljati"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Občutljiva vsebina"),
-        "Setting": MessageLookupByLibrary.simpleMessage("nastavitev"),
+        "Settings": MessageLookupByLibrary.simpleMessage("nastavitev"),
         "Share": MessageLookupByLibrary.simpleMessage("delež"),
         "Show": MessageLookupByLibrary.simpleMessage("prikaz"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Prikaži več"),
