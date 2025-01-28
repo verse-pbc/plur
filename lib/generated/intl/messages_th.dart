@@ -149,7 +149,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("ป้ายกำกับ"),
         "Hide": MessageLookupByLibrary.simpleMessage("ซ่อนไว้"),
         "Home": MessageLookupByLibrary.simpleMessage("หน้าหลัก"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("ฉันยอมรับ"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("การบีบอัดภาพ"),
         "Image_or_Video":
             MessageLookupByLibrary.simpleMessage("รูปภาพหรือวิดีโอ"),
@@ -232,8 +231,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("รหัสผ่าน"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("รูปภาพ"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("โปรดยอมรับข้อตกลงผู้ใช้"),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "กรุณายืนยันตัวตนเพื่อปิดล็อคความเป็นส่วนตัว"),
@@ -387,7 +384,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("หรือ"),
         "poll_option_info":
             MessageLookupByLibrary.simpleMessage("ข้อมูลตัวเลือกการโหวต"),
-        "replied": MessageLookupByLibrary.simpleMessage("ตอบกลับ"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("ข้อตกลงผู้ใช้")
+        "replied": MessageLookupByLibrary.simpleMessage("ตอบกลับ")
       };
 }

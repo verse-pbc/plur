@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "About": MessageLookupByLibrary.simpleMessage("Sobre"),
+        "Accept_terms_of_service": MessageLookupByLibrary.simpleMessage(
+            "Al continuar, aceptas nuestros <accent>terminos de servicio</accent>"),
         "Account_Manager":
             MessageLookupByLibrary.simpleMessage("Gestión de cuentas"),
         "Add_Account": MessageLookupByLibrary.simpleMessage("Añadir cuenta"),
@@ -159,7 +161,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("Etiquetas"),
         "Hide": MessageLookupByLibrary.simpleMessage("Ocultar"),
         "Home": MessageLookupByLibrary.simpleMessage("Página de inicio"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Acepto"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Compresión de imágenes"),
         "Image_or_Video":
@@ -248,8 +249,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Contraseña"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("Imagen"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Por favor, acepte el Acuerdo de usuario."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Por favor, realice la autenticación para cerrar la cerradura de privacidad"),
@@ -322,6 +321,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Show_more": MessageLookupByLibrary.simpleMessage("Ver más"),
         "Show_web": MessageLookupByLibrary.simpleMessage("Abrir página web"),
         "Sign_fail": MessageLookupByLibrary.simpleMessage("La firma falló"),
+        "Signup": MessageLookupByLibrary.simpleMessage("Crear cuenta"),
         "Soft": MessageLookupByLibrary.simpleMessage("Aplicación"),
         "Source": MessageLookupByLibrary.simpleMessage("Fuente"),
         "Subject": MessageLookupByLibrary.simpleMessage("Título"),
@@ -385,6 +385,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Formato clave incorrecto"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("Ya has votado"),
+        "Your_private_key":
+            MessageLookupByLibrary.simpleMessage("Tu clave privada"),
         "Zap_Goals": MessageLookupByLibrary.simpleMessage("Objetivo Zap"),
         "Zap_num_can_not_bigger_then": MessageLookupByLibrary.simpleMessage(
             "El número de Zap no puede ser mayor"),
@@ -411,8 +413,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("O"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Información sobre las opciones de votación"),
-        "replied": MessageLookupByLibrary.simpleMessage("Respuesta"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Protocolo de usuario")
+        "replied": MessageLookupByLibrary.simpleMessage("Respuesta")
       };
 }
