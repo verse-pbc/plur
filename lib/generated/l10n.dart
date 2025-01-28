@@ -970,6 +970,26 @@ class S {
     );
   }
 
+  /// `Sign Up`
+  String get Signup {
+    return Intl.message(
+      'Sign Up',
+      name: 'Signup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your private key`
+  String get Your_private_key {
+    return Intl.message(
+      'Your private key',
+      name: 'Your_private_key',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Generate a new private key`
   String get Generate_a_new_private_key {
     return Intl.message(
@@ -980,21 +1000,11 @@ class S {
     );
   }
 
-  /// `I accept the`
-  String get I_accept_the {
+  /// `By continuing, you accept our <accent>terms of service</accent>`
+  String get Accept_terms_of_service {
     return Intl.message(
-      'I accept the',
-      name: 'I_accept_the',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `terms of user`
-  String get terms_of_user {
-    return Intl.message(
-      'terms of user',
-      name: 'terms_of_user',
+      'By continuing, you accept our <accent>terms of service</accent>',
+      name: 'Accept_terms_of_service',
       desc: '',
       args: [],
     );
@@ -1005,16 +1015,6 @@ class S {
     return Intl.message(
       'Private key is null.',
       name: 'Private_key_is_null',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Please accept the terms.`
-  String get Please_accept_the_terms {
-    return Intl.message(
-      'Please accept the terms.',
-      name: 'Please_accept_the_terms',
       desc: '',
       args: [],
     );

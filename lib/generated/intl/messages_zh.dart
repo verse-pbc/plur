@@ -155,7 +155,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hide_Relay_Notices": MessageLookupByLibrary.simpleMessage("隐藏中继通知"),
         "Hint_Font_Color": MessageLookupByLibrary.simpleMessage("提示文字颜色"),
         "Home": MessageLookupByLibrary.simpleMessage("首页"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("我接受"),
         "Image": MessageLookupByLibrary.simpleMessage("图片"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("图片压缩"),
         "Image_or_Video": MessageLookupByLibrary.simpleMessage("图片或视频"),
@@ -235,8 +234,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("密码"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("图片"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("请接受用户协议。"),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage("请进行身份验证以关闭隐私锁"),
         "Please_authenticate_to_turn_on_the_privacy_lock":
@@ -391,7 +388,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("打开"),
         "or": MessageLookupByLibrary.simpleMessage("或者"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage("投票选项信息"),
-        "replied": MessageLookupByLibrary.simpleMessage("回复"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("用户协议")
+        "replied": MessageLookupByLibrary.simpleMessage("回复")
       };
 }
