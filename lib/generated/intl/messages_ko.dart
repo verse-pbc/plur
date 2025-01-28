@@ -251,7 +251,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("발송"),
         "Send_fail": MessageLookupByLibrary.simpleMessage("전송 실패"),
         "Sensitive_Content": MessageLookupByLibrary.simpleMessage("민감한 내용"),
-        "Setting": MessageLookupByLibrary.simpleMessage("설치"),
+        "Settings": MessageLookupByLibrary.simpleMessage("설치"),
         "Share": MessageLookupByLibrary.simpleMessage("공유"),
         "Show": MessageLookupByLibrary.simpleMessage("표시"),
         "Show_more": MessageLookupByLibrary.simpleMessage("자세히 보기"),

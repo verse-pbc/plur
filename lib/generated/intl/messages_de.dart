@@ -311,7 +311,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("Senden fehlschlägt"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Sensible Inhalte"),
-        "Setting": MessageLookupByLibrary.simpleMessage("einrichten"),
+        "Settings": MessageLookupByLibrary.simpleMessage("einrichten"),
         "Share": MessageLookupByLibrary.simpleMessage("Teilen"),
         "Show": MessageLookupByLibrary.simpleMessage("Anzeige"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Mehr anzeigen"),
