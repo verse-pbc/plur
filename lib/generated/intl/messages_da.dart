@@ -307,7 +307,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("mislykkedes sending"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Følsomt indhold"),
-        "Setting": MessageLookupByLibrary.simpleMessage("oprettet"),
+        "Settings": MessageLookupByLibrary.simpleMessage("oprettet"),
         "Share": MessageLookupByLibrary.simpleMessage("andel"),
         "Show": MessageLookupByLibrary.simpleMessage("display"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Vis mere"),

@@ -313,7 +313,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("Ошибка отправки"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Чувствительный контент"),
-        "Setting": MessageLookupByLibrary.simpleMessage("Настройка"),
+        "Settings": MessageLookupByLibrary.simpleMessage("Настройка"),
         "Share": MessageLookupByLibrary.simpleMessage("Поделиться"),
         "Show": MessageLookupByLibrary.simpleMessage("Показать"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Узнать больше"),
