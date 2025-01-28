@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:nostr_sdk/android_plugin/android_plugin.dart';
 import 'package:nostr_sdk/client_utils/keys.dart';
 import 'package:nostr_sdk/nip05/nip05_validor.dart';
@@ -14,8 +13,10 @@ import 'package:nostr_sdk/signer/pubkey_only_nostr_signer.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
+import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
@@ -32,13 +33,9 @@ class LoginSignupWidget extends StatefulWidget {
 
 class _LoginSignupState extends State<LoginSignupWidget>
     with SingleTickerProviderStateMixin {
-  bool? checkTerms = false;
-
   bool obscureText = true;
 
   TextEditingController controller = TextEditingController();
-
-  late AnimationController animationController;
 
   bool existAndroidNostrSigner = false;
 
@@ -47,8 +44,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     if (PlatformUtil.isAndroid()) {
       AndroidPlugin.existAndroidNostrSigner().then((exist) {
         if (exist == true) {
@@ -86,7 +81,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     var logoWiget = Image.asset(
       "assets/imgs/logo/logo512.png",
       width: 100,
-      height: 100,
+      height: 100
     );
 
     var arg = RouterUtil.routerArgs(context);
@@ -95,7 +90,11 @@ class _LoginSignupState extends State<LoginSignupWidget>
     }
 
     List<Widget> mainList = [];
-    mainList.add(logoWiget);
+
+    mainList.add(Expanded(child: Container()));
+    
+    mainList.add(Container(child: logoWiget));
+    
     mainList.add(Container(
       margin: const EdgeInsets.only(
         top: Base.BASE_PADDING,
@@ -110,6 +109,28 @@ class _LoginSignupState extends State<LoginSignupWidget>
       ),
     ));
 
+    mainList.add(Container(
+      margin: const EdgeInsets.symmetric(horizontal: Base.BASE_PADDING * 2),
+      child: InkWell(
+        onTap: generatePK,
+        child: Container(
+          height: 36,
+          color: ColorList.accent,
+          alignment: Alignment.center,
+          child: Text(
+            localization.Signup,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    ));
+
+    mainList.add(Expanded(child: Container()));
+
     var suffixIcon = GestureDetector(
       onTap: () {
         setState(() {
@@ -118,15 +139,18 @@ class _LoginSignupState extends State<LoginSignupWidget>
       },
       child: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
     );
-    mainList.add(TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: "nsec / hex private key / npub / NIP-05 Address / bunker://",
-        fillColor: Colors.white,
-        suffixIcon: suffixIcon,
-      ),
-      obscureText: obscureText,
-    ));
+    mainList.add(Container(
+        margin: const EdgeInsets.symmetric(horizontal: Base.BASE_PADDING * 2),
+        child: TextField(
+            controller: controller,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: localization.Your_private_key,
+                fillColor: Colors.white,
+                suffixIcon: suffixIcon,
+            ),
+            obscureText: obscureText,
+    )));
 
     mainList.add(Container(
       margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
@@ -140,25 +164,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
             localization.Login,
             style: const TextStyle(
               color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    ));
-
-    mainList.add(Container(
-      margin: const EdgeInsets.only(bottom: 25),
-      child: InkWell(
-        onTap: generatePK,
-        child: Container(
-          height: 36,
-          alignment: Alignment.center,
-          child: Text(
-            "Sign Up",
-            style: TextStyle(
-              color: mainColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -212,35 +217,32 @@ class _LoginSignupState extends State<LoginSignupWidget>
         ),
       ));
     }
-
-    var termsWiget = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Checkbox(
-            value: checkTerms,
-            onChanged: (val) {
-              setState(() {
-                checkTerms = val;
-              });
-            }),
-        Text("${localization.I_accept_the} "),
-        GestureDetector(
+    mainList.add(Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [GestureDetector(
           onTap: () {
             WebViewWidget.open(context, Base.PRIVACY_LINK);
           },
-          child: Text(
-            "terms of service",
-            style: TextStyle(
-              color: mainColor,
-              decoration: TextDecoration.underline,
-              decorationColor: mainColor,
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: Base.BASE_PADDING * 2),
+            child: StyledText(
+              text: localization.Accept_terms_of_service,
+              textAlign: TextAlign.center,
+              tags: {
+                'accent': StyledTextTag(
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    decorationColor: Colors.red,
+                    color: Colors.red
+                  )
+                )
+              }
             ),
-          ),
-        ),
-      ],
-    ).animate(controller: animationController, effects: [
-      const ShakeEffect(),
-    ]);
+          )
+        )]
+      )
+    ));
 
     return Scaffold(
       body: SizedBox(
@@ -256,11 +258,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
                 mainAxisSize: MainAxisSize.min,
                 children: mainList,
               ),
-            ),
-            Positioned(
-              bottom: 20,
-              child: termsWiget,
-            ),
+            )
           ],
         ),
       ),
@@ -277,11 +275,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
   }
 
   Future<void> doLogin() async {
-    if (checkTerms != true) {
-      showAcceptTermTip();
-      return;
-    }
-
     var pk = controller.text;
     if (StringUtil.isBlank(pk)) {
       BotToast.showText(text: S.of(context).Input_can_not_be_null);
@@ -360,18 +353,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     indexProvider.setCurrentTap(0);
   }
 
-  void showAcceptTermTip() {
-    BotToast.showText(text: S.of(context).Please_accept_the_terms);
-    animationController.reset();
-    animationController.forward();
-  }
-
   Future<void> loginByAndroidSigner() async {
-    if (checkTerms != true) {
-      showAcceptTermTip();
-      return;
-    }
-
     var androidNostrSigner = AndroidNostrSigner();
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -398,11 +380,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
   }
 
   Future<void> loginWithWebSigner() async {
-    if (checkTerms != true) {
-      showAcceptTermTip();
-      return;
-    }
-
     var signer = NIP07Signer();
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {

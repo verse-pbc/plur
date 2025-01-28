@@ -153,7 +153,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("etiketa"),
         "Hide": MessageLookupByLibrary.simpleMessage("skrij"),
         "Home": MessageLookupByLibrary.simpleMessage("Domača stran"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Sprejmem"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Stiskanje slike"),
         "Image_or_Video":
@@ -241,8 +240,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("geslo"),
         "Pay": MessageLookupByLibrary.simpleMessage("Plačaj"),
         "Picture": MessageLookupByLibrary.simpleMessage("slika"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Prosimo, sprejmite uporabniško pogodbo."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Prosimo, preverite svojo identiteto, da izklopite ključavnico zasebnosti"),
@@ -404,8 +401,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("mogoče"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Informacije o možnostih glasovanja"),
-        "replied": MessageLookupByLibrary.simpleMessage("odgovor"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Uporabniška pogodba")
+        "replied": MessageLookupByLibrary.simpleMessage("odgovor")
       };
 }
