@@ -35,11 +35,19 @@ class _LoginSignupState extends State<LoginSignupWidget>
     with SingleTickerProviderStateMixin {
   bool obscureText = true;
 
-  TextEditingController controller = TextEditingController();
+  /// Controller for the TextField to track text changes
+  TextEditingController _controller = TextEditingController();
+
+  /// Boolean flag to enable/disable the Login button
+  bool _isLoginButtonEnabled = false;
 
   bool existAndroidNostrSigner = false;
 
   bool existWebNostrSigner = false;
+
+  bool backAfterLogin = false;
+
+  late S localization;
 
   @override
   void initState() {
@@ -59,11 +67,24 @@ class _LoginSignupState extends State<LoginSignupWidget>
         });
       }
     }
+    // Add a listener to track text changes in the TextField
+    _controller.addListener(_updateLoginButtonState);
   }
 
-  bool backAfterLogin = false;
+  /// Updates the state of the button based on the text field's content
+  void _updateLoginButtonState() {
+    setState(() {
+      _isLoginButtonEnabled = _controller.text.isNotEmpty;
+    });
+  }
 
-  late S localization;
+  @override
+  void dispose() {
+    // Remove the listener to avoid memory leaks
+    _controller.removeListener(_updateLoginButtonState);
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,12 +99,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
       }
     }
 
-    var logoWiget = Image.asset(
-      "assets/imgs/logo/logo512.png",
-      width: 100,
-      height: 100
-    );
-
     var arg = RouterUtil.routerArgs(context);
     if (arg != null && arg is bool) {
       backAfterLogin = arg;
@@ -91,10 +106,13 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     List<Widget> mainList = [];
 
+    // Adds an expandable empty space to `mainList`, filling available space
+    // in a flex container.
     mainList.add(Expanded(child: Container()));
-    
-    mainList.add(Container(child: logoWiget));
-    
+
+    mainList.add(
+        Image.asset("assets/imgs/logo/logo512.png", width: 100, height: 100));
+
     mainList.add(Container(
       margin: const EdgeInsets.only(
         top: Base.BASE_PADDING,
@@ -109,10 +127,11 @@ class _LoginSignupState extends State<LoginSignupWidget>
       ),
     ));
 
-    mainList.add(Container(
-      margin: const EdgeInsets.symmetric(horizontal: Base.BASE_PADDING * 2),
-      child: InkWell(
-        onTap: generatePK,
+    // Adds a tappable "Signup" button to `mainList`.
+    mainList.add(
+      InkWell(
+        // Calls `_generatePK` when tapped.
+        onTap: _generatePK,
         child: Container(
           height: 36,
           color: ColorList.accent,
@@ -127,46 +146,51 @@ class _LoginSignupState extends State<LoginSignupWidget>
           ),
         ),
       ),
-    ));
+    );
 
+    // Adds an expandable empty space to `mainList`, filling available space
+    // in a flex container.
     mainList.add(Expanded(child: Container()));
 
-    var suffixIcon = GestureDetector(
-      onTap: () {
-        setState(() {
-          obscureText = !obscureText;
-        });
-      },
-      child: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
-    );
-    mainList.add(Container(
-        margin: const EdgeInsets.symmetric(horizontal: Base.BASE_PADDING * 2),
-        child: TextField(
-            controller: controller,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: localization.Your_private_key,
-                fillColor: Colors.white,
-                suffixIcon: suffixIcon,
-            ),
-            obscureText: obscureText,
-    )));
+    // Adds a `TextField` to the `mainList`, allowing the user to input a
+    // private key securely.
+    mainList.add(TextField(
+      controller: _controller,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: localization.Your_private_key,
+        fillColor: Colors.white,
+        // Adds an eye icon as a suffix to toggle password visibility
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              obscureText = !obscureText;
+            });
+          },
+          child: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+        ),
+      ),
+      obscureText: obscureText,
+    ));
 
-    mainList.add(Container(
-      margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
-      child: InkWell(
-        onTap: doLogin,
-        child: Container(
-          height: 36,
-          color: mainColor,
-          alignment: Alignment.center,
-          child: Text(
-            localization.Login,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+    // Adds a full-width "Login" button to `mainList`.
+    mainList.add(SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        // Calls the `_doLogin` function when enabled; otherwise, it remains
+        // disabled.
+        onPressed: _isLoginButtonEnabled ? _doLogin : null,
+        style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: _isLoginButtonEnabled
+                ? mainColor.withOpacity(1)
+                : mainColor.withOpacity(0.4)),
+        child: Text(
+          localization.Login,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
@@ -176,7 +200,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
       mainList.add(Text(localization.or));
 
       mainList.add(Container(
-        margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
         child: InkWell(
           onTap: loginByAndroidSigner,
           child: Container(
@@ -198,7 +221,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
       mainList.add(Text(localization.or));
 
       mainList.add(Container(
-        margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
         child: InkWell(
           onTap: loginWithWebSigner,
           child: Container(
@@ -217,31 +239,27 @@ class _LoginSignupState extends State<LoginSignupWidget>
         ),
       ));
     }
+
+    // Adds an expandable section with a centered terms-of-service link to
+    // `mainList`.
     mainList.add(Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [GestureDetector(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        GestureDetector(
           onTap: () {
             WebViewWidget.open(context, Base.PRIVACY_LINK);
           },
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: Base.BASE_PADDING * 2),
-            child: StyledText(
+          child: StyledText(
               text: localization.Accept_terms_of_service,
               textAlign: TextAlign.center,
               tags: {
                 'accent': StyledTextTag(
-                  style: TextStyle(
-                    decoration: TextDecoration.underline,
-                    decorationColor: Colors.red,
-                    color: Colors.red
-                  )
-                )
-              }
-            ),
-          )
-        )]
-      )
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.red,
+                        color: Colors.red))
+              }),
+        )
+      ]),
     ));
 
     return Scaffold(
@@ -252,30 +270,33 @@ class _LoginSignupState extends State<LoginSignupWidget>
           alignment: AlignmentDirectional.center,
           children: [
             SizedBox(
-              width: mainWidth,
-              // color: Colors.red,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: mainList,
-              ),
-            )
+                width: mainWidth,
+                child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: Base.BASE_PADDING * 2),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: mainList,
+                    )))
           ],
         ),
       ),
     );
   }
 
-  void generatePK() {
+  void _generatePK() {
     var pk = generatePrivateKey();
-    controller.text = pk;
+    _controller.text = pk;
 
     // mark newUser and will show follow suggest after login.
     newUser = true;
-    BotToast.showText(text: "A new private key has been generated for your account.");
+    BotToast.showText(
+        text: "A new private key has been generated for your account.");
   }
 
-  Future<void> doLogin() async {
-    var pk = controller.text;
+  /// Asynchronous function to handle login when the button is pressed
+  Future<void> _doLogin() async {
+    var pk = _controller.text;
     if (StringUtil.isBlank(pk)) {
       BotToast.showText(text: S.of(context).Input_can_not_be_null);
       return;
@@ -298,7 +319,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
       }
 
       if (StringUtil.isBlank(pubkey)) {
-        BotToast.showText(text: "${localization.Pubkey} ${localization.not_found}");
+        BotToast.showText(
+            text: "${localization.Pubkey} ${localization.not_found}");
         return;
       }
 
