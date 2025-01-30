@@ -371,7 +371,7 @@ class _IndexDrawerContentComponnent
     final theme = Theme.of(context);
     showModalBottomSheet(
       isScrollControlled: false,
-      backgroundColor: theme.customColors.separatorColor,
+      backgroundColor: theme.customColors.feedBgColor,
       context: context,
       builder: (BuildContext context) {
         return AccountManagerWidget();
