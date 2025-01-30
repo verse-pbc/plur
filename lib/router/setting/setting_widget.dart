@@ -140,15 +140,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         onTap: pickThemeStyle,
       ),
     );
-    list.add(SettingGroupItemWidget(
-      name: localization.Theme_Color,
-      onTap: pickColor,
-      child: Container(
-        height: 28,
-        width: 28,
-        color: mainColor,
-      ),
-    ));
     var textStyle = TextStyle(
       color: hintColor,
       fontWeight: FontWeight.bold,
