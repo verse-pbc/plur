@@ -72,10 +72,7 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var currentWidth = MediaQuery.of(context).size.width;
-    if (width != null) {
-      currentWidth = width!;
-    }
+    var currentWidth = width ?? MediaQuery.of(context).size.width;
     var currentHeight = currentWidth * 9.0 / 16.0;
 
     videoWidth = player.state.width;
