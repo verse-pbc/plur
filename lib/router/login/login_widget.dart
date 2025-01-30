@@ -33,7 +33,8 @@ class LoginSignupWidget extends StatefulWidget {
 
 class _LoginSignupState extends State<LoginSignupWidget>
     with SingleTickerProviderStateMixin {
-  bool obscureText = true;
+  // Boolean flag to show/hide the text in the text field
+  bool _isTextObscured = true;
 
   /// Controller for the TextField to track text changes
   TextEditingController _controller = TextEditingController();
@@ -110,8 +111,11 @@ class _LoginSignupState extends State<LoginSignupWidget>
     // in a flex container.
     mainList.add(Expanded(child: Container()));
 
-    mainList.add(
-        Image.asset("assets/imgs/logo/logo512.png", width: 100, height: 100));
+    mainList.add(Image.asset(
+      "assets/imgs/landing/logo.png",
+      width: 162,
+      height: 82,
+    ));
 
     mainList.add(Container(
       margin: const EdgeInsets.only(
@@ -128,25 +132,25 @@ class _LoginSignupState extends State<LoginSignupWidget>
     ));
 
     // Adds a tappable "Signup" button to `mainList`.
-    mainList.add(
-      InkWell(
+    mainList.add(SizedBox(
+      width: double.infinity,
+      child: FilledButton(
         // Calls `_generatePK` when tapped.
-        onTap: _generatePK,
-        child: Container(
-          height: 36,
-          color: ColorList.accent,
-          alignment: Alignment.center,
-          child: Text(
-            localization.Signup,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+        onPressed: _generatePK,
+        style: FilledButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: ColorList.accent,
+        ),
+        child: Text(
+          localization.Signup,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
-    );
+    ));
 
     // Adds an expandable empty space to `mainList`, filling available space
     // in a flex container.
@@ -164,13 +168,14 @@ class _LoginSignupState extends State<LoginSignupWidget>
         suffixIcon: GestureDetector(
           onTap: () {
             setState(() {
-              obscureText = !obscureText;
+              _isTextObscured = !_isTextObscured;
             });
           },
-          child: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+          child:
+              Icon(_isTextObscured ? Icons.visibility : Icons.visibility_off),
         ),
       ),
-      obscureText: obscureText,
+      obscureText: _isTextObscured,
     ));
 
     // Adds a full-width "Login" button to `mainList`.
@@ -291,13 +296,14 @@ class _LoginSignupState extends State<LoginSignupWidget>
     // mark newUser and will show follow suggest after login.
     newUser = true;
     BotToast.showText(
-        text: "A new private key has been generated for your account.");
+      text: "A new private key has been generated for your account.",
+    );
   }
 
   /// Asynchronous function to handle login when the button is pressed
   Future<void> _doLogin() async {
     var pk = _controller.text;
-    if (StringUtil.isBlank(pk)) {
+    if (pk.isEmpty) {
       BotToast.showText(text: S.of(context).Input_can_not_be_null);
       return;
     }
