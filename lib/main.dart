@@ -602,6 +602,7 @@ class _MyApp extends State<MyApp> {
       shadowColor: light.dimmedColor,
       tabBarTheme: _buildTabBarTheme(),
       canvasColor: light.separatorColor,
+      iconTheme: _buildIconTheme(color: light.primaryForegroundColor),
     );
   }
 
@@ -640,6 +641,7 @@ class _MyApp extends State<MyApp> {
       shadowColor: Colors.white.withOpacity(0.3),
       tabBarTheme: _buildTabBarTheme(),
       canvasColor: dark.separatorColor,
+      iconTheme: _buildIconTheme(color: dark.primaryForegroundColor),
     );
   }
 
@@ -697,6 +699,14 @@ class _MyApp extends State<MyApp> {
       dividerHeight: 0,
       labelColor: Colors.white,
       unselectedLabelColor: Colors.grey[200],
+    );
+  }
+
+  IconThemeData _buildIconTheme({
+    required Color color,
+  }) {
+    return IconThemeData(
+      color: color,
     );
   }
 
