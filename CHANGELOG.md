@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Updated the Login screen.
 - Fixed a typo in the main menu options.
 - Fixed an issue where you could join the same group twice.
 - Added an error message when joining a group fails.
