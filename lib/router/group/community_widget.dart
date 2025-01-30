@@ -4,7 +4,7 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../consts/colors.dart';
+import '../../util/theme_util.dart';
 
 class CommunityWidget extends StatelessWidget {
   final GroupIdentifier groupIdentifier;
@@ -17,7 +17,7 @@ class CommunityWidget extends StatelessWidget {
     final metadata = provider.getMetadata(groupIdentifier);
     final imageUrl = metadata?.picture;
     const double imageSize = 120;
-
+    final themeData = Theme.of(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -27,7 +27,7 @@ class CommunityWidget extends StatelessWidget {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
-              color: ColorList.borderColor,
+              color: themeData.customColors.separatorColor,
               width: 4,
             ),
           ),
@@ -39,7 +39,7 @@ class CommunityWidget extends StatelessWidget {
                     width: imageSize,
                     height: imageSize,
                   )
-                : const Icon(Icons.group, color: Colors.white, size: 64),
+                : Icon(Icons.group, color: themeData.customColors.dimmedColor, size: 64),
           ),
         ),
         const SizedBox(height: 12),
@@ -49,10 +49,10 @@ class CommunityWidget extends StatelessWidget {
             height: 60,
             child: Text(
               metadata?.name ?? groupIdentifier.groupId,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: Colors.white,
+                color: themeData.textTheme.labelMedium!.color,
               ),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,

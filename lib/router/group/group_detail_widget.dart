@@ -12,6 +12,7 @@ import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 import 'package:super_tooltip/super_tooltip.dart';
+import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
@@ -73,7 +74,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
 
     String title = "${localization.Group} ${localization.Detail}";
     Widget flexBackground = Container(
-      color: themeData.hintColor.withOpacity(0.3),
+      color: themeData.appBarTheme.backgroundColor,
     );
     if (groupMetadata != null) {
       if (StringUtil.isNotBlank(groupMetadata.name)) {
@@ -109,12 +110,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
           ),
         SuperTooltip(
           controller: _tooltipController,
-          backgroundColor: themeData.primaryColor,
+          backgroundColor: themeData.customColors.tooltipBackground,
           content: Text(
             "Write a note to welcome your community!",
             softWrap: true,
             style: TextStyle(
-              color: Colors.white,
+              color: themeData.customColors.tooltipText,
             ),
           ),
           child: IconButton(
