@@ -19,6 +19,7 @@ import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 
 class GroupDetailWidget extends StatefulWidget {
   static bool showTooltipOnGroupCreation = false;
@@ -99,6 +100,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       flexibleSpace: FlexibleSpaceBar(
         background: flexBackground,
       ),
+      bottom: const AppBarBottomBorder(),
       actions: [
         if (isAdmin)
           IconButton(

@@ -589,7 +589,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [CustomColors.light],
       scaffoldBackgroundColor: light.appBgColor,
       primaryColor: light.accentColor,
-      focusColor: light.separatorColor.withOpacity(0.1),
+      focusColor: light.secondaryForegroundColor.withOpacity(0.1),
       appBarTheme: _buildAppBarTheme(
         bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -601,7 +601,7 @@ class _MyApp extends State<MyApp> {
       hintColor: light.secondaryForegroundColor,
       shadowColor: light.dimmedColor,
       tabBarTheme: _buildTabBarTheme(),
-      canvasColor: light.separatorColor,
+      canvasColor: light.feedBgColor,
       iconTheme: _buildIconTheme(color: light.primaryForegroundColor),
     );
   }
@@ -628,7 +628,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [CustomColors.dark],
       scaffoldBackgroundColor: dark.appBgColor,
       primaryColor: dark.accentColor,
-      focusColor: dark.separatorColor.withOpacity(0.1),
+      focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
       appBarTheme: _buildAppBarTheme(
         bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -640,7 +640,7 @@ class _MyApp extends State<MyApp> {
       hintColor: dark.dimmedColor,
       shadowColor: Colors.white.withOpacity(0.3),
       tabBarTheme: _buildTabBarTheme(),
-      canvasColor: dark.separatorColor,
+      canvasColor: dark.feedBgColor,
       iconTheme: _buildIconTheme(color: dark.primaryForegroundColor),
     );
   }

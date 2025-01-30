@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
 import 'community_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 
 class CommunitiesWidget extends StatefulWidget {
   const CommunitiesWidget({super.key});
@@ -28,6 +29,7 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
 
     return Scaffold(
       appBar: AppBar(
+        bottom: const AppBarBottomBorder(),
         actions: [
           GestureDetector(
             onTap: showCreateCommunityDialog,
