@@ -15,6 +15,7 @@ import 'package:super_tooltip/super_tooltip.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
+import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
@@ -107,21 +108,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               InviteToCommunityDialog.show(context, groupIdentifier!);
             },
           ),
-        SuperTooltip(
-          controller: _tooltipController,
-          backgroundColor: themeData.primaryColor,
-          content: Text(
-            "Write a note to welcome your community!",
-            softWrap: true,
-            style: TextStyle(
-              color: Colors.white,
-            ),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _jumpToAddNote,
-          ),
-        ),
         IconButton(
           icon: const Icon(Icons.edit_outlined),
           onPressed: _editGroup,
@@ -160,6 +146,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: _jumpToAddNote,
+          backgroundColor: ColorList.accent,
+          child: const Icon(Icons.add, color: Colors.white, size: 29),
+          shape: CircleBorder()
+      )
     );
   }
 
