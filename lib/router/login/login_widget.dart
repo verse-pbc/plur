@@ -11,6 +11,7 @@ import 'package:nostr_sdk/nip46/nostr_remote_signer_info.dart';
 import 'package:nostr_sdk/nip55/android_nostr_signer.dart';
 import 'package:nostr_sdk/signer/pubkey_only_nostr_signer.dart';
 import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:styled_text/styled_text.dart';
@@ -19,11 +20,10 @@ import '../../consts/base.dart';
 import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
-
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
 
+/// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -31,15 +31,15 @@ class LoginSignupWidget extends StatefulWidget {
   }
 }
 
-class _LoginSignupState extends State<LoginSignupWidget>
-    with SingleTickerProviderStateMixin {
-  // Boolean flag to show/hide the text in the text field
+/// Manages the state for the `LoginSignupWidget`.
+class _LoginSignupState extends State<LoginSignupWidget> {
+  // Boolean flag to show/hide the text in the text field.
   bool _isTextObscured = true;
 
-  /// Controller for the TextField to track text changes
+  /// Controller for the TextField to track text changes.
   TextEditingController _controller = TextEditingController();
 
-  /// Boolean flag to enable/disable the Login button
+  /// Boolean flag to enable/disable the Login button.
   bool _isLoginButtonEnabled = false;
 
   bool existAndroidNostrSigner = false;
@@ -68,11 +68,11 @@ class _LoginSignupState extends State<LoginSignupWidget>
         });
       }
     }
-    // Add a listener to track text changes in the TextField
+    // Add a listener to track text changes in the TextField.
     _controller.addListener(_updateLoginButtonState);
   }
 
-  /// Updates the state of the button based on the text field's content
+  /// Updates the state of the button based on the text field's content.
   void _updateLoginButtonState() {
     setState(() {
       _isLoginButtonEnabled = _controller.text.isNotEmpty;
@@ -81,7 +81,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
   @override
   void dispose() {
-    // Remove the listener to avoid memory leaks
+    // Remove the listener to avoid memory leaks.
     _controller.removeListener(_updateLoginButtonState);
     _controller.dispose();
     super.dispose();
@@ -111,20 +111,22 @@ class _LoginSignupState extends State<LoginSignupWidget>
     // in a flex container.
     mainList.add(Expanded(child: Container()));
 
+    // Adds a logo image to `mainList` for branding.
     mainList.add(Image.asset(
       "assets/imgs/landing/logo.png",
       width: 162,
       height: 82,
     ));
 
+    // Adds a title text "Communities" inside a `Container` with bottom margin.
     mainList.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
         bottom: 40,
       ),
-      child: const Text(
-        "Communities",
+      child: Text(
+        localization.Communities,
         style: TextStyle(
+          color: ColorList.primaryForeground,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
@@ -143,8 +145,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
         ),
         child: Text(
           localization.Signup,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: ColorList.buttonText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -156,14 +158,25 @@ class _LoginSignupState extends State<LoginSignupWidget>
     // in a flex container.
     mainList.add(Expanded(child: Container()));
 
+    // Define a re-usable text field border to be used in enabled and focused
+    // states.
+    OutlineInputBorder textFieldBorder = OutlineInputBorder(
+      borderSide: BorderSide(color: ColorList.dimmed),
+    );
+
     // Adds a `TextField` to the `mainList`, allowing the user to input a
     // private key securely.
     mainList.add(TextField(
       controller: _controller,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        focusedBorder: textFieldBorder,
+        enabledBorder: textFieldBorder,
         hintText: localization.Your_private_key,
-        fillColor: Colors.white,
+        hintStyle: TextStyle(
+          color: ColorList.dimmed,
+          fontSize: 16,
+        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         // Adds an eye icon as a suffix to toggle password visibility
         suffixIcon: GestureDetector(
           onTap: () {
@@ -171,12 +184,22 @@ class _LoginSignupState extends State<LoginSignupWidget>
               _isTextObscured = !_isTextObscured;
             });
           },
-          child:
-              Icon(_isTextObscured ? Icons.visibility : Icons.visibility_off),
+          child: Icon(
+            _isTextObscured ? Icons.visibility : Icons.visibility_off,
+            color: ColorList.dimmed,
+          ),
         ),
+      ),
+      style: TextStyle(
+        color: ColorList.dimmed,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
       ),
       obscureText: _isTextObscured,
     ));
+
+    // Adds a 10px tall space between the text field and the button.
+    mainList.add(SizedBox(height: 10));
 
     // Adds a full-width "Login" button to `mainList`.
     mainList.add(SizedBox(
@@ -186,14 +209,15 @@ class _LoginSignupState extends State<LoginSignupWidget>
         // disabled.
         onPressed: _isLoginButtonEnabled ? _doLogin : null,
         style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: _isLoginButtonEnabled
-                ? mainColor.withOpacity(1)
-                : mainColor.withOpacity(0.4)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: ColorList.dimmed,
+          disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+          foregroundColor: ColorList.buttonText,
+          disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+        ),
         child: Text(
           localization.Login,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -203,7 +227,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
       mainList.add(Text(localization.or));
-
       mainList.add(Container(
         child: InkWell(
           onTap: loginByAndroidSigner,
@@ -224,7 +247,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
       ));
     } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
       mainList.add(Text(localization.or));
-
       mainList.add(Container(
         child: InkWell(
           onTap: loginWithWebSigner,
@@ -256,45 +278,66 @@ class _LoginSignupState extends State<LoginSignupWidget>
           child: StyledText(
               text: localization.Accept_terms_of_service,
               textAlign: TextAlign.center,
+              style: TextStyle(
+                color: ColorList.primaryForeground,
+                fontSize: 15,
+              ),
               tags: {
                 'accent': StyledTextTag(
-                    style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.red,
-                        color: Colors.red))
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      decorationColor: ColorList.accent,
+                      color: ColorList.accent),
+                )
               }),
         )
       ]),
     ));
 
     return Scaffold(
+      // Sets the background color for the login screen.
+      backgroundColor: ColorList.loginBG,
       body: SizedBox(
+        // Expands to the full width of the screen.
         width: double.maxFinite,
+        // Expands to the full height of the screen.
         height: double.maxFinite,
+        // Uses a `Stack` to position elements, centering them within the
+        // available space.
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
             SizedBox(
-                width: mainWidth,
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: Base.BASE_PADDING * 2),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: mainList,
-                    )))
+              // A `SizedBox` that constrains the width of the content.
+              width: mainWidth,
+              // Adds padding to the content to ensure spacing on the sides.
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Base.BASE_PADDING * 2,
+                ),
+                // Column that holds the main content of the screen.
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: mainList,
+                ),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
+  /// Generates a new private key and updates the UI accordingly.
   void _generatePK() {
+    // Generates a new private key.
     var pk = generatePrivateKey();
+    // Updates the text field with the newly generated private key.
     _controller.text = pk;
-
-    // mark newUser and will show follow suggest after login.
+    // Marks the user as new, so they will see follow suggestions after login.
     newUser = true;
+    // Displays a toast notification informing the user that a new private key
+    // was generated.
     BotToast.showText(
       text: "A new private key has been generated for your account.",
     );

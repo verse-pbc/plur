@@ -70,6 +70,16 @@ class S {
     );
   }
 
+  /// `Communities`
+  String get Communities {
+    return Intl.message(
+      'Communities',
+      name: 'Communities',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Open`
   String get open {
     return Intl.message(
