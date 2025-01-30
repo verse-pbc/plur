@@ -22,6 +22,8 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
+import '../../component/custom_bot_toast.dart';
+import '../../util/theme_util.dart';
 
 class LoginSignupWidget extends StatefulWidget {
   @override
@@ -74,7 +76,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
   Widget build(BuildContext context) {
     localization = S.of(context);
     final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
+    var mainColor = themeData.customColors.accentColor;
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -101,11 +103,12 @@ class _LoginSignupState extends State<LoginSignupWidget>
         top: Base.BASE_PADDING,
         bottom: 40,
       ),
-      child: const Text(
+      child: Text(
         "Communities",
         style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.bold,
+          color: themeData.customColors.primaryForegroundColor,
         ),
       ),
     ));
@@ -120,10 +123,27 @@ class _LoginSignupState extends State<LoginSignupWidget>
     );
     mainList.add(TextField(
       controller: controller,
+      style: TextStyle(
+        color: themeData.customColors.secondaryForegroundColor,
+      ),
+      cursorColor: themeData.customColors.secondaryForegroundColor,
       decoration: InputDecoration(
         hintText: "nsec / hex private key / npub / NIP-05 Address / bunker://",
-        fillColor: Colors.white,
+        fillColor: themeData.customColors.secondaryForegroundColor,
         suffixIcon: suffixIcon,
+        suffixIconColor: themeData.customColors.secondaryForegroundColor,
+        hintStyle: TextStyle(
+          color: themeData.customColors.secondaryForegroundColor,
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+              color: themeData.customColors.secondaryForegroundColor),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: themeData.customColors.secondaryForegroundColor,
+          ),
+        ),
       ),
       obscureText: obscureText,
     ));
@@ -138,8 +158,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
           alignment: Alignment.center,
           child: Text(
             localization.Login,
-            style: const TextStyle(
-              color: Colors.white,
+            style: TextStyle(
+              color: themeData.customColors.buttonTextColor,
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
@@ -180,8 +200,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
             alignment: Alignment.center,
             child: Text(
               localization.Login_With_Android_Signer,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: themeData.customColors.buttonTextColor,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -202,8 +222,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
             alignment: Alignment.center,
             child: Text(
               localization.Login_With_NIP07_Extension,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: themeData.customColors.buttonTextColor,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -218,6 +238,11 @@ class _LoginSignupState extends State<LoginSignupWidget>
       children: [
         Checkbox(
             value: checkTerms,
+            side: BorderSide(
+              color: themeData.customColors.secondaryForegroundColor,
+            ),
+            activeColor: mainColor,
+            checkColor: themeData.customColors.loginBgColor,
             onChanged: (val) {
               setState(() {
                 checkTerms = val;
@@ -243,6 +268,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     ]);
 
     return Scaffold(
+      backgroundColor: themeData.customColors.loginBgColor,
       body: SizedBox(
         width: double.maxFinite,
         height: double.maxFinite,
@@ -251,7 +277,6 @@ class _LoginSignupState extends State<LoginSignupWidget>
           children: [
             SizedBox(
               width: mainWidth,
-              // color: Colors.red,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: mainList,
@@ -273,7 +298,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     // mark newUser and will show follow suggest after login.
     newUser = true;
-    BotToast.showText(text: "A new private key has been generated for your account.");
+    CustomBotToast.show(context,
+        text: "A new private key has been generated for your account.");
   }
 
   Future<void> doLogin() async {
@@ -284,7 +310,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
     var pk = controller.text;
     if (StringUtil.isBlank(pk)) {
-      BotToast.showText(text: S.of(context).Input_can_not_be_null);
+      if (!mounted) return;
+      CustomBotToast.show(context, text: S.of(context).Input_can_not_be_null);
       return;
     }
 
@@ -305,7 +332,9 @@ class _LoginSignupState extends State<LoginSignupWidget>
       }
 
       if (StringUtil.isBlank(pubkey)) {
-        BotToast.showText(text: "${localization.Pubkey} ${localization.not_found}");
+        if (!mounted) return;
+        CustomBotToast.show(context,
+            text: "${localization.Pubkey} ${localization.not_found}");
         return;
       }
 
@@ -316,7 +345,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
 
       var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
       nostr = await relayProvider.genNostr(pubkeyOnlySigner);
-      BotToast.showText(text: localization.Readonly_login_tip);
+      if (!mounted) return;
+      CustomBotToast.show(context, text: localization.Readonly_login_tip);
     } else if (NostrRemoteSignerInfo.isBunkerUrl(pk)) {
       var cancel = BotToast.showLoading();
       try {
@@ -341,7 +371,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
         getPublicKey(pk);
       } catch (e) {
         // is not a private key
-        BotToast.showText(text: S.of(context).Wrong_Private_Key_format);
+        CustomBotToast.show(context,
+            text: S.of(context).Wrong_Private_Key_format);
         return;
       }
 
@@ -361,7 +392,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
   }
 
   void showAcceptTermTip() {
-    BotToast.showText(text: S.of(context).Please_accept_the_terms);
+    CustomBotToast.show(context, text: S.of(context).Please_accept_the_terms);
     animationController.reset();
     animationController.forward();
   }
@@ -375,7 +406,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
     var androidNostrSigner = AndroidNostrSigner();
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
-      BotToast.showText(text: localization.Login_fail);
+      if (!mounted) return;
+      CustomBotToast.show(context, text: localization.Login_fail);
       return;
     }
 
@@ -406,7 +438,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
     var signer = NIP07Signer();
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
-      BotToast.showText(text: localization.Login_fail);
+      if (!mounted) return;
+      CustomBotToast.show(context, text: localization.Login_fail);
       return;
     }
 

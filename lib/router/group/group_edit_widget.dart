@@ -14,6 +14,7 @@ import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
+import '../../util/theme_util.dart';
 
 class GroupEditWidget extends StatefulWidget {
   const GroupEditWidget({super.key});
@@ -78,8 +79,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     groupIdController.text = groupIdentifier!.groupId;
 
     final themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
-    var textColor = themeData.textTheme.bodyMedium!.color;
+    final textColor = themeData.textTheme.bodyMedium!.color;
 
     var submitBtn = TextButton(
       onPressed: doSave,
@@ -93,9 +93,8 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       ),
     );
 
-    Color? appbarBackgroundColor = Colors.transparent;
     var appBar = Appbar4Stack(
-      backgroundColor: appbarBackgroundColor,
+      backgroundColor: themeData.customColors.navBgColor,
       action: Container(
         margin: EdgeInsets.only(right: Base.BASE_PADDING),
         child: submitBtn,
@@ -225,7 +224,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
             height: mediaDataCache.size.height - mediaDataCache.padding.top,
             margin: EdgeInsets.only(top: mediaDataCache.padding.top),
             child: Container(
-              color: cardColor,
+
               padding: EdgeInsets.only(
                   top: mediaDataCache.padding.top + Base.BASE_PADDING),
               child: SingleChildScrollView(
