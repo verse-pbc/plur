@@ -52,7 +52,7 @@ class CommunityWidget extends StatelessWidget {
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20,
-                color: themeData.textTheme.labelMedium!.color,
+                color: themeData.textTheme.bodyMedium!.color,
               ),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,

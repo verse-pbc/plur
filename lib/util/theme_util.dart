@@ -61,7 +61,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     cardBgColor: Color(0xFFFFFFFF),
     dimmedColor: Color(0xFFA68782),
     loginBgColor: Color(0xFFFDF6F5),
-    navBgColor: Color(0xFFFDF6F5),
+    navBgColor: Color(0xFFFFFFFF),
     notesBgColor: Color(0xFFFFFFFF),
     primaryForegroundColor: Color(0xFF594946),
     secondaryForegroundColor: Color(0xFFA68782),
