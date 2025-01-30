@@ -172,11 +172,19 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         items: [
           DropdownMenuItem(
             value: true,
-            child: Text(localization.public),
+            child: Text(localization.public,
+              style: TextStyle(
+                color: themeData.textTheme.bodyMedium!.color,
+              ),
+            ),
           ),
           DropdownMenuItem(
             value: false,
-            child: Text(localization.private),
+            child: Text(localization.private,
+              style: TextStyle(
+                color: themeData.textTheme.bodyMedium!.color,
+              ),
+            ),
           ),
         ],
         value: publicValue,
@@ -198,11 +206,19 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         items: [
           DropdownMenuItem(
             value: true,
-            child: Text(localization.open),
+            child: Text(localization.open,
+              style: TextStyle(
+                color: themeData.textTheme.bodyMedium!.color,
+              ),
+            ),
           ),
           DropdownMenuItem(
             value: false,
-            child: Text(localization.closed),
+            child: Text(localization.closed,
+              style: TextStyle(
+                color: themeData.textTheme.bodyMedium!.color,
+              ),
+            ),
           ),
         ],
         value: openValue,
