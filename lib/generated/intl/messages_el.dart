@@ -318,7 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("αποτυχία αποστολής"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Ευαίσθητο περιεχόμενο"),
-        "Setting": MessageLookupByLibrary.simpleMessage("ρύθμιση"),
+        "Settings": MessageLookupByLibrary.simpleMessage("ρύθμιση"),
         "Share": MessageLookupByLibrary.simpleMessage("μερίδιο"),
         "Show": MessageLookupByLibrary.simpleMessage("οθόνη"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Δείτε περισσότερα"),

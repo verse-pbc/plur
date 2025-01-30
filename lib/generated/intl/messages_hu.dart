@@ -305,7 +305,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("sikertelen küldés"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Érzékeny tartalom"),
-        "Setting": MessageLookupByLibrary.simpleMessage("felállítás"),
+        "Settings": MessageLookupByLibrary.simpleMessage("felállítás"),
         "Share": MessageLookupByLibrary.simpleMessage("részesedés"),
         "Show": MessageLookupByLibrary.simpleMessage("kijelző"),
         "Show_more":

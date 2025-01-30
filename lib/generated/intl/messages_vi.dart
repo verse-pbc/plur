@@ -301,7 +301,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("Gửi thất bại"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Nội dung nhạy cảm"),
-        "Setting": MessageLookupByLibrary.simpleMessage("Thiết lập"),
+        "Settings": MessageLookupByLibrary.simpleMessage("Thiết lập"),
         "Share": MessageLookupByLibrary.simpleMessage("Chia sẻ"),
         "Show": MessageLookupByLibrary.simpleMessage("Hiển thị"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Xem thêm"),
