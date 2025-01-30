@@ -27,6 +27,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.buttonTextColor,
     required this.cardBgColor,
     required this.dimmedColor,
+    required this.feedBgColor,
     required this.loginBgColor,
     required this.navBgColor,
     required this.notesBgColor,
@@ -43,6 +44,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color buttonTextColor;
   final Color cardBgColor;
   final Color dimmedColor;
+   final Color feedBgColor;
   final Color loginBgColor;
   final Color navBgColor;
   final Color notesBgColor;
@@ -60,6 +62,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     buttonTextColor: Color(0xFFFFFFFF),
     cardBgColor: Color(0xFFFFFFFF),
     dimmedColor: Color(0xFFA68782),
+    feedBgColor: Color(0xFFF2E7E6),
     loginBgColor: Color(0xFFFDF6F5),
     navBgColor: Color(0xFFFFFFFF),
     notesBgColor: Color(0xFFFFFFFF),
@@ -78,6 +81,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     buttonTextColor: Color(0xFFFFFFFF),
     cardBgColor: Color(0xFF160F24),
     dimmedColor: Color(0xFF8D7EAB),
+    feedBgColor: Color(0xFF2A1F3F),
     loginBgColor: Color(0xFF160F24),
     navBgColor: Color(0xFF160F24),
     notesBgColor: Color(0xFF160F24),
@@ -97,6 +101,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? buttonTextColor,
     Color? cardBgColor,
     Color? dimmedColor,
+    Color? feedBgColor,
     Color? loginBgColor,
     Color? navBgColor,
     Color? notesBgColor,
@@ -113,6 +118,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       buttonTextColor: buttonTextColor ?? this.buttonTextColor,
       cardBgColor: cardBgColor ?? this.cardBgColor,
       dimmedColor: dimmedColor ?? this.dimmedColor,
+      feedBgColor: feedBgColor ?? this.feedBgColor,
       loginBgColor: loginBgColor ?? this.loginBgColor,
       navBgColor: navBgColor ?? this.navBgColor,
       notesBgColor: notesBgColor ?? this.notesBgColor,
@@ -141,6 +147,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
           buttonTextColor,
       cardBgColor: Color.lerp(cardBgColor, other.cardBgColor, t) ?? cardBgColor,
       dimmedColor: Color.lerp(dimmedColor, other.dimmedColor, t) ?? dimmedColor,
+      feedBgColor: Color.lerp(feedBgColor, other.feedBgColor, t) ?? feedBgColor,
       loginBgColor:
           Color.lerp(loginBgColor, other.loginBgColor, t) ?? loginBgColor,
       navBgColor: Color.lerp(navBgColor, other.navBgColor, t) ?? navBgColor,

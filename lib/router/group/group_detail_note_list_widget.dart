@@ -13,6 +13,7 @@ import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/load_more_event.dart';
+import '../../util/theme_util.dart';
 
 class GroupDetailNoteListWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
@@ -46,53 +47,60 @@ class _GroupDetailNoteListWidgetState
   Widget doBuild(BuildContext context) {
     var settingProvider = Provider.of<SettingProvider>(context);
     groupDetailProvider = Provider.of<GroupDetailProvider>(context);
-
+    final themeData = Theme.of(context);
     var eventBox = groupDetailProvider!.notesBox;
     var events = eventBox.all();
 
+    Widget content;
     if (events.isEmpty) {
-      return NoNotesWidget(
+      content = NoNotesWidget(
         groupName: widget.groupName,
         onRefresh: onRefresh,
       );
+    } else {
+      preBuild();
+
+      var main = RefreshIndicator(
+        onRefresh: onRefresh,
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          controller: scrollController,
+          itemBuilder: (context, index) {
+            var event = events[index];
+            return EventListWidget(
+              event: event,
+              showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            );
+          },
+          itemCount: events.length,
+        ),
+      );
+
+      var newNotesLength = groupDetailProvider!.newNotesBox.length();
+      if (newNotesLength <= 0) {
+        content = main;
+      } else {
+        List<Widget> stackList = [main];
+        stackList.add(Positioned(
+          top: Base.BASE_PADDING,
+          child: NewNotesUpdatedWidget(
+            num: newNotesLength,
+            onTap: () {
+              groupDetailProvider!.mergeNewEvent();
+              scrollController.jumpTo(0);
+            },
+          ),
+        ));
+        content = Stack(
+          alignment: Alignment.center,
+          children: stackList,
+        );
+      }
     }
-    preBuild();
 
-    var main = RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView.builder(
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          var event = events[index];
-          return EventListWidget(
-            event: event,
-            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
-          );
-        },
-        itemCount: events.length,
-      ),
-    );
-
-    var newNotesLength = groupDetailProvider!.newNotesBox.length();
-    if (newNotesLength <= 0) {
-      return main;
-    }
-
-    List<Widget> stackList = [main];
-    stackList.add(Positioned(
-      top: Base.BASE_PADDING,
-      child: NewNotesUpdatedWidget(
-        num: newNotesLength,
-        onTap: () {
-          groupDetailProvider!.mergeNewEvent();
-          scrollController.jumpTo(0);
-        },
-      ),
-    ));
-
-    return Stack(
-      alignment: Alignment.center,
-      children: stackList,
+    return Container(
+      color: themeData.customColors.feedBgColor,
+      child: content,
     );
   }
 
