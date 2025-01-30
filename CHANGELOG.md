@@ -28,3 +28,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Internal Changes
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)
 - Fixed the Check Changelog job [#54](https://github.com/verse-pbc/issues/issues/54)
+- Added create account test. [#154](https://github.com/verse-pbc/issues/issues/154)
