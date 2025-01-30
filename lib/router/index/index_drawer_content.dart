@@ -21,6 +21,7 @@ import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
 import '../../data/join_group_parameters.dart';
+import '../../util/theme_util.dart';
 
 class IndexDrawerContentComponnent extends StatefulWidget {
   bool smallMode;
@@ -367,8 +368,10 @@ class _IndexDrawerContentComponnent
   }
 
   void _showBasicModalBottomSheet(context) async {
+    final theme = Theme.of(context);
     showModalBottomSheet(
       isScrollControlled: false,
+      backgroundColor: theme.customColors.separatorColor,
       context: context,
       builder: (BuildContext context) {
         return AccountManagerWidget();

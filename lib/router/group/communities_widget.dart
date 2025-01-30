@@ -8,7 +8,6 @@ import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import 'community_widget.dart';
 
@@ -42,7 +41,6 @@ class _CommunitiesWidgetState extends State<CommunitiesWidget> {
         ],
       ),
       body: Container(
-        color: ColorList.plurPurple,
         child: groupIds.isEmpty
             ? const Center(
                 child: NoCommunitiesWidget(),

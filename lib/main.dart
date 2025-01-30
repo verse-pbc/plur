@@ -53,7 +53,6 @@ import 'package:window_manager/window_manager.dart';
 
 import 'component/content/trie_text_matcher/trie_text_matcher.dart';
 import 'consts/base.dart';
-import 'consts/colors.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
@@ -105,10 +104,10 @@ import 'router/user/user_contact_list_widget.dart';
 import 'router/user/user_relays_widget.dart';
 import 'router/user/user_widget.dart';
 import 'system_timer.dart';
-import 'util/colors_util.dart';
 import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
+import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -569,148 +568,135 @@ class _MyApp extends State<MyApp> {
   }
 
   ThemeData getLightTheme() {
-    Color color500 = _getMainColor();
-    MaterialColor themeColor = ColorList.getThemeColor(color500.value);
-
-    Color mainTextColor = Colors.black;
-    Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = Colors.grey[100];
-    Color cardColor = Colors.white;
-
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
-    }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
-    }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
-    }
-
+    const CustomColors light = CustomColors.light;
     double baseFontSize = settingProvider.fontSize;
 
-    var textTheme = TextTheme(
-      bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
-      bodyMedium: TextStyle(fontSize: baseFontSize, color: mainTextColor),
-      bodySmall: TextStyle(fontSize: baseFontSize - 2, color: mainTextColor),
+    // Build text themes
+    var textTheme = _buildTextTheme(
+      baseFontSize: baseFontSize,
+      foregroundColor: light.primaryForegroundColor,
     );
-    var titleTextStyle = TextStyle(
-      color: mainTextColor,
+    var titleTextStyle = _buildTitleTextStyle(
+      foregroundColor: light.primaryForegroundColor,
     );
 
+    // Apply custom font if set
     if (settingProvider.fontFamily != null) {
-      textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
-          textStyle: titleTextStyle);
-    }
-
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
-      scaffoldBackgroundColor = Colors.transparent;
-      cardColor = cardColor.withOpacity(0.6);
+      textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
     return ThemeData(
-      platform: TargetPlatform.iOS,
-      primarySwatch: themeColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeColor[500]!,
-        brightness: Brightness.light,
-      ),
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      primaryColor: themeColor[500],
-      appBarTheme: AppBarTheme(
-        backgroundColor: cardColor,
+      extensions: const [CustomColors.light],
+      scaffoldBackgroundColor: light.appBgColor,
+      primaryColor: light.accentColor,
+      focusColor: light.separatorColor.withOpacity(0.1),
+      appBarTheme: _buildAppBarTheme(
+        bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+        foregroundColor: light.primaryForegroundColor,
       ),
-      dividerColor: ColorsUtil.hexToColor("#DFE1EB"),
-      cardColor: cardColor,
+      dividerColor: light.separatorColor,
+      cardColor: light.cardBgColor,
       textTheme: textTheme,
-      hintColor: hintColor,
-      buttonTheme: const ButtonThemeData(),
-      shadowColor: Colors.black.withOpacity(0.2),
-      tabBarTheme: TabBarTheme(
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[200],
-      ),
+      hintColor: light.secondaryForegroundColor,
+      shadowColor: light.dimmedColor,
+      tabBarTheme: _buildTabBarTheme(),
+      canvasColor: light.separatorColor,
     );
   }
 
   ThemeData getDarkTheme() {
-    Color color500 = _getMainColor();
-    MaterialColor themeColor = ColorList.getThemeColor(color500.value);
-
-    Color? mainTextColor;
-    Color? topFontColor = Colors.grey[200];
-    Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = const Color.fromARGB(255, 40, 40, 40);
-    Color cardColor = Colors.black;
-
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
-    }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
-    }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
-    }
-
+    const CustomColors dark = CustomColors.dark;
     double baseFontSize = settingProvider.fontSize;
 
-    var textTheme = TextTheme(
-      bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
-      bodyMedium: TextStyle(fontSize: baseFontSize, color: mainTextColor),
-      bodySmall: TextStyle(fontSize: baseFontSize - 2, color: mainTextColor),
+    // Build text themes
+    var textTheme = _buildTextTheme(
+      baseFontSize: baseFontSize,
+      foregroundColor: dark.primaryForegroundColor,
     );
-    var titleTextStyle = TextStyle(
-      color: topFontColor,
+    var titleTextStyle = _buildTitleTextStyle(
+      foregroundColor: dark.primaryForegroundColor,
     );
 
+    // Apply custom font if set
     if (settingProvider.fontFamily != null) {
-      textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
-          textStyle: titleTextStyle);
-    }
-
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
-      scaffoldBackgroundColor = Colors.transparent;
-      cardColor = cardColor.withOpacity(0.6);
+      textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
     return ThemeData(
-      platform: TargetPlatform.iOS,
-      primarySwatch: themeColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeColor[500]!,
-        brightness: Brightness.dark,
-      ),
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      primaryColor: themeColor[500],
-      appBarTheme: AppBarTheme(
-        backgroundColor: cardColor,
+      extensions: const [CustomColors.dark],
+      scaffoldBackgroundColor: dark.appBgColor,
+      primaryColor: dark.accentColor,
+      focusColor: dark.separatorColor.withOpacity(0.1),
+      appBarTheme: _buildAppBarTheme(
+        bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+        foregroundColor: dark.primaryForegroundColor,
       ),
-      dividerColor: Colors.grey[200],
-      cardColor: cardColor,
+      dividerColor: dark.separatorColor,
+      cardColor: dark.cardBgColor,
       textTheme: textTheme,
-      hintColor: hintColor,
+      hintColor: dark.dimmedColor,
       shadowColor: Colors.white.withOpacity(0.3),
-      tabBarTheme: TabBarTheme(
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[200],
+      tabBarTheme: _buildTabBarTheme(),
+      canvasColor: dark.separatorColor,
+    );
+  }
+
+  // Theme methods
+  TextTheme _buildTextTheme({
+    required double baseFontSize,
+    required Color foregroundColor,
+  }) {
+    return TextTheme(
+      bodyLarge: TextStyle(
+        fontSize: baseFontSize + 2,
+        color: foregroundColor,
       ),
+      bodyMedium: TextStyle(
+        fontSize: baseFontSize,
+        color: foregroundColor,
+      ),
+      bodySmall: TextStyle(
+        fontSize: baseFontSize - 2,
+        color: foregroundColor,
+      ),
+    );
+  }
+
+  TextStyle _buildTitleTextStyle({
+    required Color foregroundColor,
+  }) {
+    return TextStyle(color: foregroundColor);
+  }
+
+  TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) {
+    return GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
+  }
+
+  AppBarTheme _buildAppBarTheme({
+    required Color bgColor,
+    required TextStyle titleTextStyle,
+    required Color foregroundColor,
+  }) {
+    return AppBarTheme(
+      backgroundColor: bgColor,
+      titleTextStyle: titleTextStyle,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      iconTheme: IconThemeData(
+        color: foregroundColor,
+      ),
+    );
+  }
+
+  TabBarTheme _buildTabBarTheme() {
+    return TabBarTheme(
+      indicatorColor: Colors.white,
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerHeight: 0,
+      labelColor: Colors.white,
+      unselectedLabelColor: Colors.grey[200],
     );
   }
 
@@ -728,14 +714,6 @@ class _MyApp extends State<MyApp> {
       }
     }
   }
-}
-
-Color _getMainColor() {
-  Color color500 = const Color(0xff519495);
-  if (settingProvider.themeColor != null) {
-    color500 = Color(settingProvider.themeColor!);
-  }
-  return color500;
 }
 
 final Map<String, int> GetTimeAgoSupportLocale = {
