@@ -110,21 +110,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               InviteToCommunityDialog.show(context, groupIdentifier!);
             },
           ),
-        SuperTooltip(
-          controller: _tooltipController,
-          backgroundColor: themeData.customColors.tooltipBackground,
-          content: Text(
-            "Write a note to welcome your community!",
-            softWrap: true,
-            style: TextStyle(
-              color: themeData.customColors.tooltipText,
-            ),
-          ),
-          child: IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: _jumpToAddNote,
-          ),
-        ),
         IconButton(
           icon: const Icon(Icons.edit_outlined),
           onPressed: _editGroup,
@@ -163,6 +148,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: _jumpToAddNote,
+          backgroundColor: themeData.customColors.accentColor,
+          child: const Icon(Icons.add, color: Colors.white, size: 29),
+          shape: CircleBorder()
+      )
     );
   }
 
