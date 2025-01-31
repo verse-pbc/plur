@@ -227,8 +227,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       mainList.add(SizedBox(
         width: double.infinity,
         child: FilledButton(
-          // Calls the `_doLogin` function when enabled; otherwise, it remains
-          // disabled.
           onPressed: _loginByAndroidSigner,
           style: FilledButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -250,8 +248,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       mainList.add(SizedBox(
         width: double.infinity,
         child: FilledButton(
-          // Calls the `_doLogin` function when enabled; otherwise, it remains
-          // disabled.
           onPressed: _loginWithWebSigner,
           style: FilledButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
