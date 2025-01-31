@@ -40,7 +40,7 @@ class _GroupDetailNoteListWidgetState
   final ScrollController _controller = ScrollController();
 
   ScrollController scrollController = ScrollController();
-  var subscribeId = StringUtil.rndNameStr(16);
+  final subscribeId = StringUtil.rndNameStr(16);
 
   @override
   void initState() {
@@ -148,7 +148,7 @@ class _GroupDetailNoteListWidgetState
   /// Handles events received from group note subscription.
   void _handleSubscriptionEvent(Event event) {
     later(event, (list) {
-      for (var e in list) {
+      for (final e in list) {
         groupDetailProvider!.onNewEvent(e);
       }
     }, null);
