@@ -167,14 +167,13 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
-    EditorWidget.open(context,
-            groupIdentifier: groupIdentifier,
-            groupEventKind: EventKind.GROUP_NOTE,
-            tagsAddedWhenSend: tags)
-        .then((event) {
-      if (event != null &&
-          (event.kind == EventKind.GROUP_NOTE ||
-              event.kind == EventKind.GROUP_NOTE_REPLY)) {
+    EditorWidget.open(
+      context,
+      groupIdentifier: groupIdentifier,
+      groupEventKind: EventKind.GROUP_NOTE,
+      tagsAddedWhenSend: tags,
+    ).then((event) {
+      if (event != null && groupDetailProvider.isGroupNote(event)) {
         groupDetailProvider.handleDirectEvent(event);
       }
     });

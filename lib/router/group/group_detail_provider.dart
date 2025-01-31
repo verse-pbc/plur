@@ -71,7 +71,7 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   void mergeNewEvent() {
-    var isEmpty = newNotesBox.isEmpty();
+    final isEmpty = newNotesBox.isEmpty();
     if (isEmpty) {
       return;
     }
@@ -211,19 +211,16 @@ class GroupDetailProvider extends ChangeNotifier
     return previous;
   }
 
+  /// Handles an event that the current user created from a group.
+  ///
+  /// Only processes group notes and updates the UI if the event was successfully
+  /// added to the notes box.
+  ///
+  /// [event] The event to process
   void handleDirectEvent(Event event) {
-    if (event.kind == EventKind.GROUP_NOTE ||
-        event.kind == EventKind.GROUP_NOTE_REPLY) {
-      if (notesBox.add(event)) {
-        notesBox.sort();
-        notifyListeners();
-      }
-    } else if (event.kind == EventKind.GROUP_CHAT_MESSAGE ||
-        event.kind == EventKind.GROUP_CHAT_REPLY) {
-      if (chatsBox.add(event)) {
-        chatsBox.sort();
-        notifyListeners();
-      }
-    }
+    if (!isGroupNote(event)) return;
+    if (!notesBox.add(event)) return;
+    notesBox.sort();
+    notifyListeners();
   }
 }
