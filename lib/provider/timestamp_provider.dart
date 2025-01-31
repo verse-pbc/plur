@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+/// Keeps track of time and updates every minute.
+/// Automatically notifies listeners when the time changes.
 class TimestampProvider extends ChangeNotifier {
   Timer? _timer;
   DateTime _currentTime = DateTime.now();

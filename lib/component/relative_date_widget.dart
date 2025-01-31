@@ -50,16 +50,16 @@ class RelativeDateWidget extends StatelessWidget {
     switch (unit) {
       case TimeUnit.seconds:
         if (difference.inSeconds == 0) return 'just now';
-        timeStr = '${difference.inSeconds} s}';
+        timeStr = '${difference.inSeconds}s';
         break;
       case TimeUnit.minutes:
-        timeStr = '${difference.inMinutes} m}';
+        timeStr = '${difference.inMinutes}m';
         break;
       case TimeUnit.hours:
-        timeStr = '${difference.inHours} h}';
+        timeStr = '${difference.inHours}h';
         break;
       case TimeUnit.days:
-        timeStr = '${difference.inDays} d}';
+        timeStr = '${difference.inDays}d';
         break;
       case TimeUnit.older:
         return DateFormat('dd MMM, yyyy').format(timestamp);
