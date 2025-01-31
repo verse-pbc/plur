@@ -90,8 +90,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
-    final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -217,7 +215,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         ),
         child: Text(
           localization.Login,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -226,41 +224,47 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     ));
 
     if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
-      mainList.add(Text(localization.or));
-      mainList.add(Container(
-        child: InkWell(
-          onTap: loginByAndroidSigner,
-          child: Container(
-            height: 36,
-            color: mainColor,
-            alignment: Alignment.center,
-            child: Text(
-              localization.Login_With_Android_Signer,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          // Calls the `_doLogin` function when enabled; otherwise, it remains
+          // disabled.
+          onPressed: _loginByAndroidSigner,
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: ColorList.dimmed,
+            disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+            foregroundColor: ColorList.buttonText,
+            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+          ),
+          child: Text(
+            localization.Login_With_Android_Signer,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ));
     } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
-      mainList.add(Text(localization.or));
-      mainList.add(Container(
-        child: InkWell(
-          onTap: loginWithWebSigner,
-          child: Container(
-            height: 36,
-            color: mainColor,
-            alignment: Alignment.center,
-            child: Text(
-              localization.Login_With_NIP07_Extension,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          // Calls the `_doLogin` function when enabled; otherwise, it remains
+          // disabled.
+          onPressed: _loginWithWebSigner,
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: ColorList.dimmed,
+            disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+            foregroundColor: ColorList.buttonText,
+            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+          ),
+          child: Text(
+            localization.Login_With_NIP07_Extension,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -373,7 +377,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         return;
       }
 
-      doPreLogin();
+      _doPreLogin();
 
       var npubKey = Nip19.encodePubKey(pubkey!);
       settingProvider.addAndChangePrivateKey(npubKey, updateUI: false);
@@ -409,7 +413,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         return;
       }
 
-      doPreLogin();
+      _doPreLogin();
 
       settingProvider.addAndChangePrivateKey(pk, updateUI: false);
       nostr = await relayProvider.genNostrWithKey(pk);
@@ -424,7 +428,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     indexProvider.setCurrentTap(0);
   }
 
-  Future<void> loginByAndroidSigner() async {
+  Future<void> _loginByAndroidSigner() async {
     var androidNostrSigner = AndroidNostrSigner();
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -432,7 +436,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       return;
     }
 
-    doPreLogin();
+    _doPreLogin();
 
     var key = "${AndroidNostrSigner.URI_PRE}:$pubkey";
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
@@ -450,7 +454,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     indexProvider.setCurrentTap(0);
   }
 
-  Future<void> loginWithWebSigner() async {
+  Future<void> _loginWithWebSigner() async {
     var signer = NIP07Signer();
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -458,7 +462,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       return;
     }
 
-    doPreLogin();
+    _doPreLogin();
 
     var key = "${NIP07Signer.URI_PRE}:$pubkey";
     settingProvider.addAndChangePrivateKey(key, updateUI: false);
@@ -473,7 +477,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     indexProvider.setCurrentTap(0);
   }
 
-  void doPreLogin() {
+  void _doPreLogin() {
     if (backAfterLogin) {
       AccountManagerWidgetState.clearCurrentMemInfo();
       nostr!.close();
