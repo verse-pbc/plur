@@ -144,14 +144,11 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       switch (event.kind) {
         case EventKind.GROUP_DELETE_GROUP:
           listProvider.handleGroupDeleteEvent(event);
-          break;
         case EventKind.GROUP_MEMBERS:
         case EventKind.GROUP_ADMINS:
           listProvider.handleAdminMembershipEvent(event);
-          break;
         case EventKind.GROUP_EDIT_METADATA:
           listProvider.handleEditMetadataEvent(event);
-          break;
       }
     }, null);
   }
