@@ -26,7 +26,6 @@ import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
 import '../edit/editor_widget.dart';
 import '../follow/follow_index_widget.dart';
-import '../globals/globals_index_widget.dart';
 import '../group/communities_widget.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
@@ -223,9 +222,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
         index: indexProvider.currentTap,
         children: [
           const CommunitiesWidget(),
-          GlobalsIndexWidget(
-            tabController: globalsTabController,
-          ),
           const SearchWidget(),
           DMWidget(
             tabController: dmTabController,

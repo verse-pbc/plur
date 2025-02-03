@@ -302,7 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("saatmine nurjus"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Tundlik sisu"),
-        "Setting": MessageLookupByLibrary.simpleMessage("seadistada"),
+        "Settings": MessageLookupByLibrary.simpleMessage("seadistada"),
         "Share": MessageLookupByLibrary.simpleMessage("osa"),
         "Show": MessageLookupByLibrary.simpleMessage("ekraan"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Vaata rohkem"),
