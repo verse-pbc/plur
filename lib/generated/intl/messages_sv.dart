@@ -303,7 +303,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("misslyckas med sändning"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Känsligt innehåll"),
-        "Setting": MessageLookupByLibrary.simpleMessage("inrätta"),
+        "Settings": MessageLookupByLibrary.simpleMessage("inrätta"),
         "Share": MessageLookupByLibrary.simpleMessage("andel"),
         "Show": MessageLookupByLibrary.simpleMessage("visa"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Visa mer"),

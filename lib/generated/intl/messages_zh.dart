@@ -302,7 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("发送失败"),
         "Send_interval": MessageLookupByLibrary.simpleMessage("发送间隔"),
         "Sensitive_Content": MessageLookupByLibrary.simpleMessage("敏感内容"),
-        "Setting": MessageLookupByLibrary.simpleMessage("设置"),
+        "Settings": MessageLookupByLibrary.simpleMessage("设置"),
         "Share": MessageLookupByLibrary.simpleMessage("分享"),
         "Show": MessageLookupByLibrary.simpleMessage("显示"),
         "Show_more": MessageLookupByLibrary.simpleMessage("查看更多"),

@@ -257,7 +257,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("送信"),
         "Send_fail": MessageLookupByLibrary.simpleMessage("送信に失敗しました"),
         "Sensitive_Content": MessageLookupByLibrary.simpleMessage("機密コンテンツ"),
-        "Setting": MessageLookupByLibrary.simpleMessage("設定＃セッテイ＃"),
+        "Settings": MessageLookupByLibrary.simpleMessage("設定＃セッテイ＃"),
         "Share": MessageLookupByLibrary.simpleMessage("分かち合う"),
         "Show": MessageLookupByLibrary.simpleMessage("表示"),
         "Show_more": MessageLookupByLibrary.simpleMessage("詳細を表示"),

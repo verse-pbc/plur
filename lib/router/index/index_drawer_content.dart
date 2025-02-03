@@ -219,7 +219,7 @@ class _IndexDrawerContentComponnent
 
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
-      name: localization.Setting,
+      name: localization.Settings,
       onTap: () {
         RouterUtil.router(context, RouterPath.SETTING);
       },
