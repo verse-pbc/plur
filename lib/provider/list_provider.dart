@@ -329,9 +329,10 @@ class ListProvider extends ChangeNotifier {
     return false;
   }
 
-  final List<GroupIdentifier> _groupIdentifiers = [];
+  final Set<GroupIdentifier> _groupIdentifiers = {};
 
-  get groupIdentifiers => _groupIdentifiers;
+  // Getter to maintain compatibility with existing code.
+  List<GroupIdentifier> get groupIdentifiers => _groupIdentifiers.toList();
 
   void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
     // Check if already a member first
