@@ -151,7 +151,6 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, dynamic> _genFilter(String groupId, int eventKind) {
     var filter = Filter(
       kinds: [eventKind],
-      limit: 1,
     );
     var jsonMap = filter.toJson();
     jsonMap["d"] = [groupId];
@@ -183,14 +182,13 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   void onEvent(GroupIdentifier groupIdentifier, Event e) {
     bool updated = false;
     if (e.kind == EventKind.GROUP_METADATA) {
-      updated = handleEvent(
-          groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
+      updated = handleEvent(groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_ADMINS) {
-      updated = handleEvent(
-          groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
+      updated = handleEvent(groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_MEMBERS) {
-      updated = handleEvent(
-          groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
+      updated = handleEvent(groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
+    } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {
+      updated = handleEvent(groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     }
 
     if (updated) {
@@ -215,6 +213,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       map[key] = groupObject;
       updated = true;
     } else {
+      // gets the most recent valid metadata
       if (object is GroupObject && groupObject.createdAt > object.createdAt) {
         map[key] = groupObject;
         updated = true;
