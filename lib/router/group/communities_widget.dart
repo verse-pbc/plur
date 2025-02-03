@@ -144,8 +144,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       switch (event.kind) {
         case EventKind.GROUP_DELETE_GROUP:
           listProvider.handleGroupDeleteEvent(event);
-        case EventKind.GROUP_MEMBERS:
-        case EventKind.GROUP_ADMINS:
+        case EventKind.GROUP_MEMBERS || EventKind.GROUP_ADMINS:
           listProvider.handleAdminMembershipEvent(event);
         case EventKind.GROUP_EDIT_METADATA:
           listProvider.handleEditMetadataEvent(event);
