@@ -390,6 +390,9 @@ class ListProvider extends ChangeNotifier {
       return (groupId, false);
     }
 
+    // Add a delay to allow the relay to process the join event
+    await Future.delayed(const Duration(seconds: 2));
+
     bool membershipConfirmed = await _verifyMembership(request);
     return (groupId, membershipConfirmed);
   }
