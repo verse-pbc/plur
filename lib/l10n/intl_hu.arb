@@ -89,7 +89,6 @@
     "Hashtag": "címke",
     "Hide": "rejtsd el",
     "Home": "honlap",
-    "I_accept_the": "Elfogadom",
     "Image_Compress": "Képtömörítés",
     "Image_or_Video": "Kép vagy videó",
     "Image_save_success": "Sikeresen mentett kép",
@@ -146,7 +145,6 @@
     "Password": "jelszó",
     "Pay": "Fizetés",
     "Picture": "kép",
-    "Please_accept_the_terms": "Kérem, fogadja el a felhasználói szerződést.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Kérjük, ellenőrizze személyazonosságát az adatvédelmi zár kikapcsolásához",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Kérjük, ellenőrizze személyazonosságát az adatvédelmi zár feloldásához",
     "Please_authenticate_to_use_app": "Kérjük, ellenőrizze a személyazonosságát az alkalmazás használatához",
@@ -247,6 +245,5 @@
     "open": "nyitva",
     "or": "talán",
     "poll_option_info": "A szavazási lehetőségek információi",
-    "replied": "válasz",
-    "terms_of_user": "Felhasználói megállapodás"
+    "replied": "válasz"
 }
