@@ -3,12 +3,7 @@ import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
-import 'package:nostr_sdk/nip05/nip05_validor.dart';
-import 'package:nostr_sdk/nip07/nip07_signer.dart';
-import 'package:nostr_sdk/nip19/nip19.dart';
-import 'package:nostr_sdk/nip46/nostr_remote_signer_info.dart';
-import 'package:nostr_sdk/nip55/android_nostr_signer.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/text_input_dialog.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/point_widget.dart';
@@ -27,7 +22,6 @@ import '../../data/dm_session_info_db.dart';
 import '../../data/event_db.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'index_drawer_content.dart';
 
 class AccountManagerWidget extends StatefulWidget {

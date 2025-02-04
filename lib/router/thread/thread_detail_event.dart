@@ -1,5 +1,4 @@
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_relation.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 class ThreadDetailEvent {
   Event event;

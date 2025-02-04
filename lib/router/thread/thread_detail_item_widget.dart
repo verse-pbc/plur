@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../component/event/event_bitcoin_icon_widget.dart';
 import '../../consts/base.dart';

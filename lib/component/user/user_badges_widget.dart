@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip58/badge_definition.dart';
-import 'package:nostr_sdk/utils/later_function.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../main.dart';
 import '../../provider/badge_definition_provider.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import '../badge_widget.dart';
 import '../badge_detail_dialog.dart';
 import '../cust_state.dart';

@@ -1,9 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_relation.dart';
-import 'package:nostr_sdk/nip75/zap_goals_info.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event/event_reactions_widget.dart';
 import 'package:provider/provider.dart';
 

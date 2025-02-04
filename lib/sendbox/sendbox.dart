@@ -1,4 +1,4 @@
-import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/dio_util.dart';
 
 class SendBox {

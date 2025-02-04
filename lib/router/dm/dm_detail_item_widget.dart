@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
 import 'package:nostrmo/component/content/content_decoder.dart';
 import 'package:nostrmo/consts/router_path.dart';
@@ -14,7 +13,6 @@ import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/setting_provider.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'dm_plaintext_handle.dart';
 
 class DMDetailItemWidget extends StatefulWidget {
