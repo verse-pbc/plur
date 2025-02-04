@@ -89,7 +89,6 @@
     "Hashtag": "štítek",
     "Hide": "skrýt",
     "Home": "domovská stránka",
-    "I_accept_the": "Přijímám",
     "Image_Compress": "Komprese obrazu",
     "Image_or_Video": "Obrázek nebo video",
     "Image_save_success": "Obrázek úspěšně uložen",
@@ -146,7 +145,6 @@
     "Password": "heslo",
     "Pay": "Zaplať",
     "Picture": "obrázek",
-    "Please_accept_the_terms": "Přijměte prosím uživatelský souhlas.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Ověřte prosím svou totožnost a vypněte zámek ochrany osobních údajů",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Ověřte prosím svou totožnost a odemkněte zámek ochrany osobních údajů",
     "Please_authenticate_to_use_app": "Ověřte prosím svou totožnost pro použití aplikace",
@@ -247,6 +245,5 @@
     "open": "otevřít",
     "or": "možná",
     "poll_option_info": "Informace o volebních možnostech",
-    "replied": "odpověď",
-    "terms_of_user": "Uživatelská smlouva"
+    "replied": "odpověď"
 }
