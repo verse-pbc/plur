@@ -124,7 +124,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("標籤"),
         "Hide": MessageLookupByLibrary.simpleMessage("隱藏"),
         "Home": MessageLookupByLibrary.simpleMessage("首頁"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("我接受"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("圖片壓縮"),
         "Image_or_Video": MessageLookupByLibrary.simpleMessage("圖片或視頻"),
         "Image_save_success": MessageLookupByLibrary.simpleMessage("圖片保存成功"),
@@ -186,8 +185,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("密碼"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("圖片"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("請接受使用者協定。"),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage("請進行身份驗證以關閉隱私鎖"),
         "Please_authenticate_to_turn_on_the_privacy_lock":
@@ -240,7 +237,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("發送"),
         "Send_fail": MessageLookupByLibrary.simpleMessage("發送失敗"),
         "Sensitive_Content": MessageLookupByLibrary.simpleMessage("敏感內容"),
-        "Setting": MessageLookupByLibrary.simpleMessage("設定"),
+        "Settings": MessageLookupByLibrary.simpleMessage("設定"),
         "Share": MessageLookupByLibrary.simpleMessage("分享"),
         "Show": MessageLookupByLibrary.simpleMessage("顯示"),
         "Show_more": MessageLookupByLibrary.simpleMessage("查看更多"),
@@ -316,7 +313,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("打開"),
         "or": MessageLookupByLibrary.simpleMessage("或者"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage("投票選項資訊"),
-        "replied": MessageLookupByLibrary.simpleMessage("回復"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("使用者協定")
+        "replied": MessageLookupByLibrary.simpleMessage("回復")
       };
 }

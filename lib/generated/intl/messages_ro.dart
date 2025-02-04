@@ -159,7 +159,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("etichetă"),
         "Hide": MessageLookupByLibrary.simpleMessage("ascunde"),
         "Home": MessageLookupByLibrary.simpleMessage("Pagina principală"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Accept"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Comprimare imagine"),
         "Image_or_Video":
@@ -245,8 +244,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("parolă"),
         "Pay": MessageLookupByLibrary.simpleMessage("Plăteşte"),
         "Picture": MessageLookupByLibrary.simpleMessage("imagine"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Vă rugăm să acceptați acordul de utilizare."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Vă rugăm să verificați identitatea pentru a dezactiva blocarea de confidențialitate"),
@@ -312,7 +309,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("eșec în trimitere"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Conținut sensibil"),
-        "Setting": MessageLookupByLibrary.simpleMessage("înființat"),
+        "Settings": MessageLookupByLibrary.simpleMessage("înființat"),
         "Share": MessageLookupByLibrary.simpleMessage("share"),
         "Show": MessageLookupByLibrary.simpleMessage("afișare"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Vezi mai multe"),
@@ -407,8 +404,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("poate"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Informații privind opțiunea de vot"),
-        "replied": MessageLookupByLibrary.simpleMessage("răspuns"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Acord cu utilizatorul")
+        "replied": MessageLookupByLibrary.simpleMessage("răspuns")
       };
 }

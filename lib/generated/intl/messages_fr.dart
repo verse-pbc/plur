@@ -164,7 +164,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("Étiquettes"),
         "Hide": MessageLookupByLibrary.simpleMessage("Cacher"),
         "Home": MessageLookupByLibrary.simpleMessage("Accueil"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("J\'accepte"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Compression d\'images"),
         "Image_or_Video":
@@ -252,8 +251,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Mot de passe"),
         "Pay": MessageLookupByLibrary.simpleMessage("Le pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("Images"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Veuillez accepter l\'accord utilisateur."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Veuillez vous authentifier pour désactiver Privacy Lock"),
@@ -318,7 +315,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("L\'envoi a échoué"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Contenu sensible"),
-        "Setting": MessageLookupByLibrary.simpleMessage("Paramètres"),
+        "Settings": MessageLookupByLibrary.simpleMessage("Paramètres"),
         "Share": MessageLookupByLibrary.simpleMessage("Partager"),
         "Show": MessageLookupByLibrary.simpleMessage("Afficher"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Voir plus"),
@@ -416,8 +413,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("Ou"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Informations sur les options de vote"),
-        "replied": MessageLookupByLibrary.simpleMessage("Répondre"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Accord utilisateur")
+        "replied": MessageLookupByLibrary.simpleMessage("Répondre")
       };
 }

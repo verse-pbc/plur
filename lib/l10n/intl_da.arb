@@ -89,7 +89,6 @@
     "Hashtag": "etiket",
     "Hide": "skjul",
     "Home": "hjemmeside",
-    "I_accept_the": "Jeg accepterer",
     "Image_Compress": "Billedkomprimering",
     "Image_or_Video": "Billede eller video",
     "Image_save_success": "Billede gemt med succes",
@@ -146,7 +145,6 @@
     "Password": "adgangskode",
     "Pay": "Løn",
     "Picture": "billede",
-    "Please_accept_the_terms": "Accepter venligst brugeraftalen.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Bekræft venligst din identitet for at slå låsen til beskyttelse af personlige oplysninger fra",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Bekræft venligst din identitet for at låse låsen for beskyttelse af personlige oplysninger",
     "Please_authenticate_to_use_app": "Bekræft venligst din identitet for at bruge appen",
@@ -184,7 +182,7 @@
     "Send": "send",
     "Send_fail": "mislykkedes sending",
     "Sensitive_Content": "Følsomt indhold",
-    "Setting": "oprettet",
+    "Settings": "oprettet",
     "Share": "andel",
     "Show": "display",
     "Show_more": "Vis mere",
@@ -247,6 +245,5 @@
     "open": "åben",
     "or": "måske",
     "poll_option_info": "Oplysninger om valgmuligheder",
-    "replied": "svar",
-    "terms_of_user": "Brugeraftale"
+    "replied": "svar"
 }

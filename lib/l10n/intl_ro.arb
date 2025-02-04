@@ -89,7 +89,6 @@
     "Hashtag": "etichetă",
     "Hide": "ascunde",
     "Home": "Pagina principală",
-    "I_accept_the": "Accept",
     "Image_Compress": "Comprimare imagine",
     "Image_or_Video": "Imagine sau video",
     "Image_save_success": "Imagine salvată cu succes",
@@ -146,7 +145,6 @@
     "Password": "parolă",
     "Pay": "Plăteşte",
     "Picture": "imagine",
-    "Please_accept_the_terms": "Vă rugăm să acceptați acordul de utilizare.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Vă rugăm să verificați identitatea pentru a dezactiva blocarea de confidențialitate",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Vă rugăm să verificați identitatea pentru a debloca blocarea de confidențialitate",
     "Please_authenticate_to_use_app": "Vă rugăm să verificați identitatea pentru a utiliza aplicația",
@@ -184,7 +182,7 @@
     "Send": "trimite",
     "Send_fail": "eșec în trimitere",
     "Sensitive_Content": "Conținut sensibil",
-    "Setting": "înființat",
+    "Settings": "înființat",
     "Share": "share",
     "Show": "afișare",
     "Show_more": "Vezi mai multe",
@@ -247,6 +245,5 @@
     "open": "deschis",
     "or": "poate",
     "poll_option_info": "Informații privind opțiunea de vot",
-    "replied": "răspuns",
-    "terms_of_user": "Acord cu utilizatorul"
+    "replied": "răspuns"
 }
