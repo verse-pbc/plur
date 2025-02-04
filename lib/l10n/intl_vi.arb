@@ -89,7 +89,6 @@
     "Hashtag": "Trang chủ",
     "Hide": "Ẩn",
     "Home": "Trang chủ",
-    "I_accept_the": "Tôi chấp nhận",
     "Image_Compress": "Nén ảnh",
     "Image_or_Video": "Hình ảnh hoặc video",
     "Image_save_success": "Lưu ảnh thành công",
@@ -146,7 +145,6 @@
     "Password": "Mật khẩu",
     "Pay": "Pay",
     "Picture": "Hình ảnh",
-    "Please_accept_the_terms": "Vui lòng chấp nhận thỏa thuận người dùng.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Vui lòng xác thực để đóng Privacy Lock",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Vui lòng xác thực để mở khóa riêng tư",
     "Please_authenticate_to_use_app": "Vui lòng xác thực để sử dụng APP",
@@ -184,7 +182,7 @@
     "Send": "Gửi",
     "Send_fail": "Gửi thất bại",
     "Sensitive_Content": "Nội dung nhạy cảm",
-    "Setting": "Thiết lập",
+    "Settings": "Thiết lập",
     "Share": "Chia sẻ",
     "Show": "Hiển thị",
     "Show_more": "Xem thêm",
@@ -247,6 +245,5 @@
     "open": "Mở",
     "or": "Hoặc",
     "poll_option_info": "Thông tin lựa chọn bỏ phiếu",
-    "replied": "Trả lời",
-    "terms_of_user": "Thỏa thuận người dùng"
+    "replied": "Trả lời"
 }

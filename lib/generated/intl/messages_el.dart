@@ -161,7 +161,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("ετικέτα"),
         "Hide": MessageLookupByLibrary.simpleMessage("Απόκρυψη"),
         "Home": MessageLookupByLibrary.simpleMessage("Αρχική σελίδα"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Δέχομαι"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Συμπίεση εικόνας"),
         "Image_or_Video":
@@ -251,8 +250,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("κωδικός πρόσβασης"),
         "Pay": MessageLookupByLibrary.simpleMessage("Πληρωμή"),
         "Picture": MessageLookupByLibrary.simpleMessage("εικόνα"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Παρακαλώ αποδεχτείτε τη συμφωνία χρήσης."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Παρακαλώ επαληθεύστε την ταυτότητά σας για να απενεργοποιήσετε την κλειδαριά απορρήτου"),
@@ -318,7 +315,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("αποτυχία αποστολής"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Ευαίσθητο περιεχόμενο"),
-        "Setting": MessageLookupByLibrary.simpleMessage("ρύθμιση"),
+        "Settings": MessageLookupByLibrary.simpleMessage("ρύθμιση"),
         "Share": MessageLookupByLibrary.simpleMessage("μερίδιο"),
         "Show": MessageLookupByLibrary.simpleMessage("οθόνη"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Δείτε περισσότερα"),
@@ -415,7 +412,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("ίσως"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Πληροφορίες επιλογής ψηφοφορίας"),
-        "replied": MessageLookupByLibrary.simpleMessage("απάντηση"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("Συμφωνία χρήστη")
+        "replied": MessageLookupByLibrary.simpleMessage("απάντηση")
       };
 }

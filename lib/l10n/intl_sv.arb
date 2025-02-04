@@ -89,7 +89,6 @@
     "Hashtag": "etikett",
     "Hide": "dölj",
     "Home": "startsida",
-    "I_accept_the": "Jag accepterar",
     "Image_Compress": "Bildkomprimering",
     "Image_or_Video": "Bild eller video",
     "Image_save_success": "Bild sparad med lyckat resultat",
@@ -146,7 +145,6 @@
     "Password": "lösenord",
     "Pay": "Betalning",
     "Picture": "bild",
-    "Please_accept_the_terms": "Godkänn användaravtalet.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Kontrollera din identitet för att stänga av sekretesslåset",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Kontrollera din identitet för att låsa upp sekretesslåset",
     "Please_authenticate_to_use_app": "Vänligen verifiera din identitet för att använda appen",
@@ -184,7 +182,7 @@
     "Send": "skicka",
     "Send_fail": "misslyckas med sändning",
     "Sensitive_Content": "Känsligt innehåll",
-    "Setting": "inrätta",
+    "Settings": "inrätta",
     "Share": "andel",
     "Show": "visa",
     "Show_more": "Visa mer",
@@ -247,6 +245,5 @@
     "open": "öppna",
     "or": "kanske",
     "poll_option_info": "Information om röstalternativ",
-    "replied": "svar",
-    "terms_of_user": "Användaravtal"
+    "replied": "svar"
 }

@@ -155,7 +155,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("Etikett"),
         "Hide": MessageLookupByLibrary.simpleMessage("Ausblenden"),
         "Home": MessageLookupByLibrary.simpleMessage("Startseite"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Ich akzeptiere"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Bildkomprimierung"),
         "Image_or_Video":
@@ -244,8 +243,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Passwort"),
         "Pay": MessageLookupByLibrary.simpleMessage("Bezahlen"),
         "Picture": MessageLookupByLibrary.simpleMessage("Bild"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Bitte akzeptieren Sie die Nutzungsvereinbarung."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Bitte überprüfen Sie Ihre Identität, um die Datenschutzsperre zu deaktivieren"),
@@ -311,7 +308,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("Senden fehlschlägt"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Sensible Inhalte"),
-        "Setting": MessageLookupByLibrary.simpleMessage("einrichten"),
+        "Settings": MessageLookupByLibrary.simpleMessage("einrichten"),
         "Share": MessageLookupByLibrary.simpleMessage("Teilen"),
         "Show": MessageLookupByLibrary.simpleMessage("Anzeige"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Mehr anzeigen"),
@@ -407,8 +404,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("vielleicht"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Informationen über Wahlmöglichkeiten"),
-        "replied": MessageLookupByLibrary.simpleMessage("Antwort"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Nutzungsvereinbarung")
+        "replied": MessageLookupByLibrary.simpleMessage("Antwort")
       };
 }

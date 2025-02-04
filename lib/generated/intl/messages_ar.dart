@@ -148,7 +148,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("علامة"),
         "Hide": MessageLookupByLibrary.simpleMessage("أخفى"),
         "Home": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("أنا أقبل"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("ضغط الصور"),
         "Image_or_Video": MessageLookupByLibrary.simpleMessage("صورة أو فيديو"),
         "Image_save_success":
@@ -229,8 +228,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("كلمة السر"),
         "Pay": MessageLookupByLibrary.simpleMessage("باي"),
         "Picture": MessageLookupByLibrary.simpleMessage("صور"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("يرجى قبول اتفاق المستخدم ."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "يرجى التحقق من إغلاق قفل الخصوصية"),
@@ -293,7 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("فشل إرسال"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("المحتوى الحساس"),
-        "Setting": MessageLookupByLibrary.simpleMessage("ضبط"),
+        "Settings": MessageLookupByLibrary.simpleMessage("ضبط"),
         "Share": MessageLookupByLibrary.simpleMessage("شارك"),
         "Show": MessageLookupByLibrary.simpleMessage("عرض ."),
         "Show_more": MessageLookupByLibrary.simpleMessage("شاهد المزيد"),
@@ -382,8 +379,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("أو"),
         "poll_option_info":
             MessageLookupByLibrary.simpleMessage("معلومات عن خيارات التصويت"),
-        "replied": MessageLookupByLibrary.simpleMessage("رد : ."),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("بروتوكول المستخدم")
+        "replied": MessageLookupByLibrary.simpleMessage("رد : .")
       };
 }
