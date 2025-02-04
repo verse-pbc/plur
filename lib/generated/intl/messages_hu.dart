@@ -155,7 +155,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("címke"),
         "Hide": MessageLookupByLibrary.simpleMessage("rejtsd el"),
         "Home": MessageLookupByLibrary.simpleMessage("honlap"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Elfogadom"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("Képtömörítés"),
         "Image_or_Video":
             MessageLookupByLibrary.simpleMessage("Kép vagy videó"),
@@ -240,8 +239,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("jelszó"),
         "Pay": MessageLookupByLibrary.simpleMessage("Fizetés"),
         "Picture": MessageLookupByLibrary.simpleMessage("kép"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Kérem, fogadja el a felhasználói szerződést."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Kérjük, ellenőrizze személyazonosságát az adatvédelmi zár kikapcsolásához"),
@@ -401,8 +398,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("talán"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "A szavazási lehetőségek információi"),
-        "replied": MessageLookupByLibrary.simpleMessage("válasz"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Felhasználói megállapodás")
+        "replied": MessageLookupByLibrary.simpleMessage("válasz")
       };
 }
