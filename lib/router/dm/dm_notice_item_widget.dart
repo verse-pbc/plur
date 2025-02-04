@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/notice_provider.dart';
 
@@ -7,7 +8,6 @@ import '../../component/point_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 class DMNoticeItemWidget extends StatelessWidget {
   static const double IMAGE_WIDTH = 34;
