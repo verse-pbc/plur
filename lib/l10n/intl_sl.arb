@@ -89,7 +89,6 @@
     "Hashtag": "etiketa",
     "Hide": "skrij",
     "Home": "Domača stran",
-    "I_accept_the": "Sprejmem",
     "Image_Compress": "Stiskanje slike",
     "Image_or_Video": "Slika ali video",
     "Image_save_success": "Slika je uspešno shranjena",
@@ -146,7 +145,6 @@
     "Password": "geslo",
     "Pay": "Plačaj",
     "Picture": "slika",
-    "Please_accept_the_terms": "Prosimo, sprejmite uporabniško pogodbo.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Prosimo, preverite svojo identiteto, da izklopite ključavnico zasebnosti",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Prosimo, preverite svojo identiteto, da odklenete zasebnostno ključavnico",
     "Please_authenticate_to_use_app": "Prosimo, preverite svojo identiteto za uporabo aplikacije",
@@ -247,6 +245,5 @@
     "open": "odprto",
     "or": "mogoče",
     "poll_option_info": "Informacije o možnostih glasovanja",
-    "replied": "odgovor",
-    "terms_of_user": "Uporabniška pogodba"
+    "replied": "odgovor"
 }

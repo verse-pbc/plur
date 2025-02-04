@@ -151,7 +151,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("etikett"),
         "Hide": MessageLookupByLibrary.simpleMessage("dölj"),
         "Home": MessageLookupByLibrary.simpleMessage("startsida"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Jag accepterar"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Bildkomprimering"),
         "Image_or_Video":
@@ -237,8 +236,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("lösenord"),
         "Pay": MessageLookupByLibrary.simpleMessage("Betalning"),
         "Picture": MessageLookupByLibrary.simpleMessage("bild"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("Godkänn användaravtalet."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Kontrollera din identitet för att stänga av sekretesslåset"),
@@ -399,7 +396,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("kanske"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Information om röstalternativ"),
-        "replied": MessageLookupByLibrary.simpleMessage("svar"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("Användaravtal")
+        "replied": MessageLookupByLibrary.simpleMessage("svar")
       };
 }

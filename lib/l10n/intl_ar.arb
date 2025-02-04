@@ -89,7 +89,6 @@
     "Hashtag": "علامة",
     "Hide": "أخفى",
     "Home": "الصفحة الرئيسية",
-    "I_accept_the": "أنا أقبل",
     "Image_Compress": "ضغط الصور",
     "Image_or_Video": "صورة أو فيديو",
     "Image_save_success": "حفظ الصورة بنجاح",
@@ -146,7 +145,6 @@
     "Password": "كلمة السر",
     "Pay": "باي",
     "Picture": "صور",
-    "Please_accept_the_terms": "يرجى قبول اتفاق المستخدم .",
     "Please_authenticate_to_turn_off_the_privacy_lock": "يرجى التحقق من إغلاق قفل الخصوصية",
     "Please_authenticate_to_turn_on_the_privacy_lock": "يرجى التحقق من فتح قفل الخصوصية",
     "Please_authenticate_to_use_app": "يرجى التحقق من استخدام التطبيق",
@@ -247,6 +245,5 @@
     "open": "فتح .",
     "or": "أو",
     "poll_option_info": "معلومات عن خيارات التصويت",
-    "replied": "رد : .",
-    "terms_of_user": "بروتوكول المستخدم"
+    "replied": "رد : ."
 }
