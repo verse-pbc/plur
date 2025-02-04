@@ -34,3 +34,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added create account test. [#154](https://github.com/verse-pbc/issues/issues/154)
 - Added group subscription to the communities screen to automatically refresh group data when group-related events are received. [#146](https://github.com/verse-pbc/issues/issues/146)
 - Fixed an issue where video content was crashing the app. [#174](https://github.com/verse-pbc/issues/issues/174)
+- Simplified imports of nostr_sdk. [#88](https://github.com/verse-pbc/issues/issues/88)

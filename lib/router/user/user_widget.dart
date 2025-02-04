@@ -2,12 +2,7 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
-import 'package:nostr_sdk/utils/when_stop_function.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/component/sync_upload_dialog.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -24,7 +19,6 @@ import '../../provider/metadata_provider.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'user_statistics_widget.dart';
 
 class UserWidget extends StatefulWidget {

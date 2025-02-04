@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip94/file_metadata.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 Widget? genBlurhashImageWidget(
     FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {

@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart';
 
