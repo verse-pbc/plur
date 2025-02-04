@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "write post" tooltip to newly created group. [#81](https://github.com/verse-pbc/issues/issues/81)
 - Fixed an issue where groups created externally would not show up. [#146](https://github.com/verse-pbc/issues/issues/146)
 - Fixed an issue where the group name would not show up. [#161](https://github.com/verse-pbc/issues/issues/161)
+- Fixed an issue where a user could not join a group by invitation link. [#149](https://github.com/verse-pbc/issues/issues/149)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
