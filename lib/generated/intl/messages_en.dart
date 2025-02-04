@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "About": MessageLookupByLibrary.simpleMessage("About"),
+        "Accept_terms_of_service": MessageLookupByLibrary.simpleMessage(
+            "By continuing, you accept our <accent>terms of service</accent>"),
         "Account_Manager":
             MessageLookupByLibrary.simpleMessage("Account Manager"),
         "Add": MessageLookupByLibrary.simpleMessage("Add"),
@@ -86,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Close Private DM"),
         "Close_at": MessageLookupByLibrary.simpleMessage("Close at"),
         "Color": MessageLookupByLibrary.simpleMessage("Color"),
+        "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
@@ -190,7 +193,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hint Font Color"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Hour": MessageLookupByLibrary.simpleMessage("Hour"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("I accept the"),
         "Image": MessageLookupByLibrary.simpleMessage("Image"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Image Compress"),
@@ -299,8 +301,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("Picture"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("Please accept the terms."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Please authenticate to turn off the privacy lock"),
@@ -388,6 +388,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Show more replies"),
         "Show_web": MessageLookupByLibrary.simpleMessage("Show web"),
         "Sign_fail": MessageLookupByLibrary.simpleMessage("Sign fail"),
+        "Signup": MessageLookupByLibrary.simpleMessage("Sign Up"),
         "Soft": MessageLookupByLibrary.simpleMessage("Soft"),
         "Source": MessageLookupByLibrary.simpleMessage("Source"),
         "Split_Zap_Tip": MessageLookupByLibrary.simpleMessage(
@@ -459,6 +460,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
+        "Your_private_key":
+            MessageLookupByLibrary.simpleMessage("Your private key"),
         "Zap_Goals": MessageLookupByLibrary.simpleMessage("Zap Goals"),
         "Zap_num_can_not_bigger_then":
             MessageLookupByLibrary.simpleMessage("Zap num can not bigger then"),
@@ -489,7 +492,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("poll option info"),
         "private": MessageLookupByLibrary.simpleMessage("private"),
         "public": MessageLookupByLibrary.simpleMessage("public"),
-        "replied": MessageLookupByLibrary.simpleMessage("replied"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("terms of user")
+        "replied": MessageLookupByLibrary.simpleMessage("replied")
       };
 }

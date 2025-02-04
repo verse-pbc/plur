@@ -127,7 +127,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("레이블"),
         "Hide": MessageLookupByLibrary.simpleMessage("숨기기"),
         "Home": MessageLookupByLibrary.simpleMessage("첫 페이지"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("받아들일게요"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("그림 압축"),
         "Image_or_Video": MessageLookupByLibrary.simpleMessage("사진 또는 비디오"),
         "Image_save_success": MessageLookupByLibrary.simpleMessage("그림 저장 성공"),
@@ -194,8 +193,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("암호"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("그림"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("사용자 계약을 수락하십시오."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage("개인 정보 보호 잠금을 해제하려면 인증하십시오."),
         "Please_authenticate_to_turn_on_the_privacy_lock":
@@ -330,7 +327,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("열기"),
         "or": MessageLookupByLibrary.simpleMessage("또는"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage("투표 옵션 정보"),
-        "replied": MessageLookupByLibrary.simpleMessage("회신"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("사용자 프로토콜")
+        "replied": MessageLookupByLibrary.simpleMessage("회신")
       };
 }

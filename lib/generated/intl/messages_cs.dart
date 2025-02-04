@@ -152,7 +152,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("štítek"),
         "Hide": MessageLookupByLibrary.simpleMessage("skrýt"),
         "Home": MessageLookupByLibrary.simpleMessage("domovská stránka"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Přijímám"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Komprese obrazu"),
         "Image_or_Video":
@@ -237,8 +236,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("heslo"),
         "Pay": MessageLookupByLibrary.simpleMessage("Zaplať"),
         "Picture": MessageLookupByLibrary.simpleMessage("obrázek"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Přijměte prosím uživatelský souhlas."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Ověřte prosím svou totožnost a vypněte zámek ochrany osobních údajů"),
@@ -397,8 +394,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("možná"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Informace o volebních možnostech"),
-        "replied": MessageLookupByLibrary.simpleMessage("odpověď"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Uživatelská smlouva")
+        "replied": MessageLookupByLibrary.simpleMessage("odpověď")
       };
 }
