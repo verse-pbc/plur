@@ -158,7 +158,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("Метки"),
         "Hide": MessageLookupByLibrary.simpleMessage("Скрыть"),
         "Home": MessageLookupByLibrary.simpleMessage("Главная страница"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Я согласен."),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Сжатие изображений"),
         "Image_or_Video":
@@ -246,8 +245,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Пароль"),
         "Pay": MessageLookupByLibrary.simpleMessage("Пэй."),
         "Picture": MessageLookupByLibrary.simpleMessage("Фотографии"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Пожалуйста, примите пользовательское соглашение."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Пожалуйста, проверьте подлинность, чтобы закрыть замок конфиденциальности."),
@@ -313,7 +310,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("Ошибка отправки"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Чувствительный контент"),
-        "Setting": MessageLookupByLibrary.simpleMessage("Настройка"),
+        "Settings": MessageLookupByLibrary.simpleMessage("Настройка"),
         "Share": MessageLookupByLibrary.simpleMessage("Поделиться"),
         "Show": MessageLookupByLibrary.simpleMessage("Показать"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Узнать больше"),
@@ -409,8 +406,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("Или..."),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Информация о вариантах голосования"),
-        "replied": MessageLookupByLibrary.simpleMessage("Ответить"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Пользовательское соглашение")
+        "replied": MessageLookupByLibrary.simpleMessage("Ответить")
       };
 }

@@ -162,7 +162,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("етикет"),
         "Hide": MessageLookupByLibrary.simpleMessage("скрий"),
         "Home": MessageLookupByLibrary.simpleMessage("начална страница"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Приемам"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage(
             "Компресиране на изображението"),
         "Image_or_Video":
@@ -252,8 +251,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("парола"),
         "Pay": MessageLookupByLibrary.simpleMessage("Плащане"),
         "Picture": MessageLookupByLibrary.simpleMessage("картина"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Моля, приемете потребителското споразумение."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Моля, потвърдете самоличността си, за да изключите ключалката за поверителност"),
@@ -319,7 +316,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Грешка при изпращане"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Чувствително съдържание"),
-        "Setting": MessageLookupByLibrary.simpleMessage("настройване"),
+        "Settings": MessageLookupByLibrary.simpleMessage("настройване"),
         "Share": MessageLookupByLibrary.simpleMessage("дял"),
         "Show": MessageLookupByLibrary.simpleMessage("дисплей"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Виж повече"),
@@ -417,8 +414,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("може би"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Информация за възможностите за гласуване"),
-        "replied": MessageLookupByLibrary.simpleMessage("отговор"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Потребителско споразумение")
+        "replied": MessageLookupByLibrary.simpleMessage("отговор")
       };
 }

@@ -155,7 +155,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("etiket"),
         "Hide": MessageLookupByLibrary.simpleMessage("skjul"),
         "Home": MessageLookupByLibrary.simpleMessage("hjemmeside"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Jeg accepterer"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Billedkomprimering"),
         "Image_or_Video":
@@ -241,8 +240,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("adgangskode"),
         "Pay": MessageLookupByLibrary.simpleMessage("Løn"),
         "Picture": MessageLookupByLibrary.simpleMessage("billede"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Accepter venligst brugeraftalen."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Bekræft venligst din identitet for at slå låsen til beskyttelse af personlige oplysninger fra"),
@@ -307,7 +304,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("mislykkedes sending"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Følsomt indhold"),
-        "Setting": MessageLookupByLibrary.simpleMessage("oprettet"),
+        "Settings": MessageLookupByLibrary.simpleMessage("oprettet"),
         "Share": MessageLookupByLibrary.simpleMessage("andel"),
         "Show": MessageLookupByLibrary.simpleMessage("display"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Vis mere"),
@@ -403,7 +400,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("måske"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Oplysninger om valgmuligheder"),
-        "replied": MessageLookupByLibrary.simpleMessage("svar"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("Brugeraftale")
+        "replied": MessageLookupByLibrary.simpleMessage("svar")
       };
 }

@@ -89,7 +89,6 @@
     "Hashtag": "label",
     "Hide": "verbergen",
     "Home": "startpagina",
-    "I_accept_the": "Ik accepteer",
     "Image_Compress": "Beeldcompressie",
     "Image_or_Video": "Foto of video",
     "Image_save_success": "Afbeelding succesvol opgeslagen",
@@ -146,7 +145,6 @@
     "Password": "wachtwoord",
     "Pay": "Betaal",
     "Picture": "foto",
-    "Please_accept_the_terms": "Gelieve de gebruikersovereenkomst te accepteren.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Controleer uw identiteit om het privacyslot uit te schakelen",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Controleer uw identiteit om het privacyslot te ontgrendelen",
     "Please_authenticate_to_use_app": "Controleer uw identiteit om de app te gebruiken",
@@ -184,7 +182,7 @@
     "Send": "verzenden",
     "Send_fail": "verzenden mislukt",
     "Sensitive_Content": "Gevoelige inhoud",
-    "Setting": "ingesteld",
+    "Settings": "ingesteld",
     "Share": "share",
     "Show": "display",
     "Show_more": "Bekijk meer",
@@ -247,6 +245,5 @@
     "open": "open",
     "or": "misschien",
     "poll_option_info": "Informatie over stemopties",
-    "replied": "antwoord",
-    "terms_of_user": "Gebruikersovereenkomst"
+    "replied": "antwoord"
 }

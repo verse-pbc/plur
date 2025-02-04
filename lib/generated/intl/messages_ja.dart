@@ -128,7 +128,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("タブ"),
         "Hide": MessageLookupByLibrary.simpleMessage("非表示"),
         "Home": MessageLookupByLibrary.simpleMessage("トップページ"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("私は受け入れる"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("画像圧縮"),
         "Image_or_Video": MessageLookupByLibrary.simpleMessage("画像またはビデオ"),
         "Image_save_success":
@@ -199,8 +198,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("パスワード"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("画像"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("ユーザープロトコルを受け入れてください。"),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage("プライバシーロックをオフにするために認証してください"),
         "Please_authenticate_to_turn_on_the_privacy_lock":
@@ -257,7 +254,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send": MessageLookupByLibrary.simpleMessage("送信"),
         "Send_fail": MessageLookupByLibrary.simpleMessage("送信に失敗しました"),
         "Sensitive_Content": MessageLookupByLibrary.simpleMessage("機密コンテンツ"),
-        "Setting": MessageLookupByLibrary.simpleMessage("設定＃セッテイ＃"),
+        "Settings": MessageLookupByLibrary.simpleMessage("設定＃セッテイ＃"),
         "Share": MessageLookupByLibrary.simpleMessage("分かち合う"),
         "Show": MessageLookupByLibrary.simpleMessage("表示"),
         "Show_more": MessageLookupByLibrary.simpleMessage("詳細を表示"),
@@ -339,7 +336,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "open": MessageLookupByLibrary.simpleMessage("開く"),
         "or": MessageLookupByLibrary.simpleMessage("または"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage("投票オプション情報"),
-        "replied": MessageLookupByLibrary.simpleMessage("返信"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("ユーザプロトコル")
+        "replied": MessageLookupByLibrary.simpleMessage("返信")
       };
 }

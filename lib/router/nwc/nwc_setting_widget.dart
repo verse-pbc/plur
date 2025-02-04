@@ -139,7 +139,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          "NWC ${localization.Setting}",
+          "NWC ${localization.Settings}",
           style: TextStyle(
             fontSize: themeData.textTheme.bodyLarge!.fontSize,
             fontWeight: FontWeight.bold,

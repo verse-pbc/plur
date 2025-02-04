@@ -153,7 +153,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("etikett"),
         "Hide": MessageLookupByLibrary.simpleMessage("peita"),
         "Home": MessageLookupByLibrary.simpleMessage("Avaleht"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Ma nõustun"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Pildi tihendamine"),
         "Image_or_Video":
@@ -237,8 +236,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("parool"),
         "Pay": MessageLookupByLibrary.simpleMessage("Tasu"),
         "Picture": MessageLookupByLibrary.simpleMessage("pilt"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Palun aktsepteeri kasutajalepingut."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Palun kontrollige oma identiteeti privaatsusluku väljalülitamiseks"),
@@ -302,7 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Send_fail": MessageLookupByLibrary.simpleMessage("saatmine nurjus"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Tundlik sisu"),
-        "Setting": MessageLookupByLibrary.simpleMessage("seadistada"),
+        "Settings": MessageLookupByLibrary.simpleMessage("seadistada"),
         "Share": MessageLookupByLibrary.simpleMessage("osa"),
         "Show": MessageLookupByLibrary.simpleMessage("ekraan"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Vaata rohkem"),
@@ -397,7 +394,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("võib-olla"),
         "poll_option_info":
             MessageLookupByLibrary.simpleMessage("Hääletamisvõimaluste teave"),
-        "replied": MessageLookupByLibrary.simpleMessage("vastus"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("Kasutaja leping")
+        "replied": MessageLookupByLibrary.simpleMessage("vastus")
       };
 }

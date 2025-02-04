@@ -89,7 +89,6 @@
     "Hashtag": "タブ",
     "Hide": "非表示",
     "Home": "トップページ",
-    "I_accept_the": "私は受け入れる",
     "Image_Compress": "画像圧縮",
     "Image_or_Video": "画像またはビデオ",
     "Image_save_success": "画像の保存に成功しました",
@@ -146,7 +145,6 @@
     "Password": "パスワード",
     "Pay": "Pay",
     "Picture": "画像",
-    "Please_accept_the_terms": "ユーザープロトコルを受け入れてください。",
     "Please_authenticate_to_turn_off_the_privacy_lock": "プライバシーロックをオフにするために認証してください",
     "Please_authenticate_to_turn_on_the_privacy_lock": "プライバシーロックをオンにするために認証してください",
     "Please_authenticate_to_use_app": "APPを使用するために認証してください",
@@ -184,7 +182,7 @@
     "Send": "送信",
     "Send_fail": "送信に失敗しました",
     "Sensitive_Content": "機密コンテンツ",
-    "Setting": "設定＃セッテイ＃",
+    "Settings": "設定＃セッテイ＃",
     "Share": "分かち合う",
     "Show": "表示",
     "Show_more": "詳細を表示",
@@ -247,6 +245,5 @@
     "open": "開く",
     "or": "または",
     "poll_option_info": "投票オプション情報",
-    "replied": "返信",
-    "terms_of_user": "ユーザプロトコル"
+    "replied": "返信"
 }
