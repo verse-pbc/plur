@@ -1,8 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/editor/editor_mixin.dart';
 import 'package:nostrmo/consts/router_path.dart';

@@ -1,5 +1,4 @@
-import 'package:nostr_sdk/utils/path_type_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/music/music_info_builder.dart';
 import 'package:nostrmo/main.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
@@ -7,7 +8,6 @@ import '../../consts/base.dart';
 import '../../consts/coffee_ids.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 class DonateWidget extends StatefulWidget {
   const DonateWidget({super.key});

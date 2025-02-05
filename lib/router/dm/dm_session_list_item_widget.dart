@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
-import 'package:nostr_sdk/event_kind.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
@@ -15,7 +15,6 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 import 'package:pointycastle/export.dart' as pointycastle;
 
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'dm_plaintext_handle.dart';
 
 class DMSessionListItemWidget extends StatefulWidget {

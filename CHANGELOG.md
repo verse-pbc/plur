@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Updated the Login screen.
 - Replaced the add note button with a floating button.
 - Fixed a typo in the main menu options.
 - Fixed an issue where you could join the same group twice.
@@ -22,6 +23,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where notes wouldn't show up after being posted.
 - Changed the default relay to communities.nos.social.
 - Added "write post" tooltip to newly created group. [#81](https://github.com/verse-pbc/issues/issues/81)
+- Fixed an issue where groups created externally would not show up. [#146](https://github.com/verse-pbc/issues/issues/146)
+- Fix posting note on new group bugs. [#100](https://github.com/verse-pbc/issues/issues/100)
+- Fixed an issue where the group name would not show up. [#161](https://github.com/verse-pbc/issues/issues/161)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
@@ -30,3 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)
 - Fixed the Check Changelog job [#54](https://github.com/verse-pbc/issues/issues/54)
 - Added create account test. [#154](https://github.com/verse-pbc/issues/issues/154)
+- Added group subscription to the communities screen to automatically refresh group data when group-related events are received. [#146](https://github.com/verse-pbc/issues/issues/146)
+- Fixed an issue where video content was crashing the app. [#174](https://github.com/verse-pbc/issues/issues/174)
+- Simplified imports of nostr_sdk. [#88](https://github.com/verse-pbc/issues/issues/88)
