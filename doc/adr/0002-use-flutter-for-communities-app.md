@@ -14,7 +14,7 @@ We have been tasked with building a new app on the Nostr protocol that is focuse
 
 ## Considered Options
 
-Our full research docs are in our companies [Notion](https://www.notion.so/nossocial/Cross-Platform-Development-Evaluation-13d7c4703da08015bf51ca12cca8f697?pvs=4) repository, but we will summarize the top options below.
+Our full research docs are in our company's [Notion](https://www.notion.so/nossocial/Cross-Platform-Development-Evaluation-13d7c4703da08015bf51ca12cca8f697?pvs=4) repository, but we will summarize the top options below.
 
 ### Native
 
