@@ -16,6 +16,8 @@ import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 
 import '../../consts/base.dart';
+import '../../consts/router_path.dart';
+import '../../util/router_util.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
@@ -268,6 +270,8 @@ class _LoginSignupState extends State<LoginSignupWidget>
   }
 
   void generatePK() {
+    RouterUtil.router(context, RouterPath.SIGNUP);
+    return;
     var pk = generatePrivateKey();
     controller.text = pk;
 
