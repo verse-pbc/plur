@@ -2,14 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/nip04/nip04.dart';
-import 'package:nostr_sdk/nip47/nwc_info.dart';
-import 'package:nostr_sdk/relay/relay.dart';
-import 'package:nostr_sdk/relay/relay_base.dart';
-import 'package:nostr_sdk/relay/relay_status.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/client_connected.dart';
 import 'package:nostrmo/main.dart';
 import 'package:pointycastle/impl.dart';

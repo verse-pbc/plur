@@ -12,10 +12,7 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/relay_local/relay_local_db.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
@@ -84,6 +81,7 @@ import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
 import 'provider/wot_provider.dart';
+import 'provider/timestamp_provider.dart';
 import 'router/bookmark/bookmark_widget.dart';
 import 'router/community/community_detail_widget.dart';
 import 'router/dm/dm_detail_widget.dart';
@@ -198,6 +196,8 @@ late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
 
+late TimestampProvider timestampProvider;
+
 Future<void> initializeProviders({bool isTesting = false}) async {
   var dbInitTask = DB.getCurrentDatabase();
   var dataUtilTask = DataUtil.getInstance();
@@ -247,6 +247,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   nwcProvider = NWCProvider()..init();
   groupProvider = GroupProvider();
   wotProvider = WotProvider();
+  timestampProvider = TimestampProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
@@ -528,6 +529,9 @@ class _MyApp extends State<MyApp> {
         ),
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
+        ),
+        ListenableProvider<TimestampProvider>.value(
+          value: timestampProvider,
         ),
       ],
       child: HomeWidget(

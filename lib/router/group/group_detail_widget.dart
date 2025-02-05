@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/event.dart' as nostr_event;
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';
@@ -43,7 +41,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       GroupDetailWidget.showTooltipOnGroupCreation = false;
       _showTooltipAfterDelay();
     }
-    groupDetailProvider.startQueryTask();
     groupDetailProvider.refresh();
   }
 
@@ -160,10 +157,16 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
-    EditorWidget.open(context,
-        groupIdentifier: groupIdentifier,
-        groupEventKind: EventKind.GROUP_NOTE,
-        tagsAddedWhenSend: tags);
+    EditorWidget.open(
+      context,
+      groupIdentifier: groupIdentifier,
+      groupEventKind: EventKind.GROUP_NOTE,
+      tagsAddedWhenSend: tags,
+    ).then((event) {
+      if (event != null && groupDetailProvider.isGroupNote(event)) {
+        groupDetailProvider.handleDirectEvent(event);
+      }
+    });
   }
 
   void _onEventDelete(nostr_event.Event e) {
