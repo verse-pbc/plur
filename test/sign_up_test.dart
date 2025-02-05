@@ -64,11 +64,9 @@ void main() {
     await tester.pumpWidget(MyApp());
     await tester.pumpAndSettle();
 
-    // find the checkbox and tap it
-    await tester.tap(find.byType(Checkbox));
-
     // find the Sign Up button and tap it
     await tester.tap(find.text('Sign Up'));
+    await tester.pumpAndSettle();
 
     // find the Login button and tap it
     await tester.tap(find.text('Login'));
