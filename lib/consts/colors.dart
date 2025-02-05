@@ -6,6 +6,11 @@ class ColorList {
 
   static Color plurPurple = const Color(0xFF2A1F3F);
   static Color borderColor = const Color(0xFF8D7EAB);
+  static Color accent = const Color(0xFFFF5F44);
+  static Color primaryForeground = const Color(0xFFFFFFFF);
+  static Color loginBG = const Color(0xFF160F24);
+  static Color buttonText = const Color(0xFFFFFFFF);
+  static Color dimmed = const Color(0xFF8D7EAB);
 
   static List<Color> ALL_COLOR = [
     Colors.purple[700]!,

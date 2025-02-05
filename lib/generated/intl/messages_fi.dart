@@ -153,7 +153,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("etiketti"),
         "Hide": MessageLookupByLibrary.simpleMessage("piilota"),
         "Home": MessageLookupByLibrary.simpleMessage("Kotisivu"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Hyväksyn"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Kuvan pakkaaminen"),
         "Image_or_Video":
@@ -240,8 +239,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("salasana"),
         "Pay": MessageLookupByLibrary.simpleMessage("Palkka"),
         "Picture": MessageLookupByLibrary.simpleMessage("kuva"),
-        "Please_accept_the_terms":
-            MessageLookupByLibrary.simpleMessage("Hyväksy käyttäjäsopimus."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Varmista henkilöllisyytesi poistaaksesi yksityisyyslukon käytöstä"),
@@ -306,7 +303,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("epäonnistui lähetyksessä"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Herkkä sisältö"),
-        "Setting": MessageLookupByLibrary.simpleMessage("perustaa"),
+        "Settings": MessageLookupByLibrary.simpleMessage("perustaa"),
         "Share": MessageLookupByLibrary.simpleMessage("osuus"),
         "Show": MessageLookupByLibrary.simpleMessage("näyttö"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Katso lisää"),
@@ -402,7 +399,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("Ehkä"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Äänestysvaihtoehtoja koskevat tiedot"),
-        "replied": MessageLookupByLibrary.simpleMessage("vastaus"),
-        "terms_of_user": MessageLookupByLibrary.simpleMessage("Käyttäjäsopimus")
+        "replied": MessageLookupByLibrary.simpleMessage("vastaus")
       };
 }

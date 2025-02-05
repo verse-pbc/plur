@@ -89,7 +89,6 @@
     "Hashtag": "Étiquettes",
     "Hide": "Cacher",
     "Home": "Accueil",
-    "I_accept_the": "J'accepte",
     "Image_Compress": "Compression d'images",
     "Image_or_Video": "Images ou vidéos",
     "Image_save_success": "Image sauvegardée avec succès",
@@ -146,7 +145,6 @@
     "Password": "Mot de passe",
     "Pay": "Le pay",
     "Picture": "Images",
-    "Please_accept_the_terms": "Veuillez accepter l'accord utilisateur.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Veuillez vous authentifier pour désactiver Privacy Lock",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Veuillez vous authentifier pour activer le verrou de confidentialité",
     "Please_authenticate_to_use_app": "Veuillez vous authentifier pour utiliser l'app",
@@ -184,7 +182,7 @@
     "Send": "Envoyer",
     "Send_fail": "L'envoi a échoué",
     "Sensitive_Content": "Contenu sensible",
-    "Setting": "Paramètres",
+    "Settings": "Paramètres",
     "Share": "Partager",
     "Show": "Afficher",
     "Show_more": "Voir plus",
@@ -247,6 +245,5 @@
     "open": "Ouvrir",
     "or": "Ou",
     "poll_option_info": "Informations sur les options de vote",
-    "replied": "Répondre",
-    "terms_of_user": "Accord utilisateur"
+    "replied": "Répondre"
 }
