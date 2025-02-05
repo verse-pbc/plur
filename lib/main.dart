@@ -80,6 +80,7 @@ import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
 import 'provider/wot_provider.dart';
+import 'provider/timestamp_provider.dart';
 import 'router/bookmark/bookmark_widget.dart';
 import 'router/community/community_detail_widget.dart';
 import 'router/dm/dm_detail_widget.dart';
@@ -194,6 +195,8 @@ late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
 
+late TimestampProvider timestampProvider;
+
 Future<void> initializeProviders({bool isTesting = false}) async {
   var dbInitTask = DB.getCurrentDatabase();
   var dataUtilTask = DataUtil.getInstance();
@@ -243,6 +246,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   nwcProvider = NWCProvider()..init();
   groupProvider = GroupProvider();
   wotProvider = WotProvider();
+  timestampProvider = TimestampProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
@@ -523,6 +527,9 @@ class _MyApp extends State<MyApp> {
         ),
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
+        ),
+        ListenableProvider<TimestampProvider>.value(
+          value: timestampProvider,
         ),
       ],
       child: HomeWidget(

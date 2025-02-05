@@ -41,7 +41,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       GroupDetailWidget.showTooltipOnGroupCreation = false;
       _showTooltipAfterDelay();
     }
-    groupDetailProvider.startQueryTask();
     groupDetailProvider.refresh();
   }
 
@@ -158,10 +157,16 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
-    EditorWidget.open(context,
-        groupIdentifier: groupIdentifier,
-        groupEventKind: EventKind.GROUP_NOTE,
-        tagsAddedWhenSend: tags);
+    EditorWidget.open(
+      context,
+      groupIdentifier: groupIdentifier,
+      groupEventKind: EventKind.GROUP_NOTE,
+      tagsAddedWhenSend: tags,
+    ).then((event) {
+      if (event != null && groupDetailProvider.isGroupNote(event)) {
+        groupDetailProvider.handleDirectEvent(event);
+      }
+    });
   }
 
   void _onEventDelete(nostr_event.Event e) {

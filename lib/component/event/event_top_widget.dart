@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/simple_date_widget.dart';
+import 'package:nostrmo/component/relative_date_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
@@ -116,17 +116,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                               ),
                             ),
                           ),
-                          Text(
-                            GetTimeAgo.parse(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  widget.event.createdAt * 1000),
-                              pattern: "dd MMM, yyyy",
-                            ),
-                            style: TextStyle(
-                              fontSize: smallTextSize,
-                              color: themeData.hintColor,
-                            ),
-                          ),
+                          RelativeDateWidget(widget.event.createdAt)
                         ],
                       ),
                       Text.rich(

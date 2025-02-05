@@ -89,7 +89,6 @@
     "Hashtag": "ป้ายกำกับ",
     "Hide": "ซ่อนไว้",
     "Home": "หน้าหลัก",
-    "I_accept_the": "ฉันยอมรับ",
     "Image_Compress": "การบีบอัดภาพ",
     "Image_or_Video": "รูปภาพหรือวิดีโอ",
     "Image_save_success": "บันทึกรูปภาพสำเร็จ",
@@ -146,7 +145,6 @@
     "Password": "รหัสผ่าน",
     "Pay": "Pay",
     "Picture": "รูปภาพ",
-    "Please_accept_the_terms": "โปรดยอมรับข้อตกลงผู้ใช้",
     "Please_authenticate_to_turn_off_the_privacy_lock": "กรุณายืนยันตัวตนเพื่อปิดล็อคความเป็นส่วนตัว",
     "Please_authenticate_to_turn_on_the_privacy_lock": "กรุณายืนยันตัวตนเพื่อเปิดล็อคความเป็นส่วนตัว",
     "Please_authenticate_to_use_app": "กรุณายืนยันตัวตนเพื่อใช้ APP",
@@ -247,6 +245,5 @@
     "open": "เปิด",
     "or": "หรือ",
     "poll_option_info": "ข้อมูลตัวเลือกการโหวต",
-    "replied": "ตอบกลับ",
-    "terms_of_user": "ข้อตกลงผู้ใช้"
+    "replied": "ตอบกลับ"
 }
