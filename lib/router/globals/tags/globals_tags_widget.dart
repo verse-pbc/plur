@@ -2,9 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/util/router_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../../component/cust_state.dart';
 import '../../../component/keep_alive_cust_state.dart';

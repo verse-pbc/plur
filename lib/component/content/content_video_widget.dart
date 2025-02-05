@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/util/store_util.dart';
 import 'package:widget_size/widget_size.dart';
@@ -72,10 +72,7 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var currentWidth = MediaQuery.of(context).size.width;
-    if (width != null) {
-      currentWidth = width!;
-    }
+    var currentWidth = width ?? MediaQuery.of(context).size.width;
     var currentHeight = currentWidth * 9.0 / 16.0;
 
     videoWidth = player.state.width;

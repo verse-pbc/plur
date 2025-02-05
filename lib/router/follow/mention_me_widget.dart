@@ -1,19 +1,10 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/event_relation.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/component/event/zap_event_main_widget.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/mention_me_new_provider.dart';
 import 'package:nostrmo/provider/mention_me_provider.dart';
 import 'package:nostrmo/util/load_more_event.dart';
-import 'package:nostrmo/util/spider_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/badge_award_widget.dart';

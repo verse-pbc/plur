@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
@@ -9,7 +10,6 @@ import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 

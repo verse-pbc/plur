@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip59/gift_wrap_util.dart';
-import 'package:nostr_sdk/nostr.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../data/event_db.dart';
 import '../main.dart';
