@@ -2,18 +2,19 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
+import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
 
+/// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -21,25 +22,28 @@ class LoginSignupWidget extends StatefulWidget {
   }
 }
 
-class _LoginSignupState extends State<LoginSignupWidget>
-    with SingleTickerProviderStateMixin {
-  bool? checkTerms = false;
+/// Manages the state for the `LoginSignupWidget`.
+class _LoginSignupState extends State<LoginSignupWidget> {
+  // Boolean flag to show/hide the text in the text field.
+  bool _isTextObscured = true;
 
-  bool obscureText = true;
+  /// Controller for the TextField to track text changes.
+  TextEditingController _controller = TextEditingController();
 
-  TextEditingController controller = TextEditingController();
-
-  late AnimationController animationController;
+  /// Boolean flag to enable/disable the Login button.
+  bool _isLoginButtonEnabled = false;
 
   bool existAndroidNostrSigner = false;
 
   bool existWebNostrSigner = false;
 
+  bool backAfterLogin = false;
+
+  late S localization;
+
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: const Duration(seconds: 2));
     if (PlatformUtil.isAndroid()) {
       AndroidPlugin.existAndroidNostrSigner().then((exist) {
         if (exist == true) {
@@ -55,17 +59,28 @@ class _LoginSignupState extends State<LoginSignupWidget>
         });
       }
     }
+    // Add a listener to track text changes in the TextField.
+    _controller.addListener(_updateLoginButtonState);
   }
 
-  bool backAfterLogin = false;
+  /// Updates the state of the button based on the text field's content.
+  void _updateLoginButtonState() {
+    setState(() {
+      _isLoginButtonEnabled = _controller.text.isNotEmpty;
+    });
+  }
 
-  late S localization;
+  @override
+  void dispose() {
+    // Remove the listener to avoid memory leaks.
+    _controller.removeListener(_updateLoginButtonState);
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
-    final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -74,207 +89,255 @@ class _LoginSignupState extends State<LoginSignupWidget>
       }
     }
 
-    var logoWiget = Image.asset(
-      "assets/imgs/logo/logo512.png",
-      width: 100,
-      height: 100,
-    );
-
     var arg = RouterUtil.routerArgs(context);
     if (arg != null && arg is bool) {
       backAfterLogin = arg;
     }
 
     List<Widget> mainList = [];
-    mainList.add(logoWiget);
+
+    // Adds an expandable empty space to `mainList`, filling available space
+    // in a flex container.
+    mainList.add(Expanded(child: Container()));
+
+    // Adds a logo image to `mainList` for branding.
+    mainList.add(Image.asset(
+      "assets/imgs/landing/logo.png",
+      width: 162,
+      height: 82,
+    ));
+
+    // Adds a title text "Communities" inside a `Container` with bottom margin.
     mainList.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
         bottom: 40,
       ),
-      child: const Text(
-        "Communities",
+      child: Text(
+        localization.Communities,
         style: TextStyle(
+          color: ColorList.primaryForeground,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
       ),
     ));
 
-    var suffixIcon = GestureDetector(
-      onTap: () {
-        setState(() {
-          obscureText = !obscureText;
-        });
-      },
-      child: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
-    );
-    mainList.add(TextField(
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: "nsec / hex private key / npub / NIP-05 Address / bunker://",
-        fillColor: Colors.white,
-        suffixIcon: suffixIcon,
-      ),
-      obscureText: obscureText,
-    ));
-
-    mainList.add(Container(
-      margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
-      child: InkWell(
-        onTap: doLogin,
-        child: Container(
-          height: 36,
-          color: mainColor,
-          alignment: Alignment.center,
-          child: Text(
-            localization.Login,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+    // Adds a tappable "Signup" button to `mainList`.
+    mainList.add(SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        // Calls `_generatePK` when tapped.
+        onPressed: _generatePK,
+        style: FilledButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: ColorList.accent,
+        ),
+        child: Text(
+          localization.Signup,
+          style: TextStyle(
+            color: ColorList.buttonText,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
     ));
 
-    mainList.add(Container(
-      margin: const EdgeInsets.only(bottom: 25),
-      child: InkWell(
-        onTap: generatePK,
-        child: Container(
-          height: 36,
-          alignment: Alignment.center,
-          child: Text(
-            "Sign Up",
-            style: TextStyle(
-              color: mainColor,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
+    // Adds an expandable empty space to `mainList`, filling available space
+    // in a flex container.
+    mainList.add(Expanded(child: Container()));
+
+    // Define a re-usable text field border to be used in enabled and focused
+    // states.
+    OutlineInputBorder textFieldBorder = OutlineInputBorder(
+      borderSide: BorderSide(color: ColorList.dimmed),
+    );
+
+    // Adds a `TextField` to the `mainList`, allowing the user to input a
+    // private key securely.
+    mainList.add(TextField(
+      controller: _controller,
+      decoration: InputDecoration(
+        focusedBorder: textFieldBorder,
+        enabledBorder: textFieldBorder,
+        hintText: localization.Your_private_key,
+        hintStyle: TextStyle(
+          color: ColorList.dimmed,
+          fontSize: 16,
+        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+        // Adds an eye icon as a suffix to toggle password visibility
+        suffixIcon: GestureDetector(
+          onTap: () {
+            setState(() {
+              _isTextObscured = !_isTextObscured;
+            });
+          },
+          child: Icon(
+            _isTextObscured ? Icons.visibility : Icons.visibility_off,
+            color: ColorList.dimmed,
+          ),
+        ),
+      ),
+      style: TextStyle(
+        color: ColorList.dimmed,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+      obscureText: _isTextObscured,
+    ));
+
+    // Adds a 10px tall space between the text field and the button.
+    mainList.add(SizedBox(height: 10));
+
+    // Adds a full-width "Login" button to `mainList`.
+    mainList.add(SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        // Calls the `_doLogin` function when enabled; otherwise, it remains
+        // disabled.
+        onPressed: _isLoginButtonEnabled ? _doLogin : null,
+        style: FilledButton.styleFrom(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: ColorList.dimmed,
+          disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+          foregroundColor: ColorList.buttonText,
+          disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+        ),
+        child: Text(
+          localization.Login,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
     ));
 
     if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
-      mainList.add(Text(localization.or));
-
-      mainList.add(Container(
-        margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
-        child: InkWell(
-          onTap: loginByAndroidSigner,
-          child: Container(
-            height: 36,
-            color: mainColor,
-            alignment: Alignment.center,
-            child: Text(
-              localization.Login_With_Android_Signer,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          onPressed: _loginByAndroidSigner,
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: ColorList.dimmed,
+            disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+            foregroundColor: ColorList.buttonText,
+            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+          ),
+          child: Text(
+            localization.Login_With_Android_Signer,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ));
     } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
-      mainList.add(Text(localization.or));
-
-      mainList.add(Container(
-        margin: const EdgeInsets.all(Base.BASE_PADDING * 2),
-        child: InkWell(
-          onTap: loginWithWebSigner,
-          child: Container(
-            height: 36,
-            color: mainColor,
-            alignment: Alignment.center,
-            child: Text(
-              localization.Login_With_NIP07_Extension,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          onPressed: _loginWithWebSigner,
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: ColorList.dimmed,
+            disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+            foregroundColor: ColorList.buttonText,
+            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+          ),
+          child: Text(
+            localization.Login_With_NIP07_Extension,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
       ));
     }
 
-    var termsWiget = Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Checkbox(
-            value: checkTerms,
-            onChanged: (val) {
-              setState(() {
-                checkTerms = val;
-              });
-            }),
-        Text("${localization.I_accept_the} "),
+    // Adds an expandable section with a centered terms-of-service link to
+    // `mainList`.
+    mainList.add(Expanded(
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         GestureDetector(
           onTap: () {
             WebViewWidget.open(context, Base.PRIVACY_LINK);
           },
-          child: Text(
-            "terms of service",
-            style: TextStyle(
-              color: mainColor,
-              decoration: TextDecoration.underline,
-              decorationColor: mainColor,
-            ),
-          ),
-        ),
-      ],
-    ).animate(controller: animationController, effects: [
-      const ShakeEffect(),
-    ]);
+          child: StyledText(
+              text: localization.Accept_terms_of_service,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: ColorList.primaryForeground,
+                fontSize: 15,
+              ),
+              tags: {
+                'accent': StyledTextTag(
+                  style: TextStyle(
+                      decoration: TextDecoration.underline,
+                      decorationColor: ColorList.accent,
+                      color: ColorList.accent),
+                )
+              }),
+        )
+      ]),
+    ));
 
     return Scaffold(
+      // Sets the background color for the login screen.
+      backgroundColor: ColorList.loginBG,
       body: SizedBox(
+        // Expands to the full width of the screen.
         width: double.maxFinite,
+        // Expands to the full height of the screen.
         height: double.maxFinite,
+        // Uses a `Stack` to position elements, centering them within the
+        // available space.
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
             SizedBox(
+              // A `SizedBox` that constrains the width of the content.
               width: mainWidth,
-              // color: Colors.red,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: mainList,
+              // Adds padding to the content to ensure spacing on the sides.
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Base.BASE_PADDING * 2,
+                ),
+                // Column that holds the main content of the screen.
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: mainList,
+                ),
               ),
-            ),
-            Positioned(
-              bottom: 20,
-              child: termsWiget,
-            ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void generatePK() {
+  /// Generates a new private key and updates the UI accordingly.
+  void _generatePK() {
+    // Generates a new private key.
     var pk = generatePrivateKey();
-    controller.text = pk;
-
-    // mark newUser and will show follow suggest after login.
+    // Updates the text field with the newly generated private key.
+    _controller.text = pk;
+    // Marks the user as new, so they will see follow suggestions after login.
     newUser = true;
-    BotToast.showText(text: "A new private key has been generated for your account.");
+    // Displays a toast notification informing the user that a new private key
+    // was generated.
+    BotToast.showText(
+      text: "A new private key has been generated for your account.",
+    );
   }
 
-  Future<void> doLogin() async {
-    if (checkTerms != true) {
-      showAcceptTermTip();
-      return;
-    }
-
-    var pk = controller.text;
-    if (StringUtil.isBlank(pk)) {
+  /// Asynchronous function to handle login when the button is pressed
+  Future<void> _doLogin() async {
+    var pk = _controller.text;
+    if (pk.isEmpty) {
       BotToast.showText(text: S.of(context).Input_can_not_be_null);
       return;
     }
@@ -296,11 +359,12 @@ class _LoginSignupState extends State<LoginSignupWidget>
       }
 
       if (StringUtil.isBlank(pubkey)) {
-        BotToast.showText(text: "${localization.Pubkey} ${localization.not_found}");
+        BotToast.showText(
+            text: "${localization.Pubkey} ${localization.not_found}");
         return;
       }
 
-      doPreLogin();
+      _doPreLogin();
 
       var npubKey = Nip19.encodePubKey(pubkey!);
       settingProvider.addAndChangePrivateKey(npubKey, updateUI: false);
@@ -336,7 +400,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
         return;
       }
 
-      doPreLogin();
+      _doPreLogin();
 
       settingProvider.addAndChangePrivateKey(pk, updateUI: false);
       nostr = await relayProvider.genNostrWithKey(pk);
@@ -351,18 +415,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     indexProvider.setCurrentTap(0);
   }
 
-  void showAcceptTermTip() {
-    BotToast.showText(text: S.of(context).Please_accept_the_terms);
-    animationController.reset();
-    animationController.forward();
-  }
-
-  Future<void> loginByAndroidSigner() async {
-    if (checkTerms != true) {
-      showAcceptTermTip();
-      return;
-    }
-
+  Future<void> _loginByAndroidSigner() async {
     var androidNostrSigner = AndroidNostrSigner();
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -370,7 +423,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
       return;
     }
 
-    doPreLogin();
+    _doPreLogin();
 
     var key = "${AndroidNostrSigner.URI_PRE}:$pubkey";
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
@@ -388,12 +441,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     indexProvider.setCurrentTap(0);
   }
 
-  Future<void> loginWithWebSigner() async {
-    if (checkTerms != true) {
-      showAcceptTermTip();
-      return;
-    }
-
+  Future<void> _loginWithWebSigner() async {
     var signer = NIP07Signer();
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -401,7 +449,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
       return;
     }
 
-    doPreLogin();
+    _doPreLogin();
 
     var key = "${NIP07Signer.URI_PRE}:$pubkey";
     settingProvider.addAndChangePrivateKey(key, updateUI: false);
@@ -416,7 +464,7 @@ class _LoginSignupState extends State<LoginSignupWidget>
     indexProvider.setCurrentTap(0);
   }
 
-  void doPreLogin() {
+  void _doPreLogin() {
     if (backAfterLogin) {
       AccountManagerWidgetState.clearCurrentMemInfo();
       nostr!.close();

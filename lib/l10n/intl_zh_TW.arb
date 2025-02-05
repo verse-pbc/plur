@@ -89,7 +89,6 @@
     "Hashtag": "標籤",
     "Hide": "隱藏",
     "Home": "首頁",
-    "I_accept_the": "我接受",
     "Image_Compress": "圖片壓縮",
     "Image_or_Video": "圖片或視頻",
     "Image_save_success": "圖片保存成功",
@@ -146,7 +145,6 @@
     "Password": "密碼",
     "Pay": "Pay",
     "Picture": "圖片",
-    "Please_accept_the_terms": "請接受使用者協定。",
     "Please_authenticate_to_turn_off_the_privacy_lock": "請進行身份驗證以關閉隱私鎖",
     "Please_authenticate_to_turn_on_the_privacy_lock": "請進行身份驗證以開啟隱私鎖",
     "Please_authenticate_to_use_app": "請進行身份驗證以使用APP",
@@ -247,6 +245,5 @@
     "open": "打開",
     "or": "或者",
     "poll_option_info": "投票選項資訊",
-    "replied": "回復",
-    "terms_of_user": "使用者協定"
+    "replied": "回復"
 }

@@ -3,6 +3,12 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:nostrmo/router/group/no_notes_widget.dart';
+import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/event_kind.dart';
+import 'package:nostr_sdk/filter.dart';
+import 'package:nostr_sdk/relay/relay_type.dart';
+import 'package:nostr_sdk/event.dart';
+import 'package:nostrmo/main.dart';
 
 import '../../component/event/event_list_widget.dart';
 import '../../component/keep_alive_cust_state.dart';
@@ -11,6 +17,7 @@ import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/load_more_event.dart';
+import '../../provider/relay_provider.dart';
 
 class GroupDetailNoteListWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
@@ -31,6 +38,7 @@ class _GroupDetailNoteListWidgetState
   final ScrollController _controller = ScrollController();
 
   ScrollController scrollController = ScrollController();
+  final subscribeId = StringUtil.rndNameStr(16);
 
   @override
   void initState() {
@@ -95,7 +103,78 @@ class _GroupDetailNoteListWidgetState
   }
 
   @override
-  Future<void> onReady(BuildContext context) async {}
+  Future<void> onReady(BuildContext context) async {
+    _subscribe();
+  }
+
+  void _subscribe() {
+    if (StringUtil.isNotBlank(subscribeId)) {
+      _unsubscribe();
+    }
+
+    final filters = [
+      {
+        // Listen for group notes
+        // Use #h tag to match how notes are created
+        "kinds": [EventKind.GROUP_NOTE],
+        "#h": [widget.groupIdentifier.groupId],
+        "since": DateTime.now().millisecondsSinceEpoch
+      },
+      {
+        // Listen for group note replies
+        // Use #h tag to match how notes are created
+        "kinds": [EventKind.GROUP_NOTE_REPLY],
+        "#h": [widget.groupIdentifier.groupId],
+        "since": DateTime.now().millisecondsSinceEpoch
+      }
+    ];
+
+    try {
+      nostr!.subscribe(
+        filters,
+        _handleSubscriptionEvent,
+        id: subscribeId,
+        relayTypes: [RelayType.TEMP],
+        tempRelays: [RelayProvider.defaultGroupsRelayAddress],
+        sendAfterAuth: true,
+      );
+    } catch (e) {
+      print("Error in subscription: $e");
+    }
+  }
+
+  /// Handles events received from group note subscription.
+  void _handleSubscriptionEvent(Event event) {
+    later(event, (list) {
+      for (final e in list) {
+        groupDetailProvider!.onNewEvent(e);
+      }
+    }, null);
+  }
+
+  /// Handles events created by the current user.
+  void handleDirectEvent(Event event) {
+    groupDetailProvider?.handleDirectEvent(event);
+  }
+
+  Future<void> refresh() async {
+    _subscribe();
+  }
+
+  void _unsubscribe() {
+    try {
+      nostr!.unsubscribe(subscribeId);
+    } catch (e) {
+      print("Error unsubscribing: $e");
+    }
+  }
+
+  @override
+  void dispose() {
+    _unsubscribe();
+    disposeLater();
+    super.dispose();
+  }
 
   @override
   void doQuery() {
