@@ -1,9 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip07/kind_descriptions.dart';
-import 'package:nostr_sdk/nip07/nip07_methods.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 
 import '../consts/base.dart';

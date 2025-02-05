@@ -1,16 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip02/contact_list.dart';
-import 'package:nostr_sdk/nip05/nip05_validor.dart';
-import 'package:nostr_sdk/nip65/relay_list_metadata.dart';
-import 'package:nostr_sdk/utils/later_function.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/nip05status.dart';
 import 'package:nostrmo/data/event_db.dart';

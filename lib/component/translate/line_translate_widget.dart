@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/setting_provider.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import '../cust_state.dart';
 
 class LineTranslateWidget extends StatefulWidget {

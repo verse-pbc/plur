@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/music/music_info_builder.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 
