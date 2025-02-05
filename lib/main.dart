@@ -33,6 +33,7 @@ import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/router/signup/signup_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_list_widget.dart';
@@ -402,6 +403,7 @@ class _MyApp extends State<MyApp> {
     routes = {
       RouterPath.INDEX: (context) => IndexWidget(reload: reload),
       RouterPath.LOGIN: (context) => LoginSignupWidget(),
+      RouterPath.SIGNUP: (context) => SignupWidget(),
       RouterPath.DONATE: (context) => const DonateWidget(),
       RouterPath.USER: (context) => const UserWidget(),
       RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),
