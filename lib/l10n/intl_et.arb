@@ -89,7 +89,6 @@
     "Hashtag": "etikett",
     "Hide": "peita",
     "Home": "Avaleht",
-    "I_accept_the": "Ma nõustun",
     "Image_Compress": "Pildi tihendamine",
     "Image_or_Video": "Pilt või video",
     "Image_save_success": "Pilt salvestati edukalt",
@@ -146,7 +145,6 @@
     "Password": "parool",
     "Pay": "Tasu",
     "Picture": "pilt",
-    "Please_accept_the_terms": "Palun aktsepteeri kasutajalepingut.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Palun kontrollige oma identiteeti privaatsusluku väljalülitamiseks",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Palun kontrollige oma identiteeti privaatsusluku avamiseks",
     "Please_authenticate_to_use_app": "Palun kontrollige oma identiteeti, et kasutada app",
@@ -184,7 +182,7 @@
     "Send": "saata",
     "Send_fail": "saatmine nurjus",
     "Sensitive_Content": "Tundlik sisu",
-    "Setting": "seadistada",
+    "Settings": "seadistada",
     "Share": "osa",
     "Show": "ekraan",
     "Show_more": "Vaata rohkem",
@@ -247,6 +245,5 @@
     "open": "avatud",
     "or": "võib-olla",
     "poll_option_info": "Hääletamisvõimaluste teave",
-    "replied": "vastus",
-    "terms_of_user": "Kasutaja leping"
+    "replied": "vastus"
 }
