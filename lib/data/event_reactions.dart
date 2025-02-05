@@ -1,8 +1,4 @@
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/utils/find_event_interface.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostr_sdk/zap/zap_info_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../main.dart';
 

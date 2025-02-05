@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/aid.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip172/community_info.dart';
-import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/community_info_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
@@ -20,7 +14,6 @@ import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/setting_provider.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import '../edit/editor_widget.dart';
 
 class CommunityDetailWidget extends StatefulWidget {
