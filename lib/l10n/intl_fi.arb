@@ -89,7 +89,6 @@
     "Hashtag": "etiketti",
     "Hide": "piilota",
     "Home": "Kotisivu",
-    "I_accept_the": "Hyväksyn",
     "Image_Compress": "Kuvan pakkaaminen",
     "Image_or_Video": "Kuva tai video",
     "Image_save_success": "Kuva tallennettiin onnistuneesti",
@@ -146,7 +145,6 @@
     "Password": "salasana",
     "Pay": "Palkka",
     "Picture": "kuva",
-    "Please_accept_the_terms": "Hyväksy käyttäjäsopimus.",
     "Please_authenticate_to_turn_off_the_privacy_lock": "Varmista henkilöllisyytesi poistaaksesi yksityisyyslukon käytöstä",
     "Please_authenticate_to_turn_on_the_privacy_lock": "Vahvista henkilöllisyytesi avataksesi tietosuojalukituksen",
     "Please_authenticate_to_use_app": "Vahvista henkilöllisyytesi käyttääksesi sovellusta",
@@ -184,7 +182,7 @@
     "Send": "Lähetä",
     "Send_fail": "epäonnistui lähetyksessä",
     "Sensitive_Content": "Herkkä sisältö",
-    "Setting": "perustaa",
+    "Settings": "perustaa",
     "Share": "osuus",
     "Show": "näyttö",
     "Show_more": "Katso lisää",
@@ -247,6 +245,5 @@
     "open": "avoin",
     "or": "Ehkä",
     "poll_option_info": "Äänestysvaihtoehtoja koskevat tiedot",
-    "replied": "vastaus",
-    "terms_of_user": "Käyttäjäsopimus"
+    "replied": "vastaus"
 }

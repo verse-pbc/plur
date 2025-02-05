@@ -119,7 +119,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
       nwcValue = getOpenList(OpenStatus.CLOSE).name;
     }
     list.add(SettingGroupItemWidget(
-      name: "NWC ${localization.Setting}",
+      name: "NWC ${localization.Settings}",
       value: nwcValue,
       onTap: () {
         RouterUtil.router(context, RouterPath.NWC_SETTING);
@@ -356,7 +356,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Setting,
+          localization.Settings,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: titleFontSize,
