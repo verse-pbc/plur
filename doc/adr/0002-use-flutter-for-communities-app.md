@@ -25,7 +25,7 @@ Our full research docs are in our company's [Notion](https://www.notion.so/nosso
 
 **Cons**:
 - Slowest iteration time as code must be written separately for each platform.
-- Our team does not have much native, web, or desktop experience.
+- Our team does not have much Android, web, or desktop experience.
 
 ### Kotlin Multiplatform
 
