@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip58/badge_definition.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 

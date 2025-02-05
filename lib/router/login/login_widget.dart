@@ -2,16 +2,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/android_plugin/android_plugin.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
-import 'package:nostr_sdk/nip05/nip05_validor.dart';
-import 'package:nostr_sdk/nip07/nip07_signer.dart';
-import 'package:nostr_sdk/nip19/nip19.dart';
-import 'package:nostr_sdk/nip46/nostr_remote_signer_info.dart';
-import 'package:nostr_sdk/nip55/android_nostr_signer.dart';
-import 'package:nostr_sdk/signer/pubkey_only_nostr_signer.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:styled_text/styled_text.dart';

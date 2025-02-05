@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/lightning_qrcode_dialog.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/number_format_util.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../component/lightning_qrcode_dialog.dart';

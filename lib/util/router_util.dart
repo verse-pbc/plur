@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/table_mode_util.dart';

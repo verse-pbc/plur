@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:screenshot/screenshot.dart';
 
 import '../../component/event/event_main_widget.dart';
