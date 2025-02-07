@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nostr_sdk/android_plugin/android_plugin.dart';
 import 'package:nostr_sdk/client_utils/keys.dart';
 import 'package:nostr_sdk/nip05/nip05_validor.dart';
@@ -33,20 +34,26 @@ class SignupWidget extends StatefulWidget {
 
 /// The state class for [SignupWidget].
 class _SignupState extends State<SignupWidget> {
-  /// A boolean variable to track whether the user has accepted the terms.
+  /// Tracks whether the user has acknowledged the risks of sharing the private
+  /// key.
   ///
-  /// Defaults to `false` and can be toggled based on user interaction.
-  /// Boolean flag to enable/disable the Copy & Continue button.
+  /// Defaults to `false`. The button remains disabled until the user confirms
+  /// understanding.
   bool _isCopyAndContinueButtonEnabled = false;
 
-  /// A boolean variable to control the visibility of the text field.
+  /// Controls the visibility of the generated private key.
   ///
-  /// When `true`, the password field content is obscured (hidden).
-  /// When `false`, the password field content is visible.
-  bool obscureText = true;
+  /// When `true`, the private key is hidden from view for security purposes.
+  bool _isTextObscured = true;
 
-  String privateKey = generatePrivateKey();
+  /// A string that holds the user's private key.
+  ///
+  /// This key is generated dynamically when the sign-up process begins.
+  final String _privateKey = generatePrivateKey();
 
+  /// Localization object for handling translated text.
+  ///
+  /// This variable provides access to localized strings for UI components.
   late S localization;
 
   @override
@@ -61,13 +68,15 @@ class _SignupState extends State<SignupWidget> {
         mainWidth = 550;
       }
     }
-    
+
     List<Widget> mainList = [];
 
     // Adds an expandable empty space to `mainList`, filling available space
     // in a flex container.
     mainList.add(Expanded(flex: 2, child: Container()));
 
+    // Adds a flipped and rotated key icon to visually represent the user's
+    // private key and a text explaining the importance of the private key.
     mainList.add(Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -98,6 +107,8 @@ class _SignupState extends State<SignupWidget> {
 
     mainList.add(SizedBox(height: 40));
 
+    // Displays the private key inside a styled container. The key is initially 
+    // obscured and can be toggled visible using a button.
     mainList.add(Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -111,8 +122,9 @@ class _SignupState extends State<SignupWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Displays the private key as a masked or unmasked string.
             Text(
-              obscureText ? "*" * privateKey.length : privateKey,
+              _isTextObscured ? "*" * _privateKey.length : _privateKey,
               style: TextStyle(
                 fontFamily: "monospace",
                 fontFamilyFallback: ["Courier"],
@@ -122,14 +134,15 @@ class _SignupState extends State<SignupWidget> {
                 color: ColorList.dimmed,
               ),
             ),
+            // A button to toggle the visibility of the private key.
             TextButton.icon(
               onPressed: () {
                 setState(() {
-                  obscureText = !obscureText;
+                  _isTextObscured = !_isTextObscured;
                 });
               },
               icon: Icon(
-                obscureText ? Icons.visibility : Icons.visibility_off,
+                _isTextObscured ? Icons.visibility : Icons.visibility_off,
                 color: ColorList.dimmed,
               ),
               label: Text(
@@ -148,10 +161,13 @@ class _SignupState extends State<SignupWidget> {
       ),
     ));
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
+    // Adds an expandable empty space , filling available space in a
+    // flex container.
     mainList.add(Expanded(flex: 2, child: Container()));
 
+    // Adds a checkbox list tile for user acknowledgment. The user must confirm 
+    // they understand the risks of sharing their private key before proceeding. 
+    // This enables the "Copy & Continue" button.
     mainList.add(
       ListTileTheme(
         data: const ListTileThemeData(
@@ -188,9 +204,9 @@ class _SignupState extends State<SignupWidget> {
     mainList.add(SizedBox(
       width: double.infinity,
       child: FilledButton(
-        // Calls the `_doSignup` function when enabled; otherwise, it remains
-        // disabled.
-        onPressed: _isCopyAndContinueButtonEnabled ? _doSignup : null,
+        // Calls the `_copyAndContinue` function when enabled; otherwise, it 
+        // remains disabled.
+        onPressed: _isCopyAndContinueButtonEnabled ? _copyAndContinue : null,
         style: FilledButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: ColorList.accent,
@@ -208,8 +224,8 @@ class _SignupState extends State<SignupWidget> {
       ),
     ));
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
+    // Adds an expandable empty space, filling available space in a flex
+    // container.
     mainList.add(Expanded(flex: 1, child: Container()));
 
     return Scaffold(
@@ -247,19 +263,15 @@ class _SignupState extends State<SignupWidget> {
     );
   }
 
-  Future<void> _doSignup() async {
-    if (Nip19.isPrivateKey(privateKey)) {
-      privateKey = Nip19.decode(privateKey);
-    }
-
-    try {
-      getPublicKey(privateKey);
-    } catch (e) {
-      // is not a private key
-      BotToast.showText(text: S.of(context).Wrong_Private_Key_format);
-      return;
-    } 
-
-    RouterUtil.back(context, privateKey);
+  /// Copies the private key to the clipboard and navigates back.
+  ///
+  /// This function ensures that the private key is copied safely and displays a
+  /// confirmation message to the user. After copying, the user is navigated back
+  /// to the previous screen with the private key as a parameter.
+  Future<void> _copyAndContinue() async {
+    Clipboard.setData(ClipboardData(text: _privateKey)).then((_) {
+      BotToast.showText(text: S.of(context).key_has_been_copy);
+    });
+    RouterUtil.back(context, _privateKey);
   }
 }
