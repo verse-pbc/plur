@@ -128,8 +128,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(SizedBox(
       width: double.infinity,
       child: FilledButton(
-        // Calls `_generatePK` when tapped.
-        onPressed: _generatePK,
+        // Calls `_navigateToSignup` when tapped.
+        onPressed: _navigateToSignup,
         style: FilledButton.styleFrom(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: ColorList.accent,
@@ -321,21 +321,26 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     );
   }
 
-  /// Generates a new private key and updates the UI accordingly.
-  void _generatePK() {
-    RouterUtil.router(context, RouterPath.SIGNUP);
-    return;
-    // Generates a new private key.
-    var pk = generatePrivateKey();
-    // Updates the text field with the newly generated private key.
-    _controller.text = pk;
-    // Marks the user as new, so they will see follow suggestions after login.
-    newUser = true;
-    // Displays a toast notification informing the user that a new private key
-    // was generated.
-    BotToast.showText(
-      text: "A new private key has been generated for your account.",
-    );
+  /// Navigates to the Signup screen.
+  Future<void> _navigateToSignup() async {
+    final privateKey = await RouterUtil.router(context, RouterPath.SIGNUP);
+
+    if (privateKey != null && privateKey is String) {
+      _doPreLogin();
+
+      settingProvider.addAndChangePrivateKey(privateKey, updateUI: false);
+      nostr = await relayProvider.genNostrWithKey(privateKey);
+
+      if (backAfterLogin) {
+        RouterUtil.back(context);
+      }
+
+      settingProvider.notifyListeners();
+      // Marks the login as the first one, so the contact data can be properly
+      // downloaded.
+      firstLogin = true;
+      indexProvider.setCurrentTap(0);
+    }
   }
 
   /// Asynchronous function to handle login when the button is pressed
