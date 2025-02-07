@@ -950,6 +950,16 @@ class S {
     );
   }
 
+  /// `Copy & Continue`
+  String get Copy_and_Continue {
+    return Intl.message(
+      'Copy & Continue',
+      name: 'Copy_and_Continue',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Copy Hex Key`
   String get Copy_Hex_Key {
     return Intl.message(
@@ -1015,6 +1025,26 @@ class S {
     return Intl.message(
       'By continuing, you accept our <accent>terms of service</accent>',
       name: 'Accept_terms_of_service',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This is the key to your account`
+  String get This_is_the_key_to_your_account {
+    return Intl.message(
+      'This is the key to your account',
+      name: 'This_is_the_key_to_your_account',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `I understand that I should not share this key with anyone, and I should backup it safely (e.g. in a password manager).`
+  String get I_understand_I_shouldnt_share_this_key {
+    return Intl.message(
+      'I understand that I should not share this key with anyone, and I should backup it safely (e.g. in a password manager).',
+      name: 'I_understand_I_shouldnt_share_this_key',
       desc: '',
       args: [],
     );
