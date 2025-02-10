@@ -484,7 +484,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":
-            MessageLookupByLibrary.simpleMessage("key has been copy!"),
+            MessageLookupByLibrary.simpleMessage("The key has been copied!"),
         "liked": MessageLookupByLibrary.simpleMessage("liked"),
         "loading": MessageLookupByLibrary.simpleMessage("loading"),
         "max_zap_num": MessageLookupByLibrary.simpleMessage("max zap num"),

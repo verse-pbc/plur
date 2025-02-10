@@ -760,10 +760,10 @@ class S {
     );
   }
 
-  /// `key has been copy!`
+  /// `The key has been copied!`
   String get key_has_been_copy {
     return Intl.message(
-      'key has been copy!',
+      'The key has been copied!',
       name: 'key_has_been_copy',
       desc: '',
       args: [],
