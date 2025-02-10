@@ -128,6 +128,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(SizedBox(
       width: double.infinity,
       child: FilledButton(
+        key: const Key('signup_button'),
         // Calls `_navigateToSignup` when tapped.
         onPressed: _navigateToSignup,
         style: FilledButton.styleFrom(
@@ -323,8 +324,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   /// Navigates to the Signup screen.
   Future<void> _navigateToSignup() async {
-    final privateKey = await RouterUtil.router(context, RouterPath.SIGNUP);
-
+    final privateKey = await Navigator.of(context).pushNamed(RouterPath.SIGNUP);
     if (privateKey != null && privateKey is String) {
       _doPreLogin();
 
@@ -332,6 +332,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       nostr = await relayProvider.genNostrWithKey(privateKey);
 
       if (backAfterLogin) {
+        print("Popping screen");
         RouterUtil.back(context);
       }
 
