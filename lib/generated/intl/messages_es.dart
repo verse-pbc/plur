@@ -421,6 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("O"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Información sobre las opciones de votación"),
-        "replied": MessageLookupByLibrary.simpleMessage("Respuesta")
+        "replied": MessageLookupByLibrary.simpleMessage("Respuesta"),
+        "view_key": MessageLookupByLibrary.simpleMessage("ver clave")
       };
 }

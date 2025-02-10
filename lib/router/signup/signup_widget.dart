@@ -107,7 +107,7 @@ class _SignupState extends State<SignupWidget> {
 
     mainList.add(SizedBox(height: 40));
 
-    // Displays the private key inside a styled container. The key is initially 
+    // Displays the private key inside a styled container. The key is initially
     // obscured and can be toggled visible using a button.
     mainList.add(Container(
       decoration: BoxDecoration(
@@ -117,13 +117,13 @@ class _SignupState extends State<SignupWidget> {
         ),
         borderRadius: BorderRadius.circular(4),
       ),
-      child: Padding(
-        padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Displays the private key as a masked or unmasked string.
-            Text(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Displays the private key as a masked or unmasked string.
+          Padding(
+            padding: EdgeInsets.only(left: 16, top: 16, right: 16),
+            child: Text(
               _isTextObscured ? "*" * _privateKey.length : _privateKey,
               style: TextStyle(
                 fontFamily: "monospace",
@@ -134,30 +134,33 @@ class _SignupState extends State<SignupWidget> {
                 color: ColorList.dimmed,
               ),
             ),
-            // A button to toggle the visibility of the private key.
-            TextButton.icon(
-              onPressed: () {
-                setState(() {
-                  _isTextObscured = !_isTextObscured;
-                });
-              },
-              icon: Icon(
-                _isTextObscured ? Icons.visibility : Icons.visibility_off,
-                color: ColorList.dimmed,
-              ),
-              label: Text(
-                "view key",
-                style: TextStyle(
-                  color: ColorList.dimmed,
-                  fontSize: 15.93,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1.182,
-                ),
-              ),
-              style: TextButton.styleFrom(padding: EdgeInsets.zero),
+          ),
+          // A button to toggle the visibility of the private key.
+          TextButton.icon(
+            onPressed: () {
+              setState(() {
+                _isTextObscured = !_isTextObscured;
+              });
+            },
+            icon: Icon(
+              _isTextObscured ? Icons.visibility : Icons.visibility_off,
+              color: ColorList.dimmed,
             ),
-          ],
-        ),
+            label: Text(
+              localization.view_key,
+              style: TextStyle(
+                color: ColorList.dimmed,
+                fontSize: 15.93,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.182,
+              ),
+            ),
+            style: TextButton.styleFrom(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              alignment: Alignment.centerLeft,
+            ),
+          ),
+        ],
       ),
     ));
 
@@ -165,8 +168,8 @@ class _SignupState extends State<SignupWidget> {
     // flex container.
     mainList.add(Expanded(flex: 2, child: Container()));
 
-    // Adds a checkbox list tile for user acknowledgment. The user must confirm 
-    // they understand the risks of sharing their private key before proceeding. 
+    // Adds a checkbox list tile for user acknowledgment. The user must confirm
+    // they understand the risks of sharing their private key before proceeding.
     // This enables the "Copy & Continue" button.
     mainList.add(
       ListTileTheme(
@@ -175,6 +178,7 @@ class _SignupState extends State<SignupWidget> {
           contentPadding: EdgeInsets.symmetric(horizontal: 0),
         ),
         child: CheckboxListTile(
+          key: const Key('acknowledgement_checkbox'),
           title: Text(
             localization.I_understand_I_shouldnt_share_this_key,
             style: TextStyle(
@@ -204,7 +208,8 @@ class _SignupState extends State<SignupWidget> {
     mainList.add(SizedBox(
       width: double.infinity,
       child: FilledButton(
-        // Calls the `_copyAndContinue` function when enabled; otherwise, it 
+        key: const Key('copy_and_continue_button'),
+        // Calls the `_copyAndContinue` function when enabled; otherwise, it
         // remains disabled.
         onPressed: _isCopyAndContinueButtonEnabled ? _copyAndContinue : null,
         style: FilledButton.styleFrom(
@@ -266,12 +271,12 @@ class _SignupState extends State<SignupWidget> {
   /// Copies the private key to the clipboard and navigates back.
   ///
   /// This function ensures that the private key is copied safely and displays a
-  /// confirmation message to the user. After copying, the user is navigated back
-  /// to the previous screen with the private key as a parameter.
-  Future<void> _copyAndContinue() async {
+  /// confirmation message to the user. After copying, the user is navigated
+  /// back to the previous screen with the private key as a parameter.
+  void _copyAndContinue() async {
     Clipboard.setData(ClipboardData(text: _privateKey)).then((_) {
       BotToast.showText(text: S.of(context).key_has_been_copy);
     });
-    RouterUtil.back(context, _privateKey);
+    Navigator.of(context).pop(_privateKey);
   }
 }

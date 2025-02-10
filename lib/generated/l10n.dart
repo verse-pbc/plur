@@ -750,6 +750,16 @@ class S {
     );
   }
 
+  /// `view key`
+  String get view_key {
+    return Intl.message(
+      'view key',
+      name: 'view_key',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `key has been copy!`
   String get key_has_been_copy {
     return Intl.message(

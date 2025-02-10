@@ -499,6 +499,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("poll option info"),
         "private": MessageLookupByLibrary.simpleMessage("private"),
         "public": MessageLookupByLibrary.simpleMessage("public"),
-        "replied": MessageLookupByLibrary.simpleMessage("replied")
+        "replied": MessageLookupByLibrary.simpleMessage("replied"),
+        "view_key": MessageLookupByLibrary.simpleMessage("view key")
       };
 }
