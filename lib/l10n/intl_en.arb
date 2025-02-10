@@ -69,6 +69,7 @@
     "replied": "replied",
     "boosted": "boosted",
     "liked": "liked",
+    "view_key": "view key",
     "key_has_been_copy": "key has been copy!",
     "Input_dirtyword": "Input dirtyword.",
     "Word_can_t_be_null": "Word can't be null.",
