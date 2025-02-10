@@ -332,7 +332,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       nostr = await relayProvider.genNostrWithKey(privateKey);
 
       if (backAfterLogin) {
-        print("Popping screen");
         RouterUtil.back(context);
       }
 
