@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip58/nip58.dart';
-import 'package:nostr_sdk/nostr.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../main.dart';
 

@@ -3,16 +3,7 @@ import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/aid.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/nip29/group_metadata.dart';
-import 'package:nostr_sdk/nip51/bookmarks.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
 
@@ -27,7 +18,7 @@ import '../provider/relay_provider.dart';
 /// These list usually publish by user himself and the provider will hold the newest one.
 class ListProvider extends ChangeNotifier {
   // holder, hold the events.
-  // key - “kind:pubkey”, value - event
+  // key - "kind:pubkey", value - event
   final Map<String, Event> _holder = {};
 
   void load(
@@ -102,6 +93,7 @@ class ListProvider extends ChangeNotifier {
           }
         }
       }
+      _queryAllGroupsOnDefaultRelay();
     }
     notifyListeners();
   }
@@ -594,4 +586,102 @@ class ListProvider extends ChangeNotifier {
     _bookmarks = Bookmarks();
     _groupIdentifiers.clear();
   }
+
+  /// Add a group identifier to the list and fetch its metadata
+  void _addGroupIdentifier(GroupIdentifier groupId) {
+    if (!_groupIdentifiers.contains(groupId)) {
+      _groupIdentifiers.add(groupId);
+      // Fetch metadata for just this new group
+      _queryGroupMetadata(groupId);
+    }
+  }
+
+  /// Fetch metadata for a specific group
+  void _queryGroupMetadata(GroupIdentifier groupId) async {
+    // Create filter for group metadata
+    final filter = Filter(kinds: [EventKind.GROUP_METADATA], limit: 1);
+    final filterMap = filter.toJson();
+    filterMap["#d"] = [groupId.groupId];
+
+    nostr!.query(
+      [filterMap],
+      (Event event) {
+        if (event.kind == EventKind.GROUP_METADATA) {
+          groupProvider.onEvent(groupId, event);
+        }
+      },
+      tempRelays: [groupId.host],
+      relayTypes: RelayType.ONLY_TEMP,
+      sendAfterAuth: true,
+    );
+  }
+
+  /// Fetch all groups that the user is a member or admin of
+  void _queryAllGroupsOnDefaultRelay() async {
+    final filters = [
+      {
+        // Get groups where user is a member
+        "kinds": [EventKind.GROUP_MEMBERS],
+        "#p": [nostr!.publicKey],
+      },
+      {
+        // Get groups where user is an admin
+        "kinds": [EventKind.GROUP_ADMINS],
+        "#p": [nostr!.publicKey],
+      }
+    ];
+
+    nostr!.query(
+      filters,
+      (Event event) {
+        _extractGroupIdentifiersFromTags(event, tagPrefix: "d").forEach(_addGroupIdentifier);
+      },
+      tempRelays: [RelayProvider.defaultGroupsRelayAddress],
+      relayTypes: RelayType.ONLY_TEMP,
+      sendAfterAuth: true,
+    );
+  }
+
+  /// Handles group deletion events by removing the group from _groupIdentifiers
+  /// and updating the UI
+  void handleGroupDeleteEvent(Event event) {
+    _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
+        .forEach(_groupIdentifiers.remove);
+    _updateGroups();
+    notifyListeners();
+  }
+
+  /// Handles membership/admin events by adding new groups to _groupIdentifiers
+  void handleAdminMembershipEvent(Event event) {
+    if (event.kind == EventKind.GROUP_MEMBERS ||
+        event.kind == EventKind.GROUP_ADMINS) {
+      _extractGroupIdentifiersFromTags(event, tagPrefix: "d")
+          .forEach(_addGroupIdentifier);
+      notifyListeners();
+    }
+  }
+
+  /// Handles metadata update events by updating the group metadata in GroupProvider
+  void handleEditMetadataEvent(Event event) {
+    if (event.kind == EventKind.GROUP_EDIT_METADATA) {
+      _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
+          .forEach((groupId) => groupProvider.onEvent(groupId, event));
+      notifyListeners();
+    }
+  }
+}
+
+/// Extracts group identifiers from event tags with specified prefix ("h" or "d").
+/// Optionally accepts a custom relay address, defaults to the default groups relay.
+List<GroupIdentifier> _extractGroupIdentifiersFromTags(
+  Event event, {
+  required String tagPrefix,
+  String? relayAddress,
+}) {
+  relayAddress ??= RelayProvider.defaultGroupsRelayAddress;
+
+  return event.tags
+      .where((tag) => tag is List && tag.length > 1 && tag[0] == tagPrefix)
+      .map((tag) => GroupIdentifier(relayAddress!, tag[1]))
+      .toList();
 }

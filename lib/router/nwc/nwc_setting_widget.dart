@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip47/nwc_info.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/webview_widget.dart';
@@ -12,7 +12,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 

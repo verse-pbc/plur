@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
@@ -26,7 +25,6 @@ import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
 import '../edit/editor_widget.dart';
 import '../follow/follow_index_widget.dart';
-import '../globals/globals_index_widget.dart';
 import '../group/communities_widget.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
@@ -223,9 +221,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
         index: indexProvider.currentTap,
         children: [
           const CommunitiesWidget(),
-          GlobalsIndexWidget(
-            tabController: globalsTabController,
-          ),
           const SearchWidget(),
           DMWidget(
             tabController: dmTabController,

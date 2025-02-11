@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
@@ -8,7 +9,6 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../util/dio_util.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'web_util_item_widget.dart';
 
 class WebUtilsWidget extends StatefulWidget {

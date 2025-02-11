@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/relay/relay_status.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/placeholder/user_relay_placeholder.dart';
 import 'package:nostrmo/generated/l10n.dart';
@@ -13,7 +13,6 @@ import '../../consts/base.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/dio_util.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import '../user/user_relays_widget.dart';
 
 class RelayhubWidget extends StatefulWidget {

@@ -3,9 +3,7 @@ import 'dart:math';
 
 import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/user/simple_metadata_widget.dart';
 
@@ -13,7 +11,6 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/dio_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../util/table_mode_util.dart';
 
