@@ -1,8 +1,6 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:widget_size/widget_size.dart';
 
 import 'index_app_bar.dart';

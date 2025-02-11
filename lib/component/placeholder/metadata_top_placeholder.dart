@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_placeholder_textlines/placeholder_lines.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 
 import '../../consts/base.dart';

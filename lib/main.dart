@@ -12,10 +12,7 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/relay_local/relay_local_db.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
@@ -82,6 +79,7 @@ import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
 import 'provider/wot_provider.dart';
+import 'provider/timestamp_provider.dart';
 import 'router/bookmark/bookmark_widget.dart';
 import 'router/community/community_detail_widget.dart';
 import 'router/dm/dm_detail_widget.dart';
@@ -155,8 +153,6 @@ late Map<String, WidgetBuilder> routes;
 
 late WebViewProvider webViewProvider;
 
-// late CustomEmojiProvider customEmojiProvider;
-
 late CommunityApprovedProvider communityApprovedProvider;
 
 late CommunityInfoProvider communityInfoProvider;
@@ -197,6 +193,62 @@ bool newUser = false;
 late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
+
+late TimestampProvider timestampProvider;
+
+Future<void> initializeProviders({bool isTesting = false}) async {
+  var dbInitTask = DB.getCurrentDatabase();
+  var dataUtilTask = DataUtil.getInstance();
+  var relayLocalDBTask = RelayLocalDB.init();
+  var dataFutureResultList =
+      await Future.wait([dbInitTask, dataUtilTask, relayLocalDBTask]);
+  relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
+  sharedPreferences = dataFutureResultList[1] as SharedPreferences;
+
+  var settingTask = SettingProvider.getInstance();
+  var metadataTask = MetadataProvider.getInstance();
+  var futureResultList = await Future.wait([settingTask, metadataTask]);
+  settingProvider = futureResultList[0] as SettingProvider;
+  metadataProvider = futureResultList[1] as MetadataProvider;
+  contactListProvider = ContactListProvider.getInstance();
+  followEventProvider = FollowEventProvider();
+  followNewEventProvider = FollowNewEventProvider();
+  mentionMeProvider = MentionMeProvider();
+  mentionMeNewProvider = MentionMeNewProvider();
+  dmProvider = DMProvider();
+  indexProvider = IndexProvider(
+    indexTap: settingProvider.defaultIndex,
+  );
+  eventReactionsProvider = EventReactionsProvider();
+  noticeProvider = NoticeProvider();
+  singleEventProvider = SingleEventProvider();
+  relayProvider = RelayProvider.getInstance();
+  filterProvider = FilterProvider.getInstance();
+  linkPreviewDataProvider = LinkPreviewDataProvider();
+  badgeDefinitionProvider = BadgeDefinitionProvider();
+  mediaDataCache = MediaDataCache();
+  if (!isTesting) {
+    CacheManagerBuilder.build();
+  }
+  pcRouterFakeProvider = PcRouterFakeProvider();
+  webViewProvider = WebViewProvider.getInstance();
+  communityApprovedProvider = CommunityApprovedProvider();
+  communityInfoProvider = CommunityInfoProvider();
+  communityListProvider = CommunityListProvider();
+  replaceableEventProvider = ReplaceableEventProvider();
+  listProvider = ListProvider();
+  listSetProvider = ListSetProvider();
+  badgeProvider = BadgeProvider();
+  giftWrapProvider = GiftWrapProvider();
+  musicProvider = MusicProvider();
+  urlSpeedProvider = UrlSpeedProvider();
+  nwcProvider = NWCProvider()..init();
+  groupProvider = GroupProvider();
+  wotProvider = WotProvider();
+  timestampProvider = TimestampProvider();
+
+  defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
+}
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -239,55 +291,7 @@ Future<void> main() async {
     print(e);
   }
 
-  var dbInitTask = DB.getCurrentDatabase();
-  var dataUtilTask = DataUtil.getInstance();
-  var relayLocalDBTask = RelayLocalDB.init();
-  var dataFutureResultList =
-      await Future.wait([dbInitTask, dataUtilTask, relayLocalDBTask]);
-  relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
-  sharedPreferences = dataFutureResultList[1] as SharedPreferences;
-
-  var settingTask = SettingProvider.getInstance();
-  var metadataTask = MetadataProvider.getInstance();
-  var futureResultList = await Future.wait([settingTask, metadataTask]);
-  settingProvider = futureResultList[0] as SettingProvider;
-  metadataProvider = futureResultList[1] as MetadataProvider;
-  contactListProvider = ContactListProvider.getInstance();
-  followEventProvider = FollowEventProvider();
-  followNewEventProvider = FollowNewEventProvider();
-  mentionMeProvider = MentionMeProvider();
-  mentionMeNewProvider = MentionMeNewProvider();
-  dmProvider = DMProvider();
-  indexProvider = IndexProvider(
-    indexTap: settingProvider.defaultIndex,
-  );
-  eventReactionsProvider = EventReactionsProvider();
-  noticeProvider = NoticeProvider();
-  singleEventProvider = SingleEventProvider();
-  relayProvider = RelayProvider.getInstance();
-  filterProvider = FilterProvider.getInstance();
-  linkPreviewDataProvider = LinkPreviewDataProvider();
-  badgeDefinitionProvider = BadgeDefinitionProvider();
-  mediaDataCache = MediaDataCache();
-  CacheManagerBuilder.build();
-  pcRouterFakeProvider = PcRouterFakeProvider();
-  webViewProvider = WebViewProvider.getInstance();
-  // customEmojiProvider = CustomEmojiProvider.load();
-  communityApprovedProvider = CommunityApprovedProvider();
-  communityInfoProvider = CommunityInfoProvider();
-  communityListProvider = CommunityListProvider();
-  replaceableEventProvider = ReplaceableEventProvider();
-  listProvider = ListProvider();
-  listSetProvider = ListSetProvider();
-  badgeProvider = BadgeProvider();
-  giftWrapProvider = GiftWrapProvider();
-  musicProvider = MusicProvider();
-  urlSpeedProvider = UrlSpeedProvider();
-  nwcProvider = NWCProvider()..init();
-  groupProvider = GroupProvider();
-  wotProvider = WotProvider();
-
-  defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
+  await initializeProviders();
 
   if (StringUtil.isNotBlank(settingProvider.network)) {
     var network = settingProvider.network;
@@ -522,6 +526,9 @@ class _MyApp extends State<MyApp> {
         ),
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
+        ),
+        ListenableProvider<TimestampProvider>.value(
+          value: timestampProvider,
         ),
       ],
       child: HomeWidget(

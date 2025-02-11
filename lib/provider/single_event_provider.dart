@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/utils/later_function.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../main.dart';
 

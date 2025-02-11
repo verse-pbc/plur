@@ -1,20 +1,6 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip29/group_admins.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/nip29/group_members.dart';
-import 'package:nostr_sdk/nip29/group_metadata.dart';
-import 'package:nostr_sdk/nip29/group_object.dart';
-import 'package:nostr_sdk/nip29/nip29.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostr_sdk/utils/later_function.dart';
 
 class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, GroupMetadata> groupMetadatas = {};
@@ -151,7 +137,6 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, dynamic> _genFilter(String groupId, int eventKind) {
     var filter = Filter(
       kinds: [eventKind],
-      limit: 1,
     );
     var jsonMap = filter.toJson();
     jsonMap["d"] = [groupId];
@@ -183,14 +168,13 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   void onEvent(GroupIdentifier groupIdentifier, Event e) {
     bool updated = false;
     if (e.kind == EventKind.GROUP_METADATA) {
-      updated = handleEvent(
-          groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
+      updated = handleEvent(groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_ADMINS) {
-      updated = handleEvent(
-          groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
+      updated = handleEvent(groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_MEMBERS) {
-      updated = handleEvent(
-          groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
+      updated = handleEvent(groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
+    } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {
+      updated = handleEvent(groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     }
 
     if (updated) {
@@ -215,6 +199,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       map[key] = groupObject;
       updated = true;
     } else {
+      // gets the most recent valid metadata
       if (object is GroupObject && groupObject.createdAt > object.createdAt) {
         map[key] = groupObject;
         updated = true;

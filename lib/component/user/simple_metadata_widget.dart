@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/follow_btn_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
@@ -7,7 +8,6 @@ import 'package:nostrmo/data/metadata.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'package:nostr_sdk/utils/string_util.dart';
 import '../image_widget.dart';
 
 class SimpleMetadataWidget extends StatefulWidget {

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/nip29/group_metadata.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +8,6 @@ import '../../component/appbar4stack.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';

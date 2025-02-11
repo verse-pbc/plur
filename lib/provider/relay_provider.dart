@@ -1,28 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/nip02/nip02.dart';
-import 'package:nostr_sdk/nip07/nip07_signer.dart';
-import 'package:nostr_sdk/nip19/nip19.dart';
-import 'package:nostr_sdk/nip46/nostr_remote_signer.dart';
-import 'package:nostr_sdk/nip46/nostr_remote_signer_info.dart';
-import 'package:nostr_sdk/nip55/android_nostr_signer.dart';
-import 'package:nostr_sdk/nip65/nip65.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/relay/relay.dart';
-import 'package:nostr_sdk/relay/relay_base.dart';
-import 'package:nostr_sdk/relay/relay_isolate.dart';
-import 'package:nostr_sdk/relay/relay_mode.dart';
-import 'package:nostr_sdk/relay/relay_status.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/relay_local/relay_local.dart';
-import 'package:nostr_sdk/signer/local_nostr_signer.dart';
-import 'package:nostr_sdk/signer/nostr_signer.dart';
-import 'package:nostr_sdk/signer/pubkey_only_nostr_signer.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 
 import '../consts/client_connected.dart';
@@ -163,19 +142,11 @@ class RelayProvider extends ChangeNotifier {
     log("nostr init over");
 
     // add initQuery
-    var dmInitFuture = dmProvider.initDMSessions(_nostr.publicKey);
-    var giftWrapFuture = giftWrapProvider.init();
     contactListProvider.reload(targetNostr: _nostr);
     contactListProvider.query(targetNostr: _nostr);
     followEventProvider.doQuery(targetNostr: _nostr, initQuery: true);
     mentionMeProvider.doQuery(targetNostr: _nostr, initQuery: true);
     // don't query after init, due to query dm need login to relay so the first query change to call by timer
-    // dmInitFuture.then((_) {
-    //   dmProvider.query(targetNostr: _nostr, initQuery: true);
-    // });
-    giftWrapFuture.then((_) {
-      giftWrapProvider.query();
-    });
 
     loadRelayAddrs(contactListProvider.content);
     listProvider.load(_nostr.publicKey,
