@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/cashu/cashu_tokens.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/colors_util.dart';
 
 import '../../consts/base.dart';

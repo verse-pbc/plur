@@ -159,7 +159,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("label"),
         "Hide": MessageLookupByLibrary.simpleMessage("verbergen"),
         "Home": MessageLookupByLibrary.simpleMessage("startpagina"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Ik accepteer"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Beeldcompressie"),
         "Image_or_Video": MessageLookupByLibrary.simpleMessage("Foto of video"),
@@ -244,8 +243,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("wachtwoord"),
         "Pay": MessageLookupByLibrary.simpleMessage("Betaal"),
         "Picture": MessageLookupByLibrary.simpleMessage("foto"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Gelieve de gebruikersovereenkomst te accepteren."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Controleer uw identiteit om het privacyslot uit te schakelen"),
@@ -405,8 +402,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("misschien"),
         "poll_option_info":
             MessageLookupByLibrary.simpleMessage("Informatie over stemopties"),
-        "replied": MessageLookupByLibrary.simpleMessage("antwoord"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Gebruikersovereenkomst")
+        "replied": MessageLookupByLibrary.simpleMessage("antwoord")
       };
 }

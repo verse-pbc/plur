@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip172/community_info.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/provider/contact_list_provider.dart';
 import 'package:provider/provider.dart';

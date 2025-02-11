@@ -152,7 +152,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "Hide": MessageLookupByLibrary.simpleMessage("Ẩn"),
         "Home": MessageLookupByLibrary.simpleMessage("Trang chủ"),
-        "I_accept_the": MessageLookupByLibrary.simpleMessage("Tôi chấp nhận"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("Nén ảnh"),
         "Image_or_Video":
             MessageLookupByLibrary.simpleMessage("Hình ảnh hoặc video"),
@@ -236,8 +235,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Mật khẩu"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("Hình ảnh"),
-        "Please_accept_the_terms": MessageLookupByLibrary.simpleMessage(
-            "Vui lòng chấp nhận thỏa thuận người dùng."),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Vui lòng xác thực để đóng Privacy Lock"),
@@ -396,8 +393,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("Hoặc"),
         "poll_option_info":
             MessageLookupByLibrary.simpleMessage("Thông tin lựa chọn bỏ phiếu"),
-        "replied": MessageLookupByLibrary.simpleMessage("Trả lời"),
-        "terms_of_user":
-            MessageLookupByLibrary.simpleMessage("Thỏa thuận người dùng")
+        "replied": MessageLookupByLibrary.simpleMessage("Trả lời")
       };
 }
