@@ -1050,10 +1050,10 @@ class S {
     );
   }
 
-  /// `I understand that I should not share this key with anyone, and I should backup it safely (e.g. in a password manager).`
+  /// `I understand that I should not share this key with anyone, and I should back it up safely (e.g. in a password manager).`
   String get I_understand_I_shouldnt_share_this_key {
     return Intl.message(
-      'I understand that I should not share this key with anyone, and I should backup it safely (e.g. in a password manager).',
+      'I understand that I should not share this key with anyone, and I should back it up safely (e.g. in a password manager).',
       name: 'I_understand_I_shouldnt_share_this_key',
       desc: '',
       args: [],

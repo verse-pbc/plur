@@ -78,13 +78,13 @@ void main() {
     await tester.pumpAndSettle();
 
     // find the Copy & Continue button and tap it
-    await tester.tap(find.byKey(const Key('copy_and_continue_button')));
+    await tester.tap(find.byKey(const Key('done_button')));
     await tester.pumpAndSettle();
 
     // verify that the NoCommunitiesWidget is shown
     expect(find.byType(NoCommunitiesWidget), findsOneWidget);
   });
-  
+
   testWidgets('Checkbox enables button', (WidgetTester tester) async {
     // launch the app
     await tester.pumpWidget(MaterialApp(
@@ -100,13 +100,19 @@ void main() {
     await tester.pumpAndSettle();
 
     // test that the initial state of the button is disabled
-    expect(tester.widget<FilledButton>(find.byKey(const Key('copy_and_continue_button'))).enabled, isFalse);
-    
+    expect(
+      tester.widget<FilledButton>(find.byKey(const Key('done_button'))).enabled,
+      isFalse,
+    );
+
     // find the required checkbox and turn it on
     await tester.tap(find.byKey(const Key('acknowledgement_checkbox')));
     await tester.pumpAndSettle();
 
     // test that the button is now enabled
-    expect(tester.widget<FilledButton>(find.byKey(const Key('copy_and_continue_button'))).enabled, isTrue);
+    expect(
+      tester.widget<FilledButton>(find.byKey(const Key('done_button'))).enabled,
+      isTrue,
+    );
   });
 }
