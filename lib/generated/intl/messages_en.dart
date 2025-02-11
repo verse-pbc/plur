@@ -197,7 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hour": MessageLookupByLibrary.simpleMessage("Hour"),
         "I_understand_I_shouldnt_share_this_key":
             MessageLookupByLibrary.simpleMessage(
-                "I understand that I should not share this key with anyone, and I should backup it safely (e.g. in a password manager)."),
+                "I understand that I should not share this key with anyone, and I should back it up safely (e.g. in a password manager)."),
         "Image": MessageLookupByLibrary.simpleMessage("Image"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Image Compress"),

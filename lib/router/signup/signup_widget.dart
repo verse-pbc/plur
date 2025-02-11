@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,19 +20,17 @@ class SignupWidget extends StatefulWidget {
   const SignupWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _SignupState();
-  }
+  State<StatefulWidget> createState() => _SignupWidgetState();
 }
 
 /// The state class for [SignupWidget].
-class _SignupState extends State<SignupWidget> {
+class _SignupWidgetState extends State<SignupWidget> {
   /// Tracks whether the user has acknowledged the risks of sharing the private
   /// key.
   ///
   /// Defaults to `false`. The button remains disabled until the user confirms
   /// understanding.
-  bool _isCopyAndContinueButtonEnabled = false;
+  bool _isDoneButtonEnabled = false;
 
   /// Controls the visibility of the generated private key.
   ///
@@ -50,121 +50,119 @@ class _SignupState extends State<SignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
-    var maxWidth = mediaDataCache.size.width;
+    final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
-      if (mainWidth > 550) {
-        mainWidth = 550;
-      }
+      mainWidth = min(mainWidth, 550);
     }
 
-    List<Widget> mainList = [];
+    List<Widget> mainList = [
+      // Adds an expandable empty space to `mainList`, filling available space
+      // in a flex container.
+      Expanded(flex: 2, child: Container()),
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
-    mainList.add(Expanded(flex: 2, child: Container()));
-
-    // Adds a flipped and rotated key icon to visually represent the user's
-    // private key and a text explaining the importance of the private key.
-    mainList.add(Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Transform.flip(
-          flipX: true,
-          child: Transform.rotate(
-            angle: 45 * 3.14 / 180,
-            child: const Icon(
-              Icons.key,
-              color: Colors.yellow,
-              size: 60,
-            ),
-          ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          localization.This_is_the_key_to_your_account,
-          style: TextStyle(
-            color: ColorList.primaryForeground,
-            fontSize: 31.26,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 1.8,
-            height: kTextHeightNone,
-          ),
-        )
-      ],
-    ));
-
-    mainList.add(const SizedBox(height: 40));
-
-    // Displays the private key inside a styled container. The key is initially
-    // obscured and can be toggled visible using a button.
-    mainList.add(Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: ColorList.dimmed,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(4),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      // Adds a flipped and rotated key icon to visually represent the user's
+      // private key and a text explaining the importance of the private key.
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Displays the private key as a masked or unmasked string.
-          Padding(
-            padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
-            child: Text(
-              _isTextObscured ? "*" * _privateKey.length : _privateKey,
-              style: TextStyle(
-                fontFamily: "monospace",
-                fontFamilyFallback: const ["Courier"],
-                fontSize: 15.93,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.182,
-                color: ColorList.dimmed,
+          Transform.flip(
+            flipX: true,
+            child: Transform.rotate(
+              angle: 45 * 3.14 / 180,
+              child: const Icon(
+                Icons.key,
+                color: Colors.yellow,
+                size: 60,
               ),
             ),
           ),
-          // A button to toggle the visibility of the private key.
-          TextButton.icon(
-            onPressed: () {
-              setState(() {
-                _isTextObscured = !_isTextObscured;
-              });
-            },
-            icon: Icon(
-              _isTextObscured ? Icons.visibility : Icons.visibility_off,
-              color: ColorList.dimmed,
+          const SizedBox(height: 10),
+          Text(
+            localization.This_is_the_key_to_your_account,
+            style: TextStyle(
+              color: ColorList.primaryForeground,
+              fontSize: 31.26,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.8,
+              height: kTextHeightNone,
             ),
-            label: Text(
-              localization.view_key,
-              style: TextStyle(
-                color: ColorList.dimmed,
-                fontSize: 15.93,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.182,
-              ),
-            ),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.only(left: 16, right: 16),
-              alignment: Alignment.centerLeft,
-            ),
-          ),
+          )
         ],
       ),
-    ));
 
-    // Adds an expandable empty space , filling available space in a
-    // flex container.
-    mainList.add(Expanded(flex: 2, child: Container()));
+      // Adds a fixed space.
+      const SizedBox(height: 40),
 
-    // Adds a checkbox list tile for user acknowledgment. The user must confirm
-    // they understand the risks of sharing their private key before proceeding.
-    // This enables the "Copy & Continue" button.
-    mainList.add(
+      // Displays the private key inside a styled container. The key is initially
+      // obscured and can be toggled visible using a button.
+      Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: ColorList.dimmed,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Displays the private key as a masked or unmasked string.
+            Padding(
+              padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
+              child: Text(
+                _isTextObscured ? "*" * _privateKey.length : _privateKey,
+                style: TextStyle(
+                  fontFamily: "monospace",
+                  fontFamilyFallback: const ["Courier"],
+                  fontSize: 15.93,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.182,
+                  color: ColorList.dimmed,
+                ),
+              ),
+            ),
+            // A button to toggle the visibility of the private key.
+            TextButton.icon(
+              onPressed: () {
+                setState(() {
+                  _isTextObscured = !_isTextObscured;
+                });
+              },
+              icon: Icon(
+                _isTextObscured ? Icons.visibility : Icons.visibility_off,
+                color: ColorList.dimmed,
+              ),
+              label: Text(
+                localization.view_key,
+                style: TextStyle(
+                  color: ColorList.dimmed,
+                  fontSize: 15.93,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.182,
+                ),
+              ),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.only(left: 16, right: 16),
+                alignment: Alignment.centerLeft,
+              ),
+            ),
+          ],
+        ),
+      ),
+
+      // Adds an expandable empty space, filling available space in a
+      // flex container.
+      Expanded(flex: 2, child: Container()),
+
+      // Adds a checkbox list tile for user acknowledgment. The user must confirm
+      // they understand the risks of sharing their private key before proceeding.
+      // This enables the "Copy & Continue" button.
+
       ListTileTheme(
         data: const ListTileThemeData(
           titleAlignment: ListTileTitleAlignment.top,
-          contentPadding: EdgeInsets.symmetric(horizontal: 0),
+          contentPadding: EdgeInsets.zero,
         ),
         child: CheckboxListTile(
           key: const Key('acknowledgement_checkbox'),
@@ -178,10 +176,10 @@ class _SignupState extends State<SignupWidget> {
               height: kTextHeightNone,
             ),
           ),
-          value: _isCopyAndContinueButtonEnabled,
+          value: _isDoneButtonEnabled,
           onChanged: (bool? value) {
             setState(() {
-              _isCopyAndContinueButtonEnabled = value!;
+              _isDoneButtonEnabled = value!;
             });
           },
           activeColor: ColorList.accent,
@@ -191,36 +189,38 @@ class _SignupState extends State<SignupWidget> {
           visualDensity: VisualDensity.compact,
         ),
       ),
-    );
 
-    // Adds a full-width "Copy & Continue" button to `mainList`.
-    mainList.add(SizedBox(
-      width: double.infinity,
-      child: FilledButton(
-        key: const Key('copy_and_continue_button'),
-        // Calls the `_copyAndContinue` function when enabled; otherwise, it
-        // remains disabled.
-        onPressed: _isCopyAndContinueButtonEnabled ? _copyAndContinue : null,
-        style: FilledButton.styleFrom(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: ColorList.accent,
-          disabledBackgroundColor: ColorList.accent.withOpacity(0.4),
-          foregroundColor: ColorList.buttonText,
-          disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
-        ),
-        child: Text(
-          localization.Copy_and_Continue,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+      // Adds a full-width Done button to `mainList`.
+      SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          key: const Key('done_button'),
+          // Calls the `_copyAndContinue` function when enabled; otherwise, it
+          // remains disabled.
+          onPressed: _isDoneButtonEnabled ? _copyAndContinue : null,
+          style: FilledButton.styleFrom(
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ),
+            backgroundColor: ColorList.accent,
+            disabledBackgroundColor: ColorList.accent.withOpacity(0.4),
+            foregroundColor: ColorList.buttonText,
+            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+          ),
+          child: Text(
+            localization.Copy_and_Continue,
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
-    ));
 
-    // Adds an expandable empty space, filling available space in a flex
-    // container.
-    mainList.add(Expanded(flex: 1, child: Container()));
+      // Adds an expandable empty space, filling available space in a flex
+      // container.
+      Expanded(flex: 1, child: Container()),
+    ];
 
     return Scaffold(
       // Sets the background color for the login screen.
