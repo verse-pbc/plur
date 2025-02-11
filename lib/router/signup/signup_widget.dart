@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,12 +7,16 @@ import '../../consts/base.dart';
 import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
-
 import '../../util/table_mode_util.dart';
 
-/// A widget that handles user sign-up.
+/// A widget for user sign-up.
+///
+/// Handles the registration process by generating a private key and
+/// returning it to the previous page (typically the login screen).
 class SignupWidget extends StatefulWidget {
+  /// Creates an instance of [SignupWidget].
+  const SignupWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _SignupState();
@@ -48,8 +50,6 @@ class _SignupState extends State<SignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
-    final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -73,14 +73,14 @@ class _SignupState extends State<SignupWidget> {
           flipX: true,
           child: Transform.rotate(
             angle: 45 * 3.14 / 180,
-            child: Icon(
+            child: const Icon(
               Icons.key,
               color: Colors.yellow,
               size: 60,
             ),
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           localization.This_is_the_key_to_your_account,
           style: TextStyle(
@@ -94,7 +94,7 @@ class _SignupState extends State<SignupWidget> {
       ],
     ));
 
-    mainList.add(SizedBox(height: 40));
+    mainList.add(const SizedBox(height: 40));
 
     // Displays the private key inside a styled container. The key is initially
     // obscured and can be toggled visible using a button.
@@ -111,12 +111,12 @@ class _SignupState extends State<SignupWidget> {
         children: [
           // Displays the private key as a masked or unmasked string.
           Padding(
-            padding: EdgeInsets.only(left: 16, top: 16, right: 16),
+            padding: const EdgeInsets.only(left: 16, top: 16, right: 16),
             child: Text(
               _isTextObscured ? "*" * _privateKey.length : _privateKey,
               style: TextStyle(
                 fontFamily: "monospace",
-                fontFamilyFallback: ["Courier"],
+                fontFamilyFallback: const ["Courier"],
                 fontSize: 15.93,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1.182,
@@ -145,7 +145,7 @@ class _SignupState extends State<SignupWidget> {
               ),
             ),
             style: TextButton.styleFrom(
-              padding: EdgeInsets.only(left: 16, right: 16),
+              padding: const EdgeInsets.only(left: 16, right: 16),
               alignment: Alignment.centerLeft,
             ),
           ),
@@ -202,7 +202,7 @@ class _SignupState extends State<SignupWidget> {
         // remains disabled.
         onPressed: _isCopyAndContinueButtonEnabled ? _copyAndContinue : null,
         style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: ColorList.accent,
           disabledBackgroundColor: ColorList.accent.withOpacity(0.4),
           foregroundColor: ColorList.buttonText,
@@ -264,7 +264,7 @@ class _SignupState extends State<SignupWidget> {
   /// back to the previous screen with the private key as a parameter.
   void _copyAndContinue() async {
     Clipboard.setData(ClipboardData(text: _privateKey)).then((_) {
-      BotToast.showText(text: S.of(context).key_has_been_copy);
+      BotToast.showText(text: localization.key_has_been_copy);
     });
     Navigator.of(context).pop(_privateKey);
   }
