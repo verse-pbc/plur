@@ -152,15 +152,6 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.block_rounded,
-      name: localization.Filter,
-      onTap: () {
-        RouterUtil.router(context, RouterPath.FILTER);
-      },
-      smallMode: widget.smallMode,
-    ));
-
     if (!TableModeUtil.isTableMode()) {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.cloud_rounded,
