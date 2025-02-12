@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -8,6 +6,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
+import '../../consts/router_path.dart';
 import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
@@ -16,6 +15,9 @@ import '../index/account_manager_widget.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
+  /// Creates an instance of [LoginSignupWidget].
+  const LoginSignupWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _LoginSignupState();
@@ -28,7 +30,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   bool _isTextObscured = true;
 
   /// Controller for the TextField to track text changes.
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   /// Boolean flag to enable/disable the Login button.
   bool _isLoginButtonEnabled = false;
@@ -126,10 +128,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(SizedBox(
       width: double.infinity,
       child: FilledButton(
-        // Calls `_generatePK` when tapped.
-        onPressed: _generatePK,
+        key: const Key('signup_button'),
+        // Calls `_navigateToSignup` when tapped.
+        onPressed: _navigateToSignup,
         style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: ColorList.accent,
         ),
         child: Text(
@@ -165,7 +168,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           color: ColorList.dimmed,
           fontSize: 16,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         // Adds an eye icon as a suffix to toggle password visibility
         suffixIcon: GestureDetector(
           onTap: () {
@@ -188,7 +191,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     ));
 
     // Adds a 10px tall space between the text field and the button.
-    mainList.add(SizedBox(height: 10));
+    mainList.add(const SizedBox(height: 10));
 
     // Adds a full-width "Login" button to `mainList`.
     mainList.add(SizedBox(
@@ -198,7 +201,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         // disabled.
         onPressed: _isLoginButtonEnabled ? _doLogin : null,
         style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: ColorList.dimmed,
           disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
           foregroundColor: ColorList.buttonText,
@@ -220,7 +223,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: FilledButton(
           onPressed: _loginByAndroidSigner,
           style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ),
             backgroundColor: ColorList.dimmed,
             disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
             foregroundColor: ColorList.buttonText,
@@ -241,7 +246,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: FilledButton(
           onPressed: _loginWithWebSigner,
           style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero,),
             backgroundColor: ColorList.dimmed,
             disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
             foregroundColor: ColorList.buttonText,
@@ -319,19 +324,25 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     );
   }
 
-  /// Generates a new private key and updates the UI accordingly.
-  void _generatePK() {
-    // Generates a new private key.
-    var pk = generatePrivateKey();
-    // Updates the text field with the newly generated private key.
-    _controller.text = pk;
-    // Marks the user as new, so they will see follow suggestions after login.
-    newUser = true;
-    // Displays a toast notification informing the user that a new private key
-    // was generated.
-    BotToast.showText(
-      text: "A new private key has been generated for your account.",
-    );
+  /// Navigates to the Signup screen.
+  Future<void> _navigateToSignup() async {
+    final privateKey = await Navigator.of(context).pushNamed(RouterPath.SIGNUP);
+    if (privateKey != null && privateKey is String) {
+      _doPreLogin();
+
+      settingProvider.addAndChangePrivateKey(privateKey, updateUI: false);
+      nostr = await relayProvider.genNostrWithKey(privateKey);
+
+      if (backAfterLogin) {
+        RouterUtil.back(context);
+      }
+
+      settingProvider.notifyListeners();
+      // Marks the login as the first one, so the contact data can be properly
+      // downloaded.
+      firstLogin = true;
+      indexProvider.setCurrentTap(0);
+    }
   }
 
   /// Asynchronous function to handle login when the button is pressed
