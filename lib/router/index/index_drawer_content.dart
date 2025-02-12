@@ -21,21 +21,18 @@ import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
 import '../../data/join_group_parameters.dart';
 
-class IndexDrawerContentComponnent extends StatefulWidget {
+class IndexDrawerContent extends StatefulWidget {
   bool smallMode;
 
-  IndexDrawerContentComponnent({
+  IndexDrawerContent({
     required this.smallMode,
   });
 
   @override
-  State<StatefulWidget> createState() {
-    return _IndexDrawerContentComponnent();
-  }
+  State<StatefulWidget> createState() => _IndexDrawerContentState();
 }
 
-class _IndexDrawerContentComponnent
-    extends State<IndexDrawerContentComponnent> {
+class _IndexDrawerContentState extends State<IndexDrawerContent> {
   ScrollController userStatisticscontroller = ScrollController();
 
   double profileEditBtnWidth = 40;
