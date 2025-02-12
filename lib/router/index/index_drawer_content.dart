@@ -104,19 +104,6 @@ class _IndexDrawerContentComponnent
                 ),
         ),
       ]));
-
-      list.add(GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onHorizontalDragUpdate: (detail) {
-          userStatisticscontroller
-              .jumpTo(userStatisticscontroller.offset - detail.delta.dx);
-        },
-        child: SingleChildScrollView(
-          controller: userStatisticscontroller,
-          scrollDirection: Axis.horizontal,
-          child: UserStatisticsWidget(pubkey: pubkey),
-        ),
-      ));
     }
 
     List<Widget> centerList = [];
