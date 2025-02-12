@@ -121,18 +121,6 @@ class _IndexDrawerContentComponnent
         smallMode: widget.smallMode,
       ));
       centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.public_rounded,
-        name: localization.Globals,
-        color: _indexProvider.currentTap == 1 ? mainColor : null,
-        onTap: () {
-          indexProvider.setCurrentTap(1);
-        },
-        onDoubleTap: () {
-          indexProvider.globalScrollToTop();
-        },
-        smallMode: widget.smallMode,
-      ));
-      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.search_rounded,
         name: localization.Search,
         color: _indexProvider.currentTap == 2 ? mainColor : null,
