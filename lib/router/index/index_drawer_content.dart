@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/metadata_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/index_provider.dart';
-import 'package:nostrmo/provider/webview_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
-import 'package:nostrmo/router/user/user_statistics_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/add_btn_wrapper_widget.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
-import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
 import '../../data/join_group_parameters.dart';
 
 class IndexDrawerContent extends StatefulWidget {
-  bool smallMode;
+  final bool smallMode;
 
-  IndexDrawerContent({
-    required this.smallMode,
-  });
+  const IndexDrawerContent({super.key, required this.smallMode});
 
   @override
   State<StatefulWidget> createState() => _IndexDrawerContentState();
@@ -41,7 +34,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
 
   @override
   Widget build(BuildContext context) {
-    var _indexProvider = Provider.of<IndexProvider>(context);
+    var indexProvider = Provider.of<IndexProvider>(context);
 
     final localization = S.of(context);
     var pubkey = nostr!.publicKey;
@@ -108,7 +101,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.home_rounded,
         name: localization.Home,
-        color: _indexProvider.currentTap == 0 ? mainColor : null,
+        color: indexProvider.currentTap == 0 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(0);
         },
@@ -174,7 +167,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         ),
       ));
     } else {
-      Widget versionWidget = Text("V " + Base.VERSION_NAME);
+      Widget versionWidget = Text("V ${Base.VERSION_NAME}");
 
       if (TableModeUtil.isTableMode()) {
         List<Widget> subList = [];
@@ -246,21 +239,21 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
 }
 
 class IndexDrawerItemWidget extends StatelessWidget {
-  IconData iconData;
+  final IconData iconData;
 
-  String name;
+  final String name;
 
-  Function onTap;
+  final Function onTap;
 
-  Function? onDoubleTap;
+  final Function? onDoubleTap;
 
-  Function? onLongPress;
+  final Function? onLongPress;
 
-  Color? color;
+  final Color? color;
 
-  bool smallMode;
+  final bool smallMode;
 
-  IndexDrawerItemWidget({
+  const IndexDrawerItemWidget({
     super.key,
     required this.iconData,
     required this.name,
@@ -285,8 +278,8 @@ class IndexDrawerItemWidget extends StatelessWidget {
           color: color != null ? Colors.white.withOpacity(0.1) : null,
           borderRadius: BorderRadius.circular(14),
         ),
-        padding: EdgeInsets.all(8),
-        margin: EdgeInsets.only(bottom: 2),
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.only(bottom: 2),
         child: iconWidget,
       );
     } else {
@@ -300,7 +293,7 @@ class IndexDrawerItemWidget extends StatelessWidget {
       ));
       list.add(Text(name, style: TextStyle(color: color)));
 
-      mainWidget = Container(
+      mainWidget = SizedBox(
         height: 34,
         child: Row(
           children: list,
