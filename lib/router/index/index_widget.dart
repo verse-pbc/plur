@@ -348,7 +348,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
       return Scaffold(
         body: mainIndex,
         drawer: Drawer(
-          child: IndexDrawerContentComponnent(
+          child: IndexDrawerContent(
             smallMode: false,
           ),
         ),
