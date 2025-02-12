@@ -157,20 +157,6 @@ class _IndexDrawerContentComponnent
       ),
     ));
 
-    if (TableModeUtil.isTableMode() && !readOnly) {
-      list.add(AddBtnWrapperWidget(
-        child: IndexDrawerItemWidget(
-          iconData: Icons.add_rounded,
-          name: localization.Add,
-          onTap: () {},
-          onLongPress: () {
-            Uploader.pickAndUpload2NIP95(context);
-          },
-          smallMode: widget.smallMode,
-        ),
-      ));
-    }
-
     list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
       name: localization.Account_Manager,
