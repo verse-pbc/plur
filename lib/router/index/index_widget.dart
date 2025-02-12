@@ -34,7 +34,7 @@ import 'index_drawer_content.dart';
 import 'index_tab_item_widget.dart';
 
 class IndexWidget extends StatefulWidget {
-  static double PC_MAX_COLUMN_0 = 250;
+  static double PC_MAX_COLUMN_0 = 240;
 
   static double PC_MAX_COLUMN_1 = 550;
 
