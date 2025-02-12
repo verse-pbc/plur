@@ -120,15 +120,6 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.mail_rounded,
-        name: "DMs",
-        color: _indexProvider.currentTap == 3 ? mainColor : null,
-        onTap: () {
-          indexProvider.setCurrentTap(3);
-        },
-        smallMode: widget.smallMode,
-      ));
     }
 
     centerList.add(IndexDrawerItemWidget(
