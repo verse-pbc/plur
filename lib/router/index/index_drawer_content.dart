@@ -152,17 +152,6 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    if (!TableModeUtil.isTableMode()) {
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.cloud_rounded,
-        name: localization.Relays,
-        onTap: () {
-          RouterUtil.router(context, RouterPath.RELAYS);
-        },
-        smallMode: widget.smallMode,
-      ));
-    }
-
     if (!readOnly) {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.key_rounded,
