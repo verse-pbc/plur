@@ -152,17 +152,6 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    if (!readOnly) {
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.key_rounded,
-        name: localization.Key_Backup,
-        onTap: () {
-          RouterUtil.router(context, RouterPath.KEY_BACKUP);
-        },
-        smallMode: widget.smallMode,
-      ));
-    }
-
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.bookmarks_rounded,
       name: localization.Bookmark,
