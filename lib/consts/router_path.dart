@@ -1,9 +1,17 @@
 import 'package:nostrmo/consts/thread_mode.dart';
 import 'package:nostrmo/main.dart';
 
+/// Defines the named routes used in the application.
 class RouterPath {
+  /// The root path of the application.
   static const String INDEX = "/";
+
+  /// The route path for the Login screen.
   static const String LOGIN = "/login";
+
+  /// The route path for the Signup screen.
+  static const String SIGNUP = "/signup";
+
   static const String EDITOR = "/editor";
   static const String DONATE = "/donate";
   static const String NOTICES = "/notices";

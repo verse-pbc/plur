@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Added a new screen that allows you to generate a new keypair.
 - Updated the Login screen.
 - Replaced the add note button with a floating button.
 - Fixed a typo in the main menu options.
