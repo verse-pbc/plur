@@ -34,7 +34,7 @@ import 'index_drawer_content.dart';
 import 'index_tab_item_widget.dart';
 
 class IndexWidget extends StatefulWidget {
-  static double PC_MAX_COLUMN_0 = 200;
+  static double PC_MAX_COLUMN_0 = 250;
 
   static double PC_MAX_COLUMN_1 = 550;
 
@@ -265,7 +265,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
     if (TableModeUtil.isTableMode()) {
       var maxWidth = mediaDataCache.size.width;
-      double column0Width = maxWidth * 1 / 5;
+      double column0Width = maxWidth * 2 / 5;
       double column1Width = maxWidth * 2 / 5;
       if (column0Width > IndexWidget.PC_MAX_COLUMN_0) {
         column0Width = IndexWidget.PC_MAX_COLUMN_0;
