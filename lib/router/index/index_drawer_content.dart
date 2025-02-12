@@ -121,15 +121,6 @@ class _IndexDrawerContentComponnent
         smallMode: widget.smallMode,
       ));
       centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.search_rounded,
-        name: localization.Search,
-        color: _indexProvider.currentTap == 2 ? mainColor : null,
-        onTap: () {
-          indexProvider.setCurrentTap(2);
-        },
-        smallMode: widget.smallMode,
-      ));
-      centerList.add(IndexDrawerItemWidget(
         iconData: Icons.mail_rounded,
         name: "DMs",
         color: _indexProvider.currentTap == 3 ? mainColor : null,
