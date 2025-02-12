@@ -152,15 +152,6 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.bookmarks_rounded,
-      name: localization.Bookmark,
-      onTap: () {
-        RouterUtil.router(context, RouterPath.BOOKMARK);
-      },
-      smallMode: widget.smallMode,
-    ));
-
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.coffee_outlined,
