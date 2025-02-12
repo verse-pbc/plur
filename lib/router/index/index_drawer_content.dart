@@ -161,33 +161,6 @@ class _IndexDrawerContentComponnent
       smallMode: widget.smallMode,
     ));
 
-    if (!PlatformUtil.isPC()) {
-      centerList.add(
-          Selector<WebViewProvider, String?>(builder: (context, url, child) {
-        if (StringUtil.isBlank(url)) {
-          return IndexDrawerItemWidget(
-            iconData: Icons.view_list_rounded,
-            name: localization.Web_Utils,
-            onTap: () {
-              RouterUtil.router(context, RouterPath.WEBUTILS);
-            },
-            smallMode: widget.smallMode,
-          );
-        }
-
-        return IndexDrawerItemWidget(
-          iconData: Icons.public_rounded,
-          name: localization.Show_web,
-          onTap: () {
-            webViewProvider.show();
-          },
-          smallMode: widget.smallMode,
-        );
-      }, selector: (_, provider) {
-        return provider.url;
-      }));
-    }
-
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.group_add,
       name: 'Add test groups',
