@@ -152,17 +152,6 @@ class _IndexDrawerContentComponnent
       ));
     }
 
-    if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.coffee_outlined,
-        name: localization.Donate,
-        onTap: () {
-          RouterUtil.router(context, RouterPath.DONATE);
-        },
-        smallMode: widget.smallMode,
-      ));
-    }
-
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
       name: localization.Settings,
