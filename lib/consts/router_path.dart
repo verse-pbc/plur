@@ -30,7 +30,10 @@ class RouterPath {
   static const String THREAD_TRACE = "/threadTrace";
   static const String EVENT_DETAIL = "/eventDetail";
   static const String TAG_DETAIL = "/tagDetail";
-  static const String SETTING = "/setting";
+
+  /// The route path for the Settings screen.
+  static const String SETTINGS = "/setting";
+
   static const String QRSCANNER = "/qrScanner";
   static const String WEBUTILS = "/webUtils";
   static const String RELAY_INFO = "/relayInfo";
