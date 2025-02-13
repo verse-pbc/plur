@@ -798,34 +798,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     }
   }
 
-  pickWebviewAppbar() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.webviewAppbarOpen = resultEnumObj.value;
-    }
-  }
-
-  getOpenMode(int? value) {
-    for (var o in openList!) {
-      if (value == o.value) {
-        return o;
-      }
-    }
-
-    if (PlatformUtil.isTableModeWithoutSetting()) {
-      return openList![0];
-    }
-    return openList![1];
-  }
-
-  pickOpenMode() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.tableMode = resultEnumObj.value;
-      resetTheme();
-    }
-  }
-
   List<EnumObj>? relayModes;
 
   List<EnumObj> getRelayModes() {
@@ -957,13 +929,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.openBlurhashImage = resultEnumObj.value;
-    }
-  }
-
-  pickPubkeyColor() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.pubkeyColor = resultEnumObj.value;
     }
   }
 
