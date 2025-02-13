@@ -33,6 +33,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Add_account_and_login":
             MessageLookupByLibrary.simpleMessage("¿Añadir e iniciar sesión?"),
         "Add_now": MessageLookupByLibrary.simpleMessage("Añadir ahora"),
+        "Add_test_groups":
+            MessageLookupByLibrary.simpleMessage("Crear grupos de prueba"),
         "Add_this_relay_to_local": MessageLookupByLibrary.simpleMessage(
             "¿¿ agregar este relé a local?"),
         "Add_to_known_list":
