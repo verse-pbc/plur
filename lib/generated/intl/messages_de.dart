@@ -139,8 +139,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Gemeinschaft gefolgt"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("Schwerpunkte"),
         "Following": MessageLookupByLibrary.simpleMessage("Nachfolgend"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("Schriftart"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("Schriftgröße"),
         "Forbid": MessageLookupByLibrary.simpleMessage("verbieten"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Bilder verbieten"),
@@ -319,7 +317,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("Quelle"),
         "Subject": MessageLookupByLibrary.simpleMessage("Titel"),
         "Submit": MessageLookupByLibrary.simpleMessage("Absenden"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tablet-Modus"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("photo"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Temporäres Relais"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -329,8 +326,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Der Schlüssel ist eine zufällige Zeichenfolge, ähnlich Ihrem Kontopasswort. Jeder, der diesen Schlüssel besitzt, kann auf Ihr Konto zugreifen und diese kontrollieren."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Designfarben"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Thementyp"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Es sollte hier ein Universum geben."),
@@ -363,8 +358,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Tragen"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC-Berechtigungen"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Web-Navigationsleiste"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Web Tools"),
         "Website": MessageLookupByLibrary.simpleMessage("Website"),
         "What_s_happening": MessageLookupByLibrary.simpleMessage(

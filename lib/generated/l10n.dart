@@ -190,26 +190,6 @@ class S {
     );
   }
 
-  /// `Theme Style`
-  String get Theme_Style {
-    return Intl.message(
-      'Theme Style',
-      name: 'Theme_Style',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Theme Color`
-  String get Theme_Color {
-    return Intl.message(
-      'Theme Color',
-      name: 'Theme_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Default Color`
   String get Default_Color {
     return Intl.message(
@@ -245,26 +225,6 @@ class S {
     return Intl.message(
       'Don\'t Compress',
       name: 'Dont_Compress',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Font Family`
-  String get Font_Family {
-    return Intl.message(
-      'Font Family',
-      name: 'Font_Family',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Font Size`
-  String get Font_Size {
-    return Intl.message(
-      'Font Size',
-      name: 'Font_Size',
       desc: '',
       args: [],
     );
@@ -2000,16 +1960,6 @@ class S {
     );
   }
 
-  /// `Web Appbar`
-  String get Web_Appbar {
-    return Intl.message(
-      'Web Appbar',
-      name: 'Web_Appbar',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Show web`
   String get Show_web {
     return Intl.message(
@@ -2085,16 +2035,6 @@ class S {
     return Intl.message(
       'Please input title',
       name: 'Please_input_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Table Mode`
-  String get Table_Mode {
-    return Intl.message(
-      'Table Mode',
-      name: 'Table_Mode',
       desc: '',
       args: [],
     );
@@ -3070,46 +3010,6 @@ class S {
     );
   }
 
-  /// `Card Color`
-  String get Card_Color {
-    return Intl.message(
-      'Card Color',
-      name: 'Card_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Main Font Color`
-  String get Main_Font_Color {
-    return Intl.message(
-      'Main Font Color',
-      name: 'Main_Font_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Hint Font Color`
-  String get Hint_Font_Color {
-    return Intl.message(
-      'Hint Font Color',
-      name: 'Hint_Font_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Background Image`
-  String get Background_Image {
-    return Intl.message(
-      'Background Image',
-      name: 'Background_Image',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Image`
   String get Image {
     return Intl.message(
@@ -3135,16 +3035,6 @@ class S {
     return Intl.message(
       'Pubkey',
       name: 'Pubkey',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Color`
-  String get Color {
-    return Intl.message(
-      'Color',
-      name: 'Color',
       desc: '',
       args: [],
     );

@@ -146,8 +146,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Фокусиране върху темите"),
         "Following": MessageLookupByLibrary.simpleMessage("Следваща"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("шрифт"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("размер на шрифта"),
         "Forbid": MessageLookupByLibrary.simpleMessage("забрани"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Забрана на изображения"),
@@ -328,7 +326,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("източник"),
         "Subject": MessageLookupByLibrary.simpleMessage("заглавие"),
         "Submit": MessageLookupByLibrary.simpleMessage("Изпращане"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Таблетен режим"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("снимка"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Временно реле"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -338,9 +335,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Ключът е произволен низ, подобен на паролата на акаунта ви. Всеки, който притежава този ключ, може да има достъп и да контролира профила ви."),
-        "Theme_Color":
-            MessageLookupByLibrary.simpleMessage("Цветове на темата"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Тип тема"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("Тук трябва да има вселена."),
         "This_note_contains_sensitive_content":
@@ -373,8 +367,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Носене"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Разрешения за WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Уеб навигационна лента"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Уеб инструменти"),
         "Website": MessageLookupByLibrary.simpleMessage("уебсайт"),
         "What_s_happening":

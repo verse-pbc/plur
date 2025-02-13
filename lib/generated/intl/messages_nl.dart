@@ -143,8 +143,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Focus op thema\'s"),
         "Following": MessageLookupByLibrary.simpleMessage("Volgende"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("lettertype"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("lettergrootte"),
         "Forbid": MessageLookupByLibrary.simpleMessage("verbieden"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Afbeeldingen verbieden"),
@@ -319,7 +317,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("bron"),
         "Subject": MessageLookupByLibrary.simpleMessage("titel"),
         "Submit": MessageLookupByLibrary.simpleMessage("Verzenden"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tablet-modus"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("foto"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Tijdelijk relais"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -329,8 +326,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "De sleutel is een willekeurige tekenreeks, vergelijkbaar met uw accountwachtwoord. Iedereen die eigenaar is van deze sleutel heeft toegang tot en controle over uw account."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Themakleuren"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Thematype"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Er zou hier een universum moeten zijn."),
@@ -362,7 +357,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Draag"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC-machtigingen"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("Webnavigatiebalk"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webhulpmiddelen"),
         "Website": MessageLookupByLibrary.simpleMessage("website"),
         "What_s_happening":

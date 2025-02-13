@@ -139,8 +139,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Keskity teemoihin"),
         "Following": MessageLookupByLibrary.simpleMessage("Seuraavat"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("fontti"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("kirjasinkoko"),
         "Forbid": MessageLookupByLibrary.simpleMessage("kieltää"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Kiellä kuvat"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Kiellä videot"),
@@ -314,7 +312,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("lähde"),
         "Subject": MessageLookupByLibrary.simpleMessage("otsikko"),
         "Submit": MessageLookupByLibrary.simpleMessage("Lähetä"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tablettitila"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("valokuva"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Väliaikainen rele"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -324,8 +321,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Avain on satunnainen merkkijono, joka muistuttaa tilisi salasanaa. Kuka tahansa, joka omistaa tämän avaimen, voi käyttää tiliäsi ja hallita sitä."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Teeman värit"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Teeman tyyppi"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Täällä pitäisi olla universumi."),
@@ -358,8 +353,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Pueminen"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC- oikeudet"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Verkkonavigointipalkki"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Verkkotyökalut"),
         "Website": MessageLookupByLibrary.simpleMessage("verkkosivusto"),
         "What_s_happening": MessageLookupByLibrary.simpleMessage(
