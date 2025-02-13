@@ -136,7 +136,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the ADD_TEST_GROUPS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.group_add,
-      name: 'Add test groups',
+      name: localization.Add_test_groups,
       onTap: () {
         const host = "wss://relay.groups.nip29.com";
         final groupIds = [
