@@ -113,8 +113,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Communities": MessageLookupByLibrary.simpleMessage("관심 커뮤니티"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("관심 항목"),
         "Following": MessageLookupByLibrary.simpleMessage("따르는 중"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("글꼴"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("글꼴 크기"),
         "Forbid": MessageLookupByLibrary.simpleMessage("금지"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("그림 금지"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("비디오 금지"),
@@ -258,7 +256,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("출처"),
         "Subject": MessageLookupByLibrary.simpleMessage("제목"),
         "Submit": MessageLookupByLibrary.simpleMessage("제출"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("태블릿 모드"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("사진 촬영"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("임시 중계"),
         "Text_can_t_contain_blank_space":
@@ -268,8 +265,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "키는 계정 암호와 유사한 임의의 문자열입니다.이 키를 가진 사람은 누구나 계정에 액세스하고 제어할 수 있습니다."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("테마 색상"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("주제 유형"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("여기 우주가 있을 거예요."),
         "This_note_contains_sensitive_content":
@@ -295,7 +290,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("목록 비디오 미리 보기"),
         "Wear": MessageLookupByLibrary.simpleMessage("차림새"),
         "WebRTC_Permission": MessageLookupByLibrary.simpleMessage("WebRTC 권한"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("웹 탐색 모음"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("웹 도구"),
         "Website": MessageLookupByLibrary.simpleMessage("사이트"),
         "What_s_happening":

@@ -143,8 +143,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Skup się na tematach"),
         "Following": MessageLookupByLibrary.simpleMessage("Następujące"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("czcionka"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("rozmiar czcionki"),
         "Forbid": MessageLookupByLibrary.simpleMessage("zakazać"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Zakaz obrazów"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Zakaz filmów"),
@@ -322,7 +320,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("źródło"),
         "Subject": MessageLookupByLibrary.simpleMessage("tytuł"),
         "Submit": MessageLookupByLibrary.simpleMessage("Przesłać"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tryb tabletu"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("zdjęcie"),
         "TempRelays":
             MessageLookupByLibrary.simpleMessage("Przekaźnik tymczasowy"),
@@ -333,8 +330,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Klucz to losowy ciąg, podobny do hasła konta. Każdy, kto jest właścicielem tego klucza, może uzyskać dostęp do Twojego konta i kontrolować go."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Kolory motywu"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Typ motywu"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Powinien tu być wszechświat."),
@@ -368,8 +363,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Noszenie"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Uprawnienia WebRTC"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage(
-            "Pasek nawigacji internetowej"),
         "Web_Utils":
             MessageLookupByLibrary.simpleMessage("Narzędzia internetowe"),
         "Website": MessageLookupByLibrary.simpleMessage("strona internetowa"),

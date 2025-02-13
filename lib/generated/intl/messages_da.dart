@@ -141,8 +141,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Fokus på temaer"),
         "Following": MessageLookupByLibrary.simpleMessage("Følgende"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("skrifttype"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("skriftstørrelse"),
         "Forbid": MessageLookupByLibrary.simpleMessage("forbyde"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Forbyd billeder"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Forbyd videoer"),
@@ -315,7 +313,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("kilde"),
         "Subject": MessageLookupByLibrary.simpleMessage("titel"),
         "Submit": MessageLookupByLibrary.simpleMessage("Indsend"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tablettilstand"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("foto"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Midlertidigt relæ"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -325,8 +322,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Nøglen er en tilfældig streng, der ligner din kontoadgangskode. Enhver, der ejer denne nøgle, kan få adgang til og kontrollere din konto."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Temafarver"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Tematype"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Der burde være et univers her"),
@@ -359,8 +354,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("iført"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC- tilladelser"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Web navigationslinje"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webværktøjer"),
         "Website": MessageLookupByLibrary.simpleMessage("websted"),
         "What_s_happening":
