@@ -117,81 +117,10 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         RouterUtil.router(context, RouterPath.NWC_SETTING);
       },
     ));
-
     list.add(SettingGroupItemWidget(
       name: "Wot ${localization.Filter}",
       value: getOpenListDefault(settingProvider.wotFilter).name,
       onTap: pickWotFilter,
-    ));
-
-    list.add(SettingGroupTitleWidget(iconData: Icons.palette, title: "UI"));
-    list.add(
-      SettingGroupItemWidget(
-        name: localization.Theme_Style,
-        value: getThemeStyle(settingProvider.themeStyle).name,
-        onTap: pickThemeStyle,
-      ),
-    );
-    list.add(SettingGroupItemWidget(
-      name: localization.Theme_Color,
-      onTap: pickColor,
-      child: Container(
-        height: 28,
-        width: 28,
-        color: mainColor,
-      ),
-    ));
-    var textStyle = TextStyle(
-      color: hintColor,
-      fontWeight: FontWeight.bold,
-      fontSize: valueFontSize,
-    );
-    list.add(SettingGroupItemWidget(
-      name: localization.Card_Color,
-      onTap: pickCardColor,
-      child: getCustomColorWidget(settingProvider.cardColor, textStyle),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Main_Font_Color,
-      onTap: pickMainFontColor,
-      child: getCustomColorWidget(settingProvider.mainFontColor, textStyle),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Hint_Font_Color,
-      onTap: pickHintFontColor,
-      child: getCustomColorWidget(settingProvider.hintFontColor, textStyle),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Background_Image,
-      onTap: pickBackgroundImage,
-      child: Container(),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Font_Family,
-      value: getFontEnumResult(settingProvider.fontFamily),
-      onTap: pickFontEnum,
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Font_Size,
-      value: getFontSize(settingProvider.fontSize).name,
-      onTap: pickFontSize,
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Web_Appbar,
-      value: getOpenList(settingProvider.webviewAppbarOpen).name,
-      onTap: pickWebviewAppbar,
-    ));
-    if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemWidget(
-        name: localization.Table_Mode,
-        value: getOpenMode(settingProvider.tableMode).name,
-        onTap: pickOpenMode,
-      ));
-    }
-    list.add(SettingGroupItemWidget(
-      name: "${localization.Pubkey} ${localization.Color}",
-      value: getOpenList(settingProvider.pubkeyColor).name,
-      onTap: pickPubkeyColor,
     ));
 
     list.add(SettingGroupTitleWidget(iconData: Icons.article, title: localization.Notes));

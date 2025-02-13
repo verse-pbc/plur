@@ -143,8 +143,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags": MessageLookupByLibrary.simpleMessage(
             "Темы, вызывающие озабоченность"),
         "Following": MessageLookupByLibrary.simpleMessage("Следовать"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("Шрифт"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("Размер шрифта"),
         "Forbid": MessageLookupByLibrary.simpleMessage("Запрет"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Запретить фотографии"),
@@ -320,7 +318,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("Источник"),
         "Subject": MessageLookupByLibrary.simpleMessage("Заголовок"),
         "Submit": MessageLookupByLibrary.simpleMessage("Представлено"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Планшетный режим"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("Фотографии."),
         "TempRelays":
             MessageLookupByLibrary.simpleMessage("Временная ретрансляция"),
@@ -331,8 +328,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Ключ - это случайная строка, похожая на пароль вашей учетной записи. Любой, у кого есть этот ключ, может получить доступ к вашей учетной записи и контролировать ее."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Цвет темы"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Тип темы"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Здесь должна быть вселенная."),
@@ -365,8 +360,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Одевайся."),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Права WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Панель веб - навигации"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Веб - инструменты"),
         "Website": MessageLookupByLibrary.simpleMessage("Веб - сайт"),
         "What_s_happening":

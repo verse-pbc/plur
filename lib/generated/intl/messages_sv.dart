@@ -137,8 +137,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Fokusera på teman"),
         "Following": MessageLookupByLibrary.simpleMessage("Följande"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("teckensnitt"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("teckenstorlek"),
         "Forbid": MessageLookupByLibrary.simpleMessage("förbjuda"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Förbjud bilder"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Förbjud videor"),
@@ -311,7 +309,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("Källa"),
         "Subject": MessageLookupByLibrary.simpleMessage("titel"),
         "Submit": MessageLookupByLibrary.simpleMessage("Skicka in"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tablettläge"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("fotografi"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Tillfälligt relä"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -321,8 +318,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Nyckeln är en slumpmässig sträng, som liknar ditt kontolösenord. Alla som äger den här nyckeln kan komma åt och kontrollera ditt konto."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Temafärger"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Tematyp"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Det borde finnas ett universum här."),
@@ -355,8 +350,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Bär"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC- behörigheter"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Webbnavigeringsrad"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webbverktyg"),
         "Website": MessageLookupByLibrary.simpleMessage("webbplats"),
         "What_s_happening":

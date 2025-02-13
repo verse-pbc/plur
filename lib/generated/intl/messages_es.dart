@@ -150,9 +150,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Temas de atención"),
         "Following": MessageLookupByLibrary.simpleMessage("En seguimiento"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("Fuente"),
-        "Font_Size":
-            MessageLookupByLibrary.simpleMessage("Tamaño de la fuente"),
         "Forbid": MessageLookupByLibrary.simpleMessage("Prohibición"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Prohibición de imágenes"),
@@ -334,7 +331,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("Fuente"),
         "Subject": MessageLookupByLibrary.simpleMessage("Título"),
         "Submit": MessageLookupByLibrary.simpleMessage("Presentación"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Modo tableta"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("Tomar fotos"),
         "TempRelays":
             MessageLookupByLibrary.simpleMessage("Retransmisión temporal"),
@@ -345,8 +341,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "La clave es una cadena aleatoria similar a la contraseña de su cuenta. Cualquier persona con esta clave puede acceder y controlar su cuenta."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Color del tema"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Tipo de tema"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Debería haber un universo aquí."),
@@ -380,8 +374,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Vestir"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Permisos webrtc"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Barra de navegación web"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Herramientas web"),
         "Website": MessageLookupByLibrary.simpleMessage("Sitio web"),
         "What_s_happening": MessageLookupByLibrary.simpleMessage(
