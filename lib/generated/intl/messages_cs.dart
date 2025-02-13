@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Spustit stahování překladového modelu"),
         "Block": MessageLookupByLibrary.simpleMessage("limit"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limit"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("záložka"),
         "Boost": MessageLookupByLibrary.simpleMessage("podporovat"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("vysílání"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -145,7 +144,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Vytvořit nový klíč"),
         "Global": MessageLookupByLibrary.simpleMessage("Globální"),
-        "Globals": MessageLookupByLibrary.simpleMessage("čtverec"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("cíl"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("štítek"),
         "Hide": MessageLookupByLibrary.simpleMessage("skrýt"),
@@ -177,7 +175,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Analýza vstupu selhala"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Zadejte prosím adresu."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Záloha klíče"),
         "Language": MessageLookupByLibrary.simpleMessage("jazyk"),
         "Light": MessageLookupByLibrary.simpleMessage("Světlá barva"),
         "Lightning_Invoice":

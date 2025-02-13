@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Download vertaalmodel starten"),
         "Block": MessageLookupByLibrary.simpleMessage("limiet"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limiet"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("bladwijzer"),
         "Boost": MessageLookupByLibrary.simpleMessage("bevorderen"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("uitzending"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -152,7 +151,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key": MessageLookupByLibrary.simpleMessage(
             "Een nieuwe sleutel genereren"),
         "Global": MessageLookupByLibrary.simpleMessage("Globaal"),
-        "Globals": MessageLookupByLibrary.simpleMessage("vierkant"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("doelwit"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("label"),
         "Hide": MessageLookupByLibrary.simpleMessage("verbergen"),
@@ -183,7 +181,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Invoerparsing mislukt"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Voer het adres in."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Sleutelback-up"),
         "Language": MessageLookupByLibrary.simpleMessage("taal"),
         "Light": MessageLookupByLibrary.simpleMessage("Lichtkleur"),
         "Lightning_Invoice":

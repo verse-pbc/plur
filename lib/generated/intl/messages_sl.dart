@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Začni prenašati model prevajanja"),
         "Block": MessageLookupByLibrary.simpleMessage("meja"),
         "Blocks": MessageLookupByLibrary.simpleMessage("meja"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("zaznamek"),
         "Boost": MessageLookupByLibrary.simpleMessage("spodbujanje"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("oddaja"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -146,7 +145,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Ustvari nov ključ"),
         "Global": MessageLookupByLibrary.simpleMessage("Globalno"),
-        "Globals": MessageLookupByLibrary.simpleMessage("kvadrat"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("cilj"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etiketa"),
         "Hide": MessageLookupByLibrary.simpleMessage("skrij"),
@@ -178,8 +176,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Razčlenitev vnosa ni uspela"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Prosim vnesite naslov."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("Varnostna kopija ključa"),
         "Language": MessageLookupByLibrary.simpleMessage("jezik"),
         "Light": MessageLookupByLibrary.simpleMessage("Svetla barva"),
         "Lightning_Invoice":

@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Начать загрузку модели перевода"),
         "Block": MessageLookupByLibrary.simpleMessage("Ограничения"),
         "Blocks": MessageLookupByLibrary.simpleMessage("Ограничения"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("Закладки"),
         "Boost": MessageLookupByLibrary.simpleMessage("Содействие"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("Радио"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -151,7 +150,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Создать новый ключ"),
         "Global": MessageLookupByLibrary.simpleMessage("Глобальный уровень"),
-        "Globals": MessageLookupByLibrary.simpleMessage("Площадь"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("Цель"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Метки"),
         "Hide": MessageLookupByLibrary.simpleMessage("Скрыть"),
@@ -182,8 +180,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Ошибка анализа ввода"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Введите адрес ретрансляции."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage(
-            "Резервное копирование ключей"),
         "Language": MessageLookupByLibrary.simpleMessage("Язык"),
         "Light": MessageLookupByLibrary.simpleMessage("Светлый"),
         "Lightning_Invoice":

@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Rozpocznij pobieranie modelu tłumaczenia"),
         "Block": MessageLookupByLibrary.simpleMessage("limit"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limit"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("zakładka"),
         "Boost": MessageLookupByLibrary.simpleMessage("promować"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("transmisja"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -150,7 +149,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Generuj nowy klucz"),
         "Global": MessageLookupByLibrary.simpleMessage("Globalny"),
-        "Globals": MessageLookupByLibrary.simpleMessage("kwadrat"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("cel"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etykieta"),
         "Hide": MessageLookupByLibrary.simpleMessage("ukryj"),
@@ -181,8 +179,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Parsowanie wejść nie powiodło się"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Proszę wprowadzić adres przekaźnika."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("Kopia zapasowa klucza"),
         "Language": MessageLookupByLibrary.simpleMessage("język"),
         "Light": MessageLookupByLibrary.simpleMessage("Kolor jasny"),
         "Lightning_Invoice":

@@ -51,7 +51,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("翻訳モデルのダウンロード開始"),
         "Block": MessageLookupByLibrary.simpleMessage("制限＃セイゲン＃"),
         "Blocks": MessageLookupByLibrary.simpleMessage("制限＃セイゲン＃"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("ブックマーク"),
         "Boost": MessageLookupByLibrary.simpleMessage("促進"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("ブロードキャスト"),
         "Broadcast_When_Boost":
@@ -121,7 +120,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("新しい鍵を生成する"),
         "Global": MessageLookupByLibrary.simpleMessage("グローバル"),
-        "Globals": MessageLookupByLibrary.simpleMessage("広場"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("ターゲット"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("タブ"),
         "Hide": MessageLookupByLibrary.simpleMessage("非表示"),
@@ -148,7 +146,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("入力解析に失敗しました"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("中継アドレスを入力してください。"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("鍵バックアップ"),
         "Language": MessageLookupByLibrary.simpleMessage("言語"),
         "Light": MessageLookupByLibrary.simpleMessage("薄い色"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("電光インボイス"),
