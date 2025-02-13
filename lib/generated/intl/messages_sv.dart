@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Börja ladda ner översättningsmodell"),
         "Block": MessageLookupByLibrary.simpleMessage("gräns"),
         "Blocks": MessageLookupByLibrary.simpleMessage("gräns"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("bokmärke"),
         "Boost": MessageLookupByLibrary.simpleMessage("främja"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("sändning"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -144,7 +143,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Skapa en ny nyckel"),
         "Global": MessageLookupByLibrary.simpleMessage("Globalt"),
-        "Globals": MessageLookupByLibrary.simpleMessage("kvadrat"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("Mål"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etikett"),
         "Hide": MessageLookupByLibrary.simpleMessage("dölj"),
@@ -175,8 +173,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Inmatningstolkning misslyckades"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Ange reläadressen."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage(
-            "Säkerhetskopiering av nycklar"),
         "Language": MessageLookupByLibrary.simpleMessage("språk"),
         "Light": MessageLookupByLibrary.simpleMessage("Ljus färg"),
         "Lightning_Invoice":

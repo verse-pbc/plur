@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Avvia il download del modello di traduzione"),
         "Block": MessageLookupByLibrary.simpleMessage("limite"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limite"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("segnalibro"),
         "Boost": MessageLookupByLibrary.simpleMessage("promuovere"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("broadcast"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -150,7 +149,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Genera una nuova chiave"),
         "Global": MessageLookupByLibrary.simpleMessage("Globale"),
-        "Globals": MessageLookupByLibrary.simpleMessage("quadrato"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("obiettivo"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etichetta"),
@@ -183,7 +181,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Analisi dell\' input non riuscita"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Inserisci l\'indirizzo del relè."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Backup chiave"),
         "Language": MessageLookupByLibrary.simpleMessage("lingua"),
         "Light": MessageLookupByLibrary.simpleMessage("Colore chiaro"),
         "Lightning_Invoice":

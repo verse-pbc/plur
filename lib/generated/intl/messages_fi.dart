@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Aloita käännösmallin lataaminen"),
         "Block": MessageLookupByLibrary.simpleMessage("raja-arvo"),
         "Blocks": MessageLookupByLibrary.simpleMessage("raja-arvo"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("kirjanmerkki"),
         "Boost": MessageLookupByLibrary.simpleMessage("edistää"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("lähetys"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -146,7 +145,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Luo uusi avain"),
         "Global": MessageLookupByLibrary.simpleMessage("Maailmanlaajuinen"),
-        "Globals": MessageLookupByLibrary.simpleMessage("neliö"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("tavoite"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etiketti"),
         "Hide": MessageLookupByLibrary.simpleMessage("piilota"),
@@ -176,8 +174,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Syötteen jäsentäminen epäonnistui"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Anna viestiosoite."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("Avainten varmuuskopiointi"),
         "Language": MessageLookupByLibrary.simpleMessage("kieli"),
         "Light": MessageLookupByLibrary.simpleMessage("Vaalea väri"),
         "Lightning_Invoice":

@@ -55,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("开始下载翻译模型"),
         "Block": MessageLookupByLibrary.simpleMessage("限制"),
         "Blocks": MessageLookupByLibrary.simpleMessage("限制"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("书签"),
         "Boost": MessageLookupByLibrary.simpleMessage("促进"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("广播"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage("促进时广播"),
@@ -140,7 +139,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("生成一个新的密钥"),
         "Global": MessageLookupByLibrary.simpleMessage("全球"),
-        "Globals": MessageLookupByLibrary.simpleMessage("广场"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("目标"),
         "Group": MessageLookupByLibrary.simpleMessage("群组"),
         "GroupId": MessageLookupByLibrary.simpleMessage("群组Id"),
@@ -170,7 +168,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_parse_error": MessageLookupByLibrary.simpleMessage("输入解析失败"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage("请输入中继地址。"),
         "Join_Group": MessageLookupByLibrary.simpleMessage("假如群组"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("密钥备份"),
         "Language": MessageLookupByLibrary.simpleMessage("语言"),
         "Light": MessageLookupByLibrary.simpleMessage("浅色"),
         "Lightning_Address": MessageLookupByLibrary.simpleMessage("闪电地址"),

@@ -51,7 +51,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("번역 모델 다운로드 시작"),
         "Block": MessageLookupByLibrary.simpleMessage("제한 사항"),
         "Blocks": MessageLookupByLibrary.simpleMessage("제한 사항"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("책갈피"),
         "Boost": MessageLookupByLibrary.simpleMessage("촉진"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("방송"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage("촉진 시 방송"),
@@ -120,7 +119,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("새 키 생성"),
         "Global": MessageLookupByLibrary.simpleMessage("글로벌"),
-        "Globals": MessageLookupByLibrary.simpleMessage("광장"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("목표"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("레이블"),
         "Hide": MessageLookupByLibrary.simpleMessage("숨기기"),
@@ -145,7 +143,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_parse_error": MessageLookupByLibrary.simpleMessage("입력 확인 실패"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("트렁크 주소를 입력하십시오."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("키 백업"),
         "Language": MessageLookupByLibrary.simpleMessage("언어"),
         "Light": MessageLookupByLibrary.simpleMessage("연한 색"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("번개 송장"),

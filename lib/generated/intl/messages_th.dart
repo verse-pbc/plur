@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("เริ่มดาวน์โหลดรูปแบบการแปล"),
         "Block": MessageLookupByLibrary.simpleMessage("ข้อ จำกัด"),
         "Blocks": MessageLookupByLibrary.simpleMessage("ข้อ จำกัด"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("บุ๊คมาร์ค"),
         "Boost": MessageLookupByLibrary.simpleMessage("โปรโมชั่น"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("ออกอากาศ"),
         "Broadcast_When_Boost":
@@ -141,7 +140,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("สร้างกุญแจใหม่"),
         "Global": MessageLookupByLibrary.simpleMessage("ทั่วโลก"),
-        "Globals": MessageLookupByLibrary.simpleMessage("สแควร์"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("วัตถุประสงค์"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("ป้ายกำกับ"),
@@ -172,8 +170,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "ล้มเหลวในการแก้ปัญหาการป้อนข้อมูล"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("โปรดป้อนที่อยู่รีเลย์"),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("การสำรองข้อมูลที่สำคัญ"),
         "Language": MessageLookupByLibrary.simpleMessage("ภาษา"),
         "Light": MessageLookupByLibrary.simpleMessage("สีอ่อน"),
         "Lightning_Invoice":

@@ -51,7 +51,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("開始下載翻譯模型"),
         "Block": MessageLookupByLibrary.simpleMessage("限制"),
         "Blocks": MessageLookupByLibrary.simpleMessage("限制"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("書簽"),
         "Boost": MessageLookupByLibrary.simpleMessage("促進"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("廣播"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage("促進時廣播"),
@@ -117,7 +116,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("生成一個新的金鑰"),
         "Global": MessageLookupByLibrary.simpleMessage("全球"),
-        "Globals": MessageLookupByLibrary.simpleMessage("廣場"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("目標"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("標籤"),
         "Hide": MessageLookupByLibrary.simpleMessage("隱藏"),
@@ -138,7 +136,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_dirtyword": MessageLookupByLibrary.simpleMessage("請輸入過濾詞語"),
         "Input_parse_error": MessageLookupByLibrary.simpleMessage("輸入解析失敗"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage("請輸入中繼地址。"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("金鑰備份"),
         "Language": MessageLookupByLibrary.simpleMessage("語言"),
         "Light": MessageLookupByLibrary.simpleMessage("淺色"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("閃電發票"),

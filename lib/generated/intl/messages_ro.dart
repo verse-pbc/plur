@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Începe descărcarea modelului de traducere"),
         "Block": MessageLookupByLibrary.simpleMessage("limită"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limită"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("marcaj"),
         "Boost": MessageLookupByLibrary.simpleMessage("promovare"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("difuzare"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -151,7 +150,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Generați o cheie nouă"),
         "Global": MessageLookupByLibrary.simpleMessage("Global"),
-        "Globals": MessageLookupByLibrary.simpleMessage("pătrat"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("țintă"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etichetă"),
         "Hide": MessageLookupByLibrary.simpleMessage("ascunde"),
@@ -183,7 +181,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Analizarea intrării a eșuat"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Introduceţi adresa releului."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Backup cheie"),
         "Language": MessageLookupByLibrary.simpleMessage("limba"),
         "Light": MessageLookupByLibrary.simpleMessage("Culoare deschisă"),
         "Lightning_Invoice":

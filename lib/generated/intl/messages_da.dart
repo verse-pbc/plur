@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Begynd at downloade oversættelsesmodel"),
         "Block": MessageLookupByLibrary.simpleMessage("grænse"),
         "Blocks": MessageLookupByLibrary.simpleMessage("grænse"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("bogmærke"),
         "Boost": MessageLookupByLibrary.simpleMessage("fremme"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("broadcast"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -148,7 +147,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Generer en ny nøgle"),
         "Global": MessageLookupByLibrary.simpleMessage("Globalt"),
-        "Globals": MessageLookupByLibrary.simpleMessage("kvadrat"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("mål"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etiket"),
         "Hide": MessageLookupByLibrary.simpleMessage("skjul"),
@@ -180,7 +178,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Inputtolkning mislykkedes"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Indtast venligst relæadressen."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Backup af nøgler"),
         "Language": MessageLookupByLibrary.simpleMessage("sprog"),
         "Light": MessageLookupByLibrary.simpleMessage("Lysfarve"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("Lynfaktura"),

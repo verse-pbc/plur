@@ -860,16 +860,6 @@ class S {
     );
   }
 
-  /// `Key Backup`
-  String get Key_Backup {
-    return Intl.message(
-      'Key Backup',
-      name: 'Key_Backup',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Please do not disclose or share the key to anyone.`
   String get Please_do_not_disclose_or_share_the_key_to_anyone {
     return Intl.message(
@@ -1900,16 +1890,6 @@ class S {
     );
   }
 
-  /// `Globals`
-  String get Globals {
-    return Intl.message(
-      'Globals',
-      name: 'Globals',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Begin to load Contact History`
   String get Begin_to_load_Contact_History {
     return Intl.message(
@@ -2315,16 +2295,6 @@ class S {
     return Intl.message(
       'Remove from public bookmark',
       name: 'Remove_from_public_bookmark',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Bookmark`
-  String get Bookmark {
-    return Intl.message(
-      'Bookmark',
-      name: 'Bookmark',
       desc: '',
       args: [],
     );

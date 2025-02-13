@@ -55,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Alusta tõlkemudeli allalaadimist"),
         "Block": MessageLookupByLibrary.simpleMessage("piirmäär"),
         "Blocks": MessageLookupByLibrary.simpleMessage("piirmäär"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("järjehoidja"),
         "Boost": MessageLookupByLibrary.simpleMessage("edendada"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("ülekanne"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -146,7 +145,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Loo uus võti"),
         "Global": MessageLookupByLibrary.simpleMessage("Globaalne"),
-        "Globals": MessageLookupByLibrary.simpleMessage("ruut"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("sihtmärk"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etikett"),
         "Hide": MessageLookupByLibrary.simpleMessage("peita"),
@@ -177,7 +175,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sisendi parsimine nurjus"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Palun sisestage edastuse aadress."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Võtme varundamine"),
         "Language": MessageLookupByLibrary.simpleMessage("keel"),
         "Light": MessageLookupByLibrary.simpleMessage("Hele värv"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("Välkearve"),
