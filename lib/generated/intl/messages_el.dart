@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Έναρξη λήψης μεταφραστικού μοντέλου"),
         "Block": MessageLookupByLibrary.simpleMessage("όριο"),
         "Blocks": MessageLookupByLibrary.simpleMessage("όριο"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("σελιδοδείκτη"),
         "Boost": MessageLookupByLibrary.simpleMessage("προώθηση"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("εκπομπή"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -153,7 +152,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Δημιουργία νέου κλειδιού"),
         "Global": MessageLookupByLibrary.simpleMessage("Παγκόσμια"),
-        "Globals": MessageLookupByLibrary.simpleMessage("τετράγωνο"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("στόχος"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("ετικέτα"),
         "Hide": MessageLookupByLibrary.simpleMessage("Απόκρυψη"),
@@ -186,8 +184,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Αποτυχία ανάλυσης εισόδου"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Παρακαλώ εισάγετε τη διεύθυνση αναμετάδοσης."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage(
-            "Αντίγραφα ασφαλείας κλειδιού"),
         "Language": MessageLookupByLibrary.simpleMessage("γλώσσα"),
         "Light": MessageLookupByLibrary.simpleMessage("Ελαφρύ χρώμα"),
         "Lightning_Invoice":

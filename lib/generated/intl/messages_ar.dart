@@ -55,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("بدء تحميل نموذج الترجمة"),
         "Block": MessageLookupByLibrary.simpleMessage("تقييد"),
         "Blocks": MessageLookupByLibrary.simpleMessage("تقييد"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("ارتباطك"),
         "Boost": MessageLookupByLibrary.simpleMessage("الترويج"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("البث"),
         "Broadcast_When_Boost":
@@ -141,7 +140,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("توليد مفتاح جديد"),
         "Global": MessageLookupByLibrary.simpleMessage("العالمية"),
-        "Globals": MessageLookupByLibrary.simpleMessage("ساحة"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("الهدف"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("علامة"),
         "Hide": MessageLookupByLibrary.simpleMessage("أخفى"),
@@ -170,8 +168,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("فشل تحليل المدخلات"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "من فضلك أدخل عنوان التتابع ."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("مفتاح النسخ الاحتياطي"),
         "Language": MessageLookupByLibrary.simpleMessage("لغة"),
         "Light": MessageLookupByLibrary.simpleMessage("لون فاتح"),
         "Lightning_Invoice":

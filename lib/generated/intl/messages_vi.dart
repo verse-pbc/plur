@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Bắt đầu tải xuống mô hình dịch"),
         "Block": MessageLookupByLibrary.simpleMessage("Giới hạn"),
         "Blocks": MessageLookupByLibrary.simpleMessage("Giới hạn"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("Đánh dấu"),
         "Boost": MessageLookupByLibrary.simpleMessage("Khuyến mãi"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("Phát sóng"),
         "Broadcast_When_Boost":
@@ -145,7 +144,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Tạo một key mới"),
         "Global": MessageLookupByLibrary.simpleMessage("Toàn cầu"),
-        "Globals": MessageLookupByLibrary.simpleMessage("Quảng trường"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("Mục tiêu"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "Hide": MessageLookupByLibrary.simpleMessage("Ẩn"),
@@ -175,7 +173,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Lỗi phân tích đầu vào"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Vui lòng nhập địa chỉ chuyển tiếp."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Sao lưu khóa"),
         "Language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
         "Light": MessageLookupByLibrary.simpleMessage("Màu sáng"),
         "Lightning_Invoice":

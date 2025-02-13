@@ -68,7 +68,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Begin to load Contact History"),
         "Block": MessageLookupByLibrary.simpleMessage("Block"),
         "Blocks": MessageLookupByLibrary.simpleMessage("Blocks"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("Bookmark"),
         "Boost": MessageLookupByLibrary.simpleMessage("Boost"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("Broadcast"),
         "Broadcast_When_Boost":
@@ -177,7 +176,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Generate a new private key"),
         "Global": MessageLookupByLibrary.simpleMessage("Global"),
-        "Globals": MessageLookupByLibrary.simpleMessage("Globals"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
         "Group": MessageLookupByLibrary.simpleMessage("Group"),
@@ -225,7 +223,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Input relay address."),
         "Join_Group": MessageLookupByLibrary.simpleMessage("Join Group"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Key Backup"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "Light": MessageLookupByLibrary.simpleMessage("Light"),
         "Lightning_Address":

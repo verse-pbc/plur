@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Iniciar o download do modelo de tradução"),
         "Block": MessageLookupByLibrary.simpleMessage("limite"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limite"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("marcador"),
         "Boost": MessageLookupByLibrary.simpleMessage("promover"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("transmissão"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -150,7 +149,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Gerar uma nova chave"),
         "Global": MessageLookupByLibrary.simpleMessage("Global"),
-        "Globals": MessageLookupByLibrary.simpleMessage("quadrado"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("alvo"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("rótulo"),
         "Hide": MessageLookupByLibrary.simpleMessage("esconder"),
@@ -182,8 +180,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("A análise da entrada falhou"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Por favor, introduza o endereço de transmissão."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("Cópia de segurança da chave"),
         "Language": MessageLookupByLibrary.simpleMessage("língua"),
         "Light": MessageLookupByLibrary.simpleMessage("Cor clara"),
         "Lightning_Invoice":

@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "A fordítási modell letöltésének megkezdése"),
         "Block": MessageLookupByLibrary.simpleMessage("határérték"),
         "Blocks": MessageLookupByLibrary.simpleMessage("határérték"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("könyvjelző"),
         "Boost": MessageLookupByLibrary.simpleMessage("előmozdítani"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("sugárzás"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -148,7 +147,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Új kulcs létrehozása"),
         "Global": MessageLookupByLibrary.simpleMessage("Globális"),
-        "Globals": MessageLookupByLibrary.simpleMessage("négyzet"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("célpont"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("címke"),
         "Hide": MessageLookupByLibrary.simpleMessage("rejtsd el"),
@@ -180,7 +178,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "A bemeneti elemzés nem sikerült"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Kérem, adja meg a továbbító címet."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Kulcs mentés"),
         "Language": MessageLookupByLibrary.simpleMessage("nyelv"),
         "Light": MessageLookupByLibrary.simpleMessage("Világos szín"),
         "Lightning_Invoice":

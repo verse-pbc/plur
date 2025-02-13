@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Стартиране на изтеглянето на модела за превод"),
         "Block": MessageLookupByLibrary.simpleMessage("граница"),
         "Blocks": MessageLookupByLibrary.simpleMessage("граница"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("отметка"),
         "Boost": MessageLookupByLibrary.simpleMessage("насърчаване"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("излъчване"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -155,7 +154,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Генериране на нов ключ"),
         "Global": MessageLookupByLibrary.simpleMessage("Глобален"),
-        "Globals": MessageLookupByLibrary.simpleMessage("квадрат"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("цел"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("етикет"),
         "Hide": MessageLookupByLibrary.simpleMessage("скрий"),
@@ -188,8 +186,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Грешка при анализа на входа"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Моля въведете адреса на предаването."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("Архивиране на ключа"),
         "Language": MessageLookupByLibrary.simpleMessage("език"),
         "Light": MessageLookupByLibrary.simpleMessage("Светъл цвят"),
         "Lightning_Invoice":
