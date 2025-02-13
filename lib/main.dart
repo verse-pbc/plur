@@ -423,7 +423,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.RELAYS: (context) => const RelaysWidget(),
       RouterPath.FILTER: (context) => const FilterWidget(),
       RouterPath.PROFILE_EDITOR: (context) => const ProfileEditorWidget(),
-      RouterPath.SETTING: (context) => SettingWidget(indexReload: reload),
+      RouterPath.SETTINGS: (context) => SettingWidget(indexReload: reload),
       RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
       RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
       RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),

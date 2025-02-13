@@ -128,7 +128,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       iconData: Icons.settings_rounded,
       name: localization.Settings,
       onTap: () {
-        RouterUtil.router(context, RouterPath.SETTING);
+        RouterUtil.router(context, RouterPath.SETTINGS);
       },
       smallMode: widget.smallMode,
     ));
