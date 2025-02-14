@@ -54,4 +54,4 @@ Our full research docs are in our company's [Notion](https://www.notion.so/nosso
 
 ## Decision
 
-We will build this app using Flutter.
+We will build this app using Flutter. Flutter best meets our need to iterate quickly, and has good tooling to sustain long term development. It is the tech stack our team is most familiar with. It gives us the flexibility to deploy on whatever platforms we find are necessary, including Windows, macOS, Linux, and the web. Giving up native UI is a tradeoff we are willing to make given that most of the competition in the community space are doing the same. 
