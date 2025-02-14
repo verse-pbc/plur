@@ -44,6 +44,7 @@ import 'package:nostrmo/router/web_utils/web_utils_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
@@ -310,8 +311,16 @@ Future<void> main() async {
     }
   }
 
-  FlutterNativeSplash.remove();
-  runApp(MyApp());
+  await SentryFlutter.init(
+    (options) {
+      // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+      options.environment = "staging";
+    },
+    appRunner: () {
+      FlutterNativeSplash.remove();
+      runApp(MyApp());
+    },
+  );
 }
 
 class MyApp extends StatefulWidget {
