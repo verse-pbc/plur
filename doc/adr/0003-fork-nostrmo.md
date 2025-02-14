@@ -1,4 +1,4 @@
-# 3. fork-nostrmo
+# 3. Fork Nostrmo
 
 Date: 2025-02-14
 
@@ -54,3 +54,5 @@ We also considered camelus, Loure, flostr, nostr_console, qiqstr, and cosanostr.
 ## Decision
 
 We will fork Nostrmo and use it as a starting point for our app. Even though the code is not the cleanest, we have already acquired significant domain knowledge and built a prototype with it without encountering any major issues. It implements an impressive amount of Nostr functionality and it has a lightweight architecture that keeps easy tasks easy.
+
+More notes can be found in [Notion](https://www.notion.so/nossocial/13e7c4703da080c2b6cee28e2f7810e9?v=d5e3c92e135145d1898ab45db972225b&pvs=4) (if you have access).
