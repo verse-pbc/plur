@@ -317,7 +317,7 @@ Future<void> main() async {
     runApp(MyApp());
   }
 
-  if (bool.hasEnvironment("SENTRY_DSN")) {
+  if (const bool.hasEnvironment("SENTRY_DSN")) {
     await SentryFlutter.init(
       (options) {
         // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
