@@ -311,16 +311,25 @@ Future<void> main() async {
     }
   }
 
-  await SentryFlutter.init(
-    (options) {
-      // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
-      options.environment = "staging";
-    },
-    appRunner: () {
-      FlutterNativeSplash.remove();
-      runApp(MyApp());
-    },
-  );
+  // Hides the splash and runs the app.
+  void startApp() {
+    FlutterNativeSplash.remove();
+    runApp(MyApp());
+  }
+
+  if (bool.hasEnvironment("SENTRY_DSN")) {
+    await SentryFlutter.init(
+      (options) {
+        // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+        options.environment = "staging";
+      },
+      appRunner: () {
+        startApp();
+      },
+    );
+  } else {
+    startApp();
+  }
 }
 
 class MyApp extends StatefulWidget {
