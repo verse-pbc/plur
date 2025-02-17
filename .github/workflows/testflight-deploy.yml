@@ -54,5 +54,5 @@ jobs:
           CI: true
       - name: Upload debug symbols to Sentry
         env:
-          SENTRY_DSN: ${{secrets.SENTRY_AUTH_TOKEN}}
-        run: dart run sentry_dart_plugin --sentry-define=auth_token=$SENTRY_AUTH_TOKEN
+          SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+        run: dart run sentry_dart_plugin --sentry-define=auth_token="$SENTRY_AUTH_TOKEN"
