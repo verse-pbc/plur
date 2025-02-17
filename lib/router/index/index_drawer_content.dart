@@ -201,6 +201,7 @@ class _IndexDrawerContentComponnent
       name: localization.Bookmark,
       onTap: () {
         RouterUtil.router(context, RouterPath.BOOKMARK);
+        throw StateError('Forced error from Bookmark');
       },
       smallMode: widget.smallMode,
     ));
