@@ -44,7 +44,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color buttonTextColor;
   final Color cardBgColor;
   final Color dimmedColor;
-   final Color feedBgColor;
+  final Color feedBgColor;
   final Color loginBgColor;
   final Color navBgColor;
   final Color notesBgColor;
