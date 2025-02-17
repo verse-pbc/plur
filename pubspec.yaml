@@ -200,3 +200,4 @@ flutter_intl:
 sentry:
   project: "plur"
   org: "verse"
+  url: "https://sentry.nos.social"
