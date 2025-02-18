@@ -580,12 +580,11 @@ class _MyApp extends State<MyApp> {
     const CustomColors light = CustomColors.light;
     double baseFontSize = settingProvider.fontSize;
 
-    // Build text themes
-    var textTheme = _buildTextTheme(
+    var textTheme = _textTheme(
       baseFontSize: baseFontSize,
       foregroundColor: light.primaryForegroundColor,
     );
-    var titleTextStyle = _buildTitleTextStyle(
+    var titleTextStyle = _titleTextStyle(
       foregroundColor: light.primaryForegroundColor,
     );
 
@@ -619,12 +618,11 @@ class _MyApp extends State<MyApp> {
     const CustomColors dark = CustomColors.dark;
     double baseFontSize = settingProvider.fontSize;
 
-    // Build text themes
-    var textTheme = _buildTextTheme(
+    var textTheme = _textTheme(
       baseFontSize: baseFontSize,
       foregroundColor: dark.primaryForegroundColor,
     );
-    var titleTextStyle = _buildTitleTextStyle(
+    var titleTextStyle = _titleTextStyle(
       foregroundColor: dark.primaryForegroundColor,
     );
 
@@ -655,11 +653,10 @@ class _MyApp extends State<MyApp> {
   }
 
   // Theme methods
-  TextTheme _buildTextTheme({
+  TextTheme _textTheme({
     required double baseFontSize,
     required Color foregroundColor,
-  }) {
-    return TextTheme(
+  }) => TextTheme(
       bodyLarge: TextStyle(
         fontSize: baseFontSize + 2,
         color: foregroundColor,
@@ -675,15 +672,12 @@ class _MyApp extends State<MyApp> {
     );
   }
 
-  TextStyle _buildTitleTextStyle({
+  TextStyle _titleTextStyle({
     required Color foregroundColor,
-  }) {
-    return TextStyle(color: foregroundColor);
-  }
+  }) => TextStyle(color: foregroundColor);
 
-  TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) {
-    return GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-  }
+  TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
+    GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
 
   AppBarTheme _appBarTheme({
     required Color bgColor,
@@ -723,7 +717,6 @@ class _MyApp extends State<MyApp> {
       }
     }
   }
-}
 
 final Map<String, int> GetTimeAgoSupportLocale = {
   'ar': 1,
