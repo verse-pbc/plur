@@ -595,7 +595,7 @@ class _MyApp extends State<MyApp> {
     }
 
     return ThemeData(
-      extensions: const [CustomColors.light],
+      extensions: const [light],
       scaffoldBackgroundColor: light.appBgColor,
       primaryColor: light.accentColor,
       focusColor: light.secondaryForegroundColor.withOpacity(0.1),
