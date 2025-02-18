@@ -12,7 +12,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
-import '../../component/custom_bot_toast.dart';
+import '../../component/styled_bot_toast.dart';
 import '../../util/theme_util.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
@@ -122,7 +122,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         style: TextStyle(
           color: themeData.customColors.primaryForegroundColor,
           fontSize: 24,
-          fontWeight: FontWeight.bold
+          fontWeight: FontWeight.bold,
         ),
       ),
     ));
@@ -226,11 +226,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: FilledButton(
           onPressed: _loginByAndroidSigner,
           style: FilledButton.styleFrom(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape:
+                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             backgroundColor: themeData.customColors.dimmedColor,
-            disabledBackgroundColor: themeData.customColors.dimmedColor.withOpacity(0.4),
+            disabledBackgroundColor:
+                themeData.customColors.dimmedColor.withOpacity(0.4),
             foregroundColor: themeData.customColors.buttonTextColor,
-            disabledForegroundColor: themeData.customColors.buttonTextColor.withOpacity(0.4),
+            disabledForegroundColor:
+                themeData.customColors.buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
             localization.Login_With_Android_Signer,
@@ -247,11 +250,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: FilledButton(
           onPressed: _loginWithWebSigner,
           style: FilledButton.styleFrom(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape:
+                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             backgroundColor: themeData.customColors.dimmedColor,
-            disabledBackgroundColor: themeData.customColors.dimmedColor.withOpacity(0.4),
+            disabledBackgroundColor:
+                themeData.customColors.dimmedColor.withOpacity(0.4),
             foregroundColor: themeData.customColors.buttonTextColor,
-            disabledForegroundColor: themeData.customColors.buttonTextColor.withOpacity(0.4),
+            disabledForegroundColor:
+                themeData.customColors.buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
             localization.Login_With_NIP07_Extension,
@@ -351,7 +357,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var pk = _controller.text;
     if (pk.isEmpty) {
       if (!mounted) return;
-      CustomBotToast.show(context, text: S.of(context).Input_can_not_be_null);
+      StyledBotToast.show(context, text: S.of(context).Input_can_not_be_null);
       return;
     }
 
@@ -373,7 +379,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       if (StringUtil.isBlank(pubkey)) {
         if (!mounted) return;
-        CustomBotToast.show(context,
+        StyledBotToast.show(context,
             text: "${localization.Pubkey} ${localization.not_found}");
         return;
       }
@@ -386,7 +392,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
       nostr = await relayProvider.genNostr(pubkeyOnlySigner);
       if (!mounted) return;
-      CustomBotToast.show(context, text: localization.Readonly_login_tip);
+      StyledBotToast.show(context, text: localization.Readonly_login_tip);
     } else if (NostrRemoteSignerInfo.isBunkerUrl(pk)) {
       var cancel = BotToast.showLoading();
       try {
@@ -411,7 +417,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         getPublicKey(pk);
       } catch (e) {
         // is not a private key
-        CustomBotToast.show(context,
+        StyledBotToast.show(context,
             text: S.of(context).Wrong_Private_Key_format);
         return;
       }
@@ -436,7 +442,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
       if (!mounted) return;
-      CustomBotToast.show(context, text: localization.Login_fail);
+      StyledBotToast.show(context, text: localization.Login_fail);
       return;
     }
 
@@ -463,7 +469,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
       if (!mounted) return;
-      CustomBotToast.show(context, text: localization.Login_fail);
+      StyledBotToast.show(context, text: localization.Login_fail);
       return;
     }
 
