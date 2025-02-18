@@ -2,9 +2,10 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
-/// Customized toast widget that uses BotToast to show a toast message.
-class CustomBotToast {
+/// Styled toast widget that uses BotToast to show a toast message.
+class StyledBotToast {
   static void show(BuildContext context, {required String text}) {
+    if (context is StatefulElement && !context.state.mounted) return;
     final themeData = Theme.of(context).customColors;
 
     void showToast() {
@@ -20,7 +21,6 @@ class CustomBotToast {
       );
     }
 
-    if (context is StatefulElement && !context.state.mounted) return;
     showToast();
   }
 }

@@ -599,7 +599,7 @@ class _MyApp extends State<MyApp> {
       scaffoldBackgroundColor: light.appBgColor,
       primaryColor: light.accentColor,
       focusColor: light.secondaryForegroundColor.withOpacity(0.1),
-      appBarTheme: _buildAppBarTheme(
+      appBarTheme: _appBarTheme(
         bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
         foregroundColor: light.primaryForegroundColor,
@@ -609,9 +609,9 @@ class _MyApp extends State<MyApp> {
       textTheme: textTheme,
       hintColor: light.secondaryForegroundColor,
       shadowColor: light.dimmedColor,
-      tabBarTheme: _buildTabBarTheme(),
+      tabBarTheme: _tabBarTheme(),
       canvasColor: light.feedBgColor,
-      iconTheme: _buildIconTheme(color: light.primaryForegroundColor),
+      iconTheme: _iconTheme(light.primaryForegroundColor),
     );
   }
 
@@ -638,7 +638,7 @@ class _MyApp extends State<MyApp> {
       scaffoldBackgroundColor: dark.appBgColor,
       primaryColor: dark.accentColor,
       focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
-      appBarTheme: _buildAppBarTheme(
+      appBarTheme: _appBarTheme(
         bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
         foregroundColor: dark.primaryForegroundColor,
@@ -648,9 +648,9 @@ class _MyApp extends State<MyApp> {
       textTheme: textTheme,
       hintColor: dark.dimmedColor,
       shadowColor: Colors.white.withOpacity(0.3),
-      tabBarTheme: _buildTabBarTheme(),
+      tabBarTheme: _tabBarTheme(),
       canvasColor: dark.feedBgColor,
-      iconTheme: _buildIconTheme(color: dark.primaryForegroundColor),
+      iconTheme: _iconTheme(dark.primaryForegroundColor),
     );
   }
 
@@ -685,39 +685,29 @@ class _MyApp extends State<MyApp> {
     return GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
   }
 
-  AppBarTheme _buildAppBarTheme({
+  AppBarTheme _appBarTheme({
     required Color bgColor,
     required TextStyle titleTextStyle,
     required Color foregroundColor,
-  }) {
-    return AppBarTheme(
-      backgroundColor: bgColor,
-      titleTextStyle: titleTextStyle,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      iconTheme: IconThemeData(
-        color: foregroundColor,
-      ),
-    );
-  }
+  }) => AppBarTheme(
+        backgroundColor: bgColor,
+        titleTextStyle: titleTextStyle,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        iconTheme: IconThemeData(
+          color: foregroundColor,
+        ),
+      );
 
-  TabBarTheme _buildTabBarTheme() {
-    return TabBarTheme(
-      indicatorColor: Colors.white,
-      indicatorSize: TabBarIndicatorSize.tab,
-      dividerHeight: 0,
-      labelColor: Colors.white,
-      unselectedLabelColor: Colors.grey[200],
-    );
-  }
+  TabBarTheme _tabBarTheme() => TabBarTheme(
+        indicatorColor: Colors.white,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.grey[200],
+      );
 
-  IconThemeData _buildIconTheme({
-    required Color color,
-  }) {
-    return IconThemeData(
-      color: color,
-    );
-  }
+  IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
 
   void setGetTimeAgoDefaultLocale(Locale? locale) {
     String? localeName = Intl.defaultLocale;

@@ -40,6 +40,10 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
 
   late S localization;
 
+  TextStyle _bodyStyle(ThemeData theme) => TextStyle(
+        color: theme.textTheme.bodyMedium!.color,
+      );
+
   @override
   Widget build(BuildContext context) {
     var arg = RouterUtil.routerArgs(context);
@@ -169,18 +173,16 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         items: [
           DropdownMenuItem(
             value: true,
-            child: Text(localization.public,
-              style: TextStyle(
-                color: themeData.textTheme.bodyMedium!.color,
-              ),
+            child: Text(
+              localization.public,
+              style: _bodyStyle(themeData),
             ),
           ),
           DropdownMenuItem(
             value: false,
-            child: Text(localization.private,
-              style: TextStyle(
-                color: themeData.textTheme.bodyMedium!.color,
-              ),
+            child: Text(
+              localization.private,
+              style: _bodyStyle(themeData),
             ),
           ),
         ],
@@ -203,18 +205,16 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         items: [
           DropdownMenuItem(
             value: true,
-            child: Text(localization.open,
-              style: TextStyle(
-                color: themeData.textTheme.bodyMedium!.color,
-              ),
+            child: Text(
+              localization.open,
+              style: _bodyStyle(themeData),
             ),
           ),
           DropdownMenuItem(
             value: false,
-            child: Text(localization.closed,
-              style: TextStyle(
-                color: themeData.textTheme.bodyMedium!.color,
-              ),
+            child: Text(
+              localization.closed,
+              style: _bodyStyle(themeData),
             ),
           ),
         ],
@@ -237,7 +237,6 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
             height: mediaDataCache.size.height - mediaDataCache.padding.top,
             margin: EdgeInsets.only(top: mediaDataCache.padding.top),
             child: Container(
-
               padding: EdgeInsets.only(
                   top: mediaDataCache.padding.top + Base.BASE_PADDING),
               child: SingleChildScrollView(
