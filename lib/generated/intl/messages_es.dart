@@ -49,7 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Authenticat_need":
             MessageLookupByLibrary.simpleMessage("Se requiere autenticación"),
         "Auto_Open_Sensitive_Content": MessageLookupByLibrary.simpleMessage(
-            "Abrir automáticamente contenido sensible"),
+            "Abrir siempre el contenido sensible"),
         "Backup_and_Safety_tips": MessageLookupByLibrary.simpleMessage(
             "Respaldo y consejos de Seguridad"),
         "Backup_my_notes": MessageLookupByLibrary.simpleMessage(
@@ -63,8 +63,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Blocks": MessageLookupByLibrary.simpleMessage("Restricciones"),
         "Boost": MessageLookupByLibrary.simpleMessage("Promover"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("Radio"),
-        "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
-            "Transmisión en el momento de la promoción"),
+        "Broadcast_When_Boost":
+            MessageLookupByLibrary.simpleMessage("Transmisión al promocionar"),
         "Buy_me_a_coffee": MessageLookupByLibrary.simpleMessage(
             "¡¡ Cómprame una taza de café!"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancelación"),
