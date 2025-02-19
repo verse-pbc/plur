@@ -1,30 +1,25 @@
-import 'dart:io';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/android_plugin/android_plugin.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
-import 'package:nostr_sdk/nip05/nip05_validor.dart';
-import 'package:nostr_sdk/nip07/nip07_signer.dart';
-import 'package:nostr_sdk/nip19/nip19.dart';
-import 'package:nostr_sdk/nip46/nostr_remote_signer_info.dart';
-import 'package:nostr_sdk/nip55/android_nostr_signer.dart';
-import 'package:nostr_sdk/signer/pubkey_only_nostr_signer.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
+import '../../consts/router_path.dart';
 import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
+import '../../component/styled_bot_toast.dart';
+import '../../util/theme_util.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
+  /// Creates an instance of [LoginSignupWidget].
+  const LoginSignupWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _LoginSignupState();
@@ -37,7 +32,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   bool _isTextObscured = true;
 
   /// Controller for the TextField to track text changes.
-  TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
   /// Boolean flag to enable/disable the Login button.
   bool _isLoginButtonEnabled = false;
@@ -90,6 +85,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
+    final themeData = Theme.of(context);
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -124,7 +120,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Text(
         localization.Communities,
         style: TextStyle(
-          color: ColorList.primaryForeground,
+          color: themeData.customColors.primaryForegroundColor,
           fontSize: 24,
           fontWeight: FontWeight.bold,
         ),
@@ -135,16 +131,17 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(SizedBox(
       width: double.infinity,
       child: FilledButton(
-        // Calls `_generatePK` when tapped.
-        onPressed: _generatePK,
+        key: const Key('signup_button'),
+        // Calls `_navigateToSignup` when tapped.
+        onPressed: _navigateToSignup,
         style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: ColorList.accent,
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          backgroundColor: themeData.customColors.accentColor,
         ),
         child: Text(
           localization.Signup,
           style: TextStyle(
-            color: ColorList.buttonText,
+            color: themeData.customColors.buttonTextColor,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -174,7 +171,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           color: ColorList.dimmed,
           fontSize: 16,
         ),
-        contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8),
+        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         // Adds an eye icon as a suffix to toggle password visibility
         suffixIcon: GestureDetector(
           onTap: () {
@@ -197,7 +194,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     ));
 
     // Adds a 10px tall space between the text field and the button.
-    mainList.add(SizedBox(height: 10));
+    mainList.add(const SizedBox(height: 10));
 
     // Adds a full-width "Login" button to `mainList`.
     mainList.add(SizedBox(
@@ -207,7 +204,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         // disabled.
         onPressed: _isLoginButtonEnabled ? _doLogin : null,
         style: FilledButton.styleFrom(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: ColorList.dimmed,
           disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
           foregroundColor: ColorList.buttonText,
@@ -229,11 +226,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: FilledButton(
           onPressed: _loginByAndroidSigner,
           style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: ColorList.dimmed,
-            disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
-            foregroundColor: ColorList.buttonText,
-            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+            shape:
+                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: themeData.customColors.dimmedColor,
+            disabledBackgroundColor:
+                themeData.customColors.dimmedColor.withOpacity(0.4),
+            foregroundColor: themeData.customColors.buttonTextColor,
+            disabledForegroundColor:
+                themeData.customColors.buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
             localization.Login_With_Android_Signer,
@@ -250,11 +250,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: FilledButton(
           onPressed: _loginWithWebSigner,
           style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: ColorList.dimmed,
-            disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
-            foregroundColor: ColorList.buttonText,
-            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+            shape:
+                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: themeData.customColors.dimmedColor,
+            disabledBackgroundColor:
+                themeData.customColors.dimmedColor.withOpacity(0.4),
+            foregroundColor: themeData.customColors.buttonTextColor,
+            disabledForegroundColor:
+                themeData.customColors.buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
             localization.Login_With_NIP07_Extension,
@@ -279,15 +282,15 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               text: localization.Accept_terms_of_service,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: ColorList.primaryForeground,
+                color: themeData.customColors.primaryForegroundColor,
                 fontSize: 15,
               ),
               tags: {
                 'accent': StyledTextTag(
                   style: TextStyle(
                       decoration: TextDecoration.underline,
-                      decorationColor: ColorList.accent,
-                      color: ColorList.accent),
+                      decorationColor: themeData.customColors.accentColor,
+                      color: themeData.customColors.accentColor),
                 )
               }),
         )
@@ -296,7 +299,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     return Scaffold(
       // Sets the background color for the login screen.
-      backgroundColor: ColorList.loginBG,
+      backgroundColor: themeData.customColors.loginBgColor,
       body: SizedBox(
         // Expands to the full width of the screen.
         width: double.maxFinite,
@@ -328,26 +331,33 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     );
   }
 
-  /// Generates a new private key and updates the UI accordingly.
-  void _generatePK() {
-    // Generates a new private key.
-    var pk = generatePrivateKey();
-    // Updates the text field with the newly generated private key.
-    _controller.text = pk;
-    // Marks the user as new, so they will see follow suggestions after login.
-    newUser = true;
-    // Displays a toast notification informing the user that a new private key
-    // was generated.
-    BotToast.showText(
-      text: "A new private key has been generated for your account.",
-    );
+  /// Navigates to the Signup screen.
+  Future<void> _navigateToSignup() async {
+    final privateKey = await Navigator.of(context).pushNamed(RouterPath.SIGNUP);
+    if (privateKey != null && privateKey is String) {
+      _doPreLogin();
+
+      settingProvider.addAndChangePrivateKey(privateKey, updateUI: false);
+      nostr = await relayProvider.genNostrWithKey(privateKey);
+
+      if (backAfterLogin) {
+        RouterUtil.back(context);
+      }
+
+      settingProvider.notifyListeners();
+      // Marks the login as the first one, so the contact data can be properly
+      // downloaded.
+      firstLogin = true;
+      indexProvider.setCurrentTap(0);
+    }
   }
 
   /// Asynchronous function to handle login when the button is pressed
   Future<void> _doLogin() async {
     var pk = _controller.text;
     if (pk.isEmpty) {
-      BotToast.showText(text: S.of(context).Input_can_not_be_null);
+      if (!mounted) return;
+      StyledBotToast.show(context, text: S.of(context).Input_can_not_be_null);
       return;
     }
 
@@ -368,7 +378,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       }
 
       if (StringUtil.isBlank(pubkey)) {
-        BotToast.showText(
+        if (!mounted) return;
+        StyledBotToast.show(context,
             text: "${localization.Pubkey} ${localization.not_found}");
         return;
       }
@@ -380,7 +391,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
       nostr = await relayProvider.genNostr(pubkeyOnlySigner);
-      BotToast.showText(text: localization.Readonly_login_tip);
+      if (!mounted) return;
+      StyledBotToast.show(context, text: localization.Readonly_login_tip);
     } else if (NostrRemoteSignerInfo.isBunkerUrl(pk)) {
       var cancel = BotToast.showLoading();
       try {
@@ -405,7 +417,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         getPublicKey(pk);
       } catch (e) {
         // is not a private key
-        BotToast.showText(text: S.of(context).Wrong_Private_Key_format);
+        StyledBotToast.show(context,
+            text: S.of(context).Wrong_Private_Key_format);
         return;
       }
 
@@ -428,7 +441,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var androidNostrSigner = AndroidNostrSigner();
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
-      BotToast.showText(text: localization.Login_fail);
+      if (!mounted) return;
+      StyledBotToast.show(context, text: localization.Login_fail);
       return;
     }
 
@@ -454,7 +468,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var signer = NIP07Signer();
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
-      BotToast.showText(text: localization.Login_fail);
+      if (!mounted) return;
+      StyledBotToast.show(context, text: localization.Login_fail);
       return;
     }
 

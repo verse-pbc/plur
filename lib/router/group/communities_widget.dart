@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/event.dart';
 import 'package:nostrmo/main.dart';
 
-import '../../consts/colors.dart';
 import 'community_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
 
@@ -41,6 +34,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
     return Scaffold(
       appBar: AppBar(
+        bottom: const AppBarBottomBorder(),
         actions: [
           GestureDetector(
             onTap: showCreateCommunityDialog,
@@ -54,7 +48,6 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         ],
       ),
       body: Container(
-        color: ColorList.plurPurple,
         child: groupIds.isEmpty
             ? const Center(
                 child: NoCommunitiesWidget(),

@@ -1,8 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nostr_sdk/nip35/torrent_info.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/tag_info_widget.dart';
 import 'package:nostrmo/util/store_util.dart';
 import 'package:url_launcher/url_launcher.dart';

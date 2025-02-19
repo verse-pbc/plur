@@ -102,6 +102,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Copy Note Json"),
         "Copy_Note_Pubkey":
             MessageLookupByLibrary.simpleMessage("Copy Note Pubkey"),
+        "Copy_and_Continue":
+            MessageLookupByLibrary.simpleMessage("Copy & Continue"),
         "Copy_current_Url":
             MessageLookupByLibrary.simpleMessage("Copy current Url"),
         "Copy_init_Url": MessageLookupByLibrary.simpleMessage("Copy init Url"),
@@ -193,6 +195,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Hint Font Color"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Hour": MessageLookupByLibrary.simpleMessage("Hour"),
+        "I_understand_I_shouldnt_share_this_key":
+            MessageLookupByLibrary.simpleMessage(
+                "I understand that I should not share this key with anyone, and I should back it up safely (e.g. in a password manager)."),
         "Image": MessageLookupByLibrary.simpleMessage("Image"),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Image Compress"),
@@ -414,6 +419,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "There should be an universe here"),
+        "This_is_the_key_to_your_account": MessageLookupByLibrary.simpleMessage(
+            "This is the key to your account"),
         "This_note_contains_sensitive_content":
             MessageLookupByLibrary.simpleMessage(
                 "This note contains sensitive content"),
@@ -477,7 +484,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":
-            MessageLookupByLibrary.simpleMessage("key has been copy!"),
+            MessageLookupByLibrary.simpleMessage("The key has been copied!"),
         "liked": MessageLookupByLibrary.simpleMessage("liked"),
         "loading": MessageLookupByLibrary.simpleMessage("loading"),
         "max_zap_num": MessageLookupByLibrary.simpleMessage("max zap num"),
@@ -492,6 +499,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("poll option info"),
         "private": MessageLookupByLibrary.simpleMessage("private"),
         "public": MessageLookupByLibrary.simpleMessage("public"),
-        "replied": MessageLookupByLibrary.simpleMessage("replied")
+        "replied": MessageLookupByLibrary.simpleMessage("replied"),
+        "view_key": MessageLookupByLibrary.simpleMessage("view key")
       };
 }
