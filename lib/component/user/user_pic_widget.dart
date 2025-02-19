@@ -9,11 +9,15 @@ import '../../data/metadata.dart';
 import '../../provider/metadata_provider.dart';
 import '../image_widget.dart';
 
+/// A stateful widget to display user's profile picture
 class UserPicWidget extends StatefulWidget {
+  /// The public key of the user.
   final String pubkey;
 
+  /// The width of the profile picture.
   final double width;
 
+  /// The metadata of the user. This is optional.
   final Metadata? metadata;
 
   const UserPicWidget({
@@ -36,6 +40,8 @@ class _UserPicWidgetState extends State<UserPicWidget> {
       return buildWidget(widget.metadata);
     }
 
+    // Using Selector to watch changes in MetadataProvider and rebuild widget
+    // accordingly.
     return Selector<MetadataProvider, Metadata?>(
       builder: (context, metadata, child) {
         return buildWidget(metadata);
@@ -46,57 +52,29 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     );
   }
 
+  /// Builds the widget displaying the profile picture.
+  ///
+  /// If metadata is provided, it will use the picture URL from the metadata
+  /// to display the profile picture. Otherwise, it will use a placeholder.
   Widget buildWidget(Metadata? metadata) {
     final themeData = Theme.of(context);
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var provider = Provider.of<SettingProvider>(context);
 
-    if (StringUtil.isNotBlank(widget.pubkey) &&
-        settingProvider.pubkeyColor != OpenStatus.CLOSE) {
-      double imageBorder = widget.width / 14;
-      Widget? imageWidget;
-      if (metadata != null) {
-        if (settingProvider.profilePicturePreview != OpenStatus.CLOSE &&
-            StringUtil.isNotBlank(metadata.picture)) {
-          imageWidget = ImageWidget(
-            imageUrl: metadata.picture!,
-            width: widget.width - imageBorder * 2,
-            height: widget.width - imageBorder * 2,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => const CircularProgressIndicator(),
-          );
-        }
-      }
-
-      return Container(
-        width: widget.width,
-        height: widget.width,
-        clipBehavior: Clip.hardEdge,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(widget.width / 2),
-          color: themeData.customColors.accentColor,
-        ),
-        child: Container(
-          width: widget.width - imageBorder * 2,
-          height: widget.width - imageBorder * 2,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.width / 2 - imageBorder),
-            color: themeData.hintColor,
-          ),
-          child: imageWidget,
-        ),
-      );
-    }
+    // Calculate the border size for the image based on widget width.
+    double imageBorder = widget.width / 14;
 
     Widget? imageWidget;
     if (metadata != null) {
-      if (settingProvider.profilePicturePreview != OpenStatus.CLOSE &&
-          StringUtil.isNotBlank(metadata.picture)) {
+      // Checking if profile picture preview is enabled and metadata contains a
+      // picture.
+      bool showPreview = provider.profilePicturePreview != OpenStatus.CLOSE;
+      bool hasMetadataPic = StringUtil.isNotBlank(metadata.picture);
+
+      if (showPreview && hasMetadataPic) {
         imageWidget = ImageWidget(
           imageUrl: metadata.picture!,
-          width: widget.width,
-          height: widget.width,
+          width: widget.width - imageBorder * 2,
+          height: widget.width - imageBorder * 2,
           fit: BoxFit.cover,
           placeholder: (context, url) => const CircularProgressIndicator(),
         );
@@ -107,11 +85,21 @@ class _UserPicWidgetState extends State<UserPicWidget> {
       width: widget.width,
       height: widget.width,
       clipBehavior: Clip.hardEdge,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.width / 2),
-        color: themeData.hintColor,
+        color: themeData.customColors.accentColor,
       ),
-      child: imageWidget,
+      child: Container(
+        width: widget.width - imageBorder * 2,
+        height: widget.width - imageBorder * 2,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.width / 2 - imageBorder),
+          color: themeData.hintColor,
+        ),
+        child: imageWidget,
+      ),
     );
   }
 }

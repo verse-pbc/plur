@@ -179,11 +179,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         onTap: pickOpenMode,
       ));
     }
-    list.add(SettingGroupItemWidget(
-      name: "${localization.Pubkey} ${localization.Color}",
-      value: getOpenList(settingProvider.pubkeyColor).name,
-      onTap: pickPubkeyColor,
-    ));
 
     list.add(SettingGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
     list.add(SettingGroupItemWidget(
@@ -1219,13 +1214,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       settingProvider.openBlurhashImage = resultEnumObj.value;
-    }
-  }
-
-  pickPubkeyColor() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.pubkeyColor = resultEnumObj.value;
     }
   }
 
