@@ -96,7 +96,7 @@ import 'router/keybackup/key_backup_widget.dart';
 import 'router/notice/notice_widget.dart';
 import 'router/qrscanner/qrscanner_widget.dart';
 import 'router/relays/relays_widget.dart';
-import 'router/setting/setting_widget.dart';
+import 'router/settings/settings_widget.dart';
 import 'router/tag/tag_detail_widget.dart';
 import 'router/thread/thread_detail_widget.dart';
 import 'router/user/followed_communities_widget.dart';
@@ -423,7 +423,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.RELAYS: (context) => const RelaysWidget(),
       RouterPath.FILTER: (context) => const FilterWidget(),
       RouterPath.PROFILE_EDITOR: (context) => const ProfileEditorWidget(),
-      RouterPath.SETTINGS: (context) => SettingWidget(indexReload: reload),
+      RouterPath.SETTINGS: (context) => SettingsWidget(indexReload: reload),
       RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
       RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
       RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
