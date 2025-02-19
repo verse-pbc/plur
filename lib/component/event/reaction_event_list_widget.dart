@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';

@@ -4,10 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
-import 'package:nostr_sdk/aid.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/lnbc_embed_builder.dart';
 import 'package:nostrmo/component/editor/mention_event_embed_builder.dart';
 import 'package:nostrmo/component/editor/mention_user_embed_builder.dart';
@@ -28,7 +25,6 @@ import '../../component/editor/editor_mixin.dart';
 import '../../component/editor/poll_input_widget.dart';
 import '../../component/editor/zap_split_input_widget.dart';
 import '../../generated/l10n.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'editor_notify_item_widget.dart';
 
 class EditorWidget extends StatefulWidget {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/aid.dart';
-import 'package:nostr_sdk/nip51/bookmarks.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 import 'package:provider/provider.dart';

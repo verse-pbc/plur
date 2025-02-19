@@ -7,20 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_font_picker/flutter_font_picker.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip02/contact_list.dart';
-import 'package:nostr_sdk/relay/relay_mode.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/color_pick_dialog.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/consts/thread_mode.dart';
 import 'package:nostrmo/router/index/account_manager_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/store_util.dart';
-import 'package:nostr_sdk/utils/when_stop_function.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
@@ -40,7 +33,6 @@ import '../../provider/setting_provider.dart';
 import '../../provider/uploader.dart';
 import '../../util/auth_util.dart';
 import '../../util/locale_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'setting_group_item_widget.dart';
 import 'setting_group_title_widget.dart';
 
@@ -140,15 +132,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         onTap: pickThemeStyle,
       ),
     );
-    list.add(SettingGroupItemWidget(
-      name: localization.Theme_Color,
-      onTap: pickColor,
-      child: Container(
-        height: 28,
-        width: 28,
-        color: mainColor,
-      ),
-    ));
     var textStyle = TextStyle(
       color: hintColor,
       fontWeight: FontWeight.bold,

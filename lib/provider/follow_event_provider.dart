@@ -2,16 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip02/contact.dart';
-import 'package:nostr_sdk/nip02/contact_list.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/utils/find_event_interface.dart';
-import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../main.dart';
 import '../router/tag/topic_map.dart';

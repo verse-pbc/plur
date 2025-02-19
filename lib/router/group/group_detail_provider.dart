@@ -1,13 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/utils/peddingevents_later_function.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../main.dart';
 
@@ -40,63 +34,25 @@ class GroupDetailProvider extends ChangeNotifier
     chatsBox.clear();
   }
 
-  Timer? timer;
-
-  void startQueryTask() {
-    clearTimer();
-
-    timer = Timer.periodic(const Duration(seconds: 8), (t) {
-      try {
-        _queryNewEvent();
-      } catch (e) {}
-    });
-  }
-
   @override
   void dispose() {
     super.dispose;
     clear();
-
-    clearTimer();
   }
 
-  void clearTimer() {
-    if (timer != null) {
-      timer!.cancel();
-      timer = null;
-    }
-  }
-
-  void _queryNewEvent() {
-    if (_groupIdentifier != null) {
-      var relays = [_groupIdentifier!.host];
-      var filter = Filter(
-        since: _initTime,
-        kinds: supportEventKinds,
-      );
-      var jsonMap = filter.toJson();
-      jsonMap["#h"] = [_groupIdentifier!.groupId];
-      nostr!.query(
-        [jsonMap],
-        _onNewEvent,
-        tempRelays: relays,
-        relayTypes: RelayType.ONLY_TEMP,
-        sendAfterAuth: true,
-      );
-    }
-  }
-
-  void _onNewEvent(Event e) {
+  void onNewEvent(Event e) {
     if (e.kind == EventKind.GROUP_NOTE ||
         e.kind == EventKind.GROUP_NOTE_REPLY) {
-      if (newNotesBox.add(e)) {
-        if (e.createdAt > _initTime) {
-          _initTime = e.createdAt;
-        }
-        if (e.pubkey == nostr!.publicKey) {
-          mergeNewEvent();
-        } else {
-          notifyListeners();
+      if (!notesBox.contains(e.id)) {
+        if (newNotesBox.add(e)) {
+          if (e.createdAt > _initTime) {
+            _initTime = e.createdAt;
+          }
+          if (e.pubkey == nostr!.publicKey) {
+            mergeNewEvent();
+          } else {
+            notifyListeners();
+          }
         }
       }
     } else if (e.kind == EventKind.GROUP_CHAT_MESSAGE ||
@@ -109,13 +65,14 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   void mergeNewEvent() {
-    var isNotEmpty = newNotesBox.all().isNotEmpty;
-    notesBox.addBox(newNotesBox);
-    if (isNotEmpty) {
-      newNotesBox.clear();
-      notesBox.sort();
-      notifyListeners();
+    final isEmpty = newNotesBox.isEmpty();
+    if (isEmpty) {
+      return;
     }
+    notesBox.addBox(newNotesBox);
+    newNotesBox.clear();
+    notesBox.sort();
+    notifyListeners();
   }
 
   static List<int> supportEventKinds = [
@@ -246,5 +203,18 @@ class GroupDetailProvider extends ChangeNotifier
     }
 
     return previous;
+  }
+
+  /// Handles an event that the current user created from a group.
+  ///
+  /// Only processes group notes and updates the UI if the event was successfully
+  /// added to the notes box.
+  ///
+  /// [event] The event to process
+  void handleDirectEvent(Event event) {
+    if (!isGroupNote(event)) return;
+    if (!notesBox.add(event)) return;
+    notesBox.sort();
+    notifyListeners();
   }
 }

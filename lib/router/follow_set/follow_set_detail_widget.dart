@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip02/contact.dart';
-import 'package:nostr_sdk/nip19/nip19.dart';
-import 'package:nostr_sdk/nip51/follow_set.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/simple_metadata_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/generated/l10n.dart';

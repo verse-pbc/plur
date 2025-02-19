@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:nostr_sdk/utils/platform_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';

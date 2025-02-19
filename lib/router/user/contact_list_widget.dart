@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip02/contact.dart';
-import 'package:nostr_sdk/nip02/contact_list.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/user/metadata_widget.dart';

@@ -3,16 +3,7 @@ import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/aid.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/nip29/group_metadata.dart';
-import 'package:nostr_sdk/nip51/bookmarks.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
 

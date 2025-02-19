@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nip29/group_admins.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';

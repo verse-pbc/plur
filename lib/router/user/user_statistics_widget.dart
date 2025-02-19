@@ -3,12 +3,7 @@ import 'dart:convert';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/event_mem_box.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/nip02/contact_list.dart';
-import 'package:nostr_sdk/zap/zap_info_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/contact_list_provider.dart';
@@ -24,7 +19,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/number_format_util.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 
 class UserStatisticsWidget extends StatefulWidget {
   String pubkey;

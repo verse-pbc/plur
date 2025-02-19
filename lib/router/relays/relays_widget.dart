@@ -2,11 +2,8 @@ import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/relay/relay_status.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostrmo/component/confirm_dialog.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostr_sdk/utils/when_stop_function.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
@@ -16,7 +13,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/router_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import 'relays_item_widget.dart';
 
 class RelaysWidget extends StatefulWidget {

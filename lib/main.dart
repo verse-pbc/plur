@@ -12,10 +12,7 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/relay_local/relay_local_db.dart';
-import 'package:nostr_sdk/utils/platform_util.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
@@ -33,6 +30,7 @@ import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/router/signup/signup_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_list_widget.dart';
@@ -53,7 +51,6 @@ import 'package:window_manager/window_manager.dart';
 
 import 'component/content/trie_text_matcher/trie_text_matcher.dart';
 import 'consts/base.dart';
-import 'consts/colors.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
@@ -83,6 +80,7 @@ import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
 import 'provider/wot_provider.dart';
+import 'provider/timestamp_provider.dart';
 import 'router/bookmark/bookmark_widget.dart';
 import 'router/community/community_detail_widget.dart';
 import 'router/dm/dm_detail_widget.dart';
@@ -105,10 +103,10 @@ import 'router/user/user_contact_list_widget.dart';
 import 'router/user/user_relays_widget.dart';
 import 'router/user/user_widget.dart';
 import 'system_timer.dart';
-import 'util/colors_util.dart';
 import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
+import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -197,6 +195,8 @@ late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
 
+late TimestampProvider timestampProvider;
+
 Future<void> initializeProviders({bool isTesting = false}) async {
   var dbInitTask = DB.getCurrentDatabase();
   var dataUtilTask = DataUtil.getInstance();
@@ -246,6 +246,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   nwcProvider = NWCProvider()..init();
   groupProvider = GroupProvider();
   wotProvider = WotProvider();
+  timestampProvider = TimestampProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
@@ -402,6 +403,7 @@ class _MyApp extends State<MyApp> {
     routes = {
       RouterPath.INDEX: (context) => IndexWidget(reload: reload),
       RouterPath.LOGIN: (context) => LoginSignupWidget(),
+      RouterPath.SIGNUP: (context) => SignupWidget(),
       RouterPath.DONATE: (context) => const DonateWidget(),
       RouterPath.USER: (context) => const UserWidget(),
       RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),
@@ -527,6 +529,9 @@ class _MyApp extends State<MyApp> {
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
         ),
+        ListenableProvider<TimestampProvider>.value(
+          value: timestampProvider,
+        ),
       ],
       child: HomeWidget(
         locale: _locale,
@@ -572,150 +577,131 @@ class _MyApp extends State<MyApp> {
   }
 
   ThemeData getLightTheme() {
-    Color color500 = _getMainColor();
-    MaterialColor themeColor = ColorList.getThemeColor(color500.value);
-
-    Color mainTextColor = Colors.black;
-    Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = Colors.grey[100];
-    Color cardColor = Colors.white;
-
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
-    }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
-    }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
-    }
-
+    const CustomColors light = CustomColors.light;
     double baseFontSize = settingProvider.fontSize;
 
-    var textTheme = TextTheme(
-      bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
-      bodyMedium: TextStyle(fontSize: baseFontSize, color: mainTextColor),
-      bodySmall: TextStyle(fontSize: baseFontSize - 2, color: mainTextColor),
+    var textTheme = _textTheme(
+      baseFontSize: baseFontSize,
+      foregroundColor: light.primaryForegroundColor,
     );
-    var titleTextStyle = TextStyle(
-      color: mainTextColor,
+    var titleTextStyle = _titleTextStyle(
+      foregroundColor: light.primaryForegroundColor,
     );
 
+    // Apply custom font if set
     if (settingProvider.fontFamily != null) {
-      textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
-          textStyle: titleTextStyle);
-    }
-
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
-      scaffoldBackgroundColor = Colors.transparent;
-      cardColor = cardColor.withOpacity(0.6);
+      textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
     return ThemeData(
-      platform: TargetPlatform.iOS,
-      primarySwatch: themeColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeColor[500]!,
-        brightness: Brightness.light,
-      ),
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      primaryColor: themeColor[500],
-      appBarTheme: AppBarTheme(
-        backgroundColor: cardColor,
+      extensions: const [light],
+      scaffoldBackgroundColor: light.appBgColor,
+      primaryColor: light.accentColor,
+      focusColor: light.secondaryForegroundColor.withOpacity(0.1),
+      appBarTheme: _appBarTheme(
+        bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+        foregroundColor: light.primaryForegroundColor,
       ),
-      dividerColor: ColorsUtil.hexToColor("#DFE1EB"),
-      cardColor: cardColor,
+      dividerColor: light.separatorColor,
+      cardColor: light.cardBgColor,
       textTheme: textTheme,
-      hintColor: hintColor,
-      buttonTheme: const ButtonThemeData(),
-      shadowColor: Colors.black.withOpacity(0.2),
-      tabBarTheme: TabBarTheme(
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[200],
-      ),
+      hintColor: light.secondaryForegroundColor,
+      shadowColor: light.dimmedColor,
+      tabBarTheme: _tabBarTheme(),
+      canvasColor: light.feedBgColor,
+      iconTheme: _iconTheme(light.primaryForegroundColor),
     );
   }
 
   ThemeData getDarkTheme() {
-    Color color500 = _getMainColor();
-    MaterialColor themeColor = ColorList.getThemeColor(color500.value);
-
-    Color? mainTextColor;
-    Color? topFontColor = Colors.grey[200];
-    Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = const Color.fromARGB(255, 40, 40, 40);
-    Color cardColor = Colors.black;
-
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
-    }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
-    }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
-    }
-
+    const CustomColors dark = CustomColors.dark;
     double baseFontSize = settingProvider.fontSize;
 
-    var textTheme = TextTheme(
-      bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
-      bodyMedium: TextStyle(fontSize: baseFontSize, color: mainTextColor),
-      bodySmall: TextStyle(fontSize: baseFontSize - 2, color: mainTextColor),
+    var textTheme = _textTheme(
+      baseFontSize: baseFontSize,
+      foregroundColor: dark.primaryForegroundColor,
     );
-    var titleTextStyle = TextStyle(
-      color: topFontColor,
+    var titleTextStyle = _titleTextStyle(
+      foregroundColor: dark.primaryForegroundColor,
     );
 
+    // Apply custom font if set
     if (settingProvider.fontFamily != null) {
-      textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
-          textStyle: titleTextStyle);
-    }
-
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
-      scaffoldBackgroundColor = Colors.transparent;
-      cardColor = cardColor.withOpacity(0.6);
+      textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
     return ThemeData(
-      platform: TargetPlatform.iOS,
-      primarySwatch: themeColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeColor[500]!,
-        brightness: Brightness.dark,
+      extensions: const [CustomColors.dark],
+      scaffoldBackgroundColor: dark.appBgColor,
+      primaryColor: dark.accentColor,
+      focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
+      appBarTheme: _appBarTheme(
+        bgColor: dark.navBgColor,
+        titleTextStyle: titleTextStyle,
+        foregroundColor: dark.primaryForegroundColor,
       ),
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      primaryColor: themeColor[500],
-      appBarTheme: AppBarTheme(
-        backgroundColor: cardColor,
+      dividerColor: dark.separatorColor,
+      cardColor: dark.cardBgColor,
+      textTheme: textTheme,
+      hintColor: dark.dimmedColor,
+      shadowColor: Colors.white.withOpacity(0.3),
+      tabBarTheme: _tabBarTheme(),
+      canvasColor: dark.feedBgColor,
+      iconTheme: _iconTheme(dark.primaryForegroundColor),
+    );
+  }
+
+  // Theme methods
+  TextTheme _textTheme({
+    required double baseFontSize,
+    required Color foregroundColor,
+  }) => TextTheme(
+      bodyLarge: TextStyle(
+        fontSize: baseFontSize + 2,
+        color: foregroundColor,
+      ),
+      bodyMedium: TextStyle(
+        fontSize: baseFontSize,
+        color: foregroundColor,
+      ),
+      bodySmall: TextStyle(
+        fontSize: baseFontSize - 2,
+        color: foregroundColor,
+      ),
+    );
+  }
+
+  TextStyle _titleTextStyle({
+    required Color foregroundColor,
+  }) => TextStyle(color: foregroundColor);
+
+  TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
+    GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
+
+  AppBarTheme _appBarTheme({
+    required Color bgColor,
+    required TextStyle titleTextStyle,
+    required Color foregroundColor,
+  }) => AppBarTheme(
+        backgroundColor: bgColor,
         titleTextStyle: titleTextStyle,
         elevation: 0,
         scrolledUnderElevation: 0,
-      ),
-      dividerColor: Colors.grey[200],
-      cardColor: cardColor,
-      textTheme: textTheme,
-      hintColor: hintColor,
-      shadowColor: Colors.white.withOpacity(0.3),
-      tabBarTheme: TabBarTheme(
+        iconTheme: IconThemeData(
+          color: foregroundColor,
+        ),
+      );
+
+  TabBarTheme _tabBarTheme() => TabBarTheme(
         indicatorColor: Colors.white,
         indicatorSize: TabBarIndicatorSize.tab,
         dividerHeight: 0,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.grey[200],
-      ),
-    );
-  }
+      );
+
+  IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
 
   void setGetTimeAgoDefaultLocale(Locale? locale) {
     String? localeName = Intl.defaultLocale;
@@ -731,15 +717,6 @@ class _MyApp extends State<MyApp> {
       }
     }
   }
-}
-
-Color _getMainColor() {
-  Color color500 = const Color(0xff519495);
-  if (settingProvider.themeColor != null) {
-    color500 = Color(settingProvider.themeColor!);
-  }
-  return color500;
-}
 
 final Map<String, int> GetTimeAgoSupportLocale = {
   'ar': 1,
