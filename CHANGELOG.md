@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where groups created externally would not show up. [#146](https://github.com/verse-pbc/issues/issues/146)
 - Fix posting note on new group bugs. [#100](https://github.com/verse-pbc/issues/issues/100)
 - Fixed an issue where the group name would not show up. [#161](https://github.com/verse-pbc/issues/issues/161)
+- Updated colors for light and dark mode. [#151](https://github.com/verse-pbc/issues/issues/151)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.

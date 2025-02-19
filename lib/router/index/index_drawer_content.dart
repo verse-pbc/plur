@@ -15,6 +15,7 @@ import '../../provider/metadata_provider.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
 import '../../data/join_group_parameters.dart';
+import '../../util/theme_util.dart';
 
 /// A drawer widget that displays user information and navigation options.
 class IndexDrawerContent extends StatefulWidget {
@@ -236,8 +237,10 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
 
   /// Displays the account manager modal bottom sheet.
   void _showBasicModalBottomSheet(context) async {
+    final theme = Theme.of(context);
     showModalBottomSheet(
       isScrollControlled: false,
+      backgroundColor: theme.customColors.feedBgColor,
       context: context,
       builder: (BuildContext context) {
         return AccountManagerWidget();
