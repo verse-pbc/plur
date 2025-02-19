@@ -13,7 +13,7 @@ import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/nip07_dialog.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/provider/webview_provider.dart';
 import 'package:nostrmo/util/lightning_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
@@ -125,7 +125,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     var paddingTop = mediaDataCache.padding.top;
     var appBarBG = themeData.appBarTheme.backgroundColor;
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     var _webViewProvider = Provider.of<WebViewProvider>(context);
 
     var btnTopPosition = Base.BASE_PADDING + Base.BASE_PADDING_HALF;
@@ -194,7 +194,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
 
     AppBar? appbar;
     late Widget bodyWidget;
-    if (settingProvider.webviewAppbarOpen == OpenStatus.OPEN) {
+    if (settingsProvider.webviewAppbarOpen == OpenStatus.OPEN) {
       bodyWidget = main;
       appbar = AppBar(
         backgroundColor: appBarBG,

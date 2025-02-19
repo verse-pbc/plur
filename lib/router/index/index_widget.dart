@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
@@ -64,11 +64,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
     WidgetsBinding.instance.addObserver(this);
 
-    if (settingProvider.defaultTab != null) {
-      if (settingProvider.defaultIndex == 1) {
-        globalsInitTab = settingProvider.defaultTab!;
+    if (settingsProvider.defaultTab != null) {
+      if (settingsProvider.defaultIndex == 1) {
+        globalsInitTab = settingsProvider.defaultTab!;
       } else {
-        followInitTab = settingProvider.defaultTab!;
+        followInitTab = settingsProvider.defaultTab!;
       }
     }
 
@@ -114,7 +114,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
   @override
   Future<void> onReady(BuildContext context) async {
-    if (settingProvider.lockOpen == OpenStatus.OPEN && !unlock) {
+    if (settingsProvider.lockOpen == OpenStatus.OPEN && !unlock) {
       doAuth();
     } else {
       setState(() {
@@ -130,7 +130,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     if (nostr == null) {
       return LoginSignupWidget();
     }

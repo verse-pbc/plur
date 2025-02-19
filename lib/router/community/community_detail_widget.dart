@@ -12,7 +12,7 @@ import '../../component/event/event_list_widget.dart';
 import '../../component/event_delete_callback.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
 import '../edit/editor_widget.dart';
 
@@ -65,7 +65,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
       RouterUtil.back(context);
       return Container();
     }
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     final themeData = Theme.of(context);
     var bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
 
@@ -110,7 +110,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
             showCommunity: false,
           );
         },

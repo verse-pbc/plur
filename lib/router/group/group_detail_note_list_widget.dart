@@ -15,7 +15,7 @@ import '../../component/keep_alive_cust_state.dart';
 import '../../component/new_notes_updated_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../provider/relay_provider.dart';
 
@@ -50,7 +50,7 @@ class _GroupDetailNoteListWidgetState
 
   @override
   Widget doBuild(BuildContext context) {
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     groupDetailProvider = Provider.of<GroupDetailProvider>(context);
 
     var eventBox = groupDetailProvider!.notesBox;
@@ -72,7 +72,7 @@ class _GroupDetailNoteListWidgetState
           var event = events[index];
           return EventListWidget(
             event: event,
-            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
         },
         itemCount: events.length,

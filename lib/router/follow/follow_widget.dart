@@ -12,7 +12,7 @@ import '../../component/placeholder/event_list_placeholder.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/follow_new_event_provider.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 
 class FollowWidget extends StatefulWidget {
@@ -36,7 +36,7 @@ class _FollowWidgetState extends KeepAliveCustState<FollowWidget>
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     var _followEventProvider = Provider.of<FollowEventProvider>(context);
 
     var eventBox = _followEventProvider.eventBox;
@@ -57,7 +57,7 @@ class _FollowWidgetState extends KeepAliveCustState<FollowWidget>
         var event = events[index];
         return EventListWidget(
           event: event,
-          showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+          showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
         );
       },
       itemCount: events.length,
