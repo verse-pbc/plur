@@ -10,13 +10,13 @@ import '../../provider/metadata_provider.dart';
 import '../image_widget.dart';
 
 class UserPicWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  double width;
+  final double width;
 
-  Metadata? metadata;
+  final Metadata? metadata;
 
-  UserPicWidget({
+  const UserPicWidget({
     super.key,
     required this.pubkey,
     required this.width,
@@ -62,7 +62,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
             width: widget.width - imageBorder * 2,
             height: widget.width - imageBorder * 2,
             fit: BoxFit.cover,
-            placeholder: (context, url) => CircularProgressIndicator(),
+            placeholder: (context, url) => const CircularProgressIndicator(),
           );
         }
       }
@@ -98,7 +98,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
           width: widget.width,
           height: widget.width,
           fit: BoxFit.cover,
-          placeholder: (context, url) => CircularProgressIndicator(),
+          placeholder: (context, url) => const CircularProgressIndicator(),
         );
       }
     }
