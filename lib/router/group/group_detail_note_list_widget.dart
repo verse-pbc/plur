@@ -3,11 +3,6 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:nostrmo/router/group/no_notes_widget.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
-import 'package:nostr_sdk/event_kind.dart';
-import 'package:nostr_sdk/filter.dart';
-import 'package:nostr_sdk/relay/relay_type.dart';
-import 'package:nostr_sdk/event.dart';
 import 'package:nostrmo/main.dart';
 
 import '../../component/event/event_list_widget.dart';
@@ -17,6 +12,7 @@ import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
+import '../../util/theme_util.dart';
 import '../../provider/relay_provider.dart';
 
 class GroupDetailNoteListWidget extends StatefulWidget {
@@ -52,53 +48,61 @@ class _GroupDetailNoteListWidgetState
   Widget doBuild(BuildContext context) {
     var settingsProvider = Provider.of<SettingsProvider>(context);
     groupDetailProvider = Provider.of<GroupDetailProvider>(context);
-
+    final themeData = Theme.of(context);
     var eventBox = groupDetailProvider!.notesBox;
     var events = eventBox.all();
 
+    Widget content;
     if (events.isEmpty) {
-      return NoNotesWidget(
+      content = NoNotesWidget(
         groupName: widget.groupName,
         onRefresh: onRefresh,
       );
+    } else {
+      preBuild();
+
+      var main = RefreshIndicator(
+        onRefresh: onRefresh,
+        child: ListView.builder(
+          padding: EdgeInsets.zero,
+          controller: scrollController,
+          itemBuilder: (context, index) {
+            var event = events[index];
+            return EventListWidget(
+              event: event,
+              showVideo:
+                  settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+            );
+          },
+          itemCount: events.length,
+        ),
+      );
+
+      var newNotesLength = groupDetailProvider!.newNotesBox.length();
+      if (newNotesLength <= 0) {
+        content = main;
+      } else {
+        List<Widget> stackList = [main];
+        stackList.add(Positioned(
+          top: Base.BASE_PADDING,
+          child: NewNotesUpdatedWidget(
+            num: newNotesLength,
+            onTap: () {
+              groupDetailProvider!.mergeNewEvent();
+              scrollController.jumpTo(0);
+            },
+          ),
+        ));
+        content = Stack(
+          alignment: Alignment.center,
+          children: stackList,
+        );
+      }
     }
-    preBuild();
 
-    var main = RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView.builder(
-        controller: scrollController,
-        itemBuilder: (context, index) {
-          var event = events[index];
-          return EventListWidget(
-            event: event,
-            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
-          );
-        },
-        itemCount: events.length,
-      ),
-    );
-
-    var newNotesLength = groupDetailProvider!.newNotesBox.length();
-    if (newNotesLength <= 0) {
-      return main;
-    }
-
-    List<Widget> stackList = [main];
-    stackList.add(Positioned(
-      top: Base.BASE_PADDING,
-      child: NewNotesUpdatedWidget(
-        num: newNotesLength,
-        onTap: () {
-          groupDetailProvider!.mergeNewEvent();
-          scrollController.jumpTo(0);
-        },
-      ),
-    ));
-
-    return Stack(
-      alignment: Alignment.center,
-      children: stackList,
+    return Container(
+      color: themeData.customColors.feedBgColor,
+      child: content,
     );
   }
 
