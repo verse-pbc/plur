@@ -5,7 +5,7 @@ import 'package:google_mlkit_translation/src/on_device_translator.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
@@ -140,7 +140,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
       return;
     }
 
-    if (settingProvider.openTranslate != OpenStatus.OPEN) {
+    if (settingsProvider.openTranslate != OpenStatus.OPEN) {
       // is close
       if (targetText != null) {
         // set targetText to null
@@ -155,7 +155,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
       if (targetText != null) {
         // targetText had bean translated
         if (targetLanguage != null &&
-            targetLanguage!.bcpCode == settingProvider.translateTarget &&
+            targetLanguage!.bcpCode == settingsProvider.translateTarget &&
             widget.text == sourceText) {
           // and currentTargetLanguage = settingTranslate
           return;
@@ -163,7 +163,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
       }
     }
 
-    var translateTarget = settingProvider.translateTarget;
+    var translateTarget = settingsProvider.translateTarget;
     if (StringUtil.isBlank(translateTarget)) {
       return;
     }
@@ -182,7 +182,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
 
       if (possibleLanguages.isNotEmpty) {
         var pl = possibleLanguages[0];
-        if (!settingProvider.translateSourceArgsCheck(pl.languageTag)) {
+        if (!settingsProvider.translateSourceArgsCheck(pl.languageTag)) {
           if (targetText != null) {
             // set targetText to null
             setState(() {

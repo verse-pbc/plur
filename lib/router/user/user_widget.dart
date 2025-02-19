@@ -16,7 +16,7 @@ import '../../consts/base_consts.dart';
 import '../../data/metadata.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
 import 'user_statistics_widget.dart';
@@ -81,7 +81,7 @@ class _UserWidgetState extends CustState<UserWidget>
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     if (StringUtil.isBlank(pubkey)) {
       pubkey = RouterUtil.routerArgs(context) as String?;
       if (StringUtil.isBlank(pubkey)) {
@@ -190,7 +190,7 @@ class _UserWidgetState extends CustState<UserWidget>
                 return EventListWidget(
                   event: event,
                   showVideo:
-                      settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+                      settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
                 );
               },
               itemCount: box.length(),

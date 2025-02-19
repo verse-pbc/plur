@@ -256,7 +256,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     if (StringUtil.isNotBlank(filepath)) {
       return await Uploader.upload(
         filepath!,
-        imageService: settingProvider.imageService,
+        imageService: settingsProvider.imageService,
       );
     }
   }

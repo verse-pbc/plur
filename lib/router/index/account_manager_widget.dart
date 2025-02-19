@@ -11,7 +11,7 @@ import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/metadata.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
@@ -35,8 +35,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    final settingProvider = Provider.of<SettingProvider>(context);
-    var privateKeyMap = settingProvider.privateKeyMap;
+    final settingsProvider = Provider.of<SettingsProvider>(context);
+    var privateKeyMap = settingsProvider.privateKeyMap;
 
     final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
@@ -72,7 +72,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
       list.add(AccountManagerItemWidget(
         index: index,
         accountKey: value,
-        isCurrent: settingProvider.privateKeyIndex == index,
+        isCurrent: settingsProvider.privateKeyIndex == index,
         onLoginTap: onLoginTap,
         onLogoutTap: (index) {
           onLogoutTap(index, context: context);
@@ -115,7 +115,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
   Future<void> addAccount() async {
     RouterUtil.back(context);
     await RouterUtil.router(context, RouterPath.LOGIN, true);
-    settingProvider.notifyListeners();
+    settingsProvider.notifyListeners();
   }
 
   bool addAccountCheck(BuildContext p1, String privateKey) {
@@ -141,19 +141,19 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
   }
 
   Future<void> doLogin() async {
-    nostr = await relayProvider.genNostrWithKey(settingProvider.privateKey!);
+    nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
   }
 
   Future<void> onLoginTap(int index) async {
-    if (settingProvider.privateKeyIndex != index) {
+    if (settingsProvider.privateKeyIndex != index) {
       clearCurrentMemInfo();
       nostr!.close();
       nostr = null;
 
-      settingProvider.privateKeyIndex = index;
+      settingsProvider.privateKeyIndex = index;
 
       // signOut complete
-      if (settingProvider.privateKey != null) {
+      if (settingsProvider.privateKey != null) {
         // use next privateKey to login
         var cancelFunc = BotToast.showLoading();
         try {
@@ -161,7 +161,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
         } finally {
           cancelFunc.call();
         }
-        settingProvider.notifyListeners();
+        settingsProvider.notifyListeners();
         RouterUtil.back(context);
       }
     }
@@ -169,7 +169,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
 
   static Future<void> onLogoutTap(int index,
       {bool routerBack = true, BuildContext? context}) async {
-    var oldIndex = settingProvider.privateKeyIndex;
+    var oldIndex = settingsProvider.privateKeyIndex;
     clearLocalData(index);
 
     if (oldIndex == index) {
@@ -178,14 +178,14 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
       nostr = null;
 
       // signOut complete
-      if (settingProvider.privateKey != null) {
+      if (settingsProvider.privateKey != null) {
         // use next privateKey to login
         nostr =
-            await relayProvider.genNostrWithKey(settingProvider.privateKey!);
+            await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
       }
     }
 
-    settingProvider.notifyListeners();
+    settingsProvider.notifyListeners();
     if (routerBack && context != null) {
       RouterUtil.back(context);
     }
@@ -208,7 +208,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
 
   static void clearLocalData(int index) {
     // remove private key
-    settingProvider.removeKey(index);
+    settingsProvider.removeKey(index);
     // clear local db
     DMSessionInfoDB.deleteAll(index);
     EventDB.deleteAll(index);

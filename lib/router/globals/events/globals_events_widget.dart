@@ -12,7 +12,7 @@ import '../../../component/placeholder/event_list_placeholder.dart';
 import '../../../consts/base.dart';
 import '../../../consts/base_consts.dart';
 import '../../../main.dart';
-import '../../../provider/setting_provider.dart';
+import '../../../provider/settings_provider.dart';
 import '../../../util/dio_util.dart';
 import '../../../util/table_mode_util.dart';
 import 'globals_event_item_widget.dart';
@@ -36,7 +36,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     if (eventBox.isEmpty()) {
       return EventListPlaceholder(
         onRefresh: refresh,
@@ -53,7 +53,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
           var event = list[index];
           return EventListWidget(
             event: event,
-            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
         },
         itemCount: list.length,
