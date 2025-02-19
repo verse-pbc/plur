@@ -10,13 +10,14 @@ import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 import 'package:super_tooltip/super_tooltip.dart';
+import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
-import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 
 class GroupDetailWidget extends StatefulWidget {
   static bool showTooltipOnGroupCreation = false;
@@ -71,7 +72,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
 
     String title = "${localization.Group} ${localization.Detail}";
     Widget flexBackground = Container(
-      color: themeData.hintColor.withOpacity(0.3),
+      color: themeData.appBarTheme.backgroundColor,
     );
     if (groupMetadata != null) {
       if (StringUtil.isNotBlank(groupMetadata.name)) {
@@ -96,6 +97,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       flexibleSpace: FlexibleSpaceBar(
         background: flexBackground,
       ),
+      bottom: const AppBarBottomBorder(),
       actions: [
         if (isAdmin)
           IconButton(
@@ -145,7 +147,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: _jumpToAddNote,
-          backgroundColor: ColorList.accent,
+          backgroundColor: themeData.customColors.accentColor,
           child: const Icon(Icons.add, color: Colors.white, size: 29),
           shape: CircleBorder()
       )
