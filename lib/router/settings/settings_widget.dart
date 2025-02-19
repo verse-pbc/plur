@@ -33,24 +33,24 @@ import '../../provider/setting_provider.dart';
 import '../../provider/uploader.dart';
 import '../../util/auth_util.dart';
 import '../../util/locale_util.dart';
-import 'setting_group_item_widget.dart';
-import 'setting_group_title_widget.dart';
+import 'settings_group_item_widget.dart';
+import 'settings_group_title_widget.dart';
 
-class SettingWidget extends StatefulWidget {
+class SettingsWidget extends StatefulWidget {
   Function indexReload;
 
-  SettingWidget({
+  SettingsWidget({
     super.key,
     required this.indexReload,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _SettingWidgetState();
+    return _SettingsWidgetState();
   }
 }
 
-class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
+class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void resetTheme() {
     widget.indexReload();
   }
@@ -84,19 +84,19 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     List<Widget> list = [];
 
     list.add(
-      SettingGroupItemWidget(
+      SettingsGroupItemWidget(
         name: localization.Language,
         value: getI18nList(settingProvider.i18n, settingProvider.i18nCC).name,
         onTap: pickI18N,
       ),
     );
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Image_Compress,
       value: getCompressList(settingProvider.imgCompress).name,
       onTap: pickImageCompressList,
     ));
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Privacy_Lock,
         value: getLockOpenList(settingProvider.lockOpen).name,
         onTap: pickLockOpenList,
@@ -107,31 +107,31 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     if (StringUtil.isBlank(settingProvider.nwcUrl)) {
       nwcValue = getOpenList(OpenStatus.CLOSE).name;
     }
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: "NWC ${localization.Settings}",
       value: nwcValue,
       onTap: () {
         RouterUtil.router(context, RouterPath.NWC_SETTING);
       },
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: "Wot ${localization.Filter}",
       value: getOpenListDefault(settingProvider.wotFilter).name,
       onTap: pickWotFilter,
     ));
 
-    list.add(SettingGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
+    list.add(SettingsGroupItemWidget(
       name: localization.Link_preview,
       value: getOpenList(settingProvider.linkPreview).name,
       onTap: pickLinkPreview,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Video_preview_in_list,
       value: getOpenList(settingProvider.videoPreviewInList).name,
       onTap: pickVideoPreviewInList,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Image_service,
       value: getImageService(settingProvider.imageService).name,
       onTap: _pickImageService,
@@ -139,80 +139,80 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     if ((settingProvider.imageService == ImageServices.NIP_96 ||
             settingProvider.imageService == ImageServices.BLOSSOM) &&
         StringUtil.isNotBlank(settingProvider.imageServiceAddr)) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Image_service_path,
         value: settingProvider.imageServiceAddr,
       ));
     }
 
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Limit_Note_Height,
       value: getOpenList(settingProvider.limitNoteHeight).name,
       onTap: pickLimitNoteHeight,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Forbid_profile_picture,
       value: getOpenList(settingProvider.profilePicturePreview).name,
       onTap: pickProfilePicturePreview,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Forbid_image,
       value: getOpenList(settingProvider.imagePreview).name,
       onTap: pickImagePreview,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Forbid_video,
       value: getOpenList(settingProvider.videoPreview).name,
       onTap: pickVideoPreview,
     ));
     if (!PlatformUtil.isWeb()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: "Blurhash ${localization.Image}",
         value: getOpenList(settingProvider.openBlurhashImage).name,
         onTap: pickOpenBlurhashImage,
       ));
     }
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Translate,
         value: getOpenTranslate(settingProvider.openTranslate).name,
         onTap: pickOpenTranslate,
       ));
       if (settingProvider.openTranslate == OpenStatus.OPEN) {
-        list.add(SettingGroupItemWidget(
+        list.add(SettingsGroupItemWidget(
           name: localization.Translate_Source_Language,
           value: settingProvider.translateSourceArgs,
           onTap: pickTranslateSource,
         ));
-        list.add(SettingGroupItemWidget(
+        list.add(SettingsGroupItemWidget(
           name: localization.Translate_Target_Language,
           value: settingProvider.translateTarget,
           onTap: pickTranslateTarget,
         ));
       }
     }
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Broadcast_When_Boost,
       value: getOpenList(settingProvider.broadcaseWhenBoost).name,
       onTap: pickBroadcaseWhenBoost,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Auto_Open_Sensitive_Content,
       value: getOpenListDefault(settingProvider.autoOpenSensitive).name,
       onTap: pickAutoOpenSensitive,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Thread_Mode,
       value: getThreadMode(settingProvider.threadMode).name,
       onTap: pickThreadMode,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Max_Sub_Notes,
       value: "${settingProvider.maxSubEventLevel ?? ""}",
       onTap: inputMaxSubNotesNumber,
     ));
 
-    list.add(SettingGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
+    list.add(SettingsGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
     String? networkHintText = settingProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
       networkHintText = localization.Please_input + " " + localization.Network;
@@ -226,38 +226,38 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         fontSize: 16,
       ),
     );
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Network,
       onTap: inputNetwork,
       child: networkWidget,
     ));
     if (!PlatformUtil.isWeb()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.LocalRelay,
         value: getOpenList(settingProvider.relayLocal).name,
         onTap: pickRelayLocal,
       ));
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Relay_Mode,
         value: getRelayMode(settingProvider.relayMode).name,
         onTap: pickRelayModes,
       ));
       if (settingProvider.relayMode != RelayMode.BASE_MODE) {
-        list.add(SettingGroupItemWidget(
+        list.add(SettingsGroupItemWidget(
           name: localization.Event_Sign_Check,
           value: getOpenListDefault(settingProvider.eventSignCheck).name,
           onTap: pickEventSignCheck,
         ));
       }
     }
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Hide_Relay_Notices,
       value: getOpenList(settingProvider.hideRelayNotices).name,
       onTap: pickHideRelayNotices,
     ));
 
-    list.add(SettingGroupTitleWidget(iconData: Icons.source, title: localization.Data));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupTitleWidget(iconData: Icons.source, title: localization.Data));
+    list.add(SettingsGroupItemWidget(
       name: localization.Delete_Account,
       nameColor: Colors.red,
       onTap: askToDeleteAccount,
