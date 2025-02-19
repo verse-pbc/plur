@@ -32,7 +32,7 @@ class RouterPath {
   static const String TAG_DETAIL = "/tagDetail";
 
   /// The route path for the Settings screen.
-  static const String SETTINGS = "/setting";
+  static const String SETTINGS = "/settings";
 
   static const String QRSCANNER = "/qrScanner";
   static const String WEBUTILS = "/webUtils";
