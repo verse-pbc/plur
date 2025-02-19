@@ -4,6 +4,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  FLUTTER_VERSION: 3.29.0
+
 on:
   pull_request:
     branches: 
@@ -17,17 +20,104 @@ jobs:
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
+
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.24.0
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+
       - name: Install dependencies
         run: flutter pub get
+
       - name: Run tests
-        run: flutter test
+        run: |
+          mkdir -p test-results
+          flutter test --machine > test-results/flutter_test_results.json
+
+      - name: Process test results
+        run: |
+          echo "### Flutter Test Results" > test-results/report.md
+          echo "---" >> test-results/report.md
+          
+          # Extract test results and format them for the comment
+          jq -r '.[] | select(.type == "testDone") | 
+            if .result == "success" then
+              "✅ " + .testName + "\n"
+            elif .result == "failure" then
+              "❌ " + .testName + "\n"
+            elif .result == "skipped" then
+              "⏭️ " + .testName + "\n"
+            else
+              "⚠️ " + .testName + "\n"
+            end' test-results/flutter_test_results.json >> test-results/report.md
+          
+          # Add summary
+          echo "---" >> test-results/report.md
+          TOTAL=$(jq -r '.[] | select(.type == "testDone") | .result' test-results/flutter_test_results.json | wc -l)
+          PASSED=$(jq -r '.[] | select(.type == "testDone") | select(.result == "success") | .result' test-results/flutter_test_results.json | wc -l)
+          FAILED=$(jq -r '.[] | select(.type == "testDone") | select(.result == "failure") | .result' test-results/flutter_test_results.json | wc -l)
+          SKIPPED=$(jq -r '.[] | select(.type == "testDone") | select(.result == "skipped") | .result' test-results/flutter_test_results.json | wc -l)
+          
+          echo "**Summary:**" >> test-results/report.md
+          echo "- Total Tests: $TOTAL" >> test-results/report.md
+          echo "- ✅ Passed: $PASSED" >> test-results/report.md
+          echo "- ❌ Failed: $FAILED" >> test-results/report.md
+          echo "- ⏭️ Skipped: $SKIPPED" >> test-results/report.md
+          
+      - name: Find Comment
+        uses: peter-evans/find-comment@v2
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: 'github-actions[bot]'
+          body-includes: Flutter Test Results
+          
+      - name: Create or Update Comment
+        uses: peter-evans/create-or-update-comment@v3
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body-file: test-results/report.md
+          edit-mode: replace
+          
+      - name: Upload test results artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: test-results/
+          
+      - name: Check for test failures
+        run: |
+          FAILED=$(jq -r '.[] | select(.type == "testDone") | select(.result == "failure") | .result' test-results/flutter_test_results.json | wc -l)
+          if [ $FAILED -gt 0 ]; then
+            exit 1
+          fi
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'stable'
+          cache: true
+          cache-key: flutter-:os:-:channel:-:version:-:arch:-:hash:-${{ hashFiles('**/pubspec.lock') }}
+
+      - name: Install dependencies
+        run: flutter pub get
+
       - name: Build APK
         run: flutter build apk
+
       - name: Build App Bundle
         run: flutter build appbundle
+
       - name: Build iOS
         run: flutter build ios --release --no-codesign
