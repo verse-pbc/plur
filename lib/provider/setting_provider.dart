@@ -321,8 +321,6 @@ class SettingProvider extends ChangeNotifier {
 
   int? get openBlurhashImage => _settingData!.openBlurhashImage;
 
-  int? get pubkeyColor => _settingData!.pubkeyColor;
-
   int? get wotFilter => _settingData!.wotFilter;
 
   set settingData(SettingData o) {
