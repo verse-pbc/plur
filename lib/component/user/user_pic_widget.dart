@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/setting_provider.dart';
-import 'package:nostrmo/util/colors_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
