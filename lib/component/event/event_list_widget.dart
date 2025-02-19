@@ -6,6 +6,7 @@ import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:nostrmo/util/theme_util.dart';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
@@ -31,7 +32,7 @@ class EventListWidget extends StatefulWidget {
   bool showCommunity;
 
   EventListWidget({
-    super.key, 
+    super.key,
     required this.event,
     this.pagePubkey,
     this.jumpable = true,
@@ -54,7 +55,7 @@ class _EventListWidgetState extends State<EventListWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
+    var cardColor = themeData.customColors.cardBgColor;
     var eventRelation = EventRelation.fromEvent(widget.event);
 
     Widget main = Screenshot(

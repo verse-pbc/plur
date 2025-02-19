@@ -9,8 +9,8 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
 
-import '../../consts/colors.dart';
 import 'community_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
 
@@ -34,6 +34,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
     return Scaffold(
       appBar: AppBar(
+        bottom: const AppBarBottomBorder(),
         actions: [
           GestureDetector(
             onTap: showCreateCommunityDialog,
@@ -47,7 +48,6 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         ],
       ),
       body: Container(
-        color: ColorList.plurPurple,
         child: groupIds.isEmpty
             ? const Center(
                 child: NoCommunitiesWidget(),
