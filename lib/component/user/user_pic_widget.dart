@@ -4,6 +4,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/setting_provider.dart';
 import 'package:nostrmo/util/colors_util.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/metadata.dart';
@@ -75,7 +76,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(widget.width / 2),
-          color: ColorsUtil.hexToColor("#${widget.pubkey.substring(0, 6)}"),
+          color: themeData.customColors.accentColor,
         ),
         child: Container(
           width: widget.width - imageBorder * 2,
