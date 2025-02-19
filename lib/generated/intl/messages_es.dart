@@ -85,6 +85,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Copiar json dinámico"),
         "Copy_Note_Pubkey":
             MessageLookupByLibrary.simpleMessage("Copiar autor dinámico"),
+        "Copy_and_Continue":
+            MessageLookupByLibrary.simpleMessage("Copiar y continuar"),
         "Copy_current_Url":
             MessageLookupByLibrary.simpleMessage("Copiar el enlace actual"),
         "Copy_init_Url":
@@ -162,6 +164,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("Etiquetas"),
         "Hide": MessageLookupByLibrary.simpleMessage("Ocultar"),
         "Home": MessageLookupByLibrary.simpleMessage("Página de inicio"),
+        "I_understand_I_shouldnt_share_this_key":
+            MessageLookupByLibrary.simpleMessage(
+                "Comprendo que no debo compartir esta clave con nadie, y que debo guardarla en forma segura (p.ej. en un administrador de contraseñas)."),
         "Image_Compress":
             MessageLookupByLibrary.simpleMessage("Compresión de imágenes"),
         "Image_or_Video":
@@ -343,6 +348,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Debería haber un universo aquí."),
+        "This_is_the_key_to_your_account": MessageLookupByLibrary.simpleMessage(
+            "Esta es la clave de tu cuenta"),
         "This_note_contains_sensitive_content":
             MessageLookupByLibrary.simpleMessage(
                 "La dinámica contiene contenido sensible"),
@@ -414,6 +421,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "or": MessageLookupByLibrary.simpleMessage("O"),
         "poll_option_info": MessageLookupByLibrary.simpleMessage(
             "Información sobre las opciones de votación"),
-        "replied": MessageLookupByLibrary.simpleMessage("Respuesta")
+        "replied": MessageLookupByLibrary.simpleMessage("Respuesta"),
+        "view_key": MessageLookupByLibrary.simpleMessage("ver clave")
       };
 }

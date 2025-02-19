@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
 import '../../provider/metadata_provider.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
 import '../image_widget.dart';
 import '../user/user_pic_widget.dart';
 

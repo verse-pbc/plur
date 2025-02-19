@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
-import 'package:nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/hash_util.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
