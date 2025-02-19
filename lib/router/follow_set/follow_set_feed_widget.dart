@@ -13,7 +13,7 @@ import '../../component/event/event_list_widget.dart';
 import '../../component/placeholder/event_list_placeholder.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 
 class FollowSetFeedWidget extends StatefulWidget {
@@ -74,7 +74,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     }
 
     final themeData = Theme.of(context);
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     var mediaQuery = MediaQuery.of(context);
     var padding = mediaQuery.padding;
     mainColor = themeData.primaryColor;
@@ -110,7 +110,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
         var event = events[index];
         return EventListWidget(
           event: event,
-          showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+          showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
         );
       },
       itemCount: events.length + 1,

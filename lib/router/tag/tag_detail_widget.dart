@@ -11,7 +11,7 @@ import '../../component/tag_info_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
 
 import '../../util/table_mode_util.dart';
@@ -55,7 +55,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     if (StringUtil.isBlank(tag)) {
       var arg = RouterUtil.routerArgs(context);
       if (arg != null && arg is String) {
@@ -109,7 +109,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
         },
         itemCount: box.length() + 1,

@@ -76,7 +76,7 @@ import 'provider/pc_router_fake_provider.dart';
 import 'provider/relay_provider.dart';
 import 'provider/notice_provider.dart';
 import 'provider/replaceable_event_provider.dart';
-import 'provider/setting_provider.dart';
+import 'provider/settings_provider.dart';
 import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
@@ -111,7 +111,7 @@ import 'util/media_data_cache.dart';
 
 late SharedPreferences sharedPreferences;
 
-late SettingProvider settingProvider;
+late SettingsProvider settingsProvider;
 
 late MetadataProvider metadataProvider;
 
@@ -207,10 +207,10 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
   sharedPreferences = dataFutureResultList[1] as SharedPreferences;
 
-  var settingTask = SettingProvider.getInstance();
+  var settingTask = SettingsProvider.getInstance();
   var metadataTask = MetadataProvider.getInstance();
   var futureResultList = await Future.wait([settingTask, metadataTask]);
-  settingProvider = futureResultList[0] as SettingProvider;
+  settingsProvider = futureResultList[0] as SettingsProvider;
   metadataProvider = futureResultList[1] as MetadataProvider;
   contactListProvider = ContactListProvider.getInstance();
   followEventProvider = FollowEventProvider();
@@ -219,7 +219,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   mentionMeNewProvider = MentionMeNewProvider();
   dmProvider = DMProvider();
   indexProvider = IndexProvider(
-    indexTap: settingProvider.defaultIndex,
+    indexTap: settingsProvider.defaultIndex,
   );
   eventReactionsProvider = EventReactionsProvider();
   noticeProvider = NoticeProvider();
@@ -295,16 +295,16 @@ Future<void> main() async {
 
   await initializeProviders();
 
-  if (StringUtil.isNotBlank(settingProvider.network)) {
-    var network = settingProvider.network;
+  if (StringUtil.isNotBlank(settingsProvider.network)) {
+    var network = settingsProvider.network;
     network = network!.trim();
     SocksProxy.initProxy(proxy: network);
   }
 
-  if (StringUtil.isNotBlank(settingProvider.privateKey)) {
-    nostr = await relayProvider.genNostrWithKey(settingProvider.privateKey!);
+  if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
+    nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
 
-    if (nostr != null && settingProvider.wotFilter == OpenStatus.OPEN) {
+    if (nostr != null && settingsProvider.wotFilter == OpenStatus.OPEN) {
       var pubkey = nostr!.publicKey;
       wotProvider.init(pubkey);
     }
@@ -377,11 +377,11 @@ class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Locale? _locale;
-    if (StringUtil.isNotBlank(settingProvider.i18n)) {
+    if (StringUtil.isNotBlank(settingsProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
-        if (item.languageCode == settingProvider.i18n &&
-            item.countryCode == settingProvider.i18nCC) {
-          _locale = Locale(settingProvider.i18n!, settingProvider.i18nCC);
+        if (item.languageCode == settingsProvider.i18n &&
+            item.countryCode == settingsProvider.i18nCC) {
+          _locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
           break;
         }
       }
@@ -392,9 +392,9 @@ class _MyApp extends State<MyApp> {
     var darkTheme = getDarkTheme();
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
-    if (settingProvider.themeStyle == ThemeStyle.LIGHT) {
+    if (settingsProvider.themeStyle == ThemeStyle.LIGHT) {
       defaultTheme = lightTheme;
-    } else if (settingProvider.themeStyle == ThemeStyle.DARK) {
+    } else if (settingsProvider.themeStyle == ThemeStyle.DARK) {
       defaultTheme = darkTheme;
     } else {
       defaultTheme = lightTheme;
@@ -446,8 +446,8 @@ class _MyApp extends State<MyApp> {
 
     return MultiProvider(
       providers: [
-        ListenableProvider<SettingProvider>.value(
-          value: settingProvider,
+        ListenableProvider<SettingsProvider>.value(
+          value: settingsProvider,
         ),
         ListenableProvider<MetadataProvider>.value(
           value: metadataProvider,
@@ -586,17 +586,17 @@ class _MyApp extends State<MyApp> {
     var scaffoldBackgroundColor = Colors.grey[100];
     Color cardColor = Colors.white;
 
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
+    if (settingsProvider.mainFontColor != null) {
+      mainTextColor = Color(settingsProvider.mainFontColor!);
     }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
+    if (settingsProvider.hintFontColor != null) {
+      hintColor = Color(settingsProvider.hintFontColor!);
     }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
+    if (settingsProvider.cardColor != null) {
+      cardColor = Color(settingsProvider.cardColor!);
     }
 
-    double baseFontSize = settingProvider.fontSize;
+    double baseFontSize = settingsProvider.fontSize;
 
     var textTheme = TextTheme(
       bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
@@ -607,14 +607,14 @@ class _MyApp extends State<MyApp> {
       color: mainTextColor,
     );
 
-    if (settingProvider.fontFamily != null) {
+    if (settingsProvider.fontFamily != null) {
       textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
+          GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);
+      titleTextStyle = GoogleFonts.getFont(settingsProvider.fontFamily!,
           textStyle: titleTextStyle);
     }
 
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
+    if (StringUtil.isNotBlank(settingsProvider.backgroundImage)) {
       scaffoldBackgroundColor = Colors.transparent;
       cardColor = cardColor.withOpacity(0.6);
     }
@@ -660,17 +660,17 @@ class _MyApp extends State<MyApp> {
     var scaffoldBackgroundColor = const Color.fromARGB(255, 40, 40, 40);
     Color cardColor = Colors.black;
 
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
+    if (settingsProvider.mainFontColor != null) {
+      mainTextColor = Color(settingsProvider.mainFontColor!);
     }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
+    if (settingsProvider.hintFontColor != null) {
+      hintColor = Color(settingsProvider.hintFontColor!);
     }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
+    if (settingsProvider.cardColor != null) {
+      cardColor = Color(settingsProvider.cardColor!);
     }
 
-    double baseFontSize = settingProvider.fontSize;
+    double baseFontSize = settingsProvider.fontSize;
 
     var textTheme = TextTheme(
       bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
@@ -681,14 +681,14 @@ class _MyApp extends State<MyApp> {
       color: topFontColor,
     );
 
-    if (settingProvider.fontFamily != null) {
+    if (settingsProvider.fontFamily != null) {
       textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
+          GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);
+      titleTextStyle = GoogleFonts.getFont(settingsProvider.fontFamily!,
           textStyle: titleTextStyle);
     }
 
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
+    if (StringUtil.isNotBlank(settingsProvider.backgroundImage)) {
       scaffoldBackgroundColor = Colors.transparent;
       cardColor = cardColor.withOpacity(0.6);
     }
@@ -741,8 +741,8 @@ class _MyApp extends State<MyApp> {
 
 Color _getMainColor() {
   Color color500 = const Color(0xff519495);
-  if (settingProvider.themeColor != null) {
-    color500 = Color(settingProvider.themeColor!);
+  if (settingsProvider.themeColor != null) {
+    color500 = Color(settingsProvider.themeColor!);
   }
   return color500;
 }

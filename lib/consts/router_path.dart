@@ -52,7 +52,7 @@ class RouterPath {
   static const String GROUP_MEMBERS = "/groupMembers";
 
   static String getThreadDetailPath() {
-    if (settingProvider.threadMode == ThreadMode.FULL_MODE) {
+    if (settingsProvider.threadMode == ThreadMode.FULL_MODE) {
       return THREAD_DETAIL;
     }
 

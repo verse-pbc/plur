@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../component/add_btn_wrapper_widget.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../edit/editor_widget.dart';
 
 class IndexBottomBar extends StatefulWidget {
@@ -117,8 +117,8 @@ class IndexBottomBarButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
-    // var settingProvider = Provider.of<SettingProvider>(context);
-    // var bottomIconColor = settingProvider.bottomIconColor;
+    // var settingsProvider = Provider.of<SettingsProvider>(context);
+    // var bottomIconColor = settingsProvider.bottomIconColor;
 
     Color? selectedColor = mainColor;
 
