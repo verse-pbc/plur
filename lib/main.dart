@@ -29,6 +29,7 @@ import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members_widget.dart';
+import 'package:nostrmo/router/group/group_info_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/signup/signup_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
@@ -441,6 +442,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_DETAIL: (context) => const GroupDetailWidget(),
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
+      RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
     };
 
     return MultiProvider(
