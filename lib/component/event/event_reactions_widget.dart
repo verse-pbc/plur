@@ -592,7 +592,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         eventReactionsProvider.addRepost(widget.event.id);
       }
 
-      if (settingProvider.broadcaseWhenBoost == OpenStatus.OPEN) {
+      if (settingsProvider.broadcaseWhenBoost == OpenStatus.OPEN) {
         nostr!.broadcase(widget.event);
       }
     } else if (value == "quote") {
