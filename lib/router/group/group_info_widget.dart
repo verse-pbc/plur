@@ -22,7 +22,7 @@ class GroupInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
-    final theme = Theme.of(context);
+    final themeData = Theme.of(context);
     final localization = S.of(context);
 
     final argIntf = RouterUtil.routerArgs(context);
@@ -45,7 +45,7 @@ class GroupInfoWidget extends StatelessWidget {
         title: Text(
           localization.Group_Info,
           style: TextStyle(
-            color: theme.customColors.primaryForegroundColor,
+            color: themeData.customColors.primaryForegroundColor,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -85,8 +85,8 @@ class GroupInfoWidget extends StatelessWidget {
                     // Group Name
                     Text(
                       metadata.name ?? metadata.groupId,
-                      style: theme.textTheme.headlineSmall?.copyWith(
-                        color: theme.customColors.primaryForegroundColor,
+                      style: themeData.textTheme.headlineSmall?.copyWith(
+                        color: themeData.customColors.primaryForegroundColor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -94,8 +94,8 @@ class GroupInfoWidget extends StatelessWidget {
                     // Group Status and Member Count
                     Text(
                       _groupStatusText(metadata, memberCount, localization),
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        color: theme.customColors.dimmedColor,
+                      style: themeData.textTheme.bodyMedium?.copyWith(
+                        color: themeData.customColors.dimmedColor,
                       ),
                     ),
                     const SizedBox(height: 25),
@@ -106,7 +106,7 @@ class GroupInfoWidget extends StatelessWidget {
               if (metadata.about != null)
                 Text(
                   metadata.about!,
-                  style: theme.textTheme.bodyMedium,
+                  style: themeData.textTheme.bodyMedium,
                   textAlign: TextAlign.start,
                 ),
             ],
