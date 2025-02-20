@@ -186,7 +186,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
       return;
     }
 
-    doCopy(settingProvider.privateKey);
+    doCopy(settingsProvider.privateKey);
   }
 
   void copyKey() {
@@ -195,7 +195,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     }
 
     if (nostr!.nostrSigner is LocalNostrSigner) {
-      var pk = settingProvider.privateKey;
+      var pk = settingsProvider.privateKey;
       var nip19Key = Nip19.encodePrivateKey(pk!);
       doCopy(nip19Key);
     }

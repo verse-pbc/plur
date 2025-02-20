@@ -251,7 +251,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     if (StringUtil.isNotBlank(filepath)) {
       return await Uploader.upload(
         filepath!,
-        imageService: settingProvider.imageService,
+        imageService: settingsProvider.imageService,
       );
     }
   }

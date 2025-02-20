@@ -17,7 +17,7 @@ import '../../consts/base_consts.dart';
 import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
 
@@ -67,7 +67,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
     final themeData = Theme.of(context);
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     preBuild();
 
     Widget? suffixWidget;
@@ -144,7 +144,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
             return EventListWidget(
               event: event,
               showVideo:
-                  settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+                  settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
             );
           },
           itemCount: events.length,
@@ -160,7 +160,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
             return EventListWidget(
               event: event,
               showVideo:
-                  settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+                  settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
             );
           },
           itemCount: itemLength,

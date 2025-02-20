@@ -36,6 +36,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Add_account_and_login":
             MessageLookupByLibrary.simpleMessage("Add account and login?"),
         "Add_now": MessageLookupByLibrary.simpleMessage("Add now"),
+        "Add_test_groups":
+            MessageLookupByLibrary.simpleMessage("Add test groups"),
         "Add_this_relay_to_local":
             MessageLookupByLibrary.simpleMessage("Add this relay to local?"),
         "Add_to_known_list":
@@ -53,8 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Authenticat need"),
         "Auto_Open_Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Auto Open Sensitive Content"),
-        "Background_Image":
-            MessageLookupByLibrary.simpleMessage("Background Image"),
         "Backup_and_Safety_tips":
             MessageLookupByLibrary.simpleMessage("Backup and Safety tips"),
         "Backup_my_notes":
@@ -68,7 +68,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Begin to load Contact History"),
         "Block": MessageLookupByLibrary.simpleMessage("Block"),
         "Blocks": MessageLookupByLibrary.simpleMessage("Blocks"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("Bookmark"),
         "Boost": MessageLookupByLibrary.simpleMessage("Boost"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("Broadcast"),
         "Broadcast_When_Boost":
@@ -78,7 +77,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Cache": MessageLookupByLibrary.simpleMessage("Cache"),
         "Cache_Relay": MessageLookupByLibrary.simpleMessage("Cache Relay"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
-        "Card_Color": MessageLookupByLibrary.simpleMessage("Card Color"),
         "Chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "Clear_All_Data":
             MessageLookupByLibrary.simpleMessage("Clear All Data"),
@@ -168,8 +166,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Followed Communities"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("Followed Tags"),
         "Following": MessageLookupByLibrary.simpleMessage("Following"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("Font Family"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("Font Size"),
         "Forbid": MessageLookupByLibrary.simpleMessage("Forbid"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Forbid image"),
         "Forbid_profile_picture":
@@ -182,7 +178,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Generate a new private key"),
         "Global": MessageLookupByLibrary.simpleMessage("Global"),
-        "Globals": MessageLookupByLibrary.simpleMessage("Globals"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
         "Group": MessageLookupByLibrary.simpleMessage("Group"),
@@ -193,8 +188,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hide": MessageLookupByLibrary.simpleMessage("Hide"),
         "Hide_Relay_Notices":
             MessageLookupByLibrary.simpleMessage("Hide Relay Notices"),
-        "Hint_Font_Color":
-            MessageLookupByLibrary.simpleMessage("Hint Font Color"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Hour": MessageLookupByLibrary.simpleMessage("Hour"),
         "I_understand_I_shouldnt_share_this_key":
@@ -233,7 +226,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Input relay address."),
         "Join_Group": MessageLookupByLibrary.simpleMessage("Join Group"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Key Backup"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "Light": MessageLookupByLibrary.simpleMessage("Light"),
         "Lightning_Address":
@@ -253,8 +245,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Login With NIP07 Extension"),
         "Login_fail": MessageLookupByLibrary.simpleMessage("Login fail"),
         "Lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
-        "Main_Font_Color":
-            MessageLookupByLibrary.simpleMessage("Main Font Color"),
         "Max_Sub_Notes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
         "Member": MessageLookupByLibrary.simpleMessage("Member"),
         "Members": MessageLookupByLibrary.simpleMessage("Members"),
@@ -407,7 +397,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "Submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "Sync_Upload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Table Mode"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("Take photo"),
         "Take_video": MessageLookupByLibrary.simpleMessage("Take video"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Temp Relays"),
@@ -418,8 +407,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "The key is a random string that resembles your account password. Anyone with this key can access and control your account."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Theme Color"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Theme Style"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "There should be an universe here"),
@@ -457,7 +444,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Wear"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC Permission"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("Web Appbar"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Web Utils"),
         "Website": MessageLookupByLibrary.simpleMessage("Website"),
         "What_s_happening":

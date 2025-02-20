@@ -337,14 +337,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     if (privateKey != null && privateKey is String) {
       _doPreLogin();
 
-      settingProvider.addAndChangePrivateKey(privateKey, updateUI: false);
+      settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
       nostr = await relayProvider.genNostrWithKey(privateKey);
 
       if (backAfterLogin) {
         RouterUtil.back(context);
       }
 
-      settingProvider.notifyListeners();
+      settingsProvider.notifyListeners();
       // Marks the login as the first one, so the contact data can be properly
       // downloaded.
       firstLogin = true;
@@ -387,7 +387,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       _doPreLogin();
 
       var npubKey = Nip19.encodePubKey(pubkey!);
-      settingProvider.addAndChangePrivateKey(npubKey, updateUI: false);
+      settingsProvider.addAndChangePrivateKey(npubKey, updateUI: false);
 
       var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
       nostr = await relayProvider.genNostr(pubkeyOnlySigner);
@@ -402,7 +402,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         }
 
         var bunkerLink = info.toString();
-        settingProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
+        settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
 
         nostr = await relayProvider.genNostrWithKey(bunkerLink);
       } finally {
@@ -424,7 +424,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       _doPreLogin();
 
-      settingProvider.addAndChangePrivateKey(pk, updateUI: false);
+      settingsProvider.addAndChangePrivateKey(pk, updateUI: false);
       nostr = await relayProvider.genNostrWithKey(pk);
     }
 
@@ -432,7 +432,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       RouterUtil.back(context);
     }
 
-    settingProvider.notifyListeners();
+    settingsProvider.notifyListeners();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
@@ -452,14 +452,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
       key = "$key?package=${androidNostrSigner.getPackage()}";
     }
-    settingProvider.addAndChangePrivateKey(key, updateUI: false);
+    settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
     if (backAfterLogin) {
       RouterUtil.back(context);
     }
 
-    settingProvider.notifyListeners();
+    settingsProvider.notifyListeners();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
@@ -476,14 +476,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     _doPreLogin();
 
     var key = "${NIP07Signer.URI_PRE}:$pubkey";
-    settingProvider.addAndChangePrivateKey(key, updateUI: false);
+    settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(signer);
 
     if (backAfterLogin) {
       RouterUtil.back(context);
     }
 
-    settingProvider.notifyListeners();
+    settingsProvider.notifyListeners();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }

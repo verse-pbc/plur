@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Avvia il download del modello di traduzione"),
         "Block": MessageLookupByLibrary.simpleMessage("limite"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limite"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("segnalibro"),
         "Boost": MessageLookupByLibrary.simpleMessage("promuovere"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("broadcast"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -143,9 +142,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Concentrarsi sui temi"),
         "Following": MessageLookupByLibrary.simpleMessage("Segue"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("font"),
-        "Font_Size":
-            MessageLookupByLibrary.simpleMessage("dimensione del carattere"),
         "Forbid": MessageLookupByLibrary.simpleMessage("proibire"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Vieta immagini"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Vieta i video"),
@@ -153,7 +149,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Genera una nuova chiave"),
         "Global": MessageLookupByLibrary.simpleMessage("Globale"),
-        "Globals": MessageLookupByLibrary.simpleMessage("quadrato"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("obiettivo"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etichetta"),
@@ -186,7 +181,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "Analisi dell\' input non riuscita"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Inserisci l\'indirizzo del relè."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Backup chiave"),
         "Language": MessageLookupByLibrary.simpleMessage("lingua"),
         "Light": MessageLookupByLibrary.simpleMessage("Colore chiaro"),
         "Lightning_Invoice":
@@ -319,7 +313,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("fonte"),
         "Subject": MessageLookupByLibrary.simpleMessage("titolo"),
         "Submit": MessageLookupByLibrary.simpleMessage("Invia"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Modalità tablet"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("fotografia"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Relè temporaneo"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -329,8 +322,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "La chiave è una stringa casuale, simile alla password del tuo account. Chiunque possieda questa chiave può accedere e controllare il tuo account."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Colori del tema"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Tipo di tema"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Ci dovrebbe essere un universo qui"),
@@ -363,8 +354,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Indossare"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Autorizzazioni WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Barra di navigazione Web"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Strumenti Web"),
         "Website": MessageLookupByLibrary.simpleMessage("sito web"),
         "What_s_happening": MessageLookupByLibrary.simpleMessage(

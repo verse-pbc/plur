@@ -320,9 +320,10 @@ class ListProvider extends ChangeNotifier {
     return false;
   }
 
-  final List<GroupIdentifier> _groupIdentifiers = [];
+  final Set<GroupIdentifier> _groupIdentifiers = {};
 
-  get groupIdentifiers => _groupIdentifiers;
+  // Getter to maintain compatibility with existing code.
+  List<GroupIdentifier> get groupIdentifiers => _groupIdentifiers.toList();
 
   void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
     // Check if already a member first
@@ -379,6 +380,9 @@ class ListProvider extends ChangeNotifier {
     if (joinResult == null) {
       return (groupId, false);
     }
+
+    // Add a delay to allow the relay to process the join event
+    await Future.delayed(const Duration(seconds: 2));
 
     bool membershipConfirmed = await _verifyMembership(request);
     return (groupId, membershipConfirmed);

@@ -46,7 +46,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Authenticat_need": MessageLookupByLibrary.simpleMessage("需要身份验证"),
         "Auto_Open_Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("自动打开敏感内容"),
-        "Background_Image": MessageLookupByLibrary.simpleMessage("背景图片"),
         "Backup_and_Safety_tips":
             MessageLookupByLibrary.simpleMessage("备份和安全提示"),
         "Backup_my_notes": MessageLookupByLibrary.simpleMessage("备份我的数据"),
@@ -56,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("开始下载翻译模型"),
         "Block": MessageLookupByLibrary.simpleMessage("限制"),
         "Blocks": MessageLookupByLibrary.simpleMessage("限制"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("书签"),
         "Boost": MessageLookupByLibrary.simpleMessage("促进"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("广播"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage("促进时广播"),
@@ -64,13 +62,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "Cache": MessageLookupByLibrary.simpleMessage("缓存"),
         "Cache_Relay": MessageLookupByLibrary.simpleMessage("缓存中继"),
         "Cancel": MessageLookupByLibrary.simpleMessage("取消"),
-        "Card_Color": MessageLookupByLibrary.simpleMessage("卡片颜色"),
         "Chat": MessageLookupByLibrary.simpleMessage("聊天"),
         "Clear_All_Data": MessageLookupByLibrary.simpleMessage("清空所有数据"),
         "Clear_Not_My_Data": MessageLookupByLibrary.simpleMessage("清空非我的数据"),
         "Close_Private_DM": MessageLookupByLibrary.simpleMessage("关闭私密私信"),
         "Close_at": MessageLookupByLibrary.simpleMessage("停止于"),
-        "Color": MessageLookupByLibrary.simpleMessage("颜色"),
         "Confirm": MessageLookupByLibrary.simpleMessage("确认"),
         "Contact": MessageLookupByLibrary.simpleMessage("联系人"),
         "Content": MessageLookupByLibrary.simpleMessage("内容"),
@@ -133,8 +129,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Communities": MessageLookupByLibrary.simpleMessage("关注的社区"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("关注的主题"),
         "Following": MessageLookupByLibrary.simpleMessage("跟随中"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("字体"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("字体大小"),
         "Forbid": MessageLookupByLibrary.simpleMessage("禁止"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("禁止图片"),
         "Forbid_profile_picture":
@@ -145,7 +139,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("生成一个新的密钥"),
         "Global": MessageLookupByLibrary.simpleMessage("全球"),
-        "Globals": MessageLookupByLibrary.simpleMessage("广场"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("目标"),
         "Group": MessageLookupByLibrary.simpleMessage("群组"),
         "GroupId": MessageLookupByLibrary.simpleMessage("群组Id"),
@@ -153,7 +146,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hashtag": MessageLookupByLibrary.simpleMessage("标签"),
         "Hide": MessageLookupByLibrary.simpleMessage("隐藏"),
         "Hide_Relay_Notices": MessageLookupByLibrary.simpleMessage("隐藏中继通知"),
-        "Hint_Font_Color": MessageLookupByLibrary.simpleMessage("提示文字颜色"),
         "Home": MessageLookupByLibrary.simpleMessage("首页"),
         "Image": MessageLookupByLibrary.simpleMessage("图片"),
         "Image_Compress": MessageLookupByLibrary.simpleMessage("图片压缩"),
@@ -176,7 +168,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_parse_error": MessageLookupByLibrary.simpleMessage("输入解析失败"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage("请输入中继地址。"),
         "Join_Group": MessageLookupByLibrary.simpleMessage("假如群组"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("密钥备份"),
         "Language": MessageLookupByLibrary.simpleMessage("语言"),
         "Light": MessageLookupByLibrary.simpleMessage("浅色"),
         "Lightning_Address": MessageLookupByLibrary.simpleMessage("闪电地址"),
@@ -193,7 +184,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("使用 NIP07 插件登录"),
         "Login_fail": MessageLookupByLibrary.simpleMessage("登录失败"),
         "Lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
-        "Main_Font_Color": MessageLookupByLibrary.simpleMessage("主文字颜色"),
         "Max_Sub_Notes": MessageLookupByLibrary.simpleMessage("最大子动态数量"),
         "Members": MessageLookupByLibrary.simpleMessage("成员"),
         "Mention_User": MessageLookupByLibrary.simpleMessage("提到用户"),
@@ -315,7 +305,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Subject": MessageLookupByLibrary.simpleMessage("标题"),
         "Submit": MessageLookupByLibrary.simpleMessage("提交"),
         "Sync_Upload": MessageLookupByLibrary.simpleMessage("同步上传"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("平板模式"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("拍照"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("临时中继"),
         "Text_can_t_contain_blank_space":
@@ -325,8 +314,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "密钥是一个随机字符串，类似于您的帐户密码。任何拥有此密钥的人都可以访问和控制您的帐户。"),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("主题颜色"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("主题类型"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("这里应该有一个宇宙"),
         "This_note_contains_sensitive_content":
@@ -356,7 +343,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Video_preview_in_list": MessageLookupByLibrary.simpleMessage("列表视频预览"),
         "Wear": MessageLookupByLibrary.simpleMessage("穿戴"),
         "WebRTC_Permission": MessageLookupByLibrary.simpleMessage("WebRTC权限"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("网页导航栏"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("网页工具"),
         "Website": MessageLookupByLibrary.simpleMessage("网站"),
         "What_s_happening": MessageLookupByLibrary.simpleMessage("有什么有趣的事情？"),
