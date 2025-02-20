@@ -29,8 +29,8 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    if (StringUtil.isNotBlank(settingProvider.nwcUrl)) {
-      textEditingController.text = settingProvider.nwcUrl!;
+    if (StringUtil.isNotBlank(settingsProvider.nwcUrl)) {
+      textEditingController.text = settingsProvider.nwcUrl!;
     }
   }
 
@@ -169,11 +169,11 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
         return;
       }
 
-      settingProvider.nwcUrl = result;
+      settingsProvider.nwcUrl = result;
       RouterUtil.back(context);
     } else {
       // try to clean nwc setting
-      settingProvider.nwcUrl = null;
+      settingsProvider.nwcUrl = null;
       nwcProvider.clear();
       RouterUtil.back(context);
     }

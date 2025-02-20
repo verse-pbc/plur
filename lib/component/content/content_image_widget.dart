@@ -55,7 +55,7 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
     Widget? main;
     Widget? placeholder;
     // needn't get from provider
-    if (settingProvider.openBlurhashImage != OpenStatus.CLOSE &&
+    if (settingsProvider.openBlurhashImage != OpenStatus.CLOSE &&
         (widget.fileMetadata != null &&
             StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) &&
         !PlatformUtil.isWeb()) {

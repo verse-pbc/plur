@@ -6,7 +6,7 @@ import 'package:flutter_quill/translations.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/provider/webview_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -37,15 +37,15 @@ class _HomeWidgetState extends State<HomeWidget> {
   Widget build(BuildContext context) {
     PlatformUtil.init(context);
     var _webviewProvider = Provider.of<WebViewProvider>(context);
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
 
     Widget child = widget.child;
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
+    if (StringUtil.isNotBlank(settingsProvider.backgroundImage)) {
       ImageProvider? image;
-      if (settingProvider.backgroundImage!.indexOf("http") == 0) {
-        image = NetworkImage(settingProvider.backgroundImage!);
+      if (settingsProvider.backgroundImage!.indexOf("http") == 0) {
+        image = NetworkImage(settingsProvider.backgroundImage!);
       } else {
-        image = FileImage(File(settingProvider.backgroundImage!));
+        image = FileImage(File(settingsProvider.backgroundImage!));
       }
 
       child = Container(
