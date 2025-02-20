@@ -113,8 +113,8 @@ class RelayProvider extends ChangeNotifier {
         return null;
       }
       nostrSigner = NostrRemoteSigner(
-          settingProvider.relayMode != null
-              ? settingProvider.relayMode!
+          settingsProvider.relayMode != null
+              ? settingsProvider.relayMode!
               : RelayMode.FAST_MODE,
           info);
       await (nostrSigner as NostrRemoteSigner).connect();
@@ -156,7 +156,7 @@ class RelayProvider extends ChangeNotifier {
 
     // add local relay
     if (relayLocalDB != null &&
-        settingProvider.relayLocal != OpenStatus.CLOSE) {
+        settingsProvider.relayLocal != OpenStatus.CLOSE) {
       relayStatusLocal = RelayStatus(RelayLocal.URL);
       var relayLocal =
           RelayLocal(RelayLocal.URL, relayStatusLocal!, relayLocalDB!)
@@ -294,7 +294,7 @@ class RelayProvider extends ChangeNotifier {
         relayStatus,
       )..relayStatusCallback = onRelayStatusChange;
     } else {
-      if (settingProvider.relayMode == RelayMode.BASE_MODE) {
+      if (settingsProvider.relayMode == RelayMode.BASE_MODE) {
         return RelayBase(
           relayAddr,
           relayStatus,
@@ -303,8 +303,8 @@ class RelayProvider extends ChangeNotifier {
         return RelayIsolate(
           relayAddr,
           relayStatus,
-          eventSignCheck: settingProvider.eventSignCheck == OpenStatus.OPEN,
-          relayNetwork: settingProvider.network,
+          eventSignCheck: settingsProvider.eventSignCheck == OpenStatus.OPEN,
+          relayNetwork: settingsProvider.network,
         )..relayStatusCallback = onRelayStatusChange;
       }
     }

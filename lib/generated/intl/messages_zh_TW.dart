@@ -51,7 +51,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("開始下載翻譯模型"),
         "Block": MessageLookupByLibrary.simpleMessage("限制"),
         "Blocks": MessageLookupByLibrary.simpleMessage("限制"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("書簽"),
         "Boost": MessageLookupByLibrary.simpleMessage("促進"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("廣播"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage("促進時廣播"),
@@ -110,8 +109,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Communities": MessageLookupByLibrary.simpleMessage("關注的社區"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("關注的主題"),
         "Following": MessageLookupByLibrary.simpleMessage("跟隨中"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("字體"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("字體大小"),
         "Forbid": MessageLookupByLibrary.simpleMessage("禁止"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("禁止圖片"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("禁止視頻"),
@@ -119,7 +116,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("生成一個新的金鑰"),
         "Global": MessageLookupByLibrary.simpleMessage("全球"),
-        "Globals": MessageLookupByLibrary.simpleMessage("廣場"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("目標"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("標籤"),
         "Hide": MessageLookupByLibrary.simpleMessage("隱藏"),
@@ -140,7 +136,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Input_dirtyword": MessageLookupByLibrary.simpleMessage("請輸入過濾詞語"),
         "Input_parse_error": MessageLookupByLibrary.simpleMessage("輸入解析失敗"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage("請輸入中繼地址。"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("金鑰備份"),
         "Language": MessageLookupByLibrary.simpleMessage("語言"),
         "Light": MessageLookupByLibrary.simpleMessage("淺色"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("閃電發票"),
@@ -247,7 +242,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("來源"),
         "Subject": MessageLookupByLibrary.simpleMessage("標題"),
         "Submit": MessageLookupByLibrary.simpleMessage("提交"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("平板模式"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("拍照"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("臨時中繼"),
         "Text_can_t_contain_blank_space":
@@ -257,8 +251,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "金鑰是一個隨機字串，類似於您的帳戶密碼。 任何擁有此金鑰的人都可以訪問和控制您的帳戶。"),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("主題顏色"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("主題類型"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("這裡應該有一個宇宙"),
         "This_note_contains_sensitive_content":
@@ -283,7 +275,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Video_preview_in_list": MessageLookupByLibrary.simpleMessage("清單視頻預覽"),
         "Wear": MessageLookupByLibrary.simpleMessage("穿戴"),
         "WebRTC_Permission": MessageLookupByLibrary.simpleMessage("WebRTC許可權"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("網頁巡覽列"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("網頁工具"),
         "Website": MessageLookupByLibrary.simpleMessage("網站"),
         "What_s_happening": MessageLookupByLibrary.simpleMessage("有什麼有趣的事情？"),

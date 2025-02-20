@@ -43,7 +43,7 @@ class _IndexPcDrawerWrapper extends State<IndexPcDrawerWrapper> {
       toggle: toggleSize,
       child: Container(
         width: width,
-        child: IndexDrawerContentComponnent(
+        child: IndexDrawerContent(
           smallMode: currentMode,
         ),
       ),
