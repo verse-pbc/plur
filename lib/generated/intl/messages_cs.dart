@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Spustit stahování překladového modelu"),
         "Block": MessageLookupByLibrary.simpleMessage("limit"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limit"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("záložka"),
         "Boost": MessageLookupByLibrary.simpleMessage("podporovat"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("vysílání"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -138,8 +137,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Zaměřit se na témata"),
         "Following": MessageLookupByLibrary.simpleMessage("Následující"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("písmo"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("velikost písma"),
         "Forbid": MessageLookupByLibrary.simpleMessage("zakázat"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("Zakázat obrázky"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Zakázat videa"),
@@ -147,7 +144,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Vytvořit nový klíč"),
         "Global": MessageLookupByLibrary.simpleMessage("Globální"),
-        "Globals": MessageLookupByLibrary.simpleMessage("čtverec"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("cíl"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("štítek"),
         "Hide": MessageLookupByLibrary.simpleMessage("skrýt"),
@@ -179,7 +175,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Analýza vstupu selhala"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Zadejte prosím adresu."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Záloha klíče"),
         "Language": MessageLookupByLibrary.simpleMessage("jazyk"),
         "Light": MessageLookupByLibrary.simpleMessage("Světlá barva"),
         "Lightning_Invoice":
@@ -310,7 +305,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("zdroj"),
         "Subject": MessageLookupByLibrary.simpleMessage("titul"),
         "Submit": MessageLookupByLibrary.simpleMessage("Odeslat"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Režim tabletu"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("fotografie"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Dočasné relé"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -320,8 +314,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Klíč je náhodný řetězec, podobný heslu vašeho účtu. Každý, kdo tento klíč vlastní, může přístup k vašemu účtu a ovládat ho."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Barvy motivu"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Typ motivu"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("Měl by tu být vesmír."),
         "This_note_contains_sensitive_content":
@@ -353,8 +345,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Nosení"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Oprávnění WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Web navigační panel"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webové nástroje"),
         "Website": MessageLookupByLibrary.simpleMessage("internetové stránky"),
         "What_s_happening":

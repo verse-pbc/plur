@@ -29,28 +29,28 @@ import '../../consts/theme_style.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../provider/uploader.dart';
 import '../../util/auth_util.dart';
 import '../../util/locale_util.dart';
-import 'setting_group_item_widget.dart';
-import 'setting_group_title_widget.dart';
+import 'settings_group_item_widget.dart';
+import 'settings_group_title_widget.dart';
 
-class SettingWidget extends StatefulWidget {
+class SettingsWidget extends StatefulWidget {
   Function indexReload;
 
-  SettingWidget({
+  SettingsWidget({
     super.key,
     required this.indexReload,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _SettingWidgetState();
+    return _SettingsWidgetState();
   }
 }
 
-class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
+class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void resetTheme() {
     widget.indexReload();
   }
@@ -61,7 +61,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     var valueFontSize = themeData.textTheme.bodyMedium!.fontSize;
 
     var mainColor = themeData.primaryColor;
@@ -76,10 +76,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     initDefaultList(localization);
     initDefaultTabListTimeline(localization);
     initDefaultTabListGlobal(localization);
-    initColorStyleEnumList(localization);
 
-    initThemeStyleList(localization);
-    initFontEnumList(localization);
     initImageServiceList();
     initTranslateLanguages();
     initThreadModes();
@@ -87,198 +84,136 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     List<Widget> list = [];
 
     list.add(
-      SettingGroupItemWidget(
+      SettingsGroupItemWidget(
         name: localization.Language,
-        value: getI18nList(settingProvider.i18n, settingProvider.i18nCC).name,
+        value: getI18nList(settingsProvider.i18n, settingsProvider.i18nCC).name,
         onTap: pickI18N,
       ),
     );
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Image_Compress,
-      value: getCompressList(settingProvider.imgCompress).name,
+      value: getCompressList(settingsProvider.imgCompress).name,
       onTap: pickImageCompressList,
     ));
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Privacy_Lock,
-        value: getLockOpenList(settingProvider.lockOpen).name,
+        value: getLockOpenList(settingsProvider.lockOpen).name,
         onTap: pickLockOpenList,
       ));
     }
 
     String nwcValue = getOpenList(OpenStatus.OPEN).name;
-    if (StringUtil.isBlank(settingProvider.nwcUrl)) {
+    if (StringUtil.isBlank(settingsProvider.nwcUrl)) {
       nwcValue = getOpenList(OpenStatus.CLOSE).name;
     }
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: "NWC ${localization.Settings}",
       value: nwcValue,
       onTap: () {
         RouterUtil.router(context, RouterPath.NWC_SETTING);
       },
     ));
-
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: "Wot ${localization.Filter}",
-      value: getOpenListDefault(settingProvider.wotFilter).name,
+      value: getOpenListDefault(settingsProvider.wotFilter).name,
       onTap: pickWotFilter,
     ));
 
-    list.add(SettingGroupTitleWidget(iconData: Icons.palette, title: "UI"));
-    list.add(
-      SettingGroupItemWidget(
-        name: localization.Theme_Style,
-        value: getThemeStyle(settingProvider.themeStyle).name,
-        onTap: pickThemeStyle,
-      ),
-    );
-    var textStyle = TextStyle(
-      color: hintColor,
-      fontWeight: FontWeight.bold,
-      fontSize: valueFontSize,
-    );
-    list.add(SettingGroupItemWidget(
-      name: localization.Card_Color,
-      onTap: pickCardColor,
-      child: getCustomColorWidget(settingProvider.cardColor, textStyle),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Main_Font_Color,
-      onTap: pickMainFontColor,
-      child: getCustomColorWidget(settingProvider.mainFontColor, textStyle),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Hint_Font_Color,
-      onTap: pickHintFontColor,
-      child: getCustomColorWidget(settingProvider.hintFontColor, textStyle),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Background_Image,
-      onTap: pickBackgroundImage,
-      child: Container(),
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Font_Family,
-      value: getFontEnumResult(settingProvider.fontFamily),
-      onTap: pickFontEnum,
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Font_Size,
-      value: getFontSize(settingProvider.fontSize).name,
-      onTap: pickFontSize,
-    ));
-    list.add(SettingGroupItemWidget(
-      name: localization.Web_Appbar,
-      value: getOpenList(settingProvider.webviewAppbarOpen).name,
-      onTap: pickWebviewAppbar,
-    ));
-    if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemWidget(
-        name: localization.Table_Mode,
-        value: getOpenMode(settingProvider.tableMode).name,
-        onTap: pickOpenMode,
-      ));
-    }
-    list.add(SettingGroupItemWidget(
-      name: "${localization.Pubkey} ${localization.Color}",
-      value: getOpenList(settingProvider.pubkeyColor).name,
-      onTap: pickPubkeyColor,
-    ));
-
-    list.add(SettingGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
+    list.add(SettingsGroupItemWidget(
       name: localization.Link_preview,
-      value: getOpenList(settingProvider.linkPreview).name,
+      value: getOpenList(settingsProvider.linkPreview).name,
       onTap: pickLinkPreview,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Video_preview_in_list,
-      value: getOpenList(settingProvider.videoPreviewInList).name,
+      value: getOpenList(settingsProvider.videoPreviewInList).name,
       onTap: pickVideoPreviewInList,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Image_service,
-      value: getImageService(settingProvider.imageService).name,
+      value: getImageService(settingsProvider.imageService).name,
       onTap: _pickImageService,
     ));
-    if ((settingProvider.imageService == ImageServices.NIP_96 ||
-            settingProvider.imageService == ImageServices.BLOSSOM) &&
-        StringUtil.isNotBlank(settingProvider.imageServiceAddr)) {
-      list.add(SettingGroupItemWidget(
+    if ((settingsProvider.imageService == ImageServices.NIP_96 ||
+            settingsProvider.imageService == ImageServices.BLOSSOM) &&
+        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
+      list.add(SettingsGroupItemWidget(
         name: localization.Image_service_path,
-        value: settingProvider.imageServiceAddr,
+        value: settingsProvider.imageServiceAddr,
       ));
     }
 
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Limit_Note_Height,
-      value: getOpenList(settingProvider.limitNoteHeight).name,
+      value: getOpenList(settingsProvider.limitNoteHeight).name,
       onTap: pickLimitNoteHeight,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Forbid_profile_picture,
-      value: getOpenList(settingProvider.profilePicturePreview).name,
+      value: getOpenList(settingsProvider.profilePicturePreview).name,
       onTap: pickProfilePicturePreview,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Forbid_image,
-      value: getOpenList(settingProvider.imagePreview).name,
+      value: getOpenList(settingsProvider.imagePreview).name,
       onTap: pickImagePreview,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Forbid_video,
-      value: getOpenList(settingProvider.videoPreview).name,
+      value: getOpenList(settingsProvider.videoPreview).name,
       onTap: pickVideoPreview,
     ));
     if (!PlatformUtil.isWeb()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: "Blurhash ${localization.Image}",
-        value: getOpenList(settingProvider.openBlurhashImage).name,
+        value: getOpenList(settingsProvider.openBlurhashImage).name,
         onTap: pickOpenBlurhashImage,
       ));
     }
     if (!PlatformUtil.isPC()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Translate,
-        value: getOpenTranslate(settingProvider.openTranslate).name,
+        value: getOpenTranslate(settingsProvider.openTranslate).name,
         onTap: pickOpenTranslate,
       ));
-      if (settingProvider.openTranslate == OpenStatus.OPEN) {
-        list.add(SettingGroupItemWidget(
+      if (settingsProvider.openTranslate == OpenStatus.OPEN) {
+        list.add(SettingsGroupItemWidget(
           name: localization.Translate_Source_Language,
-          value: settingProvider.translateSourceArgs,
+          value: settingsProvider.translateSourceArgs,
           onTap: pickTranslateSource,
         ));
-        list.add(SettingGroupItemWidget(
+        list.add(SettingsGroupItemWidget(
           name: localization.Translate_Target_Language,
-          value: settingProvider.translateTarget,
+          value: settingsProvider.translateTarget,
           onTap: pickTranslateTarget,
         ));
       }
     }
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Broadcast_When_Boost,
-      value: getOpenList(settingProvider.broadcaseWhenBoost).name,
+      value: getOpenList(settingsProvider.broadcaseWhenBoost).name,
       onTap: pickBroadcaseWhenBoost,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Auto_Open_Sensitive_Content,
-      value: getOpenListDefault(settingProvider.autoOpenSensitive).name,
+      value: getOpenListDefault(settingsProvider.autoOpenSensitive).name,
       onTap: pickAutoOpenSensitive,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Thread_Mode,
-      value: getThreadMode(settingProvider.threadMode).name,
+      value: getThreadMode(settingsProvider.threadMode).name,
       onTap: pickThreadMode,
     ));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Max_Sub_Notes,
-      value: "${settingProvider.maxSubEventLevel ?? ""}",
+      value: "${settingsProvider.maxSubEventLevel ?? ""}",
       onTap: inputMaxSubNotesNumber,
     ));
 
-    list.add(SettingGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
-    String? networkHintText = settingProvider.network;
+    list.add(SettingsGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
+    String? networkHintText = settingsProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
       networkHintText = localization.Please_input + " " + localization.Network;
     }
@@ -291,38 +226,38 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         fontSize: 16,
       ),
     );
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Network,
       onTap: inputNetwork,
       child: networkWidget,
     ));
     if (!PlatformUtil.isWeb()) {
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.LocalRelay,
-        value: getOpenList(settingProvider.relayLocal).name,
+        value: getOpenList(settingsProvider.relayLocal).name,
         onTap: pickRelayLocal,
       ));
-      list.add(SettingGroupItemWidget(
+      list.add(SettingsGroupItemWidget(
         name: localization.Relay_Mode,
-        value: getRelayMode(settingProvider.relayMode).name,
+        value: getRelayMode(settingsProvider.relayMode).name,
         onTap: pickRelayModes,
       ));
-      if (settingProvider.relayMode != RelayMode.BASE_MODE) {
-        list.add(SettingGroupItemWidget(
+      if (settingsProvider.relayMode != RelayMode.BASE_MODE) {
+        list.add(SettingsGroupItemWidget(
           name: localization.Event_Sign_Check,
-          value: getOpenListDefault(settingProvider.eventSignCheck).name,
+          value: getOpenListDefault(settingsProvider.eventSignCheck).name,
           onTap: pickEventSignCheck,
         ));
       }
     }
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupItemWidget(
       name: localization.Hide_Relay_Notices,
-      value: getOpenList(settingProvider.hideRelayNotices).name,
+      value: getOpenList(settingsProvider.hideRelayNotices).name,
       onTap: pickHideRelayNotices,
     ));
 
-    list.add(SettingGroupTitleWidget(iconData: Icons.source, title: localization.Data));
-    list.add(SettingGroupItemWidget(
+    list.add(SettingsGroupTitleWidget(iconData: Icons.source, title: localization.Data));
+    list.add(SettingsGroupItemWidget(
       name: localization.Delete_Account,
       nameColor: Colors.red,
       onTap: askToDeleteAccount,
@@ -409,12 +344,12 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, i18nList!);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == "") {
-        settingProvider.setI18n(null, null);
+        settingsProvider.setI18n(null, null);
       } else {
         for (var item in S.delegate.supportedLocales) {
           var key = LocaleUtil.getLocaleKey(item);
           if (resultEnumObj.value == key) {
-            settingProvider.setI18n(item.languageCode, item.countryCode);
+            settingsProvider.setI18n(item.languageCode, item.countryCode);
           }
         }
       }
@@ -423,7 +358,6 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         setState(() {
           // TODO others setting enumObjList
           i18nList = null;
-          themeStyleList = null;
         });
       });
     }
@@ -448,7 +382,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, compressList!);
     if (resultEnumObj != null) {
-      settingProvider.imgCompress = resultEnumObj.value;
+      settingsProvider.imgCompress = resultEnumObj.value;
     }
   }
 
@@ -490,14 +424,14 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         bool didAuthenticate = await AuthUtil.authenticate(
             context, localization.Please_authenticate_to_turn_off_the_privacy_lock);
         if (didAuthenticate) {
-          settingProvider.lockOpen = resultEnumObj.value;
+          settingsProvider.lockOpen = resultEnumObj.value;
         }
-        settingProvider.lockOpen = resultEnumObj.value;
+        settingsProvider.lockOpen = resultEnumObj.value;
       } else if (resultEnumObj.value == OpenStatus.OPEN) {
         bool didAuthenticate = await AuthUtil.authenticate(
             context, localization.Please_authenticate_to_turn_on_the_privacy_lock);
         if (didAuthenticate) {
-          settingProvider.lockOpen = resultEnumObj.value;
+          settingsProvider.lockOpen = resultEnumObj.value;
         }
       }
     }
@@ -517,7 +451,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, defaultIndexList!);
     if (resultEnumObj != null) {
-      settingProvider.defaultIndex = resultEnumObj.value;
+      settingsProvider.defaultIndex = resultEnumObj.value;
       resetTheme();
     }
   }
@@ -556,7 +490,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   Future<void> pickDefaultTab(List<EnumObj> list) async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, list);
     if (resultEnumObj != null) {
-      settingProvider.defaultTab = resultEnumObj.value;
+      settingsProvider.defaultTab = resultEnumObj.value;
       resetTheme();
     }
   }
@@ -570,213 +504,17 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     return list[0];
   }
 
-  List<EnumObj>? themeStyleList;
-
-  void initThemeStyleList(S s) {
-    if (themeStyleList == null) {
-      themeStyleList = [];
-      themeStyleList?.add(EnumObj(ThemeStyle.AUTO, localization.Follow_System));
-      themeStyleList?.add(EnumObj(ThemeStyle.LIGHT, localization.Light));
-      themeStyleList?.add(EnumObj(ThemeStyle.DARK, localization.Dark));
-    }
-  }
-
-  Future<void> pickThemeStyle() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorWidget.show(context, themeStyleList!);
-    if (resultEnumObj != null) {
-      settingProvider.themeStyle = resultEnumObj.value;
-      resetTheme();
-    }
-  }
-
-  EnumObj getThemeStyle(int themeStyle) {
-    for (var eo in themeStyleList!) {
-      if (eo.value == themeStyle) {
-        return eo;
-      }
-    }
-    return themeStyleList![0];
-  }
-
-  Future<void> pickColor() async {
-    Color? color = await ColorSelectorWidget.show(context);
-    if (color != null) {
-      settingProvider.themeColor = color.value;
-      resetTheme();
-    }
-  }
-
-  List<EnumObj>? colorStyleEnumList;
-
-  void initColorStyleEnumList(S s) {
-    if (colorStyleEnumList == null) {
-      colorStyleEnumList = [];
-      colorStyleEnumList!.add(EnumObj(false, localization.Default_Color));
-      colorStyleEnumList!.add(EnumObj(true, localization.Custom_Color));
-    }
-  }
-
-  Widget getCustomColorWidget(int? colorValue, TextStyle textStyle) {
-    if (colorValue == null) {
-      return Text(
-        localization.Default_Color,
-        style: textStyle,
-      );
-    } else {
-      return Container(
-        height: 28,
-        width: 28,
-        color: Color(colorValue),
-      );
-    }
-  }
-
-  Future<int?> pickCustomColor({int? colorValue}) async {
-    Color? oldColor;
-    if (colorValue != null) {
-      oldColor = Color(colorValue);
-    }
-    EnumObj? resultEnumObj =
-        await EnumSelectorWidget.show(context, colorStyleEnumList!);
-    if (resultEnumObj != null) {
-      if (resultEnumObj.value == true) {
-        // pick customm color
-        Color? color = await ColorPickDialog.show(context, oldColor);
-        if (color != null) {
-          return color.value;
-        }
-      } else {
-        return -1;
-      }
-    }
-
-    return null;
-  }
-
-  Future<void> pickMainFontColor() async {
-    var colorValue =
-        await pickCustomColor(colorValue: settingProvider.mainFontColor);
-    if (colorValue != null) {
-      if (colorValue == -1) {
-        settingProvider.mainFontColor = null;
-      } else {
-        settingProvider.mainFontColor = colorValue;
-      }
-      resetTheme();
-    }
-  }
-
-  Future<void> pickHintFontColor() async {
-    var colorValue =
-        await pickCustomColor(colorValue: settingProvider.hintFontColor);
-    if (colorValue != null) {
-      if (colorValue == -1) {
-        settingProvider.hintFontColor = null;
-      } else {
-        settingProvider.hintFontColor = colorValue;
-      }
-      resetTheme();
-    }
-  }
-
-  Future<void> pickCardColor() async {
-    var colorValue =
-        await pickCustomColor(colorValue: settingProvider.cardColor);
-    if (colorValue != null) {
-      if (colorValue == -1) {
-        settingProvider.cardColor = null;
-      } else {
-        settingProvider.cardColor = colorValue;
-      }
-      resetTheme();
-    }
-  }
-
-  List<EnumObj>? fontEnumList;
-
-  void initFontEnumList(S s) {
-    if (fontEnumList == null) {
-      fontEnumList = [];
-      fontEnumList!.add(EnumObj(false, localization.Default_Font_Family));
-      fontEnumList!.add(EnumObj(true, localization.Custom_Font_Family));
-    }
-  }
-
-  String getFontEnumResult(String? fontFamily) {
-    if (StringUtil.isNotBlank(fontFamily)) {
-      return fontFamily!;
-    }
-    return fontEnumList![0].name;
-  }
-
-  Future pickFontEnum() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorWidget.show(context, fontEnumList!);
-    if (resultEnumObj != null) {
-      if (resultEnumObj.value == true) {
-        pickFont();
-      } else {
-        settingProvider.fontFamily = null;
-        resetTheme();
-      }
-    }
-  }
-
-  void pickFont() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FontPicker(
-          onFontChanged: (PickerFont font) {
-            settingProvider.fontFamily = font.fontFamily;
-            resetTheme();
-          },
-        ),
-      ),
-    );
-  }
-
-  List<EnumObj> fontSizeList = [
-    EnumObj(20.0, "20"),
-    EnumObj(19.0, "19"),
-    EnumObj(18.0, "18"),
-    EnumObj(17.0, "17"),
-    EnumObj(16.0, "16"),
-    EnumObj(15.0, "15"),
-    EnumObj(14.0, "14"),
-    EnumObj(13.0, "13"),
-    EnumObj(12.0, "12"),
-  ];
-
-  EnumObj getFontSize(double value) {
-    for (var eo in fontSizeList) {
-      if (eo.value == value) {
-        return eo;
-      }
-    }
-    return fontSizeList[1];
-  }
-
-  Future<void> pickFontSize() async {
-    EnumObj? resultEnumObj =
-        await EnumSelectorWidget.show(context, fontSizeList);
-    if (resultEnumObj != null) {
-      settingProvider.fontSize = resultEnumObj.value;
-      resetTheme();
-    }
-  }
-
   Future<void> pickLinkPreview() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.linkPreview = resultEnumObj.value;
+      settingsProvider.linkPreview = resultEnumObj.value;
     }
   }
 
   Future<void> pickVideoPreviewInList() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.videoPreviewInList = resultEnumObj.value;
+      settingsProvider.videoPreviewInList = resultEnumObj.value;
     }
   }
 
@@ -785,9 +523,9 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     var text = await TextInputDialog.show(
       context,
       "${localization.Please_input} ${localization.Network}\nSOCKS5/SOCKS4/PROXY username:password@host:port",
-      value: settingProvider.network,
+      value: settingsProvider.network,
     );
-    settingProvider.network = text;
+    settingsProvider.network = text;
     BotToast.showText(text: localization.network_take_effect_tip);
   }
 
@@ -830,48 +568,48 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         var addr = await TextInputDialog.show(
             context, "${localization.Please_input} NIP-96 ${localization.Image_service_path}");
         if (StringUtil.isNotBlank(addr)) {
-          settingProvider.imageService = ImageServices.NIP_96;
-          settingProvider.imageServiceAddr = addr;
+          settingsProvider.imageService = ImageServices.NIP_96;
+          settingsProvider.imageServiceAddr = addr;
         }
         return;
       } else if (resultEnumObj.value == ImageServices.BLOSSOM) {
         var addr = await TextInputDialog.show(
             context, "${localization.Please_input} Blossom ${localization.Image_service_path}");
         if (StringUtil.isNotBlank(addr)) {
-          settingProvider.imageService = ImageServices.BLOSSOM;
-          settingProvider.imageServiceAddr = addr;
+          settingsProvider.imageService = ImageServices.BLOSSOM;
+          settingsProvider.imageServiceAddr = addr;
         }
         return;
       }
-      settingProvider.imageService = resultEnumObj.value;
+      settingsProvider.imageService = resultEnumObj.value;
     }
   }
 
   pickLimitNoteHeight() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.limitNoteHeight = resultEnumObj.value;
+      settingsProvider.limitNoteHeight = resultEnumObj.value;
     }
   }
 
   pickProfilePicturePreview() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.profilePicturePreview = resultEnumObj.value;
+      settingsProvider.profilePicturePreview = resultEnumObj.value;
     }
   }
 
   pickImagePreview() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.imagePreview = resultEnumObj.value;
+      settingsProvider.imagePreview = resultEnumObj.value;
     }
   }
 
   pickVideoPreview() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.videoPreview = resultEnumObj.value;
+      settingsProvider.videoPreview = resultEnumObj.value;
     }
   }
 
@@ -936,7 +674,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         nostr!.deleteEvents(ids);
       }
     } finally {
-      var index = settingProvider.privateKeyIndex;
+      var index = settingsProvider.privateKeyIndex;
       if (index != null) {
         AccountManagerWidgetState.onLogoutTap(index,
             routerBack: true, context: context);
@@ -975,12 +713,12 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
       await handleTranslateModel(openTranslate: resultEnumObj.value);
-      settingProvider.openTranslate = resultEnumObj.value;
+      settingsProvider.openTranslate = resultEnumObj.value;
     }
   }
 
   pickTranslateSource() async {
-    var translateSourceArgs = settingProvider.translateSourceArgs;
+    var translateSourceArgs = settingsProvider.translateSourceArgs;
     List<EnumObj> values = [];
     if (StringUtil.isNotBlank(translateSourceArgs)) {
       var strs = translateSourceArgs!.split(",");
@@ -997,7 +735,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
       }
       var text = resultStrs.join(",");
       await handleTranslateModel(translateSourceArgs: text);
-      settingProvider.translateSourceArgs = text;
+      settingsProvider.translateSourceArgs = text;
     }
   }
 
@@ -1006,7 +744,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
         await EnumSelectorWidget.show(context, translateLanguages!);
     if (resultEnumObj != null) {
       await handleTranslateModel(translateTarget: resultEnumObj.value);
-      settingProvider.translateTarget = resultEnumObj.value;
+      settingsProvider.translateTarget = resultEnumObj.value;
     }
   }
 
@@ -1014,10 +752,10 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
       {int? openTranslate,
       String? translateTarget,
       String? translateSourceArgs}) async {
-    openTranslate = openTranslate ?? settingProvider.openTranslate;
-    translateTarget = translateTarget ?? settingProvider.translateTarget;
+    openTranslate = openTranslate ?? settingsProvider.openTranslate;
+    translateTarget = translateTarget ?? settingsProvider.translateTarget;
     translateSourceArgs =
-        translateSourceArgs ?? settingProvider.translateSourceArgs;
+        translateSourceArgs ?? settingsProvider.translateSourceArgs;
 
     if (openTranslate == OpenStatus.OPEN &&
         StringUtil.isNotBlank(translateTarget) &&
@@ -1039,7 +777,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   pickBroadcaseWhenBoost() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.broadcaseWhenBoost = resultEnumObj.value;
+      settingsProvider.broadcaseWhenBoost = resultEnumObj.value;
     }
   }
 
@@ -1056,35 +794,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   pickAutoOpenSensitive() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.autoOpenSensitive = resultEnumObj.value;
-    }
-  }
-
-  pickWebviewAppbar() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.webviewAppbarOpen = resultEnumObj.value;
-    }
-  }
-
-  getOpenMode(int? value) {
-    for (var o in openList!) {
-      if (value == o.value) {
-        return o;
-      }
-    }
-
-    if (PlatformUtil.isTableModeWithoutSetting()) {
-      return openList![0];
-    }
-    return openList![1];
-  }
-
-  pickOpenMode() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.tableMode = resultEnumObj.value;
-      resetTheme();
+      settingsProvider.autoOpenSensitive = resultEnumObj.value;
     }
   }
 
@@ -1114,7 +824,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   pickRelayLocal() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.relayLocal = resultEnumObj.value;
+      settingsProvider.relayLocal = resultEnumObj.value;
       resetTheme();
     }
   }
@@ -1123,14 +833,14 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, getRelayModes());
     if (resultEnumObj != null) {
-      settingProvider.relayMode = resultEnumObj.value;
+      settingsProvider.relayMode = resultEnumObj.value;
     }
   }
 
   pickEventSignCheck() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.eventSignCheck = resultEnumObj.value;
+      settingsProvider.eventSignCheck = resultEnumObj.value;
     }
   }
 
@@ -1160,7 +870,7 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, initThreadModes());
     if (resultEnumObj != null) {
-      settingProvider.threadMode = resultEnumObj.value;
+      settingsProvider.threadMode = resultEnumObj.value;
     }
   }
 
@@ -1172,42 +882,42 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
       if (num != null && num <= 0) {
         num = null;
       }
-      settingProvider.maxSubEventLevel = num;
+      settingsProvider.maxSubEventLevel = num;
     }
   }
 
   pickHideRelayNotices() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.hideRelayNotices = resultEnumObj.value;
+      settingsProvider.hideRelayNotices = resultEnumObj.value;
     }
   }
 
   pickBackgroundImage() async {
     var filepath = await Uploader.pick(context);
     if (StringUtil.isBlank(filepath)) {
-      settingProvider.backgroundImage = null;
+      settingsProvider.backgroundImage = null;
     } else {
       if (PlatformUtil.isWeb()) {
         var uploadedFilepath = await Uploader.upload(filepath!,
-            imageService: settingProvider.imageService);
-        settingProvider.backgroundImage = uploadedFilepath;
+            imageService: settingsProvider.imageService);
+        settingsProvider.backgroundImage = uploadedFilepath;
       } else {
         var targetFilePath = await StoreUtil.saveFileToDocument(filepath!,
             targetFileName:
                 "nostrbg_${DateTime.now().millisecondsSinceEpoch}.jpg");
         if (StringUtil.isNotBlank(targetFilePath)) {
-          if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
+          if (StringUtil.isNotBlank(settingsProvider.backgroundImage)) {
             // try to remove old file.
             try {
-              var targetFile = File(settingProvider.backgroundImage!);
+              var targetFile = File(settingsProvider.backgroundImage!);
               if (targetFile.existsSync()) {
                 targetFile.deleteSync();
               }
             } catch (e) {}
           }
-          settingProvider.backgroundImage = targetFilePath;
-          settingProvider.translateTarget = null;
+          settingsProvider.backgroundImage = targetFilePath;
+          settingsProvider.translateTarget = null;
         }
       }
     }
@@ -1218,23 +928,16 @@ class _SettingWidgetState extends State<SettingWidget> with WhenStopFunction {
   pickOpenBlurhashImage() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.openBlurhashImage = resultEnumObj.value;
-    }
-  }
-
-  pickPubkeyColor() async {
-    EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
-    if (resultEnumObj != null) {
-      settingProvider.pubkeyColor = resultEnumObj.value;
+      settingsProvider.openBlurhashImage = resultEnumObj.value;
     }
   }
 
   pickWotFilter() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingProvider.wotFilter = resultEnumObj.value;
+      settingsProvider.wotFilter = resultEnumObj.value;
 
-      if (settingProvider.wotFilter == OpenStatus.OPEN) {
+      if (settingsProvider.wotFilter == OpenStatus.OPEN) {
         var pubkey = nostr!.publicKey;
         wotProvider.init(pubkey);
       } else {
