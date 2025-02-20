@@ -3369,6 +3369,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Opened`
+  String get Opened {
+    return Intl.message(
+      'Opened',
+      name: 'Opened',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closed`
+  String get Closed {
+    return Intl.message(
+      'Closed',
+      name: 'Closed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member`
+  String get Member {
+    return Intl.message(
+      'Member',
+      name: 'Member',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `group`
+  String get group {
+    return Intl.message(
+      'group',
+      name: 'group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Group Info`
+  String get Group_Info {
+    return Intl.message(
+      'Group Info',
+      name: 'Group_Info',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
