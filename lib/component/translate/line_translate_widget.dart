@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base_consts.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../cust_state.dart';
 
 class LineTranslateWidget extends StatefulWidget {
@@ -37,7 +37,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     final themeData = Theme.of(context);
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
@@ -151,7 +151,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
       return;
     }
 
-    if (settingProvider.openTranslate != OpenStatus.OPEN) {
+    if (settingsProvider.openTranslate != OpenStatus.OPEN) {
       // is close
       if (targetTextMap.isNotEmpty) {
         // set targetTextMap to null
@@ -166,7 +166,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
       if (targetTextMap.isNotEmpty) {
         // targetText had bean translated
         if (targetLanguage != null &&
-            targetLanguage!.bcpCode == settingProvider.translateTarget &&
+            targetLanguage!.bcpCode == settingsProvider.translateTarget &&
             newSourceText == sourceText) {
           // and currentTargetLanguage = settingTranslate
           return;
@@ -174,7 +174,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
       }
     }
 
-    var translateTarget = settingProvider.translateTarget;
+    var translateTarget = settingsProvider.translateTarget;
     if (StringUtil.isBlank(translateTarget)) {
       return;
     }
@@ -195,7 +195,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
 
       if (possibleLanguages.isNotEmpty) {
         var pl = possibleLanguages[0];
-        if (!settingProvider.translateSourceArgsCheck(pl.languageTag)) {
+        if (!settingsProvider.translateSourceArgsCheck(pl.languageTag)) {
           if (targetTextMap.isNotEmpty) {
             // set targetText to null
             setState(() {

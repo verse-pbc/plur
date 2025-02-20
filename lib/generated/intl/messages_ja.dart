@@ -51,7 +51,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("翻訳モデルのダウンロード開始"),
         "Block": MessageLookupByLibrary.simpleMessage("制限＃セイゲン＃"),
         "Blocks": MessageLookupByLibrary.simpleMessage("制限＃セイゲン＃"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("ブックマーク"),
         "Boost": MessageLookupByLibrary.simpleMessage("促進"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("ブロードキャスト"),
         "Broadcast_When_Boost":
@@ -114,8 +113,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("関心のあるコミュニティ"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("注目トピック"),
         "Following": MessageLookupByLibrary.simpleMessage("フォロー中"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("フォント"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("フォントサイズ"),
         "Forbid": MessageLookupByLibrary.simpleMessage("禁止"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("禁止画像"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("禁止ビデオ"),
@@ -123,7 +120,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("新しい鍵を生成する"),
         "Global": MessageLookupByLibrary.simpleMessage("グローバル"),
-        "Globals": MessageLookupByLibrary.simpleMessage("広場"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("ターゲット"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("タブ"),
         "Hide": MessageLookupByLibrary.simpleMessage("非表示"),
@@ -150,7 +146,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("入力解析に失敗しました"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("中継アドレスを入力してください。"),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("鍵バックアップ"),
         "Language": MessageLookupByLibrary.simpleMessage("言語"),
         "Light": MessageLookupByLibrary.simpleMessage("薄い色"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("電光インボイス"),
@@ -264,7 +259,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("ソース"),
         "Subject": MessageLookupByLibrary.simpleMessage("タイトル"),
         "Submit": MessageLookupByLibrary.simpleMessage("送信"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("フラットパネルモード"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("写真を撮る"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("いちじちゅうけい"),
         "Text_can_t_contain_blank_space":
@@ -274,8 +268,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "鍵は、アカウントのパスワードに似たランダムな文字列です。この鍵を所有している人は、アカウントにアクセスして制御することができます。"),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("テーマの色"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("トピック・タイプ"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("ここには宇宙があるはずだ"),
         "This_note_contains_sensitive_content":
@@ -302,7 +294,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("リストビデオプレビュー"),
         "Wear": MessageLookupByLibrary.simpleMessage("に服を着せる"),
         "WebRTC_Permission": MessageLookupByLibrary.simpleMessage("WebRTC権限"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("Webナビゲーションバー"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webツール"),
         "Website": MessageLookupByLibrary.simpleMessage("Webサイト"),
         "What_s_happening":

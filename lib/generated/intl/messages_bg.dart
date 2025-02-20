@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Стартиране на изтеглянето на модела за превод"),
         "Block": MessageLookupByLibrary.simpleMessage("граница"),
         "Blocks": MessageLookupByLibrary.simpleMessage("граница"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("отметка"),
         "Boost": MessageLookupByLibrary.simpleMessage("насърчаване"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("излъчване"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -146,8 +145,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Фокусиране върху темите"),
         "Following": MessageLookupByLibrary.simpleMessage("Следваща"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("шрифт"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("размер на шрифта"),
         "Forbid": MessageLookupByLibrary.simpleMessage("забрани"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Забрана на изображения"),
@@ -157,7 +154,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Генериране на нов ключ"),
         "Global": MessageLookupByLibrary.simpleMessage("Глобален"),
-        "Globals": MessageLookupByLibrary.simpleMessage("квадрат"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("цел"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("етикет"),
         "Hide": MessageLookupByLibrary.simpleMessage("скрий"),
@@ -190,8 +186,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Грешка при анализа на входа"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Моля въведете адреса на предаването."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("Архивиране на ключа"),
         "Language": MessageLookupByLibrary.simpleMessage("език"),
         "Light": MessageLookupByLibrary.simpleMessage("Светъл цвят"),
         "Lightning_Invoice":
@@ -328,7 +322,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("източник"),
         "Subject": MessageLookupByLibrary.simpleMessage("заглавие"),
         "Submit": MessageLookupByLibrary.simpleMessage("Изпращане"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Таблетен режим"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("снимка"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Временно реле"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -338,9 +331,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Ключът е произволен низ, подобен на паролата на акаунта ви. Всеки, който притежава този ключ, може да има достъп и да контролира профила ви."),
-        "Theme_Color":
-            MessageLookupByLibrary.simpleMessage("Цветове на темата"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Тип тема"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("Тук трябва да има вселена."),
         "This_note_contains_sensitive_content":
@@ -373,8 +363,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Носене"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Разрешения за WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Уеб навигационна лента"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Уеб инструменти"),
         "Website": MessageLookupByLibrary.simpleMessage("уебсайт"),
         "What_s_happening":

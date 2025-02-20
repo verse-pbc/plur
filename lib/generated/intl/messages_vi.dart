@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Bắt đầu tải xuống mô hình dịch"),
         "Block": MessageLookupByLibrary.simpleMessage("Giới hạn"),
         "Blocks": MessageLookupByLibrary.simpleMessage("Giới hạn"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("Đánh dấu"),
         "Boost": MessageLookupByLibrary.simpleMessage("Khuyến mãi"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("Phát sóng"),
         "Broadcast_When_Boost":
@@ -138,8 +137,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Chủ đề quan tâm"),
         "Following": MessageLookupByLibrary.simpleMessage("Đang theo dõi"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("Phông chữ"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("Cỡ phông chữ"),
         "Forbid": MessageLookupByLibrary.simpleMessage("Cấm"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("cấm hình ảnh"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("cấm video"),
@@ -147,7 +144,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Tạo một key mới"),
         "Global": MessageLookupByLibrary.simpleMessage("Toàn cầu"),
-        "Globals": MessageLookupByLibrary.simpleMessage("Quảng trường"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("Mục tiêu"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "Hide": MessageLookupByLibrary.simpleMessage("Ẩn"),
@@ -177,7 +173,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Lỗi phân tích đầu vào"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Vui lòng nhập địa chỉ chuyển tiếp."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Sao lưu khóa"),
         "Language": MessageLookupByLibrary.simpleMessage("Ngôn ngữ"),
         "Light": MessageLookupByLibrary.simpleMessage("Màu sáng"),
         "Lightning_Invoice":
@@ -308,7 +303,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("Nguồn"),
         "Subject": MessageLookupByLibrary.simpleMessage("Tiêu đề"),
         "Submit": MessageLookupByLibrary.simpleMessage("Giới thiệu"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Chế độ phẳng"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("Chụp ảnh"),
         "TempRelays":
             MessageLookupByLibrary.simpleMessage("Chuyển tiếp tạm thời"),
@@ -319,8 +313,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Khóa là một chuỗi ngẫu nhiên, tương tự như mật khẩu tài khoản của bạn. Bất cứ ai có khóa này đều có thể truy cập và kiểm soát tài khoản của bạn."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Màu sắc chủ đề"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Loại chủ đề"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("Phải có một vũ trụ ở đây."),
         "This_note_contains_sensitive_content":
@@ -353,8 +345,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Mặc"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Quyền WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Thanh điều hướng trang web"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Công cụ Web"),
         "Website": MessageLookupByLibrary.simpleMessage("Trang chủ"),
         "What_s_happening":

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
@@ -58,7 +58,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
   /// to display the profile picture. Otherwise, it will use a placeholder.
   Widget buildWidget(Metadata? metadata) {
     final themeData = Theme.of(context);
-    var provider = Provider.of<SettingProvider>(context);
+    var provider = Provider.of<SettingsProvider>(context);
 
     // Calculate the border size for the image based on widget width.
     double imageBorder = widget.width / 14;

@@ -15,7 +15,7 @@ class NWCProvider extends ChangeNotifier {
   ECDHBasicAgreement? agreement;
 
   void init() {
-    var nwcUrl = settingProvider.nwcUrl;
+    var nwcUrl = settingsProvider.nwcUrl;
     if (StringUtil.isNotBlank(nwcUrl)) {
       var ni = NWCInfo.loadFromUrl(nwcUrl);
       setNWCInfo(ni);

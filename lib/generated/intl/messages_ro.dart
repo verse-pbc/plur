@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Începe descărcarea modelului de traducere"),
         "Block": MessageLookupByLibrary.simpleMessage("limită"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limită"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("marcaj"),
         "Boost": MessageLookupByLibrary.simpleMessage("promovare"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("difuzare"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -142,9 +141,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Concentrează-te pe teme"),
         "Following": MessageLookupByLibrary.simpleMessage("Următoarea"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("font"),
-        "Font_Size":
-            MessageLookupByLibrary.simpleMessage("dimensiunea fontului"),
         "Forbid": MessageLookupByLibrary.simpleMessage("interzice"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Interzice imaginile"),
@@ -154,7 +150,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Generați o cheie nouă"),
         "Global": MessageLookupByLibrary.simpleMessage("Global"),
-        "Globals": MessageLookupByLibrary.simpleMessage("pătrat"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("țintă"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etichetă"),
         "Hide": MessageLookupByLibrary.simpleMessage("ascunde"),
@@ -186,7 +181,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Analizarea intrării a eșuat"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Introduceţi adresa releului."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Backup cheie"),
         "Language": MessageLookupByLibrary.simpleMessage("limba"),
         "Light": MessageLookupByLibrary.simpleMessage("Culoare deschisă"),
         "Lightning_Invoice":
@@ -319,7 +313,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("sursă"),
         "Subject": MessageLookupByLibrary.simpleMessage("titlu"),
         "Submit": MessageLookupByLibrary.simpleMessage("Trimite"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Mod comprimat"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("fotografie"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Releu temporar"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -329,8 +322,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Cheia este un șir aleatoriu, similar cu parola contului. Oricine deține această cheie poate accesa și controla contul dvs."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Culori tematice"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Tip temă"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Ar trebui să fie un univers aici."),
@@ -363,8 +354,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Purtarea"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Permisiuni WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Bara de navigare web"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Instrumente web"),
         "Website": MessageLookupByLibrary.simpleMessage("site-ul web"),
         "What_s_happening":

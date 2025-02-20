@@ -55,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("بدء تحميل نموذج الترجمة"),
         "Block": MessageLookupByLibrary.simpleMessage("تقييد"),
         "Blocks": MessageLookupByLibrary.simpleMessage("تقييد"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("ارتباطك"),
         "Boost": MessageLookupByLibrary.simpleMessage("الترويج"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("البث"),
         "Broadcast_When_Boost":
@@ -134,8 +133,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("اهتمام المجتمع"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("موضوع الاهتمام"),
         "Following": MessageLookupByLibrary.simpleMessage("اتبع"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("فونت"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("حجم الخط"),
         "Forbid": MessageLookupByLibrary.simpleMessage("حظر"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("حظر الصور"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("حظر الفيديو"),
@@ -143,7 +140,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("توليد مفتاح جديد"),
         "Global": MessageLookupByLibrary.simpleMessage("العالمية"),
-        "Globals": MessageLookupByLibrary.simpleMessage("ساحة"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("الهدف"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("علامة"),
         "Hide": MessageLookupByLibrary.simpleMessage("أخفى"),
@@ -172,8 +168,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("فشل تحليل المدخلات"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "من فضلك أدخل عنوان التتابع ."),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("مفتاح النسخ الاحتياطي"),
         "Language": MessageLookupByLibrary.simpleMessage("لغة"),
         "Light": MessageLookupByLibrary.simpleMessage("لون فاتح"),
         "Lightning_Invoice":
@@ -300,7 +294,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("المصدر"),
         "Subject": MessageLookupByLibrary.simpleMessage("عنوان"),
         "Submit": MessageLookupByLibrary.simpleMessage("قدم"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("وضع لوحة"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("صور"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("ترحيل مؤقت"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -310,8 +303,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "المفتاح عبارة عن سلسلة عشوائية تشبه كلمة مرور حسابك . أي شخص لديه هذا المفتاح يمكن الوصول إلى الحساب الخاص بك والتحكم فيها ."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("موضوع اللون"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("نوع الموضوع"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("يجب أن يكون هناك عالم"),
         "This_note_contains_sensitive_content":
@@ -340,8 +331,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("قائمة معاينة الفيديو"),
         "Wear": MessageLookupByLibrary.simpleMessage("ارتدى"),
         "WebRTC_Permission": MessageLookupByLibrary.simpleMessage("webtc إذن"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage(
-            "شريط التنقل على شبكة الإنترنت"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("أدوات ويب"),
         "Website": MessageLookupByLibrary.simpleMessage("موقع ."),
         "What_s_happening":
