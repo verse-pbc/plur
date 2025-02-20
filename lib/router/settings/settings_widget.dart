@@ -928,11 +928,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   pickOpenBlurhashImage() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-<<<<<<< HEAD:lib/router/setting/setting_widget.dart
-      settingProvider.openBlurhashImage = resultEnumObj.value;
-=======
       settingsProvider.openBlurhashImage = resultEnumObj.value;
->>>>>>> origin/main:lib/router/settings/settings_widget.dart
     }
   }
 
