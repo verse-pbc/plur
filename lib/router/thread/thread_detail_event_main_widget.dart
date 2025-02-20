@@ -10,7 +10,7 @@ import 'package:screenshot/screenshot.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 
 class ThreadDetailItemMainWidget extends StatefulWidget {
   static double BORDER_LEFT_WIDTH = 2;
@@ -49,11 +49,11 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
     var hintColor = themeData.hintColor;
     var cardColor = themeData.cardColor;
 
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var settingsProvider = Provider.of<SettingsProvider>(context);
 
     bool showSubItems = true;
-    if (settingProvider.maxSubEventLevel != null &&
-        widget.item.currentLevel > settingProvider.maxSubEventLevel!) {
+    if (settingsProvider.maxSubEventLevel != null &&
+        widget.item.currentLevel > settingsProvider.maxSubEventLevel!) {
       showSubItems = false;
     }
 

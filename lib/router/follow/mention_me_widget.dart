@@ -16,7 +16,7 @@ import '../../component/placeholder/event_placeholder.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../consts/router_path.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
@@ -41,7 +41,7 @@ class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     var _mentionMeProvider = Provider.of<MentionMeProvider>(context);
     var eventBox = _mentionMeProvider.eventBox;
     var events = eventBox.all();
@@ -73,7 +73,7 @@ class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: settingProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
           );
         }
       },
