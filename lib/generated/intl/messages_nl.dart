@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Download vertaalmodel starten"),
         "Block": MessageLookupByLibrary.simpleMessage("limiet"),
         "Blocks": MessageLookupByLibrary.simpleMessage("limiet"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("bladwijzer"),
         "Boost": MessageLookupByLibrary.simpleMessage("bevorderen"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("uitzending"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -143,8 +142,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Focus op thema\'s"),
         "Following": MessageLookupByLibrary.simpleMessage("Volgende"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("lettertype"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("lettergrootte"),
         "Forbid": MessageLookupByLibrary.simpleMessage("verbieden"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Afbeeldingen verbieden"),
@@ -154,7 +151,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key": MessageLookupByLibrary.simpleMessage(
             "Een nieuwe sleutel genereren"),
         "Global": MessageLookupByLibrary.simpleMessage("Globaal"),
-        "Globals": MessageLookupByLibrary.simpleMessage("vierkant"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("doelwit"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("label"),
         "Hide": MessageLookupByLibrary.simpleMessage("verbergen"),
@@ -185,7 +181,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Invoerparsing mislukt"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Voer het adres in."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Sleutelback-up"),
         "Language": MessageLookupByLibrary.simpleMessage("taal"),
         "Light": MessageLookupByLibrary.simpleMessage("Lichtkleur"),
         "Lightning_Invoice":
@@ -319,7 +314,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("bron"),
         "Subject": MessageLookupByLibrary.simpleMessage("titel"),
         "Submit": MessageLookupByLibrary.simpleMessage("Verzenden"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tablet-modus"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("foto"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Tijdelijk relais"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -329,8 +323,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "De sleutel is een willekeurige tekenreeks, vergelijkbaar met uw accountwachtwoord. Iedereen die eigenaar is van deze sleutel heeft toegang tot en controle over uw account."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Themakleuren"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Thematype"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Er zou hier een universum moeten zijn."),
@@ -362,7 +354,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Draag"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC-machtigingen"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("Webnavigatiebalk"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webhulpmiddelen"),
         "Website": MessageLookupByLibrary.simpleMessage("website"),
         "What_s_happening":
