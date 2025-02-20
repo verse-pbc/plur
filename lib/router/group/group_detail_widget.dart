@@ -9,7 +9,6 @@ import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:super_tooltip/super_tooltip.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
@@ -31,17 +30,12 @@ class GroupDetailWidget extends StatefulWidget {
 
 class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   GroupIdentifier? groupIdentifier;
-  final _tooltipController = SuperTooltipController();
 
   GroupDetailProvider groupDetailProvider = GroupDetailProvider();
 
   @override
   void initState() {
     super.initState();
-    if (GroupDetailWidget.showTooltipOnGroupCreation) {
-      GroupDetailWidget.showTooltipOnGroupCreation = false;
-      _showTooltipAfterDelay();
-    }
     groupDetailProvider.refresh();
   }
 
@@ -155,7 +149,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   }
 
   void _jumpToAddNote() {
-    _hideTooltip();
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
@@ -183,22 +176,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     RouterUtil.back(context);
   }
 
-  void _editGroup() {
-    RouterUtil.router(context, RouterPath.GROUP_EDIT, groupIdentifier);
-  }
-
-  void _makeTooltip() {
-    _tooltipController.showTooltip();
-  }
-
-  void _hideTooltip() {
-    _tooltipController.hideTooltip();
-  }
-
-  Future<void> _showTooltipAfterDelay() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (mounted) {
-      _makeTooltip();
-    }
+  void _showGroupInfo() {
   }
 }
