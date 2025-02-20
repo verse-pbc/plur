@@ -402,9 +402,15 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         }
 
         var bunkerLink = info.toString();
-        settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
 
+        _doPreLogin();
+        
         nostr = await relayProvider.genNostrWithKey(bunkerLink);
+        if (nostr != null && nostr!.nostrSigner is NostrRemoteSigner) {
+          bunkerLink =
+              (nostr!.nostrSigner as NostrRemoteSigner).info.toString();
+        }
+        settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
       } finally {
         cancel.call();
       }
