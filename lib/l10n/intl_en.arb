@@ -330,5 +330,10 @@
     "Normal": "Normal",
     "Cache": "Cache",
     "Copy": "Copy",
-    "Please_input_summary": "Please input summary"
+    "Please_input_summary": "Please input summary",
+    "Opened": "Opened",
+    "Closed": "Closed",
+    "Member": "Member",
+    "group": "group",
+    "Group_Info": "Group Info"
 }

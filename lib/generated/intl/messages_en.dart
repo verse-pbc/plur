@@ -87,6 +87,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Close_Private_DM":
             MessageLookupByLibrary.simpleMessage("Close Private DM"),
         "Close_at": MessageLookupByLibrary.simpleMessage("Close at"),
+        "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "Color": MessageLookupByLibrary.simpleMessage("Color"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -186,6 +187,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
         "Group": MessageLookupByLibrary.simpleMessage("Group"),
         "GroupId": MessageLookupByLibrary.simpleMessage("GroupId"),
+        "Group_Info": MessageLookupByLibrary.simpleMessage("Group Info"),
         "Groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Hashtag"),
         "Hide": MessageLookupByLibrary.simpleMessage("Hide"),
@@ -254,6 +256,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Main_Font_Color":
             MessageLookupByLibrary.simpleMessage("Main Font Color"),
         "Max_Sub_Notes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
+        "Member": MessageLookupByLibrary.simpleMessage("Member"),
         "Members": MessageLookupByLibrary.simpleMessage("Members"),
         "Mention_User": MessageLookupByLibrary.simpleMessage("Mention User"),
         "Mentions": MessageLookupByLibrary.simpleMessage("Mentions"),
@@ -299,6 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Open User page"),
         "Open_in_browser":
             MessageLookupByLibrary.simpleMessage("Open in browser"),
+        "Opened": MessageLookupByLibrary.simpleMessage("Opened"),
         "Optional": MessageLookupByLibrary.simpleMessage("Optional"),
         "Owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "PLease_input_NWC_URL":
@@ -482,6 +486,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "boosted": MessageLookupByLibrary.simpleMessage("boosted"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
+        "group": MessageLookupByLibrary.simpleMessage("group"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":
             MessageLookupByLibrary.simpleMessage("The key has been copied!"),
