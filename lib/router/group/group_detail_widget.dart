@@ -81,11 +81,26 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       primary: true,
       expandedHeight: 60,
       leading: const AppbarBackBtnWidget(),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: bodyLargeFontSize,
-          fontWeight: FontWeight.bold,
+      titleSpacing: 0,
+      title: Container(
+        width: double.infinity,
+        height: 45,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ElevatedButton(
+          onPressed: _showGroupInfo,
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: EdgeInsets.zero,
+              backgroundColor: themeData.customColors.feedBgColor),
+          child: Text(
+            title,
+            style: TextStyle(
+                fontSize: bodyLargeFontSize,
+                fontWeight: FontWeight.bold,
+                color: themeData.customColors.primaryForegroundColor),
+          ),
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
@@ -101,10 +116,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               InviteToCommunityDialog.show(context, groupIdentifier!);
             },
           ),
-        IconButton(
-          icon: const Icon(Icons.edit_outlined),
-          onPressed: _editGroup,
-        ),
         IconButton(
           icon: const Icon(Icons.group_remove_outlined),
           onPressed: _leaveGroup,
@@ -125,25 +136,25 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     );
 
     return Scaffold(
-      body: EventDeleteCallback(
-        onDeleteCallback: _onEventDelete,
-        child: GroupIdentifierInheritedWidget(
-          key: Key("GD_${groupIdentifier.toString()}"),
-          groupIdentifier: groupIdentifier!,
-          groupAdmins: groupAdmins,
-          child: CustomScrollView(
-            slivers: [
-              appbar,
-              main,
-            ],
+        body: EventDeleteCallback(
+          onDeleteCallback: _onEventDelete,
+          child: GroupIdentifierInheritedWidget(
+            key: Key("GD_${groupIdentifier.toString()}"),
+            groupIdentifier: groupIdentifier!,
+            groupAdmins: groupAdmins,
+            child: CustomScrollView(
+              slivers: [
+                appbar,
+                main,
+              ],
+            ),
           ),
         ),
-      ),
       floatingActionButton: FloatingActionButton(
           onPressed: _jumpToAddNote,
           backgroundColor: themeData.customColors.accentColor,
+          shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 29),
-          shape: CircleBorder()
       )
     );
   }
@@ -177,5 +188,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   }
 
   void _showGroupInfo() {
+    RouterUtil.router(context, RouterPath.GROUP_INFO, groupIdentifier);
   }
 }
