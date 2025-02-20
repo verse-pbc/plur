@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
 
 ### Internal Changes
+- Added sentry crash reporting [#153](https://github.com/verse-pbc/issues/issues/153).
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)
 - Fixed the Check Changelog job [#54](https://github.com/verse-pbc/issues/issues/54)
 - Added create account test. [#154](https://github.com/verse-pbc/issues/issues/154)
