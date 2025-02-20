@@ -12,7 +12,7 @@ import 'package:nostrmo/component/music/wavlake/wavlake_track_music_info_builder
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
@@ -207,7 +207,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     iconWidgetWidth = largetFontSize + 4;
     hintColor = themeData.hintColor;
     codeBackgroundColor = hintColor!.withOpacity(0.25);
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     mdh1Style = TextStyle(
       fontSize: largetFontSize + 1,
       fontWeight: FontWeight.bold,
@@ -260,7 +260,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     });
 
     if (widget.imageListMode &&
-        settingProvider.limitNoteHeight != OpenStatus.CLOSE) {
+        settingsProvider.limitNoteHeight != OpenStatus.CLOSE) {
       // imageListMode is true, means this content is in list, should limit height
       return LayoutBuilder(builder: (context, constraints) {
         TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
@@ -1227,7 +1227,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       return;
     }
 
-    if (settingProvider.openTranslate != OpenStatus.OPEN) {
+    if (settingsProvider.openTranslate != OpenStatus.OPEN) {
       // is close
       if (targetTextMap.isNotEmpty) {
         // set targetTextMap to null
@@ -1242,7 +1242,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       if (targetTextMap.isNotEmpty) {
         // targetText had bean translated
         if (targetLanguage != null &&
-            targetLanguage!.bcpCode == settingProvider.translateTarget &&
+            targetLanguage!.bcpCode == settingsProvider.translateTarget &&
             newSourceText == sourceText) {
           // and currentTargetLanguage = settingTranslate
           return;
@@ -1250,7 +1250,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       }
     }
 
-    var translateTarget = settingProvider.translateTarget;
+    var translateTarget = settingsProvider.translateTarget;
     if (StringUtil.isBlank(translateTarget)) {
       return;
     }
@@ -1271,7 +1271,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
       if (possibleLanguages.isNotEmpty) {
         var pl = possibleLanguages[0];
-        if (!settingProvider.translateSourceArgsCheck(pl.languageTag)) {
+        if (!settingsProvider.translateSourceArgsCheck(pl.languageTag)) {
           if (targetTextMap.isNotEmpty) {
             // set targetText to null
             setState(() {

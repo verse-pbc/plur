@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("เริ่มดาวน์โหลดรูปแบบการแปล"),
         "Block": MessageLookupByLibrary.simpleMessage("ข้อ จำกัด"),
         "Blocks": MessageLookupByLibrary.simpleMessage("ข้อ จำกัด"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("บุ๊คมาร์ค"),
         "Boost": MessageLookupByLibrary.simpleMessage("โปรโมชั่น"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("ออกอากาศ"),
         "Broadcast_When_Boost":
@@ -134,8 +133,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("ชุมชนที่กังวล"),
         "Followed_Tags": MessageLookupByLibrary.simpleMessage("หัวข้อที่กังวล"),
         "Following": MessageLookupByLibrary.simpleMessage("ติดตาม"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("แบบอักษร"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("ขนาดตัวอักษร"),
         "Forbid": MessageLookupByLibrary.simpleMessage("ข้อห้าม"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("รูปภาพต้องห้าม"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("วิดีโอต้องห้าม"),
@@ -143,7 +140,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("สร้างกุญแจใหม่"),
         "Global": MessageLookupByLibrary.simpleMessage("ทั่วโลก"),
-        "Globals": MessageLookupByLibrary.simpleMessage("สแควร์"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("วัตถุประสงค์"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("ป้ายกำกับ"),
@@ -174,8 +170,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "ล้มเหลวในการแก้ปัญหาการป้อนข้อมูล"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("โปรดป้อนที่อยู่รีเลย์"),
-        "Key_Backup":
-            MessageLookupByLibrary.simpleMessage("การสำรองข้อมูลที่สำคัญ"),
         "Language": MessageLookupByLibrary.simpleMessage("ภาษา"),
         "Light": MessageLookupByLibrary.simpleMessage("สีอ่อน"),
         "Lightning_Invoice":
@@ -304,7 +298,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("แหล่งที่มา"),
         "Subject": MessageLookupByLibrary.simpleMessage("ชื่อเรื่อง"),
         "Submit": MessageLookupByLibrary.simpleMessage("ส่ง"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("โหมดแท็บเล็ต"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("ถ่ายภาพ"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("รีเลย์ชั่วคราว"),
         "Text_can_t_contain_blank_space":
@@ -314,8 +307,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "คีย์เป็นสตริงแบบสุ่มคล้ายกับรหัสผ่านบัญชีของคุณ ทุกคนที่มีกุญแจนี้สามารถเข้าถึงและควบคุมบัญชีของคุณได้"),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("สีธีม"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("ประเภทหัวข้อ"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("มันควรจะมีจักรวาลที่นี่"),
         "This_note_contains_sensitive_content":
@@ -346,7 +337,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("การสวมใส่"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("สิทธิ์ของ WebRTC"),
-        "Web_Appbar": MessageLookupByLibrary.simpleMessage("แถบนำทางเว็บ"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("เครื่องมือหน้าเว็บ"),
         "Website": MessageLookupByLibrary.simpleMessage("เว็บไซต์"),
         "What_s_happening":
