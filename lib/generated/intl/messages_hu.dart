@@ -57,7 +57,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "A fordítási modell letöltésének megkezdése"),
         "Block": MessageLookupByLibrary.simpleMessage("határérték"),
         "Blocks": MessageLookupByLibrary.simpleMessage("határérték"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("könyvjelző"),
         "Boost": MessageLookupByLibrary.simpleMessage("előmozdítani"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("sugárzás"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -141,8 +140,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Fókuszálj a témákra"),
         "Following": MessageLookupByLibrary.simpleMessage("Következő"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("betűtípus"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("betűméret"),
         "Forbid": MessageLookupByLibrary.simpleMessage("tiltsa meg"),
         "Forbid_image": MessageLookupByLibrary.simpleMessage("A képek tiltása"),
         "Forbid_video": MessageLookupByLibrary.simpleMessage("Videók tiltása"),
@@ -150,7 +147,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Új kulcs létrehozása"),
         "Global": MessageLookupByLibrary.simpleMessage("Globális"),
-        "Globals": MessageLookupByLibrary.simpleMessage("négyzet"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("célpont"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("címke"),
         "Hide": MessageLookupByLibrary.simpleMessage("rejtsd el"),
@@ -182,7 +178,6 @@ class MessageLookup extends MessageLookupByLibrary {
             "A bemeneti elemzés nem sikerült"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Kérem, adja meg a továbbító címet."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Kulcs mentés"),
         "Language": MessageLookupByLibrary.simpleMessage("nyelv"),
         "Light": MessageLookupByLibrary.simpleMessage("Világos szín"),
         "Lightning_Invoice":
@@ -313,7 +308,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("forrás"),
         "Subject": MessageLookupByLibrary.simpleMessage("cím"),
         "Submit": MessageLookupByLibrary.simpleMessage("Küldés"),
-        "Table_Mode": MessageLookupByLibrary.simpleMessage("Tabletta üzemmód"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("fénykép"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Ideiglenes relé"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -323,8 +317,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "A kulcs egy véletlenszerű karakterlánc, hasonló a fiókjához. Bárki, aki ezt a kulcsot birtokolja, hozzáférhet és irányíthatja a fiókját."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Témaszínek"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Téma típusa"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Itt kellene lennie egy univerzumnak."),
@@ -358,8 +350,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Viselés"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC engedélyek"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Webes navigációs sáv"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Webeszközök"),
         "Website": MessageLookupByLibrary.simpleMessage("honlap"),
         "What_s_happening":

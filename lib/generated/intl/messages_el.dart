@@ -58,7 +58,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Έναρξη λήψης μεταφραστικού μοντέλου"),
         "Block": MessageLookupByLibrary.simpleMessage("όριο"),
         "Blocks": MessageLookupByLibrary.simpleMessage("όριο"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("σελιδοδείκτη"),
         "Boost": MessageLookupByLibrary.simpleMessage("προώθηση"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("εκπομπή"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -144,9 +143,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Εστίαση σε θέματα"),
         "Following": MessageLookupByLibrary.simpleMessage("Ακολουθεί"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("γραμματοσειρά"),
-        "Font_Size":
-            MessageLookupByLibrary.simpleMessage("Μέγεθος γραμματοσειράς"),
         "Forbid": MessageLookupByLibrary.simpleMessage("απαγόρευση"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Απαγόρευση εικόνων"),
@@ -156,7 +152,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Δημιουργία νέου κλειδιού"),
         "Global": MessageLookupByLibrary.simpleMessage("Παγκόσμια"),
-        "Globals": MessageLookupByLibrary.simpleMessage("τετράγωνο"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("στόχος"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("ετικέτα"),
         "Hide": MessageLookupByLibrary.simpleMessage("Απόκρυψη"),
@@ -189,8 +184,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Αποτυχία ανάλυσης εισόδου"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Παρακαλώ εισάγετε τη διεύθυνση αναμετάδοσης."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage(
-            "Αντίγραφα ασφαλείας κλειδιού"),
         "Language": MessageLookupByLibrary.simpleMessage("γλώσσα"),
         "Light": MessageLookupByLibrary.simpleMessage("Ελαφρύ χρώμα"),
         "Lightning_Invoice":
@@ -325,8 +318,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("πηγή"),
         "Subject": MessageLookupByLibrary.simpleMessage("τίτλος"),
         "Submit": MessageLookupByLibrary.simpleMessage("Υποβολή"),
-        "Table_Mode":
-            MessageLookupByLibrary.simpleMessage("Λειτουργία δισκίου"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("φωτογραφία"),
         "TempRelays":
             MessageLookupByLibrary.simpleMessage("Προσωρινός ηλεκτρονόμος"),
@@ -337,8 +328,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Το κλειδί είναι μια τυχαία συμβολοσειρά, παρόμοια με τον κωδικό πρόσβασης του λογαριασμού σας. Οποιοσδήποτε κατέχει αυτό το κλειδί μπορεί να έχει πρόσβαση και να ελέγχει το λογαριασμό σας."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Χρώματα θέματος"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Τύπος θέματος"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage(
                 "Πρέπει να υπάρχει ένα σύμπαν εδώ."),
@@ -371,8 +360,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Φορώντας"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("Δικαιώματα WebRTC"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Γραμμή πλοήγησης ιστού"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Εργαλεία ιστού"),
         "Website": MessageLookupByLibrary.simpleMessage("ιστοσελίδα"),
         "What_s_happening":

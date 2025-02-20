@@ -12,7 +12,7 @@ import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import 'dm_plaintext_handle.dart';
 
 class DMDetailItemWidget extends StatefulWidget {
@@ -42,7 +42,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
 
   @override
   Widget build(BuildContext context) {
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
     Widget userHeadWidget = Container(
@@ -144,7 +144,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                   content: content,
                   event: widget.event,
                   showLinkPreview:
-                      settingProvider.linkPreview == OpenStatus.OPEN,
+                      settingsProvider.linkPreview == OpenStatus.OPEN,
                   smallest: true,
                 ),
               ],

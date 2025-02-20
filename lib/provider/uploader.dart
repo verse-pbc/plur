@@ -66,7 +66,7 @@ class Uploader {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result != null) {
-        if (settingProvider.imageService == ImageServices.NIP_95 &&
+        if (settingsProvider.imageService == ImageServices.NIP_95 &&
             result.files.single.size > NIP95_MAX_LENGTH) {
           BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
         }
@@ -89,8 +89,8 @@ class Uploader {
     if (assets != null && assets.isNotEmpty) {
       var file = await assets[0].file;
 
-      if (settingProvider.imgCompress >= 30 &&
-          settingProvider.imgCompress < 100) {
+      if (settingsProvider.imgCompress >= 30 &&
+          settingsProvider.imgCompress < 100) {
         var fileExtension = StoreUtil.getFileExtension(file!.path);
         fileExtension ??= ".jpg";
         var tempDir = await getTemporaryDirectory();
@@ -100,11 +100,11 @@ class Uploader {
         var result = await FlutterImageCompress.compressAndGetFile(
           file.path,
           tempFilePath,
-          quality: settingProvider.imgCompress,
+          quality: settingsProvider.imgCompress,
         );
 
         if (result != null) {
-          if (settingProvider.imageService == ImageServices.NIP_95 &&
+          if (settingsProvider.imageService == ImageServices.NIP_95 &&
               (await result.length()) > NIP95_MAX_LENGTH) {
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
           }
@@ -114,7 +114,7 @@ class Uploader {
         }
       }
 
-      if (settingProvider.imageService == ImageServices.NIP_95) {
+      if (settingsProvider.imageService == ImageServices.NIP_95) {
         var fileSize = StoreUtil.getFileSize(file!.path);
         if (fileSize != null && fileSize > NIP95_MAX_LENGTH) {
           BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
@@ -137,7 +137,7 @@ class Uploader {
       if (result != null) {
         for (var file in result.files) {
           var size = file.size;
-          if (settingProvider.imageService == ImageServices.NIP_95 &&
+          if (settingsProvider.imageService == ImageServices.NIP_95 &&
               size > NIP95_MAX_LENGTH) {
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
             return [];
@@ -164,8 +164,8 @@ class Uploader {
       for (var asset in assets) {
         var file = await asset.file;
 
-        if (settingProvider.imgCompress >= 30 &&
-            settingProvider.imgCompress < 100) {
+        if (settingsProvider.imgCompress >= 30 &&
+            settingsProvider.imgCompress < 100) {
           var fileExtension = StoreUtil.getFileExtension(file!.path);
           fileExtension ??= ".jpg";
           var tempDir = await getTemporaryDirectory();
@@ -175,11 +175,11 @@ class Uploader {
           var result = await FlutterImageCompress.compressAndGetFile(
             file.path,
             tempFilePath,
-            quality: settingProvider.imgCompress,
+            quality: settingsProvider.imgCompress,
           );
 
           if (result != null) {
-            if (settingProvider.imageService == ImageServices.NIP_95 &&
+            if (settingsProvider.imageService == ImageServices.NIP_95 &&
                 (await result.length()) > NIP95_MAX_LENGTH) {
               BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
               return [];
@@ -190,7 +190,7 @@ class Uploader {
           }
         }
 
-        if (settingProvider.imageService == ImageServices.NIP_95) {
+        if (settingsProvider.imageService == ImageServices.NIP_95) {
           var fileSize = StoreUtil.getFileSize(file!.path);
           if (fileSize != null && fileSize > NIP95_MAX_LENGTH) {
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
@@ -226,14 +226,14 @@ class Uploader {
     } else if (imageService == ImageServices.NIP_95) {
       return await NIP95Uploader.upload(nostr!, localPath, fileName: fileName);
     } else if (imageService == ImageServices.NIP_96 &&
-        StringUtil.isNotBlank(settingProvider.imageServiceAddr)) {
+        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
       return await NIP96Uploader.upload(
-          nostr!, settingProvider.imageServiceAddr!, localPath,
+          nostr!, settingsProvider.imageServiceAddr!, localPath,
           fileName: fileName);
     } else if (imageService == ImageServices.BLOSSOM &&
-        StringUtil.isNotBlank(settingProvider.imageServiceAddr)) {
+        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
       return await BlossomUploader.upload(
-          nostr!, settingProvider.imageServiceAddr!, localPath,
+          nostr!, settingsProvider.imageServiceAddr!, localPath,
           fileName: fileName);
     } else if (imageService == ImageServices.VOID_CAT) {
       return await VoidCatUploader.upload(localPath);
