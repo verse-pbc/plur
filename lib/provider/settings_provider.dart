@@ -12,8 +12,8 @@ import '../consts/base_consts.dart';
 import '../consts/theme_style.dart';
 import 'data_util.dart';
 
-class SettingProvider extends ChangeNotifier {
-  static SettingProvider? _settingProvider;
+class SettingsProvider extends ChangeNotifier {
+  static SettingsProvider? _settingsProvider;
 
   SharedPreferences? _sharedPreferences;
 
@@ -23,14 +23,14 @@ class SettingProvider extends ChangeNotifier {
 
   Map<String, String> _nwcUrlMap = {};
 
-  static Future<SettingProvider> getInstance() async {
-    if (_settingProvider == null) {
-      _settingProvider = SettingProvider();
-      _settingProvider!._sharedPreferences = await DataUtil.getInstance();
-      await _settingProvider!._init();
-      _settingProvider!._reloadTranslateSourceArgs();
+  static Future<SettingsProvider> getInstance() async {
+    if (_settingsProvider == null) {
+      _settingsProvider = SettingsProvider();
+      _settingsProvider!._sharedPreferences = await DataUtil.getInstance();
+      await _settingsProvider!._init();
+      _settingsProvider!._reloadTranslateSourceArgs();
     }
-    return _settingProvider!;
+    return _settingsProvider!;
   }
 
   Future<void> _init() async {
@@ -57,7 +57,7 @@ class SettingProvider extends ChangeNotifier {
             _settingData!.privateKeyMap = null;
           }
         } catch (e) {
-          log("settingProvider handle privateKey error");
+          log("settingsProvider handle privateKey error");
           log(e.toString());
         }
 
@@ -101,7 +101,7 @@ class SettingProvider extends ChangeNotifier {
 
   Future<void> reload() async {
     await _init();
-    _settingProvider!._reloadTranslateSourceArgs();
+    _settingsProvider!._reloadTranslateSourceArgs();
     notifyListeners();
   }
 
@@ -546,7 +546,7 @@ class SettingProvider extends ChangeNotifier {
     var jsonStr = json.encode(m);
     // print(jsonStr);
     await _sharedPreferences!.setString(DataKey.SETTING, jsonStr);
-    _settingProvider!._reloadTranslateSourceArgs();
+    _settingsProvider!._reloadTranslateSourceArgs();
 
     if (updateUI) {
       notifyListeners();

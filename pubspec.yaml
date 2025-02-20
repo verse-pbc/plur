@@ -100,6 +100,7 @@ dependencies:
   super_tooltip: ^2.0.9
   intl_utils: ^2.8.8
   styled_text: ^8.1.0
+  sentry_flutter: ^8.13.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.1

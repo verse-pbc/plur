@@ -55,7 +55,6 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Alusta tõlkemudeli allalaadimist"),
         "Block": MessageLookupByLibrary.simpleMessage("piirmäär"),
         "Blocks": MessageLookupByLibrary.simpleMessage("piirmäär"),
-        "Bookmark": MessageLookupByLibrary.simpleMessage("järjehoidja"),
         "Boost": MessageLookupByLibrary.simpleMessage("edendada"),
         "Broadcast": MessageLookupByLibrary.simpleMessage("ülekanne"),
         "Broadcast_When_Boost": MessageLookupByLibrary.simpleMessage(
@@ -138,8 +137,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Followed_Tags":
             MessageLookupByLibrary.simpleMessage("Keskendu teemadele"),
         "Following": MessageLookupByLibrary.simpleMessage("Järgnevalt"),
-        "Font_Family": MessageLookupByLibrary.simpleMessage("font"),
-        "Font_Size": MessageLookupByLibrary.simpleMessage("fondi suurus"),
         "Forbid": MessageLookupByLibrary.simpleMessage("keelata"),
         "Forbid_image":
             MessageLookupByLibrary.simpleMessage("Piltide keelamine"),
@@ -148,7 +145,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Generate_a_new_private_key":
             MessageLookupByLibrary.simpleMessage("Loo uus võti"),
         "Global": MessageLookupByLibrary.simpleMessage("Globaalne"),
-        "Globals": MessageLookupByLibrary.simpleMessage("ruut"),
         "Goal_Amount_In_Sats": MessageLookupByLibrary.simpleMessage("sihtmärk"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("etikett"),
         "Hide": MessageLookupByLibrary.simpleMessage("peita"),
@@ -179,7 +175,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Sisendi parsimine nurjus"),
         "Input_relay_address": MessageLookupByLibrary.simpleMessage(
             "Palun sisestage edastuse aadress."),
-        "Key_Backup": MessageLookupByLibrary.simpleMessage("Võtme varundamine"),
         "Language": MessageLookupByLibrary.simpleMessage("keel"),
         "Light": MessageLookupByLibrary.simpleMessage("Hele värv"),
         "Lightning_Invoice": MessageLookupByLibrary.simpleMessage("Välkearve"),
@@ -309,8 +304,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Source": MessageLookupByLibrary.simpleMessage("allikas"),
         "Subject": MessageLookupByLibrary.simpleMessage("pealkiri"),
         "Submit": MessageLookupByLibrary.simpleMessage("Esita"),
-        "Table_Mode":
-            MessageLookupByLibrary.simpleMessage("Tahvelarvuti režiim"),
         "Take_photo": MessageLookupByLibrary.simpleMessage("foto"),
         "TempRelays": MessageLookupByLibrary.simpleMessage("Ajutine relee"),
         "Text_can_t_contain_blank_space": MessageLookupByLibrary.simpleMessage(
@@ -320,8 +313,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "The_key_is_a_random_string_that_resembles_":
             MessageLookupByLibrary.simpleMessage(
                 "Võti on juhuslik string, mis sarnaneb teie konto parooliga. Kõik, kellele see võti kuulub, saavad teie kontole ligi pääseda ja seda kontrollida."),
-        "Theme_Color": MessageLookupByLibrary.simpleMessage("Teema värvid"),
-        "Theme_Style": MessageLookupByLibrary.simpleMessage("Teema tüüp"),
         "There_should_be_an_universe_here":
             MessageLookupByLibrary.simpleMessage("Siin peaks olema universum."),
         "This_note_contains_sensitive_content":
@@ -353,8 +344,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Wear": MessageLookupByLibrary.simpleMessage("Kandmine"),
         "WebRTC_Permission":
             MessageLookupByLibrary.simpleMessage("WebRTC õigused"),
-        "Web_Appbar":
-            MessageLookupByLibrary.simpleMessage("Veebinavigatsiooniriba"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Veebitööriistad"),
         "Website": MessageLookupByLibrary.simpleMessage("veebileht"),
         "What_s_happening":

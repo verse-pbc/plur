@@ -44,6 +44,7 @@ import 'package:nostrmo/router/web_utils/web_utils_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
@@ -75,7 +76,7 @@ import 'provider/pc_router_fake_provider.dart';
 import 'provider/relay_provider.dart';
 import 'provider/notice_provider.dart';
 import 'provider/replaceable_event_provider.dart';
-import 'provider/setting_provider.dart';
+import 'provider/settings_provider.dart';
 import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
@@ -95,7 +96,7 @@ import 'router/keybackup/key_backup_widget.dart';
 import 'router/notice/notice_widget.dart';
 import 'router/qrscanner/qrscanner_widget.dart';
 import 'router/relays/relays_widget.dart';
-import 'router/setting/setting_widget.dart';
+import 'router/settings/settings_widget.dart';
 import 'router/tag/tag_detail_widget.dart';
 import 'router/thread/thread_detail_widget.dart';
 import 'router/user/followed_communities_widget.dart';
@@ -110,7 +111,7 @@ import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
 
-late SettingProvider settingProvider;
+late SettingsProvider settingsProvider;
 
 late MetadataProvider metadataProvider;
 
@@ -206,10 +207,10 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
   sharedPreferences = dataFutureResultList[1] as SharedPreferences;
 
-  var settingTask = SettingProvider.getInstance();
+  var settingTask = SettingsProvider.getInstance();
   var metadataTask = MetadataProvider.getInstance();
   var futureResultList = await Future.wait([settingTask, metadataTask]);
-  settingProvider = futureResultList[0] as SettingProvider;
+  settingsProvider = futureResultList[0] as SettingsProvider;
   metadataProvider = futureResultList[1] as MetadataProvider;
   contactListProvider = ContactListProvider.getInstance();
   followEventProvider = FollowEventProvider();
@@ -218,7 +219,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   mentionMeNewProvider = MentionMeNewProvider();
   dmProvider = DMProvider();
   indexProvider = IndexProvider(
-    indexTap: settingProvider.defaultIndex,
+    indexTap: settingsProvider.defaultIndex,
   );
   eventReactionsProvider = EventReactionsProvider();
   noticeProvider = NoticeProvider();
@@ -294,23 +295,40 @@ Future<void> main() async {
 
   await initializeProviders();
 
-  if (StringUtil.isNotBlank(settingProvider.network)) {
-    var network = settingProvider.network;
+  if (StringUtil.isNotBlank(settingsProvider.network)) {
+    var network = settingsProvider.network;
     network = network!.trim();
     SocksProxy.initProxy(proxy: network);
   }
 
-  if (StringUtil.isNotBlank(settingProvider.privateKey)) {
-    nostr = await relayProvider.genNostrWithKey(settingProvider.privateKey!);
+  if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
+    nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
 
-    if (nostr != null && settingProvider.wotFilter == OpenStatus.OPEN) {
+    if (nostr != null && settingsProvider.wotFilter == OpenStatus.OPEN) {
       var pubkey = nostr!.publicKey;
       wotProvider.init(pubkey);
     }
   }
 
-  FlutterNativeSplash.remove();
-  runApp(MyApp());
+  // Hides the splash and runs the app.
+  void startApp() {
+    FlutterNativeSplash.remove();
+    runApp(MyApp());
+  }
+
+  if (const bool.hasEnvironment("SENTRY_DSN")) {
+    await SentryFlutter.init(
+      (options) {
+        // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+        options.environment = "staging";
+      },
+      appRunner: () {
+        startApp();
+      },
+    );
+  } else {
+    startApp();
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -376,11 +394,11 @@ class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Locale? _locale;
-    if (StringUtil.isNotBlank(settingProvider.i18n)) {
+    if (StringUtil.isNotBlank(settingsProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
-        if (item.languageCode == settingProvider.i18n &&
-            item.countryCode == settingProvider.i18nCC) {
-          _locale = Locale(settingProvider.i18n!, settingProvider.i18nCC);
+        if (item.languageCode == settingsProvider.i18n &&
+            item.countryCode == settingsProvider.i18nCC) {
+          _locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
           break;
         }
       }
@@ -391,9 +409,9 @@ class _MyApp extends State<MyApp> {
     var darkTheme = getDarkTheme();
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
-    if (settingProvider.themeStyle == ThemeStyle.LIGHT) {
+    if (settingsProvider.themeStyle == ThemeStyle.LIGHT) {
       defaultTheme = lightTheme;
-    } else if (settingProvider.themeStyle == ThemeStyle.DARK) {
+    } else if (settingsProvider.themeStyle == ThemeStyle.DARK) {
       defaultTheme = darkTheme;
     } else {
       defaultTheme = lightTheme;
@@ -422,7 +440,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.RELAYS: (context) => const RelaysWidget(),
       RouterPath.FILTER: (context) => const FilterWidget(),
       RouterPath.PROFILE_EDITOR: (context) => const ProfileEditorWidget(),
-      RouterPath.SETTING: (context) => SettingWidget(indexReload: reload),
+      RouterPath.SETTINGS: (context) => SettingsWidget(indexReload: reload),
       RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
       RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
       RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
@@ -445,8 +463,8 @@ class _MyApp extends State<MyApp> {
 
     return MultiProvider(
       providers: [
-        ListenableProvider<SettingProvider>.value(
-          value: settingProvider,
+        ListenableProvider<SettingsProvider>.value(
+          value: settingsProvider,
         ),
         ListenableProvider<MetadataProvider>.value(
           value: metadataProvider,
@@ -578,7 +596,7 @@ class _MyApp extends State<MyApp> {
 
   ThemeData getLightTheme() {
     const CustomColors light = CustomColors.light;
-    double baseFontSize = settingProvider.fontSize;
+    double baseFontSize = settingsProvider.fontSize;
 
     var textTheme = _textTheme(
       baseFontSize: baseFontSize,
@@ -589,7 +607,7 @@ class _MyApp extends State<MyApp> {
     );
 
     // Apply custom font if set
-    if (settingProvider.fontFamily != null) {
+    if (settingsProvider.fontFamily != null) {
       textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
@@ -616,7 +634,7 @@ class _MyApp extends State<MyApp> {
 
   ThemeData getDarkTheme() {
     const CustomColors dark = CustomColors.dark;
-    double baseFontSize = settingProvider.fontSize;
+    double baseFontSize = settingsProvider.fontSize;
 
     var textTheme = _textTheme(
       baseFontSize: baseFontSize,
@@ -627,7 +645,7 @@ class _MyApp extends State<MyApp> {
     );
 
     // Apply custom font if set
-    if (settingProvider.fontFamily != null) {
+    if (settingsProvider.fontFamily != null) {
       textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
@@ -656,67 +674,70 @@ class _MyApp extends State<MyApp> {
   TextTheme _textTheme({
     required double baseFontSize,
     required Color foregroundColor,
-  }) => TextTheme(
-      bodyLarge: TextStyle(
-        fontSize: baseFontSize + 2,
-        color: foregroundColor,
-      ),
-      bodyMedium: TextStyle(
-        fontSize: baseFontSize,
-        color: foregroundColor,
-      ),
-      bodySmall: TextStyle(
-        fontSize: baseFontSize - 2,
-        color: foregroundColor,
-      ),
-    );
-  }
-
-  TextStyle _titleTextStyle({
-    required Color foregroundColor,
-  }) => TextStyle(color: foregroundColor);
-
-  TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
-    GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-
-  AppBarTheme _appBarTheme({
-    required Color bgColor,
-    required TextStyle titleTextStyle,
-    required Color foregroundColor,
-  }) => AppBarTheme(
-        backgroundColor: bgColor,
-        titleTextStyle: titleTextStyle,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        iconTheme: IconThemeData(
+  }) =>
+      TextTheme(
+        bodyLarge: TextStyle(
+          fontSize: baseFontSize + 2,
+          color: foregroundColor,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: baseFontSize,
+          color: foregroundColor,
+        ),
+        bodySmall: TextStyle(
+          fontSize: baseFontSize - 2,
           color: foregroundColor,
         ),
       );
+}
 
-  TabBarTheme _tabBarTheme() => TabBarTheme(
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[200],
-      );
+TextStyle _titleTextStyle({
+  required Color foregroundColor,
+}) =>
+    TextStyle(color: foregroundColor);
 
-  IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
+TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
+    GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);
 
-  void setGetTimeAgoDefaultLocale(Locale? locale) {
-    String? localeName = Intl.defaultLocale;
-    if (locale != null) {
-      localeName = LocaleUtil.getLocaleKey(locale);
-    }
+AppBarTheme _appBarTheme({
+  required Color bgColor,
+  required TextStyle titleTextStyle,
+  required Color foregroundColor,
+}) =>
+    AppBarTheme(
+      backgroundColor: bgColor,
+      titleTextStyle: titleTextStyle,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      iconTheme: IconThemeData(
+        color: foregroundColor,
+      ),
+    );
 
-    if (StringUtil.isNotBlank(localeName)) {
-      if (GetTimeAgoSupportLocale.containsKey(localeName)) {
-        GetTimeAgo.setDefaultLocale(localeName!);
-      } else if (localeName == "zh_tw") {
-        GetTimeAgo.setDefaultLocale("zh_tr");
-      }
+TabBarTheme _tabBarTheme() => TabBarTheme(
+      indicatorColor: Colors.white,
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerHeight: 0,
+      labelColor: Colors.white,
+      unselectedLabelColor: Colors.grey[200],
+    );
+
+IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
+
+void setGetTimeAgoDefaultLocale(Locale? locale) {
+  String? localeName = Intl.defaultLocale;
+  if (locale != null) {
+    localeName = LocaleUtil.getLocaleKey(locale);
+  }
+
+  if (StringUtil.isNotBlank(localeName)) {
+    if (GetTimeAgoSupportLocale.containsKey(localeName)) {
+      GetTimeAgo.setDefaultLocale(localeName!);
+    } else if (localeName == "zh_tw") {
+      GetTimeAgo.setDefaultLocale("zh_tr");
     }
   }
+}
 
 final Map<String, int> GetTimeAgoSupportLocale = {
   'ar': 1,
