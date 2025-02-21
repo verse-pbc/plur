@@ -24,36 +24,42 @@ class GroupAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final themeData = Theme.of(context);
     final iconSize = size * 0.46;
+    final imageSize = size - borderWidth * 2;
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: theme.customColors.dimmedColor,
-          width: borderWidth,
+    return SizedBox(
+      width: size,
+      height: size,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: themeData.customColors.dimmedColor,
+            width: borderWidth,
+          ),
         ),
-      ),
-      child: SizedBox(
-        width: size,
-        height: size,
-        child: ClipOval(
-          child: imageUrl != null
-              ? Image.network(
-                  imageUrl!,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Icon(
+        child: Padding(
+          padding: EdgeInsets.all(borderWidth),
+          child: ClipOval(
+            child: imageUrl != null
+                ? Image.network(
+                    imageUrl!,
+                    width: imageSize,
+                    height: imageSize,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Icon(
+                      Icons.group,
+                      size: iconSize,
+                      color: Colors.white,
+                    ),
+                  )
+                : Icon(
                     Icons.group,
                     size: iconSize,
                     color: Colors.white,
                   ),
-                )
-              : Icon(
-                  Icons.group,
-                  size: iconSize,
-                  color: Colors.white,
-                ),
+          ),
         ),
       ),
     );

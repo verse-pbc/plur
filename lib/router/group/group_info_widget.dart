@@ -104,10 +104,13 @@ class GroupInfoWidget extends StatelessWidget {
               ),
               // Group Description (not centered)
               if (metadata.about != null)
-                Text(
-                  metadata.about!,
-                  style: themeData.textTheme.bodyMedium,
-                  textAlign: TextAlign.start,
+                SizedBox(
+                  width: double.infinity,
+                  child: Text(
+                    metadata.about!,
+                    style: themeData.textTheme.bodyMedium,
+                    textAlign: TextAlign.start,
+                  ),
                 ),
             ],
           ),
