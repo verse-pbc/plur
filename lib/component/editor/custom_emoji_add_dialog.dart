@@ -182,7 +182,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     try {
       var imagePath = await Uploader.upload(
         filepath!,
-        imageService: settingProvider.imageService,
+        imageService: settingsProvider.imageService,
       );
       log("$text $imagePath");
 

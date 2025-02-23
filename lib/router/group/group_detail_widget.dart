@@ -9,14 +9,14 @@ import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:super_tooltip/super_tooltip.dart';
+import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
-import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 
 class GroupDetailWidget extends StatefulWidget {
   static bool showTooltipOnGroupCreation = false;
@@ -30,17 +30,12 @@ class GroupDetailWidget extends StatefulWidget {
 
 class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   GroupIdentifier? groupIdentifier;
-  final _tooltipController = SuperTooltipController();
 
   GroupDetailProvider groupDetailProvider = GroupDetailProvider();
 
   @override
   void initState() {
     super.initState();
-    if (GroupDetailWidget.showTooltipOnGroupCreation) {
-      GroupDetailWidget.showTooltipOnGroupCreation = false;
-      _showTooltipAfterDelay();
-    }
     groupDetailProvider.refresh();
   }
 
@@ -71,7 +66,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
 
     String title = "${localization.Group} ${localization.Detail}";
     Widget flexBackground = Container(
-      color: themeData.hintColor.withOpacity(0.3),
+      color: themeData.appBarTheme.backgroundColor,
     );
     if (groupMetadata != null) {
       if (StringUtil.isNotBlank(groupMetadata.name)) {
@@ -86,16 +81,32 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       primary: true,
       expandedHeight: 60,
       leading: const AppbarBackBtnWidget(),
-      title: Text(
-        title,
-        style: TextStyle(
-          fontSize: bodyLargeFontSize,
-          fontWeight: FontWeight.bold,
+      titleSpacing: 0,
+      title: Container(
+        width: double.infinity,
+        height: 45,
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: ElevatedButton(
+          onPressed: _showGroupInfo,
+          style: ElevatedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              padding: EdgeInsets.zero,
+              backgroundColor: themeData.customColors.feedBgColor),
+          child: Text(
+            title,
+            style: TextStyle(
+                fontSize: bodyLargeFontSize,
+                fontWeight: FontWeight.bold,
+                color: themeData.customColors.primaryForegroundColor),
+          ),
         ),
       ),
       flexibleSpace: FlexibleSpaceBar(
         background: flexBackground,
       ),
+      bottom: const AppBarBottomBorder(),
       actions: [
         if (isAdmin)
           IconButton(
@@ -105,10 +116,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               InviteToCommunityDialog.show(context, groupIdentifier!);
             },
           ),
-        IconButton(
-          icon: const Icon(Icons.edit_outlined),
-          onPressed: _editGroup,
-        ),
         IconButton(
           icon: const Icon(Icons.group_remove_outlined),
           onPressed: _leaveGroup,
@@ -129,31 +136,30 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     );
 
     return Scaffold(
-      body: EventDeleteCallback(
-        onDeleteCallback: _onEventDelete,
-        child: GroupIdentifierInheritedWidget(
-          key: Key("GD_${groupIdentifier.toString()}"),
-          groupIdentifier: groupIdentifier!,
-          groupAdmins: groupAdmins,
-          child: CustomScrollView(
-            slivers: [
-              appbar,
-              main,
-            ],
+        body: EventDeleteCallback(
+          onDeleteCallback: _onEventDelete,
+          child: GroupIdentifierInheritedWidget(
+            key: Key("GD_${groupIdentifier.toString()}"),
+            groupIdentifier: groupIdentifier!,
+            groupAdmins: groupAdmins,
+            child: CustomScrollView(
+              slivers: [
+                appbar,
+                main,
+              ],
+            ),
           ),
         ),
-      ),
       floatingActionButton: FloatingActionButton(
           onPressed: _jumpToAddNote,
-          backgroundColor: ColorList.accent,
+          backgroundColor: themeData.customColors.accentColor,
+          shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 29),
-          shape: CircleBorder()
       )
     );
   }
 
   void _jumpToAddNote() {
-    _hideTooltip();
     List<dynamic> tags = [];
     var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
@@ -181,22 +187,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     RouterUtil.back(context);
   }
 
-  void _editGroup() {
-    RouterUtil.router(context, RouterPath.GROUP_EDIT, groupIdentifier);
-  }
-
-  void _makeTooltip() {
-    _tooltipController.showTooltip();
-  }
-
-  void _hideTooltip() {
-    _tooltipController.hideTooltip();
-  }
-
-  Future<void> _showTooltipAfterDelay() async {
-    await Future.delayed(const Duration(seconds: 1));
-    if (mounted) {
-      _makeTooltip();
-    }
+  void _showGroupInfo() {
+    RouterUtil.router(context, RouterPath.GROUP_INFO, groupIdentifier);
   }
 }

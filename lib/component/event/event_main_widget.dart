@@ -24,7 +24,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
 import '../../provider/replaceable_event_provider.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
 import '../confirm_dialog.dart';
 import '../content/content_widget.dart';
@@ -133,17 +133,17 @@ class _EventMainWidgetState extends State<EventMainWidget> {
   @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var settingsProvider = Provider.of<SettingsProvider>(context);
     if (eventRelation.id != widget.event.id) {
       // change when thread root load lazy
       eventRelation = EventRelation.fromEvent(widget.event);
     }
 
-    bool imagePreview = settingProvider.imagePreview == null ||
-        settingProvider.imagePreview == OpenStatus.OPEN;
+    bool imagePreview = settingsProvider.imagePreview == null ||
+        settingsProvider.imagePreview == OpenStatus.OPEN;
     bool videoPreview = widget.showVideo;
-    if (settingProvider.videoPreview != null) {
-      videoPreview = settingProvider.videoPreview == OpenStatus.OPEN;
+    if (settingsProvider.videoPreview != null) {
+      videoPreview = settingsProvider.videoPreview == OpenStatus.OPEN;
     }
 
     final themeData = Theme.of(context);
@@ -173,7 +173,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       }
     }
 
-    if (settingProvider.autoOpenSensitive == OpenStatus.OPEN) {
+    if (settingsProvider.autoOpenSensitive == OpenStatus.OPEN) {
       showWarning = true;
     }
 
@@ -308,7 +308,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             ));
           } else {
             list.add(
-              buildContentWidget(settingProvider, imagePreview, videoPreview),
+              buildContentWidget(settingsProvider, imagePreview, videoPreview),
             );
           }
         }
@@ -382,7 +382,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         }
 
         list.add(
-          buildContentWidget(settingProvider, imagePreview, videoPreview),
+          buildContentWidget(settingsProvider, imagePreview, videoPreview),
         );
 
         if (widget.event.kind == EventKind.POLL) {
@@ -445,7 +445,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           if (StringUtil.isNotBlank(url)) {
             if (widget.event.kind == EventKind.VIDEO_HORIZONTAL ||
                 widget.event.kind == EventKind.VIDEO_VERTICAL) {
-              if (settingProvider.videoPreview == OpenStatus.OPEN &&
+              if (settingsProvider.videoPreview == OpenStatus.OPEN &&
                   widget.showVideo) {
                 list.add(ContentVideoWidget(url: url!));
               } else {
@@ -466,8 +466,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 if (fileType == "image") {
                   list.add(ContentImageWidget(imageUrl: url));
                 } else if (fileType == "video") {
-                  if (settingProvider.videoPreview != OpenStatus.OPEN &&
-                      (settingProvider.videoPreviewInList == OpenStatus.OPEN ||
+                  if (settingsProvider.videoPreview != OpenStatus.OPEN &&
+                      (settingsProvider.videoPreviewInList == OpenStatus.OPEN ||
                           widget.showVideo)) {
                     list.add(ContentVideoWidget(url: url));
                   } else {
@@ -618,7 +618,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
   bool hideLongContent = false;
 
   Widget buildContentWidget(
-      SettingProvider settingProvider, bool imagePreview, bool videoPreview) {
+      SettingsProvider settingsProvider, bool imagePreview, bool videoPreview) {
     var content = widget.event.content;
     if (StringUtil.isBlank(content) &&
         widget.event.kind == EventKind.ZAP &&
@@ -634,7 +634,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         textOnTap: widget.textOnTap,
         showImage: imagePreview,
         showVideo: videoPreview,
-        showLinkPreview: settingProvider.linkPreview == OpenStatus.OPEN,
+        showLinkPreview: settingsProvider.linkPreview == OpenStatus.OPEN,
         imageListMode: widget.imageListMode,
         eventRelation: eventRelation,
       ),
@@ -686,7 +686,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         MarkdownNrelayInlineSyntax(),
       ],
       imageBuilder: (Uri uri, String? title, String? alt) {
-        if (settingProvider.imagePreview == OpenStatus.CLOSE) {
+        if (settingsProvider.imagePreview == OpenStatus.CLOSE) {
           return ContentLinkWidget(
             link: uri.toString(),
             title: title,

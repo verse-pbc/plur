@@ -1,50 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/metadata_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/index_provider.dart';
-import 'package:nostrmo/provider/webview_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
-import 'package:nostrmo/router/user/user_statistics_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/add_btn_wrapper_widget.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
-import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
 import '../../data/join_group_parameters.dart';
+import '../../util/theme_util.dart';
 
-class IndexDrawerContentComponnent extends StatefulWidget {
-  bool smallMode;
+/// A drawer widget that displays user information and navigation options.
+class IndexDrawerContent extends StatefulWidget {
+  /// Determines if the drawer should be in compact mode.
+  final bool smallMode;
 
-  IndexDrawerContentComponnent({
-    required this.smallMode,
-  });
+  const IndexDrawerContent({super.key, required this.smallMode});
 
   @override
-  State<StatefulWidget> createState() {
-    return _IndexDrawerContentComponnent();
-  }
+  State<StatefulWidget> createState() => _IndexDrawerContentState();
 }
 
-class _IndexDrawerContentComponnent
-    extends State<IndexDrawerContentComponnent> {
-  ScrollController userStatisticscontroller = ScrollController();
+/// The state class for [IndexDrawerContent].
+class _IndexDrawerContentState extends State<IndexDrawerContent> {
+  /// Width of the profile edit button.
+  ///
+  /// Defaults to 40.
+  final double _profileEditBtnWidth = 40;
 
-  double profileEditBtnWidth = 40;
-
-  bool readOnly = false;
+  /// Determines if the drawer is in read-only mode.
+  ///
+  /// Defaults to false.
+  bool _readOnly = false;
 
   @override
   Widget build(BuildContext context) {
-    var _indexProvider = Provider.of<IndexProvider>(context);
+    var indexProvider = Provider.of<IndexProvider>(context);
 
     final localization = S.of(context);
     var pubkey = nostr!.publicKey;
@@ -54,8 +52,9 @@ class _IndexDrawerContentComponnent
     var cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
     List<Widget> list = [];
-    readOnly = nostr!.isReadOnly();
+    _readOnly = nostr!.isReadOnly();
 
+    // Add user profile picture or metadata display based on smallMode
     if (widget.smallMode) {
       list.add(Container(
         margin: EdgeInsets.only(
@@ -87,44 +86,34 @@ class _IndexDrawerContentComponnent
         Positioned(
           top: paddingTop + Base.BASE_PADDING_HALF,
           right: Base.BASE_PADDING,
-          child: readOnly
+          child: _readOnly
               ? Container()
               : Container(
-                  height: profileEditBtnWidth,
-                  width: profileEditBtnWidth,
+                  height: _profileEditBtnWidth,
+                  width: _profileEditBtnWidth,
                   decoration: BoxDecoration(
                     color: cardColor,
-                    borderRadius:
-                        BorderRadius.circular(profileEditBtnWidth / 2),
+                    borderRadius: BorderRadius.circular(
+                      _profileEditBtnWidth / 2,
+                    ),
                   ),
                   child: IconButton(
                     icon: const Icon(Icons.edit_square),
-                    onPressed: jumpToProfileEdit,
+                    onPressed: _jumpToProfileEdit,
                   ),
                 ),
         ),
       ]));
-
-      list.add(GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onHorizontalDragUpdate: (detail) {
-          userStatisticscontroller
-              .jumpTo(userStatisticscontroller.offset - detail.delta.dx);
-        },
-        child: SingleChildScrollView(
-          controller: userStatisticscontroller,
-          scrollDirection: Axis.horizontal,
-          child: UserStatisticsWidget(pubkey: pubkey),
-        ),
-      ));
     }
 
     List<Widget> centerList = [];
+
+    // Add the HOME option to the list of drawer items.
     if (TableModeUtil.isTableMode()) {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.home_rounded,
         name: localization.Home,
-        color: _indexProvider.currentTap == 0 ? mainColor : null,
+        color: indexProvider.currentTap == 0 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(0);
         },
@@ -133,128 +122,22 @@ class _IndexDrawerContentComponnent
         },
         smallMode: widget.smallMode,
       ));
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.public_rounded,
-        name: localization.Globals,
-        color: _indexProvider.currentTap == 1 ? mainColor : null,
-        onTap: () {
-          indexProvider.setCurrentTap(1);
-        },
-        onDoubleTap: () {
-          indexProvider.globalScrollToTop();
-        },
-        smallMode: widget.smallMode,
-      ));
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.search_rounded,
-        name: localization.Search,
-        color: _indexProvider.currentTap == 2 ? mainColor : null,
-        onTap: () {
-          indexProvider.setCurrentTap(2);
-        },
-        smallMode: widget.smallMode,
-      ));
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.mail_rounded,
-        name: "DMs",
-        color: _indexProvider.currentTap == 3 ? mainColor : null,
-        onTap: () {
-          indexProvider.setCurrentTap(3);
-        },
-        smallMode: widget.smallMode,
-      ));
     }
 
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.block_rounded,
-      name: localization.Filter,
-      onTap: () {
-        RouterUtil.router(context, RouterPath.FILTER);
-      },
-      smallMode: widget.smallMode,
-    ));
-
-    if (!TableModeUtil.isTableMode()) {
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.cloud_rounded,
-        name: localization.Relays,
-        onTap: () {
-          RouterUtil.router(context, RouterPath.RELAYS);
-        },
-        smallMode: widget.smallMode,
-      ));
-    }
-
-    if (!readOnly) {
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.key_rounded,
-        name: localization.Key_Backup,
-        onTap: () {
-          RouterUtil.router(context, RouterPath.KEY_BACKUP);
-        },
-        smallMode: widget.smallMode,
-      ));
-    }
-
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.bookmarks_rounded,
-      name: localization.Bookmark,
-      onTap: () {
-        RouterUtil.router(context, RouterPath.BOOKMARK);
-      },
-      smallMode: widget.smallMode,
-    ));
-
-    if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      centerList.add(IndexDrawerItemWidget(
-        iconData: Icons.coffee_outlined,
-        name: localization.Donate,
-        onTap: () {
-          RouterUtil.router(context, RouterPath.DONATE);
-        },
-        smallMode: widget.smallMode,
-      ));
-    }
-
+    // Add the SETTINGS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
       name: localization.Settings,
       onTap: () {
-        RouterUtil.router(context, RouterPath.SETTING);
+        RouterUtil.router(context, RouterPath.SETTINGS);
       },
       smallMode: widget.smallMode,
     ));
 
-    if (!PlatformUtil.isPC()) {
-      centerList.add(
-          Selector<WebViewProvider, String?>(builder: (context, url, child) {
-        if (StringUtil.isBlank(url)) {
-          return IndexDrawerItemWidget(
-            iconData: Icons.view_list_rounded,
-            name: localization.Web_Utils,
-            onTap: () {
-              RouterUtil.router(context, RouterPath.WEBUTILS);
-            },
-            smallMode: widget.smallMode,
-          );
-        }
-
-        return IndexDrawerItemWidget(
-          iconData: Icons.public_rounded,
-          name: localization.Show_web,
-          onTap: () {
-            webViewProvider.show();
-          },
-          smallMode: widget.smallMode,
-        );
-      }, selector: (_, provider) {
-        return provider.url;
-      }));
-    }
-
+    // Add the ADD_TEST_GROUPS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.group_add,
-      name: 'Add test groups',
+      name: localization.Add_test_groups,
       onTap: () {
         const host = "wss://relay.groups.nip29.com";
         final groupIds = [
@@ -269,6 +152,7 @@ class _IndexDrawerContentComponnent
       smallMode: widget.smallMode,
     ));
 
+    // Add a flexible space to send the Account Manager widget to the bottom.
     list.add(Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -278,20 +162,7 @@ class _IndexDrawerContentComponnent
       ),
     ));
 
-    if (TableModeUtil.isTableMode() && !readOnly) {
-      list.add(AddBtnWrapperWidget(
-        child: IndexDrawerItemWidget(
-          iconData: Icons.add_rounded,
-          name: localization.Add,
-          onTap: () {},
-          onLongPress: () {
-            Uploader.pickAndUpload2NIP95(context);
-          },
-          smallMode: widget.smallMode,
-        ),
-      ));
-    }
-
+    // Add the Account Manager widget.
     list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
       name: localization.Account_Manager,
@@ -302,36 +173,37 @@ class _IndexDrawerContentComponnent
     ));
 
     if (widget.smallMode) {
+      // Add a button to exit small mode.
       list.add(Container(
         margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         child: IndexDrawerItemWidget(
           iconData: Icons.last_page_rounded,
           name: "",
-          onTap: toggleSmallMode,
+          onTap: _toggleSmallMode,
           smallMode: widget.smallMode,
         ),
       ));
     } else {
-      Widget versionWidget = Text("V " + Base.VERSION_NAME);
-
+      // Add the app version.
+      Widget versionWidget = Text("V ${Base.VERSION_NAME}");
       if (TableModeUtil.isTableMode()) {
+        // Add a button to enter small mode.
         List<Widget> subList = [];
         subList.add(GestureDetector(
-          onTap: toggleSmallMode,
+          onTap: _toggleSmallMode,
           behavior: HitTestBehavior.translucent,
           child: Container(
             margin: const EdgeInsets.only(right: Base.BASE_PADDING),
             child: const Icon(Icons.first_page_rounded),
           ),
         ));
+        // Place the app version at the right side.
         subList.add(versionWidget);
-
         versionWidget = Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: subList,
         );
       }
-
       list.add(Container(
         margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
         padding: const EdgeInsets.only(
@@ -340,11 +212,8 @@ class _IndexDrawerContentComponnent
           top: Base.BASE_PADDING,
         ),
         decoration: BoxDecoration(
-            border: Border(
-                top: BorderSide(
-          width: 1,
-          color: hintColor,
-        ))),
+          border: Border(top: BorderSide(width: 1, color: hintColor)),
+        ),
         alignment: Alignment.centerLeft,
         child: versionWidget,
       ));
@@ -360,14 +229,18 @@ class _IndexDrawerContentComponnent
     );
   }
 
-  void jumpToProfileEdit() {
+  /// Navigates to the profile edit screen.
+  void _jumpToProfileEdit() {
     var metadata = metadataProvider.getMetadata(nostr!.publicKey);
     RouterUtil.router(context, RouterPath.PROFILE_EDITOR, metadata);
   }
 
+  /// Displays the account manager modal bottom sheet.
   void _showBasicModalBottomSheet(context) async {
+    final theme = Theme.of(context);
     showModalBottomSheet(
       isScrollControlled: false,
+      backgroundColor: theme.customColors.feedBgColor,
       context: context,
       builder: (BuildContext context) {
         return AccountManagerWidget();
@@ -375,7 +248,8 @@ class _IndexDrawerContentComponnent
     );
   }
 
-  toggleSmallMode() {
+  /// Toggles between compact and expanded drawer modes.
+  void _toggleSmallMode() {
     var callback = IndexPcDrawerWrapperCallback.of(context);
     if (callback != null) {
       callback.toggle();
@@ -383,22 +257,34 @@ class _IndexDrawerContentComponnent
   }
 }
 
+/// A widget representing an item inside the navigation drawer.
 class IndexDrawerItemWidget extends StatelessWidget {
-  IconData iconData;
+  /// The icon to be displayed in the item.
+  final IconData iconData;
 
-  String name;
+  /// The label text for the item.
+  final String name;
 
-  Function onTap;
+  /// Callback function when the item is tapped.
+  final Function onTap;
 
-  Function? onDoubleTap;
+  /// Optional callback function when the item is double-tapped.
+  final Function? onDoubleTap;
 
-  Function? onLongPress;
+  /// Optional callback function when the item is long-pressed.
+  final Function? onLongPress;
 
-  Color? color;
+  /// Optional color for the icon and text.
+  final Color? color;
 
-  bool smallMode;
+  /// Indicates if the widget is being displayed in a compact mode.
+  final bool smallMode;
 
-  IndexDrawerItemWidget({
+  /// Creates an instance of [IndexDrawerItemWidget].
+  ///
+  /// The [iconData], [name], and [onTap] parameters are required.
+  /// The [smallMode] parameter defaults to `false`.
+  const IndexDrawerItemWidget({
     super.key,
     required this.iconData,
     required this.name,
@@ -411,6 +297,7 @@ class IndexDrawerItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // The icon widget
     Widget iconWidget = Icon(
       iconData,
       color: color,
@@ -418,30 +305,31 @@ class IndexDrawerItemWidget extends StatelessWidget {
 
     Widget mainWidget;
     if (smallMode) {
+      // Compact mode: Only the icon is displayed with minimal padding.
       mainWidget = Container(
         decoration: BoxDecoration(
           color: color != null ? Colors.white.withOpacity(0.1) : null,
           borderRadius: BorderRadius.circular(14),
         ),
-        padding: EdgeInsets.all(8),
-        margin: EdgeInsets.only(bottom: 2),
+        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.only(bottom: 2),
         child: iconWidget,
       );
     } else {
-      List<Widget> list = [];
-      list.add(Container(
-        margin: const EdgeInsets.only(
-          left: Base.BASE_PADDING * 2,
-          right: Base.BASE_PADDING,
-        ),
-        child: iconWidget,
-      ));
-      list.add(Text(name, style: TextStyle(color: color)));
-
-      mainWidget = Container(
+      // Normal mode: Display icon alongside text.
+      mainWidget = SizedBox(
         height: 34,
         child: Row(
-          children: list,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(
+                left: Base.BASE_PADDING * 2,
+                right: Base.BASE_PADDING,
+              ),
+              child: iconWidget,
+            ),
+            Text(name, style: TextStyle(color: color)),
+          ],
         ),
       );
     }

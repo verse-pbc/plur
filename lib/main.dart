@@ -29,6 +29,7 @@ import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members_widget.dart';
+import 'package:nostrmo/router/group/group_info_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/signup/signup_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
@@ -44,6 +45,7 @@ import 'package:nostrmo/router/web_utils/web_utils_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
@@ -51,7 +53,6 @@ import 'package:window_manager/window_manager.dart';
 
 import 'component/content/trie_text_matcher/trie_text_matcher.dart';
 import 'consts/base.dart';
-import 'consts/colors.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
@@ -76,7 +77,7 @@ import 'provider/pc_router_fake_provider.dart';
 import 'provider/relay_provider.dart';
 import 'provider/notice_provider.dart';
 import 'provider/replaceable_event_provider.dart';
-import 'provider/setting_provider.dart';
+import 'provider/settings_provider.dart';
 import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
@@ -96,7 +97,7 @@ import 'router/keybackup/key_backup_widget.dart';
 import 'router/notice/notice_widget.dart';
 import 'router/qrscanner/qrscanner_widget.dart';
 import 'router/relays/relays_widget.dart';
-import 'router/setting/setting_widget.dart';
+import 'router/settings/settings_widget.dart';
 import 'router/tag/tag_detail_widget.dart';
 import 'router/thread/thread_detail_widget.dart';
 import 'router/user/followed_communities_widget.dart';
@@ -104,14 +105,14 @@ import 'router/user/user_contact_list_widget.dart';
 import 'router/user/user_relays_widget.dart';
 import 'router/user/user_widget.dart';
 import 'system_timer.dart';
-import 'util/colors_util.dart';
 import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
+import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
 
-late SettingProvider settingProvider;
+late SettingsProvider settingsProvider;
 
 late MetadataProvider metadataProvider;
 
@@ -207,10 +208,10 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
   sharedPreferences = dataFutureResultList[1] as SharedPreferences;
 
-  var settingTask = SettingProvider.getInstance();
+  var settingTask = SettingsProvider.getInstance();
   var metadataTask = MetadataProvider.getInstance();
   var futureResultList = await Future.wait([settingTask, metadataTask]);
-  settingProvider = futureResultList[0] as SettingProvider;
+  settingsProvider = futureResultList[0] as SettingsProvider;
   metadataProvider = futureResultList[1] as MetadataProvider;
   contactListProvider = ContactListProvider.getInstance();
   followEventProvider = FollowEventProvider();
@@ -219,7 +220,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   mentionMeNewProvider = MentionMeNewProvider();
   dmProvider = DMProvider();
   indexProvider = IndexProvider(
-    indexTap: settingProvider.defaultIndex,
+    indexTap: settingsProvider.defaultIndex,
   );
   eventReactionsProvider = EventReactionsProvider();
   noticeProvider = NoticeProvider();
@@ -295,23 +296,40 @@ Future<void> main() async {
 
   await initializeProviders();
 
-  if (StringUtil.isNotBlank(settingProvider.network)) {
-    var network = settingProvider.network;
+  if (StringUtil.isNotBlank(settingsProvider.network)) {
+    var network = settingsProvider.network;
     network = network!.trim();
     SocksProxy.initProxy(proxy: network);
   }
 
-  if (StringUtil.isNotBlank(settingProvider.privateKey)) {
-    nostr = await relayProvider.genNostrWithKey(settingProvider.privateKey!);
+  if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
+    nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
 
-    if (nostr != null && settingProvider.wotFilter == OpenStatus.OPEN) {
+    if (nostr != null && settingsProvider.wotFilter == OpenStatus.OPEN) {
       var pubkey = nostr!.publicKey;
       wotProvider.init(pubkey);
     }
   }
 
-  FlutterNativeSplash.remove();
-  runApp(MyApp());
+  // Hides the splash and runs the app.
+  void startApp() {
+    FlutterNativeSplash.remove();
+    runApp(MyApp());
+  }
+
+  if (const bool.hasEnvironment("SENTRY_DSN")) {
+    await SentryFlutter.init(
+      (options) {
+        // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+        options.environment = "staging";
+      },
+      appRunner: () {
+        startApp();
+      },
+    );
+  } else {
+    startApp();
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -377,11 +395,11 @@ class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Locale? _locale;
-    if (StringUtil.isNotBlank(settingProvider.i18n)) {
+    if (StringUtil.isNotBlank(settingsProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
-        if (item.languageCode == settingProvider.i18n &&
-            item.countryCode == settingProvider.i18nCC) {
-          _locale = Locale(settingProvider.i18n!, settingProvider.i18nCC);
+        if (item.languageCode == settingsProvider.i18n &&
+            item.countryCode == settingsProvider.i18nCC) {
+          _locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
           break;
         }
       }
@@ -392,9 +410,9 @@ class _MyApp extends State<MyApp> {
     var darkTheme = getDarkTheme();
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
-    if (settingProvider.themeStyle == ThemeStyle.LIGHT) {
+    if (settingsProvider.themeStyle == ThemeStyle.LIGHT) {
       defaultTheme = lightTheme;
-    } else if (settingProvider.themeStyle == ThemeStyle.DARK) {
+    } else if (settingsProvider.themeStyle == ThemeStyle.DARK) {
       defaultTheme = darkTheme;
     } else {
       defaultTheme = lightTheme;
@@ -423,7 +441,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.RELAYS: (context) => const RelaysWidget(),
       RouterPath.FILTER: (context) => const FilterWidget(),
       RouterPath.PROFILE_EDITOR: (context) => const ProfileEditorWidget(),
-      RouterPath.SETTING: (context) => SettingWidget(indexReload: reload),
+      RouterPath.SETTINGS: (context) => SettingsWidget(indexReload: reload),
       RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
       RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
       RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
@@ -442,12 +460,13 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_DETAIL: (context) => const GroupDetailWidget(),
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
+      RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
     };
 
     return MultiProvider(
       providers: [
-        ListenableProvider<SettingProvider>.value(
-          value: settingProvider,
+        ListenableProvider<SettingsProvider>.value(
+          value: settingsProvider,
         ),
         ListenableProvider<MetadataProvider>.value(
           value: metadataProvider,
@@ -578,173 +597,148 @@ class _MyApp extends State<MyApp> {
   }
 
   ThemeData getLightTheme() {
-    Color color500 = _getMainColor();
-    MaterialColor themeColor = ColorList.getThemeColor(color500.value);
+    const CustomColors light = CustomColors.light;
+    double baseFontSize = settingsProvider.fontSize;
 
-    Color mainTextColor = Colors.black;
-    Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = Colors.grey[100];
-    Color cardColor = Colors.white;
-
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
-    }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
-    }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
-    }
-
-    double baseFontSize = settingProvider.fontSize;
-
-    var textTheme = TextTheme(
-      bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
-      bodyMedium: TextStyle(fontSize: baseFontSize, color: mainTextColor),
-      bodySmall: TextStyle(fontSize: baseFontSize - 2, color: mainTextColor),
+    var textTheme = _textTheme(
+      baseFontSize: baseFontSize,
+      foregroundColor: light.primaryForegroundColor,
     );
-    var titleTextStyle = TextStyle(
-      color: mainTextColor,
+    var titleTextStyle = _titleTextStyle(
+      foregroundColor: light.primaryForegroundColor,
     );
 
-    if (settingProvider.fontFamily != null) {
-      textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
-          textStyle: titleTextStyle);
-    }
-
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
-      scaffoldBackgroundColor = Colors.transparent;
-      cardColor = cardColor.withOpacity(0.6);
+    // Apply custom font if set
+    if (settingsProvider.fontFamily != null) {
+      textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
     return ThemeData(
-      platform: TargetPlatform.iOS,
-      primarySwatch: themeColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeColor[500]!,
-        brightness: Brightness.light,
-      ),
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      primaryColor: themeColor[500],
-      appBarTheme: AppBarTheme(
-        backgroundColor: cardColor,
+      extensions: const [light],
+      scaffoldBackgroundColor: light.appBgColor,
+      primaryColor: light.accentColor,
+      focusColor: light.secondaryForegroundColor.withOpacity(0.1),
+      appBarTheme: _appBarTheme(
+        bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+        foregroundColor: light.primaryForegroundColor,
       ),
-      dividerColor: ColorsUtil.hexToColor("#DFE1EB"),
-      cardColor: cardColor,
+      dividerColor: light.separatorColor,
+      cardColor: light.cardBgColor,
       textTheme: textTheme,
-      hintColor: hintColor,
-      buttonTheme: const ButtonThemeData(),
-      shadowColor: Colors.black.withOpacity(0.2),
-      tabBarTheme: TabBarTheme(
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[200],
-      ),
+      hintColor: light.secondaryForegroundColor,
+      shadowColor: light.dimmedColor,
+      tabBarTheme: _tabBarTheme(),
+      canvasColor: light.feedBgColor,
+      iconTheme: _iconTheme(light.primaryForegroundColor),
     );
   }
 
   ThemeData getDarkTheme() {
-    Color color500 = _getMainColor();
-    MaterialColor themeColor = ColorList.getThemeColor(color500.value);
+    const CustomColors dark = CustomColors.dark;
+    double baseFontSize = settingsProvider.fontSize;
 
-    Color? mainTextColor;
-    Color? topFontColor = Colors.grey[200];
-    Color hintColor = Colors.grey;
-    var scaffoldBackgroundColor = const Color.fromARGB(255, 40, 40, 40);
-    Color cardColor = Colors.black;
-
-    if (settingProvider.mainFontColor != null) {
-      mainTextColor = Color(settingProvider.mainFontColor!);
-    }
-    if (settingProvider.hintFontColor != null) {
-      hintColor = Color(settingProvider.hintFontColor!);
-    }
-    if (settingProvider.cardColor != null) {
-      cardColor = Color(settingProvider.cardColor!);
-    }
-
-    double baseFontSize = settingProvider.fontSize;
-
-    var textTheme = TextTheme(
-      bodyLarge: TextStyle(fontSize: baseFontSize + 2, color: mainTextColor),
-      bodyMedium: TextStyle(fontSize: baseFontSize, color: mainTextColor),
-      bodySmall: TextStyle(fontSize: baseFontSize - 2, color: mainTextColor),
+    var textTheme = _textTheme(
+      baseFontSize: baseFontSize,
+      foregroundColor: dark.primaryForegroundColor,
     );
-    var titleTextStyle = TextStyle(
-      color: topFontColor,
+    var titleTextStyle = _titleTextStyle(
+      foregroundColor: dark.primaryForegroundColor,
     );
 
-    if (settingProvider.fontFamily != null) {
-      textTheme =
-          GoogleFonts.getTextTheme(settingProvider.fontFamily!, textTheme);
-      titleTextStyle = GoogleFonts.getFont(settingProvider.fontFamily!,
-          textStyle: titleTextStyle);
-    }
-
-    if (StringUtil.isNotBlank(settingProvider.backgroundImage)) {
-      scaffoldBackgroundColor = Colors.transparent;
-      cardColor = cardColor.withOpacity(0.6);
+    // Apply custom font if set
+    if (settingsProvider.fontFamily != null) {
+      textTheme = _applyCustomFont(textTheme, titleTextStyle);
     }
 
     return ThemeData(
-      platform: TargetPlatform.iOS,
-      primarySwatch: themeColor,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: themeColor[500]!,
-        brightness: Brightness.dark,
-      ),
-      scaffoldBackgroundColor: scaffoldBackgroundColor,
-      primaryColor: themeColor[500],
-      appBarTheme: AppBarTheme(
-        backgroundColor: cardColor,
+      extensions: const [CustomColors.dark],
+      scaffoldBackgroundColor: dark.appBgColor,
+      primaryColor: dark.accentColor,
+      focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
+      appBarTheme: _appBarTheme(
+        bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+        foregroundColor: dark.primaryForegroundColor,
       ),
-      dividerColor: Colors.grey[200],
-      cardColor: cardColor,
+      dividerColor: dark.separatorColor,
+      cardColor: dark.cardBgColor,
       textTheme: textTheme,
-      hintColor: hintColor,
+      hintColor: dark.dimmedColor,
       shadowColor: Colors.white.withOpacity(0.3),
-      tabBarTheme: TabBarTheme(
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        labelColor: Colors.white,
-        unselectedLabelColor: Colors.grey[200],
-      ),
+      tabBarTheme: _tabBarTheme(),
+      canvasColor: dark.feedBgColor,
+      iconTheme: _iconTheme(dark.primaryForegroundColor),
     );
   }
 
-  void setGetTimeAgoDefaultLocale(Locale? locale) {
-    String? localeName = Intl.defaultLocale;
-    if (locale != null) {
-      localeName = LocaleUtil.getLocaleKey(locale);
-    }
-
-    if (StringUtil.isNotBlank(localeName)) {
-      if (GetTimeAgoSupportLocale.containsKey(localeName)) {
-        GetTimeAgo.setDefaultLocale(localeName!);
-      } else if (localeName == "zh_tw") {
-        GetTimeAgo.setDefaultLocale("zh_tr");
-      }
-    }
-  }
+  // Theme methods
+  TextTheme _textTheme({
+    required double baseFontSize,
+    required Color foregroundColor,
+  }) =>
+      TextTheme(
+        bodyLarge: TextStyle(
+          fontSize: baseFontSize + 2,
+          color: foregroundColor,
+        ),
+        bodyMedium: TextStyle(
+          fontSize: baseFontSize,
+          color: foregroundColor,
+        ),
+        bodySmall: TextStyle(
+          fontSize: baseFontSize - 2,
+          color: foregroundColor,
+        ),
+      );
 }
 
-Color _getMainColor() {
-  Color color500 = const Color(0xff519495);
-  if (settingProvider.themeColor != null) {
-    color500 = Color(settingProvider.themeColor!);
+TextStyle _titleTextStyle({
+  required Color foregroundColor,
+}) =>
+    TextStyle(color: foregroundColor);
+
+TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
+    GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);
+
+AppBarTheme _appBarTheme({
+  required Color bgColor,
+  required TextStyle titleTextStyle,
+  required Color foregroundColor,
+}) =>
+    AppBarTheme(
+      backgroundColor: bgColor,
+      titleTextStyle: titleTextStyle,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+      iconTheme: IconThemeData(
+        color: foregroundColor,
+      ),
+    );
+
+TabBarTheme _tabBarTheme() => TabBarTheme(
+      indicatorColor: Colors.white,
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerHeight: 0,
+      labelColor: Colors.white,
+      unselectedLabelColor: Colors.grey[200],
+    );
+
+IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
+
+void setGetTimeAgoDefaultLocale(Locale? locale) {
+  String? localeName = Intl.defaultLocale;
+  if (locale != null) {
+    localeName = LocaleUtil.getLocaleKey(locale);
   }
-  return color500;
+
+  if (StringUtil.isNotBlank(localeName)) {
+    if (GetTimeAgoSupportLocale.containsKey(localeName)) {
+      GetTimeAgo.setDefaultLocale(localeName!);
+    } else if (localeName == "zh_tw") {
+      GetTimeAgo.setDefaultLocale("zh_tr");
+    }
+  }
 }
 
 final Map<String, int> GetTimeAgoSupportLocale = {
