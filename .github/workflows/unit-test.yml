@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -p test-results
-          flutter test --no-fail-fast -r github --file-reporter conpact:test-results/flutter_test_results
+          flutter test --no-fail-fast -r github --file-reporter compact:test-results/flutter_test_results
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2
