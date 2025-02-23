@@ -6,7 +6,9 @@ concurrency:
 env:
   FLUTTER_VERSION: 3.29.0
 
-permissions: write-all
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -14,13 +16,6 @@ on:
       - main
   workflow_dispatch:
 
-
-# TODO: Create a CI account in Google Workspace for use in all Github Actions Workflows
-# TODO: Invite the new user to the plur and nostr_sdk repos.
-# Create a PAT, and use it to pull the nostr_sdk during the CI runs here.
-# TODO: None of that should be rquired, because the nostr_sdk repo is public, and can be pulled by anyone. Why can't I get it here?
-
-    
 jobs:
   test:
     name: Test
@@ -45,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -p test-results
-          flutter test --machine > test-results/flutter_test_results.json
+          flutter test -r json > test-results/flutter_test_results.json
 
       - name: Process test results
         run: |
