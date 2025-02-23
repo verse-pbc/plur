@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -p test-results
-          flutter test --no-fail-fast -r github --file-reporter expanded:test-results/flutter_test_results.md
+          flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2
@@ -57,7 +57,7 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: test-results/report.md
+          body-file: test-results/flutter_test_results
           edit-mode: replace
           
       - name: Upload test results artifact
