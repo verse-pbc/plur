@@ -19,7 +19,7 @@ import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
-import '../../provider/setting_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
@@ -34,7 +34,7 @@ import 'index_drawer_content.dart';
 import 'index_tab_item_widget.dart';
 
 class IndexWidget extends StatefulWidget {
-  static double PC_MAX_COLUMN_0 = 200;
+  static double PC_MAX_COLUMN_0 = 240;
 
   static double PC_MAX_COLUMN_1 = 550;
 
@@ -64,11 +64,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
     WidgetsBinding.instance.addObserver(this);
 
-    if (settingProvider.defaultTab != null) {
-      if (settingProvider.defaultIndex == 1) {
-        globalsInitTab = settingProvider.defaultTab!;
+    if (settingsProvider.defaultTab != null) {
+      if (settingsProvider.defaultIndex == 1) {
+        globalsInitTab = settingsProvider.defaultTab!;
       } else {
-        followInitTab = settingProvider.defaultTab!;
+        followInitTab = settingsProvider.defaultTab!;
       }
     }
 
@@ -114,7 +114,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
   @override
   Future<void> onReady(BuildContext context) async {
-    if (settingProvider.lockOpen == OpenStatus.OPEN && !unlock) {
+    if (settingsProvider.lockOpen == OpenStatus.OPEN && !unlock) {
       doAuth();
     } else {
       setState(() {
@@ -130,7 +130,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    final settingProvider = Provider.of<SettingProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     if (nostr == null) {
       return LoginSignupWidget();
     }
@@ -265,7 +265,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
     if (TableModeUtil.isTableMode()) {
       var maxWidth = mediaDataCache.size.width;
-      double column0Width = maxWidth * 1 / 5;
+      double column0Width = maxWidth * 2 / 5;
       double column1Width = maxWidth * 2 / 5;
       if (column0Width > IndexWidget.PC_MAX_COLUMN_0) {
         column0Width = IndexWidget.PC_MAX_COLUMN_0;
@@ -348,7 +348,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
       return Scaffold(
         body: mainIndex,
         drawer: Drawer(
-          child: IndexDrawerContentComponnent(
+          child: IndexDrawerContent(
             smallMode: false,
           ),
         ),

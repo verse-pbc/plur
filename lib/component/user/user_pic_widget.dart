@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/provider/setting_provider.dart';
+import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/colors_util.dart';
 import 'package:provider/provider.dart';
 
@@ -49,14 +49,14 @@ class _UserPicWidgetState extends State<UserPicWidget> {
 
   Widget buildWidget(Metadata? metadata) {
     final themeData = Theme.of(context);
-    var settingProvider = Provider.of<SettingProvider>(context);
+    var settingsProvider = Provider.of<SettingsProvider>(context);
 
     if (StringUtil.isNotBlank(widget.pubkey) &&
-        settingProvider.pubkeyColor != OpenStatus.CLOSE) {
+        settingsProvider.pubkeyColor != OpenStatus.CLOSE) {
       double imageBorder = widget.width / 14;
       Widget? imageWidget;
       if (metadata != null) {
-        if (settingProvider.profilePicturePreview != OpenStatus.CLOSE &&
+        if (settingsProvider.profilePicturePreview != OpenStatus.CLOSE &&
             StringUtil.isNotBlank(metadata.picture)) {
           imageWidget = ImageWidget(
             imageUrl: metadata.picture!,
@@ -92,7 +92,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
 
     Widget? imageWidget;
     if (metadata != null) {
-      if (settingProvider.profilePicturePreview != OpenStatus.CLOSE &&
+      if (settingsProvider.profilePicturePreview != OpenStatus.CLOSE &&
           StringUtil.isNotBlank(metadata.picture)) {
         imageWidget = ImageWidget(
           imageUrl: metadata.picture!,
