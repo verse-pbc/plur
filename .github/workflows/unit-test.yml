@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           mkdir -p test-results
-          flutter test --file-reporter "json:test-results/flutter_test_results.json"
+          flutter test --no-fail-fast --file-reporter "json:test-results/flutter_test_results.json"
 
       - name: Process test results
         run: |
