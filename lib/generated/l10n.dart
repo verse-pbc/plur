@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Add test groups`
+  String get Add_test_groups {
+    return Intl.message(
+      'Add test groups',
+      name: 'Add_test_groups',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm`
   String get Confirm {
     return Intl.message(
@@ -180,26 +190,6 @@ class S {
     );
   }
 
-  /// `Theme Style`
-  String get Theme_Style {
-    return Intl.message(
-      'Theme Style',
-      name: 'Theme_Style',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Theme Color`
-  String get Theme_Color {
-    return Intl.message(
-      'Theme Color',
-      name: 'Theme_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Default Color`
   String get Default_Color {
     return Intl.message(
@@ -235,26 +225,6 @@ class S {
     return Intl.message(
       'Don\'t Compress',
       name: 'Dont_Compress',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Font Family`
-  String get Font_Family {
-    return Intl.message(
-      'Font Family',
-      name: 'Font_Family',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Font Size`
-  String get Font_Size {
-    return Intl.message(
-      'Font Size',
-      name: 'Font_Size',
       desc: '',
       args: [],
     );
@@ -885,16 +855,6 @@ class S {
     return Intl.message(
       'Relays',
       name: 'Relays',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Key Backup`
-  String get Key_Backup {
-    return Intl.message(
-      'Key Backup',
-      name: 'Key_Backup',
       desc: '',
       args: [],
     );
@@ -1930,16 +1890,6 @@ class S {
     );
   }
 
-  /// `Globals`
-  String get Globals {
-    return Intl.message(
-      'Globals',
-      name: 'Globals',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Begin to load Contact History`
   String get Begin_to_load_Contact_History {
     return Intl.message(
@@ -1985,16 +1935,6 @@ class S {
     return Intl.message(
       'Send fail',
       name: 'Send_fail',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Web Appbar`
-  String get Web_Appbar {
-    return Intl.message(
-      'Web Appbar',
-      name: 'Web_Appbar',
       desc: '',
       args: [],
     );
@@ -2075,16 +2015,6 @@ class S {
     return Intl.message(
       'Please input title',
       name: 'Please_input_title',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Table Mode`
-  String get Table_Mode {
-    return Intl.message(
-      'Table Mode',
-      name: 'Table_Mode',
       desc: '',
       args: [],
     );
@@ -2365,16 +2295,6 @@ class S {
     return Intl.message(
       'Remove from public bookmark',
       name: 'Remove_from_public_bookmark',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Bookmark`
-  String get Bookmark {
-    return Intl.message(
-      'Bookmark',
-      name: 'Bookmark',
       desc: '',
       args: [],
     );
@@ -3060,46 +2980,6 @@ class S {
     );
   }
 
-  /// `Card Color`
-  String get Card_Color {
-    return Intl.message(
-      'Card Color',
-      name: 'Card_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Main Font Color`
-  String get Main_Font_Color {
-    return Intl.message(
-      'Main Font Color',
-      name: 'Main_Font_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Hint Font Color`
-  String get Hint_Font_Color {
-    return Intl.message(
-      'Hint Font Color',
-      name: 'Hint_Font_Color',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Background Image`
-  String get Background_Image {
-    return Intl.message(
-      'Background Image',
-      name: 'Background_Image',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Image`
   String get Image {
     return Intl.message(
@@ -3125,16 +3005,6 @@ class S {
     return Intl.message(
       'Pubkey',
       name: 'Pubkey',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Color`
-  String get Color {
-    return Intl.message(
-      'Color',
-      name: 'Color',
       desc: '',
       args: [],
     );
@@ -3365,6 +3235,56 @@ class S {
     return Intl.message(
       'Please input summary',
       name: 'Please_input_summary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Opened`
+  String get Opened {
+    return Intl.message(
+      'Opened',
+      name: 'Opened',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Closed`
+  String get Closed {
+    return Intl.message(
+      'Closed',
+      name: 'Closed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Member`
+  String get Member {
+    return Intl.message(
+      'Member',
+      name: 'Member',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `group`
+  String get group {
+    return Intl.message(
+      'group',
+      name: 'group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Group Info`
+  String get Group_Info {
+    return Intl.message(
+      'Group Info',
+      name: 'Group_Info',
       desc: '',
       args: [],
     );

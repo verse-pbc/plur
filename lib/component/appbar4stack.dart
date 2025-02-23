@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../util/router_util.dart';
+import '../util/theme_util.dart';
 
 class Appbar4Stack extends StatefulWidget {
   static double height = 46;
@@ -67,8 +68,15 @@ class _Appbar4Stack extends State<Appbar4Stack> {
 
     return Container(
       height: Appbar4Stack.height,
-      color: backgroundColor,
-      // color: Colors.red,
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        border: Border(
+          bottom: BorderSide(
+            color: themeData.customColors.separatorColor,
+            width: 1.0,
+          ),
+        ),
+      ),
       child: Row(
         children: list,
       ),

@@ -539,7 +539,7 @@ mixin EditorMixin {
               // this is a local image, update it first
               var imagePath = await Uploader.upload(
                 value,
-                imageService: settingProvider.imageService,
+                imageService: settingsProvider.imageService,
               );
               if (StringUtil.isNotBlank(imagePath)) {
                 if (StringUtil.isNotBlank(m["image"])) {
@@ -1151,7 +1151,7 @@ mixin EditorMixin {
       try {
         var fileUrl = await Uploader.upload(
           filepath!,
-          imageService: settingProvider.imageService,
+          imageService: settingsProvider.imageService,
         );
         longFormImage = fileUrl;
       } catch (e) {
