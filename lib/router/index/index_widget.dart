@@ -12,35 +12,45 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
-import 'package:nostrmo/router/follow_suggest/follow_suggest_widget.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
-import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
-import '../edit/editor_widget.dart';
-import '../follow/follow_index_widget.dart';
 import '../group/communities_widget.dart';
+import '../group/create_community_dialog.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
 import 'index_app_bar.dart';
-import 'index_bottom_bar.dart';
 import 'index_drawer_content.dart';
 import 'index_tab_item_widget.dart';
 
+/// Main navigation hub of the application that manages different sections including:
+/// * Groups
+/// * Search functionality
+/// * Direct Messages (DMs)
+///
+/// This widget handles:
+/// * Tab-based navigation
+/// * Responsive layout (PC/tablet vs mobile)
+/// * Authentication state
+/// * App lifecycle management
+/// * Music player integration
 class IndexWidget extends StatefulWidget {
+  /// Maximum width for the navigation drawer in PC mode
   static double PC_MAX_COLUMN_0 = 240;
 
+  /// Maximum width for the main content area in PC mode
   static double PC_MAX_COLUMN_1 = 550;
 
-  Function reload;
+  /// Callback function to reload the application state
+  final Function reload;
 
-  IndexWidget({super.key, required this.reload});
+  const IndexWidget({super.key, required this.reload});
 
   @override
   State<StatefulWidget> createState() {
@@ -50,20 +60,27 @@ class IndexWidget extends StatefulWidget {
 
 class _IndexWidgetState extends CustState<IndexWidget>
     with TickerProviderStateMixin, WidgetsBindingObserver {
+  /// Controller for the following tab views
   late TabController followTabController;
 
+  /// Controller for the global feed tab views
   late TabController globalsTabController;
 
+  /// Controller for the DM (Direct Messages) tab views
   late TabController dmTabController;
 
   @override
   void initState() {
     super.initState();
+
+    // Initialize with default tab based on user settings
     int followInitTab = 0;
     int globalsInitTab = 0;
 
+    // Add observer for app lifecycle events
     WidgetsBinding.instance.addObserver(this);
 
+    // Set initial tab based on user preferences
     if (settingsProvider.defaultTab != null) {
       if (settingsProvider.defaultIndex == 1) {
         globalsInitTab = settingsProvider.defaultTab!;
@@ -72,12 +89,14 @@ class _IndexWidgetState extends CustState<IndexWidget>
       }
     }
 
+    // Initialize tab controllers
     followTabController =
         TabController(initialIndex: followInitTab, length: 3, vsync: this);
     globalsTabController =
         TabController(initialIndex: globalsInitTab, length: 3, vsync: this);
     dmTabController = TabController(length: 2, vsync: this);
 
+    // Initialize in-app purchases for mobile platforms
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
       try {
         asyncInitState();
@@ -87,12 +106,14 @@ class _IndexWidgetState extends CustState<IndexWidget>
     }
   }
 
+  /// Handles app lifecycle state changes to manage Nostr connection
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed:
         print("AppLifecycleState.resumed");
+        // Reconnect to Nostr when app is resumed
         if (nostr != null) {
           nostr!.reconnect();
         }
@@ -112,6 +133,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
     }
   }
 
+  /// Flag to track if the app is unlocked (authenticated)
+  bool unlock = false;
+
+  /// Handles initial authentication if lock is enabled
   @override
   Future<void> onReady(BuildContext context) async {
     if (settingsProvider.lockOpen == OpenStatus.OPEN && !unlock) {
@@ -123,25 +148,27 @@ class _IndexWidgetState extends CustState<IndexWidget>
     }
   }
 
-  bool unlock = false;
-
   @override
   Widget doBuild(BuildContext context) {
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+    // Show login screen if not connected to Nostr
     if (nostr == null) {
       return LoginSignupWidget();
     }
 
+    // Show empty scaffold while authenticating
     if (!unlock) {
       return Scaffold();
     }
 
+    // Build the main interface
     var indexProvider = Provider.of<IndexProvider>(context);
     indexProvider.setFollowTabController(followTabController);
     indexProvider.setGlobalTabController(globalsTabController);
+
+    // Configure theme and styles
     final themeData = Theme.of(context);
     var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
     var titleTextStyle = TextStyle(
@@ -151,13 +178,21 @@ class _IndexWidgetState extends CustState<IndexWidget>
     );
     Color? indicatorColor = themeData.primaryColor;
 
+    // Build app bar content based on current tab
     Widget? appBarCenter;
+    Widget? appBarRight;
     if (indexProvider.currentTap == 0) {
       appBarCenter = Center(
         child: Text(
-          'Communities',
+          localization.Your_Groups,
           style: titleTextStyle,
         ),
+      );
+      appBarRight = GestureDetector(
+        onTap: () {
+          CreateCommunityDialog.show(context);
+        },
+        child: const Icon(Icons.group_add),
       );
     } else if (indexProvider.currentTap == 1) {
       appBarCenter = TabBar(
@@ -234,6 +269,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         children: [
           IndexAppBar(
             center: appBarCenter,
+            right: appBarRight,
           ),
           mainCenterWidget,
         ],
@@ -398,6 +434,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   void dispose() async {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
+    // Cleanup in-app purchase subscriptions
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
       if (_purchaseUpdatedSubscription != null) {
         _purchaseUpdatedSubscription!.cancel();
