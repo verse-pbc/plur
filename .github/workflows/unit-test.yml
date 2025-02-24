@@ -37,14 +37,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run tests
+      - name: Run and Summarize tests
         run: |
-          mkdir -p test-results
-          flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results.txt
-      
-      - name: Summarize test results
-        run: |
-          grep -o "[✅❌].*" test-results/flutter_test_results.txt >> test-results/summarized_test_results.txt
+          mkdir -p ./test-results
+          flutter test --no-fail-fast -r github --file-reporter github:./test-results/flutter_test_results.txt
+          grep -o "[✅❌].*" test-results/flutter_test_results.txt >> ./test-results/summarized_test_results.txt
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2
