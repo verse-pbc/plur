@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Change the color of rounded avatars in feeds.
 - Removed unneeded options from the main menu.
 - Added a new screen that allows you to generate a new keypair.
 - Updated the Login screen.
