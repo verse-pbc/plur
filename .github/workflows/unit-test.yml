@@ -39,12 +39,13 @@ jobs:
 
       - name: Run and Summarize tests
         run: |
-          mkdir -p ./test-results
-          flutter test --no-fail-fast -r github --file-reporter github:./test-results/flutter_test_results.txt
-          grep -o "[✅❌].*" ./test-results/flutter_test_results.txt >> ./test-results/summarized_test_results.txt
+          mkdir -p test-results
+          flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results.txt
+          echo "##Flutter Test Results" >>test-results/summarized_test_results.txt
+          grep -o "[✅❌].*" test-results/flutter_test_results.txt >> test-results/summarized_test_results.txt
 
       - name: Find Comment
-        uses: peter-evans/find-comment@v2
+        uses: peter-evans/find-comment@v3
         if: always()
         id: fc
         with:
@@ -53,12 +54,12 @@ jobs:
           body-includes: Flutter Test Results
           
       - name: Create or Update Comment
-        uses: peter-evans/create-or-update-comment@v3
+        uses: peter-evans/create-or-update-comment@v4
         if: always()
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: ./test-results/summarized_test_results.txt
+          body-path: test-results/summarized_test_results.txt
           edit-mode: replace
           
       - name: Upload test results artifact
