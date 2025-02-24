@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
-import '../../consts/router_path.dart';
-import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../provider/relay_provider.dart';
-import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
+/// A custom app bar widget for the main/home page of the application that includes
+/// a user profile picture, optional center and right widgets, and adapts to tablet mode.
+///
+/// The app bar has a fixed height of 56 logical pixels (excluding status bar padding)
+/// and includes:
+/// * Left: User profile picture (or empty space in tablet mode)
+/// * Center: Optional center widget
+/// * Right: Optional right widget
 class IndexAppBar extends StatefulWidget {
   static const double height = 56;
 
-  Widget? center;
+  final Widget? center;
+  final Widget? right;
 
-  IndexAppBar({super.key, this.center});
+  const IndexAppBar({super.key, this.center, this.right});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,17 +29,19 @@ class IndexAppBar extends StatefulWidget {
 }
 
 class _IndexAppBar extends State<IndexAppBar> {
-  double picHeight = 30;
+  // Height/width of the user profile picture
+  final double picHeight = 30;
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var paddingTop = mediaDataCache.padding.top;
-    var textColor = themeData.appBarTheme.titleTextStyle!.color;
-    var appBarBackgroundColor = themeData.appBarTheme.backgroundColor;
+    final paddingTop = mediaDataCache.padding.top;
+    final appBarBackgroundColor = themeData.appBarTheme.backgroundColor;
 
+    // Configure user profile picture based on device mode
     Widget? userPicWidget;
     if (!TableModeUtil.isTableMode()) {
+      // In phone mode, show clickable user profile picture that opens drawer
       userPicWidget = GestureDetector(
         onTap: () {
           Scaffold.of(context).openDrawer();
@@ -45,27 +52,19 @@ class _IndexAppBar extends State<IndexAppBar> {
         ),
       );
     } else {
+      // In tablet mode, maintain spacing but hide profile picture
       userPicWidget = Container(
         width: picHeight,
       );
     }
 
-    var center = widget.center;
-    center ??= Container();
-
-    var rightWidget =
-        Selector<RelayProvider, String>(builder: (context, relayNum, child) {
-      return Text(
-        relayNum,
-        style: TextStyle(color: textColor),
-      );
-    }, selector: (_, provider) {
-      return provider.relayNumStr();
-    });
+    // Use provided widgets or fallback to empty containers
+    final center = widget.center ?? Container();
+    final right = widget.right ?? Container();
 
     return Container(
       padding: EdgeInsets.only(
-        top: paddingTop,
+        top: paddingTop, // Account for status bar
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
       ),
@@ -73,29 +72,27 @@ class _IndexAppBar extends State<IndexAppBar> {
       decoration: BoxDecoration(
         color: appBarBackgroundColor,
         border: Border(
-          bottom:
-              BorderSide(width: 1, color: themeData.scaffoldBackgroundColor),
+          bottom: BorderSide(
+            width: 1,
+            color: themeData.customColors.separatorColor,
+          ),
         ),
       ),
       child: Row(children: [
+        // Left section - User profile picture
         Container(
           child: userPicWidget,
         ),
+        // Center section - Flexible to take remaining space
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
-            ),
             child: center,
           ),
         ),
-        GestureDetector(
-          onTap: () {
-            RouterUtil.router(context, RouterPath.RELAYS);
-          },
-          child: rightWidget,
-        ),
+        // Right section
+        Container(
+          child: right,
+        )
       ]),
     );
   }
