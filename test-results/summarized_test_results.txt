@@ -1,0 +1,2 @@
+❌ Sign Up button creates account (failed)
+✅ Checkbox enables button
