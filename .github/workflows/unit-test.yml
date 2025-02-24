@@ -44,7 +44,7 @@ jobs:
       
       - name: Summarize test results
         run: |
-          grep -o "[✅❌].*" test-results/flutter_test_results.txt >> test_results/summarized_test_results.txt
+          grep -o "[✅❌].*" test-results/flutter_test_results.txt >> test-results/summarized_test_results.txt
 
       - name: Find Comment
         uses: peter-evans/find-comment@v2
@@ -61,7 +61,7 @@ jobs:
         with:
           comment-id: ${{ steps.fc.outputs.comment-id }}
           issue-number: ${{ github.event.pull_request.number }}
-          body-file: test-results/summarized_test_results.txt
+          body-file: ./test-results/summarized_test_results.txt
           edit-mode: replace
           
       - name: Upload test results artifact
