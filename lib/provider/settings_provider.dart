@@ -321,8 +321,6 @@ class SettingsProvider extends ChangeNotifier {
 
   int? get openBlurhashImage => _settingData!.openBlurhashImage;
 
-  int? get pubkeyColor => _settingData!.pubkeyColor;
-
   int? get wotFilter => _settingData!.wotFilter;
 
   set settingData(SettingData o) {
@@ -532,11 +530,6 @@ class SettingsProvider extends ChangeNotifier {
     saveAndNotifyListeners();
   }
 
-  set pubkeyColor(int? o) {
-    _settingData!.pubkeyColor = o;
-    saveAndNotifyListeners();
-  }
-
   set wotFilter(int? o) {
     _settingData!.wotFilter = o;
     saveAndNotifyListeners();
@@ -648,8 +641,6 @@ class SettingData {
 
   int? openBlurhashImage;
 
-  int? pubkeyColor;
-
   int? wotFilter;
 
   /// updated time
@@ -696,7 +687,6 @@ class SettingData {
     this.hideRelayNotices,
     this.nwcUrlMap,
     this.openBlurhashImage,
-    this.pubkeyColor,
     this.wotFilter,
     this.updatedTime = 0,
   });
@@ -755,7 +745,6 @@ class SettingData {
     hideRelayNotices = json['hideRelayNotices'];
     nwcUrlMap = json['nwcUrlMap'];
     openBlurhashImage = json['openBlurhashImage'];
-    pubkeyColor = json['pubkeyColor'];
     wotFilter = json['wotFilter'];
     if (json['updatedTime'] != null) {
       updatedTime = json['updatedTime'];
@@ -807,7 +796,6 @@ class SettingData {
     data['hideRelayNotices'] = hideRelayNotices;
     data['nwcUrlMap'] = nwcUrlMap;
     data['openBlurhashImage'] = openBlurhashImage;
-    data['pubkeyColor'] = pubkeyColor;
     data['wotFilter'] = wotFilter;
     data['updatedTime'] = updatedTime;
     return data;

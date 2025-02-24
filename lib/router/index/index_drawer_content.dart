@@ -328,7 +328,13 @@ class IndexDrawerItemWidget extends StatelessWidget {
               ),
               child: iconWidget,
             ),
-            Text(name, style: TextStyle(color: color)),
+            Expanded(
+              child: Text(
+                name,
+                style: TextStyle(color: color),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ],
         ),
       );
