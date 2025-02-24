@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run and Summarize tests
+      - name: Run Tests
         run: |
           mkdir -p test-results
           flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results.txt
@@ -45,7 +45,7 @@ jobs:
       - name: Summarize Test Results
         if: always()
         run: |
-          echo "##Flutter Test Results" >> test-results/summarized_test_results.txt
+          echo "## Flutter Test Results:" >> test-results/summarized_test_results.txt
           grep -o "[✅❌].*" test-results/flutter_test_results.txt >> test-results/summarized_test_results.txt
 
       - name: Find Comment
@@ -57,12 +57,6 @@ jobs:
           comment-author: 'github-actions[bot]'
           body-includes: Flutter Test Results
       
-      - name: debug
-        if: always()
-        run: |
-          ls -la
-          pwd
-          
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v4
         if: always()
