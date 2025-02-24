@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir -p test-results
           flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results.txt
-          echo "##Flutter Test Results" >>test-results/summarized_test_results.txt
+          echo "##Flutter Test Results" >> test-results/summarized_test_results.txt
           grep -o "[✅❌].*" test-results/flutter_test_results.txt >> test-results/summarized_test_results.txt
 
       - name: Find Comment
