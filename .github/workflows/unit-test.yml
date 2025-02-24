@@ -6,7 +6,9 @@ concurrency:
 env:
   FLUTTER_VERSION: 3.29.0
 
-permissions: write-all
+permissions:
+  contents: read
+  pull-requests: write
 
 on:
   pull_request:
@@ -50,6 +52,11 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           comment-author: 'github-actions[bot]'
           body-includes: Flutter Test Results
+      
+      - name: debug
+        run: |
+          ls -la
+          pwd
           
       - name: Create or Update Comment
         uses: peter-evans/create-or-update-comment@v4
