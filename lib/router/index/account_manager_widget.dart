@@ -264,7 +264,11 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
     } else if (NostrRemoteSignerInfo.isBunkerUrl(widget.accountKey)) {
       var info = NostrRemoteSignerInfo.parseBunkerUrl(widget.accountKey);
       if (info != null) {
-        pubkey = info.remoteSignerPubkey;
+        if (StringUtil.isNotBlank(info.userPubkey)) {
+          pubkey = info.userPubkey!;
+        } else {
+          pubkey = info.remoteSignerPubkey;
+        }
       }
       loginTag = "NIP-46";
     } else {
