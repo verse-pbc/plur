@@ -274,7 +274,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
       try {
         pubkey = getPublicKey(widget.accountKey);
       } catch (exception, stackTrace) {
-        WidgetsBinding.instance.addPostFrameCallback((_){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           Sentry.captureException(exception, stackTrace: stackTrace);
         });
       }
