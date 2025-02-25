@@ -114,7 +114,7 @@ class RelayProvider extends ChangeNotifier {
         return null;
       }
       bool hasConnected = false;
-      if (StringUtil.isNotBlank(info.userPubkey)) { 
+      if (StringUtil.isNotBlank(info.userPubkey)) {
         hasConnected = true;
       }
       nostrSigner = NostrRemoteSigner(
