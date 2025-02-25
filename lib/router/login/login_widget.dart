@@ -405,7 +405,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         var bunkerLink = info.toString();
 
         _doPreLogin();
-        
+
         nostr = await relayProvider.genNostrWithKey(bunkerLink);
         if (nostr != null && nostr!.nostrSigner is NostrRemoteSigner) {
           bunkerLink =
