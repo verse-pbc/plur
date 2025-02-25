@@ -123,6 +123,12 @@ class RelayProvider extends ChangeNotifier {
           info);
       await (nostrSigner as NostrRemoteSigner)
           .connect(sendConnectRequest: !hasConnected);
+      if (StringUtil.isBlank(info.userPubkey)) {
+        await nostrSigner.pullPubkey();
+      }
+      if (await nostrSigner.getPublicKey() == null) {
+        return null;
+      }
     } else {
       try {
         nostrSigner = LocalNostrSigner(key);
