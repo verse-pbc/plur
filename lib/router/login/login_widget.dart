@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
@@ -340,7 +341,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
       nostr = await relayProvider.genNostrWithKey(privateKey);
 
-      if (backAfterLogin) {
+      if (backAfterLogin && mounted) {
         RouterUtil.back(context);
       }
 
@@ -370,8 +371,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         var cancelFunc = BotToast.showLoading();
         try {
           pubkey = await Nip05Validor.getPubkey(pk);
-        } catch (e) {
-          print("doLogin error ${e.toString()}");
+        } catch (exception, stackTrace) {
+          await Sentry.captureException(exception, stackTrace: stackTrace);
         } finally {
           cancelFunc.call();
         }
@@ -434,7 +435,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       nostr = await relayProvider.genNostrWithKey(pk);
     }
 
-    if (backAfterLogin) {
+    if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
 
@@ -461,7 +462,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
-    if (backAfterLogin) {
+    if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
 
@@ -485,7 +486,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(signer);
 
-    if (backAfterLogin) {
+    if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
 
