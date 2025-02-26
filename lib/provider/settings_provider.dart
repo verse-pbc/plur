@@ -301,7 +301,7 @@ class SettingsProvider extends ChangeNotifier {
 
   int get webviewAppbarOpen => _settingData!.webviewAppbarOpen;
 
-  int? get tableMode => _settingData!.tableMode;
+  int? get tableMode => OpenStatus.CLOSE;
 
   int? get autoOpenSensitive => _settingData!.autoOpenSensitive;
 
