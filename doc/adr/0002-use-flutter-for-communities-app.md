@@ -1,4 +1,4 @@
-# 2. use-flutter-for-communities-app
+# 2. Use Flutter For Communities App
 
 Date: 2025-02-05
 
@@ -10,7 +10,7 @@ Accepted
 
 ## Context & Problem Statement
 
-We have been tasked with building a new app on the Nostr protocol that is focused on private and public communities. The app needs to work well across all platforms (ios, android, web, desktop), it needs to be performant, and we need to be able to iterate on it quickly to find product market fit. We want to keep the development team we have built while working on Nos.social, which is a team of native iOS developers.
+We have been tasked with building a new app on the Nostr protocol that is focused on private and public communities. The app needs to work well across all platforms (iOS, Android, web, desktop), it needs to be performant, and we need to be able to iterate on it quickly to find product market fit. We want to keep the development team we have built while working on Nos.social, which is a team of native iOS developers.
 
 ## Considered Options
 
@@ -54,4 +54,6 @@ Our full research docs are in our company's [Notion](https://www.notion.so/nosso
 
 ## Decision
 
-We will build this app using Flutter. Flutter best meets our need to iterate quickly, and has good tooling to sustain long term development. It is the tech stack our team is most familiar with. It gives us the flexibility to deploy on whatever platforms we find are necessary, including Windows, macOS, Linux, and the web. Giving up native UI is a tradeoff we are willing to make given that most of the competition in the community space are doing the same. 
+We will build this app using Flutter. Flutter best meets our need to iterate quickly, and has good tooling to sustain long term development. It is the tech stack our team is most familiar with. It gives us the flexibility to deploy on whatever platforms we find are necessary, including Windows, macOS, Linux, and the web. 
+
+Giving up native UI is a tradeoff we are willing to make given that most of the competition in the community space are doing the same. We can also accept the inefficiencies that come with the Dart programming language and the ecosystem of many dependencies, given that they are offset by shipping one codebase to all platforms.
