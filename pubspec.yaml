@@ -201,3 +201,4 @@ sentry:
   project: "plur"
   org: "verse"
   url: "https://sentry.nos.social"
+  ignore_missing: true
