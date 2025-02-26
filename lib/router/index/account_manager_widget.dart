@@ -1,10 +1,8 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/editor/text_input_dialog.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
@@ -14,9 +12,8 @@ import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
-import '../../component/confirm_dialog.dart';
-import '../../component/image_widget.dart';
 import '../../consts/base.dart';
 import '../../data/dm_session_info_db.dart';
 import '../../data/event_db.dart';
@@ -25,6 +22,8 @@ import '../../main.dart';
 import 'index_drawer_content.dart';
 
 class AccountManagerWidget extends StatefulWidget {
+  const AccountManagerWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return AccountManagerWidgetState();
@@ -92,11 +91,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
       width: double.maxFinite,
       child: TextButton(
         onPressed: addAccount,
-        style: ButtonStyle(
-          side: MaterialStateProperty.all(BorderSide(
-            width: 1,
-            color: hintColor.withOpacity(0.4),
-          )),
+        style: TextButton.styleFrom(
+          side: BorderSide(width: 1, color: hintColor.withOpacity(0.4)),
         ),
         child: Text(
           localization.Add_Account,
@@ -162,6 +158,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
           cancelFunc.call();
         }
         settingsProvider.notifyListeners();
+
+        if (!mounted) return;
         RouterUtil.back(context);
       }
     }
@@ -186,7 +184,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
     }
 
     settingsProvider.notifyListeners();
-    if (routerBack && context != null) {
+    if (routerBack && context != null && context.mounted) {
       RouterUtil.back(context);
     }
   }
@@ -216,17 +214,18 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
 }
 
 class AccountManagerItemWidget extends StatefulWidget {
-  bool isCurrent;
+  final bool isCurrent;
 
-  int index;
+  final int index;
 
-  String accountKey;
+  final String accountKey;
 
-  Function(int)? onLoginTap;
+  final Function(int)? onLoginTap;
 
-  Function(int)? onLogoutTap;
+  final Function(int)? onLogoutTap;
 
-  AccountManagerItemWidget({
+  const AccountManagerItemWidget({
+    super.key,
     required this.isCurrent,
     required this.index,
     required this.accountKey,
@@ -241,9 +240,9 @@ class AccountManagerItemWidget extends StatefulWidget {
 }
 
 class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
-  static const double IMAGE_WIDTH = 26;
+  static const double imageWidth = 26;
 
-  static const double LINE_HEIGHT = 44;
+  static const double lineHeight = 44;
 
   String pubkey = "";
 
@@ -264,13 +263,21 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
     } else if (NostrRemoteSignerInfo.isBunkerUrl(widget.accountKey)) {
       var info = NostrRemoteSignerInfo.parseBunkerUrl(widget.accountKey);
       if (info != null) {
-        pubkey = info.remoteSignerPubkey;
+        if (StringUtil.isNotBlank(info.userPubkey)) {
+          pubkey = info.userPubkey!;
+        } else {
+          pubkey = info.remoteSignerPubkey;
+        }
       }
       loginTag = "NIP-46";
     } else {
       try {
         pubkey = getPublicKey(widget.accountKey);
-      } catch (e) {}
+      } catch (exception, stackTrace) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          Sentry.captureException(exception, stackTrace: stackTrace);
+        });
+      }
       loginTag = "";
     }
   }
@@ -307,7 +314,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
 
       list.add(UserPicWidget(
         pubkey: pubkey,
-        width: IMAGE_WIDTH,
+        width: imageWidth,
         metadata: metadata,
       ));
 
@@ -360,7 +367,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
         onTap: onLogout,
         child: Container(
           padding: const EdgeInsets.only(left: 5),
-          height: LINE_HEIGHT,
+          height: lineHeight,
           child: const Icon(Icons.logout),
         ),
       ));
@@ -369,7 +376,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
         onTap: onTap,
         behavior: HitTestBehavior.translucent,
         child: Container(
-          height: LINE_HEIGHT,
+          height: lineHeight,
           width: double.maxFinite,
           padding: const EdgeInsets.only(
             left: Base.BASE_PADDING * 2,
