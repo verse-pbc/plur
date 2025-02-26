@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where the group name would not show up. [#161](https://github.com/verse-pbc/issues/issues/161)
 - Updated colors for light and dark mode. [#151](https://github.com/verse-pbc/issues/issues/151)
 - Fixed an issue where a user could not join a group by invitation link. [#149](https://github.com/verse-pbc/issues/issues/149)
+- Fixed an issue that prevented users from logging in with a bunker URL. [#221](https://github.com/verse-pbc/issues/issues/221)
 - Added a new group info screen and moved the edit group button. [#188](https://github.com/verse-pbc/issues/issues/188)
 
 ### Known Issues
