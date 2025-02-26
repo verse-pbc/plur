@@ -18,6 +18,7 @@ import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
@@ -128,7 +129,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
   }
 
   bool unlock = false;
-
   /// Handles initial authentication if lock is enabled
   @override
   Future<void> onReady(BuildContext context) async {
@@ -146,7 +146,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    // Show login screen if not connected to Nostr
+    final settingsProvider = Provider.of<SettingsProvider>(context);
     if (nostr == null) {
       return LoginSignupWidget();
     }
