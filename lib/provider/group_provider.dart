@@ -89,6 +89,9 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     return null;
   }
 
+  int getMemberCount(GroupIdentifier groupIdentifier) =>
+      getMembers(groupIdentifier)?.members?.length ?? 0;
+
   void _updateMember(GroupIdentifier groupIdentifier) {
     var membersJsonMap =
         _genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
