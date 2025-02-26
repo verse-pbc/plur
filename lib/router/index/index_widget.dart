@@ -60,20 +60,15 @@ class IndexWidget extends StatefulWidget {
 
 class _IndexWidgetState extends CustState<IndexWidget>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-  /// Controller for the following tab views
+
   late TabController followTabController;
-
-  /// Controller for the global feed tab views
   late TabController globalsTabController;
-
-  /// Controller for the DM (Direct Messages) tab views
   late TabController dmTabController;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize with default tab based on user settings
     int followInitTab = 0;
     int globalsInitTab = 0;
 
@@ -89,7 +84,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
       }
     }
 
-    // Initialize tab controllers
     followTabController =
         TabController(initialIndex: followInitTab, length: 3, vsync: this);
     globalsTabController =
@@ -133,7 +127,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
     }
   }
 
-  /// Flag to track if the app is unlocked (authenticated)
   bool unlock = false;
 
   /// Handles initial authentication if lock is enabled
@@ -158,17 +151,14 @@ class _IndexWidgetState extends CustState<IndexWidget>
       return LoginSignupWidget();
     }
 
-    // Show empty scaffold while authenticating
     if (!unlock) {
       return Scaffold();
     }
 
-    // Build the main interface
     var indexProvider = Provider.of<IndexProvider>(context);
     indexProvider.setFollowTabController(followTabController);
     indexProvider.setGlobalTabController(globalsTabController);
 
-    // Configure theme and styles
     final themeData = Theme.of(context);
     var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
     var titleTextStyle = TextStyle(
