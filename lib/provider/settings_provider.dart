@@ -301,6 +301,13 @@ class SettingsProvider extends ChangeNotifier {
 
   int get webviewAppbarOpen => _settingData!.webviewAppbarOpen;
 
+  /// tableMode is fixed to CLOSE. The user cannot change it from Settings
+  /// because we removed that option but tableMode can be set automatically
+  /// when installing the app in an iPad. We now fix it to CLOSE so that doesn't
+  /// happen. If we want this feature again, we can resume reading from
+  /// _settingData!.tableMode.
+  ///
+  /// For more info, see: https://github.com/verse-pbc/issues/issues/245
   int? get tableMode => OpenStatus.CLOSE;
 
   int? get autoOpenSensitive => _settingData!.autoOpenSensitive;
