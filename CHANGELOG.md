@@ -32,7 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated colors for light and dark mode. [#151](https://github.com/verse-pbc/issues/issues/151)
 - Fixed an issue where a user could not join a group by invitation link. [#149](https://github.com/verse-pbc/issues/issues/149)
 - Added a new group info screen and moved the edit group button. [#188](https://github.com/verse-pbc/issues/issues/188)
-- Updated home screen navigation  bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
+- Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
