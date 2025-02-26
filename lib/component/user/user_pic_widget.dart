@@ -1,23 +1,26 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:nostrmo/util/colors_util.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/metadata.dart';
 import '../../provider/metadata_provider.dart';
 import '../image_widget.dart';
 
+/// A stateful widget to display user's profile picture
 class UserPicWidget extends StatefulWidget {
-  String pubkey;
+  /// The public key of the user.
+  final String pubkey;
 
-  double width;
+  /// The width of the profile picture.
+  final double width;
 
-  Metadata? metadata;
+  /// The metadata of the user. This is optional.
+  final Metadata? metadata;
 
-  UserPicWidget({
+  const UserPicWidget({
     super.key,
     required this.pubkey,
     required this.width,
@@ -37,6 +40,8 @@ class _UserPicWidgetState extends State<UserPicWidget> {
       return buildWidget(widget.metadata);
     }
 
+    // Using Selector to watch changes in MetadataProvider and rebuild widget
+    // accordingly.
     return Selector<MetadataProvider, Metadata?>(
       builder: (context, metadata, child) {
         return buildWidget(metadata);
@@ -47,59 +52,31 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     );
   }
 
+  /// Builds the widget displaying the profile picture.
+  ///
+  /// If metadata is provided, it will use the picture URL from the metadata
+  /// to display the profile picture. Otherwise, it will use a placeholder.
   Widget buildWidget(Metadata? metadata) {
     final themeData = Theme.of(context);
-    var settingsProvider = Provider.of<SettingsProvider>(context);
+    var provider = Provider.of<SettingsProvider>(context);
 
-    if (StringUtil.isNotBlank(widget.pubkey) &&
-        settingsProvider.pubkeyColor != OpenStatus.CLOSE) {
-      double imageBorder = widget.width / 14;
-      Widget? imageWidget;
-      if (metadata != null) {
-        if (settingsProvider.profilePicturePreview != OpenStatus.CLOSE &&
-            StringUtil.isNotBlank(metadata.picture)) {
-          imageWidget = ImageWidget(
-            imageUrl: metadata.picture!,
-            width: widget.width - imageBorder * 2,
-            height: widget.width - imageBorder * 2,
-            fit: BoxFit.cover,
-            placeholder: (context, url) => CircularProgressIndicator(),
-          );
-        }
-      }
-
-      return Container(
-        width: widget.width,
-        height: widget.width,
-        clipBehavior: Clip.hardEdge,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(widget.width / 2),
-          color: ColorsUtil.hexToColor("#${widget.pubkey.substring(0, 6)}"),
-        ),
-        child: Container(
-          width: widget.width - imageBorder * 2,
-          height: widget.width - imageBorder * 2,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(widget.width / 2 - imageBorder),
-            color: themeData.hintColor,
-          ),
-          child: imageWidget,
-        ),
-      );
-    }
+    // Calculate the border size for the image based on widget width.
+    double imageBorder = widget.width / 14;
 
     Widget? imageWidget;
     if (metadata != null) {
-      if (settingsProvider.profilePicturePreview != OpenStatus.CLOSE &&
-          StringUtil.isNotBlank(metadata.picture)) {
+      // Checking if profile picture preview is enabled and metadata contains a
+      // picture.
+      bool showPreview = provider.profilePicturePreview != OpenStatus.CLOSE;
+      bool hasMetadataPic = StringUtil.isNotBlank(metadata.picture);
+
+      if (showPreview && hasMetadataPic) {
         imageWidget = ImageWidget(
           imageUrl: metadata.picture!,
-          width: widget.width,
-          height: widget.width,
+          width: widget.width - imageBorder * 2,
+          height: widget.width - imageBorder * 2,
           fit: BoxFit.cover,
-          placeholder: (context, url) => CircularProgressIndicator(),
+          placeholder: (context, url) => const CircularProgressIndicator(),
         );
       }
     }
@@ -108,11 +85,21 @@ class _UserPicWidgetState extends State<UserPicWidget> {
       width: widget.width,
       height: widget.width,
       clipBehavior: Clip.hardEdge,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.width / 2),
-        color: themeData.hintColor,
+        color: themeData.customColors.accentColor,
       ),
-      child: imageWidget,
+      child: Container(
+        width: widget.width - imageBorder * 2,
+        height: widget.width - imageBorder * 2,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(widget.width / 2 - imageBorder),
+          color: themeData.hintColor,
+        ),
+        child: imageWidget,
+      ),
     );
   }
 }
