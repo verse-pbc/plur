@@ -548,8 +548,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     int? groupEventKind;
     if (widget.event.kind == EventKind.GROUP_NOTE ||
         widget.event.kind == EventKind.GROUP_NOTE_REPLY) {
-      groupIdentifier =
-          GroupIdentifierInheritedWidget.getGroupIdentifier(context);
+      groupIdentifier = widget.event.getGroupIdentifier();
       if (groupIdentifier != null) {
         groupEventKind = EventKind.GROUP_NOTE_REPLY;
       }
