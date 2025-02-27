@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
 
 ### Internal Changes
 
