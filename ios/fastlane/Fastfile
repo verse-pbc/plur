@@ -163,7 +163,7 @@ def strip_markdown_links(text)
 end
 
 def cleaned_changelog
-  changelog = read_changelog
+  changelog = read_changelog(changelog_path: changelog_path)
   strip_markdown_links(changelog)
 end
 
