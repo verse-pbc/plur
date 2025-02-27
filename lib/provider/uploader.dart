@@ -207,34 +207,62 @@ class Uploader {
 
   static Future<String?> upload(String localPath,
       {String? imageService, String? fileName}) async {
+    if (nostr == null) return null;
+    final nostrBuildURL = "https://nostr.build/";
+    final blossomURL = "https://nosto.re/";
+    final String? imageServiceAddr = settingsProvider.imageServiceAddr;
+    final isNotBlank = StringUtil.isNotBlank;
     return switch (imageService) {
-      ImageServices.POMF2_LAIN_LA => 
-        await Pomf2LainLa.upload(localPath, fileName: fileName),
-      ImageServices.NOSTO_RE =>
-        await BlossomUploader.upload(
-          nostr!, "https://nosto.re/", localPath,
-          fileName: fileName),
-      ImageServices.NIP_95 =>
-        await NIP95Uploader.upload(nostr!, localPath, fileName: fileName),
-      ImageServices.NIP_96 when StringUtil.isNotBlank(settingsProvider.imageServiceAddr) =>
+      ImageServices.POMF2_LAIN_LA => await Pomf2LainLa.upload(
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.NOSTO_RE => await BlossomUploader.upload(
+          nostr!,
+          blossomURL,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.NIP_95 => await NIP95Uploader.upload(
+          nostr!,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.NIP_96 when isNotBlank(imageServiceAddr) =>
         await NIP96Uploader.upload(
-          nostr!, settingsProvider.imageServiceAddr!, localPath,
-          fileName: fileName),
-      ImageServices.BLOSSOM when StringUtil.isNotBlank(settingsProvider.imageServiceAddr) =>
+          nostr!,
+          imageServiceAddr!,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.BLOSSOM when isNotBlank(imageServiceAddr) =>
         await BlossomUploader.upload(
-          nostr!, settingsProvider.imageServiceAddr!, localPath,
-          fileName: fileName),
-      ImageServices.VOID_CAT =>
-        await VoidCatUploader.upload(localPath),
+          nostr!,
+          imageServiceAddr!,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.VOID_CAT => await VoidCatUploader.upload(
+          localPath,
+        ),
       ImageServices.NOSTR_BUILD => await NIP96Uploader.upload(
-          nostr!, "https://nostr.build/", localPath,
-          fileName: fileName),
+          nostr!,
+          nostrBuildURL,
+          localPath,
+          fileName: fileName,
+        ),
       _ when PlatformUtil.isWeb() => await BlossomUploader.upload(
-          nostr!, "https://nosto.re/", localPath,
-          fileName: fileName),
+          nostr!,
+          blossomURL,
+          localPath,
+          fileName: fileName,
+        ),
       _ => await NIP96Uploader.upload(
-          nostr!, "https://nostr.build/", localPath,
-          fileName: fileName),
+          nostr!,
+          nostrBuildURL,
+          localPath,
+          fileName: fileName,
+        ),
     };
   }
 }
