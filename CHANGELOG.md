@@ -34,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue that prevented users from logging in with a bunker URL. [#221](https://github.com/verse-pbc/issues/issues/221)
 - Added a new group info screen and moved the edit group button. [#188](https://github.com/verse-pbc/issues/issues/188)
 - Removed table mode option [#245](https://github.com/verse-pbc/issues/issues/245)
+- Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
