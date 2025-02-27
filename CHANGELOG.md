@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added automatic sentry symbol upload [#217](https://github.com/verse-pbc/issues/issues/217)
 - Added sentry crash reporting [#153](https://github.com/verse-pbc/issues/issues/153).
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)
+- Add an ADR for the decision to use Flutter [#10](https://github.com/verse-pbc/issues/issues/10)
 - Fixed the Check Changelog job [#54](https://github.com/verse-pbc/issues/issues/54)
 - Added create account test. [#154](https://github.com/verse-pbc/issues/issues/154)
 - Added group subscription to the communities screen to automatically refresh group data when group-related events are received. [#146](https://github.com/verse-pbc/issues/issues/146)
