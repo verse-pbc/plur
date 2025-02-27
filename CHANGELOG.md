@@ -35,6 +35,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added a new group info screen and moved the edit group button. [#188](https://github.com/verse-pbc/issues/issues/188)
 - Removed table mode option [#245](https://github.com/verse-pbc/issues/issues/245)
 - Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
+- Fixed an issue where a capitalized deep links would not work. [#252](https://github.com/verse-pbc/issues/issues/252)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
