@@ -12,11 +12,18 @@ import '../generated/l10n.dart';
 import '../main.dart';
 import '../util/store_util.dart';
 
+/// A utility class for picking and uploading files.
 class Uploader {
+  /// The maximum length for NIP-95 images, in bytes.
   static int nip95MaxLength = 80000;
 
+  /// The URL for the Nostr build service.
   static const nostrBuildURL = "https://nostr.build/";
 
+  /// The URL for the Blossom service.
+  static const blossomURL = "https://nosto.re/";
+
+  /// Picks a single file from the user's device.
   static Future<String?> pick(BuildContext context) async {
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -84,6 +91,7 @@ class Uploader {
     return null;
   }
 
+  /// Picks multiple files from the user's device.
   static Future<List<String>> pickFiles(BuildContext context) async {
     List<String> resultFiles = [];
 
@@ -165,10 +173,11 @@ class Uploader {
     return resultFiles;
   }
 
+  /// Uploads a file to the specified image service.
+  /// Returns the URL of the uploaded file if successful, otherwise null.
   static Future<String?> upload(String localPath,
       {String? imageService, String? fileName}) async {
     if (nostr == null) return null;
-    const blossomURL = "https://nosto.re/";
     final String? serviceURL = settingsProvider.imageServiceAddr;
     return switch (imageService) {
       ImageServices.POMF2_LAIN_LA => await Pomf2LainLa.upload(
