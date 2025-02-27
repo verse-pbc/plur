@@ -18,7 +18,7 @@ default_platform(:ios)
 # Work around
 # https://github.com/fastlane/fastlane/issues/20919
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60" 
-changelog_path = "../CHANGELOG.md"
+CHANGELOG_PATH = "../CHANGELOG.md"
 
 platform :ios do
   asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n")
@@ -107,15 +107,15 @@ platform :ios do
 
   desc "Mark a deployed commit as having been deployed to our public beta testers"
   lane :stamp_release do
-    changelog = read_changelog(changelog_path: changelog_path)
+    changelog = read_changelog(changelog_path: CHANGELOG_PATH)
     version_number = get_version_number(
-      xcodeproj: "Nos.xcodeproj",
-      target: "Nos"
+      xcodeproj: "Runner.xcodeproj",
+      target: "Runner"
     )
     build_number = get_build_number(
-      xcodeproj: "Nos.xcodeproj"
+      xcodeproj: "Runner.xcodeproj"
     )
-    stamp_changelog(changelog_path: changelog_path, section_identifier: "#{version_number}")
+    stamp_changelog(changelog_path: CHANGELOG_PATH, section_identifier: "#{version_number}")
     git_commit(message: "Stamping beta deployment", path: "*")
     push_to_git_remote
   end
@@ -148,7 +148,7 @@ end
 # from: https://benscheirman.com/2020/10/managing-version-numbers-with-fastlane/
 %w{major minor patch}.each do |part|
   lane "bump_#{part}".to_sym do
-    increment_version_number_in_xcodeproj(bump_type: part, target: "Nos")
+    increment_version_number_in_xcodeproj(bump_type: part, target: "Runner")
   end
 end
 
@@ -163,7 +163,7 @@ def strip_markdown_links(text)
 end
 
 def cleaned_changelog
-  changelog = read_changelog(changelog_path: changelog_path)
+  changelog = read_changelog(changelog_path: CHANGELOG_PATH)
   strip_markdown_links(changelog)
 end
 
