@@ -3,6 +3,10 @@ permissions:
   contents: read
   pull-requests: read  # Required for checking PR labels
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
     # The specific activity types are listed here to include "labeled" and "unlabeled"
@@ -13,7 +17,8 @@ on:
   merge_group:
     types: [checks_requested]
   push:
-    branches: main
+    branches:
+      - main
 env:
   SIMULATOR: platform=iOS Simulator,name=iPhone 15,OS=18.2
     

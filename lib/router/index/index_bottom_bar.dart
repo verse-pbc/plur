@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/index_provider.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/add_btn_wrapper_widget.dart';
 import '../../main.dart';
-import '../../provider/settings_provider.dart';
-import '../edit/editor_widget.dart';
 
 class IndexBottomBar extends StatefulWidget {
   static const double HEIGHT = 50;
