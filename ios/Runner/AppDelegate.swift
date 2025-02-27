@@ -12,7 +12,7 @@ import Flutter
     }
 
     override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        if url.scheme == "plur" {
+        if url.scheme?.lowercased() == "plur" {
             // Pass the URL to Flutter
             let controller = window?.rootViewController as! FlutterViewController
             let channel = FlutterMethodChannel(name: "com.example.app/deeplink", binaryMessenger: controller.binaryMessenger)
