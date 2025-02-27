@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../consts/client_connected.dart';
 import '../main.dart';
@@ -20,7 +21,7 @@ class RelayProvider extends ChangeNotifier {
 
   RelayStatus? relayStatusLocal;
 
-  Map<String, RelayStatus> _tempRelayStatusMap = {};
+  final Map<String, RelayStatus> _tempRelayStatusMap = {};
 
   static RelayProvider getInstance() {
     if (_relayProvider == null) {
@@ -112,16 +113,29 @@ class RelayProvider extends ChangeNotifier {
       if (info == null) {
         return null;
       }
+      bool hasConnected = false;
+      if (StringUtil.isNotBlank(info.userPubkey)) {
+        hasConnected = true;
+      }
       nostrSigner = NostrRemoteSigner(
           settingsProvider.relayMode != null
               ? settingsProvider.relayMode!
               : RelayMode.FAST_MODE,
           info);
-      await (nostrSigner as NostrRemoteSigner).connect();
+      await (nostrSigner as NostrRemoteSigner)
+          .connect(sendConnectRequest: !hasConnected);
+      if (StringUtil.isBlank(info.userPubkey)) {
+        await nostrSigner.pullPubkey();
+      }
+      if (await nostrSigner.getPublicKey() == null) {
+        return null;
+      }
     } else {
       try {
         nostrSigner = LocalNostrSigner(key);
-      } catch (e) {}
+      } catch (exception, stackTrace) {
+        await Sentry.captureException(exception, stackTrace: stackTrace);
+      }
     }
 
     if (nostrSigner == null) {
@@ -137,22 +151,22 @@ class RelayProvider extends ChangeNotifier {
       return null;
     }
 
-    var _nostr = Nostr(signer, pubkey, [filterProvider], genTempRelay,
+    var nostr = Nostr(signer, pubkey, [filterProvider], genTempRelay,
         onNotice: noticeProvider.onNotice);
     log("nostr init over");
 
     // add initQuery
-    contactListProvider.reload(targetNostr: _nostr);
-    contactListProvider.query(targetNostr: _nostr);
-    followEventProvider.doQuery(targetNostr: _nostr, initQuery: true);
-    mentionMeProvider.doQuery(targetNostr: _nostr, initQuery: true);
+    contactListProvider.reload(targetNostr: nostr);
+    contactListProvider.query(targetNostr: nostr);
+    followEventProvider.doQuery(targetNostr: nostr, initQuery: true);
+    mentionMeProvider.doQuery(targetNostr: nostr, initQuery: true);
     // don't query after init, due to query dm need login to relay so the first query change to call by timer
 
     loadRelayAddrs(contactListProvider.content);
-    listProvider.load(_nostr.publicKey,
+    listProvider.load(nostr.publicKey,
         [EventKind.BOOKMARKS_LIST, EventKind.EMOJIS_LIST, EventKind.GROUP_LIST],
-        targetNostr: _nostr, initQuery: true);
-    badgeProvider.reload(targetNostr: _nostr, initQuery: true);
+        targetNostr: nostr, initQuery: true);
+    badgeProvider.reload(targetNostr: nostr, initQuery: true);
 
     // add local relay
     if (relayLocalDB != null &&
@@ -161,14 +175,14 @@ class RelayProvider extends ChangeNotifier {
       var relayLocal =
           RelayLocal(RelayLocal.URL, relayStatusLocal!, relayLocalDB!)
             ..relayStatusCallback = onRelayStatusChange;
-      _nostr.addRelay(relayLocal, init: true);
+      nostr.addRelay(relayLocal, init: true);
     }
 
     for (var relayAddr in relayAddrs) {
       log("begin to init $relayAddr");
       var custRelay = genRelay(relayAddr);
       try {
-        _nostr.addRelay(custRelay, init: true);
+        nostr.addRelay(custRelay, init: true);
       } catch (e) {
         log("relay $relayAddr add to pool error ${e.toString()}");
       }
@@ -178,13 +192,13 @@ class RelayProvider extends ChangeNotifier {
       log("begin to init $relayAddr");
       var custRelay = genRelay(relayAddr, relayType: RelayType.CACHE);
       try {
-        _nostr.addRelay(custRelay, init: true, relayType: RelayType.CACHE);
+        nostr.addRelay(custRelay, init: true, relayType: RelayType.CACHE);
       } catch (e) {
         log("relay $relayAddr add to pool error ${e.toString()}");
       }
     }
 
-    return _nostr;
+    return nostr;
   }
 
   void onRelayStatusChange() {
@@ -311,7 +325,7 @@ class RelayProvider extends ChangeNotifier {
   }
 
   void relayUpdateByContactListEvent(Event event) {
-    List<String> oldRelays = []..addAll(relayAddrs);
+    List<String> oldRelays = [...relayAddrs];
     loadRelayAddrs(event.content);
     _updateRelays(oldRelays);
   }
@@ -349,7 +363,7 @@ class RelayProvider extends ChangeNotifier {
   }
 
   List<RelayStatus> tempRelayStatus() {
-    List<RelayStatus> list = []..addAll(_tempRelayStatusMap.values);
+    List<RelayStatus> list = [..._tempRelayStatusMap.values];
     return list;
   }
 
