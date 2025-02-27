@@ -18,6 +18,7 @@ default_platform(:ios)
 # Work around
 # https://github.com/fastlane/fastlane/issues/20919
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60" 
+changelog_path = "../CHANGELOG.md"
 
 platform :ios do
   asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n")
@@ -27,7 +28,6 @@ platform :ios do
   sentry_auth = ENV["SENTRY_AUTH"]
   is_ci = ENV["CI"]
   app_secrets = ENV["APP_SECRETS"]
-  changelog_path = "../CHANGELOG.md"
 
   desc "Push a new build to TestFlight using the provided scheme and identifier"
   private_lane :push_build do |options|
