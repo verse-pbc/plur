@@ -207,42 +207,34 @@ class Uploader {
 
   static Future<String?> upload(String localPath,
       {String? imageService, String? fileName}) async {
-    // if (imageService == ImageServices.NOSTRIMG_COM) {
-    //   return await NostrimgComUploader.upload(localPath);
-    // } else  if (imageService == ImageServices.NOSTRFILES_DEV) {
-    //   return await NostrfilesDevUploader.upload(localPath);
-    // } else
-    if (imageService == ImageServices.POMF2_LAIN_LA) {
-      return await Pomf2LainLa.upload(localPath, fileName: fileName);
-    } else if (imageService == ImageServices.NOSTR_BUILD) {
-      // return await NostrBuildUploader.upload(localPath, fileName: fileName);
-      return await NIP96Uploader.upload(
+    return switch (imageService) {
+      ImageServices.POMF2_LAIN_LA => 
+        await Pomf2LainLa.upload(localPath, fileName: fileName),
+      ImageServices.NOSTO_RE =>
+        await BlossomUploader.upload(
+          nostr!, "https://nosto.re/", localPath,
+          fileName: fileName),
+      ImageServices.NIP_95 =>
+        await NIP95Uploader.upload(nostr!, localPath, fileName: fileName),
+      ImageServices.NIP_96 when StringUtil.isNotBlank(settingsProvider.imageServiceAddr) =>
+        await NIP96Uploader.upload(
+          nostr!, settingsProvider.imageServiceAddr!, localPath,
+          fileName: fileName),
+      ImageServices.BLOSSOM when StringUtil.isNotBlank(settingsProvider.imageServiceAddr) =>
+        await BlossomUploader.upload(
+          nostr!, settingsProvider.imageServiceAddr!, localPath,
+          fileName: fileName),
+      ImageServices.VOID_CAT =>
+        await VoidCatUploader.upload(localPath),
+      ImageServices.NOSTR_BUILD => await NIP96Uploader.upload(
           nostr!, "https://nostr.build/", localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.NOSTO_RE) {
-      return await BlossomUploader.upload(
+          fileName: fileName),
+      _ when PlatformUtil.isWeb() => await BlossomUploader.upload(
           nostr!, "https://nosto.re/", localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.NIP_95) {
-      return await NIP95Uploader.upload(nostr!, localPath, fileName: fileName);
-    } else if (imageService == ImageServices.NIP_96 &&
-        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
-      return await NIP96Uploader.upload(
-          nostr!, settingsProvider.imageServiceAddr!, localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.BLOSSOM &&
-        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
-      return await BlossomUploader.upload(
-          nostr!, settingsProvider.imageServiceAddr!, localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.VOID_CAT) {
-      return await VoidCatUploader.upload(localPath);
-    }
-    if (PlatformUtil.isWeb()) {
-      return await BlossomUploader.upload(
-          nostr!, "https://nosto.re/", localPath,
-          fileName: fileName);
-    }
-    return await NostrBuildUploader.upload(localPath, fileName: fileName);
+          fileName: fileName),
+      _ => await NIP96Uploader.upload(
+          nostr!, "https://nostr.build/", localPath,
+          fileName: fileName),
+    };
   }
 }
