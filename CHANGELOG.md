@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 
 ### Internal Changes
+- Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
 
 ## [0.0.2]
 
