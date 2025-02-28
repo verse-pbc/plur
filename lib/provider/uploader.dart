@@ -23,7 +23,7 @@ class Uploader {
   /// The URL for the Blossom service.
   static const blossomURL = "https://nosto.re/";
 
-  /// Picks a single file from the user's device.
+  /// Shows UI to allow the user to pick a file, and returns the path.
   static Future<String?> pick(BuildContext context) async {
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -91,7 +91,7 @@ class Uploader {
     return null;
   }
 
-  /// Picks multiple files from the user's device.
+  /// Shows UI to allow the user to pick multiple files, and returns the paths.
   static Future<List<String>> pickFiles(BuildContext context) async {
     List<String> resultFiles = [];
 
