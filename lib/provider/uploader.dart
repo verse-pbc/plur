@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-import 'package:mime/mime.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../consts/base64.dart';
@@ -13,61 +12,26 @@ import '../generated/l10n.dart';
 import '../main.dart';
 import '../util/store_util.dart';
 
+/// A utility class for picking and uploading files.
 class Uploader {
-  static int NIP95_MAX_LENGTH = 80000;
+  /// The maximum length for NIP-95 images, in bytes.
+  static int nip95MaxLength = 80000;
 
-  // static Future<String?> pickAndUpload(BuildContext context) async {
-  //   var assets = await AssetPicker.pickAssets(
-  //     context,
-  //     pickerConfig: const AssetPickerConfig(maxAssets: 1),
-  //   );
+  /// The URL for the Nostr build service.
+  static const nostrBuildURL = "https://nostr.build/";
 
-  //   if (assets != null && assets.isNotEmpty) {
-  //     for (var asset in assets) {
-  //       var file = await asset.file;
-  //       return await NostrBuildUploader.upload(file!.path);
-  //     }
-  //   }
+  /// The URL for the Blossom service.
+  static const blossomURL = "https://nosto.re/";
 
-  //   return null;
-  // }
-
-  static Future<Event?> pickAndUpload2NIP94(BuildContext context) async {
-    var filePath = await pick(context);
-    if (StringUtil.isNotBlank(filePath)) {
-      // return NIP95Uploader.uploadForEvent(nostr!, filePath!);
-      // TODO
-    }
-
-    return null;
-  }
-
-  static Future<Event?> pickAndUpload2NIP95(BuildContext context) async {
-    var filePath = await pick(context);
-    if (StringUtil.isNotBlank(filePath)) {
-      return NIP95Uploader.uploadForEvent(nostr!, filePath!);
-    }
-
-    return null;
-  }
-
-  static Future<void> pickAndUpload(BuildContext context) async {
-    var filePath = await pick(context);
-    if (StringUtil.isNotBlank(filePath)) {
-      // var result = await Pomf2LainLa.upload(filePath!);
-      var result =
-          await NIP96Uploader.upload(nostr!, "https://nostr.build/", filePath!);
-      print("result $result");
-    }
-  }
-
+  /// Shows UI to allow the user to pick a file, and returns the path.
   static Future<String?> pick(BuildContext context) async {
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result != null) {
         if (settingsProvider.imageService == ImageServices.NIP_95 &&
-            result.files.single.size > NIP95_MAX_LENGTH) {
+            result.files.single.size > nip95MaxLength) {
+          if (!context.mounted) return null;
           BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
         }
 
@@ -105,18 +69,18 @@ class Uploader {
 
         if (result != null) {
           if (settingsProvider.imageService == ImageServices.NIP_95 &&
-              (await result.length()) > NIP95_MAX_LENGTH) {
+              (await result.length()) > nip95MaxLength) {
+            if (!context.mounted) return null;
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
           }
-
-          // log("file ${result.path} length ${await result.length()}");
           return result.path;
         }
       }
 
       if (settingsProvider.imageService == ImageServices.NIP_95) {
         var fileSize = StoreUtil.getFileSize(file!.path);
-        if (fileSize != null && fileSize > NIP95_MAX_LENGTH) {
+        if (fileSize != null && fileSize > nip95MaxLength) {
+          if (!context.mounted) return null;
           BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
         }
       }
@@ -127,6 +91,7 @@ class Uploader {
     return null;
   }
 
+  /// Shows UI to allow the user to pick multiple files, and returns the paths.
   static Future<List<String>> pickFiles(BuildContext context) async {
     List<String> resultFiles = [];
 
@@ -138,7 +103,8 @@ class Uploader {
         for (var file in result.files) {
           var size = file.size;
           if (settingsProvider.imageService == ImageServices.NIP_95 &&
-              size > NIP95_MAX_LENGTH) {
+              size > nip95MaxLength) {
+            if (!context.mounted) return [];
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
             return [];
           }
@@ -180,7 +146,8 @@ class Uploader {
 
           if (result != null) {
             if (settingsProvider.imageService == ImageServices.NIP_95 &&
-                (await result.length()) > NIP95_MAX_LENGTH) {
+                (await result.length()) > nip95MaxLength) {
+              if (!context.mounted) return [];
               BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
               return [];
             }
@@ -192,7 +159,8 @@ class Uploader {
 
         if (settingsProvider.imageService == ImageServices.NIP_95) {
           var fileSize = StoreUtil.getFileSize(file!.path);
-          if (fileSize != null && fileSize > NIP95_MAX_LENGTH) {
+          if (fileSize != null && fileSize > nip95MaxLength) {
+            if (!context.mounted) return [];
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
             return [];
           }
@@ -205,44 +173,63 @@ class Uploader {
     return resultFiles;
   }
 
+  /// Uploads a file to the specified image service.
+  /// Returns the URL of the uploaded file if successful, otherwise null.
   static Future<String?> upload(String localPath,
       {String? imageService, String? fileName}) async {
-    // if (imageService == ImageServices.NOSTRIMG_COM) {
-    //   return await NostrimgComUploader.upload(localPath);
-    // } else  if (imageService == ImageServices.NOSTRFILES_DEV) {
-    //   return await NostrfilesDevUploader.upload(localPath);
-    // } else
-    if (imageService == ImageServices.POMF2_LAIN_LA) {
-      return await Pomf2LainLa.upload(localPath, fileName: fileName);
-    } else if (imageService == ImageServices.NOSTR_BUILD) {
-      // return await NostrBuildUploader.upload(localPath, fileName: fileName);
-      return await NIP96Uploader.upload(
-          nostr!, "https://nostr.build/", localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.NOSTO_RE) {
-      return await BlossomUploader.upload(
-          nostr!, "https://nosto.re/", localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.NIP_95) {
-      return await NIP95Uploader.upload(nostr!, localPath, fileName: fileName);
-    } else if (imageService == ImageServices.NIP_96 &&
-        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
-      return await NIP96Uploader.upload(
-          nostr!, settingsProvider.imageServiceAddr!, localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.BLOSSOM &&
-        StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
-      return await BlossomUploader.upload(
-          nostr!, settingsProvider.imageServiceAddr!, localPath,
-          fileName: fileName);
-    } else if (imageService == ImageServices.VOID_CAT) {
-      return await VoidCatUploader.upload(localPath);
-    }
-    if (PlatformUtil.isWeb()) {
-      return await BlossomUploader.upload(
-          nostr!, "https://nosto.re/", localPath,
-          fileName: fileName);
-    }
-    return await NostrBuildUploader.upload(localPath, fileName: fileName);
+    if (nostr == null) return null;
+    final String? serviceURL = settingsProvider.imageServiceAddr;
+    return switch (imageService) {
+      ImageServices.POMF2_LAIN_LA => await Pomf2LainLa.upload(
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.NOSTO_RE => await BlossomUploader.upload(
+          nostr!,
+          blossomURL,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.NIP_95 => await NIP95Uploader.upload(
+          nostr!,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.NIP_96 when StringUtil.isNotBlank(serviceURL) =>
+        await NIP96Uploader.upload(
+          nostr!,
+          serviceURL!,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.BLOSSOM when StringUtil.isNotBlank(serviceURL) =>
+        await BlossomUploader.upload(
+          nostr!,
+          serviceURL!,
+          localPath,
+          fileName: fileName,
+        ),
+      ImageServices.VOID_CAT => await VoidCatUploader.upload(
+          localPath,
+        ),
+      ImageServices.NOSTR_BUILD => await NIP96Uploader.upload(
+          nostr!,
+          nostrBuildURL,
+          localPath,
+          fileName: fileName,
+        ),
+      _ when PlatformUtil.isWeb() => await BlossomUploader.upload(
+          nostr!,
+          blossomURL,
+          localPath,
+          fileName: fileName,
+        ),
+      _ => await NIP96Uploader.upload(
+          nostr!,
+          nostrBuildURL,
+          localPath,
+          fileName: fileName,
+        ),
+    };
   }
 }
