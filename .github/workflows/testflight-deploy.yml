@@ -20,18 +20,18 @@ jobs:
         uses: actions/checkout@main
         with:
           submodules: 'recursive'
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version-file: pubspec.yaml
-          channel: 'stable'
-      - name: Install Flutter Dependencies
-        run: flutter pub get
-      - name: Build Flutter .app
-        env:
-          SENTRY_DSN: ${{secrets.SENTRY_DSN}}
-        run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
-      - uses: nomasystems/action-xcode-select@v0.1
+      #- name: Setup Flutter
+      #  uses: subosito/flutter-action@v2
+      #  with:
+      #    flutter-version-file: pubspec.yaml
+      #    channel: 'stable'
+      #- name: Install Flutter Dependencies
+      #  run: flutter pub get
+      #- name: Build Flutter .app
+      #  env:
+      #    SENTRY_DSN: ${{secrets.SENTRY_DSN}}
+      #  run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
+      #- uses: nomasystems/action-xcode-select@v0.1
 
       # This step is a temporary workaround for some Github runner issues. 
       # You can try disabling it in the future and if the build succeeds, you can remove it.
