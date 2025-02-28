@@ -589,6 +589,7 @@ class ListProvider extends ChangeNotifier {
     _holder.clear();
     _bookmarks = Bookmarks();
     _groupIdentifiers.clear();
+    notifyListeners();
   }
 
   /// Add a group identifier to the list and fetch its metadata
