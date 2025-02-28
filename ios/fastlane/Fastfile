@@ -71,7 +71,8 @@ platform :ios do
     increment_build_number(build_number: build_number)
     gym(
       scheme: options[:scheme], 
-      destination: "generic/platform=iOS"
+      clean: true#,
+      #xcargs: "-skipPackagePluginValidation -skipMacroValidation" # TODO: Do we need these?
     )
 
     testflight_groups = options[:distribution_groups] || []
