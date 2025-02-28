@@ -11,6 +11,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
+- Removed the "Add test groups" button from the side menu. [#256](https://github.com/verse-pbc/issues/issues/256)
+
+### Internal Changes
+- Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
+
+## [0.0.2]
+
+### Release Notes
 - Change the color of rounded avatars in feeds.
 - Removed unneeded options from the main menu.
 - Added a new screen that allows you to generate a new keypair.
@@ -34,6 +43,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue that prevented users from logging in with a bunker URL. [#221](https://github.com/verse-pbc/issues/issues/221)
 - Added a new group info screen and moved the edit group button. [#188](https://github.com/verse-pbc/issues/issues/188)
 - Removed table mode option [#245](https://github.com/verse-pbc/issues/issues/245)
+- Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
+- Fixed an issue where a capitalized deep links would not work. [#252](https://github.com/verse-pbc/issues/issues/252)
+- Fixed an issue when photos could not be published to a group. [#231](https://github.com/verse-pbc/issues/issues/231)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
@@ -43,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added automatic sentry symbol upload [#217](https://github.com/verse-pbc/issues/issues/217)
 - Added sentry crash reporting [#153](https://github.com/verse-pbc/issues/issues/153).
 - Set up continuous deployment of Plur iOS to TestFlight [#54](https://github.com/verse-pbc/issues/issues/54)
+- Add an ADR for the decision to use Flutter [#10](https://github.com/verse-pbc/issues/issues/10)
 - Fixed the Check Changelog job [#54](https://github.com/verse-pbc/issues/issues/54)
 - Added create account test. [#154](https://github.com/verse-pbc/issues/issues/154)
 - Added group subscription to the communities screen to automatically refresh group data when group-related events are received. [#146](https://github.com/verse-pbc/issues/issues/146)
