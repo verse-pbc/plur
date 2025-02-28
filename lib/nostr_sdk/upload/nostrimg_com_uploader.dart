@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:nostr_sdk/upload/upload_util.dart';
+import 'upload_util.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:http_parser/src/media_type.dart';
 

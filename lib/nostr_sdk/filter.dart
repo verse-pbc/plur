@@ -1,4 +1,4 @@
-import 'package:nostr_sdk/event.dart';
+import 'event.dart';
 
 /// filter is a JSON object that determines what events will be sent in that subscription
 class Filter {

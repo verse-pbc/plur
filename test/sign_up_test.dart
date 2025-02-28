@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:nostr_sdk/relay/relay_info_util.dart';
+import 'package:nostrmo/nostr_sdk/relay/relay_info_util.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';

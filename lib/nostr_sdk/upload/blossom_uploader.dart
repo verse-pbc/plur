@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:mime/mime.dart';
-import 'package:nostr_sdk/nostr.dart';
+import '../nostr.dart';
 
 import '../event.dart';
 import '../event_kind.dart';

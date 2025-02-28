@@ -1,5 +1,4 @@
-import 'package:nostr_sdk/nostr.dart';
-
+import '../nostr.dart';
 import '../event.dart';
 import '../event_kind.dart';
 import 'group_identifier.dart';
