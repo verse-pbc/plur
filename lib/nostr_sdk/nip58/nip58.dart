@@ -1,6 +1,5 @@
-import 'package:nostr_sdk/event.dart';
-import 'package:nostr_sdk/nostr.dart';
-
+import '../event.dart';
+import '../nostr.dart';
 import '../event_kind.dart';
 
 class NIP58 {

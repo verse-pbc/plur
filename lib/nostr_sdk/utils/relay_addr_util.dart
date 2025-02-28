@@ -1,4 +1,4 @@
-import 'package:nostr_sdk/nostr_sdk.dart';
+import '../nostr_sdk.dart';
 
 class RelayAddrUtil {
   static String handle(String addr) {

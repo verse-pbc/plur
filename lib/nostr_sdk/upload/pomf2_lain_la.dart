@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:nostr_sdk/upload/upload_util.dart';
+import 'upload_util.dart';
 import 'package:http_parser/src/media_type.dart';
 
 import '../utils/base64.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:hex/hex.dart';
-import 'package:nostr_sdk/event.dart';
+import '../event.dart';
 
 import '../nip19/nip19.dart';
 import '../signer/nostr_signer.dart';

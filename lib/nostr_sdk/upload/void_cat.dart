@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
-import 'package:nostr_sdk/upload/upload_util.dart';
+import 'upload_util.dart';
 
 import '../utils/base64.dart';
 import '../utils/string_util.dart';

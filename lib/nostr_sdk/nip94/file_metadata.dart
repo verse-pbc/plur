@@ -1,4 +1,4 @@
-import 'package:nostr_sdk/utils/path_type_util.dart';
+import '../utils/path_type_util.dart';
 
 import '../utils/string_util.dart';
 
