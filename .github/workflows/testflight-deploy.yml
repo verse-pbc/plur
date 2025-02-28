@@ -32,7 +32,6 @@ jobs:
           SENTRY_DSN: ${{secrets.SENTRY_DSN}}
         run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
       - uses: nomasystems/action-xcode-select@v0.1
-          # this action will install the version of Xcode specified in .xcode-version.
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
