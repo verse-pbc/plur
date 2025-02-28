@@ -20,17 +20,17 @@ jobs:
         uses: actions/checkout@main
         with:
           submodules: 'recursive'
-      #- name: Setup Flutter
-      #  uses: subosito/flutter-action@v2
-      #  with:
-      #    flutter-version-file: pubspec.yaml
-      #    channel: 'stable'
-      #- name: Install Flutter Dependencies
-      #  run: flutter pub get
-      #- name: Build Flutter .app
-      #  env:
-      #    SENTRY_DSN: ${{secrets.SENTRY_DSN}}
-      #  run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version-file: pubspec.yaml
+          channel: 'stable'
+      - name: Install Flutter Dependencies
+        run: flutter pub get
+      - name: Build Flutter .app
+        env:
+          SENTRY_DSN: ${{secrets.SENTRY_DSN}}
+        run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
       - uses: nomasystems/action-xcode-select@v0.1
         # This step will select the version of Xcode specified in .xcode-version.
 
