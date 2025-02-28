@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed table mode option [#245](https://github.com/verse-pbc/issues/issues/245)
 - Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
 - Fixed an issue where a capitalized deep links would not work. [#252](https://github.com/verse-pbc/issues/issues/252)
+- Fixed an issue when photos could not be published to a group. [#231](https://github.com/verse-pbc/issues/issues/231)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
