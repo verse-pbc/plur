@@ -49,7 +49,7 @@ class MainActivity: FlutterFragmentActivity() {
 
     private fun handleIntent(intent: Intent) {
         val data: Uri? = intent.data
-        if (data != null && "plur" == data.scheme) {
+        if (data != null && data.scheme.equals("plur", ignoreCase = true)) {
             // Pass the data to Flutter
             val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
             channel.invokeMethod("onDeepLink", data.toString())

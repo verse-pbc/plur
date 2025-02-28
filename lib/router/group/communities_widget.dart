@@ -33,20 +33,6 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     final groupIds = listProvider.groupIdentifiers;
 
     return Scaffold(
-      appBar: AppBar(
-        bottom: const AppBarBottomBorder(),
-        actions: [
-          GestureDetector(
-            onTap: showCreateCommunityDialog,
-            behavior: HitTestBehavior.translucent,
-            child: Container(
-              width: 50,
-              alignment: Alignment.center,
-              child: const Icon(Icons.group_add),
-            ),
-          ),
-        ],
-      ),
       body: Container(
         child: groupIds.isEmpty
             ? const Center(

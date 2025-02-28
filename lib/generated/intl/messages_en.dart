@@ -36,8 +36,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "Add_account_and_login":
             MessageLookupByLibrary.simpleMessage("Add account and login?"),
         "Add_now": MessageLookupByLibrary.simpleMessage("Add now"),
-        "Add_test_groups":
-            MessageLookupByLibrary.simpleMessage("Add test groups"),
         "Add_this_relay_to_local":
             MessageLookupByLibrary.simpleMessage("Add this relay to local?"),
         "Add_to_known_list":
@@ -86,7 +84,6 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Close Private DM"),
         "Close_at": MessageLookupByLibrary.simpleMessage("Close at"),
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
-        "Color": MessageLookupByLibrary.simpleMessage("Color"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
@@ -457,6 +454,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
+        "Your_Groups": MessageLookupByLibrary.simpleMessage("Your Groups"),
         "Your_private_key":
             MessageLookupByLibrary.simpleMessage("Your private key"),
         "Zap_Goals": MessageLookupByLibrary.simpleMessage("Zap Goals"),

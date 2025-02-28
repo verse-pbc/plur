@@ -50,16 +50,6 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Add test groups`
-  String get Add_test_groups {
-    return Intl.message(
-      'Add test groups',
-      name: 'Add_test_groups',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Confirm`
   String get Confirm {
     return Intl.message(
@@ -3285,6 +3275,16 @@ class S {
     return Intl.message(
       'Group Info',
       name: 'Group_Info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your Groups`
+  String get Your_Groups {
+    return Intl.message(
+      'Your Groups',
+      name: 'Your_Groups',
       desc: '',
       args: [],
     );
