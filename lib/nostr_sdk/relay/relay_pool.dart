@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:nostr_sdk/utils/relay_addr_util.dart';
+import '../utils/relay_addr_util.dart';
 
 import '../event.dart';
 import '../event_kind.dart';
