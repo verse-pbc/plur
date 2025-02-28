@@ -9,6 +9,11 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+# Good references: 
+# https://medium.com/@jaitechie05/flutter-lints-good-coding-practice-12664929691f
+# https://docs.flutter.dev/release/breaking-changes/flutter-lints-package
+# https://pub.dev/packages/flutter_lints
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
