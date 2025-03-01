@@ -321,7 +321,7 @@ Future<void> main() async {
     await SentryFlutter.init(
       (options) {
         // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
-        options.environment = "staging";
+        options.environment = const String.fromEnvironment('ENVIRONMENT', defaultValue: 'production');
       },
       appRunner: () {
         startApp();
