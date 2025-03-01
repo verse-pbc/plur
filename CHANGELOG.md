@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal Changes
 - Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
+- Enabled separate builds for production, staging, and dev. [#220](https://github.com/verse-pbc/issues/issues/220)
 
 ## [0.0.2]
 
