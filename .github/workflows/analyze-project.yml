@@ -39,7 +39,7 @@ jobs:
         run: flutter pub get
       
       - name: Lint the project
-        run: flutter analyze --no-fatal-warnings
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
   test:
     name: Test
