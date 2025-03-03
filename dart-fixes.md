@@ -22,7 +22,7 @@
 - [x] fvm dart fix --apply --code=unnecessary_cast 
 - [x] fvm dart fix --apply --code=unnecessary_const 
 - [x] fvm dart fix --apply --code=unnecessary_import 
-- [ ] fvm dart fix --apply --code=unnecessary_new 
+- [x] fvm dart fix --apply --code=unnecessary_new 
 - [ ] fvm dart fix --apply --code=unnecessary_non_null_assertion 
 - [ ] fvm dart fix --apply --code=unnecessary_string_escapes 
 - [ ] fvm dart fix --apply --code=unnecessary_this 
