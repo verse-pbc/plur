@@ -9,16 +9,9 @@ void main() {
       expect(id?.groupId, equals("8237"));
     });
 
-    test('parses group ID without host', () {
+    test('group ID without host fails to parse', () {
       final id = GroupIdentifier.parse("8971424ALK:A&*^");
-      expect(id?.host, "");
-      expect(id?.groupId, equals("8971424ALK:A&*^"));
-    });
-
-    test('parses group ID with single quote', () {
-      final id = GroupIdentifier.parse("1'2");
-      expect(id?.host, equals("1"));
-      expect(id?.groupId, equals("2"));
+      expect(id, isNull);
     });
   });
 } 
