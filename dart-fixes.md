@@ -3,7 +3,7 @@
 - [x] fvm dart fix --apply --code=await_only_futures 
 - [x] fvm dart fix --apply --code=body_might_complete_normally_nullable 
 - [x] fvm dart fix --apply --code=curly_braces_in_flow_control_structures 
-- [ ] fvm dart fix --apply --code=deprecated_member_use 
+- [x] fvm dart fix --apply --code=deprecated_member_use 
 - [ ] fvm dart fix --apply --code=division_optimization 
 - [ ] fvm dart fix --apply --code=empty_constructor_bodies 
 - [ ] fvm dart fix --apply --code=missing_dependency 
