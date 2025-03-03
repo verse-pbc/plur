@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/notice_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:pointycastle/ecc/api.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/dm_provider.dart';
