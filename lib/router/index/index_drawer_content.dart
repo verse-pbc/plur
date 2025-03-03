@@ -134,25 +134,6 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       smallMode: widget.smallMode,
     ));
 
-    // Add the ADD_TEST_GROUPS option to the list of drawer items.
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.group_add,
-      name: localization.Add_test_groups,
-      onTap: () {
-        const host = "wss://relay.groups.nip29.com";
-        final groupIds = [
-          '672U0I7Egc',
-          'Qs5y4i2wFEBafxvP',
-          '0x0tLAXmNmnTTTS7',
-          '7aNtrZngZmPVYu9c'
-        ];
-        listProvider.joinGroups(
-            groupIds.map((gi) => JoinGroupParameters(host, gi)).toList());
-      },
-      smallMode: widget.smallMode,
-    ));
-
-    // Add a flexible space to send the Account Manager widget to the bottom.
     list.add(Expanded(
       child: SingleChildScrollView(
         child: Column(

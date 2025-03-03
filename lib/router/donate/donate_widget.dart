@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
