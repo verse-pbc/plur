@@ -7,7 +7,7 @@ You can run the unit tests with:
 flutter test
 ```
 
-Or if you use Flutter Version Manager
+Or if you use Flutter Version Manager:
 
 ```
 fvm flutter test
