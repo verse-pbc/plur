@@ -8,7 +8,11 @@ class WebUtilItemWidget extends StatelessWidget {
 
   String des;
 
-  WebUtilItemWidget({super.key, required this.link, required this.des});
+  WebUtilItemWidget({
+    super.key,
+    required this.link,
+    required this.des,
+  });
 
   @override
   Widget build(BuildContext context) {
