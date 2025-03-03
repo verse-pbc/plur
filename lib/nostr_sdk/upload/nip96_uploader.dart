@@ -116,8 +116,8 @@ class NIP96Uploader {
         }
       }
     } catch (e) {
-      print("nostr.build nip96 upload exception:");
-      print(e);
+      log("nostr.build nip96 upload exception:");
+      log(e.toString());
     }
 
     return null;

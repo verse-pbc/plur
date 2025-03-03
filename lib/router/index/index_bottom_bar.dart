@@ -6,7 +6,7 @@ import '../../component/add_btn_wrapper_widget.dart';
 import '../../main.dart';
 
 class IndexBottomBar extends StatefulWidget {
-  static const double HEIGHT = 50;
+  static const double height = 50;
 
   IndexBottomBar();
 
@@ -75,7 +75,7 @@ class _IndexBottomBar extends State<IndexBottomBar> {
         color: themeData.cardColor,
         surfaceTintColor: themeData.cardColor,
         shadowColor: themeData.shadowColor,
-        height: IndexBottomBar.HEIGHT,
+        height: IndexBottomBar.height,
         padding: EdgeInsets.zero,
         child: Container(
           color: Colors.transparent,
@@ -132,7 +132,7 @@ class IndexBottomBarButton extends StatelessWidget {
         }
       },
       child: Container(
-        height: IndexBottomBar.HEIGHT,
+        height: IndexBottomBar.height,
         child: Icon(
           iconData,
           color: selected ? selectedColor : null,

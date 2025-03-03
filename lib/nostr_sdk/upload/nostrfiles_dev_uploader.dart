@@ -7,7 +7,7 @@ import '../utils/base64.dart';
 class NostrfilesDevUploader {
   static var dio = Dio();
 
-  static const String UPLOAD_ACTION = "https://nostrfiles.dev/upload_image";
+  static const String uploadAction = "https://nostrfiles.dev/upload_image";
 
   static Future<String?> upload(String filePath, {String? fileName}) async {
     MultipartFile? multipartFile;
@@ -26,7 +26,7 @@ class NostrfilesDevUploader {
 
     var formData = FormData.fromMap({"file": multipartFile});
     var response = await dio.post(
-      UPLOAD_ACTION,
+      uploadAction,
       data: formData,
     );
 
