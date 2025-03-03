@@ -99,12 +99,12 @@ class NIP04 {
   // liftX returns Y for this X
   static BigInt liftX(BigInt x) {
     if (x >= curveP) {
-      throw new Error();
+      throw Error();
     }
     var ySq = (x.modPow(BigInt.from(3), curveP) + BigInt.from(7)) % curveP;
     var y = ySq.modPow((curveP + BigInt.one) ~/ BigInt.from(4), curveP);
     if (y.modPow(BigInt.two, curveP) != ySq) {
-      throw new Error();
+      throw Error();
     }
     return y % BigInt.two == BigInt.zero /* even */ ? y : curveP - y;
   }

@@ -10,7 +10,7 @@ class Tokens {
     if (json['token'] != null) {
       token = <Token>[];
       json['token'].forEach((v) {
-        token!.add(new Token.fromJson(v));
+        token!.add(Token.fromJson(v));
       });
     }
     memo = json['memo'];

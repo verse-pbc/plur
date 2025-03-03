@@ -24,7 +24,7 @@ class Nip96ServerAdaptation {
     tosUrl = json['tos_url'];
     contentTypes = json['content_types'].cast<String>();
     plans =
-        json['plans'] != null ? new Nip96Plans.fromJson(json['plans']) : null;
+        json['plans'] != null ? Nip96Plans.fromJson(json['plans']) : null;
   }
 
   Map<String, dynamic> toJson() {
