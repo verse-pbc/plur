@@ -53,7 +53,7 @@ class Metadata {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = this.name;
     data['display_name'] = this.displayName;
     data['picture'] = this.picture;

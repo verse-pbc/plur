@@ -7,7 +7,7 @@
 - [x] fvm dart fix --apply --code=division_optimization 
 - [x] fvm dart fix --apply --code=empty_constructor_bodies 
 - [x] fvm dart fix --apply --code=missing_dependency 
-- [ ] fvm dart fix --apply --code=no_leading_underscores_for_local_identifiers 
+- [x] fvm dart fix --apply --code=no_leading_underscores_for_local_identifiers 
 - [ ] fvm dart fix --apply --code=prefer_collection_literals 
 - [ ] fvm dart fix --apply --code=prefer_const_constructors 
 - [ ] fvm dart fix --apply --code=prefer_const_constructors_in_immutables 
