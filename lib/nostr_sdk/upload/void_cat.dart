@@ -54,7 +54,7 @@ class VoidCatUploader {
     );
     var body = response.data;
 
-    if (body != null && body.indexOf('"ok":false') > -1) {
+    if (body != null && body.contains('"ok":false')) {
       return null;
     }
 
