@@ -36,7 +36,7 @@ class SyncUploadDialog extends StatefulWidget {
 }
 
 class _SyncUploadDialog extends State<SyncUploadDialog> {
-  Map<String, bool?> _relaySelected = {};
+  final Map<String, bool?> _relaySelected = {};
 
   int sendInterval = 10;
 

@@ -26,7 +26,7 @@ class FollowWidget extends StatefulWidget {
 
 class _FollowWidgetState extends KeepAliveCustState<FollowWidget>
     with LoadMoreEvent {
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {

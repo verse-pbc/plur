@@ -37,7 +37,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
 
   Event? sourceEvent;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {

@@ -9,7 +9,7 @@ import '../main.dart';
 class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
   int updateTime = 1000 * 60 * 10;
 
-  Map<String, EventReactions> _eventReactionsMap = {};
+  final Map<String, EventReactions> _eventReactionsMap = {};
 
   EventReactionsProvider() {
     whenStopMS = 200;
@@ -172,9 +172,9 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
 
   Map<String, bool> _localNeedHandleIds = {};
 
-  Map<String, int> _needHandleIds = {};
+  final Map<String, int> _needHandleIds = {};
 
-  Map<String, int> _pullIds = {};
+  final Map<String, int> _pullIds = {};
 
   void _doPull() {
     if (_needHandleIds.isEmpty) {
@@ -204,7 +204,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
     _penddingEvents.addAll(events);
   }
 
-  List<Event> _penddingEvents = [];
+  final List<Event> _penddingEvents = [];
 
   void _handleEvent() {
     bool updated = false;

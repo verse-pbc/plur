@@ -20,7 +20,7 @@ class RelayLocalDB with LaterFunction {
   late Database _database;
 
   // a eventId map in mem, to avoid alway insert event.
-  Map<String, int> _memEventIdMap = {};
+  final Map<String, int> _memEventIdMap = {};
 
   RelayLocalDB._(Database database) {
     _database = database;

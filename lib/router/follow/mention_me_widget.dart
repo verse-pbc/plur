@@ -31,7 +31,7 @@ class MentionMeWidget extends StatefulWidget {
 
 class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
     with LoadMoreEvent {
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {

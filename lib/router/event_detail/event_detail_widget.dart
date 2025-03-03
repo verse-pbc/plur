@@ -32,7 +32,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   bool showTitle = false;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   double rootEventHeight = 120;
 

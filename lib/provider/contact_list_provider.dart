@@ -20,7 +20,7 @@ class ContactListProvider extends ChangeNotifier {
 
   Map<String, Event> followSetEventMap = {};
 
-  Map<String, FollowSet> _followSetMap = {};
+  final Map<String, FollowSet> _followSetMap = {};
 
   static ContactListProvider getInstance() {
     _contactListProvider ??= ContactListProvider();
