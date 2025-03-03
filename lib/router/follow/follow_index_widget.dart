@@ -22,10 +22,10 @@ class _FollowIndexWidgetState extends State<FollowIndexWidget> {
       color: Theme.of(context).scaffoldBackgroundColor,
       child: TabBarView(
         controller: widget.tabController,
-        children: [
-          const FollowPostsWidget(),
-          const FollowWidget(),
-          const MentionMeWidget(),
+        children: const [
+          FollowPostsWidget(),
+          FollowWidget(),
+          MentionMeWidget(),
         ],
       ),
     );

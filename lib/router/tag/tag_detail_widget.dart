@@ -129,7 +129,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
     return Scaffold(
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
-        actions: [],
+        actions: const [],
         title: appBarTitle,
       ),
       body: main,
