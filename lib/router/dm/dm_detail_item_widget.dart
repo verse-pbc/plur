@@ -19,7 +19,8 @@ class DMDetailItemWidget extends StatefulWidget {
 
   bool isLocal;
 
-  DMDetailItemWidget({super.key, 
+  DMDetailItemWidget({
+    super.key, 
     required this.sessionPubkey,
     required this.event,
     required this.isLocal,

@@ -100,7 +100,8 @@ class IndexBottomBarButton extends StatelessWidget {
   bool bigFont;
   Function? onDoubleTap;
 
-  IndexBottomBarButton({super.key, 
+  IndexBottomBarButton({
+    super.key, 
     required this.iconData,
     required this.index,
     required this.selected,

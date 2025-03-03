@@ -26,11 +26,14 @@ class TextInputAndSearchDialog extends StatefulWidget {
   TextInputAndSearchDialog(
     this.searchTabName,
     this.title,
-    this.searchWidget, {super.key, 
-    this.hintText,
-    this.value,
-    this.valueCheck,
-  });
+    this.searchWidget, 
+    {
+      super.key, 
+      this.hintText,
+      this.value,
+      this.valueCheck,
+    }
+  );
 
   static Future<String?> show(BuildContext context, String searchTabName,
       String title, Widget searchWidget,
