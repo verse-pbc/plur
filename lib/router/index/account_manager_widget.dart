@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
