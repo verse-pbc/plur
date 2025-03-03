@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/util/url_speed_util.dart';
 
 class UrlSpeedProvider extends ChangeNotifier {
-  Map<String, int?> _addrSpeedMap = {};
+  final Map<String, int?> _addrSpeedMap = {};
 
   int? getSpeed(String addr) {
     return _addrSpeedMap[addr];

@@ -66,7 +66,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
 
   bool showTitle = false;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   double rootEventHeight = 120;
 

@@ -19,9 +19,9 @@ class SettingsProvider extends ChangeNotifier {
 
   SettingData? _settingData;
 
-  Map<String, String> _privateKeyMap = {};
+  final Map<String, String> _privateKeyMap = {};
 
-  Map<String, String> _nwcUrlMap = {};
+  final Map<String, String> _nwcUrlMap = {};
 
   static Future<SettingsProvider> getInstance() async {
     if (_settingsProvider == null) {
@@ -272,7 +272,7 @@ class SettingsProvider extends ChangeNotifier {
 
   String? get translateTarget => _settingData!.translateTarget;
 
-  Map<String, int> _translateSourceArgsMap = {};
+  final Map<String, int> _translateSourceArgsMap = {};
 
   void _reloadTranslateSourceArgs() {
     _translateSourceArgsMap.clear();

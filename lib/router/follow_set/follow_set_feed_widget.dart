@@ -29,7 +29,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   EventMemBox box = EventMemBox();
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   FollowSet? followSet;
 

@@ -34,7 +34,7 @@ class _UserWidgetState extends CustState<UserWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   String? pubkey;
 

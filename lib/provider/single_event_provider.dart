@@ -4,13 +4,13 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import '../main.dart';
 
 class SingleEventProvider extends ChangeNotifier with LaterFunction {
-  Map<String, Event> _eventsMap = {};
+  final Map<String, Event> _eventsMap = {};
 
-  Map<String, String> _needUpdateIds = {};
+  final Map<String, String> _needUpdateIds = {};
 
-  Map<String, String> _handingIds = {};
+  final Map<String, String> _handingIds = {};
 
-  List<Event> _penddingEvents = [];
+  final List<Event> _penddingEvents = [];
 
   Event? getEvent(String id, {String? eventRelayAddr, bool queryData = true}) {
     var event = _eventsMap[id];
@@ -33,7 +33,7 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
     return null;
   }
 
-  Map<String, int> _localRelayQuering = {};
+  final Map<String, int> _localRelayQuering = {};
 
   void _getEventFromCacheRelay(String id) async {
     if (_localRelayQuering[id] == null) {
