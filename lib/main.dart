@@ -394,17 +394,17 @@ class _MyApp extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    Locale? _locale;
+    Locale? locale;
     if (StringUtil.isNotBlank(settingsProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
         if (item.languageCode == settingsProvider.i18n &&
             item.countryCode == settingsProvider.i18nCC) {
-          _locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
+          locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
           break;
         }
       }
     }
-    setGetTimeAgoDefaultLocale(_locale);
+    setGetTimeAgoDefaultLocale(locale);
 
     var lightTheme = getLightTheme();
     var darkTheme = getDarkTheme();
@@ -554,7 +554,7 @@ class _MyApp extends State<MyApp> {
         ),
       ],
       child: HomeWidget(
-        locale: _locale,
+        locale: locale,
         theme: defaultTheme,
         child: MaterialApp(
           navigatorKey: MyApp.navigatorKey,
@@ -565,7 +565,7 @@ class _MyApp extends State<MyApp> {
           ],
           // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
-          locale: _locale,
+          locale: locale,
           title: Base.APP_NAME,
           localizationsDelegates: const [
             S.delegate,

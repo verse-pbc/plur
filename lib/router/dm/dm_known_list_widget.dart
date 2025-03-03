@@ -21,13 +21,13 @@ class _DMKnownListWidgetState extends State<DMKnownListWidget> {
   @override
   Widget build(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _dmProvider = Provider.of<DMProvider>(context);
-    var details = _dmProvider.knownList;
+    var dmProvider = Provider.of<DMProvider>(context);
+    var details = dmProvider.knownList;
     var allLength = details.length;
 
-    var _noticeProvider = Provider.of<NoticeProvider>(context);
-    var notices = _noticeProvider.notices;
-    bool hasNewNotice = _noticeProvider.hasNewMessage();
+    var noticeProvider = Provider.of<NoticeProvider>(context);
+    var notices = noticeProvider.notices;
+    bool hasNewNotice = noticeProvider.hasNewMessage();
     int flag = 0;
     if (notices.isNotEmpty) {
       allLength += 1;
@@ -60,7 +60,7 @@ class _DMKnownListWidgetState extends State<DMKnownListWidget> {
         itemCount: allLength,
       ),
       onRefresh: () async {
-        _dmProvider.query(queryAll: true);
+        dmProvider.query(queryAll: true);
       },
     );
   }

@@ -384,7 +384,7 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (BuildContext _context) {
+      builder: (BuildContext context) {
         return ZapBottomSheetWidget(context, list);
       },
     );

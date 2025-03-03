@@ -97,15 +97,15 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       );
     } else if (eventId != null) {
       mainEventWidget = Selector<SingleEventProvider, Event?>(
-        builder: (context, _event, child) {
-          if (_event == null) {
+        builder: (context, event, child) {
+          if (event == null) {
             return EventLoadListWidget();
           } else {
-            event = _event;
+            event = event;
             titlePubkey = event!.pubkey;
             title = ThreadDetailWidget.getAppBarTitle(event!);
             return EventListWidget(
-              event: _event,
+              event: event,
               showVideo: true,
               showDetailBtn: false,
             );

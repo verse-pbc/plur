@@ -35,7 +35,7 @@ class TextInputDialog extends StatefulWidget {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
+        builder: (context) {
           return TextInputDialog(
             StringUtil.breakWord(title),
             hintText: hintText,

@@ -32,10 +32,10 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
   @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
-    var _relayProvider = Provider.of<RelayProvider>(context);
-    var relayAddrs = _relayProvider.relayAddrs;
-    var relayStatusLocal = _relayProvider.relayStatusLocal;
-    var relayStatusMap = _relayProvider.relayStatusMap;
+    var relayProvider = Provider.of<RelayProvider>(context);
+    var relayAddrs = relayProvider.relayAddrs;
+    var relayStatusLocal = relayProvider.relayStatusLocal;
+    var relayStatusMap = relayProvider.relayStatusMap;
     final themeData = Theme.of(context);
     var color = themeData.textTheme.bodyLarge!.color;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
@@ -93,7 +93,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       ));
     }
 
-    if (_relayProvider.cacheRelayAddrs.isNotEmpty) {
+    if (relayProvider.cacheRelayAddrs.isNotEmpty) {
       list.add(Container(
         padding: EdgeInsets.only(
           left: Base.BASE_PADDING,
@@ -108,8 +108,8 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
         ),
       ));
 
-      for (var i = 0; i < _relayProvider.cacheRelayAddrs.length; i++) {
-        var addr = _relayProvider.cacheRelayAddrs[i];
+      for (var i = 0; i < relayProvider.cacheRelayAddrs.length; i++) {
+        var addr = relayProvider.cacheRelayAddrs[i];
         var relayStatus = relayStatusMap[addr];
         relayStatus ??= RelayStatus(addr);
 
@@ -128,7 +128,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       }
     }
 
-    var tempRelayStatus = _relayProvider.tempRelayStatus();
+    var tempRelayStatus = relayProvider.tempRelayStatus();
     if (tempRelayStatus.isNotEmpty) {
       list.add(Container(
         padding: EdgeInsets.only(

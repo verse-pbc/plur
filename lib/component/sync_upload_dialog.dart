@@ -49,7 +49,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
 
-    var _relayProvider = Provider.of<RelayProvider>(context);
+    var relayProvider = Provider.of<RelayProvider>(context);
 
     List<Widget> list = [];
     list.add(Text(
@@ -104,9 +104,9 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     List<Widget> subList = [];
     List<String> addrs = []
       ..add(RelayLocal.URL)
-      ..addAll(_relayProvider.relayAddrs);
+      ..addAll(relayProvider.relayAddrs);
     for (var relayAddr in addrs) {
-      var relayStatus = _relayProvider.relayStatusMap[relayAddr];
+      var relayStatus = relayProvider.relayStatusMap[relayAddr];
       if (relayStatus == null) {
         if (relayAddr == RelayLocal.URL) {
           subList.add(SyncUploadItem(

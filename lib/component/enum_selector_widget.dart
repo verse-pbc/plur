@@ -18,7 +18,7 @@ class EnumSelectorWidget extends StatelessWidget {
     return await showDialog<EnumObj?>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return EnumSelectorWidget(
           list: list,
         );
