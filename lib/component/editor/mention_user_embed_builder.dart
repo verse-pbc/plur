@@ -7,6 +7,7 @@ import '../content/content_mention_user_widget.dart';
 import 'cust_embed_types.dart';
 
 class MentionUserEmbedBuilder extends EmbedBuilder {
+  @override
   bool get expanded => false;
 
   @override
