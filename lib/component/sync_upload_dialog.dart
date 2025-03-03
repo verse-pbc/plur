@@ -102,9 +102,9 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     List<Widget> subList = [];
-    List<String> addrs = [RelayLocal.URL]
+    List<String> addrs = [RelayLocal.URL, ...relayProvider.relayAddrs]
       
-      ..addAll(relayProvider.relayAddrs);
+      ;
     for (var relayAddr in addrs) {
       var relayStatus = relayProvider.relayStatusMap[relayAddr];
       if (relayStatus == null) {

@@ -15,7 +15,7 @@
 - [x] fvm dart fix --apply --code=prefer_contains 
 - [x] fvm dart fix --apply --code=prefer_final_fields 
 - [x] fvm dart fix --apply --code=prefer_inlined_adds 
-- [ ] fvm dart fix --apply --code=prefer_interpolation_to_compose_strings 
+- [x] fvm dart fix --apply --code=prefer_interpolation_to_compose_strings 
 - [ ] fvm dart fix --apply --code=prefer_spread_collections 
 - [ ] fvm dart fix --apply --code=sized_box_for_whitespace 
 - [ ] fvm dart fix --apply --code=unnecessary_brace_in_string_interps 
