@@ -11,8 +11,8 @@ class CustomEmoji {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = this.name;
-    data['filepath'] = this.filepath;
+    data['name'] = name;
+    data['filepath'] = filepath;
     return data;
   }
 }

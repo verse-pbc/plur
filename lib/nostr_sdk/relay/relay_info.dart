@@ -38,13 +38,13 @@ class RelayInfo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = this.name;
-    data['description'] = this.description;
-    data['pubkey'] = this.pubkey;
-    data['contact'] = this.contact;
-    data['nips'] = this.nips;
-    data['software'] = this.software;
-    data['version'] = this.version;
+    data['name'] = name;
+    data['description'] = description;
+    data['pubkey'] = pubkey;
+    data['contact'] = contact;
+    data['nips'] = nips;
+    data['software'] = software;
+    data['version'] = version;
     return data;
   }
 }

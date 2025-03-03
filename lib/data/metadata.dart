@@ -48,23 +48,23 @@ class Metadata {
 
   Map<String, dynamic> toFullJson() {
     var data = toJson();
-    data['pub_key'] = this.pubkey;
+    data['pub_key'] = pubkey;
     return data;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = this.name;
-    data['display_name'] = this.displayName;
-    data['picture'] = this.picture;
-    data['banner'] = this.banner;
-    data['website'] = this.website;
-    data['about'] = this.about;
-    data['nip05'] = this.nip05;
-    data['lud16'] = this.lud16;
-    data['lud06'] = this.lud06;
-    data['updated_at'] = this.updated_at;
-    data['valid'] = this.valid;
+    data['name'] = name;
+    data['display_name'] = displayName;
+    data['picture'] = picture;
+    data['banner'] = banner;
+    data['website'] = website;
+    data['about'] = about;
+    data['nip05'] = nip05;
+    data['lud16'] = lud16;
+    data['lud06'] = lud06;
+    data['updated_at'] = updated_at;
+    data['valid'] = valid;
     return data;
   }
 }
