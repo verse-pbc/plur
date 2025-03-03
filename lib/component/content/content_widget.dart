@@ -11,9 +11,7 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/component/music/wavlake/wavlake_track_music_info_builder.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
@@ -23,7 +21,6 @@ import '../event/event_quote_widget.dart';
 import '../link_router_util.dart';
 import '../music/blank_link_music_info_builder.dart';
 import '../music/wavlake/wavlake_album_music_info_builder.dart';
-import '../webview_widget.dart';
 import 'content_cashu_widget.dart';
 import 'content_custom_emoji_widget.dart';
 import 'content_event_tag_infos.dart';

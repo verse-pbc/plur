@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:pointycastle/export.dart';
 
 import '../event.dart';
 import '../event_kind.dart';

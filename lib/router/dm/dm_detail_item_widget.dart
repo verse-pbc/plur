@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
-import '../../main.dart';
 import '../../provider/settings_provider.dart';
 import 'dm_plaintext_handle.dart';
 

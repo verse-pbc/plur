@@ -12,12 +12,9 @@ import '../../component/event/event_list_widget.dart';
 import '../../component/event/zap_event_list_widget.dart';
 import '../../component/new_notes_updated_widget.dart';
 import '../../component/placeholder/event_list_placeholder.dart';
-import '../../component/placeholder/event_placeholder.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
-import '../../consts/router_path.dart';
 import '../../provider/settings_provider.dart';
-import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
 class MentionMeWidget extends StatefulWidget {

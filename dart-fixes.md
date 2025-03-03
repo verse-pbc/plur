@@ -26,6 +26,6 @@
 - [x] fvm dart fix --apply --code=unnecessary_non_null_assertion 
 - [x] fvm dart fix --apply --code=unnecessary_string_escapes 
 - [x] fvm dart fix --apply --code=unnecessary_this 
-- [ ] fvm dart fix --apply --code=unused_element 
+- [x] fvm dart fix --apply --code=unused_element 
 - [ ] fvm dart fix --apply --code=unused_import 
 - [ ] fvm dart fix --apply --code=use_key_in_widget_constructors 

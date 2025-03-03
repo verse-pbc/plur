@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/base.dart';
-import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 import 'text_input_dialog_inner_widget.dart';
