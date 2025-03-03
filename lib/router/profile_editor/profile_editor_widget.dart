@@ -254,6 +254,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         imageService: settingsProvider.imageService,
       );
     }
+    return null;
   }
 
   void profileSave() {
