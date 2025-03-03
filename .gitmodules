@@ -1,4 +1,0 @@
-[submodule "packages/nostr_sdk"]
-	path = packages/nostr_sdk
-	url = git@github.com:verse-pbc/nostr_sdk.git
-	branch = main

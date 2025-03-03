@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/base.dart';
 import '../../data/event_find_util.dart';

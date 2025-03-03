@@ -4,7 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';

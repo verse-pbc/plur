@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 import '../generated/l10n.dart';
 import '../main.dart';
