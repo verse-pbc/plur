@@ -21,6 +21,7 @@ class FollowSet extends ContactList {
   Map<String, int> _privateFollowedTags;
   Map<String, int> _privateFollowedCommunitys;
 
+  @override
   int createdAt;
 
   FollowSet(

@@ -5,6 +5,7 @@ import 'package:nostrmo/component/content/content_tag_widget.dart';
 import 'cust_embed_types.dart';
 
 class TagEmbedBuilder extends EmbedBuilder {
+  @override
   bool get expanded => false;
 
   @override
