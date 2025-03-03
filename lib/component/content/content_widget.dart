@@ -520,7 +520,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
     closeLine(buffer, currentList, allList, images);
 
-    var main = Container(
+    var main = SizedBox(
       width: !widget.smallest ? double.infinity : null,
       // padding: EdgeInsets.only(bottom: 20),
       // color: Colors.red,
@@ -562,7 +562,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         index++;
       }
 
-      mainList.add(Container(
+      mainList.add(SizedBox(
         height: CONTENT_IMAGE_LIST_HEIGHT,
         width: double.infinity,
         child: CustomScrollView(

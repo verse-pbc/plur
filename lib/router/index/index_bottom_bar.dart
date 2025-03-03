@@ -131,7 +131,7 @@ class IndexBottomBarButton extends StatelessWidget {
           onDoubleTap!();
         }
       },
-      child: Container(
+      child: SizedBox(
         height: IndexBottomBar.height,
         child: Icon(
           iconData,

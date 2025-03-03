@@ -184,7 +184,7 @@ class ZapsSendDialogItem extends StatelessWidget {
         ),
       );
 
-      Widget rightComp = Container(
+      Widget rightComp = SizedBox(
         height: rightHeight,
         width: rightWidth,
         child: const Icon(
@@ -194,7 +194,7 @@ class ZapsSendDialogItem extends StatelessWidget {
       );
       if (sended != true && invoiceCode != null) {
         rightComp = GestureDetector(
-          child: Container(
+          child: SizedBox(
             height: rightHeight,
             width: rightWidth,
             child: MetadataTextBtn(

@@ -181,7 +181,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
+      child: SizedBox(
         // height: 200,
         width: double.infinity,
         child: Column(

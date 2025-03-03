@@ -116,7 +116,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
             child: Container(
               color: cardColor,
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: mediaDataCache.size.width * 0.8,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -128,7 +128,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
           ),
           Positioned(
             top: mediaDataCache.padding.top,
-            child: Container(
+            child: SizedBox(
               width: mediaDataCache.size.width,
               child: appBar,
             ),

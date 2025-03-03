@@ -66,7 +66,7 @@ class _MetadataWidgetState extends State<MetadataWidget> {
             bottom: Base.BASE_PADDING_HALF,
           ),
           // child: Text(widget.metadata!.about!),
-          child: Container(
+          child: SizedBox(
             width: double.maxFinite,
             child: ContentWidget(
               content: widget.metadata!.about,
