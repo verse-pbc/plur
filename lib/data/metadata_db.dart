@@ -24,6 +24,7 @@ class MetadataDB {
     if (list.isNotEmpty) {
       return Metadata.fromJson(list[0]);
     }
+    return null;
   }
 
   static Future<int> insert(Metadata o, {DatabaseExecutor? db}) async {

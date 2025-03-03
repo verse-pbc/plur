@@ -12,13 +12,17 @@ class MarkdownNrelayElementBuilder implements MarkdownElementBuilder {
   static const String TAG = "relay";
 
   @override
-  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {}
+  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
+    return null;
+  }
 
   @override
   void visitElementBefore(md.Element element) {}
 
   @override
-  Widget? visitText(md.Text text, TextStyle? preferredStyle) {}
+  Widget? visitText(md.Text text, TextStyle? preferredStyle) {
+    return null;
+  }
 
   @override
   Widget? visitElementAfterWithContext(BuildContext context, md.Element element,
@@ -37,6 +41,7 @@ class MarkdownNrelayElementBuilder implements MarkdownElementBuilder {
     if (key != null) {
       return ContentRelayWidget(key);
     }
+    return null;
   }
 
   @override

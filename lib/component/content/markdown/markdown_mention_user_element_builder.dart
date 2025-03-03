@@ -11,13 +11,17 @@ class MarkdownMentionUserElementBuilder implements MarkdownElementBuilder {
   static const String TAG = "mentionUser";
 
   @override
-  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {}
+  Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
+    return null;
+  }
 
   @override
   void visitElementBefore(md.Element element) {}
 
   @override
-  Widget? visitText(md.Text text, TextStyle? preferredStyle) {}
+  Widget? visitText(md.Text text, TextStyle? preferredStyle) {
+    return null;
+  }
 
   @override
   Widget? visitElementAfterWithContext(BuildContext context, md.Element element,
@@ -38,6 +42,7 @@ class MarkdownMentionUserElementBuilder implements MarkdownElementBuilder {
     if (key != null) {
       return ContentMentionUserWidget(pubkey: key);
     }
+    return null;
   }
 
   @override
