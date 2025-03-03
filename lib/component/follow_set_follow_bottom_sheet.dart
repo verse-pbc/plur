@@ -156,7 +156,8 @@ class FollowSetFollowItemWidget extends StatefulWidget {
     this.privateValue,
     this.onPrivateChange,
     this.publicValue,
-    this.onPublicChange, {super.key},
+    this.onPublicChange, 
+    {super.key}
   );
 
   @override
