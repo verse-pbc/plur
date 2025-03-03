@@ -105,8 +105,8 @@ class BlossomUploader {
         return body["url"];
       }
     } catch (e) {
-      print("BlossomUploader.upload upload exception:");
-      print(e);
+      log("BlossomUploader.upload upload exception:");
+      log(e.toString());
     }
 
     return null;

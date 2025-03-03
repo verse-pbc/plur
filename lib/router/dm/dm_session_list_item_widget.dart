@@ -30,9 +30,9 @@ class DMSessionListItemWidget extends StatefulWidget {
 
 class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
     with DMPlaintextHandle {
-  static const double IMAGE_WIDTH = 34;
+  static const double imageWidth = 34;
 
-  static const double HALF_IMAGE_WIDTH = 17;
+  static const double halfImageWidth = 17;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
           margin: EdgeInsets.only(top: 4),
           child: UserPicWidget(
             pubkey: dmSession.pubkey,
-            width: IMAGE_WIDTH,
+            width: imageWidth,
           ),
         );
 

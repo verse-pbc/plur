@@ -6,7 +6,7 @@ import '../utils/base64.dart';
 import 'nostr_build_uploader.dart';
 
 class Pomf2LainLa {
-  static const String UPLOAD_ACTION = "https://pomf2.lain.la/upload.php";
+  static const String uploadAction = "https://pomf2.lain.la/upload.php";
 
   static Future<String?> upload(String filePath, {String? fileName}) async {
     // final dio = Dio();
@@ -30,7 +30,7 @@ class Pomf2LainLa {
 
     var formData = FormData.fromMap({"files[]": multipartFile});
     var response =
-        await NostrBuildUploader.dio.post(UPLOAD_ACTION, data: formData);
+        await NostrBuildUploader.dio.post(uploadAction, data: formData);
     var body = response.data;
     if (body is Map<String, dynamic>) {
       return body["files"][0]["url"];

@@ -34,9 +34,9 @@ class DMDetailItemWidget extends StatefulWidget {
 
 class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     with DMPlaintextHandle {
-  static const double IMAGE_WIDTH = 34;
+  static const double imageWidth = 34;
 
-  static const double BLANK_WIDTH = 50;
+  static const double blankWidth = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
       margin: const EdgeInsets.only(top: 2),
       child: UserPicWidget(
         pubkey: widget.event.pubkey,
-        width: IMAGE_WIDTH,
+        width: imageWidth,
       ),
     );
     // var maxWidth = mediaDataCache.size.width;
@@ -163,13 +163,13 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
 
     List<Widget> list = [];
     if (widget.isLocal) {
-      list.add(Container(width: BLANK_WIDTH));
+      list.add(Container(width: blankWidth));
       list.add(Expanded(child: contentWidget));
       list.add(userHeadWidget);
     } else {
       list.add(userHeadWidget);
       list.add(Expanded(child: contentWidget));
-      list.add(Container(width: BLANK_WIDTH));
+      list.add(Container(width: blankWidth));
     }
 
     return Container(
