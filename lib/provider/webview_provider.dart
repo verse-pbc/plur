@@ -32,15 +32,15 @@ class WebViewProvider extends ChangeNotifier with WidgetsBindingObserver {
   InAppWebViewController? webviewController;
 
   void open(String url) {
-    this._url = url;
-    this._showable = true;
+    _url = url;
+    _showable = true;
     notifyListeners();
   }
 
   void close() {
-    this._url = null;
-    this._showable = false;
-    this.webviewController = null;
+    _url = null;
+    _showable = false;
+    webviewController = null;
     notifyListeners();
   }
 

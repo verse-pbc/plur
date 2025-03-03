@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -314,8 +313,6 @@ class ContactListProvider extends ChangeNotifier {
       if (event.kind == EventKind.FOLLOW_SETS) {
         if (deleted[event.id] == null) {
           deleted[event.id] = 1;
-          log(jsonEncode(event.sources));
-          log(jsonEncode(event.toJson()));
           nostr!.deleteEvent(event.id);
         }
       }
