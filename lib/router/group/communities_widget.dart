@@ -10,7 +10,6 @@ import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
 
 import 'community_widget.dart';
-import '../../component/appbar_bottom_border.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
 

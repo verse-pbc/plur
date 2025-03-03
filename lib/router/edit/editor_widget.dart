@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:pointycastle/ecc/api.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';

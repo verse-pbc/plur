@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
-import '../../../component/cust_state.dart';
 import '../../../component/keep_alive_cust_state.dart';
 import '../../../component/placeholder/tap_list_placeholder.dart';
 import '../../../component/tag_widget.dart';

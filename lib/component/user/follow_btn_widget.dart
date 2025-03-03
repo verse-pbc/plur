@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/generated/l10n.dart';
 import 'package:provider/provider.dart';
 
 import '../../main.dart';

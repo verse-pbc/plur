@@ -4,7 +4,6 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/follow_set_follow_bottom_sheet.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
 import 'package:nostrmo/component/qrcode_dialog.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
@@ -12,10 +11,8 @@ import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/provider/contact_list_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
-import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
@@ -24,7 +21,6 @@ import '../image_widget.dart';
 import '../image_preview_dialog.dart';
 import '../zap/zap_bottom_sheet_widget.dart';
 import 'follow_btn_widget.dart';
-import 'metadata_widget.dart';
 
 class MetadataTopWidget extends StatefulWidget {
   static double getPcBannerHeight(double maxHeight) {

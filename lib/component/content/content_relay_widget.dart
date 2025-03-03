@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
-import 'content_str_link_widget.dart';
 
 class ContentRelayWidget extends StatelessWidget {
   String addr;

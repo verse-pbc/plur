@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/colors_util.dart';

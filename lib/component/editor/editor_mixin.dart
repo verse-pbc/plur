@@ -17,7 +17,6 @@ import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/sendbox/sendbox.dart';
-import 'package:pointycastle/ecc/api.dart';
 import 'package:provider/provider.dart';
 import 'package:image/image.dart' as img;
 
@@ -27,7 +26,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../router/index/index_app_bar.dart';
-import '../content/content_decoder.dart';
 import '../emoji_picker_widget.dart';
 import '../image_widget.dart';
 import '../zap/zap_split_icon_widget.dart';
