@@ -15,7 +15,7 @@ fvm flutter test
 
 # Formatting
 
-It's good practice to run `dart analyze` and `dart format` before committing yoru code.
+It's good practice to run `dart analyze` and `dart format` before committing your code.
 
 # Localization
 
