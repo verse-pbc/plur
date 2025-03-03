@@ -22,7 +22,7 @@ class ZapsSendDialog extends StatefulWidget {
 
   String? comment;
 
-  ZapsSendDialog({
+  ZapsSendDialog({super.key, 
     required this.zapInfos,
     required this.pubkeyZapNumbers,
     this.comment,
@@ -153,7 +153,7 @@ class ZapsSendDialogItem extends StatelessWidget {
   Function(String, String, int) sendZapFunction;
 
   ZapsSendDialogItem(this.pubkey, this.zapNumber, this.sendZapFunction,
-      {this.invoiceCode, this.sended});
+      {super.key, this.invoiceCode, this.sended});
 
   @override
   Widget build(BuildContext context) {

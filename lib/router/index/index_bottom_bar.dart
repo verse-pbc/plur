@@ -8,7 +8,7 @@ import '../../main.dart';
 class IndexBottomBar extends StatefulWidget {
   static const double height = 50;
 
-  const IndexBottomBar();
+  const IndexBottomBar({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -100,7 +100,7 @@ class IndexBottomBarButton extends StatelessWidget {
   bool bigFont;
   Function? onDoubleTap;
 
-  IndexBottomBarButton({
+  IndexBottomBarButton({super.key, 
     required this.iconData,
     required this.index,
     required this.selected,

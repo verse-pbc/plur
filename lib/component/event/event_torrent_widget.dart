@@ -13,7 +13,7 @@ import '../tag_widget.dart';
 class EventTorrentWidget extends StatefulWidget {
   TorrentInfo torrentInfo;
 
-  EventTorrentWidget(this.torrentInfo);
+  EventTorrentWidget(this.torrentInfo, {super.key});
 
   @override
   State<StatefulWidget> createState() {

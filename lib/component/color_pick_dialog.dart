@@ -9,7 +9,7 @@ import '../util/theme_util.dart';
 class ColorPickDialog extends StatelessWidget {
   Color? defaultColor;
 
-  ColorPickDialog(this.defaultColor);
+  ColorPickDialog(this.defaultColor, {super.key});
 
   static Future<Color?> show(BuildContext context, Color? color) async {
     return await showDialog<Color>(

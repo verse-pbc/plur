@@ -5,7 +5,7 @@ class ZapSplitIconWidget extends StatelessWidget {
 
   Color? color;
 
-  ZapSplitIconWidget(this.fontSize, {this.color = Colors.orange});
+  ZapSplitIconWidget(this.fontSize, {super.key, this.color = Colors.orange});
 
   @override
   Widget build(BuildContext context) {

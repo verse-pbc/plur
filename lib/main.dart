@@ -336,7 +336,7 @@ class MyApp extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  MyApp() {
+  MyApp({super.key}) {
     platform.setMethodCallHandler(_handleDeepLink);
   }
 

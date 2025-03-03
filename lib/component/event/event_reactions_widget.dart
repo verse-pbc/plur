@@ -39,7 +39,7 @@ class EventReactionsWidget extends StatefulWidget {
 
   bool showDetailBtn;
 
-  EventReactionsWidget({
+  EventReactionsWidget({super.key, 
     required this.screenshotController,
     required this.event,
     required this.eventRelation,
@@ -720,7 +720,7 @@ class EventReactionNumWidget extends StatelessWidget {
 
   Widget? showMoreWidget;
 
-  EventReactionNumWidget({
+  EventReactionNumWidget({super.key, 
     this.iconText,
     required this.iconData,
     required this.num,
@@ -797,7 +797,7 @@ class EventReactionEmojiNumWidget extends StatelessWidget {
 
   double fontSize;
 
-  EventReactionEmojiNumWidget({
+  EventReactionEmojiNumWidget({super.key, 
     this.iconText,
     required this.iconData,
     required this.num,

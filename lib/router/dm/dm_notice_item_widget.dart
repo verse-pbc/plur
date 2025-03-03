@@ -16,7 +16,7 @@ class DMNoticeItemWidget extends StatelessWidget {
 
   bool hasNewMessage;
 
-  DMNoticeItemWidget({
+  DMNoticeItemWidget({super.key, 
     required this.newestNotice,
     this.hasNewMessage = false,
   });

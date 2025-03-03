@@ -7,7 +7,7 @@ class TapPlaceholder extends StatelessWidget {
 
   double width;
 
-  TapPlaceholder({required this.width, required this.color});
+  TapPlaceholder({super.key, required this.width, required this.color});
 
   @override
   Widget build(BuildContext context) {

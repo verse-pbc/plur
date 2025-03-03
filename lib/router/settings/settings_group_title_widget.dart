@@ -7,7 +7,7 @@ class SettingsGroupTitleWidget extends StatelessWidget {
 
   String title;
 
-  SettingsGroupTitleWidget({
+  SettingsGroupTitleWidget({super.key, 
     required this.iconData,
     required this.title,
   });

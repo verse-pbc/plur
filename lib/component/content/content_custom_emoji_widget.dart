@@ -7,7 +7,7 @@ import '../image_widget.dart';
 class ContentCustomEmojiWidget extends StatelessWidget {
   final String imagePath;
 
-  const ContentCustomEmojiWidget({required this.imagePath});
+  const ContentCustomEmojiWidget({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

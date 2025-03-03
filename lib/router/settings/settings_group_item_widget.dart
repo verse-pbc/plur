@@ -14,7 +14,7 @@ class SettingsGroupItemWidget extends StatelessWidget {
 
   Function? onTap;
 
-  SettingsGroupItemWidget({
+  SettingsGroupItemWidget({super.key, 
     required this.name,
     this.nameColor,
     this.value,

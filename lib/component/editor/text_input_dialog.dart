@@ -16,7 +16,7 @@ class TextInputDialog extends StatefulWidget {
   bool Function(BuildContext, String)? valueCheck;
 
   TextInputDialog(
-    this.title, {
+    this.title, {super.key, 
     this.hintText,
     this.value,
     this.valueCheck,

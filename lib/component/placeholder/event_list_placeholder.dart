@@ -5,7 +5,7 @@ import 'event_placeholder.dart';
 class EventListPlaceholder extends StatelessWidget {
   Function? onRefresh;
 
-  EventListPlaceholder({this.onRefresh});
+  EventListPlaceholder({super.key, this.onRefresh});
 
   @override
   Widget build(BuildContext context) {

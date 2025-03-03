@@ -9,7 +9,7 @@ class TagWidget extends StatelessWidget {
 
   bool jumpable;
 
-  TagWidget({
+  TagWidget({super.key, 
     required this.tag,
     this.jumpable = true,
   });
