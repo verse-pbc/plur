@@ -261,11 +261,10 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
       cancelFunc.call();
     }
   }
-
   Future<void> addDmSessionToKnown() async {
-    var detail = await dmProvider.addDmSessionToKnown(detail!);
+    var updatedDetail = await dmProvider.addDmSessionToKnown(detail!);
     setState(() {
-      detail = detail;
+      detail = updatedDetail;
     });
   }
 
