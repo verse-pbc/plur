@@ -203,7 +203,7 @@ class _DonateButtonWidget extends StatelessWidget {
               onTap();
             },
             style: ButtonStyle(
-              side: MaterialStateProperty.all(BorderSide(
+              side: WidgetStateProperty.all(BorderSide(
                 width: 1,
                 color: hintColor.withOpacity(0.4),
               )),

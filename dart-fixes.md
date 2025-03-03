@@ -2,7 +2,7 @@
 - [x] fvm dart fix --apply --code=avoid_function_literals_in_foreach_calls 
 - [x] fvm dart fix --apply --code=await_only_futures 
 - [x] fvm dart fix --apply --code=body_might_complete_normally_nullable 
-- [ ] fvm dart fix --apply --code=curly_braces_in_flow_control_structures 
+- [x] fvm dart fix --apply --code=curly_braces_in_flow_control_structures 
 - [ ] fvm dart fix --apply --code=deprecated_member_use 
 - [ ] fvm dart fix --apply --code=division_optimization 
 - [ ] fvm dart fix --apply --code=empty_constructor_bodies 
