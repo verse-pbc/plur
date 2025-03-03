@@ -307,7 +307,7 @@ class RelayLocalDB with LaterFunction {
     var search = filter.remove("search");
     if (search != null && search is String) {
       conditions.add("content LIKE ? ESCAPE '\\'");
-      params.add("%${search.replaceAll("%", "\%")}%");
+      params.add("%${search.replaceAll("%", "%")}%");
     }
 
     List<String> tagQueryConditions = [];
@@ -329,7 +329,7 @@ class RelayLocalDB with LaterFunction {
       conditions.add(tagQueryConditions[0]);
     }
     for (var tagValue in tagQuery) {
-      params.add("%${tagValue.replaceAll("%", "\%")}%");
+      params.add("%${tagValue.replaceAll("%", "%")}%");
     }
 
     if (conditions.isEmpty) {
