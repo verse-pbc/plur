@@ -880,7 +880,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 class EventReplyingcomponent extends StatefulWidget {
   String pubkey;
 
-  EventReplyingcomponent({required this.pubkey});
+  EventReplyingcomponent({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {

@@ -8,7 +8,7 @@ import '../../consts/base.dart';
 class NoticeListItemWidget extends StatelessWidget {
   NoticeData notice;
 
-  NoticeListItemWidget({required this.notice});
+  NoticeListItemWidget({super.key, required this.notice});
 
   @override
   Widget build(BuildContext context) {

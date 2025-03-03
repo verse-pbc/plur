@@ -394,7 +394,7 @@ class MetadataIconBtn extends StatelessWidget {
 
   IconData iconData;
 
-  MetadataIconBtn({required this.iconData, this.onTap, this.onLongPress});
+  MetadataIconBtn({super.key, required this.iconData, this.onTap, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -452,7 +452,7 @@ class MetadataTextBtn extends StatelessWidget {
 
   Color? borderColor;
 
-  MetadataTextBtn({
+  MetadataTextBtn({super.key, 
     required this.text,
     required this.onTap,
     this.onLongPress,
@@ -508,7 +508,7 @@ class MetadataIconDataComp extends StatelessWidget {
 
   Widget? leftWidget;
 
-  MetadataIconDataComp({
+  MetadataIconDataComp({super.key, 
     required this.text,
     this.iconData,
     this.leftWidget,

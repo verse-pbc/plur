@@ -14,7 +14,7 @@ import '../../../generated/l10n.dart';
 class GlobalEventItemWidget extends StatefulWidget {
   String eventId;
 
-  GlobalEventItemWidget({required this.eventId});
+  GlobalEventItemWidget({super.key, required this.eventId});
 
   @override
   State<StatefulWidget> createState() {

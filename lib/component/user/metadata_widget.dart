@@ -18,7 +18,7 @@ class MetadataWidget extends StatefulWidget {
 
   bool userPicturePreview;
 
-  MetadataWidget({
+  MetadataWidget({super.key, 
     required this.pubkey,
     this.metadata,
     this.jumpable = false,

@@ -18,7 +18,7 @@ class EventTopWidget extends StatefulWidget {
   Event event;
   String? pagePubkey;
 
-  EventTopWidget({
+  EventTopWidget({super.key, 
     required this.event,
     this.pagePubkey,
   });

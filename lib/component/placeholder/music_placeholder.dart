@@ -4,6 +4,8 @@ import 'package:flutter_placeholder_textlines/placeholder_lines.dart';
 import '../../consts/base.dart';
 
 class MusicPlaceholder extends StatelessWidget {
+  const MusicPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);

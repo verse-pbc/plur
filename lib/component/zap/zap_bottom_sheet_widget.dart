@@ -50,7 +50,7 @@ class ZapBottomSheetWidget extends StatefulWidget {
 
   ZapBottomSheetWidget(
     this.parentContext,
-    this.zapInfos, {
+    this.zapInfos, {super.key, 
     this.eventId,
   });
 

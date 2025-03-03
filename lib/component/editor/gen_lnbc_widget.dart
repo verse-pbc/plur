@@ -16,6 +16,8 @@ import '../../util/zap_action.dart';
 import '../content/content_str_link_widget.dart';
 
 class GenLnbcWidget extends StatefulWidget {
+  const GenLnbcWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _GenLnbcWidgetState();

@@ -22,7 +22,7 @@ import '../util/theme_util.dart';
 class QrcodeDialog extends StatefulWidget {
   String pubkey;
 
-  QrcodeDialog({required this.pubkey});
+  QrcodeDialog({super.key, required this.pubkey});
 
   static Future<String?> show(BuildContext context, String pubkey) async {
     return await showDialog<String>(

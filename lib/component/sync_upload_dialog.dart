@@ -15,7 +15,7 @@ import '../util/theme_util.dart';
 class SyncUploadDialog extends StatefulWidget {
   List<Event> events;
 
-  SyncUploadDialog({required this.events});
+  SyncUploadDialog({super.key, required this.events});
 
   static Future<void> show(BuildContext context, List<Event> events) async {
     await showDialog(
@@ -260,7 +260,7 @@ class SyncUploadItem extends StatefulWidget {
 
   Function(String, bool) onTap;
 
-  SyncUploadItem(this.addr, this.check, this.onTap);
+  SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
 
   @override
   State<StatefulWidget> createState() {

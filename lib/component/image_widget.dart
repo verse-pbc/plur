@@ -15,7 +15,7 @@ class ImageWidget extends StatelessWidget {
 
   PlaceholderWidgetBuilder? placeholder;
 
-  ImageWidget({
+  ImageWidget({super.key, 
     required this.imageUrl,
     this.width,
     this.height,

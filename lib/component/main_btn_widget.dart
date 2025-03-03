@@ -5,7 +5,7 @@ class MainBtnWidget extends StatelessWidget {
 
   Function? onTap;
 
-  MainBtnWidget({required this.text, this.onTap});
+  MainBtnWidget({super.key, required this.text, this.onTap});
 
   @override
   Widget build(BuildContext context) {
