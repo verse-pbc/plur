@@ -110,7 +110,7 @@ class EventRelation {
           var zapInfo = EventZapInfo.fromTags(tag);
           zapInfos.add(zapInfo);
         } else if (tagKey == "description" && event.kind == EventKind.ZAP) {
-          innerZapContent = SpiderUtil.subUntil(value, '\"content\":\"', '\",');
+          innerZapContent = SpiderUtil.subUntil(value, '"content":"', '",');
         } else if (tagKey == "imeta") {
           var fileMetadata = FileMetadata.fromNIP92Tag(tag);
           if (fileMetadata != null) {
@@ -163,7 +163,7 @@ class EventRelation {
         var k = tag[0];
         var v = tag[1];
         if (k == "description") {
-          innerContent = SpiderUtil.subUntil(v, '\"content\":\"', '\",');
+          innerContent = SpiderUtil.subUntil(v, '"content":"', '",');
           break;
         }
       }
