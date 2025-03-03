@@ -286,7 +286,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
             var event = Event.fromJson(eventJson);
             events.add(event);
           } catch (e) {
-            log("importNotes error ${e}");
+            log("importNotes error $e");
           }
         }
       }
