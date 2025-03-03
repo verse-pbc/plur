@@ -51,7 +51,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       RouterUtil.back(context);
       return Container();
     }
-    groupIdentifier = arg as GroupIdentifier;
+    groupIdentifier = arg;
     var margin = const EdgeInsets.only(bottom: Base.BASE_PADDING);
     var padding = const EdgeInsets.only(left: 20, right: 20);
 

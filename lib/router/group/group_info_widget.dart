@@ -31,7 +31,7 @@ class GroupInfoWidget extends StatelessWidget {
       return Container();
     }
 
-    final groupId = argIntf as GroupIdentifier;
+    final groupId = argIntf;
     final metadata = groupProvider.getMetadata(groupId);
     final memberCount = groupProvider.getMemberCount(groupId);
 
