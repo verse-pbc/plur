@@ -29,7 +29,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
     with PenddingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   bool showTitle = false;
 

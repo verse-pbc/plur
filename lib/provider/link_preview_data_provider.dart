@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
 
 class LinkPreviewDataProvider extends ChangeNotifier {
-  Map<String, PreviewData> _datas = {};
+  final Map<String, PreviewData> _datas = {};
 
   void set(String link, PreviewData? data) {
     var oldData = _datas[link];

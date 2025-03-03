@@ -6,7 +6,7 @@ class MetadataListPlaceholder extends StatelessWidget {
 
   MetadataListPlaceholder({this.onRefresh});
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
