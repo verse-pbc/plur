@@ -143,7 +143,7 @@ class _MusicWidgetState extends State<MusicWidget> {
           ],
         ),
       )),
-      Container(
+      SizedBox(
         width: imageHeight,
         height: imageHeight,
         child: GestureDetector(
@@ -159,7 +159,7 @@ class _MusicWidgetState extends State<MusicWidget> {
       ),
     ];
     if (widget.clearAble) {
-      topList.add(Container(
+      topList.add(SizedBox(
         width: imageHeight,
         height: imageHeight,
         child: GestureDetector(

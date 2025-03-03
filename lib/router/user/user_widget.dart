@@ -202,7 +202,7 @@ class _UserWidgetState extends CustState<UserWidget>
           main,
           Positioned(
             top: paddingTop,
-            child: Container(
+            child: SizedBox(
               width: maxWidth,
               child: appBar,
             ),

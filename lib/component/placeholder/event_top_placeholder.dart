@@ -48,7 +48,7 @@ class EventTopPlaceholder extends StatelessWidget {
                       color: hintColor,
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 50,
                     child: PlaceholderLines(
                       count: 1,

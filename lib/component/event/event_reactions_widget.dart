@@ -283,7 +283,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: openZapDialog,
-              child: Container(
+              child: SizedBox(
                 height: double.infinity,
                 child: EventReactionNumWidget(
                   num: zapNum,
@@ -346,7 +346,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ));
         }
 
-        mainList.add(Container(
+        mainList.add(SizedBox(
           height: 34,
           child: topReactionsWidget,
         ));
@@ -769,7 +769,7 @@ class EventReactionNumWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: list,
     );
-    main = Container(
+    main = SizedBox(
       height: double.infinity,
       child: main,
     );

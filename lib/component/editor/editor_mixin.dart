@@ -999,7 +999,7 @@ mixin EditorMixin {
             onTap: () {
               WebViewWidget.open(context, "https://emojis-iota.vercel.app/");
             },
-            child: Container(
+            child: SizedBox(
               width: 40,
               child: const Icon(Icons.search),
             ),
@@ -1051,7 +1051,7 @@ mixin EditorMixin {
         onTap: () {
           addCustomEmoji();
         },
-        child: Container(
+        child: SizedBox(
           width: emojiBtnWidth,
           height: emojiBtnWidth,
           child: const Icon(
