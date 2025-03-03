@@ -67,7 +67,7 @@ class ContentDecoder {
       if (inlines.length == 1) {
         if (inlines[0] is String) {
           list.add(LineTranslateWidget(
-            []..add(inlines[0]),
+            [inlines[0]],
             textOnTap: textOnTap,
           ));
         } else {

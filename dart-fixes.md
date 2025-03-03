@@ -13,7 +13,7 @@
 - [x] fvm dart fix --apply --code=prefer_const_constructors_in_immutables 
 - [x] fvm dart fix --apply --code=prefer_const_literals_to_create_immutables 
 - [x] fvm dart fix --apply --code=prefer_contains 
-- [ ] fvm dart fix --apply --code=prefer_final_fields 
+- [x] fvm dart fix --apply --code=prefer_final_fields 
 - [ ] fvm dart fix --apply --code=prefer_inlined_adds 
 - [ ] fvm dart fix --apply --code=prefer_interpolation_to_compose_strings 
 - [ ] fvm dart fix --apply --code=prefer_spread_collections 
