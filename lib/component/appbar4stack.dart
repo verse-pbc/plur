@@ -14,7 +14,8 @@ class Appbar4Stack extends StatefulWidget {
 
   Widget? action;
 
-  Appbar4Stack({super.key, 
+  Appbar4Stack({
+    super.key, 
     this.title,
     this.textColor,
     this.backgroundColor,
