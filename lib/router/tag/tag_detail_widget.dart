@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/router/tag/topic_map.dart';
 import 'package:provider/provider.dart';

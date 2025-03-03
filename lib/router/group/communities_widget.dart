@@ -5,7 +5,7 @@ import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
 
