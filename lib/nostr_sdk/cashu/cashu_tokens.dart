@@ -17,7 +17,7 @@ class Tokens {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.token != null) {
       data['token'] = this.token!.map((v) => v.toJson()).toList();
     }
@@ -74,7 +74,7 @@ class Token {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['mint'] = this.mint;
     if (this.proofs != null) {
       data['proofs'] = this.proofs!.map((v) => v.toJson()).toList();
@@ -99,7 +99,7 @@ class Proof {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = this.id;
     data['amount'] = this.amount;
     data['secret'] = this.secret;

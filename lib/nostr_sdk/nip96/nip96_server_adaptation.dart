@@ -28,7 +28,7 @@ class Nip96ServerAdaptation {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['api_url'] = this.apiUrl;
     data['download_url'] = this.downloadUrl;
     data['delegated_to_url'] = this.delegatedToUrl;
@@ -56,7 +56,7 @@ class Nip96Plans {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.free != null) {
       data['free'] = this.free!.toJson();
     }
@@ -87,7 +87,7 @@ class PlanINfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = this.name;
     data['is_nip98_required'] = this.isNip98Required;
     data['url'] = this.url;
