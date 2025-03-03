@@ -140,7 +140,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Container(
+          child: SizedBox(
             width: needWidth,
             child: ThreadDetailItemWidget(
               item: item,

@@ -91,7 +91,7 @@ class ContentCashuWidget extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: double.maxFinite,
             child: InkWell(
               onTap: () async {

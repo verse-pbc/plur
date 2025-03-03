@@ -43,7 +43,7 @@ class _BadgeDetailDialog extends State<BadgeDetailDialog> {
       badgeDefinition: widget.badgeDefinition,
     );
     if (PlatformUtil.isPC() || TableModeUtil.isTableMode()) {
-      main = Container(
+      main = SizedBox(
         width: mediaDataCache.size.width / 2,
         child: main,
       );

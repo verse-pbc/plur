@@ -34,7 +34,7 @@ class ZapSplitIconWidget extends StatelessWidget {
       ),
     ));
 
-    return Container(
+    return SizedBox(
       width: fontSize + 8,
       height: fontSize + 8,
       child: Stack(

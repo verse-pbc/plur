@@ -44,7 +44,7 @@ class MusicPlaceholder extends StatelessWidget {
                 color: hintColor,
               ),
             ),
-            Container(
+            SizedBox(
               width: 100,
               child: PlaceholderLines(
                 count: 1,
@@ -55,7 +55,7 @@ class MusicPlaceholder extends StatelessWidget {
           ],
         ),
       )),
-      Container(
+      SizedBox(
         width: imageHeight,
         height: imageHeight,
         child: const Icon(Icons.play_circle_outline),

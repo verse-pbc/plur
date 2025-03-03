@@ -84,7 +84,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
               userImageWidget,
               Container(
                 margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
-                child: Container(
+                child: SizedBox(
                   width: QR_WIDTH - IMAGE_WIDTH - Base.BASE_PADDING_HALF,
                   child: userNameWidget,
                 ),

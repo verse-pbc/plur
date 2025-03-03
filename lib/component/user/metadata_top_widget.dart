@@ -411,7 +411,7 @@ class MetadataIconBtn extends StatelessWidget {
         color: themeData.textTheme.bodyMedium!.color ?? Colors.black,
       ),
     );
-    var main = Container(
+    var main = SizedBox(
       height: 28,
       width: 28,
       child: Icon(
