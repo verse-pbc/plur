@@ -33,7 +33,7 @@ class _ReactionEventItemWidgetState extends State<ReactionEventItemWidget> {
 
     list.add(ReactionEventMetadataWidget(pubkey: widget.pubkey));
 
-    list.add(Text(" " + widget.text + " "));
+    list.add(Text(" ${widget.text} "));
 
     list.add(Text(
       GetTimeAgo.parse(
