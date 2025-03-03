@@ -20,7 +20,7 @@
 - [x] fvm dart fix --apply --code=sized_box_for_whitespace 
 - [x] fvm dart fix --apply --code=unnecessary_brace_in_string_interps 
 - [x] fvm dart fix --apply --code=unnecessary_cast 
-- [ ] fvm dart fix --apply --code=unnecessary_const 
+- [x] fvm dart fix --apply --code=unnecessary_const 
 - [ ] fvm dart fix --apply --code=unnecessary_import 
 - [ ] fvm dart fix --apply --code=unnecessary_new 
 - [ ] fvm dart fix --apply --code=unnecessary_non_null_assertion 
