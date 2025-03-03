@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class PcRouterFakeProvider extends ChangeNotifier {
-  static int MAX_STACK_NUM = 20;
+  static int maxStackNum = 20;
 
   List<RouterFakeInfo> routerFakeInfos = [];
 
@@ -15,7 +15,7 @@ class PcRouterFakeProvider extends ChangeNotifier {
     var oldLength = routerFakeInfos.length;
 
     if (!clear) {
-      if (oldLength < MAX_STACK_NUM - 1) {
+      if (oldLength < maxStackNum - 1) {
         newList.addAll(routerFakeInfos);
       } else {
         for (var i = 1; i < oldLength; i++) {

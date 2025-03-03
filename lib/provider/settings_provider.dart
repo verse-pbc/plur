@@ -260,7 +260,7 @@ class SettingsProvider extends ChangeNotifier {
 
   int? get openTranslate => _settingData!.openTranslate;
 
-  static const ALL_SUPPORT_LANGUAGES =
+  static const allSupportLanguages =
       "af,sq,ar,be,bn,bg,ca,zh,hr,cs,da,nl,en,eo,et,fi,fr,gl,ka,de,el,gu,ht,he,hi,hu,is,id,ga,it,ja,kn,ko,lv,lt,mk,ms,mt,mr,no,fa,pl,pt,ro,ru,sk,sl,es,sw,sv,tl,ta,te,th,tr,uk,ur,vi,cy";
 
   String? get translateSourceArgs {
