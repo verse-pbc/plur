@@ -32,6 +32,13 @@ jobs:
           SENTRY_DSN: ${{secrets.SENTRY_DSN}}
         run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
       - uses: nomasystems/action-xcode-select@v0.1
+        # This step will select the version of Xcode specified in .xcode-version.
+
+      # This step is a temporary workaround for some Github runner issues. 
+      # You can try disabling it in the future and if the build succeeds, you can remove it.
+      - name: Install iOS 18.2 (temporary)
+        run: |
+          xcodebuild -downloadPlatform iOS -buildVersion 18.2
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
