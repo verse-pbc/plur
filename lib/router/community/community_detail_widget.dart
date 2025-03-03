@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/community_info_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
