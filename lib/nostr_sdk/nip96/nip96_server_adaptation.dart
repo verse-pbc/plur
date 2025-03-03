@@ -29,14 +29,14 @@ class Nip96ServerAdaptation {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['api_url'] = this.apiUrl;
-    data['download_url'] = this.downloadUrl;
-    data['delegated_to_url'] = this.delegatedToUrl;
-    data['supported_nips'] = this.supportedNips;
-    data['tos_url'] = this.tosUrl;
-    data['content_types'] = this.contentTypes;
-    if (this.plans != null) {
-      data['plans'] = this.plans!.toJson();
+    data['api_url'] = apiUrl;
+    data['download_url'] = downloadUrl;
+    data['delegated_to_url'] = delegatedToUrl;
+    data['supported_nips'] = supportedNips;
+    data['tos_url'] = tosUrl;
+    data['content_types'] = contentTypes;
+    if (plans != null) {
+      data['plans'] = plans!.toJson();
     }
     return data;
   }
@@ -57,8 +57,8 @@ class Nip96Plans {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.free != null) {
-      data['free'] = this.free!.toJson();
+    if (free != null) {
+      data['free'] = free!.toJson();
     }
     return data;
   }
@@ -88,11 +88,11 @@ class PlanINfo {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = this.name;
-    data['is_nip98_required'] = this.isNip98Required;
-    data['url'] = this.url;
-    data['max_byte_size'] = this.maxByteSize;
-    data['file_expiration'] = this.fileExpiration;
+    data['name'] = name;
+    data['is_nip98_required'] = isNip98Required;
+    data['url'] = url;
+    data['max_byte_size'] = maxByteSize;
+    data['file_expiration'] = fileExpiration;
     return data;
   }
 }

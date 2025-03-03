@@ -24,7 +24,7 @@
 - [x] fvm dart fix --apply --code=unnecessary_import 
 - [x] fvm dart fix --apply --code=unnecessary_new 
 - [x] fvm dart fix --apply --code=unnecessary_non_null_assertion 
-- [ ] fvm dart fix --apply --code=unnecessary_string_escapes 
+- [x] fvm dart fix --apply --code=unnecessary_string_escapes 
 - [ ] fvm dart fix --apply --code=unnecessary_this 
 - [ ] fvm dart fix --apply --code=unused_element 
 - [ ] fvm dart fix --apply --code=unused_import 

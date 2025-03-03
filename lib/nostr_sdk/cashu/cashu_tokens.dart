@@ -18,10 +18,10 @@ class Tokens {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (this.token != null) {
-      data['token'] = this.token!.map((v) => v.toJson()).toList();
+    if (token != null) {
+      data['token'] = token!.map((v) => v.toJson()).toList();
     }
-    data['memo'] = this.memo;
+    data['memo'] = memo;
     return data;
   }
 
@@ -75,9 +75,9 @@ class Token {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['mint'] = this.mint;
-    if (this.proofs != null) {
-      data['proofs'] = this.proofs!.map((v) => v.toJson()).toList();
+    data['mint'] = mint;
+    if (proofs != null) {
+      data['proofs'] = proofs!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -100,10 +100,10 @@ class Proof {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = this.id;
-    data['amount'] = this.amount;
-    data['secret'] = this.secret;
-    data['C'] = this.c;
+    data['id'] = id;
+    data['amount'] = amount;
+    data['secret'] = secret;
+    data['C'] = c;
     return data;
   }
 }
