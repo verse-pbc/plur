@@ -273,6 +273,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         imageService: settingsProvider.imageService,
       );
     }
+    return null;
   }
 
   Future<void> pickPicture() async {

@@ -267,6 +267,7 @@ class SettingsProvider extends ChangeNotifier {
     if (StringUtil.isNotBlank(_settingData!.translateSourceArgs)) {
       return _settingData!.translateSourceArgs!;
     }
+    return null;
   }
 
   String? get translateTarget => _settingData!.translateTarget;

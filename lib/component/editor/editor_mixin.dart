@@ -70,10 +70,14 @@ mixin EditorMixin {
   String? getPubkey();
 
   // group arg
-  GroupIdentifier? getGroupIdentifier() {}
+  GroupIdentifier? getGroupIdentifier() {
+    return null;
+  }
 
   // group event kind
-  int? getGroupEventKind() {}
+  int? getGroupEventKind() {
+    return null;
+  }
 
   BuildContext getContext();
 

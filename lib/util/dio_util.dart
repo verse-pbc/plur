@@ -20,6 +20,7 @@ class DioUtil {
           client.badCertificateCallback = (cert, host, port) {
             return true;
           };
+          return null;
         };
       }
 

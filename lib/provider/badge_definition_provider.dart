@@ -17,6 +17,7 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
       _needUpdatePubKeys.add(pubkey);
     }
     later(_laterCallback);
+    return null;
   }
 
   final Map<String, int> _handingPubkeys = {};
