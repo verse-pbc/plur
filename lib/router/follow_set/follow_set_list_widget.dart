@@ -25,13 +25,13 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
   @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
-    var _contactListProvider = Provider.of<ContactListProvider>(context);
+    var contactListProvider = Provider.of<ContactListProvider>(context);
 
     final themeData = Theme.of(context);
     var largeTextSize = themeData.textTheme.bodyLarge!.fontSize;
     var appbarColor = themeData.appBarTheme.titleTextStyle!.color;
 
-    var followSets = _contactListProvider.followSetMap.values;
+    var followSets = contactListProvider.followSetMap.values;
     var followSetList = followSets.toList();
     var main = ListView.builder(
       itemBuilder: (context, index) {

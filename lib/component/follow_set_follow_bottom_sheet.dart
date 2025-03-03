@@ -28,7 +28,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
     var hintColor = themeData.hintColor;
     var backgroundColor = themeData.scaffoldBackgroundColor;
 
-    var _contactListProvider = Provider.of<ContactListProvider>(context);
+    var contactListProvider = Provider.of<ContactListProvider>(context);
 
     List<Widget> list = [];
     list.add(Container(
@@ -81,7 +81,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
       ),
     ));
 
-    var followSets = _contactListProvider.followSetMap.values;
+    var followSets = contactListProvider.followSetMap.values;
     List<Widget> selectList = [];
     for (var followSet in followSets) {
       selectList.add(Container(

@@ -44,12 +44,12 @@ class _MusicWidgetState extends State<MusicWidget> {
       color: hintColor,
     );
 
-    var _musicProvider = Provider.of<MusicProvider>(context);
-    var currentDuration = _musicProvider.currentDuration;
-    var currentPosition = _musicProvider.currentPosition;
+    var musicProvider = Provider.of<MusicProvider>(context);
+    var currentDuration = musicProvider.currentDuration;
+    var currentPosition = musicProvider.currentPosition;
     bool isCurrent = false;
-    if (_musicProvider.musicInfo != null &&
-        _musicProvider.musicInfo!.sourceUrl == widget.musicInfo.sourceUrl) {
+    if (musicProvider.musicInfo != null &&
+        musicProvider.musicInfo!.sourceUrl == widget.musicInfo.sourceUrl) {
       isCurrent = true;
     }
 
@@ -71,7 +71,7 @@ class _MusicWidgetState extends State<MusicWidget> {
     }
 
     var btnIcon = Icons.play_circle_outline;
-    if (isCurrent && _musicProvider.isPlaying) {
+    if (isCurrent && musicProvider.isPlaying) {
       btnIcon = Icons.pause_circle_outline;
     }
 
@@ -178,7 +178,7 @@ class _MusicWidgetState extends State<MusicWidget> {
     Widget progressBar = Container(
       height: 4,
     );
-    if (_musicProvider.isPlaying && isCurrent) {
+    if (musicProvider.isPlaying && isCurrent) {
       double? value;
       if (currentDuration != null &&
           currentPosition != null &&
@@ -198,7 +198,7 @@ class _MusicWidgetState extends State<MusicWidget> {
       progressBar = GestureDetector(
         onTapUp: (detail) {
           if (progressBarWidth > 0) {
-            _musicProvider.seek(detail.localPosition.dx / progressBarWidth);
+            musicProvider.seek(detail.localPosition.dx / progressBarWidth);
           }
         },
         child: progressBar,

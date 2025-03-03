@@ -126,7 +126,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     var appBarBG = themeData.appBarTheme.backgroundColor;
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _webViewProvider = Provider.of<WebViewProvider>(context);
+    var webViewProvider = Provider.of<WebViewProvider>(context);
 
     var btnTopPosition = Base.BASE_PADDING + Base.BASE_PADDING_HALF;
 
@@ -262,8 +262,8 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       );
     }
 
-    if (_webViewProvider.showable &&
-        !_webViewProvider.webviewNavigatorObserver.canPop()) {
+    if (webViewProvider.showable &&
+        !webViewProvider.webviewNavigatorObserver.canPop()) {
       // check the navigator whether can pop to add a popscope, i don't know why need this code..., it just test by me and had took me a lot of time.
       bodyWidget = PopScope(
         canPop: false,
@@ -329,8 +329,8 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     } else if (value == "copyInitUrl") {
       _doCopy(widget.url);
     } else if (value == "openInBrowser") {
-      var _url = Uri.parse(widget.url);
-      launchUrl(_url);
+      var url0 = Uri.parse(widget.url);
+      launchUrl(url0);
     } else if (value == "hideBrowser") {
       webViewProvider.hide();
     } else if (value == "close") {

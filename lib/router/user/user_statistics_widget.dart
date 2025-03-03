@@ -80,10 +80,10 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     isLocal = widget.pubkey == nostr!.publicKey;
 
     if (isLocal) {
-      var _provider = Provider.of<ContactListProvider>(context);
+      var provider = Provider.of<ContactListProvider>(context);
       List<Widget> list = [];
       list.add(UserStatisticsItemWidget(
-        num: _provider.total(),
+        num: provider.total(),
         name: localization.Following,
         onTap: onFollowingTap,
         onLongPressStart: onLongPressStart,
@@ -91,7 +91,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       ));
 
       list.add(UserStatisticsItemWidget(
-          num: _provider.followSetEventMap.length,
+          num: provider.followSetEventMap.length,
           name: localization.Follow_set,
           onTap: () {
             RouterUtil.router(context, RouterPath.FOLLOW_SET_LIST);
@@ -130,13 +130,13 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       ));
 
       list.add(UserStatisticsItemWidget(
-        num: _provider.totalFollowedTags(),
+        num: provider.totalFollowedTags(),
         name: localization.Followed_Tags,
         onTap: onFollowedTagsTap,
       ));
 
       list.add(UserStatisticsItemWidget(
-        num: _provider.totalfollowedCommunities(),
+        num: provider.totalfollowedCommunities(),
         name: localization.Followed_Communities,
         onTap: onFollowedCommunitiesTap,
       ));
@@ -151,8 +151,8 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
         ),
       );
     } else {
-      var _provider = Provider.of<MetadataProvider>(context);
-      contactList = _provider.getContactList(pubkey!);
+      var provider = Provider.of<MetadataProvider>(context);
+      contactList = provider.getContactList(pubkey!);
 
       List<Widget> list = [];
 
@@ -239,18 +239,18 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       List<EnumObj> enumList = [];
       for (var event in list) {
-        var _contactList = ContactList.fromJson(event.tags, event.createdAt);
+        var contactList = ContactList.fromJson(event.tags, event.createdAt);
         var dt = DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
         enumList.add(
-            EnumObj(event, "${format.encode(dt)} (${_contactList.total()})"));
+            EnumObj(event, "${format.encode(dt)} (${contactList.total()})"));
       }
 
       var result = await EnumSelectorWidget.show(context, enumList);
       if (result != null) {
         var event = result.value as Event;
-        var _contactList = ContactList.fromJson(event.tags, event.createdAt);
+        var contactList = ContactList.fromJson(event.tags, event.createdAt);
         RouterUtil.router(
-            context, RouterPath.USER_HISTORY_CONTACT_LIST, _contactList);
+            context, RouterPath.USER_HISTORY_CONTACT_LIST, contactList);
       }
     }
   }

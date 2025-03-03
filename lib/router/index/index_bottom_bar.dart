@@ -20,8 +20,8 @@ class _IndexBottomBar extends State<IndexBottomBar> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var _indexProvider = Provider.of<IndexProvider>(context);
-    var currentTap = _indexProvider.currentTap;
+    var indexProvider = Provider.of<IndexProvider>(context);
+    var currentTap = indexProvider.currentTap;
 
     List<Widget> list = [];
 

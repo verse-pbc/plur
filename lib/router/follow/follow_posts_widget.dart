@@ -40,9 +40,9 @@ class _FollowPostsWidgetState extends KeepAliveCustState<FollowPostsWidget>
   @override
   Widget doBuild(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _followEventProvider = Provider.of<FollowEventProvider>(context);
+    var followEventProvider = Provider.of<FollowEventProvider>(context);
 
-    var eventBox = _followEventProvider.postsBox;
+    var eventBox = followEventProvider.postsBox;
     var events = eventBox.all();
     if (events.isEmpty) {
       return EventListPlaceholder(

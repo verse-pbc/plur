@@ -132,8 +132,8 @@ class SettingsProvider extends ChangeNotifier {
 
     for (var i = 0; i < 20; i++) {
       var index = i.toString();
-      var _pk = _privateKeyMap[index];
-      if (_pk == null) {
+      var pk0 = _privateKeyMap[index];
+      if (pk0 == null) {
         _privateKeyMap[index] = pk;
 
         _settingData!.privateKeyIndex = i;
@@ -453,8 +453,8 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   /// fontFamily
-  set fontFamily(String? _fontFamily) {
-    _settingData!.fontFamily = _fontFamily;
+  set fontFamily(String? fontFamily) {
+    _settingData!.fontFamily = fontFamily;
     saveAndNotifyListeners();
   }
 

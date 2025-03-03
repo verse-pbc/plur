@@ -16,7 +16,7 @@ class ColorPickDialog extends StatelessWidget {
     return await showDialog<Color>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return ColorPickDialog(color);
       },
     );

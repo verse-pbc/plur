@@ -64,8 +64,8 @@ class _EventTopWidgetState extends State<EventTopWidget> {
       shouldRebuild: (previous, next) {
         return previous != next;
       },
-      selector: (context, _metadataProvider) {
-        return _metadataProvider.getMetadata(pubkey!);
+      selector: (context, metadataProvider) {
+        return metadataProvider.getMetadata(pubkey!);
       },
       builder: (context, metadata, child) {
         final themeData = Theme.of(context);

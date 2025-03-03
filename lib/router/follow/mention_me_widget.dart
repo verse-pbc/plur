@@ -42,8 +42,8 @@ class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
   @override
   Widget doBuild(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _mentionMeProvider = Provider.of<MentionMeProvider>(context);
-    var eventBox = _mentionMeProvider.eventBox;
+    var mentionMeProvider = Provider.of<MentionMeProvider>(context);
+    var eventBox = mentionMeProvider.eventBox;
     var events = eventBox.all();
     if (events.isEmpty) {
       return EventListPlaceholder(

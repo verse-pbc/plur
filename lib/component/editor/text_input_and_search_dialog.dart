@@ -41,7 +41,7 @@ class TextInputAndSearchDialog extends StatefulWidget {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
+        builder: (context) {
           return TextInputAndSearchDialog(
             searchTabName,
             StringUtil.breakWord(title),

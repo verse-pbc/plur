@@ -364,16 +364,16 @@ mixin EditorMixin {
   }
 
   Future<void> takeAPhoto() async {
-    ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
     if (photo != null) {
       _imageSubmitted(photo.path);
     }
   }
 
   Future<void> tackAVideo() async {
-    ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickVideo(source: ImageSource.camera);
+    ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickVideo(source: ImageSource.camera);
     if (photo != null) {
       _imageSubmitted(photo.path);
     }

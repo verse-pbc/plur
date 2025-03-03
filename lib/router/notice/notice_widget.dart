@@ -27,8 +27,8 @@ class _NoticeWidgetState extends State<NoticeWidget> {
     var bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
     final localization = S.of(context);
 
-    var _noticeProvider = Provider.of<NoticeProvider>(context);
-    var notices = _noticeProvider.notices;
+    var noticeProvider = Provider.of<NoticeProvider>(context);
+    var notices = noticeProvider.notices;
     var length = notices.length;
 
     Widget? main;
