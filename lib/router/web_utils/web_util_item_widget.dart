@@ -31,7 +31,7 @@ class WebUtilItemWidget extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(bottom: 3),
             child: Text(
-              this.link,
+              link,
               style: TextStyle(
                 fontSize: largeTextSize,
                 fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class WebUtilItemWidget extends StatelessWidget {
             ),
           ),
           Text(
-            this.des,
+            des,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

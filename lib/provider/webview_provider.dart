@@ -72,8 +72,8 @@ class WebViewProvider extends ChangeNotifier with WidgetsBindingObserver {
       openCompleter!.complete();
     }
 
-    this._url = url;
-    this._showable = true;
+    _url = url;
+    _showable = true;
     openCompleter = Completer();
 
     notifyListeners();
