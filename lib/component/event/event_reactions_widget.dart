@@ -468,7 +468,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     } else if (value == "delete") {
       if (widget.event.kind == EventKind.GROUP_NOTE ||
           widget.event.kind == EventKind.GROUP_NOTE_REPLY) {
-        var groupIdentifier = widget.event.relations().groupIdentifier;
+        var groupIdentifier = GroupIdentifierInheritedWidget.getGroupIdentifier(context);
         if (groupIdentifier != null) {
           groupProvider.deleteEvent(groupIdentifier, widget.event.id);
           var deleteCallback = EventDeleteCallback.of(context);

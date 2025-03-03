@@ -122,7 +122,11 @@ class EventRelation {
             fileMetadatas[fileMetadata.url] = fileMetadata;
           }
         } else if (tagKey == "h") {
-          groupIdentifier = GroupIdentifier.parse(value);
+          var groupId = value;
+          if (event.sources.isNotEmpty) {
+            var host = event.sources.first;
+            groupIdentifier = GroupIdentifier(host, groupId);
+          }
         }
       }
     }
