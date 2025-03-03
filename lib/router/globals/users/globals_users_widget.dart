@@ -115,7 +115,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
   }
 
   int getRandomInt(int min, int max) {
-    final random = new Random();
+    final random = Random();
     return random.nextInt((max - min).floor()) + min;
   }
 }

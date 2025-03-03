@@ -20,7 +20,7 @@ class ColorsUtil {
       s = '#999999';
     }
 
-    return new Color(int.parse(s.substring(1, 7), radix: 16) + 0xFF000000);
+    return Color(int.parse(s.substring(1, 7), radix: 16) + 0xFF000000);
   }
 
   static String colorToHex(Color color) {
