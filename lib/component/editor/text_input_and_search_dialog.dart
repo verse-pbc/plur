@@ -8,7 +8,6 @@ import '../../generated/l10n.dart';
 import '../../router/index/index_app_bar.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
-import 'search_mention_user_widget.dart';
 import 'text_input_dialog_inner_widget.dart';
 
 class TextInputAndSearchDialog extends StatefulWidget {

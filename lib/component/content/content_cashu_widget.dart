@@ -3,7 +3,6 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/colors_util.dart';
 
 import '../../consts/base.dart';
-import '../../generated/l10n.dart';
 import '../../util/cashu_util.dart';
 
 class ContentCashuWidget extends StatelessWidget {

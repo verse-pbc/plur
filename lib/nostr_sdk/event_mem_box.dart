@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'event.dart';
 import 'relay/relay.dart';

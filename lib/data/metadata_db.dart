@@ -1,4 +1,3 @@
-import 'package:nostrmo/data/event_db.dart';
 import 'package:nostrmo/data/metadata.dart';
 import 'package:sqflite/sqflite.dart';
 

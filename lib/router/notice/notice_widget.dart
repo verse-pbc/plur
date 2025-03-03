@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/main.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
-import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../provider/notice_provider.dart';
-import '../../util/router_util.dart';
 import '../edit/editor_widget.dart';
 import 'notice_list_item_widget.dart';
 

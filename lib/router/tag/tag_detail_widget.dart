@@ -8,7 +8,6 @@ import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
 import '../../component/event/event_list_widget.dart';
 import '../../component/tag_info_widget.dart';
-import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/settings_provider.dart';

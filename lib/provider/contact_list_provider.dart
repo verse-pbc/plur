@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/tag/topic_map.dart';
-import 'package:pointycastle/pointycastle.dart';
 
 import '../main.dart';
 import 'data_util.dart';

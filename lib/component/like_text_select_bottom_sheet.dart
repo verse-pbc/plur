@@ -1,13 +1,9 @@
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nostrmo/component/emoji_picker_widget.dart';
 
 import '../consts/base.dart';
-import '../generated/l10n.dart';
 import '../router/index/index_drawer_content.dart';
 import '../util/router_util.dart';
-import '../util/theme_util.dart';
 
 class LikeTextSelectBottomSheet extends StatefulWidget {
   @override

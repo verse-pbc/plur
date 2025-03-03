@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markdown/markdown.dart' as md;
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/src/ast.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/content/content_mention_user_widget.dart';
 import 'package:nostrmo/component/event/event_quote_widget.dart';
 
 class MarkdownMentionEventElementBuilder implements MarkdownElementBuilder {
