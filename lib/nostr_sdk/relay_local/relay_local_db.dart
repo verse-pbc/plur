@@ -319,7 +319,7 @@ class RelayLocalDB with LaterFunction {
       if (k != "limit") {
         for (var vItem in v) {
           tagQueryConditions.add("tags LIKE ? ESCAPE '\\'");
-          tagQuery.add("${k.replaceFirst("#", "")}\",\"${vItem}");
+          tagQuery.add("${k.replaceFirst("#", "")}\",\"$vItem");
         }
       }
     }

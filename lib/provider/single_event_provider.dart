@@ -107,7 +107,7 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
           if (StringUtil.isNotBlank(eventRelayAddr) && _eventsMap[id] == null) {
             // eventRelayAddr exist and event not found, send a single query again.
             print(
-                "single event ${id} not found! begin to query again from ${eventRelayAddr}.");
+                "single event $id not found! begin to query again from $eventRelayAddr.");
             var filter = Filter(ids: [id]);
             nostr!.query([filter.toJson()], onEvent,
                 tempRelays: [eventRelayAddr!], relayTypes: RelayType.ONLY_TEMP);
