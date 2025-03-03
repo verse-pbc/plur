@@ -8,7 +8,7 @@ import '../../main.dart';
 class IndexBottomBar extends StatefulWidget {
   static const double height = 50;
 
-  IndexBottomBar();
+  const IndexBottomBar();
 
   @override
   State<StatefulWidget> createState() {
