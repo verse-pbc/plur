@@ -102,8 +102,8 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
             return EventLoadListWidget();
           } else {
             event = event;
-            titlePubkey = event!.pubkey;
-            title = ThreadDetailWidget.getAppBarTitle(event!);
+            titlePubkey = event.pubkey;
+            title = ThreadDetailWidget.getAppBarTitle(event);
             return EventListWidget(
               event: event,
               showVideo: true,
