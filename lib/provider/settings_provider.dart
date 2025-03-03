@@ -34,7 +34,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    String? settingStr = _sharedPreferences!.getString(DataKey.SETTING);
+    String? settingStr = _sharedPreferences!.getString(DataKey.setting);
     if (StringUtil.isNotBlank(settingStr)) {
       var jsonMap = json.decode(settingStr!);
       if (jsonMap != null) {
@@ -547,7 +547,7 @@ class SettingsProvider extends ChangeNotifier {
     var m = _settingData!.toJson();
     var jsonStr = json.encode(m);
     // print(jsonStr);
-    await _sharedPreferences!.setString(DataKey.SETTING, jsonStr);
+    await _sharedPreferences!.setString(DataKey.setting, jsonStr);
     _settingsProvider!._reloadTranslateSourceArgs();
 
     if (updateUI) {

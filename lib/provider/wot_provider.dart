@@ -5,9 +5,9 @@ import 'package:nostrmo/provider/data_util.dart';
 import '../main.dart';
 
 class WotProvider extends ChangeNotifier {
-  Map<String, int> _pubkeys = {};
+  final Map<String, dynamic> _pubkeys = {};
 
-  Map<String, int> _tempPubkeys = {};
+  final Map<String, dynamic> _tempPubkeys = {};
 
   void addTempFromEvents(List<Event> events) {
     for (var e in events) {
@@ -39,7 +39,7 @@ class WotProvider extends ChangeNotifier {
   }
 
   String genKey(String pubkey) {
-    return "${DataKey.WOT_PRE}$pubkey";
+    return "${DataKey.wotPre}$pubkey";
   }
 
   void init(String pubkey) async {
@@ -60,7 +60,7 @@ class WotProvider extends ChangeNotifier {
   }
 
   void reload(String pubkey, {bool pullNow = false}) async {
-    print("begin to reload wot infos");
+    debugPrint('begin to reload wot infos');
     _pubkeys[pubkey] = 1;
 
     Map<String, int> tempPubkeyMap = {};
