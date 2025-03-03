@@ -13,7 +13,7 @@ class EventMemBox implements FindEventInterface {
 
   bool sortAfterAdd;
 
-  EventMemBox({this.sortAfterAdd = true}) {}
+  EventMemBox({this.sortAfterAdd = true});
 
   @override
   List<Event> findEvent(String str, {int? limit = 5}) {
