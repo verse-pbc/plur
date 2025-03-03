@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_font_picker/flutter_font_picker.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/color_pick_dialog.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/consts/thread_mode.dart';

@@ -85,15 +85,6 @@ A flutter nostr client for all platforms.<br/> <a href="https://github.com/haore
 - [x] NIP-98 (HTTP Auth)
 - [ ] NIP-99 (Classified Listings)
 
-## Setting up Git Submodules
-
-This project uses git submodules, so after you clone, be sure to initialize and update git submodules:
-
-```bash
-git submodule init
-git submodule update
-```
-
 ## Installing required tools
 Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
 
@@ -110,7 +101,6 @@ Homebrew is a package manager for macOS. It allows you to install tools and use 
 8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
 
 ## Building the app
-Before building the app for any platform, be sure you’ve run `git submodule init` and `git submodule update` in Terminal at the root of the repository.
 
 ### Android
 
