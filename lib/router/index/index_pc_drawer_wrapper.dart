@@ -5,7 +5,8 @@ import 'index_drawer_content.dart';
 class IndexPcDrawerWrapper extends StatefulWidget {
   double fixWidth;
 
-  IndexPcDrawerWrapper({super.key, 
+  IndexPcDrawerWrapper({
+    super.key,
     required this.fixWidth,
   });
 

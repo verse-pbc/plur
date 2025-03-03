@@ -11,7 +11,8 @@ import 'badge_detail_widget.dart';
 class BadgeDetailDialog extends StatefulWidget {
   BadgeDefinition badgeDefinition;
 
-  BadgeDetailDialog({super.key, 
+  BadgeDetailDialog({
+    super.key,
     required this.badgeDefinition,
   });
 

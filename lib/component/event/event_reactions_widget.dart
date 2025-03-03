@@ -39,7 +39,8 @@ class EventReactionsWidget extends StatefulWidget {
 
   bool showDetailBtn;
 
-  EventReactionsWidget({super.key, 
+  EventReactionsWidget({
+    super.key,
     required this.screenshotController,
     required this.event,
     required this.eventRelation,
@@ -319,6 +320,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                   },
                   onSelected: onRepostTap,
                   child: EventReactionNumWidget(
+                    key: super.key,
                     num: repostNum,
                     iconData: Icons.repeat_rounded,
                     color: hintColor,
@@ -720,7 +722,8 @@ class EventReactionNumWidget extends StatelessWidget {
 
   Widget? showMoreWidget;
 
-  EventReactionNumWidget({super.key, 
+  EventReactionNumWidget({
+    super.key,
     this.iconText,
     required this.iconData,
     required this.num,
@@ -797,7 +800,8 @@ class EventReactionEmojiNumWidget extends StatelessWidget {
 
   double fontSize;
 
-  EventReactionEmojiNumWidget({super.key, 
+  EventReactionEmojiNumWidget({
+    super.key,
     this.iconText,
     required this.iconData,
     required this.num,
