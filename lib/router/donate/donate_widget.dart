@@ -177,7 +177,6 @@ class _DonateButtonWidget extends StatelessWidget {
   String price;
 
   _DonateButtonWidget({
-    super.key,
     required this.name,
     required this.onTap,
     required this.price,
