@@ -58,7 +58,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
         left: Base.BASE_PADDING,
         right: Base.BASE_PADDING,
       ),
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       color: themeData.cardColor,
       child: Row(
         children: [

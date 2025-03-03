@@ -97,7 +97,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     var appBar = Appbar4Stack(
       backgroundColor: themeData.customColors.navBgColor,
       action: Container(
-        margin: EdgeInsets.only(right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(right: Base.BASE_PADDING),
         child: submitBtn,
       ),
     );
@@ -147,7 +147,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         decoration: InputDecoration(
           prefixIcon: GestureDetector(
             onTap: pickPicture,
-            child: Icon(Icons.image),
+            child: const Icon(Icons.image),
           ),
           labelText: localization.Picture,
         ),

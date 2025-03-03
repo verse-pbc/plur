@@ -51,7 +51,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     }
 
     list.add(Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: Base.BASE_PADDING,
         bottom: Base.BASE_PADDING_HALF,
       ),
@@ -67,8 +67,8 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
           GestureDetector(
             onTap: testAllMyRelaysSpeed,
             child: Container(
-              margin: EdgeInsets.only(left: Base.BASE_PADDING),
-              child: Icon(Icons.speed),
+              margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+              child: const Icon(Icons.speed),
             ),
           )
         ],
@@ -95,7 +95,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
 
     if (relayProvider.cacheRelayAddrs.isNotEmpty) {
       list.add(Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: Base.BASE_PADDING,
           bottom: Base.BASE_PADDING_HALF,
         ),
@@ -131,7 +131,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     var tempRelayStatus = relayProvider.tempRelayStatus();
     if (tempRelayStatus.isNotEmpty) {
       list.add(Container(
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           left: Base.BASE_PADDING,
           bottom: Base.BASE_PADDING_HALF,
         ),
@@ -178,7 +178,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
               RouterUtil.router(context, RouterPath.RELAYHUB);
             },
             child: Container(
-              padding: EdgeInsets.only(right: Base.BASE_PADDING),
+              padding: const EdgeInsets.only(right: Base.BASE_PADDING),
               child: Icon(
                 Icons.cloud,
                 color: themeData.appBarTheme.titleTextStyle!.color,
@@ -234,7 +234,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
               decoration: InputDecoration(
                 hintText: localization.Input_relay_address,
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.add),
+                  icon: const Icon(Icons.add),
                   onPressed: addRelay,
                 ),
               ),

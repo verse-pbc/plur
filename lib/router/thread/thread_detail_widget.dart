@@ -44,7 +44,7 @@ class ThreadDetailWidget extends StatefulWidget {
       ),
     );
     appBarTitleList.add(nameComponnet);
-    appBarTitleList.add(Text(" : "));
+    appBarTitleList.add(const Text(" : "));
     appBarTitleList.add(Expanded(
         child: Text(
       title,

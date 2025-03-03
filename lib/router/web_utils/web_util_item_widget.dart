@@ -29,7 +29,7 @@ class WebUtilItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 3),
+            margin: const EdgeInsets.only(bottom: 3),
             child: Text(
               this.link,
               style: TextStyle(

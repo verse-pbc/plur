@@ -42,7 +42,7 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
       ));
 
       list.add(Container(
-        margin: EdgeInsets.only(left: 5),
+        margin: const EdgeInsets.only(left: 5),
         child: Text(
           name,
           style: const TextStyle(

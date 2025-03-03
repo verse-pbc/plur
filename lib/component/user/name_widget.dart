@@ -81,7 +81,7 @@ class _NameWidgetState extends State<NameWidget> {
     if (StringUtil.isNotBlank(name) && widget.showName) {
       nameList.add(WidgetSpan(
         child: Container(
-          margin: EdgeInsets.only(left: 2),
+          margin: const EdgeInsets.only(left: 2),
           child: Text(
             StringUtil.breakWord("@$name"),
             style: TextStyle(

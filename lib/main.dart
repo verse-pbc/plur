@@ -421,8 +421,8 @@ class _MyApp extends State<MyApp> {
 
     routes = {
       RouterPath.INDEX: (context) => IndexWidget(reload: reload),
-      RouterPath.LOGIN: (context) => LoginSignupWidget(),
-      RouterPath.SIGNUP: (context) => SignupWidget(),
+      RouterPath.LOGIN: (context) => const LoginSignupWidget(),
+      RouterPath.SIGNUP: (context) => const SignupWidget(),
       RouterPath.DONATE: (context) => const DonateWidget(),
       RouterPath.USER: (context) => const UserWidget(),
       RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),

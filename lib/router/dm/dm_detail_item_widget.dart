@@ -173,7 +173,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     }
 
     return Container(
-      padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,

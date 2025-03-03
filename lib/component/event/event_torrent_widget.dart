@@ -151,7 +151,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
           style: TextStyle(
             color: hintColor,
           )),
-      TextSpan(text: " "),
+      const TextSpan(text: " "),
       TextSpan(
           text: StoreUtil.bytesToShowStr(torrentFileInfo.size),
           style: TextStyle(

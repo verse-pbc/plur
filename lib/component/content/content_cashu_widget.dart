@@ -41,13 +41,13 @@ class ContentCashuWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               bottom: 15,
             ),
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: Base.BASE_PADDING),
+                  margin: const EdgeInsets.only(right: Base.BASE_PADDING),
                   child: Image.asset(
                     "assets/imgs/cashu_logo.png",
                     width: 50,
@@ -80,7 +80,7 @@ class ContentCashuWidget extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 4),
+                      margin: const EdgeInsets.only(top: 4),
                       child: Text(
                         tokens.memo != null ? tokens.memo! : "",
                         style: TextStyle(color: hintColor),
@@ -102,7 +102,7 @@ class ContentCashuWidget extends StatelessWidget {
                 color: ColorsUtil.hexToColor("#dcc099"),
                 height: 42,
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Claim",
                   style: TextStyle(
                     color: Colors.white,

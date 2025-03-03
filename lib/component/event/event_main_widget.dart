@@ -180,7 +180,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     List<Widget> list = [];
     if (showWarning || !eventRelation.warning) {
       if (widget.event.kind == EventKind.LONG_FORM) {
-        var longFormMargin = EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
+        var longFormMargin = const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
 
         List<Widget> subList = [];
         var longFormInfo = LongFormInfo.fromEvent(widget.event);
@@ -367,7 +367,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               list.add(Container(
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+                margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
                 child: Text(
                   eventRelation.subject!,
                   maxLines: 10,
@@ -547,7 +547,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             color: hintColor,
           ),
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: Base.BASE_PADDING_HALF,
               right: 3,
             ),
@@ -755,16 +755,16 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 
     return Container(
       margin:
-          EdgeInsets.only(bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
+          const EdgeInsets.only(bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
       width: double.maxFinite,
       child: Column(
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.warning),
+              const Icon(Icons.warning),
               Container(
-                margin: EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+                margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
                 child: Text(
                   localization.Content_warning,
                   style: TextStyle(fontSize: largeTextSize),
@@ -780,7 +780,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               });
             },
             child: Container(
-              margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
               padding: const EdgeInsets.only(
                 top: 4,
                 bottom: 4,
@@ -793,7 +793,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               ),
               child: Text(
                 localization.Show,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -873,7 +873,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     ));
 
     return Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
