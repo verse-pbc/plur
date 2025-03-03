@@ -676,7 +676,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             MarkdownMentionEventElementBuilder(),
         MarkdownNrelayElementBuilder.TAG: MarkdownNrelayElementBuilder(),
       },
-      blockSyntaxes: [],
+      blockSyntaxes: const [],
       inlineSyntaxes: [
         MarkdownMentionEventInlineSyntax(),
         MarkdownMentionUserInlineSyntax(),

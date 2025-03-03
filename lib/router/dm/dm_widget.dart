@@ -23,9 +23,9 @@ class _DMWidgetState extends State<DMWidget> {
       color: themeData.scaffoldBackgroundColor,
       child: TabBarView(
         controller: widget.tabController,
-        children: [
-          const DMKnownListWidget(),
-          const DMUnknownListWidget(),
+        children: const [
+          DMKnownListWidget(),
+          DMUnknownListWidget(),
         ],
       ),
     );
