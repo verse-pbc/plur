@@ -32,7 +32,7 @@ class QrcodeDialog extends StatefulWidget {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
+        builder: (context) {
           return QrcodeDialog(
             pubkey: pubkey,
           );
@@ -93,8 +93,8 @@ class _QrcodeDialog extends State<QrcodeDialog> {
           ),
         );
       },
-      selector: (content, _provider) {
-        return _provider.getMetadata(widget.pubkey);
+      selector: (content, provider) {
+        return provider.getMetadata(widget.pubkey);
       },
     );
     list.add(topWidget);

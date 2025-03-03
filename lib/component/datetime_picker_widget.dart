@@ -30,7 +30,7 @@ class DatetimePickerWidget extends StatefulWidget {
     return await showDialog(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return DatetimePickerWidget(
           dateTime: dateTime,
           showDate: showDate,

@@ -76,7 +76,7 @@ class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
   }
 
   int getRandomInt(int min, int max) {
-    final _random = new Random();
-    return _random.nextInt((max - min).floor()) + min;
+    final random = new Random();
+    return random.nextInt((max - min).floor()) + min;
   }
 }

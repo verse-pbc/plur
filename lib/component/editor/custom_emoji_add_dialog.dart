@@ -23,7 +23,7 @@ class CustomEmojiAddDialog extends StatefulWidget {
     return await showDialog<CustomEmoji>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return CustomEmojiAddDialog();
       },
     );
