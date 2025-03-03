@@ -9,7 +9,8 @@ class EnumSelectorWidget extends StatelessWidget {
 
   Widget Function(BuildContext, EnumObj)? enumItemBuild;
 
-  EnumSelectorWidget({super.key, 
+  EnumSelectorWidget({
+    super.key, 
     required this.list,
     this.enumItemBuild,
   });
@@ -107,7 +108,8 @@ class EnumSelectorItemWidget extends StatelessWidget {
 
   Color? color;
 
-  EnumSelectorItemWidget({super.key, 
+  EnumSelectorItemWidget({
+    super.key, 
     required this.enumObj,
     this.isLast = false,
     this.onTap,

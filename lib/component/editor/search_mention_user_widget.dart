@@ -83,7 +83,8 @@ class SearchMentionUserItemWidget extends StatelessWidget {
 
   double width;
 
-  SearchMentionUserItemWidget({super.key, 
+  SearchMentionUserItemWidget({
+    super.key, 
     required this.metadata,
     required this.width,
   });
