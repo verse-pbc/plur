@@ -73,7 +73,7 @@ class LightningUtil {
       return;
     }
 
-    var link = 'lightning:' + invoiceCode;
+    var link = 'lightning:$invoiceCode';
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
       await LightningQrcodeDialog.show(context, link);
     } else {

@@ -869,7 +869,7 @@ mixin EditorMixin {
     if (!_lastIsSpace(result) && !_lastIsLineEnd(result)) {
       result += " ";
     }
-    result += value + " ";
+    result += "$value ";
     return result;
   }
 
@@ -877,7 +877,7 @@ mixin EditorMixin {
     if (!_lastIsLineEnd(result)) {
       result += "\n";
     }
-    result += value + "\n";
+    result += "$value\n";
     return result;
   }
 
