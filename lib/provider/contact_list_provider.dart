@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/router/tag/topic_map.dart';
 import 'package:pointycastle/pointycastle.dart';
 
@@ -34,7 +35,7 @@ class ContactListProvider extends ChangeNotifier {
       pubkey = targetNostr.publicKey;
     }
 
-    var str = sharedPreferences.getString(DataKey.CONTACT_LISTS);
+    var str = sharedPreferences.getString(DataKey.contactLists);
     if (StringUtil.isNotBlank(str)) {
       var jsonMap = jsonDecode(str!);
 
@@ -64,14 +65,14 @@ class ContactListProvider extends ChangeNotifier {
 
   void clearCurrentContactList() {
     var pubkey = nostr!.publicKey;
-    var str = sharedPreferences.getString(DataKey.CONTACT_LISTS);
+    var str = sharedPreferences.getString(DataKey.contactLists);
     if (StringUtil.isNotBlank(str)) {
       var jsonMap = jsonDecode(str!);
       if (jsonMap is Map) {
         jsonMap.remove(pubkey);
 
         var jsonStr = jsonEncode(jsonMap);
-        sharedPreferences.setString(DataKey.CONTACT_LISTS, jsonStr);
+        sharedPreferences.setString(DataKey.contactLists, jsonStr);
       }
     }
   }
@@ -130,7 +131,7 @@ class ContactListProvider extends ChangeNotifier {
     var pubkey = nostr!.publicKey;
     Map<String, dynamic>? allJsonMap;
 
-    var str = sharedPreferences.getString(DataKey.CONTACT_LISTS);
+    var str = sharedPreferences.getString(DataKey.contactLists);
     if (StringUtil.isNotBlank(str)) {
       allJsonMap = jsonDecode(str!);
     }
@@ -139,7 +140,7 @@ class ContactListProvider extends ChangeNotifier {
     allJsonMap[pubkey] = eventJsonStr;
     var jsonStr = jsonEncode(allJsonMap);
 
-    sharedPreferences.setString(DataKey.CONTACT_LISTS, jsonStr);
+    sharedPreferences.setString(DataKey.contactLists, jsonStr);
 
     if (notify) {
       notifyListeners();
