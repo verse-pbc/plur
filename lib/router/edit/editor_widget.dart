@@ -288,7 +288,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     );
     List<Widget> editorList = [];
     var editorInputWidget = Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
       child: quillWidget,
     );
     editorList.add(editorInputWidget);

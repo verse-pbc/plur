@@ -152,7 +152,7 @@ mixin EditorMixin {
         ),
         quill.QuillToolbarIconButton(
           onPressed: emojiBeginToSelect,
-          icon: Icon(Icons.tag_faces),
+          icon: const Icon(Icons.tag_faces),
           isSelected: false,
           iconTheme: null,
           tooltip: localization.Emoji,
@@ -169,7 +169,7 @@ mixin EditorMixin {
       ),
       quill.QuillToolbarIconButton(
         onPressed: _inputMentionEvent,
-        icon: Icon(Icons.format_quote),
+        icon: const Icon(Icons.format_quote),
         isSelected: false,
         iconTheme: null,
         tooltip: localization.Quote,
@@ -178,7 +178,7 @@ mixin EditorMixin {
 
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: _inputTag,
-      icon: Icon(Icons.tag),
+      icon: const Icon(Icons.tag),
       isSelected: false,
       iconTheme: null,
       tooltip: localization.Hashtag,
@@ -186,7 +186,7 @@ mixin EditorMixin {
 
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: _inputLnbc,
-      icon: Icon(Icons.bolt),
+      icon: const Icon(Icons.bolt),
       isSelected: false,
       iconTheme: null,
       tooltip: localization.Lightning_Invoice,
@@ -272,7 +272,7 @@ mixin EditorMixin {
             ? [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  offset: Offset(0, -5),
+                  offset: const Offset(0, -5),
                   blurRadius: 10,
                   spreadRadius: 0,
                 ),
@@ -417,7 +417,7 @@ mixin EditorMixin {
       context,
       localization.Search,
       localization.Please_input_user_pubkey,
-      SearchMentionUserWidget(),
+      const SearchMentionUserWidget(),
       hintText: localization.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {
@@ -1001,7 +1001,7 @@ mixin EditorMixin {
             },
             child: Container(
               width: 40,
-              child: Icon(Icons.search),
+              child: const Icon(Icons.search),
             ),
           );
 
@@ -1169,7 +1169,7 @@ mixin EditorMixin {
   }
 
   Widget buildLongFormImageWidget() {
-    Widget main = Icon(Icons.image);
+    Widget main = const Icon(Icons.image);
 
     if (StringUtil.isBlank(longFormImage)) {
       main = GestureDetector(

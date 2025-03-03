@@ -101,11 +101,11 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
     list.add(const Divider());
 
     List<Widget> numberWidgets = [];
-    numberWidgets.add(wrapByBtn(localization, Text("50"), value: 50));
-    numberWidgets.add(wrapByBtn(localization, Text("100"), value: 100));
-    numberWidgets.add(wrapByBtn(localization, Text("500"), value: 500));
-    numberWidgets.add(wrapByBtn(localization, Text("1k"), value: 1000));
-    numberWidgets.add(wrapByBtn(localization, Text("5k"), value: 5000));
+    numberWidgets.add(wrapByBtn(localization, const Text("50"), value: 50));
+    numberWidgets.add(wrapByBtn(localization, const Text("100"), value: 100));
+    numberWidgets.add(wrapByBtn(localization, const Text("500"), value: 500));
+    numberWidgets.add(wrapByBtn(localization, const Text("1k"), value: 1000));
+    numberWidgets.add(wrapByBtn(localization, const Text("5k"), value: 5000));
     numberWidgets.add(wrapByBtn(
       localization,
       Expanded(
@@ -143,13 +143,13 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
         controller: msgController,
         decoration: InputDecoration(
           hintText: "${localization.Input_Comment} (${localization.Optional})",
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: Base.BASE_PADDING_HALF,
         bottom: 20,
         left: Base.BASE_PADDING,
@@ -168,7 +168,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),

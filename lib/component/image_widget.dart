@@ -46,7 +46,7 @@ class ImageWidget extends StatelessWidget {
       height: height,
       fit: fit,
       placeholder: placeholder,
-      errorWidget: (context, url, error) => Icon(Icons.error),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
       cacheManager: imageLocalCacheManager,
       // imageRenderMethodForWeb: ImageRenderMethodForWeb.HttpGet,
     );

@@ -12,7 +12,7 @@ class EventPlaceholder extends StatelessWidget {
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     var cardColor = themeData.cardColor;
 
-    var textLineMagin = EdgeInsets.only(bottom: 3);
+    var textLineMagin = const EdgeInsets.only(bottom: 3);
 
     var main = Column(
       mainAxisSize: MainAxisSize.min,

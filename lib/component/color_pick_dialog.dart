@@ -70,7 +70,7 @@ class ColorPickDialog extends StatelessWidget {
 
     Widget main = Container(
       color: themeData.cardColor,
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.BASE_PADDING),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: list,

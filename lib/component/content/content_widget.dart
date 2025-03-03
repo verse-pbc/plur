@@ -156,7 +156,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   TextStyle? mdh4Style;
 
-  TextStyle boldStyle = TextStyle(
+  TextStyle boldStyle = const TextStyle(
     fontWeight: FontWeight.w600,
   );
 
@@ -170,7 +170,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   TextStyle? highlightStyle;
 
-  TextStyle boldAndItalicStyle = TextStyle(
+  TextStyle boldAndItalicStyle = const TextStyle(
     fontWeight: FontWeight.w600,
     fontStyle: FontStyle.italic,
   );
@@ -275,7 +275,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             alignment: Alignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 clipBehavior: Clip.hardEdge,
                 height: lineHeight * MAX_SHOW_LINE_NUM,
                 child: Wrap(
@@ -288,7 +288,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 right: 0,
                 child: Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: Base.BASE_PADDING),
+                  padding: const EdgeInsets.only(right: Base.BASE_PADDING),
                   height: 30,
                   color: themeData.cardColor.withOpacity(0.85),
                   child: Text(
@@ -545,7 +545,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       for (var image in images) {
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+            margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
             width: CONTENT_IMAGE_LIST_HEIGHT,
             height: CONTENT_IMAGE_LIST_HEIGHT,
             child: ContentImageWidget(

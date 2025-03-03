@@ -78,10 +78,10 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
             alignment: Alignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+                padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
                 width: double.maxFinite,
                 child: Row(children: [
-                  Icon(Icons.bolt),
+                  const Icon(Icons.bolt),
                   Expanded(child: Container()),
                 ]),
               ),

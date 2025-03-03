@@ -9,31 +9,31 @@ Future<void> signerTest(NostrSigner nostrSigner) async {
   var pubkey = await nostrSigner.getPublicKey();
   developer.log("pubkey $pubkey");
 
-  await Future.delayed(Duration(seconds: 10));
+  await Future.delayed(const Duration(seconds: 10));
 
   {
     var ciphertext = await nostrSigner.encrypt(pubkey, "Hello");
     developer.log("ciphertext $ciphertext");
 
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 10));
 
     var plaintext = await nostrSigner.decrypt(pubkey, ciphertext);
     developer.log("plaintext $plaintext");
   }
 
-  await Future.delayed(Duration(seconds: 10));
+  await Future.delayed(const Duration(seconds: 10));
 
   {
     var ciphertext = await nostrSigner.nip44Encrypt(pubkey, "Hello");
     developer.log("ciphertext $ciphertext");
 
-    await Future.delayed(Duration(seconds: 10));
+    await Future.delayed(const Duration(seconds: 10));
 
     var plaintext = await nostrSigner.nip44Decrypt(pubkey, ciphertext);
     developer.log("plaintext $plaintext");
   }
 
-  await Future.delayed(Duration(seconds: 10));
+  await Future.delayed(const Duration(seconds: 10));
 
   Event? event = Event(pubkey!, EventKind.TEXT_NOTE, [], "Hello");
   event = await nostrSigner.signEvent(event);

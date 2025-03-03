@@ -80,7 +80,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
                   ),
                 ),
           Container(
-            margin: EdgeInsets.only(left: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(left: Base.BASE_PADDING),
             child: GestureDetector(
               onTap: openGetalby,
               behavior: HitTestBehavior.translucent,
@@ -101,7 +101,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -113,7 +113,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -124,8 +124,8 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.BASE_PADDING),
       decoration: BoxDecoration(
         color: themeData.hintColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(10),

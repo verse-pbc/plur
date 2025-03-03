@@ -30,7 +30,7 @@ class _ZapSplitInputItemWidgetState extends State<ZapSplitInputItemWidget> {
     list.add(UserPicWidget(pubkey: pubkey, width: 46));
 
     list.add(Container(
-      padding: EdgeInsets.only(left: Base.BASE_PADDING),
+      padding: const EdgeInsets.only(left: Base.BASE_PADDING),
       width: 120,
       alignment: Alignment.centerLeft,
       child: Column(
@@ -38,7 +38,7 @@ class _ZapSplitInputItemWidgetState extends State<ZapSplitInputItemWidget> {
         children: [
           SimpleNameWidget(
             pubkey: pubkey,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
           ),

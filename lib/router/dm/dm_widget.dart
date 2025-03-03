@@ -24,8 +24,8 @@ class _DMWidgetState extends State<DMWidget> {
       child: TabBarView(
         controller: widget.tabController,
         children: [
-          DMKnownListWidget(),
-          DMUnknownListWidget(),
+          const DMKnownListWidget(),
+          const DMUnknownListWidget(),
         ],
       ),
     );

@@ -61,12 +61,12 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: Row(
         children: [
           Text("${localization.Upload_num}: ${widget.events.length}"),
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: Base.BASE_PADDING,
               right: Base.BASE_PADDING_HALF,
             ),

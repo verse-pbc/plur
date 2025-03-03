@@ -224,7 +224,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       backgroundColor: theme.customColors.feedBgColor,
       context: context,
       builder: (BuildContext context) {
-        return AccountManagerWidget();
+        return const AccountManagerWidget();
       },
     );
   }

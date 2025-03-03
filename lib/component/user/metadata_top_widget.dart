@@ -298,7 +298,7 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
 
   Widget wrapBtn(Widget child) {
     return Container(
-      margin: EdgeInsets.only(right: 8),
+      margin: const EdgeInsets.only(right: 8),
       child: child,
     );
   }
@@ -485,7 +485,7 @@ class MetadataTextBtn extends StatelessWidget {
                 ),
         ),
         height: 32,
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 1),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 1),
         alignment: Alignment.center,
         child: Text(
           text,

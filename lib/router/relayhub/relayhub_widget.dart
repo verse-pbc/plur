@@ -52,7 +52,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
     } else {
       mainWidget = ListView.builder(
         itemBuilder: (context, index) {
-          return UserRelayPlaceholder();
+          return const UserRelayPlaceholder();
         },
         itemCount: 10,
       );
@@ -72,7 +72,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
           GestureDetector(
             onTap: testAllSpeed,
             child: Container(
-              padding: EdgeInsets.only(right: Base.BASE_PADDING),
+              padding: const EdgeInsets.only(right: Base.BASE_PADDING),
               child: Icon(
                 Icons.speed,
                 color: themeData.appBarTheme.titleTextStyle!.color,
