@@ -109,7 +109,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         data: nip19Pubkey,
         size: QR_WIDTH,
         elementColor: themeData.textTheme.bodyMedium!.color ?? Colors.black,
-        image: AssetImage("assets/imgs/logo/logo512.png"),
+        image: const AssetImage("assets/imgs/logo/logo512.png"),
       ),
     ));
     list.add(GestureDetector(
@@ -118,7 +118,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
       },
       child: Container(
         width: QR_WIDTH + Base.BASE_PADDING_HALF * 2,
-        padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+        padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
         decoration: BoxDecoration(
           color: hintColor.withOpacity(0.5),
           borderRadius: BorderRadius.circular(10),

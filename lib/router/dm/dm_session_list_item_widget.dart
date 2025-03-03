@@ -57,7 +57,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
         content = content.replaceAll("\n", " ");
 
         var leftWidget = Container(
-          margin: EdgeInsets.only(top: 4),
+          margin: const EdgeInsets.only(top: 4),
           child: UserPicWidget(
             pubkey: dmSession.pubkey,
             width: imageWidth,

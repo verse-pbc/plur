@@ -8,7 +8,7 @@
 - [x] fvm dart fix --apply --code=empty_constructor_bodies 
 - [x] fvm dart fix --apply --code=missing_dependency 
 - [x] fvm dart fix --apply --code=no_leading_underscores_for_local_identifiers 
-- [ ] fvm dart fix --apply --code=prefer_collection_literals 
+- [x] fvm dart fix --apply --code=prefer_collection_literals 
 - [ ] fvm dart fix --apply --code=prefer_const_constructors 
 - [ ] fvm dart fix --apply --code=prefer_const_constructors_in_immutables 
 - [ ] fvm dart fix --apply --code=prefer_const_literals_to_create_immutables 

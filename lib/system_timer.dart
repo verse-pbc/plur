@@ -12,7 +12,7 @@ class SystemTimer {
     if (timer != null) {
       timer!.cancel();
     }
-    timer = Timer.periodic(Duration(seconds: 15), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 15), (timer) {
       try {
         runTask();
         counter++;

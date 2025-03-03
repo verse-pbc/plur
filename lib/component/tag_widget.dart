@@ -20,7 +20,7 @@ class TagWidget extends StatelessWidget {
     var mainColor = themeData.primaryColor;
 
     var main = Container(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         left: Base.BASE_PADDING_HALF,
         right: Base.BASE_PADDING_HALF,
         top: 4,

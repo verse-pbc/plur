@@ -67,7 +67,7 @@ class _SearchMentionWidgetState extends State<SearchMentionWidget>
         onTap: () {
           controller.text = "";
         },
-        child: Icon(Icons.close),
+        child: const Icon(Icons.close),
       );
     }
     list.add(TextField(

@@ -54,7 +54,7 @@ class SettingsGroupItemWidget extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         color: cardColor,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 12,
           left: 20 + Base.BASE_PADDING_HALF,
           right: 20 + Base.BASE_PADDING_HALF,

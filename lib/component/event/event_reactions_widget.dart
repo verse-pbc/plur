@@ -170,7 +170,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                   value: "copyId",
                   child: Text(localization.Copy_Note_Id, style: popFontStyle),
                 ),
-                PopupMenuDivider(),
+                const PopupMenuDivider(),
               ];
 
               if (widget.showDetailBtn) {
@@ -184,7 +184,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 value: "share",
                 child: Text(localization.Share, style: popFontStyle),
               ));
-              list.add(PopupMenuDivider());
+              list.add(const PopupMenuDivider());
               if (!readOnly) {
                 if (listProvider.checkPrivateBookmark(bookmarkItem)) {
                   list.add(PopupMenuItem(
@@ -210,7 +210,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                     child: Text(localization.Add_to_public_bookmark, style: popFontStyle),
                   ));
                 }
-                list.add(PopupMenuDivider());
+                list.add(const PopupMenuDivider());
               }
               list.add(PopupMenuItem(
                 value: "source",
@@ -234,7 +234,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                   (isGroupEvent &&
                       groupAdmins != null &&
                       groupAdmins.contains(pubkey) != null)) {
-                list.add(PopupMenuDivider());
+                list.add(const PopupMenuDivider());
                 list.add(PopupMenuItem(
                   value: "delete",
                   child: Text(

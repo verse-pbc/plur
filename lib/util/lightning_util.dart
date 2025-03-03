@@ -29,12 +29,12 @@ class LightningUtil {
         duration: const Duration(seconds: 5),
         onlyOne: false,
         leading: (cancelFunc) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         },
         title: (cancelFunc) {
           return Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.bolt,
                 color: Colors.orange,
               ),

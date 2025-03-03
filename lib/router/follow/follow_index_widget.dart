@@ -23,9 +23,9 @@ class _FollowIndexWidgetState extends State<FollowIndexWidget> {
       child: TabBarView(
         controller: widget.tabController,
         children: [
-          FollowPostsWidget(),
-          FollowWidget(),
-          MentionMeWidget(),
+          const FollowPostsWidget(),
+          const FollowWidget(),
+          const MentionMeWidget(),
         ],
       ),
     );

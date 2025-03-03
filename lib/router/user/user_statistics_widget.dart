@@ -144,7 +144,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       return Container(
         // color: Colors.red,
         height: 18,
-        margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
@@ -450,13 +450,13 @@ class UserStatisticsItemWidget extends StatelessWidget {
         ),
       ));
     } else {
-      list.add(Icon(
+      list.add(const Icon(
         Icons.download,
         size: 14,
       ));
     }
     list.add(Container(
-      margin: EdgeInsets.only(left: 4),
+      margin: const EdgeInsets.only(left: 4),
       child: Text(
         name,
         style: TextStyle(
@@ -474,7 +474,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
       onLongPressStart: onLongPressStart,
       onLongPressEnd: onLongPressEnd,
       child: Container(
-        margin: EdgeInsets.only(left: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(left: Base.BASE_PADDING),
         child: Row(children: list),
       ),
     );

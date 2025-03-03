@@ -134,7 +134,7 @@ class RelayMetadataWidget extends StatelessWidget {
       bottomWidget = Row(
         children: [
           Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
             child: Text(
               localization.Read,
               style: TextStyle(
@@ -144,7 +144,7 @@ class RelayMetadataWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
             child: Text(
               localization.Write,
               style: TextStyle(
@@ -191,7 +191,7 @@ class RelayMetadataWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 2),
+                    margin: const EdgeInsets.only(bottom: 2),
                     child: Text(relayAddr!),
                   ),
                   bottomWidget,

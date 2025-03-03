@@ -33,7 +33,7 @@ class DMNoticeItemWidget extends StatelessWidget {
     content = content.replaceAll("\n", " ");
 
     var leftWidget = Container(
-      margin: EdgeInsets.only(top: 4),
+      margin: const EdgeInsets.only(top: 4),
       child: Container(
         width: imageWidth,
         height: imageWidth,

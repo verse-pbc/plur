@@ -77,8 +77,8 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
     final localization = S.of(context);
 
     var now = DateTime.now();
-    var calendarFirstDay = now.add(Duration(days: -3650));
-    var calendarLastDay = now.add(Duration(days: 3650));
+    var calendarFirstDay = now.add(const Duration(days: -3650));
+    var calendarLastDay = now.add(const Duration(days: 3650));
 
     var titleDateFormat = DateFormat("MMM yyyy");
 

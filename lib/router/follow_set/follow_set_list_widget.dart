@@ -134,12 +134,12 @@ class FollowSetListItem extends StatelessWidget {
                   context, RouterPath.FOLLOW_SET_DETAIL, followSet);
             },
             child: Container(
-              margin: EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-                    child: Icon(Icons.people),
+                    margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                    child: const Icon(Icons.people),
                   ),
                   Text(
                       "${followSet.privateContacts.length} / ${followSet.publicContacts.length}")
@@ -154,26 +154,26 @@ class FollowSetListItem extends StatelessWidget {
                 PopupMenuItem(
                   value: "editTitle",
                   child: Row(
-                    children: [Icon(Icons.edit), Text(" ${localization.Edit_name}")],
+                    children: [const Icon(Icons.edit), Text(" ${localization.Edit_name}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "edit",
                   child: Row(
-                    children: [Icon(Icons.people), Text(" ${localization.Edit}")],
+                    children: [const Icon(Icons.people), Text(" ${localization.Edit}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "delete",
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.delete,
                         color: Colors.red,
                       ),
                       Text(
                         " ${localization.Delete}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.red,
                         ),
                       ),
@@ -184,7 +184,7 @@ class FollowSetListItem extends StatelessWidget {
 
               return list;
             },
-            child: Icon(Icons.menu),
+            child: const Icon(Icons.menu),
             onSelected: (value) {
               onSelect(context, value);
             },

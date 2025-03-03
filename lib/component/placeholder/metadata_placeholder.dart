@@ -15,7 +15,7 @@ class MetadataPlaceholder extends StatelessWidget {
 
     List<Widget> mainList = [];
 
-    mainList.add(MetadataTopPlaceholderWidget());
+    mainList.add(const MetadataTopPlaceholderWidget());
 
     mainList.add(
       Container(

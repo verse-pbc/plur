@@ -58,7 +58,7 @@ class MusicPlaceholder extends StatelessWidget {
       Container(
         width: imageHeight,
         height: imageHeight,
-        child: Icon(Icons.play_circle_outline),
+        child: const Icon(Icons.play_circle_outline),
       ),
     ];
 

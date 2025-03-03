@@ -166,7 +166,7 @@ class _MusicWidgetState extends State<MusicWidget> {
           onTap: () {
             musicProvider.stop();
           },
-          child: Icon(Icons.clear),
+          child: const Icon(Icons.clear),
         ),
       ));
     }
