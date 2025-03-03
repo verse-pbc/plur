@@ -8,15 +8,16 @@ class LnurlResponse {
   bool? allowsNostr;
   String? nostrPubkey;
 
-  LnurlResponse(
-      {this.callback,
-      this.maxSendable,
-      this.minSendable,
-      this.metadata,
-      this.commentAllowed,
-      this.tag,
-      this.allowsNostr,
-      this.nostrPubkey});
+  LnurlResponse({
+    this.callback,
+    this.maxSendable,
+    this.minSendable,
+    this.metadata,
+    this.commentAllowed,
+    this.tag,
+    this.allowsNostr,
+    this.nostrPubkey,
+  });
 
   LnurlResponse.fromJson(Map<String, dynamic> json) {
     callback = json['callback'];
@@ -30,15 +31,15 @@ class LnurlResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['callback'] = this.callback;
-    data['maxSendable'] = this.maxSendable;
-    data['minSendable'] = this.minSendable;
-    data['metadata'] = this.metadata;
-    data['commentAllowed'] = this.commentAllowed;
-    data['tag'] = this.tag;
-    data['allowsNostr'] = this.allowsNostr;
-    data['nostrPubkey'] = this.nostrPubkey;
-    return data;
+    return {
+      'callback': callback,
+      'maxSendable': maxSendable,
+      'minSendable': minSendable,
+      'metadata': metadata,
+      'commentAllowed': commentAllowed,
+      'tag': tag,
+      'allowsNostr': allowsNostr,
+      'nostrPubkey': nostrPubkey,
+    };
   }
 }
