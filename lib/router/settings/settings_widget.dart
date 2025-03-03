@@ -215,7 +215,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     list.add(SettingsGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
     String? networkHintText = settingsProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
-      networkHintText = localization.Please_input + " " + localization.Network;
+      networkHintText = "${localization.Please_input} ${localization.Network}";
     }
     Widget networkWidget = Text(
       networkHintText!,

@@ -59,7 +59,7 @@ class Nip19 {
     try {
       var code = encodePubKey(pubkey);
       var length = code.length;
-      return code.substring(0, 6) + ":" + code.substring(length - 6);
+      return "${code.substring(0, 6)}:${code.substring(length - 6)}";
     } catch (e) {
       if (pubkey.length > 12) {
         return pubkey.substring(0, 13);

@@ -59,7 +59,7 @@ class EventRelation {
     for (var i = 0; i < length; i++) {
       var tag = event.tags[i];
 
-      var mentionStr = "#[" + i.toString() + "]";
+      var mentionStr = "#[$i]";
       if (event.content.contains(mentionStr)) {
         continue;
       }

@@ -42,7 +42,7 @@ class NIP04 {
 
     var result = cipherCbc.process(Uint8List.fromList(utf8.encode(message)));
 
-    return base64.encode(result) + "?iv=" + base64.encode(ivData);
+    return "${base64.encode(result)}?iv=${base64.encode(ivData)}";
   }
 
   static String decrypt(
