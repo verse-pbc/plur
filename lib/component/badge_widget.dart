@@ -8,7 +8,7 @@ class BadgeWidget extends StatelessWidget {
 
   BadgeDefinition badgeDefinition;
 
-  BadgeWidget({
+  BadgeWidget({super.key, 
     required this.badgeDefinition,
   });
 

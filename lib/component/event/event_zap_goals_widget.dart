@@ -16,7 +16,7 @@ class EventZapGoalsWidget extends StatefulWidget {
 
   EventRelation eventRelation;
 
-  EventZapGoalsWidget({
+  EventZapGoalsWidget({super.key, 
     required this.event,
     required this.eventRelation,
   });

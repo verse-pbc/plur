@@ -6,6 +6,8 @@ import '../router/index/index_drawer_content.dart';
 import '../util/router_util.dart';
 
 class LikeTextSelectBottomSheet extends StatefulWidget {
+  const LikeTextSelectBottomSheet({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _LikeTextSelectBottomSheet();

@@ -13,7 +13,7 @@ class ReactionEventListWidget extends StatefulWidget {
 
   String text;
 
-  ReactionEventListWidget({
+  ReactionEventListWidget({super.key, 
     required this.event,
     this.jumpable = true,
     required this.text,

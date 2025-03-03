@@ -11,7 +11,7 @@ import '../user/simple_name_widget.dart';
 class ReactionEventMetadataWidget extends StatefulWidget {
   String pubkey;
 
-  ReactionEventMetadataWidget({
+  ReactionEventMetadataWidget({super.key, 
     required this.pubkey,
   });
 

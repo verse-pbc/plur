@@ -340,7 +340,7 @@ class RelayInfoItemWidget extends StatelessWidget {
 
   Widget child;
 
-  RelayInfoItemWidget({
+  RelayInfoItemWidget({super.key, 
     required this.title,
     required this.child,
   });

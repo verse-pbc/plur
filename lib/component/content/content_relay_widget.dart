@@ -11,7 +11,7 @@ import '../../generated/l10n.dart';
 class ContentRelayWidget extends StatelessWidget {
   String addr;
 
-  ContentRelayWidget(this.addr);
+  ContentRelayWidget(this.addr, {super.key});
 
   @override
   Widget build(BuildContext context) {

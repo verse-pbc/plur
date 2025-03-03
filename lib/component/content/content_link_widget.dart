@@ -8,7 +8,7 @@ class ContentLinkWidget extends StatelessWidget {
 
   String? title;
 
-  ContentLinkWidget({
+  ContentLinkWidget({super.key, 
     required this.link,
     this.title,
   });

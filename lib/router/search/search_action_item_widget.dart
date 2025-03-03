@@ -7,7 +7,7 @@ class SearchActionItemWidget extends StatelessWidget {
 
   Function onTap;
 
-  SearchActionItemWidget({
+  SearchActionItemWidget({super.key, 
     required this.title,
     required this.onTap,
   });

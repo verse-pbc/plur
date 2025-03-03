@@ -26,7 +26,7 @@ class TextInputAndSearchDialog extends StatefulWidget {
   TextInputAndSearchDialog(
     this.searchTabName,
     this.title,
-    this.searchWidget, {
+    this.searchWidget, {super.key, 
     this.hintText,
     this.value,
     this.valueCheck,

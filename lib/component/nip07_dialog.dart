@@ -14,7 +14,7 @@ class NIP07Dialog extends StatefulWidget {
 
   String? content;
 
-  NIP07Dialog({
+  NIP07Dialog({super.key, 
     required this.method,
     this.content,
   });

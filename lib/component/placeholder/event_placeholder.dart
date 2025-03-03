@@ -5,6 +5,8 @@ import '../../consts/base.dart';
 import 'event_top_placeholder.dart';
 
 class EventPlaceholder extends StatelessWidget {
+  const EventPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);

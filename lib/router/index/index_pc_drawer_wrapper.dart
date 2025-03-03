@@ -5,7 +5,7 @@ import 'index_drawer_content.dart';
 class IndexPcDrawerWrapper extends StatefulWidget {
   double fixWidth;
 
-  IndexPcDrawerWrapper({
+  IndexPcDrawerWrapper({super.key, 
     required this.fixWidth,
   });
 
@@ -70,7 +70,7 @@ class _IndexPcDrawerWrapper extends State<IndexPcDrawerWrapper> {
 class IndexPcDrawerWrapperCallback extends InheritedWidget {
   Function toggle;
 
-  IndexPcDrawerWrapperCallback({required this.toggle, required super.child});
+  IndexPcDrawerWrapperCallback({super.key, required this.toggle, required super.child});
 
   static IndexPcDrawerWrapperCallback? of(BuildContext context) {
     return context

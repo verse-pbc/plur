@@ -20,6 +20,8 @@ import 'thread_detail_item_widget.dart';
 import 'thread_router_helper.dart';
 
 class ThreadDetailWidget extends StatefulWidget {
+  const ThreadDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _ThreadDetailWidgetState();

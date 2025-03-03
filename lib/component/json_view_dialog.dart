@@ -14,7 +14,7 @@ import '../util/theme_util.dart';
 class JsonViewDialog extends StatefulWidget {
   String jsonText;
 
-  JsonViewDialog(this.jsonText);
+  JsonViewDialog(this.jsonText, {super.key});
 
   static Future<bool?> show(BuildContext context, String jsonText) async {
     return await showDialog<bool>(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class EventBitcoinIconWidget extends StatelessWidget {
+  const EventBitcoinIconWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -4,7 +4,7 @@ import 'package:nostrmo/component/placeholder/metadata_placeholder.dart';
 class MetadataListPlaceholder extends StatelessWidget {
   Function? onRefresh;
 
-  MetadataListPlaceholder({this.onRefresh});
+  MetadataListPlaceholder({super.key, this.onRefresh});
 
   final ScrollController _controller = ScrollController();
 

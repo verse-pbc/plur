@@ -110,7 +110,7 @@ class FollowSetListItem extends StatelessWidget {
 
   Function listUIUpdate;
 
-  FollowSetListItem(this.followSet, this.listUIUpdate);
+  FollowSetListItem(this.followSet, this.listUIUpdate, {super.key});
 
   @override
   Widget build(BuildContext context) {
