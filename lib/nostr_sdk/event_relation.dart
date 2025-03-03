@@ -5,6 +5,7 @@ import 'nip19/nip19.dart';
 import 'nip19/nip19_tlv.dart';
 import 'nip94/file_metadata.dart';
 import 'utils/spider_util.dart';
+import 'nip29/group_identifier.dart';
 
 /// This class is designed for get the relation from event, but it seam to used for get tagInfo from event before event_main display.
 class EventRelation {
@@ -42,6 +43,9 @@ class EventRelation {
 
   Map<String, FileMetadata> fileMetadatas = {};
 
+  /// The NIP-29 group id, if one is found in the tags.
+  GroupIdentifier? groupIdentifier;
+
   String? get replyOrRootId {
     return replyId ?? rootId;
   }
@@ -50,6 +54,7 @@ class EventRelation {
     return replyId != null ? replyRelayAddr : rootRelayAddr;
   }
 
+  /// Initializes the various fields on EventRelation from the given Event object.
   EventRelation.fromEvent(Event event) {
     id = event.id;
     pubkey = event.pubkey;
@@ -116,6 +121,8 @@ class EventRelation {
           if (fileMetadata != null) {
             fileMetadatas[fileMetadata.url] = fileMetadata;
           }
+        } else if (tagKey == "h") {
+          groupIdentifier = GroupIdentifier.parse(value);
         }
       }
     }

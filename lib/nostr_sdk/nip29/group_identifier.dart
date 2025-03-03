@@ -1,6 +1,10 @@
+/// Models a NIP-29 group identifier ('h' tag). Some group identifiers include the relay, so this
+/// class will make that available if it is present.
 class GroupIdentifier {
 
   // This field in here is wss://domain not like NIP29 domain
+  // This should be nullable. NIP-29 says that groups identifiers MAY put the host before an 
+  // apostrophe in the group identifier, not that they must.
   String host;
 
   String groupId;
@@ -23,7 +27,7 @@ class GroupIdentifier {
       return GroupIdentifier(strs[0], strs[1]);
     }
 
-    return null;
+    return GroupIdentifier("", idStr);
   }
 
   @override
