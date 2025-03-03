@@ -22,7 +22,8 @@ class ZapsSendDialog extends StatefulWidget {
 
   String? comment;
 
-  ZapsSendDialog({super.key, 
+  ZapsSendDialog({
+    super.key, 
     required this.zapInfos,
     required this.pubkeyZapNumbers,
     this.comment,

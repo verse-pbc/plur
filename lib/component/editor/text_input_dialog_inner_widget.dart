@@ -14,11 +14,14 @@ class TextInputDialogInnerWidget extends StatefulWidget {
   bool Function(BuildContext, String)? valueCheck;
 
   TextInputDialogInnerWidget(
-    this.title, {super.key, 
-    this.hintText,
-    this.value,
-    this.valueCheck,
-  });
+    this.title, 
+    {
+      super.key, 
+      this.hintText,
+      this.value,
+      this.valueCheck,
+    }
+  );
 
   @override
   State<StatefulWidget> createState() {
