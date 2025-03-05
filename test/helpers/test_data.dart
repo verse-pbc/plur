@@ -1,4 +1,14 @@
 class TestData {
+
+  static const alicePubkey = 
+      "bd91fa6ff27712408c96821435e988dee99c26db1e5e11a86a89ef5993d8782f";
+  static const aliceSecretKey = 
+    "02a5ba0ad772f5ade331e489f6f993c93788cef702f2c4af8d2aa2409b5c5751c5751";
+  static const bobPubkey = 
+    "53ba98b4f6d919e62e8a8bfe8899a3523e4c6f92f9b7d653783bcf400c6102de";
+  static const bobSecretKey = 
+    "51fe263b683444dfc44f0a2c2e6efe9006e4e51884141a421590c725dad6a0d9";
+
   static Map<String, dynamic> get groupNoteJson => {
     "kind": 11,
     "id": "4f1448b1b2f0812702a97b2fc68311d151f1e4c6e7866acb70c6ca890013a20e",
