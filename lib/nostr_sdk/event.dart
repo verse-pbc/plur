@@ -34,6 +34,15 @@ class Event {
     id = _getId(pubkey, this.createdAt, kind, tags, content);
   }
 
+  /// Creates a new Nostr event with named parameters.
+  Event.create({
+    required String pubkey,
+    required int kind,
+    required List<dynamic> tags,
+    required String content,
+    int? createdAt,
+  }) : this(pubkey, kind, tags, content, createdAt: createdAt);
+
   Event._(this.id, this.pubkey, this.createdAt, this.kind, this.tags,
       this.content, this.sig);
 
