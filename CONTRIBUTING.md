@@ -7,7 +7,7 @@ You can run the unit tests with:
 flutter test
 ```
 
-Or if you use Flutter Version Manager
+Or if you use Flutter Version Manager:
 
 ```
 fvm flutter test
@@ -17,7 +17,7 @@ In VSCode there is a task that you can run using Command-Shift-P -> Run Task -> 
 
 # Formatting
 
-It's good practice to run `dart analyze` and `dart format` before committing yoru code.
+It's good practice to run `dart analyze` and `dart format` before committing your code.
 
 # Localization
 

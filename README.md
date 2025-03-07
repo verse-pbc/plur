@@ -99,6 +99,7 @@ git submodule update
 ```
 
 ### Installing required tools
+
 Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
 
 #### Using Homebrew and FVM
@@ -113,8 +114,7 @@ Homebrew is a package manager for macOS. It allows you to install tools and use 
 7. Ensure everything is set up properly (look for green checkmarks): `fvm flutter doctor -v`
 8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
 
-### Building the app
-Before building the app for any platform, be sure you’ve run `git submodule init` and `git submodule update` in Terminal at the root of the repository.
+## Building the app
 
 #### Android
 

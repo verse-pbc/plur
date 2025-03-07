@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event/event_id_router_widget.dart';
 
 import '../consts/router_path.dart';

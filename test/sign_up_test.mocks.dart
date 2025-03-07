@@ -11,9 +11,9 @@ import 'dart:ui' as _i12;
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
-import 'package:nostr_sdk/event.dart' as _i9;
-import 'package:nostr_sdk/nip02/contact_list.dart' as _i10;
-import 'package:nostr_sdk/nip65/relay_list_metadata.dart' as _i11;
+import 'package:nostrmo/nostr_sdk/event.dart' as _i9;
+import 'package:nostrmo/nostr_sdk/nip02/contact_list.dart' as _i10;
+import 'package:nostrmo/nostr_sdk/nip65/relay_list_metadata.dart' as _i11;
 import 'package:nostrmo/data/metadata.dart' as _i8;
 import 'package:nostrmo/provider/metadata_provider.dart' as _i7;
 
