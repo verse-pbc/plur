@@ -5,7 +5,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/confirm_dialog.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/sync_upload_dialog.dart';
