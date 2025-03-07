@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
+import 'package:nostrmo/nostr_sdk/client_utils/keys.dart';
 
 import '../../consts/base.dart';
 import '../../consts/colors.dart';

@@ -12,11 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Release Notes
 - Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
+- Removed the "Add test groups" button from the side menu. [#256](https://github.com/verse-pbc/issues/issues/256)
 
 ### Internal Changes
 - Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
 - Added a CONTRIBUTING.md file. [#78](https://github.com/verse-pbc/plur/pull/78)
 - Add a task.json that helps VSCode/Cursor execute the unit tests. [#81](https://github.com/verse-pbc/plur/pull/81)
+- Moved nostr_sdk from an external submodule to an internal library. [#229](https://github.com/verse-pbc/issues/issues/229)
+- Fixed TestFlight deployments by manually installing iOS 18.2. [#257](https://github.com/verse-pbc/issues/issues/257)
 
 ## [0.0.2]
 
