@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import '../provider/timestamp_provider.dart';
 
 enum TimeUnit { seconds, minutes, hours, days, older }
@@ -10,9 +10,9 @@ enum TimeUnit { seconds, minutes, hours, days, older }
 /// This widget takes a Unix timestamp (in seconds) and displays it in a human-readable
 /// format
 ///
-/// The display automatically updates every 60 seconds using [TimestampProvider].
+/// The display automatically updates every 60 seconds using Riverpod's timestampProvider.
 /// Only this widget rebuilds on updates, not its parent.
-class RelativeDateWidget extends StatelessWidget {
+class RelativeDateWidget extends ConsumerWidget {
   /// Unix timestamp in seconds
   final int date;
 
@@ -21,10 +21,7 @@ class RelativeDateWidget extends StatelessWidget {
   /// Formats a timestamp into a human-readable relative date string.
   ///
   /// Takes the current [DateTime] as [now] to calculate the relative difference
-  /// from [date]. Returns a formatted string that represents the time difference:
-  ///
-  /// The [now] parameter is typically provided by [TimestampProvider] to enable
-  /// automatic updates.
+  /// from [date]. Returns a formatted string that represents the time difference.
   String _formatRelativeDate(DateTime now) {
     // Convert Unix timestamp to local DateTime.
     final timestamp =
@@ -69,19 +66,15 @@ class RelativeDateWidget extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeData = Theme.of(context);
-
-    return Consumer<TimestampProvider>(
-      builder: (context, provider, child) {
-        return Text(
-          _formatRelativeDate(provider.currentTime),
-          style: TextStyle(
-            color: themeData.hintColor,
-            fontSize: themeData.textTheme.bodySmall!.fontSize,
-          ),
-        );
-      },
+    final currentTime = ref.watch(timestampProvider);
+    return Text(
+      _formatRelativeDate(currentTime),
+      style: TextStyle(
+        color: themeData.hintColor,
+        fontSize: themeData.textTheme.bodySmall!.fontSize,
+      ),
     );
   }
 }
