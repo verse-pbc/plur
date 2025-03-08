@@ -75,7 +75,7 @@ jobs:
       - name: Compare lint results
         run: |
           echo "New lint issues in PR branch:"
-          diff -u main-lints/lints.txt pr-lints/lints.txt | grep "^+" | grep -v "^+++" > lint-additions.txt || true
+          diff -u main-lints.txt pr-lints.txt | grep "^+" | grep -v "^+++" > lint-additions.txt || true
           if [ -s lint-additions.txt ]; then
             echo "Found new lint issues in PR branch:"
             cat lint-additions.txt
