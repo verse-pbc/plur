@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_quill/translations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_cache_manager/src/cache_store.dart';
@@ -197,8 +198,6 @@ late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
 
-late TimestampProvider timestampProvider;
-
 Future<void> initializeProviders({bool isTesting = false}) async {
   var dbInitTask = DB.getCurrentDatabase();
   var dataUtilTask = DataUtil.getInstance();
@@ -248,7 +247,6 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   nwcProvider = NWCProvider()..init();
   groupProvider = GroupProvider();
   wotProvider = WotProvider();
-  timestampProvider = TimestampProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
@@ -314,7 +312,11 @@ Future<void> main() async {
   // Hides the splash and runs the app.
   void startApp() {
     FlutterNativeSplash.remove();
-    runApp(MyApp());
+    runApp(
+      riverpod.ProviderScope(
+        child: MyApp(),
+      ),
+    );
   }
 
   if (const bool.hasEnvironment("SENTRY_DSN")) {
@@ -548,9 +550,6 @@ class _MyApp extends State<MyApp> {
         ),
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
-        ),
-        ListenableProvider<TimestampProvider>.value(
-          value: timestampProvider,
         ),
       ],
       child: HomeWidget(
