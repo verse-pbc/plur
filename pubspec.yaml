@@ -102,7 +102,6 @@ dependencies:
   styled_text: ^8.1.0
   sentry_flutter: ^8.13.0
   path_provider: ^2.1.4
-  toggle_switch: ^2.3.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.14.1
