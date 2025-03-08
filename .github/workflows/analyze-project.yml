@@ -19,7 +19,7 @@ on:
 jobs:
   
   lint:
-    name: Lint Branch and Main for Comparison
+    name: Generate Lint Reports
     runs-on: ubuntu-latest
     strategy:
       matrix:
