@@ -38,6 +38,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       
+      - name: Lint the project
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+      
       - name: Analyze
         run: |
           dart pub global activate flutter_analyze_reporter
