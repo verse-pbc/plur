@@ -78,6 +78,8 @@ jobs:
           if [ -s lint-additions.txt ]; then
             echo "Found new lint issues in PR branch:"
             cat lint-additions.txt
+            echo "No new linting errors may be merged with main."
+            exit 1
           else
             echo "No new lint issues found in PR branch."
           fi
