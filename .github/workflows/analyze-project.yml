@@ -23,7 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        branch: [main, ${{ github.head_ref }}]
+        branch:
+          - main
+          - ${{ github.head_ref }}]
     
     steps:
       - name: Checkout repository
