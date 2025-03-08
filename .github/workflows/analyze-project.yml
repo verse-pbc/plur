@@ -80,10 +80,10 @@ jobs:
             echo "## Found new lint issues in PR branch:" >> $GITHUB_STEP_SUMMARY
             cat lint-additions.txt >> $GITHUB_STEP_SUMMARY
             cat lint-additions.txt
-            echo "Error: No new linting errors may be merged with main."
+            echo -e "\033[0;31mError: No new linting errors may be merged with main.\033[0m"
             exit 1
           else
-            echo "No new lint issues found in PR branch."
+            echo -e "\033[0;32mNo new lint issues found in PR branch.\033[0m"
           fi
  
       
