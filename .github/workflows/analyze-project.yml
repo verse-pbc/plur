@@ -21,10 +21,15 @@ jobs:
   lint:
     name: Lint
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch: [main, ${{ github.head_ref }}]
+    
     steps:
-      - name: Clone repository
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ matrix.branch }}
           submodules: recursive
 
       - name: Set up Flutter
@@ -39,13 +44,46 @@ jobs:
         run: flutter pub get
       
       - name: Lint the project
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings --write=lints.txt
       
-      - name: Analyze
+      - name: Upload lints artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lints-${{ matrix.branch }}.txt
+          path: lints.txt
+
+  examine-lint-changes:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - name: Download main branch artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lints-main.txt
+          path: main-lints.txt
+      
+      - name: Download PR branch artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: lints-${{ github.head_ref }}.txt
+          path: pr-lints.txt
+      
+      - name: Compare lint results
         run: |
-          dart pub global activate flutter_analyze_reporter
-          flutter_analyze_reporter --reporter github
-        shell: bash
+          echo "New lint issues in PR branch:"
+          diff -u main-lints/lints.txt pr-lints/lints.txt | grep "^+" | grep -v "^+++" > lint-additions.txt || true
+          if [ -s lint-additions.txt ]; then
+            echo "Found new lint issues in PR branch:"
+            cat lint-additions.txt
+          else
+            echo "No new lint issues found in PR branch."
+          fi
+ 
+      
+      
+
 
 # TODO: Uncomment the below once linting is configured.
   # test:
