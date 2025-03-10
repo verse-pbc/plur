@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/event.dart' as nostr_event;
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/event.dart' as nostr_event;
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';

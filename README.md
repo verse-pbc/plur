@@ -85,7 +85,11 @@ A flutter nostr client for all platforms.<br/> <a href="https://github.com/haore
 - [x] NIP-98 (HTTP Auth)
 - [ ] NIP-99 (Classified Listings)
 
-## Setting up Git Submodules
+## Contributing
+
+Basic build instructions can be found below, but more instructions can be found in [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### Setting up Git Submodules
 
 This project uses git submodules, so after you clone, be sure to initialize and update git submodules:
 
@@ -94,10 +98,11 @@ git submodule init
 git submodule update
 ```
 
-## Installing required tools
+### Installing required tools
+
 Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
 
-### Using Homebrew and FVM
+#### Using Homebrew and FVM
 Homebrew is a package manager for macOS. It allows you to install tools and use them from the command line. For Plur, FVM specifies the version of Flutter that’s required to build the app. With the Homebrew setup, the required version of Java is not specified outside of this README.
 
 1. Install [Homebrew](https://brew.sh)
@@ -110,17 +115,16 @@ Homebrew is a package manager for macOS. It allows you to install tools and use 
 8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
 
 ## Building the app
-Before building the app for any platform, be sure you’ve run `git submodule init` and `git submodule update` in Terminal at the root of the repository.
 
-### Android
+#### Android
 
-#### Command line
+##### Command line
 Remember that if you’re using FVM, you always want to preface your Flutter commands with `fvm` so you can be sure you’re using the version of Flutter specified in the `.fvmrc` file. If you’re using `mise`, that’s handled internally by `mise` and the `.mise.toml` file, so you can just run `flutter` commands on their own.
 
 1. Get dependencies with `[fvm] flutter pub get`
 2. Build the app with `[fvm] flutter build apk --debug`
 
-#### Android Studio
+##### Android Studio
 1. Open the root folder (`plur`) in Android Studio.
 2. Android Studio may automatically prompt you to install the plugins for Dart and Flutter since you’ve opened a Flutter project. If so, you can install them from the prompt. Otherwise, search for them and install them from Settings > Plugins.
 3. When prompted, restart Android Studio.
@@ -130,9 +134,9 @@ Remember that if you’re using FVM, you always want to preface your Flutter com
 7. Run an Android emulator using the Device Manager in the right side bar.
 8. Select the running emulator in the top bar, then click the Run button.
 
-### iOS and macOS
+#### iOS and macOS
 
-#### Xcode
+##### Xcode
 To run the iOS or macOS app from Xcode, start in Terminal at the root of this repository:
 
 1. `flutter pub get`
@@ -141,7 +145,7 @@ To run the iOS or macOS app from Xcode, start in Terminal at the root of this re
 4. In the top middle of Xcode, Select `Runner` and choose a simulator or device.
 5. Build and run!
 
-#### Android Studio
+##### Android Studio
 To run the iOS app from Android Studio:
 
 1. Open the root folder (`plur`) in Android Studio.
@@ -152,19 +156,19 @@ To run the iOS app from Android Studio:
 
 Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac (Designed for iPad) and run from there.
 
-### Windows
+#### Windows
 
 ```
 flutter build windows --release
 ```
 
-### Web
+#### Web
 
 ```
 flutter build web --release --web-renderer canvaskit
 ```
 
-### Linux
+#### Linux
 
 Linux depend on ```libsqlite``` and ```libmpv```, you can try to run this script to install before it run: 
 
@@ -174,14 +178,6 @@ sudo apt-get -y install libsqlite3-0 libsqlite3-dev libmpv-dev mpv
 
 ```
 flutter build linux --release
-```
-
-## Managing Translations
-
-This project uses the [intl_utils](https://pub.dev/packages/intl_utils) Dart package to generate Dart code from the translation files. Anytime you update the translation files (`.arb` files), make sure to run the following command to regenerate the translations and make them available in your code:
-
-```bash
-fvm flutter pub run intl_utils:generate
 ```
 
 ## FAQ
