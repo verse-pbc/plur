@@ -801,6 +801,7 @@ mixin EditorMixin {
     if (groupIdentifier != null) {
       var groupRelays = [groupIdentifier.host];
       print(groupRelays);
+      event.sources.addAll(groupRelays);
       return nostr!
           .sendEvent(event, targetRelays: groupRelays, tempRelays: groupRelays);
     } else if (publishAt != null) {
