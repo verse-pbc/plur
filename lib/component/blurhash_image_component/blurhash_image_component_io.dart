@@ -1,6 +1,6 @@
 import 'package:blurhash_ffi/blurhash_ffi.dart';
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 Widget? genBlurhashImageWidget(
     FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {

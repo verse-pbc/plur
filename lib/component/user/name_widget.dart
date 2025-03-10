@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
 import 'package:nostrmo/data/metadata.dart';
 

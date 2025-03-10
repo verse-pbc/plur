@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart';
 
