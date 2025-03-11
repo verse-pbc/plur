@@ -733,7 +733,7 @@ mixin EditorMixin {
             createdAt: getCreatedAt());
       }
     } else if (groupIdentifier != null) {
-      const eventKind = EventKind.GROUP_NOTE;
+      final eventKind = getGroupEventKind() ?? EventKind.GROUP_NOTE;
       // group event
       event = Event(
           nostr!.publicKey,
@@ -799,6 +799,7 @@ mixin EditorMixin {
     if (groupIdentifier != null) {
       var groupRelays = [groupIdentifier.host];
       log("send group event to $groupRelays");
+      event.sources.addAll(groupRelays);
       return nostr!
           .sendEvent(event, targetRelays: groupRelays, tempRelays: groupRelays);
     } else if (publishAt != null) {

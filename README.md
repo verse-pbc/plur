@@ -180,6 +180,21 @@ sudo apt-get -y install libsqlite3-0 libsqlite3-dev libmpv-dev mpv
 flutter build linux --release
 ```
 
+## Project Analysis
+
+This project uses `flutter test` and `flutter analyze` during CI, where regressions and code-quality concerns are caught as a part of the PR process. It is possible to use these tools locally, as well, alongside Dart's auto-remediation command (`dart fix`):
+- Run tests locally: `fvm flutter test`
+- Run linting locally: `fvm flutter analyze`
+- Dry run auto-remediation: `fvm dart fix -n`
+- Apply auto-remediations: `fvm dart fix --apply`
+
+### Linting Rule Adjustments
+
+In the scenario that specific linting rules need to be bypassed, check out the comments and links in the 
+[analysis_options.yaml](./analysis_options.yaml) file, where these configurations are applied. Linting rule 
+adjustments need to pass through the PR-review process alongside any other project changes.
+
+
 ## FAQ
 
 You can find more info from this [FAQ](https://github.com/haorendashu/nostrmo_faq)
