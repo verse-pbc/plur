@@ -99,7 +99,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       mainEventWidget = Selector<SingleEventProvider, Event?>(
         builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListWidget();
+            return const EventLoadListWidget();
           } else {
             event = event;
             titlePubkey = event.pubkey;

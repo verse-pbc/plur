@@ -430,7 +430,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.USER_ZAP_LIST: (context) => const UserZapListWidget(),
       RouterPath.USER_RELAYS: (context) => const UserRelayWidget(),
       RouterPath.DM_DETAIL: (context) => const DMDetailWidget(),
-      RouterPath.THREAD_DETAIL: (context) => ThreadDetailWidget(),
+      RouterPath.THREAD_DETAIL: (context) => const ThreadDetailWidget(),
       RouterPath.THREAD_TRACE: (context) => const ThreadTraceWidget(),
       RouterPath.EVENT_DETAIL: (context) => const EventDetailWidget(),
       RouterPath.TAG_DETAIL: (context) => const TagDetailWidget(),

@@ -34,7 +34,7 @@ class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
           top: Base.BASE_PADDING_HALF,
           bottom: Base.BASE_PADDING_HALF,
         ),
-        child: MusicPlaceholder(),
+        child: const MusicPlaceholder(),
       );
     }
 

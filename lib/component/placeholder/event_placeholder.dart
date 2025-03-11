@@ -21,7 +21,7 @@ class EventPlaceholder extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        EventTopPlaceholder(),
+        const EventTopPlaceholder(),
         Container(
           width: double.maxFinite,
           padding: const EdgeInsets.only(
