@@ -10,7 +10,7 @@ enum TimeUnit { seconds, minutes, hours, days, older }
 /// This widget takes a Unix timestamp (in seconds) and displays it in a human-readable
 /// format
 ///
-/// The display automatically updates every 60 seconds using Riverpod's timestampProvider.
+/// The display automatically updates every 60 seconds.
 /// Only this widget rebuilds on updates, not its parent.
 class RelativeDateWidget extends ConsumerWidget {
   /// Unix timestamp in seconds
