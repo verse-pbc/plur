@@ -878,9 +878,9 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 }
 
 class EventReplyingComponent extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  EventReplyingComponent({super.key, required this.pubkey});
+  const EventReplyingComponent({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
