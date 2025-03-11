@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 - Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
 - Removed the "Add test groups" button from the side menu. [#256](https://github.com/verse-pbc/issues/issues/256)
+- Fixed a bug where replies could be posted publicly instead of inside the group. [#251](https://github.com/verse-pbc/issues/issues/251)
 
 ### Internal Changes
 - Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
