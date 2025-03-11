@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -462,7 +463,7 @@ class ListProvider extends ChangeNotifier {
       BotToast.showText(
           text:
               "Sorry, something went wrong and you weren't added to the group.");
-      print("Failed to join group: $requests");
+      log("Failed to join group: $requests");
     }
   }
 

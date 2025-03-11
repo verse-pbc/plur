@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -22,10 +24,10 @@ class ZapGoalInputController {
   }
 
   bool checkInput(BuildContext context) {
-    print("goal input call");
+    log("goal input called");
     final localization = S.of(context);
     if (StringUtil.isBlank(goalAmountController.text)) {
-      print("checked is blank!");
+      log("checked input is blank!");
       BotToast.showText(text: localization.Input_can_not_be_null);
       return false;
     }

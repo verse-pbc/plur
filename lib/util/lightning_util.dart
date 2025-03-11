@@ -62,7 +62,6 @@ class LightningUtil {
           );
         },
         onClose: () {
-          // print("sendZap $send $invoiceCode");
           if (send) {
             nwcProvider.sendZap(context, invoiceCode);
           } else {
