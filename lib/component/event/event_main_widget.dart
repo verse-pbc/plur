@@ -175,7 +175,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     List<Widget> list = [];
     if (showWarning || !eventRelation.warning) {
       if (widget.event.kind == EventKind.LONG_FORM) {
-        var longFormMargin = const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
+        var longFormMargin =
+            const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
 
         List<Widget> subList = [];
         var longFormInfo = LongFormInfo.fromEvent(widget.event);
@@ -307,7 +308,6 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             );
           }
         }
-
       } else if (widget.event.kind == EventKind.STORAGE_SHARED_FILE) {
         list.add(buildStorageSharedFileWidget());
         if (!widget.inQuote) {
@@ -337,7 +337,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           for (var index = 0; index < length; index++) {
             var p = eventRelation.tagPList[index];
             var isLast = index < length - 1 ? false : true;
-            replyingList.add(EventReplyingcomponent(pubkey: p));
+            replyingList.add(EventReplyingComponent(pubkey: p));
             if (!isLast) {
               replyingList.add(Text(
                 " & ",
@@ -749,8 +749,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     final localization = S.of(context);
 
     return Container(
-      margin:
-          const EdgeInsets.only(bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(
+          bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
       width: double.maxFinite,
       child: Column(
         children: [
@@ -877,18 +877,18 @@ class _EventMainWidgetState extends State<EventMainWidget> {
   }
 }
 
-class EventReplyingcomponent extends StatefulWidget {
+class EventReplyingComponent extends StatefulWidget {
   String pubkey;
 
-  EventReplyingcomponent({super.key, required this.pubkey});
+  EventReplyingComponent({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
-    return _EventReplyingcomponent();
+    return _EventReplyingComponent();
   }
 }
 
-class _EventReplyingcomponent extends State<EventReplyingcomponent> {
+class _EventReplyingComponent extends State<EventReplyingComponent> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

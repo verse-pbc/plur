@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 class EventReplyCallback extends InheritedWidget {
-  Function(Event) onReplyCallback;
+  final Function(Event) onReplyCallback;
 
-  EventReplyCallback({
+  const EventReplyCallback({
     super.key,
     required super.child,
     required this.onReplyCallback,
