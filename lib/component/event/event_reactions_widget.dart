@@ -31,15 +31,15 @@ import '../zap/zap_bottom_sheet_widget.dart';
 import 'event_top_zaps_widget.dart';
 
 class EventReactionsWidget extends StatefulWidget {
-  ScreenshotController screenshotController;
+  final ScreenshotController screenshotController;
 
-  Event event;
+  final Event event;
 
-  EventRelation eventRelation;
+  final EventRelation eventRelation;
 
-  bool showDetailBtn;
+  final bool showDetailBtn;
 
-  EventReactionsWidget({
+  const EventReactionsWidget({
     super.key,
     required this.screenshotController,
     required this.event,
@@ -597,7 +597,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         nostr!.broadcase(widget.event);
       }
     } else if (value == "quote") {
-      var event = await EditorWidget.open(context, initEmbeds: [
+      await EditorWidget.open(context, initEmbeds: [
         quill.CustomBlockEmbed(CustEmbedTypes.mention_event, widget.event.id)
       ]);
     }
@@ -706,23 +706,23 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 }
 
 class EventReactionNumWidget extends StatelessWidget {
-  String? iconText;
+  final String? iconText;
 
-  IconData iconData;
+  final IconData iconData;
 
-  int num;
+  final int num;
 
-  GestureTapCallback? onTap;
+  final GestureTapCallback? onTap;
 
-  GestureLongPressCallback? onLongPress;
+  final GestureLongPressCallback? onLongPress;
 
-  Color color;
+  final Color color;
 
-  double fontSize;
+  final double fontSize;
 
-  Widget? showMoreWidget;
+  final Widget? showMoreWidget;
 
-  EventReactionNumWidget({
+  const EventReactionNumWidget({
     super.key,
     this.iconText,
     required this.iconData,
