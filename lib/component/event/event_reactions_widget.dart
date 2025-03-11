@@ -164,7 +164,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 ),
                 PopupMenuItem(
                   value: "copyPubkey",
-                  child: Text(localization.Copy_Note_Pubkey, style: popFontStyle),
+                  child:
+                      Text(localization.Copy_Note_Pubkey, style: popFontStyle),
                 ),
                 PopupMenuItem(
                   value: "copyId",
@@ -195,7 +196,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 } else {
                   list.add(PopupMenuItem(
                     value: "addToPrivateBookmark",
-                    child: Text(localization.Add_to_private_bookmark, style: popFontStyle),
+                    child: Text(localization.Add_to_private_bookmark,
+                        style: popFontStyle),
                   ));
                 }
                 if (listProvider.checkPublicBookmark(bookmarkItem)) {
@@ -207,7 +209,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 } else {
                   list.add(PopupMenuItem(
                     value: "addToPublicBookmark",
-                    child: Text(localization.Add_to_public_bookmark, style: popFontStyle),
+                    child: Text(localization.Add_to_public_bookmark,
+                        style: popFontStyle),
                   ));
                 }
                 list.add(const PopupMenuDivider());
@@ -320,7 +323,6 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                   },
                   onSelected: onRepostTap,
                   child: EventReactionNumWidget(
-                    key: super.key,
                     num: repostNum,
                     iconData: Icons.repeat_rounded,
                     color: hintColor,
