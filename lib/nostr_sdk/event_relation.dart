@@ -5,6 +5,7 @@ import 'nip19/nip19.dart';
 import 'nip19/nip19_tlv.dart';
 import 'nip94/file_metadata.dart';
 import 'utils/spider_util.dart';
+import 'nip29/group_identifier.dart';
 
 /// This class is designed for get the relation from event, but it seam to used for get tagInfo from event before event_main display.
 class EventRelation {
@@ -42,6 +43,9 @@ class EventRelation {
 
   Map<String, FileMetadata> fileMetadatas = {};
 
+  /// The NIP-29 group id, if one is found in the tags.
+  GroupIdentifier? groupIdentifier;
+
   String? get replyOrRootId {
     return replyId ?? rootId;
   }
@@ -50,6 +54,7 @@ class EventRelation {
     return replyId != null ? replyRelayAddr : rootRelayAddr;
   }
 
+  /// Initializes the various fields on EventRelation from the given Event object.
   EventRelation.fromEvent(Event event) {
     id = event.id;
     pubkey = event.pubkey;
@@ -68,54 +73,71 @@ class EventRelation {
       if (tagLength > 1 && tag[1] is String) {
         var tagKey = tag[0];
         var value = tag[1] as String;
-        if (tagKey == "p") {
-          // check if is Text Note References
-          var nip19Str = "nostr:${Nip19.encodePubKey(value)}";
-          if (event.content.contains(nip19Str)) {
-            continue;
-          }
-          nip19Str = NIP19Tlv.encodeNprofile(Nprofile(pubkey: value));
-          if (event.content.contains(nip19Str)) {
-            continue;
-          }
-
-          pMap[value] = 1;
-        } else if (tagKey == "e") {
-          if (tagLength > 3) {
-            var marker = tag[3];
-            if (marker == "root") {
-              rootId = value;
-              rootRelayAddr = tag[2];
-            } else if (marker == "reply") {
-              replyId = value;
-              replyRelayAddr = tag[2];
-            } else if (marker == "mention") {
+        switch (tagKey) {
+          case "p":
+            // check if is Text Note References
+            var nip19Str = "nostr:${Nip19.encodePubKey(value)}";
+            if (event.content.contains(nip19Str)) {
               continue;
             }
-          }
-          tagEList.add(value);
-        } else if (tagKey == "subject") {
-          subject = value;
-        } else if (tagKey == "content-warning") {
-          warning = true;
-        } else if (tagKey == "a") {
-          aId = AId.fromString(value);
-        } else if (tagKey == "zapraiser") {
-          zapraiser = value;
-        } else if (tagKey == "d") {
-          dTag = value;
-        } else if (tagKey == "type") {
-          type = value;
-        } else if (tagKey == "zap" && tagLength > 3) {
-          var zapInfo = EventZapInfo.fromTags(tag);
-          zapInfos.add(zapInfo);
-        } else if (tagKey == "description" && event.kind == EventKind.ZAP) {
-          innerZapContent = SpiderUtil.subUntil(value, '"content":"', '",');
-        } else if (tagKey == "imeta") {
-          var fileMetadata = FileMetadata.fromNIP92Tag(tag);
-          if (fileMetadata != null) {
-            fileMetadatas[fileMetadata.url] = fileMetadata;
-          }
+            nip19Str = NIP19Tlv.encodeNprofile(Nprofile(pubkey: value));
+            if (event.content.contains(nip19Str)) {
+              continue;
+            }
+            pMap[value] = 1;
+
+          case "e":
+            if (tagLength > 3) {
+              var marker = tag[3];
+              if (marker == "root") {
+                rootId = value;
+                rootRelayAddr = tag[2];
+              } else if (marker == "reply") {
+                replyId = value;
+                replyRelayAddr = tag[2];
+              } else if (marker == "mention") {
+                continue;
+              }
+            }
+            tagEList.add(value);
+
+          case "subject":
+            subject = value;
+
+          case "content-warning":
+            warning = true;
+
+          case "a":
+            aId = AId.fromString(value);
+
+          case "zapraiser":
+            zapraiser = value;
+
+          case "d":
+            dTag = value;
+
+          case "type":
+            type = value;
+
+          case "zap":
+            if (tagLength > 3) {
+              var zapInfo = EventZapInfo.fromTags(tag);
+              zapInfos.add(zapInfo);
+            }
+
+          case "description" when event.kind == EventKind.ZAP:
+            innerZapContent = SpiderUtil.subUntil(value, '"content":"', '",');
+
+          case "imeta":
+            var fileMetadata = FileMetadata.fromNIP92Tag(tag);
+            if (fileMetadata != null) {
+              fileMetadatas[fileMetadata.url] = fileMetadata;
+            }
+
+          case "h" when event.sources.isNotEmpty:
+            var groupId = value;
+            var host = event.sources.first;
+            groupIdentifier = GroupIdentifier(host, groupId);
         }
       }
     }
