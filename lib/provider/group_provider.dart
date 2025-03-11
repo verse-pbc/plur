@@ -185,8 +185,9 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     }
   }
 
-  bool handleEvent(
-      Map map, GroupIdentifier groupIdentifier, GroupObject? groupObject) {
+  /// Updates the given Map with the new data contained in groupIdentifier and 
+  /// groupObject with some validation to filter out bad data.
+  bool handleEvent(Map map, GroupIdentifier groupIdentifier, GroupObject? groupObject) {
     var key = groupIdentifier.toString();
     if (groupObject == null) {
       return false;

@@ -1,7 +1,10 @@
-name: TestFlight Release Deployment
+name: TestFlight Staging Deployment
 permissions:
   contents: write  # This is needed for tag pushing
 on:
+  push:
+    branches:
+      - main
   # Enable manual run
   workflow_dispatch:
 
@@ -27,15 +30,8 @@ jobs:
       - name: Build Flutter .app
         env:
           SENTRY_DSN: ${{secrets.SENTRY_DSN}}
-        run: flutter build ios --release --no-codesign --dart-define=SENTRY_DSN="$SENTRY_DSN"
+        run: flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=SENTRY_DSN="$SENTRY_DSN" --dart-define=ENVIRONMENT="staging"
       - uses: nomasystems/action-xcode-select@v0.1
-        # This step will select the version of Xcode specified in .xcode-version.
-
-      # This step is a temporary workaround for some Github runner issues. 
-      # You can try disabling it in the future and if the build succeeds, you can remove it.
-      - name: Install iOS 18.2 (temporary)
-        run: |
-          xcodebuild -downloadPlatform iOS -buildVersion 18.2
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -45,7 +41,7 @@ jobs:
         working-directory: ./ios
         run: |
           bundle install
-          bundle exec fastlane release
+          bundle exec fastlane deploy_staging
         env:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}

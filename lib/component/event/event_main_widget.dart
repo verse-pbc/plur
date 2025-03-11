@@ -345,7 +345,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           for (var index = 0; index < length; index++) {
             var p = eventRelation.tagPList[index];
             var isLast = index < length - 1 ? false : true;
-            replyingList.add(EventReplyingcomponent(pubkey: p));
+            replyingList.add(EventReplyingComponent(pubkey: p));
             if (!isLast) {
               replyingList.add(Text(
                 " & ",
@@ -884,18 +884,18 @@ class _EventMainWidgetState extends State<EventMainWidget> {
   }
 }
 
-class EventReplyingcomponent extends StatefulWidget {
+class EventReplyingComponent extends StatefulWidget {
   String pubkey;
 
-  EventReplyingcomponent({required this.pubkey});
+  EventReplyingComponent({required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
-    return _EventReplyingcomponent();
+    return _EventReplyingComponent();
   }
 }
 
-class _EventReplyingcomponent extends State<EventReplyingcomponent> {
+class _EventReplyingComponent extends State<EventReplyingComponent> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
