@@ -26,7 +26,7 @@ class EventBitcoinIconWidget extends StatelessWidget {
     return Stack(
       children: [
         child,
-        Positioned(
+        const Positioned(
           top: -35,
           right: -10,
           child: EventBitcoinIconWidget(),

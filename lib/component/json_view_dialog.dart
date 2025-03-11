@@ -129,7 +129,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
     );
 
     if (PlatformUtil.isPC() || TableModeUtil.isTableMode()) {
-      main = Container(
+      main = SizedBox(
         width: mediaDataCache.size.width / 2,
         child: main,
       );

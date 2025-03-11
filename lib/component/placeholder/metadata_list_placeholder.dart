@@ -19,7 +19,7 @@ class MetadataListPlaceholder extends StatelessWidget {
         },
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return MetadataPlaceholder();
+            return const MetadataPlaceholder();
           },
           itemCount: 10,
         ),

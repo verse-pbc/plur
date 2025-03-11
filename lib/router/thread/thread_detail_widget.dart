@@ -199,7 +199,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
         rootEventWidget = Selector<SingleEventProvider, Event?>(
             builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListWidget();
+            return const EventLoadListWidget();
           }
 
           titlePubkey = event.pubkey;
@@ -241,7 +241,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
         rootEventWidget = Selector<ReplaceableEventProvider, Event?>(
             builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListWidget();
+            return const EventLoadListWidget();
           }
 
           if (rootId != null) {

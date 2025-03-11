@@ -17,7 +17,7 @@ class EventListPlaceholder extends StatelessWidget {
       },
       child: ListView.builder(
         itemBuilder: (BuildContext context, int index) {
-          return EventPlaceholder();
+          return const EventPlaceholder();
         },
         itemCount: 10,
       ),

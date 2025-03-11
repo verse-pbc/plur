@@ -445,7 +445,7 @@ mixin EditorMixin {
       context,
       S.of(context).Input_Sats_num,
       S.of(context).Please_input_lnbc_text,
-      GenLnbcWidget(),
+      const GenLnbcWidget(),
       hintText: "lnbc...",
     );
     if (StringUtil.isNotBlank(value)) {
@@ -998,9 +998,9 @@ mixin EditorMixin {
             onTap: () {
               WebViewWidget.open(context, "https://emojis-iota.vercel.app/");
             },
-            child: SizedBox(
+            child: const SizedBox(
               width: 40,
-              child: const Icon(Icons.search),
+              child: Icon(Icons.search),
             ),
           );
 

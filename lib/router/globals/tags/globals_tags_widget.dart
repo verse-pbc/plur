@@ -27,7 +27,7 @@ class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
     final themeData = Theme.of(context);
 
     if (topics.isEmpty) {
-      return TapListPlaceholder();
+      return const TapListPlaceholder();
     } else {
       List<Widget> list = [];
       for (var topic in topics) {
