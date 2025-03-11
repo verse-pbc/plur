@@ -132,7 +132,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
       main = SizedBox(
         width: mediaDataCache.size.width / 2,
         child: main,
-      );
+      ) as Container;
     }
 
     return Scaffold(
