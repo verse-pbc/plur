@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -653,7 +654,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         Share.shareXFiles([XFile(tempFile)]);
       }
     }).catchError((onError) {
-      print(onError);
+      log("onShareTap error $onError");
     });
   }
 

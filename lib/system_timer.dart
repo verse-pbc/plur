@@ -17,7 +17,7 @@ class SystemTimer {
         runTask();
         counter++;
       } catch (e) {
-        print(e);
+        log('$e');
       }
     });
   }
@@ -43,7 +43,7 @@ class SystemTimer {
       try {
         relayProvider.cleanTempRelays();
       } catch (e) {
-        print(e);
+        log('$e');
       }
     }
   }
