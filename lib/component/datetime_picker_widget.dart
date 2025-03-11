@@ -124,7 +124,6 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
               ),
             ),
             onDaySelected: (DateTime selectedDay, DateTime focusedDay) {
-              print(selectedDay);
               setState(() {
                 _selectedDay = selectedDay;
               });
