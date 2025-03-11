@@ -64,7 +64,7 @@ class EventRelation {
     for (var i = 0; i < length; i++) {
       var tag = event.tags[i];
 
-      var mentionStr = "#[" + i.toString() + "]";
+      var mentionStr = "#[$i]";
       if (event.content.contains(mentionStr)) {
         continue;
       }
@@ -126,8 +126,7 @@ class EventRelation {
             }
 
           case "description" when event.kind == EventKind.ZAP:
-            innerZapContent =
-                SpiderUtil.subUntil(value, '\"content\":\"', '\",');
+            innerZapContent = SpiderUtil.subUntil(value, '"content":"', '",');
 
           case "imeta":
             var fileMetadata = FileMetadata.fromNIP92Tag(tag);
@@ -186,7 +185,7 @@ class EventRelation {
         var k = tag[0];
         var v = tag[1];
         if (k == "description") {
-          innerContent = SpiderUtil.subUntil(v, '\"content\":\"', '\",');
+          innerContent = SpiderUtil.subUntil(v, '"content":"', '",');
           break;
         }
       }
