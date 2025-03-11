@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:clock/clock.dart';
 import 'package:bip340/bip340.dart' as schnorr;
 import 'package:hex/hex.dart';
+import 'event_relation.dart';
 
 import 'client_utils/keys.dart';
 
@@ -32,6 +33,15 @@ class Event {
     }
     id = _getId(pubkey, this.createdAt, kind, tags, content);
   }
+
+  /// Creates a new Nostr event with named parameters.
+  Event.create({
+    required String pubkey,
+    required int kind,
+    required List<dynamic> tags,
+    required String content,
+    int? createdAt,
+  }) : this(pubkey, kind, tags, content, createdAt: createdAt);
 
   Event._(this.id, this.pubkey, this.createdAt, this.kind, this.tags,
       this.content, this.sig);
@@ -74,6 +84,10 @@ class Event {
 
   /// whether this event is from cache relay.
   bool cacheEvent = false;
+
+  /// The parsed tag data for this event. Will be populated when the relations property is called
+  /// and cached here.
+  EventRelation? _eventRelation;
 
   /// Returns the Event object as a JSON object
   Map<String, dynamic> toJson() {
@@ -163,5 +177,11 @@ class Event {
       }
     }
     return zeros;
+  }
+
+  /// Returns the parsed tag data as an EventRelation object. Calculation is cached.
+  EventRelation relations() {
+    _eventRelation ??= EventRelation.fromEvent(this);
+    return _eventRelation!;
   }
 }

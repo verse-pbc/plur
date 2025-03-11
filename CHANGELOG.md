@@ -13,11 +13,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 - Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
 - Removed the "Add test groups" button from the side menu. [#256](https://github.com/verse-pbc/issues/issues/256)
+- Fixed a bug where replies could be posted publicly instead of inside the group. [#251](https://github.com/verse-pbc/issues/issues/251)
 
 ### Internal Changes
 - Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
+- Added a CONTRIBUTING.md file. [#78](https://github.com/verse-pbc/plur/pull/78)
+- Add a task.json that helps VSCode/Cursor execute the unit tests. [#81](https://github.com/verse-pbc/plur/pull/81)
 - Moved nostr_sdk from an external submodule to an internal library. [#229](https://github.com/verse-pbc/issues/issues/229)
 - Fixed TestFlight deployments by manually installing iOS 18.2. [#257](https://github.com/verse-pbc/issues/issues/257)
+- Enabled separate builds for production, staging, and dev. [#220](https://github.com/verse-pbc/issues/issues/220)
 
 ## [0.0.2]
 
@@ -48,6 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
 - Fixed an issue where a capitalized deep links would not work. [#252](https://github.com/verse-pbc/issues/issues/252)
 - Fixed an issue when photos could not be published to a group. [#231](https://github.com/verse-pbc/issues/issues/231)
+- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.
