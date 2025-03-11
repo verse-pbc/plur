@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Moved nostr_sdk from an external submodule to an internal library. [#229](https://github.com/verse-pbc/issues/issues/229)
 - Fixed TestFlight deployments by manually installing iOS 18.2. [#257](https://github.com/verse-pbc/issues/issues/257)
 - Enabled separate builds for production, staging, and dev. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Replaced print statemanets with the Flutter logger. [#259](https://github.com/verse-pbc/issues/issues/259)
 
 ## [0.0.2]
 
