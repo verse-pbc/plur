@@ -29,7 +29,7 @@ class Base {
 
   static String keyIV = "1681713832000000";
 
-  static double BASE_FONT_SIZE = 15;
+  static double baseFontSize = 15;
 
   static double BASE_FONT_SIZE_PC = 15;
 
