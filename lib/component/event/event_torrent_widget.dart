@@ -52,7 +52,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
     List<Widget> list = [];
     if (StringUtil.isNotBlank(widget.torrentInfo.title)) {
       list.add(Container(
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         child: Text(
           widget.torrentInfo.title!,
           style: TextStyle(
@@ -72,9 +72,9 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
       tagWidgets.add(TagWidget(tag: tag));
     }
     list.add(Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Wrap(
-        spacing: Base.BASE_PADDING_HALF,
+        spacing: Base.basePaddingHalf,
         children: tagWidgets,
       ),
     ));
@@ -107,7 +107,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
     }
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: MainBtnWidget(
         text: localization.Download,
         onTap: () {
@@ -130,8 +130,8 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
     ));
 
     return Container(
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
-      margin: const EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
+      margin: const EdgeInsets.all(Base.basePadding),
       decoration: boxDecoration,
       width: double.infinity,
       child: Column(

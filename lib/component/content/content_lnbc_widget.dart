@@ -27,8 +27,8 @@ class ContentLnbcWidget extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.all(Base.BASE_PADDING),
-      padding: const EdgeInsets.all(Base.BASE_PADDING * 2),
+      margin: const EdgeInsets.all(Base.basePadding),
+      padding: const EdgeInsets.all(Base.basePadding * 2),
       decoration: BoxDecoration(
         color: cardColor,
         boxShadow: [
@@ -44,7 +44,7 @@ class ContentLnbcWidget extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.topLeft,
-            padding: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+            padding: const EdgeInsets.only(bottom: Base.basePadding),
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
@@ -66,13 +66,13 @@ class ContentLnbcWidget extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(
-              top: Base.BASE_PADDING,
-              bottom: Base.BASE_PADDING,
+              top: Base.basePadding,
+              bottom: Base.basePadding,
             ),
             child: Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                  margin: const EdgeInsets.only(right: Base.basePaddingHalf),
                   child: Text(
                     numStr,
                     style: TextStyle(
