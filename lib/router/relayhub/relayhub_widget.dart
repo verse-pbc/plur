@@ -92,7 +92,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    var str = await DioUtil.getStr(Base.INDEXS_RELAYS);
+    var str = await DioUtil.getStr(Base.indexsRelays);
     if (StringUtil.isNotBlank(str)) {
       addrs.clear();
       var itfs = jsonDecode(str!);
