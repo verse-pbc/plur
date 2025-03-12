@@ -125,7 +125,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
   List<String> pubkeys = [];
 
   Future<void> loadData() async {
-    var str = await DioUtil.getStr(Base.INDEXS_CONTACTS);
+    var str = await DioUtil.getStr(Base.indexsContacts);
     if (StringUtil.isNotBlank(str)) {
       pubkeys.clear();
       var itfs = jsonDecode(str!);
