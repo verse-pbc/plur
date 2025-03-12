@@ -99,7 +99,7 @@ class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
 
     List<Widget> stackList = [ri];
     stackList.add(Positioned(
-      top: Base.BASE_PADDING,
+      top: Base.basePadding,
       child: Selector<MentionMeNewProvider, int>(
         builder: (context, newEventNum, child) {
           if (newEventNum <= 0) {
