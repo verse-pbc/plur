@@ -54,9 +54,11 @@ class _SignupWidgetState extends State<SignupWidget> {
     
     // Save some colors for later
     final themeData = Theme.of(context);
-    final dimmedColor = themeData.customColors.dimmedColor;
-    final buttonTextColor = themeData.customColors.buttonTextColor;
-    final accentColor = themeData.customColors.accentColor;
+    final customColors = themeData.customColors;
+    final dimmedColor = customColors.dimmedColor;
+    final buttonTextColor = customColors.buttonTextColor;
+    final accentColor = customColors.accentColor;
+    final primaryForegroundColor = customColors.primaryForegroundColor;
 
     final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
@@ -89,7 +91,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           Text(
             localization.This_is_the_key_to_your_account,
             style: TextStyle(
-              color: ColorList.primaryForeground,
+              color: primaryForegroundColor,
               fontSize: 31.26,
               fontWeight: FontWeight.w700,
               letterSpacing: 1.8,
@@ -176,7 +178,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: ColorList.primaryForeground,
+              color: primaryForegroundColor,
               letterSpacing: 0.7,
               height: kTextHeightNone,
             ),
