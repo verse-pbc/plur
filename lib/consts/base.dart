@@ -19,7 +19,7 @@ class Base {
 
   static String indexsRelays = "https://nostrmo.com/indexs/relays.json";
 
-  static String WEB_TOOLS = "https://nostrmo.com/indexs/webtools.json";
+  static String webTools = "https://nostrmo.com/indexs/webtools.json";
 
   static String IMAGE_PROXY_SERVICE = "https://imagebridge.nostrmo.com/";
 
