@@ -182,8 +182,8 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       ));
     } else {
       // Add the app version.
-      final version = "${localization.Version}: ${_packageInfo.version}";
-      Widget versionWidget = Text(version);
+      final version = "${_packageInfo.version} (${_packageInfo.buildNumber})";
+      Widget versionWidget = Text("${localization.Version}: $version");
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
