@@ -21,7 +21,7 @@ class Base {
 
   static String webTools = "https://nostrmo.com/indexs/webtools.json";
 
-  static String IMAGE_PROXY_SERVICE = "https://imagebridge.nostrmo.com/";
+  static String imageProxyService = "https://imagebridge.nostrmo.com/";
 
   static String IMAGE_PROXY_SERVICE_KEY = "please_do_not_abuse_thanks";
 
