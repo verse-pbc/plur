@@ -94,7 +94,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
   }
 
   Future<void> refresh() async {
-    var str = await DioUtil.getStr(Base.INDEXS_CONTACTS);
+    var str = await DioUtil.getStr(Base.indexsContacts);
     if (StringUtil.isNotBlank(str)) {
       pubkeys.clear();
       var itfs = jsonDecode(str!);
