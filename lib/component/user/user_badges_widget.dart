@@ -74,8 +74,8 @@ class _UserBadgesWidgetState extends CustState<UserBadgesWidget>
 
     return Container(
       padding: const EdgeInsets.only(
-        right: Base.BASE_PADDING,
-        left: Base.BASE_PADDING,
+        right: Base.basePadding,
+        left: Base.basePadding,
       ),
       width: double.maxFinite,
       child: SingleChildScrollView(

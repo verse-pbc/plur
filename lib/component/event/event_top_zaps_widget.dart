@@ -66,7 +66,7 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
     list.add(Container(
       margin: const EdgeInsets.only(
         left: Base.BASE_PADDING_HALF,
-        right: Base.BASE_PADDING,
+        right: Base.basePadding,
       ),
       child: Text(
         NumberFormatUtil.format(zapInfos[0].zapNum),

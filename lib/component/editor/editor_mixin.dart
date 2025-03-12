@@ -257,7 +257,7 @@ mixin EditorMixin {
 
     inputBtnList.add(
       Container(
-        width: Base.BASE_PADDING,
+        width: Base.basePadding,
       ),
     );
 
@@ -1115,8 +1115,8 @@ mixin EditorMixin {
     return Container(
       // color: Colors.red,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: AutoSizeTextField(
         maxLength: 80,
@@ -1179,8 +1179,8 @@ mixin EditorMixin {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       alignment: Alignment.centerLeft,
       child: main,
@@ -1198,8 +1198,8 @@ mixin EditorMixin {
     return Container(
       // margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: TextField(
         maxLines: 5,

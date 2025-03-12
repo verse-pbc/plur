@@ -75,8 +75,8 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
     return Container(
       // color: Colors.red,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

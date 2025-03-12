@@ -74,7 +74,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     if (widget.smallMode) {
       list.add(Container(
         margin: EdgeInsets.only(
-          top: Base.BASE_PADDING + paddingTop,
+          top: Base.basePadding + paddingTop,
           bottom: Base.BASE_PADDING_HALF,
         ),
         child: GestureDetector(
@@ -101,7 +101,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         ),
         Positioned(
           top: paddingTop + Base.BASE_PADDING_HALF,
-          right: Base.BASE_PADDING,
+          right: Base.basePadding,
           child: _readOnly
               ? Container()
               : Container(
@@ -195,7 +195,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
           onTap: _toggleSmallMode,
           behavior: HitTestBehavior.translucent,
           child: Container(
-            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             child: const Icon(Icons.first_page_rounded),
           ),
         ));
@@ -209,9 +209,9 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       list.add(Container(
         margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING * 2,
-          bottom: Base.BASE_PADDING,
-          top: Base.BASE_PADDING,
+          left: Base.basePadding * 2,
+          bottom: Base.basePadding,
+          top: Base.basePadding,
         ),
         decoration: BoxDecoration(
           border: Border(top: BorderSide(width: 1, color: hintColor)),
@@ -333,8 +333,8 @@ class IndexDrawerItemWidget extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING * 2,
-                right: Base.BASE_PADDING,
+                left: Base.basePadding * 2,
+                right: Base.basePadding,
               ),
               child: iconWidget,
             ),

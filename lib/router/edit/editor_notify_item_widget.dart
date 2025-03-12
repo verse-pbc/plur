@@ -65,8 +65,8 @@ class _EditorNotifyItemWidgetState extends State<EditorNotifyItemWidget> {
         borderRadius: BorderRadius.circular(15),
       ),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
         top: Base.BASE_PADDING_HALF / 2,
         bottom: Base.BASE_PADDING_HALF / 2,
       ),

@@ -33,8 +33,8 @@ class ColorSelectorWidget extends StatelessWidget {
         width: double.infinity,
         height: 100,
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
           top: Base.BASE_PADDING_HALF,
           bottom: Base.BASE_PADDING_HALF,
         ),
@@ -59,8 +59,8 @@ class ColorSelectorWidget extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -90,7 +90,7 @@ class ColorSelectorItemWidget extends StatelessWidget {
         RouterUtil.back(context, color);
       },
       child: Container(
-        margin: const EdgeInsets.all(Base.BASE_PADDING),
+        margin: const EdgeInsets.all(Base.basePadding),
         alignment: Alignment.center,
         height: HEIGHT,
         child: Container(

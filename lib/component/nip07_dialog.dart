@@ -138,7 +138,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
           ),
         )),
         Container(
-          width: Base.BASE_PADDING,
+          width: Base.basePadding,
         ),
         Expanded(
             child: InkWell(
@@ -189,8 +189,8 @@ class _NIP07Dialog extends State<NIP07Dialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

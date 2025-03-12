@@ -134,7 +134,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
-              (Base.BASE_PADDING +
+              (Base.basePadding +
                   ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
           ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
       if (needWidth > mediaDataCache.size.width) {

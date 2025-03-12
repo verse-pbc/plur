@@ -48,8 +48,8 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
     Widget userNameWidget = Container(
       width: 120,
       margin: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
         bottom: Base.BASE_PADDING_HALF,
       ),
       child: PlaceholderLines(
@@ -76,8 +76,8 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
 
     topList.add(Container(
       margin: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       width: maxWidth,
       child: PlaceholderLines(
@@ -108,7 +108,7 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
           children: topList,
         ),
         Positioned(
-          left: Base.BASE_PADDING,
+          left: Base.basePadding,
           top: bannerHeight - HALF_IMAGE_WIDTH,
           child: Container(
             height: IMAGE_WIDTH + IMAGE_BORDER * 2,

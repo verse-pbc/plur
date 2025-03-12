@@ -42,8 +42,8 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
         Widget userNameWidget = Container(
           width: widget.configMaxWidth ? 100 : null,
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING,
-            right: Base.BASE_PADDING,
+            left: Base.basePadding,
+            right: Base.basePadding,
             bottom: Base.BASE_PADDING_HALF,
           ),
           alignment: Alignment.center,
