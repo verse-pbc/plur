@@ -87,6 +87,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   Widget build(BuildContext context) {
     localization = S.of(context);
     final themeData = Theme.of(context);
+    final dimmedColor = themeData.customColors.dimmedColor;
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -157,7 +158,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Define a re-usable text field border to be used in enabled and focused
     // states.
     OutlineInputBorder textFieldBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: ColorList.dimmed),
+      borderSide: BorderSide(color: dimmedColor),
     );
 
     // Adds a `TextField` to the `mainList`, allowing the user to input a
@@ -168,10 +169,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         focusedBorder: textFieldBorder,
         enabledBorder: textFieldBorder,
         hintText: localization.Your_private_key,
-        hintStyle: TextStyle(
-          color: ColorList.dimmed,
-          fontSize: 16,
-        ),
+        hintStyle: TextStyle(color: dimmedColor, fontSize: 16),
         contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
         // Adds an eye icon as a suffix to toggle password visibility
         suffixIcon: GestureDetector(
@@ -182,12 +180,12 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           },
           child: Icon(
             _isTextObscured ? Icons.visibility : Icons.visibility_off,
-            color: ColorList.dimmed,
+            color: dimmedColor,
           ),
         ),
       ),
       style: TextStyle(
-        color: ColorList.dimmed,
+        color: dimmedColor,
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
@@ -206,8 +204,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         onPressed: _isLoginButtonEnabled ? _doLogin : null,
         style: FilledButton.styleFrom(
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: ColorList.dimmed,
-          disabledBackgroundColor: ColorList.dimmed.withOpacity(0.4),
+          backgroundColor: dimmedColor,
+          disabledBackgroundColor: dimmedColor.withOpacity(0.4),
           foregroundColor: ColorList.buttonText,
           disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
         ),

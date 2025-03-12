@@ -10,7 +10,6 @@ class ColorList {
   static Color primaryForeground = const Color(0xFFFFFFFF);
   static Color loginBG = const Color(0xFF160F24);
   static Color buttonText = const Color(0xFFFFFFFF);
-  static Color dimmed = const Color(0xFF8D7EAB);
 
   static List<Color> ALL_COLOR = [
     Colors.purple[700]!,
