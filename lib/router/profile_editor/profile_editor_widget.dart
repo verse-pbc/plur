@@ -83,12 +83,12 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       backgroundColor: appbarBackgroundColor,
       // title: appbarTitle,
       action: Container(
-        margin: const EdgeInsets.only(right: Base.basePadding),
+        margin: const EdgeInsets.only(right: Base.BASE_PADDING),
         child: submitBtn,
       ),
     );
 
-    var margin = const EdgeInsets.only(bottom: Base.basePadding);
+    var margin = const EdgeInsets.only(bottom: Base.BASE_PADDING);
     var padding = const EdgeInsets.only(left: 20, right: 20);
 
     List<Widget> list = [];
@@ -111,8 +111,8 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         ),
         Container(
           margin: const EdgeInsets.only(
-            left: Base.basePaddingHalf,
-            right: Base.basePaddingHalf,
+            left: Base.BASE_PADDING_HALF,
+            right: Base.BASE_PADDING_HALF,
           ),
           child: const Text(" @ "),
         ),
@@ -205,7 +205,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
             child: Container(
               color: cardColor,
               padding: EdgeInsets.only(
-                  top: mediaDataCache.padding.top + Base.basePadding),
+                  top: mediaDataCache.padding.top + Base.BASE_PADDING),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,

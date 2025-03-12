@@ -47,8 +47,8 @@ class ContentRelayWidget extends StatelessWidget {
 
       Widget main = Container(
         padding: const EdgeInsets.only(
-          left: Base.basePaddingHalf,
-          right: Base.basePaddingHalf,
+          left: Base.BASE_PADDING_HALF,
+          right: Base.BASE_PADDING_HALF,
           top: 2,
           bottom: 2,
         ),

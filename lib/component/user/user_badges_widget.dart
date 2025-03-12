@@ -55,7 +55,7 @@ class _UserBadgesWidgetState extends CustState<UserBadgesWidget>
                   BadgeDetailDialog.show(context, badgeDefinition);
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+                  margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
                   child: BadgeWidget(
                     badgeDefinition: badgeDefinition,
                   ),
@@ -74,8 +74,8 @@ class _UserBadgesWidgetState extends CustState<UserBadgesWidget>
 
     return Container(
       padding: const EdgeInsets.only(
-        right: Base.basePadding,
-        left: Base.basePadding,
+        right: Base.BASE_PADDING,
+        left: Base.BASE_PADDING,
       ),
       width: double.maxFinite,
       child: SingleChildScrollView(

@@ -74,10 +74,10 @@ class _BadgeAwardWidgetState extends State<BadgeAwardWidget> {
             badgeProvider.wear(badgeId, widget.event.id, relayAddr: source);
           },
           child: Container(
-            margin: const EdgeInsets.only(top: Base.basePaddingHalf),
+            margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
             padding: const EdgeInsets.only(
-              left: Base.basePadding,
-              right: Base.basePadding,
+              left: Base.BASE_PADDING,
+              right: Base.BASE_PADDING,
             ),
             color: theme.primaryColor,
             width: double.infinity,
@@ -100,10 +100,10 @@ class _BadgeAwardWidgetState extends State<BadgeAwardWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        top: Base.basePaddingHalf,
-        left: Base.basePadding,
-        right: Base.basePadding,
-        bottom: Base.basePadding,
+        top: Base.BASE_PADDING_HALF,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

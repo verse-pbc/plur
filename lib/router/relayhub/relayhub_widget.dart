@@ -72,7 +72,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
           GestureDetector(
             onTap: testAllSpeed,
             child: Container(
-              padding: EdgeInsets.only(right: Base.basePadding),
+              padding: EdgeInsets.only(right: Base.BASE_PADDING),
               child: Icon(
                 Icons.speed,
                 color: themeData.appBarTheme.titleTextStyle!.color,
@@ -83,7 +83,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
       ),
       body: Container(
         margin: const EdgeInsets.only(
-          top: Base.basePadding,
+          top: Base.BASE_PADDING,
         ),
         child: mainWidget,
       ),
@@ -92,7 +92,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    var str = await DioUtil.getStr(Base.indexsRelays);
+    var str = await DioUtil.getStr(Base.INDEXS_RELAYS);
     if (StringUtil.isNotBlank(str)) {
       addrs.clear();
       var itfs = jsonDecode(str!);

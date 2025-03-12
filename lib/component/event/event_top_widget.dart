@@ -80,9 +80,9 @@ class _EventTopWidgetState extends State<EventTopWidget> {
 
         return Container(
           padding: const EdgeInsets.only(
-            left: Base.basePadding,
-            right: Base.basePadding,
-            bottom: Base.basePaddingHalf,
+            left: Base.BASE_PADDING,
+            right: Base.BASE_PADDING,
+            bottom: Base.BASE_PADDING_HALF,
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +97,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
               )),
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.only(left: Base.basePaddingHalf),
+                  padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

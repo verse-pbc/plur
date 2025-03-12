@@ -54,7 +54,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.basePadding),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: hostController,
         decoration: InputDecoration(
@@ -65,7 +65,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.basePadding),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: TextField(
         controller: groupIdController,
         autofocus: true,
@@ -77,7 +77,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.basePadding),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -111,8 +111,8 @@ class _GroupAddDialog extends State<GroupAddDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.basePadding,
-              right: Base.basePadding,
+              left: Base.BASE_PADDING,
+              right: Base.BASE_PADDING,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

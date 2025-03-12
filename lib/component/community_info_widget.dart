@@ -57,8 +57,8 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
         },
         child: Container(
           margin: const EdgeInsets.only(
-            left: Base.basePaddingHalf,
-            right: Base.basePaddingHalf,
+            left: Base.BASE_PADDING_HALF,
+            right: Base.BASE_PADDING_HALF,
           ),
           child: Icon(
             iconData,
@@ -72,7 +72,7 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
 
     List<Widget> list = [
       Container(
-        margin: EdgeInsets.only(bottom: Base.basePaddingHalf),
+        margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         child: Row(
           children: [
             Container(
@@ -88,7 +88,7 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
             ),
             Container(
               margin: const EdgeInsets.only(
-                left: Base.basePadding,
+                left: Base.BASE_PADDING,
               ),
               child: Text(
                 widget.info.aId.title,
@@ -110,8 +110,8 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
 
     return Container(
       decoration: BoxDecoration(color: cardColor),
-      padding: const EdgeInsets.all(Base.basePadding),
-      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+      padding: const EdgeInsets.all(Base.BASE_PADDING),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,

@@ -26,8 +26,8 @@ class NewNotesUpdatedWidget extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: 4,
           bottom: 4,
-          left: Base.basePadding,
-          right: Base.basePadding,
+          left: Base.BASE_PADDING,
+          right: Base.BASE_PADDING,
         ),
         decoration: BoxDecoration(
           color: mainColor,
