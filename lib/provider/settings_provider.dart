@@ -48,12 +48,12 @@ class SettingsProvider extends ChangeNotifier {
         try {
           if (StringUtil.isNotBlank(privateKeyMapText)) {
             privateKeyMapText = EncryptUtil.aesDecrypt(
-                privateKeyMapText!, Base.KEY_EKEY, Base.KEY_IV);
+                privateKeyMapText!, Base.keyEKey, Base.KEY_IV);
           } else if (StringUtil.isNotBlank(_settingData!.privateKeyMap) &&
               StringUtil.isBlank(_settingData!.encryptPrivateKeyMap)) {
             privateKeyMapText = _settingData!.privateKeyMap;
             _settingData!.encryptPrivateKeyMap = EncryptUtil.aesEncrypt(
-                _settingData!.privateKeyMap!, Base.KEY_EKEY, Base.KEY_IV);
+                _settingData!.privateKeyMap!, Base.keyEKey, Base.KEY_IV);
             _settingData!.privateKeyMap = null;
           }
         } catch (e) {
@@ -79,7 +79,7 @@ class SettingsProvider extends ChangeNotifier {
         if (StringUtil.isNotBlank(nwcUrlMap)) {
           try {
             nwcUrlMap =
-                EncryptUtil.aesDecrypt(nwcUrlMap!, Base.KEY_EKEY, Base.KEY_IV);
+                EncryptUtil.aesDecrypt(nwcUrlMap!, Base.keyEKey, Base.KEY_IV);
             var jsonKeyMap = jsonDecode(nwcUrlMap);
             if (jsonKeyMap != null) {
               for (var entry in (jsonKeyMap as Map<String, dynamic>).entries) {
@@ -152,7 +152,7 @@ class SettingsProvider extends ChangeNotifier {
   void _encodePrivateKeyMap() {
     var privateKeyMap = json.encode(_privateKeyMap);
     _settingData!.encryptPrivateKeyMap =
-        EncryptUtil.aesEncrypt(privateKeyMap, Base.KEY_EKEY, Base.KEY_IV);
+        EncryptUtil.aesEncrypt(privateKeyMap, Base.keyEKey, Base.KEY_IV);
   }
 
   void removeKey(int index) {
@@ -197,7 +197,7 @@ class SettingsProvider extends ChangeNotifier {
   void _encodeNwcUrlMap() {
     var nwcUrlMap = json.encode(_nwcUrlMap);
     _settingData!.nwcUrlMap =
-        EncryptUtil.aesEncrypt(nwcUrlMap, Base.KEY_EKEY, Base.KEY_IV);
+        EncryptUtil.aesEncrypt(nwcUrlMap, Base.keyEKey, Base.KEY_IV);
   }
 
   SettingData get settingData => _settingData!;

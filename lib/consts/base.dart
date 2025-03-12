@@ -25,7 +25,7 @@ class Base {
 
   static String imageProxyServiceKey = "please_do_not_abuse_thanks";
 
-  static String KEY_EKEY = HashUtil.md5("Jo49KwLvyhrsar");
+  static String keyEKey = HashUtil.md5("Jo49KwLvyhrsar");
 
   static String KEY_IV = "1681713832000000";
 
