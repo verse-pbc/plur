@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:android_content_provider/android_content_provider.dart';
 import 'package:synchronized/synchronized.dart';
@@ -86,7 +87,6 @@ class AndroidNostrSigner implements NostrSigner {
     return _lock.synchronized(() async {
       var queryResult = await _contentResolverQuery("NIP04_DECRYPT",
           [ciphertext, pubkey, _npub!], ["signature", "result"]);
-      // print(queryResult);
       if (queryResult != null &&
           queryResult.isNotEmpty &&
           queryResult[0] != null &&
@@ -123,7 +123,6 @@ class AndroidNostrSigner implements NostrSigner {
     return _lock.synchronized(() async {
       var queryResult = await _contentResolverQuery("NIP04_ENCRYPT",
           [plaintext, pubkey, _npub!], ["signature", "result"]);
-      // print(queryResult);
       if (queryResult != null &&
           queryResult.isNotEmpty &&
           queryResult[0] != null &&
@@ -211,7 +210,6 @@ class AndroidNostrSigner implements NostrSigner {
     return _lock.synchronized(() async {
       var queryResult = await _contentResolverQuery("NIP44_DECRYPT",
           [ciphertext, pubkey, _npub!], ["signature", "result"]);
-      // print(queryResult);
       if (queryResult != null &&
           queryResult.isNotEmpty &&
           queryResult[0] != null &&
@@ -248,7 +246,6 @@ class AndroidNostrSigner implements NostrSigner {
     return _lock.synchronized(() async {
       var queryResult = await _contentResolverQuery("NIP44_ENCRYPT",
           [plaintext, pubkey, _npub!], ["signature", "result"]);
-      // print(queryResult);
       if (queryResult != null &&
           queryResult.isNotEmpty &&
           queryResult[0] != null &&
@@ -356,8 +353,7 @@ class AndroidNostrSigner implements NostrSigner {
       var values = await _getValuesFromCursor(cursor, valueNames);
       return values;
     } catch (e) {
-      print("contentResolverQuery exception");
-      print(e);
+      log("contentResolverQuery exception in android nostr signer: $e");
     }
   }
 }

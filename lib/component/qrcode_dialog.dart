@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -202,7 +203,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         Share.shareXFiles([XFile(tempFile)]);
       }
     }).catchError((onError) {
-      print(onError);
+      log("onShareTap error $onError");
     });
   }
 }
