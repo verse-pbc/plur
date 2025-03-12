@@ -62,7 +62,7 @@ class _WebUtilsWidgetState extends CustState<WebUtilsWidget> {
   List<WebUtilItem> webUtils = [];
 
   Future<void> load() async {
-    var str = await DioUtil.getStr(Base.webTools);
+    var str = await DioUtil.getStr(Base.WEB_TOOLS);
     if (StringUtil.isNotBlank(str)) {
       var itfs = jsonDecode(str!);
       webUtils = [];

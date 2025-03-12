@@ -53,7 +53,7 @@ class _ThreadDetailItemWidgetState extends State<ThreadDetailItemWidget> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: main,
     );
   }

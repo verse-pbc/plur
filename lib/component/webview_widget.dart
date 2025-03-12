@@ -122,7 +122,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
     var _webViewProvider = Provider.of<WebViewProvider>(context);
 
-    var btnTopPosition = Base.basePadding + Base.basePaddingHalf;
+    var btnTopPosition = Base.BASE_PADDING + Base.BASE_PADDING_HALF;
 
     var main = Stack(
       children: [
@@ -203,7 +203,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           getMoreWidget(Container(
             height: btnWidth,
             width: btnWidth,
-            margin: const EdgeInsets.only(right: Base.basePadding),
+            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
             alignment: Alignment.center,
             child: Icon(
               Icons.more_horiz,
@@ -233,12 +233,12 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           children: [
             main,
             Positioned(
-              left: Base.basePadding,
+              left: Base.BASE_PADDING,
               top: btnTopPosition,
               child: lefeBtn,
             ),
             Positioned(
-              right: Base.basePadding,
+              right: Base.BASE_PADDING,
               top: btnTopPosition,
               child: getMoreWidget(Container(
                 height: btnWidth,

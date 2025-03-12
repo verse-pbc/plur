@@ -48,7 +48,7 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
       return GestureDetector(
         onTap: editGroupMembers,
         child: Container(
-          margin: const EdgeInsets.only(right: Base.basePadding),
+          margin: const EdgeInsets.only(right: Base.BASE_PADDING),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [const Icon(Icons.people), Text(" $value")],
@@ -73,7 +73,7 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
       return GestureDetector(
         onTap: editGroupMetadata,
         child: Container(
-          margin: const EdgeInsets.only(right: Base.basePadding),
+          margin: const EdgeInsets.only(right: Base.BASE_PADDING),
           child: const Icon(Icons.edit),
         ),
       );
@@ -91,10 +91,10 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
-        top: Base.basePadding,
-        bottom: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
+        top: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING,
       ),
       color: themeData.cardColor,
       child: Row(

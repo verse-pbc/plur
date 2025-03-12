@@ -58,10 +58,10 @@ class RetryHttpFileService extends FileService {
       {Map<String, String>? headers}) async {
     var base64Url = base64UrlEncode(utf8.encode(url));
     int t = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    var sign = HashUtil.md5("$base64Url$t${Base.imageProxyServiceKey}");
+    var sign = HashUtil.md5("$base64Url$t${Base.IMAGE_PROXY_SERVICE_KEY}");
 
     // t and sign arg set to head
-    url = "${Base.imageProxyService}$base64Url";
+    url = "${Base.IMAGE_PROXY_SERVICE}$base64Url";
     // log("begin to retry image from ${url}");
 
     final req = http.Request('GET', Uri.parse(url));

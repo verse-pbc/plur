@@ -126,12 +126,12 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
       children: [
         Expanded(
           child: Container(
-            margin: const EdgeInsets.only(bottom: Base.basePadding),
+            margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
             child: ListView.builder(
               itemBuilder: (context, index) {
                 var contact = contacts[contacts.length - index - 1];
                 return Container(
-                  margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+                  margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
                     onTap: () {

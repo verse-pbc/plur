@@ -63,8 +63,8 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.basePadding,
-        bottom: Base.basePadding,
+        top: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING,
       ),
       child: Text(
         relayInfo.name,
@@ -77,11 +77,11 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        bottom: Base.basePadding,
+        bottom: Base.BASE_PADDING,
       ),
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       child: Text(relayInfo.description),
     ));
@@ -143,8 +143,8 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
     list.add(RelayInfoItemWidget(
       title: "NIPs",
       child: Wrap(
-        spacing: Base.basePadding,
-        runSpacing: Base.basePadding,
+        spacing: Base.BASE_PADDING,
+        runSpacing: Base.BASE_PADDING,
         children: nipWidgets,
       ),
     ));
@@ -358,19 +358,19 @@ class RelayInfoItemWidget extends StatelessWidget {
 
     list.add(Container(
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       child: child,
     ));
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       margin: const EdgeInsets.only(
-        bottom: Base.basePadding,
+        bottom: Base.BASE_PADDING,
       ),
       width: double.maxFinite,
       child: Column(

@@ -50,7 +50,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
 
         return Container(
           color: themeData.cardColor,
-          padding: const EdgeInsets.only(bottom: Base.basePadding),
+          padding: const EdgeInsets.only(bottom: Base.BASE_PADDING),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(
@@ -94,7 +94,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
   }
 
   Future<void> refresh() async {
-    var str = await DioUtil.getStr(Base.indexsContacts);
+    var str = await DioUtil.getStr(Base.INDEXS_CONTACTS);
     if (StringUtil.isNotBlank(str)) {
       pubkeys.clear();
       var itfs = jsonDecode(str!);

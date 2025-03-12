@@ -106,8 +106,8 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-        top: Base.basePaddingHalf,
-        bottom: Base.basePaddingHalf,
+        top: Base.BASE_PADDING_HALF,
+        bottom: Base.BASE_PADDING_HALF,
       ),
       child: WidgetSize(
         onChange: ((size) {

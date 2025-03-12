@@ -270,7 +270,7 @@ Future<void> main() async {
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.normal,
-      title: Base.appName,
+      title: Base.APP_NAME,
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
@@ -566,7 +566,7 @@ class _MyApp extends State<MyApp> {
           // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
           locale: _locale,
-          title: Base.appName,
+          title: Base.APP_NAME,
           localizationsDelegates: const [
             S.delegate,
             FlutterQuillLocalizations.delegate,

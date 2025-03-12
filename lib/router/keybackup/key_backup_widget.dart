@@ -66,7 +66,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.basePaddingHalf),
+      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Text(
         localization.The_key_is_a_random_string_that_resembles_,
       ),
@@ -77,7 +77,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.all(Base.basePadding),
+      margin: EdgeInsets.all(Base.BASE_PADDING),
       child: InkWell(
         onTap: copyKey,
         child: Container(

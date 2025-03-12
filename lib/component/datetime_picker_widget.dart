@@ -84,15 +84,15 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
 
     var datePicker = Container(
       margin: const EdgeInsets.only(
-        bottom: Base.basePadding,
+        bottom: Base.BASE_PADDING,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             margin: const EdgeInsets.only(
-              top: Base.basePadding,
-              bottom: Base.basePadding + Base.basePaddingHalf,
+              top: Base.BASE_PADDING,
+              bottom: Base.BASE_PADDING + Base.BASE_PADDING_HALF,
             ),
             child: Text(
               titleDateFormat.format(_currentDay),
@@ -194,7 +194,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
 
     var main = Container(
       color: cardColor,
-      padding: const EdgeInsets.all(Base.basePadding),
+      padding: const EdgeInsets.all(Base.BASE_PADDING),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: mainList,

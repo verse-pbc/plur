@@ -257,7 +257,7 @@ mixin EditorMixin {
 
     inputBtnList.add(
       Container(
-        width: Base.basePadding,
+        width: Base.BASE_PADDING,
       ),
     );
 
@@ -966,7 +966,7 @@ mixin EditorMixin {
 
     return Container(
       height: 260,
-      padding: const EdgeInsets.only(left: Base.basePaddingHalf),
+      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
       width: double.infinity,
       child: Selector<ListProvider, Event?>(
         builder: (context, emojiEvent, child) {
@@ -1005,12 +1005,12 @@ mixin EditorMixin {
               child: Column(
                 children: [
                   SizedBox(
-                    height: Base.tabBarHeight,
+                    height: Base.TABBAR_HEIGHT,
                     child: Row(
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: Base.tabBarHeight,
+                            height: Base.TABBAR_HEIGHT,
                             child: TabBar(
                               tabs: tabBarList,
                               indicatorColor: mainColor,
@@ -1075,15 +1075,15 @@ mixin EditorMixin {
 
     var main = SingleChildScrollView(
       child: Wrap(
-        runSpacing: Base.basePaddingHalf,
-        spacing: Base.basePaddingHalf,
+        runSpacing: Base.BASE_PADDING_HALF,
+        spacing: Base.BASE_PADDING_HALF,
         children: list,
       ),
     );
 
     return Container(
       height: 260,
-      padding: const EdgeInsets.only(left: Base.basePaddingHalf),
+      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
       width: double.infinity,
       child: main,
     );
@@ -1115,8 +1115,8 @@ mixin EditorMixin {
     return Container(
       // color: Colors.red,
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       child: AutoSizeTextField(
         maxLength: 80,
@@ -1179,8 +1179,8 @@ mixin EditorMixin {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       alignment: Alignment.centerLeft,
       child: main,
@@ -1198,8 +1198,8 @@ mixin EditorMixin {
     return Container(
       // margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       child: TextField(
         maxLines: 5,

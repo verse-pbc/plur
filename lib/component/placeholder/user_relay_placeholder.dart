@@ -24,9 +24,9 @@ class UserRelayPlaceholder extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(
-        bottom: Base.basePadding,
-        left: Base.basePadding,
-        right: Base.basePadding,
+        bottom: Base.BASE_PADDING,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
@@ -35,10 +35,10 @@ class UserRelayPlaceholder extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.only(
-          top: Base.basePaddingHalf,
-          bottom: Base.basePaddingHalf,
-          left: Base.basePadding,
-          right: Base.basePadding,
+          top: Base.BASE_PADDING_HALF,
+          bottom: Base.BASE_PADDING_HALF,
+          left: Base.BASE_PADDING,
+          right: Base.BASE_PADDING,
         ),
         decoration: BoxDecoration(
           color: cardColor,

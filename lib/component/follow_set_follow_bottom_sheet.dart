@@ -33,8 +33,8 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
     List<Widget> list = [];
     list.add(Container(
       padding: const EdgeInsets.only(
-        top: Base.basePaddingHalf,
-        bottom: Base.basePaddingHalf,
+        top: Base.BASE_PADDING_HALF,
+        bottom: Base.BASE_PADDING_HALF,
       ),
       decoration: BoxDecoration(
         border: Border(
@@ -53,12 +53,12 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
 
     list.add(Container(
       padding: const EdgeInsets.only(
-        top: Base.basePaddingHalf,
-        bottom: Base.basePaddingHalf,
-        left: Base.basePadding,
-        right: Base.basePadding,
+        top: Base.BASE_PADDING_HALF,
+        bottom: Base.BASE_PADDING_HALF,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
-      margin: EdgeInsets.only(bottom: Base.basePaddingHalf),
+      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       color: themeData.cardColor,
       child: Row(
         children: [
@@ -85,7 +85,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
     List<Widget> selectList = [];
     for (var followSet in followSets) {
       selectList.add(Container(
-        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         child: FollowSetFollowItemWidget(
           followSet,
           followSet.privateFollow(widget.pubkey),
@@ -172,10 +172,10 @@ class _FollowSetFollowItemWidgetState extends State<FollowSetFollowItemWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        top: Base.basePaddingHalf,
-        bottom: Base.basePaddingHalf,
-        left: Base.basePadding,
-        right: Base.basePadding,
+        top: Base.BASE_PADDING_HALF,
+        bottom: Base.BASE_PADDING_HALF,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       color: themeData.cardColor,
       child: Row(
