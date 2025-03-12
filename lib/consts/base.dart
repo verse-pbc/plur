@@ -17,7 +17,7 @@ class Base {
 
   static String indexsTopics = "https://nostrmo.com/indexs/topics.json";
 
-  static String INDEXS_RELAYS = "https://nostrmo.com/indexs/relays.json";
+  static String indexsRelays = "https://nostrmo.com/indexs/relays.json";
 
   static String WEB_TOOLS = "https://nostrmo.com/indexs/webtools.json";
 
