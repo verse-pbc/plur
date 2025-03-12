@@ -105,8 +105,7 @@ class BlossomUploader {
         return body["url"];
       }
     } catch (e) {
-      print("BlossomUploader.upload upload exception:");
-      print(e);
+      log("BlossomUploader.upload upload exception: $e");
     }
 
     return null;
