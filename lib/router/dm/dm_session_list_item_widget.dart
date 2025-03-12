@@ -88,7 +88,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
         }
 
         return Container(
-          padding: const EdgeInsets.all(Base.BASE_PADDING),
+          padding: const EdgeInsets.all(Base.basePadding),
           decoration: BoxDecoration(
             border: Border(
                 bottom: BorderSide(
@@ -104,8 +104,8 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.only(
-                    left: Base.BASE_PADDING,
-                    right: Base.BASE_PADDING,
+                    left: Base.basePadding,
+                    right: Base.basePadding,
                     top: 4,
                   ),
                   child: Column(
