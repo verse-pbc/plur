@@ -112,7 +112,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
     list.add(Expanded(
       child: Container(
         margin: const EdgeInsets.only(
-          bottom: Base.basePadding,
+          bottom: Base.BASE_PADDING,
         ),
         child: listWidget,
       ),
@@ -149,8 +149,8 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
                 autoFocus: false,
                 expands: false,
                 padding: const EdgeInsets.only(
-                  left: Base.basePadding,
-                  right: Base.basePadding,
+                  left: Base.BASE_PADDING,
+                  right: Base.BASE_PADDING,
                 ),
                 maxHeight: 300, controller: editorController,
               ),
@@ -198,7 +198,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
               child: GestureDetector(
                 onTap: addDmSessionToKnown,
                 child: Container(
-                  margin: const EdgeInsets.all(Base.basePadding),
+                  margin: const EdgeInsets.all(Base.BASE_PADDING),
                   height: 30,
                   width: double.maxFinite,
                   decoration: BoxDecoration(

@@ -290,7 +290,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
     for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
-              (Base.basePadding +
+              (Base.BASE_PADDING +
                   ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
           ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
       if (needWidth > mediaDataCache.size.width) {

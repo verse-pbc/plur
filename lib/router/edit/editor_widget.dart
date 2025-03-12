@@ -167,15 +167,15 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
             if (aid != null && aid.kind == EventKind.COMMUNITY_DEFINITION) {
               list.add(Container(
                 padding: const EdgeInsets.only(
-                  left: Base.basePadding,
-                  right: Base.basePadding,
+                  left: Base.BASE_PADDING,
+                  right: Base.BASE_PADDING,
                 ),
                 alignment: Alignment.centerLeft,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
-                      margin: const EdgeInsets.only(right: Base.basePadding),
+                      margin: const EdgeInsets.only(right: Base.BASE_PADDING),
                       child: Icon(
                         Icons.groups,
                         size: largeTextSize,
@@ -214,12 +214,12 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       }
       list.add(Container(
         padding:
-            const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
-        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+            const EdgeInsets.only(left: Base.BASE_PADDING, right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         width: double.maxFinite,
         child: Wrap(
-          spacing: Base.basePaddingHalf,
-          runSpacing: Base.basePaddingHalf,
+          spacing: Base.BASE_PADDING_HALF,
+          runSpacing: Base.BASE_PADDING_HALF,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: tagPsWidgets,
         ),
@@ -245,7 +245,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         onTap: selectedTime,
         behavior: HitTestBehavior.translucent,
         child: Container(
-          margin: const EdgeInsets.only(left: 10, bottom: Base.basePaddingHalf),
+          margin: const EdgeInsets.only(left: 10, bottom: Base.BASE_PADDING_HALF),
           child: Row(
             children: [
               const Icon(Icons.timer_outlined),
@@ -278,8 +278,8 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         expands: false,
         // padding: EdgeInsets.zero,
         padding: const EdgeInsets.only(
-          left: Base.basePadding,
-          right: Base.basePadding,
+          left: Base.BASE_PADDING,
+          right: Base.BASE_PADDING,
         ),
         controller: editorController,
       ),
@@ -288,7 +288,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     );
     List<Widget> editorList = [];
     var editorInputWidget = Container(
-      margin: EdgeInsets.only(bottom: Base.basePadding),
+      margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
       child: quillWidget,
     );
     editorList.add(editorInputWidget);

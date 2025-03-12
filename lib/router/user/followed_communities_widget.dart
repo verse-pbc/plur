@@ -51,15 +51,15 @@ class _FollowedCommunitiesWidgetState extends State<FollowedCommunitiesWidget> {
 
         var item = Container(
           padding: const EdgeInsets.only(
-            left: Base.basePadding,
-            right: Base.basePadding,
+            left: Base.BASE_PADDING,
+            right: Base.BASE_PADDING,
           ),
           child: Container(
               padding: const EdgeInsets.only(
-                left: Base.basePadding,
-                right: Base.basePadding,
-                top: Base.basePadding,
-                bottom: Base.basePadding,
+                left: Base.BASE_PADDING,
+                right: Base.BASE_PADDING,
+                top: Base.BASE_PADDING,
+                bottom: Base.BASE_PADDING,
               ),
               decoration: BoxDecoration(
                   border: Border(
@@ -87,7 +87,7 @@ class _FollowedCommunitiesWidgetState extends State<FollowedCommunitiesWidget> {
                     },
                     child: Container(
                       margin:
-                          const EdgeInsets.only(left: Base.basePaddingHalf),
+                          const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
                       child: Icon(
                         iconData,
                         color: color,

@@ -122,7 +122,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.basePadding),
+      margin: EdgeInsets.only(top: Base.BASE_PADDING),
       child: InkWell(
         onTap: addPollOption,
         child: Container(
@@ -152,7 +152,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
           keyboardType: TextInputType.number,
         )),
         Container(
-          width: Base.basePadding,
+          width: Base.BASE_PADDING,
         ),
         Expanded(
             child: TextField(
@@ -167,9 +167,9 @@ class _PollInputWidgetState extends State<PollInputWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
-        bottom: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING,
       ),
       width: double.maxFinite,
       child: Column(

@@ -38,7 +38,7 @@ class _GlobalEventItemWidgetState extends State<GlobalEventItemWidget> {
       builder: (context, event, child) {
         if (event == null) {
           return Container(
-            margin: EdgeInsets.only(bottom: Base.basePaddingHalf),
+            margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
             color: cardColor,
             height: 150,
             child: Center(
@@ -57,9 +57,9 @@ class _GlobalEventItemWidgetState extends State<GlobalEventItemWidget> {
           controller: screenshotController,
           child: Container(
             color: cardColor,
-            margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+            margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
             padding: const EdgeInsets.only(
-              top: Base.basePadding,
+              top: Base.BASE_PADDING,
               // bottom: Base.BASE_PADDING,
             ),
             child: EventMainWidget(

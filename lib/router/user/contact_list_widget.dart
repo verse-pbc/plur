@@ -35,7 +35,7 @@ class _ContactListWidgetState extends State<ContactListWidget> {
       itemBuilder: (context, index) {
         var contact = list![index];
         return Container(
-          margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(

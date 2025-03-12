@@ -17,7 +17,7 @@ class NoticeListItemWidget extends StatelessWidget {
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
 
     return Container(
-      padding: EdgeInsets.all(Base.basePadding),
+      padding: EdgeInsets.all(Base.BASE_PADDING),
       decoration: BoxDecoration(
           border: Border(
               bottom: BorderSide(

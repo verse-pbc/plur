@@ -106,8 +106,8 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
 
     mainList.add(Container(
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
-      padding: const EdgeInsets.only(top: Base.basePaddingHalf),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Column(
         children: [
           Stack(
@@ -134,7 +134,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
-              (Base.basePadding +
+              (Base.BASE_PADDING +
                   ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
           ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
       if (needWidth > mediaDataCache.size.width) {
