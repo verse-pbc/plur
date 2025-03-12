@@ -296,7 +296,7 @@ class SettingsProvider extends ChangeNotifier {
   double get fontSize =>
       _settingData!.fontSize ??
       (TableModeUtil.isTableMode()
-          ? Base.BASE_FONT_SIZE_PC
+          ? Base.baseFontSizePC
           : Base.baseFontSize);
 
   int get webviewAppbarOpen => _settingData!.webviewAppbarOpen;

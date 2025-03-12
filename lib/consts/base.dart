@@ -31,7 +31,7 @@ class Base {
 
   static double baseFontSize = 15;
 
-  static double BASE_FONT_SIZE_PC = 15;
+  static double baseFontSizePC = 15;
 
   static double TABBAR_HEIGHT = 46;
 
