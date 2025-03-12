@@ -23,7 +23,7 @@ class Base {
 
   static String imageProxyService = "https://imagebridge.nostrmo.com/";
 
-  static String IMAGE_PROXY_SERVICE_KEY = "please_do_not_abuse_thanks";
+  static String imageProxyServiceKey = "please_do_not_abuse_thanks";
 
   static String KEY_EKEY = HashUtil.md5("Jo49KwLvyhrsar");
 
