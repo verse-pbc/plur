@@ -56,6 +56,7 @@ class _SignupWidgetState extends State<SignupWidget> {
     final themeData = Theme.of(context);
     final dimmedColor = themeData.customColors.dimmedColor;
     final buttonTextColor = themeData.customColors.buttonTextColor;
+    final accentColor = themeData.customColors.accentColor;
 
     final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
@@ -101,8 +102,8 @@ class _SignupWidgetState extends State<SignupWidget> {
       // Adds a fixed space.
       const SizedBox(height: 40),
 
-      // Displays the private key inside a styled container. The key is initially
-      // obscured and can be toggled visible using a button.
+      // Displays the private key inside a styled container. The key is
+      // initially obscured and can be toggled visible using a button.
       Container(
         decoration: BoxDecoration(
           border: Border.all(color: dimmedColor, width: 2),
@@ -186,7 +187,7 @@ class _SignupWidgetState extends State<SignupWidget> {
               _isDoneButtonEnabled = value!;
             });
           },
-          activeColor: ColorList.accent,
+          activeColor: accentColor,
           side: BorderSide(color: dimmedColor, width: 2),
           controlAffinity: ListTileControlAffinity.leading,
           dense: true,
@@ -206,8 +207,8 @@ class _SignupWidgetState extends State<SignupWidget> {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.zero,
             ),
-            backgroundColor: ColorList.accent,
-            disabledBackgroundColor: ColorList.accent.withOpacity(0.4),
+            backgroundColor: accentColor,
+            disabledBackgroundColor: accentColor.withOpacity(0.4),
             foregroundColor: buttonTextColor,
             disabledForegroundColor: buttonTextColor.withOpacity(0.4),
           ),
