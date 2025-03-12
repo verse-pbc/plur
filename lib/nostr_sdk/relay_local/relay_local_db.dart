@@ -201,9 +201,8 @@ class RelayLocalDB with LaterFunction {
           batch.insert("event", event);
         }
         batch.commit();
-        // print("batch insert ${notExistEventMapList.length} events");
       } catch (e) {
-        print(e);
+        log("batch insert ${notExistEventMapList.length} events error: $e");
       }
     }
   }
@@ -223,7 +222,6 @@ class RelayLocalDB with LaterFunction {
   //   try {
   //     return await _database.insert("event", event);
   //   } catch (e) {
-  //     // print(e);
   //     return 0;
   //   }
   // }
@@ -240,7 +238,6 @@ class RelayLocalDB with LaterFunction {
       Map<String, dynamic> filter) async {
     List<dynamic> params = [];
     var sql = queryEventsSql(filter, false, params);
-    // print("doQueryEvent $sql $params");
     var rawEvents = await _database.rawQuery(sql, params);
     var events = _handleEventMaps(rawEvents);
     return events;
@@ -353,15 +350,11 @@ class RelayLocalDB with LaterFunction {
           " SELECT id, pubkey, created_at, kind, tags, content, sig, sources FROM event WHERE ${conditions.join(" AND ")} ORDER BY created_at DESC LIMIT ?";
     }
 
-    // print("sql ${query}");
-    // print("params ${jsonEncode(params)}");
-
     return query;
   }
 
   Future<List<Map<String, Object?>>> queryEventByPubkey(String pubkey,
       {List<int>? eventKinds}) async {
-    // print("queryEventByPubkey $pubkey $eventKinds");
     String kindsStr = "";
     if (eventKinds != null && eventKinds.isNotEmpty) {
       var length = eventKinds.length;

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
+import 'dart:developer';
 
 import '../../component/appbar4stack.dart';
 import '../../generated/l10n.dart';
@@ -162,7 +163,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
         ],
       ),
       onTap: () {
-        print(item.name);
+        log(item.name);
         setState(() {
           item.value = !item.value;
         });
