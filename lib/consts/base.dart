@@ -27,7 +27,7 @@ class Base {
 
   static String keyEKey = HashUtil.md5("Jo49KwLvyhrsar");
 
-  static String KEY_IV = "1681713832000000";
+  static String keyIV = "1681713832000000";
 
   static double BASE_FONT_SIZE = 15;
 
