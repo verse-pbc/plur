@@ -3,10 +3,6 @@ import 'package:nostrmo/util/hash_util.dart';
 class Base {
   static const APP_NAME = "Nostrmo";
 
-  static String VERSION_NAME = "2.9.3";
-
-  static int VERSION_NUM = 1;
-
   static const String PRIVACY_LINK =
       "https://www.nos.social/terms-of-service";
 
@@ -27,10 +23,6 @@ class Base {
   static String IMAGE_PROXY_SERVICE = "https://imagebridge.nostrmo.com/";
 
   static String IMAGE_PROXY_SERVICE_KEY = "please_do_not_abuse_thanks";
-
-  static String userAgent() {
-    return "$APP_NAME $VERSION_NAME";
-  }
 
   static String KEY_EKEY = HashUtil.md5("Jo49KwLvyhrsar");
 
