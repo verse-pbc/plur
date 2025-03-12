@@ -1,4 +1,5 @@
 import 'package:nostrmo/util/dio_util.dart';
+import 'dart:developer';
 
 class UrlSpeedUtil {
   static Future<int> test(String url) async {
@@ -12,7 +13,7 @@ class UrlSpeedUtil {
     try {
       await DioUtil.getDio().head(url);
     } catch (e) {
-      print(e);
+      log('$e');
       return -1;
     }
     return DateTime.now().millisecondsSinceEpoch - begin;

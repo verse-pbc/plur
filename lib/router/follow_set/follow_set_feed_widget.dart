@@ -163,7 +163,6 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
       return;
     }
 
-    // print("_doQuery");
     onEventFunc ??= onEvent;
 
     preQuery();

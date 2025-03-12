@@ -76,26 +76,20 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
               id: 1,
               title: "Special",
               action: () async {
-                print("Menu item Special clicked!");
-                print(await webViewController?.getSelectedText());
+                log("Menu item Special clicked!");
                 await webViewController?.clearFocus();
               })
         ],
         settings: ContextMenuSettings(hideDefaultSystemContextMenuItems: false),
         onCreateContextMenu: (hitTestResult) async {
-          print("onCreateContextMenu");
-          print(hitTestResult.extra);
-          print(await webViewController?.getSelectedText());
+          log("onCreateContextMenu");
         },
         onHideContextMenu: () {
-          print("onHideContextMenu");
+          log("onHideContextMenu");
         },
         onContextMenuActionItemClicked: (contextMenuItemClicked) async {
           var id = contextMenuItemClicked.id;
-          print("onContextMenuActionItemClicked: " +
-              id.toString() +
-              " " +
-              contextMenuItemClicked.title);
+          log("onContextMenuActionItemClicked: $id ${contextMenuItemClicked.title}");
         });
 
     pullToRefreshController = kIsWeb ||
@@ -185,7 +179,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           },
           onUpdateVisitedHistory: (controller, url, isReload) {},
           onConsoleMessage: (controller, consoleMessage) {
-            print(consoleMessage);
+            log("onConsoleMessage $consoleMessage");
           },
         ),
         progress < 1.0 ? LinearProgressIndicator(value: progress) : Container(),
@@ -373,7 +367,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_getPublicKey",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_getPublicKey $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
 
@@ -392,7 +385,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_signEvent",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_signEvent $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
         var content = jsonObj["msg"];
@@ -430,7 +422,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_getRelays",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_getRelays $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
 
@@ -456,7 +447,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_nip04_encrypt",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_nip04_encrypt $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
         var msg = jsonObj["msg"];
@@ -485,7 +475,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_nip04_decrypt",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_nip04_decrypt $jsMsg");
         var jsonObj = jsonDecode(jsMsg.message);
         var resultId = jsonObj["resultId"];
         var msg = jsonObj["msg"];
