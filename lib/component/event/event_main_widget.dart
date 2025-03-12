@@ -119,8 +119,11 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     try {
       return doBuild(context);
     } catch (e, stacktrace) {
-      print(e.toString());
-      print(stacktrace.toString());
+      log(
+        "build error",
+        error: e,
+        stackTrace: stacktrace
+      );
       return Container();
     }
   }
@@ -164,7 +167,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           repostEvent.sources.add(eventRelation.replyRelayAddr!);
         }
       } catch (e) {
-        print(e);
+        log("repost event parse error", name: "event_main_widget", error: e);
       }
     }
 
@@ -697,7 +700,6 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         ),
       ),
       onTapLink: (String text, String? href, String title) async {
-        // print("text $text href $href title $title");
         if (StringUtil.isNotBlank(href)) {
           if (href!.indexOf("http") == 0) {
             WebViewWidget.open(context, href);

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -119,7 +120,7 @@ class _EventListWidgetState extends State<EventListWidget> {
               context, RouterPath.getThreadDetailPath(), repostEvent);
           return;
         } catch (e) {
-          print(e);
+          log("jumpToThread error $e");
         }
       }
 
