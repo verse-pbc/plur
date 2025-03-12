@@ -65,8 +65,8 @@ class _IndexAppBar extends State<IndexAppBar> {
     return Container(
       padding: EdgeInsets.only(
         top: paddingTop, // Account for status bar
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       height: paddingTop + IndexAppBar.height,
       decoration: BoxDecoration(

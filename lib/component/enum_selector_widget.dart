@@ -48,10 +48,10 @@ class EnumSelectorWidget extends StatelessWidget {
     Widget main = Container(
       width: double.infinity,
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
-        top: Base.basePaddingHalf,
-        bottom: Base.basePaddingHalf,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
+        top: Base.BASE_PADDING_HALF,
+        bottom: Base.BASE_PADDING_HALF,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -81,8 +81,8 @@ class EnumSelectorWidget extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.basePadding,
-              right: Base.basePadding,
+              left: Base.BASE_PADDING,
+              right: Base.BASE_PADDING,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -121,7 +121,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
 
     Widget main = Container(
       padding: const EdgeInsets.only(
-          left: Base.basePadding + 5, right: Base.basePadding + 5),
+          left: Base.BASE_PADDING + 5, right: Base.BASE_PADDING + 5),
       child: Text(enumObj.name),
     );
 

@@ -80,7 +80,7 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
     list.add(Expanded(
       child: Container(
         margin: const EdgeInsets.only(
-          bottom: Base.basePadding,
+          bottom: Base.BASE_PADDING,
         ),
         child: listWidget,
       ),
@@ -117,8 +117,8 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
                 autoFocus: false,
                 expands: false,
                 padding: const EdgeInsets.only(
-                  left: Base.basePadding,
-                  right: Base.basePadding,
+                  left: Base.BASE_PADDING,
+                  right: Base.BASE_PADDING,
                 ),
                 maxHeight: 300, controller: editorController,
               ),

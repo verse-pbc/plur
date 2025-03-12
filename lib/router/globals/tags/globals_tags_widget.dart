@@ -55,7 +55,7 @@ class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    var str = await DioUtil.getStr(Base.indexsTopics);
+    var str = await DioUtil.getStr(Base.INDEXS_TOPICS);
     if (StringUtil.isNotBlank(str)) {
       topics.clear();
       var itfs = jsonDecode(str!);

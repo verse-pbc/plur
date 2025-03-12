@@ -65,8 +65,8 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        left: Base.basePaddingHalf,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING_HALF,
+        right: Base.BASE_PADDING,
       ),
       child: Text(
         NumberFormatUtil.format(zapInfos[0].zapNum),
@@ -95,7 +95,7 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
 
   Widget buildUserPic(String pubkey, double width) {
     return Container(
-      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
       child: GestureDetector(
         onTap: () {
           RouterUtil.router(context, RouterPath.USER, pubkey);

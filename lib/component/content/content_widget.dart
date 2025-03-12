@@ -288,7 +288,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 right: 0,
                 child: Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: Base.basePadding),
+                  padding: EdgeInsets.only(right: Base.BASE_PADDING),
                   height: 30,
                   color: themeData.cardColor.withOpacity(0.85),
                   child: Text(
@@ -432,7 +432,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               width: 4,
               height: fontSize + 5.5,
               color: hintColor,
-              margin: const EdgeInsets.only(right: Base.basePadding),
+              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
             )));
             continue;
           } else if (j == 0 && str.startsWith("```")) {
@@ -458,7 +458,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               currentList.add(
                 WidgetSpan(
                   child: Container(
-                    padding: const EdgeInsets.all(Base.basePadding),
+                    padding: const EdgeInsets.all(Base.BASE_PADDING),
                     width: double.infinity,
                     decoration: BoxDecoration(color: codeBackgroundColor),
                     child: SelectableText(codeText),
@@ -545,7 +545,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       for (var image in images) {
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
-            margin: EdgeInsets.only(right: Base.basePaddingHalf),
+            margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
             width: CONTENT_IMAGE_LIST_HEIGHT,
             height: CONTENT_IMAGE_LIST_HEIGHT,
             child: ContentImageWidget(

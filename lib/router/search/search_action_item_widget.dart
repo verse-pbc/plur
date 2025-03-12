@@ -27,10 +27,10 @@ class SearchActionItemWidget extends StatelessWidget {
       child: Container(
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.only(
-          left: Base.basePadding * 2,
-          right: Base.basePadding * 2,
-          top: Base.basePadding,
-          bottom: Base.basePadding,
+          left: Base.BASE_PADDING * 2,
+          right: Base.BASE_PADDING * 2,
+          top: Base.BASE_PADDING,
+          bottom: Base.BASE_PADDING,
         ),
         decoration: BoxDecoration(
           color: cardColor,

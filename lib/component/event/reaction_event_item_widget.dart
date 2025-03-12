@@ -47,8 +47,8 @@ class _ReactionEventItemWidgetState extends State<ReactionEventItemWidget> {
     return Container(
       width: double.maxFinite,
       padding: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,

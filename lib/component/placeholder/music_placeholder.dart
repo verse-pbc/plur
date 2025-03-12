@@ -28,8 +28,8 @@ class MusicPlaceholder extends StatelessWidget {
       Expanded(
           child: Container(
         padding: const EdgeInsets.only(
-          left: Base.basePadding,
-          right: Base.basePadding,
+          left: Base.BASE_PADDING,
+          right: Base.BASE_PADDING,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,7 +37,7 @@ class MusicPlaceholder extends StatelessWidget {
           children: [
             Container(
               width: 200,
-              margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+              margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
               child: PlaceholderLines(
                 count: 1,
                 lineHeight: titleFontSize,
