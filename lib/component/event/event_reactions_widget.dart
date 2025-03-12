@@ -10,7 +10,6 @@ import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
-import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -32,15 +31,16 @@ import '../zap/zap_bottom_sheet_widget.dart';
 import 'event_top_zaps_widget.dart';
 
 class EventReactionsWidget extends StatefulWidget {
-  ScreenshotController screenshotController;
+  final ScreenshotController screenshotController;
 
-  Event event;
+  final Event event;
 
-  EventRelation eventRelation;
+  final EventRelation eventRelation;
 
-  bool showDetailBtn;
+  final bool showDetailBtn;
 
-  EventReactionsWidget({
+  const EventReactionsWidget({
+    super.key,
     required this.screenshotController,
     required this.event,
     required this.eventRelation,
@@ -164,13 +164,14 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 ),
                 PopupMenuItem(
                   value: "copyPubkey",
-                  child: Text(localization.Copy_Note_Pubkey, style: popFontStyle),
+                  child:
+                      Text(localization.Copy_Note_Pubkey, style: popFontStyle),
                 ),
                 PopupMenuItem(
                   value: "copyId",
                   child: Text(localization.Copy_Note_Id, style: popFontStyle),
                 ),
-                PopupMenuDivider(),
+                const PopupMenuDivider(),
               ];
 
               if (widget.showDetailBtn) {
@@ -184,7 +185,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 value: "share",
                 child: Text(localization.Share, style: popFontStyle),
               ));
-              list.add(PopupMenuDivider());
+              list.add(const PopupMenuDivider());
               if (!readOnly) {
                 if (listProvider.checkPrivateBookmark(bookmarkItem)) {
                   list.add(PopupMenuItem(
@@ -195,7 +196,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 } else {
                   list.add(PopupMenuItem(
                     value: "addToPrivateBookmark",
-                    child: Text(localization.Add_to_private_bookmark, style: popFontStyle),
+                    child: Text(localization.Add_to_private_bookmark,
+                        style: popFontStyle),
                   ));
                 }
                 if (listProvider.checkPublicBookmark(bookmarkItem)) {
@@ -207,10 +209,11 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 } else {
                   list.add(PopupMenuItem(
                     value: "addToPublicBookmark",
-                    child: Text(localization.Add_to_public_bookmark, style: popFontStyle),
+                    child: Text(localization.Add_to_public_bookmark,
+                        style: popFontStyle),
                   ));
                 }
-                list.add(PopupMenuDivider());
+                list.add(const PopupMenuDivider());
               }
               list.add(PopupMenuItem(
                 value: "source",
@@ -234,7 +237,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                   (isGroupEvent &&
                       groupAdmins != null &&
                       groupAdmins.contains(pubkey) != null)) {
-                list.add(PopupMenuDivider());
+                list.add(const PopupMenuDivider());
                 list.add(PopupMenuItem(
                   value: "delete",
                   child: Text(
@@ -283,7 +286,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: openZapDialog,
-              child: Container(
+              child: SizedBox(
                 height: double.infinity,
                 child: EventReactionNumWidget(
                   num: zapNum,
@@ -346,7 +349,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ));
         }
 
-        mainList.add(Container(
+        mainList.add(SizedBox(
           height: 34,
           child: topReactionsWidget,
         ));
@@ -594,7 +597,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         nostr!.broadcase(widget.event);
       }
     } else if (value == "quote") {
-      var event = await EditorWidget.open(context, initEmbeds: [
+      await EditorWidget.open(context, initEmbeds: [
         quill.CustomBlockEmbed(CustEmbedTypes.mention_event, widget.event.id)
       ]);
     }
@@ -703,23 +706,24 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 }
 
 class EventReactionNumWidget extends StatelessWidget {
-  String? iconText;
+  final String? iconText;
 
-  IconData iconData;
+  final IconData iconData;
 
-  int num;
+  final int num;
 
-  GestureTapCallback? onTap;
+  final GestureTapCallback? onTap;
 
-  GestureLongPressCallback? onLongPress;
+  final GestureLongPressCallback? onLongPress;
 
-  Color color;
+  final Color color;
 
-  double fontSize;
+  final double fontSize;
 
-  Widget? showMoreWidget;
+  final Widget? showMoreWidget;
 
-  EventReactionNumWidget({
+  const EventReactionNumWidget({
+    super.key,
     this.iconText,
     required this.iconData,
     required this.num,
@@ -767,7 +771,7 @@ class EventReactionNumWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: list,
     );
-    main = Container(
+    main = SizedBox(
       height: double.infinity,
       child: main,
     );
@@ -797,6 +801,7 @@ class EventReactionEmojiNumWidget extends StatelessWidget {
   double fontSize;
 
   EventReactionEmojiNumWidget({
+    super.key,
     this.iconText,
     required this.iconData,
     required this.num,
