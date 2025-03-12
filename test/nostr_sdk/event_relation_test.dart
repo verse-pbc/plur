@@ -1,21 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nostrmo/nostr_sdk/event_kind.dart';
 import 'package:nostrmo/nostr_sdk/nip19/nip19.dart';
-import '../../lib/nostr_sdk/event_relation.dart';
-import '../../lib/nostr_sdk/event.dart';
+import 'package:nostrmo/nostr_sdk/event_relation.dart';
+import 'package:nostrmo/nostr_sdk/event.dart';
 import '../helpers/test_data.dart';
 
 void main() {
-
   group('EventRelation tag processing', () {
     test('processes p tag correctly', () {
       const pubkey = TestData.bobPubkey;
-      
+
       // Case 1: When content doesn't contain nip19 references
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['p', pubkey]],
+        tags: [
+          ['p', pubkey]
+        ],
         content: 'random content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -25,7 +26,9 @@ void main() {
       testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['p', pubkey]],
+        tags: [
+          ['p', pubkey]
+        ],
         content: 'nostr:${Nip19.encodePubKey(pubkey)}',
       );
       relation = EventRelation.fromEvent(testEvent);
@@ -37,7 +40,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['e', 'event123']],
+        tags: [
+          ['e', 'event123']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -47,7 +52,9 @@ void main() {
       testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['e', 'root123', 'relay.com', 'root']],
+        tags: [
+          ['e', 'root123', 'relay.com', 'root']
+        ],
         content: 'test content',
       );
       relation = EventRelation.fromEvent(testEvent);
@@ -58,7 +65,9 @@ void main() {
       testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['e', 'reply123', 'relay.com', 'reply']],
+        tags: [
+          ['e', 'reply123', 'relay.com', 'reply']
+        ],
         content: 'test content',
       );
       testEvent.sources = ['wss://test.relay'];
@@ -70,7 +79,9 @@ void main() {
       testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['e', 'mention123', 'relay.com', 'mention']],
+        tags: [
+          ['e', 'mention123', 'relay.com', 'mention']
+        ],
         content: 'test content',
       );
       relation = EventRelation.fromEvent(testEvent);
@@ -81,7 +92,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['subject', 'Test Subject']],
+        tags: [
+          ['subject', 'Test Subject']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -92,7 +105,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['content-warning', 'any value']],
+        tags: [
+          ['content-warning', 'any value']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -103,7 +118,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['a', '30023:abc123:test']],
+        tags: [
+          ['a', '30023:abc123:test']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -115,7 +132,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['zap', TestData.bobPubkey, 'relay.com', '2.0']],
+        tags: [
+          ['zap', TestData.bobPubkey, 'relay.com', '2.0']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -126,7 +145,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: EventKind.ZAP,
-        tags: [['description', '{"content":"inner zap content","other":"value"}']],
+        tags: [
+          ['description', '{"content":"inner zap content","other":"value"}']
+        ],
         content: '{"content":"test zap content","other":"value"}',
       );
       testEvent.sources = ['wss://test.relay'];
@@ -138,7 +159,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['imeta', 'url image.com/image.jpg', 'dim 123x456', 'size 1000']],
+        tags: [
+          ['imeta', 'url image.com/image.jpg', 'dim 123x456', 'size 1000']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -149,7 +172,6 @@ void main() {
       expect(metadata?.dim, equals('123x456'));
       expect(metadata?.size, equals("1000"));
     });
-
 
     test('correctly parses group identifier from h tag', () {
       // Arrange
@@ -182,7 +204,9 @@ void main() {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
         kind: 1,
-        tags: [['unknown', 'value']],
+        tags: [
+          ['unknown', 'value']
+        ],
         content: 'test content',
       );
       var relation = EventRelation.fromEvent(testEvent);
@@ -196,4 +220,4 @@ void main() {
       expect(relation.groupIdentifier, isNull);
     });
   });
-} 
+}
