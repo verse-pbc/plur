@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
@@ -43,7 +45,6 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
         var events = await nostr!.queryEvents([filter.toJson()],
             relayTypes: RelayType.CACHE_AND_LOCAL);
         if (events.isNotEmpty) {
-          // print("get event from relayDB $id");
           _eventsMap[id] = events.first;
           _needUpdateIds.remove(id);
           notifyListeners();
@@ -92,22 +93,20 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
       List<String> tempIds = [..._needUpdateIds.keys];
       var filter = Filter(ids: tempIds);
       var subscriptId = StringUtil.rndNameStr(12);
-      // print("query filter ${jsonEncode(filter.toJson())}");
 
       bool onCompleteCalled = false;
       onCompete() {
         if (onCompleteCalled) {
           return;
         }
-        // print("onCompete function call!");
+
         onCompleteCalled = true;
 
         for (var id in tempIds) {
           var eventRelayAddr = _handingIds.remove(id);
           if (StringUtil.isNotBlank(eventRelayAddr) && _eventsMap[id] == null) {
             // eventRelayAddr exist and event not found, send a single query again.
-            print(
-                "single event ${id} not found! begin to query again from ${eventRelayAddr}.");
+            log("single event ${id} not found! Begin to query again from ${eventRelayAddr}.");
             var filter = Filter(ids: [id]);
             nostr!.query([filter.toJson()], onEvent,
                 tempRelays: [eventRelayAddr!], relayTypes: RelayType.ONLY_TEMP);
@@ -116,7 +115,6 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
       }
 
       nostr!.query([filter.toJson()], onEvent, id: subscriptId, onComplete: () {
-        // print("singleEventProvider onComplete $tempIds");
         onCompete();
       }, relayTypes: RelayType.ONLY_NORMAL);
       Future.delayed(const Duration(seconds: 2), onCompete);

@@ -20,8 +20,6 @@ mixin LoadMoreEvent {
     var offset = scrollController.offset;
 
     var leftNum = (1 - (offset / maxScrollExtent)) * itemLength;
-    // print("maxScrollExtent $maxScrollExtent offset $offset");
-    // print("itemLength $itemLength leftNum $leftNum");
     if (leftNum < loadMoreItemLeftNum) {
       loadMore();
     }
@@ -47,7 +45,6 @@ mixin LoadMoreEvent {
 
   // this function call by scroll listener
   void loadMore() {
-    // print("touch loadMore");
     var eventMemBox = getEventBox();
     var now = DateTime.now();
     // check if query just now
@@ -56,7 +53,6 @@ mixin LoadMoreEvent {
             queryInterval) {
       return;
     }
-    // print("do loadMore");
 
     var currentLength = eventMemBox.length();
     if (currentLength - beginQueryNum == 0) {
