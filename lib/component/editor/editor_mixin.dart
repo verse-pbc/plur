@@ -1005,12 +1005,12 @@ mixin EditorMixin {
               child: Column(
                 children: [
                   SizedBox(
-                    height: Base.TABBAR_HEIGHT,
+                    height: Base.tabBarHeight,
                     child: Row(
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: Base.TABBAR_HEIGHT,
+                            height: Base.tabBarHeight,
                             child: TabBar(
                               tabs: tabBarList,
                               indicatorColor: mainColor,

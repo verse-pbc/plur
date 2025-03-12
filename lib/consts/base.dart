@@ -33,7 +33,7 @@ class Base {
 
   static double baseFontSizePC = 15;
 
-  static double TABBAR_HEIGHT = 46;
+  static double tabBarHeight = 46;
 
   static int DEFAULT_DATA_INDEX = -1;
 }
