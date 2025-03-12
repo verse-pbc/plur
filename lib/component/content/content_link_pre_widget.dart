@@ -38,7 +38,7 @@ class _ContentLinkPreWidgetState extends State<ContentLinkPreWidget> {
         }
 
         return Container(
-          margin: const EdgeInsets.all(Base.basePadding),
+          margin: const EdgeInsets.all(Base.BASE_PADDING),
           decoration: BoxDecoration(
             color: cardColor,
             boxShadow: [

@@ -62,8 +62,8 @@ class _BadgeDetailDialog extends State<BadgeDetailDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.basePadding,
-              right: Base.basePadding,
+              left: Base.BASE_PADDING,
+              right: Base.BASE_PADDING,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

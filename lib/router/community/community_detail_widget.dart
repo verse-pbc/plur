@@ -126,8 +126,8 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
             onTap: addToCommunity,
             child: Container(
               margin: const EdgeInsets.only(
-                left: Base.basePadding,
-                right: Base.basePadding,
+                left: Base.BASE_PADDING,
+                right: Base.BASE_PADDING,
               ),
               child: Icon(
                 Icons.add,

@@ -85,8 +85,8 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     if (widget.event.kind == EventKind.PRIVATE_DIRECT_MESSAGE) {
       enhancedIcon = Container(
         margin: const EdgeInsets.only(
-          left: Base.basePaddingHalf,
-          right: Base.basePaddingHalf,
+          left: Base.BASE_PADDING_HALF,
+          right: Base.BASE_PADDING_HALF,
         ),
         child: Icon(
           Icons.enhanced_encryption,
@@ -106,8 +106,8 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
 
     var contentWidget = Container(
       margin: const EdgeInsets.only(
-        left: Base.basePaddingHalf,
-        right: Base.basePaddingHalf,
+        left: Base.BASE_PADDING_HALF,
+        right: Base.BASE_PADDING_HALF,
       ),
       child: Column(
         crossAxisAlignment:
@@ -121,10 +121,10 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
           Container(
             margin: const EdgeInsets.only(top: 4),
             padding: const EdgeInsets.only(
-              top: Base.basePaddingHalf - 1,
-              right: Base.basePaddingHalf,
-              bottom: Base.basePaddingHalf,
-              left: Base.basePaddingHalf + 1,
+              top: Base.BASE_PADDING_HALF - 1,
+              right: Base.BASE_PADDING_HALF,
+              bottom: Base.BASE_PADDING_HALF,
+              left: Base.BASE_PADDING_HALF + 1,
             ),
             // constraints:
             //     BoxConstraints(maxWidth: (maxWidth - IMAGE_WIDTH) * 0.85),
@@ -175,7 +175,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     }
 
     return Container(
-      padding: EdgeInsets.all(Base.basePaddingHalf),
+      padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,

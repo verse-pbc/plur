@@ -29,8 +29,8 @@ class _SearchMentionEventWidgetState extends State<SearchMentionEventWidget>
   Widget resultBuild() {
     return Container(
       padding: const EdgeInsets.only(
-        top: Base.basePaddingHalf,
-        bottom: Base.basePaddingHalf,
+        top: Base.BASE_PADDING_HALF,
+        bottom: Base.BASE_PADDING_HALF,
       ),
       child: ListView.builder(
         itemBuilder: (context, index) {

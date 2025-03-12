@@ -97,7 +97,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
         shape: MenuShape.linear,
         linearShapeParams: LinearShapeParams(
           alignment: LinearAlignment.left,
-          space: Base.basePadding,
+          space: Base.BASE_PADDING,
         ),
       ),
       controller: starMenuController,
@@ -133,7 +133,7 @@ class AddBtnStartItemButton extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> list = [];
     list.add(Container(
-      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
       decoration: BoxDecoration(
         color: iconBackgroundColor,
         borderRadius: BorderRadius.circular(20),
@@ -153,10 +153,10 @@ class AddBtnStartItemButton extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(
-          top: Base.basePaddingHalf,
-          bottom: Base.basePaddingHalf,
-          left: Base.basePadding,
-          right: Base.basePadding,
+          top: Base.BASE_PADDING_HALF,
+          bottom: Base.BASE_PADDING_HALF,
+          left: Base.BASE_PADDING,
+          right: Base.BASE_PADDING,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,

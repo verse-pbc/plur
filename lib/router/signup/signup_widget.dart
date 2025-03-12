@@ -241,7 +241,7 @@ class _SignupWidgetState extends State<SignupWidget> {
               // Adds padding to the content to ensure spacing on the sides.
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Base.basePadding * 2,
+                  horizontal: Base.BASE_PADDING * 2,
                 ),
                 // Column that holds the main content of the screen.
                 child: Column(

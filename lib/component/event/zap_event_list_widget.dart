@@ -30,10 +30,10 @@ class _ZapEventListWidgetState extends State<ZapEventListWidget> {
 
     var main = Container(
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       padding: const EdgeInsets.only(
-        top: Base.basePadding,
-        bottom: Base.basePadding,
+        top: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING,
       ),
       child: ZapEventMainWidget(
         event: widget.event,

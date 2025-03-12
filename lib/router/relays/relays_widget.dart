@@ -52,8 +52,8 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
 
     list.add(Container(
       padding: EdgeInsets.only(
-        left: Base.basePadding,
-        bottom: Base.basePaddingHalf,
+        left: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING_HALF,
       ),
       child: Row(
         children: [
@@ -67,7 +67,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
           GestureDetector(
             onTap: testAllMyRelaysSpeed,
             child: Container(
-              margin: EdgeInsets.only(left: Base.basePadding),
+              margin: EdgeInsets.only(left: Base.BASE_PADDING),
               child: Icon(Icons.speed),
             ),
           )
@@ -96,8 +96,8 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     if (_relayProvider.cacheRelayAddrs.isNotEmpty) {
       list.add(Container(
         padding: EdgeInsets.only(
-          left: Base.basePadding,
-          bottom: Base.basePaddingHalf,
+          left: Base.BASE_PADDING,
+          bottom: Base.BASE_PADDING_HALF,
         ),
         child: Text(
           localization.Cache_Relay,
@@ -132,8 +132,8 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     if (tempRelayStatus.isNotEmpty) {
       list.add(Container(
         padding: EdgeInsets.only(
-          left: Base.basePadding,
-          bottom: Base.basePaddingHalf,
+          left: Base.BASE_PADDING,
+          bottom: Base.BASE_PADDING_HALF,
         ),
         child: Text(
           localization.TempRelays,
@@ -178,7 +178,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
               RouterUtil.router(context, RouterPath.RELAYHUB);
             },
             child: Container(
-              padding: EdgeInsets.only(right: Base.basePadding),
+              padding: EdgeInsets.only(right: Base.BASE_PADDING),
               child: Icon(
                 Icons.cloud,
                 color: themeData.appBarTheme.titleTextStyle!.color,
@@ -191,7 +191,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
         Expanded(
           child: Container(
             margin: const EdgeInsets.only(
-              top: Base.basePadding,
+              top: Base.BASE_PADDING,
             ),
             child: ListView(
               children: list,
@@ -200,7 +200,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
         ),
         Row(children: [
           Container(
-            padding: const EdgeInsets.only(left: Base.basePadding),
+            padding: const EdgeInsets.only(left: Base.BASE_PADDING),
             child: const Icon(Icons.cloud),
           ),
           DropdownButton(
@@ -209,7 +209,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
             ),
             value: relayType,
             padding: const EdgeInsets.only(
-                left: Base.basePadding, right: Base.basePaddingHalf),
+                left: Base.BASE_PADDING, right: Base.BASE_PADDING_HALF),
             items: [
               DropdownMenuItem(
                 value: RelayType.NORMAL,

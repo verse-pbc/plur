@@ -62,7 +62,7 @@ class _UserRelayWidgetState extends State<UserRelayWidget> {
       ),
       body: Container(
         margin: const EdgeInsets.only(
-          top: Base.basePadding,
+          top: Base.BASE_PADDING,
         ),
         child: ListView.builder(
           itemBuilder: (context, index) {
@@ -134,7 +134,7 @@ class RelayMetadataWidget extends StatelessWidget {
       bottomWidget = Row(
         children: [
           Container(
-            margin: EdgeInsets.only(right: Base.basePadding),
+            margin: EdgeInsets.only(right: Base.BASE_PADDING),
             child: Text(
               localization.Read,
               style: TextStyle(
@@ -144,7 +144,7 @@ class RelayMetadataWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: Base.basePadding),
+            margin: EdgeInsets.only(right: Base.BASE_PADDING),
             child: Text(
               localization.Write,
               style: TextStyle(
@@ -159,9 +159,9 @@ class RelayMetadataWidget extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(
-        bottom: Base.basePadding,
-        left: Base.basePadding,
-        right: Base.basePadding,
+        bottom: Base.BASE_PADDING,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
@@ -170,10 +170,10 @@ class RelayMetadataWidget extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.only(
-          top: Base.basePaddingHalf,
-          bottom: Base.basePaddingHalf,
-          left: Base.basePadding,
-          right: Base.basePadding,
+          top: Base.BASE_PADDING_HALF,
+          bottom: Base.BASE_PADDING_HALF,
+          left: Base.BASE_PADDING,
+          right: Base.BASE_PADDING,
         ),
         decoration: BoxDecoration(
           color: cardColor,

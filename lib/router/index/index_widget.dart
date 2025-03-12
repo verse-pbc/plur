@@ -266,7 +266,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ],
       ),
       Positioned(
-        bottom: Base.basePadding,
+        bottom: Base.BASE_PADDING,
         left: 0,
         right: 0,
         child: Selector<MusicProvider, MusicInfo?>(

@@ -179,7 +179,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     if (showWarning || !eventRelation.warning) {
       if (widget.event.kind == EventKind.LONG_FORM) {
         var longFormMargin =
-            const EdgeInsets.only(bottom: Base.basePaddingHalf);
+            const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
 
         List<Widget> subList = [];
         var longFormInfo = LongFormInfo.fromEvent(widget.event);
@@ -207,8 +207,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           subList.add(Container(
             margin: longFormMargin,
             child: Wrap(
-              spacing: Base.basePaddingHalf,
-              runSpacing: Base.basePaddingHalf / 2,
+              spacing: Base.BASE_PADDING_HALF,
+              runSpacing: Base.BASE_PADDING_HALF / 2,
               children: topicWidgets,
             ),
           ));
@@ -351,7 +351,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           list.add(Container(
             width: double.maxFinite,
             padding: const EdgeInsets.only(
-              bottom: Base.basePaddingHalf,
+              bottom: Base.BASE_PADDING_HALF,
             ),
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
@@ -365,7 +365,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               list.add(Container(
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
-                margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+                margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
                 child: Text(
                   eventRelation.subject!,
                   maxLines: 10,
@@ -485,10 +485,10 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             }
 
             list.add(Container(
-              margin: const EdgeInsets.only(top: Base.basePaddingHalf),
+              margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
               child: Wrap(
-                spacing: Base.basePaddingHalf,
-                runSpacing: Base.basePaddingHalf / 2,
+                spacing: Base.BASE_PADDING_HALF,
+                runSpacing: Base.BASE_PADDING_HALF / 2,
                 children: topicWidgets,
               ),
             ));
@@ -524,7 +524,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           ));
         } else {
           list.add(Container(
-            height: Base.basePadding,
+            height: Base.BASE_PADDING,
           ));
         }
       }
@@ -546,7 +546,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           ),
           Container(
             margin: const EdgeInsets.only(
-              left: Base.basePaddingHalf,
+              left: Base.BASE_PADDING_HALF,
               right: 3,
             ),
             child: Text(
@@ -575,9 +575,9 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 
       eventAllList.add(Container(
         padding: EdgeInsets.only(
-          left: Base.basePadding + 4,
-          right: Base.basePadding + 4 + (widget.traceMode ? 40 : 0),
-          bottom: Base.basePaddingHalf,
+          left: Base.BASE_PADDING + 4,
+          right: Base.BASE_PADDING + 4 + (widget.traceMode ? 40 : 0),
+          bottom: Base.BASE_PADDING_HALF,
         ),
         child: communityTitle,
       ));
@@ -595,8 +595,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     eventAllList.add(Container(
       width: double.maxFinite,
       padding: EdgeInsets.only(
-        left: Base.basePadding + (widget.traceMode ? 40 : 0),
-        right: Base.basePadding,
+        left: Base.BASE_PADDING + (widget.traceMode ? 40 : 0),
+        right: Base.BASE_PADDING,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -752,7 +752,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-          bottom: Base.basePadding, top: Base.basePadding),
+          bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
       width: double.maxFinite,
       child: Column(
         children: [
@@ -761,7 +761,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             children: [
               const Icon(Icons.warning),
               Container(
-                margin: const EdgeInsets.only(left: Base.basePaddingHalf),
+                margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
                 child: Text(
                   localization.Content_warning,
                   style: TextStyle(fontSize: largeTextSize),
@@ -777,12 +777,12 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               });
             },
             child: Container(
-              margin: const EdgeInsets.only(top: Base.basePaddingHalf),
+              margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
               padding: const EdgeInsets.only(
                 top: 4,
                 bottom: 4,
-                left: Base.basePadding,
-                right: Base.basePadding,
+                left: Base.BASE_PADDING,
+                right: Base.BASE_PADDING,
               ),
               decoration: BoxDecoration(
                 color: mainColor,
@@ -838,7 +838,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     List<Widget> userWidgetList = [];
     for (var zapInfo in eventRelation.zapInfos) {
       userWidgetList.add(Container(
-        margin: const EdgeInsets.only(left: Base.basePaddingHalf),
+        margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
         child: Selector<MetadataProvider, Metadata?>(
           builder: (context, metadata, child) {
             return GestureDetector(
@@ -870,7 +870,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     ));
 
     return Container(
-      margin: const EdgeInsets.only(top: Base.basePaddingHalf),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
