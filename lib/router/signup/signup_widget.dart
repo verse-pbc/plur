@@ -10,6 +10,7 @@ import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
+import '../../util/theme_util.dart';
 
 /// A widget for user sign-up.
 ///
@@ -50,6 +51,8 @@ class _SignupWidgetState extends State<SignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
+    final themeData = Theme.of(context);
+    final dimmedColor = themeData.customColors.dimmedColor;
     final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -98,10 +101,7 @@ class _SignupWidgetState extends State<SignupWidget> {
       // obscured and can be toggled visible using a button.
       Container(
         decoration: BoxDecoration(
-          border: Border.all(
-            color: ColorList.dimmed,
-            width: 2,
-          ),
+          border: Border.all(color: dimmedColor, width: 2),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Column(
@@ -118,7 +118,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                   fontSize: 15.93,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.182,
-                  color: ColorList.dimmed,
+                  color: dimmedColor,
                 ),
               ),
             ),
@@ -131,12 +131,12 @@ class _SignupWidgetState extends State<SignupWidget> {
               },
               icon: Icon(
                 _isTextObscured ? Icons.visibility : Icons.visibility_off,
-                color: ColorList.dimmed,
+                color: dimmedColor,
               ),
               label: Text(
                 localization.view_key,
                 style: TextStyle(
-                  color: ColorList.dimmed,
+                  color: dimmedColor,
                   fontSize: 15.93,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.182,
@@ -183,7 +183,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             });
           },
           activeColor: ColorList.accent,
-          side: BorderSide(color: ColorList.dimmed, width: 2),
+          side: BorderSide(color: dimmedColor, width: 2),
           controlAffinity: ListTileControlAffinity.leading,
           dense: true,
           visualDensity: VisualDensity.compact,
