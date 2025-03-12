@@ -78,7 +78,7 @@ class _MusicWidgetState extends State<MusicWidget> {
     List<Widget> musicSubInfos = [];
     if (StringUtil.isNotBlank(widget.musicInfo.icon)) {
       musicSubInfos.add(Container(
-        margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(right: Base.basePaddingHalf),
         child: Image.asset(
           widget.musicInfo.icon!,
           width: 18,
@@ -121,8 +121,8 @@ class _MusicWidgetState extends State<MusicWidget> {
       Expanded(
           child: Container(
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -79,9 +79,9 @@ class _ZapGoalInputWidgetState extends State<ZapGoalInputWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       width: double.maxFinite,
       child: Column(

@@ -119,7 +119,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
           var pollItemWidget = Container(
             width: double.maxFinite,
             margin: const EdgeInsets.only(
-              top: Base.BASE_PADDING_HALF,
+              top: Base.basePaddingHalf,
             ),
             decoration: BoxDecoration(
               color: pollBackgroundColor,
@@ -129,7 +129,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+                  padding: EdgeInsets.all(Base.basePaddingHalf),
                   width: double.maxFinite,
                   child: AbsorbPointer(
                     child: ContentWidget(
@@ -154,7 +154,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
                   ),
                 ),
                 Positioned(
-                  right: Base.BASE_PADDING,
+                  right: Base.basePadding,
                   child: Text(
                     "${(percent * 100).toStringAsFixed(2)}% ${NumberFormatUtil.format(num)} sats",
                     style: const TextStyle(
@@ -181,7 +181,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
 
         if (pollInfo!.valueMinimum != null && pollInfo!.valueMaximum != null) {
           list.add(Container(
-            margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+            margin: const EdgeInsets.only(top: Base.basePaddingHalf),
             child: Text(
               "${localization.min_zap_num}: ${pollInfo!.valueMinimum}  ${localization.max_zap_num}: ${pollInfo!.valueMaximum}",
               style: TextStyle(
@@ -195,8 +195,8 @@ class _EventPollWidgetState extends State<EventPollWidget> {
           // color: Colors.red,
           width: double.maxFinite,
           margin: const EdgeInsets.only(
-            top: Base.BASE_PADDING_HALF,
-            bottom: Base.BASE_PADDING_HALF,
+            top: Base.basePaddingHalf,
+            bottom: Base.basePaddingHalf,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
