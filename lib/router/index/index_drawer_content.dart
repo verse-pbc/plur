@@ -6,6 +6,7 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/metadata.dart';
@@ -39,6 +40,21 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
   ///
   /// Defaults to false.
   bool _readOnly = false;
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: '',
+    packageName: '',
+    version: '',
+    buildNumber: '',
+    buildSignature: '',
+    installerStore: '',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +182,8 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       ));
     } else {
       // Add the app version.
-      Widget versionWidget = Text("V ${Base.VERSION_NAME}");
+      final version = "${localization.Version}: ${_packageInfo.version}";
+      Widget versionWidget = Text(version);
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
@@ -208,6 +225,14 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         children: list,
       ),
     );
+  }
+
+  /// Fetches package information from the current platform.
+  void _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   /// Navigates to the profile edit screen.
