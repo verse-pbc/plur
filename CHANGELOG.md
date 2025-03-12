@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enabled separate builds for production, staging, and dev. [#220](https://github.com/verse-pbc/issues/issues/220)
 - Added push notification entitlements. [#195](https://github.com/verse-pbc/issues/issues/195)
 - Replaced print statemanets with the Flutter logger. [#259](https://github.com/verse-pbc/issues/issues/259)
+- Fixed failing release deployment. [#220](https://github.com/verse-pbc/issues/issues/220)
 
 ## [0.0.2]
 
