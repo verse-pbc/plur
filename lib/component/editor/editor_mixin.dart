@@ -966,7 +966,7 @@ mixin EditorMixin {
 
     return Container(
       height: 260,
-      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(left: Base.basePaddingHalf),
       width: double.infinity,
       child: Selector<ListProvider, Event?>(
         builder: (context, emojiEvent, child) {
@@ -1075,15 +1075,15 @@ mixin EditorMixin {
 
     var main = SingleChildScrollView(
       child: Wrap(
-        runSpacing: Base.BASE_PADDING_HALF,
-        spacing: Base.BASE_PADDING_HALF,
+        runSpacing: Base.basePaddingHalf,
+        spacing: Base.basePaddingHalf,
         children: list,
       ),
     );
 
     return Container(
       height: 260,
-      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(left: Base.basePaddingHalf),
       width: double.infinity,
       child: main,
     );

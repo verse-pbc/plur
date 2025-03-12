@@ -21,7 +21,7 @@ class MetadataPlaceholder extends StatelessWidget {
       Container(
         width: double.maxFinite,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
           left: Base.basePadding,
           right: Base.basePadding,
           bottom: Base.basePadding,

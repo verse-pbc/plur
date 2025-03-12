@@ -92,7 +92,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
           Container(
             margin: const EdgeInsets.only(
               top: Base.basePadding,
-              bottom: Base.basePadding + Base.BASE_PADDING_HALF,
+              bottom: Base.basePadding + Base.basePaddingHalf,
             ),
             child: Text(
               titleDateFormat.format(_currentDay),

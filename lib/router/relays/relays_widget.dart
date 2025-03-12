@@ -53,7 +53,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     list.add(Container(
       padding: EdgeInsets.only(
         left: Base.basePadding,
-        bottom: Base.BASE_PADDING_HALF,
+        bottom: Base.basePaddingHalf,
       ),
       child: Row(
         children: [
@@ -97,7 +97,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       list.add(Container(
         padding: EdgeInsets.only(
           left: Base.basePadding,
-          bottom: Base.BASE_PADDING_HALF,
+          bottom: Base.basePaddingHalf,
         ),
         child: Text(
           localization.Cache_Relay,
@@ -133,7 +133,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       list.add(Container(
         padding: EdgeInsets.only(
           left: Base.basePadding,
-          bottom: Base.BASE_PADDING_HALF,
+          bottom: Base.basePaddingHalf,
         ),
         child: Text(
           localization.TempRelays,
@@ -209,7 +209,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
             ),
             value: relayType,
             padding: const EdgeInsets.only(
-                left: Base.basePadding, right: Base.BASE_PADDING_HALF),
+                left: Base.basePadding, right: Base.basePaddingHalf),
             items: [
               DropdownMenuItem(
                 value: RelayType.NORMAL,

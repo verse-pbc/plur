@@ -68,7 +68,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
           Container(
             margin: EdgeInsets.only(
               left: Base.basePadding,
-              right: Base.BASE_PADDING_HALF,
+              right: Base.basePaddingHalf,
             ),
             child: Text("${localization.Send_interval}: "),
           ),
@@ -123,10 +123,10 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
       child: Text(localization.Select_relay_to_upload),
     ));
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: Wrap(
-        spacing: Base.BASE_PADDING_HALF,
-        runSpacing: Base.BASE_PADDING_HALF,
+        spacing: Base.basePaddingHalf,
+        runSpacing: Base.basePaddingHalf,
         children: subList,
       ),
     ));
@@ -283,8 +283,8 @@ class _SyncUploadItem extends State<SyncUploadItem> {
         padding: const EdgeInsets.only(
           left: Base.basePadding,
           right: Base.basePadding,
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
           color: widget.check ? mainColor.withOpacity(0.2) : null,
@@ -292,7 +292,7 @@ class _SyncUploadItem extends State<SyncUploadItem> {
             width: 1,
             color: hintColor.withOpacity(0.5),
           ),
-          borderRadius: BorderRadius.circular(Base.BASE_PADDING_HALF),
+          borderRadius: BorderRadius.circular(Base.basePaddingHalf),
         ),
         child: Text(widget.addr),
       ),

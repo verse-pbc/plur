@@ -78,7 +78,7 @@ class _MusicWidgetState extends State<MusicWidget> {
     List<Widget> musicSubInfos = [];
     if (StringUtil.isNotBlank(widget.musicInfo.icon)) {
       musicSubInfos.add(Container(
-        margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(right: Base.basePaddingHalf),
         child: Image.asset(
           widget.musicInfo.icon!,
           width: 18,

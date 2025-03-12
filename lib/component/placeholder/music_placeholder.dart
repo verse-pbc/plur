@@ -37,7 +37,7 @@ class MusicPlaceholder extends StatelessWidget {
           children: [
             Container(
               width: 200,
-              margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
               child: PlaceholderLines(
                 count: 1,
                 lineHeight: titleFontSize,

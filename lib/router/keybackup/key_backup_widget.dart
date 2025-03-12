@@ -66,7 +66,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Text(
         localization.The_key_is_a_random_string_that_resembles_,
       ),

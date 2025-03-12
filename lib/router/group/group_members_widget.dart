@@ -96,7 +96,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
 
     if (addFunc != null) {
       list.add(Container(
-        margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(left: Base.basePaddingHalf),
         child: GestureDetector(
           onTap: () {
             addFunc();
@@ -162,7 +162,7 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
 
     List<Widget> list = [];
     list.add(Container(
-      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
       child: UserPicWidget(pubkey: widget.pubkey, width: USER_PIC_WIDTH),
     ));
     list.add(NameWidget(pubkey: widget.pubkey));
@@ -174,8 +174,8 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
       list.add(Expanded(
         child: Container(
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
           ),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -213,8 +213,8 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
         padding: const EdgeInsets.only(
           left: Base.basePadding,
           right: Base.basePadding,
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         color: cardColor,
         child: Row(

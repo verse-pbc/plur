@@ -67,8 +67,8 @@ class _EditorNotifyItemWidgetState extends State<EditorNotifyItemWidget> {
       padding: const EdgeInsets.only(
         left: Base.basePadding,
         right: Base.basePadding,
-        top: Base.BASE_PADDING_HALF / 2,
-        bottom: Base.BASE_PADDING_HALF / 2,
+        top: Base.basePaddingHalf / 2,
+        bottom: Base.basePaddingHalf / 2,
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

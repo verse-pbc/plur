@@ -56,8 +56,8 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
 
       list.add(Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         child: ZapsSendDialogItem(
           pubkey,

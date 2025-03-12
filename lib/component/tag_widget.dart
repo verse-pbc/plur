@@ -21,8 +21,8 @@ class TagWidget extends StatelessWidget {
 
     var main = Container(
       padding: EdgeInsets.only(
-        left: Base.BASE_PADDING_HALF,
-        right: Base.BASE_PADDING_HALF,
+        left: Base.basePaddingHalf,
+        right: Base.basePaddingHalf,
         top: 4,
         bottom: 4,
       ),

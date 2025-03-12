@@ -30,7 +30,7 @@ class _ZapEventListWidgetState extends State<ZapEventListWidget> {
 
     var main = Container(
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       padding: const EdgeInsets.only(
         top: Base.basePadding,
         bottom: Base.basePadding,

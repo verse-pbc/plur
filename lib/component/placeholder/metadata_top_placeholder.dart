@@ -36,7 +36,7 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
     ];
     topBtnList.add(Container(
       width: 140,
-      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
       child: PlaceholderLines(
         count: 1,
         lineHeight: 30,
@@ -50,7 +50,7 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
       margin: const EdgeInsets.only(
         left: Base.basePadding,
         right: Base.basePadding,
-        bottom: Base.BASE_PADDING_HALF,
+        bottom: Base.basePaddingHalf,
       ),
       child: PlaceholderLines(
         count: 1,
