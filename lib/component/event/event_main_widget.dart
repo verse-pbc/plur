@@ -524,7 +524,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           ));
         } else {
           list.add(Container(
-            height: Base.BASE_PADDING,
+            height: Base.basePadding,
           ));
         }
       }
@@ -575,8 +575,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 
       eventAllList.add(Container(
         padding: EdgeInsets.only(
-          left: Base.BASE_PADDING + 4,
-          right: Base.BASE_PADDING + 4 + (widget.traceMode ? 40 : 0),
+          left: Base.basePadding + 4,
+          right: Base.basePadding + 4 + (widget.traceMode ? 40 : 0),
           bottom: Base.BASE_PADDING_HALF,
         ),
         child: communityTitle,
@@ -595,8 +595,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     eventAllList.add(Container(
       width: double.maxFinite,
       padding: EdgeInsets.only(
-        left: Base.BASE_PADDING + (widget.traceMode ? 40 : 0),
-        right: Base.BASE_PADDING,
+        left: Base.basePadding + (widget.traceMode ? 40 : 0),
+        right: Base.basePadding,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -752,7 +752,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-          bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
+          bottom: Base.basePadding, top: Base.basePadding),
       width: double.maxFinite,
       child: Column(
         children: [
@@ -781,8 +781,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               padding: const EdgeInsets.only(
                 top: 4,
                 bottom: 4,
-                left: Base.BASE_PADDING,
-                right: Base.BASE_PADDING,
+                left: Base.basePadding,
+                right: Base.basePadding,
               ),
               decoration: BoxDecoration(
                 color: mainColor,

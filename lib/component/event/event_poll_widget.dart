@@ -154,7 +154,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
                   ),
                 ),
                 Positioned(
-                  right: Base.BASE_PADDING,
+                  right: Base.basePadding,
                   child: Text(
                     "${(percent * 100).toStringAsFixed(2)}% ${NumberFormatUtil.format(num)} sats",
                     style: const TextStyle(

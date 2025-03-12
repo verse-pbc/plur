@@ -65,7 +65,7 @@ class _EventListWidgetState extends State<EventListWidget> {
         color: cardColor,
         margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
           // bottom: Base.BASE_PADDING,
         ),
         child: EventMainWidget(

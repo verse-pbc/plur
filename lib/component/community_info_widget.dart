@@ -88,7 +88,7 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
             ),
             Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING,
+                left: Base.basePadding,
               ),
               child: Text(
                 widget.info.aId.title,
@@ -110,7 +110,7 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
 
     return Container(
       decoration: BoxDecoration(color: cardColor),
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
       margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

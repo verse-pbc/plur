@@ -77,7 +77,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.all(Base.BASE_PADDING),
+      margin: EdgeInsets.all(Base.basePadding),
       child: InkWell(
         onTap: copyKey,
         child: Container(

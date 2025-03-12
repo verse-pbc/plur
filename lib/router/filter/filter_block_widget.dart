@@ -58,7 +58,7 @@ class FilterBlockItemWidget extends StatelessWidget {
           color: cardColor,
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: EdgeInsets.all(Base.BASE_PADDING),
+        padding: EdgeInsets.all(Base.basePadding),
         child: Row(children: [
           Expanded(child: Text(nip19Pubkey)),
           GestureDetector(

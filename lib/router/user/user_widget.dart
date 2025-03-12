@@ -211,8 +211,8 @@ class _UserWidgetState extends CustState<UserWidget>
 
         if (dataSyncMode) {
           mainList.add(Positioned(
-            right: Base.BASE_PADDING * 5,
-            bottom: Base.BASE_PADDING * 4,
+            right: Base.basePadding * 5,
+            bottom: Base.basePadding * 4,
             child: GestureDetector(
               onTap: beginToDown,
               child: const Icon(Icons.cloud_download),
@@ -220,8 +220,8 @@ class _UserWidgetState extends CustState<UserWidget>
           ));
 
           mainList.add(Positioned(
-            right: Base.BASE_PADDING * 2,
-            bottom: Base.BASE_PADDING * 4,
+            right: Base.basePadding * 2,
+            bottom: Base.basePadding * 4,
             child: GestureDetector(
               onTap: broadcaseAll,
               child: const Icon(Icons.cloud_upload),

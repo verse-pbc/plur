@@ -61,8 +61,8 @@ class _MetadataWidgetState extends State<MetadataWidget> {
           width: double.maxFinite,
           padding: const EdgeInsets.only(
             top: Base.BASE_PADDING_HALF,
-            left: Base.BASE_PADDING,
-            right: Base.BASE_PADDING,
+            left: Base.basePadding,
+            right: Base.basePadding,
             bottom: Base.BASE_PADDING_HALF,
           ),
           // child: Text(widget.metadata!.about!),

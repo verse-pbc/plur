@@ -70,7 +70,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
     List<Widget> list = [];
     var currentWidth = mediaDataCache.size.width;
     var leftWidth = (widget.item.currentLevel - 1) *
-        (Base.BASE_PADDING + ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH);
+        (Base.basePadding + ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH);
     currentWidth = mediaDataCache.size.width - leftWidth;
     if (currentWidth < ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH) {
       currentWidth = ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
@@ -98,8 +98,8 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
         list.add(Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(
-            bottom: Base.BASE_PADDING,
-            left: Base.BASE_PADDING,
+            bottom: Base.basePadding,
+            left: Base.basePadding,
           ),
           decoration: BoxDecoration(
             border: Border(
@@ -118,8 +118,8 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
         list.add(Container(
           alignment: Alignment.centerLeft,
           margin: const EdgeInsets.only(
-            bottom: Base.BASE_PADDING,
-            left: Base.BASE_PADDING,
+            bottom: Base.basePadding,
+            left: Base.basePadding,
           ),
           decoration: BoxDecoration(
             border: Border(
@@ -132,8 +132,8 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
           child: Container(
             margin: const EdgeInsets.only(
               top: Base.BASE_PADDING_HALF,
-              left: Base.BASE_PADDING,
-              bottom: Base.BASE_PADDING,
+              left: Base.basePadding,
+              bottom: Base.basePadding,
             ),
             child: ContentStrLinkWidget(
               str: localization.Show_more_replies,
@@ -157,7 +157,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
       child: Container(
         key: currentEventKey,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
         ),
         color: cardColor,
         child: Column(

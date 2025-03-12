@@ -343,7 +343,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             eventReactions.zaps.isNotEmpty) {
           mainList.add(Container(
             margin: const EdgeInsets.only(
-              top: Base.BASE_PADDING,
+              top: Base.basePadding,
               bottom: Base.BASE_PADDING_HALF,
             ),
             child: EventTopZapsWidget(eventReactions.zaps),
@@ -390,8 +390,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           mainList.add(Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
               bottom: Base.BASE_PADDING_HALF,
             ),
             width: double.maxFinite,

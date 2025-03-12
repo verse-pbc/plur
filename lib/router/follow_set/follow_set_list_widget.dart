@@ -119,10 +119,10 @@ class FollowSetListItem extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       color: themeData.cardColor,
       child: Row(
@@ -134,7 +134,7 @@ class FollowSetListItem extends StatelessWidget {
                   context, RouterPath.FOLLOW_SET_DETAIL, followSet);
             },
             child: Container(
-              margin: EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: EdgeInsets.only(right: Base.basePadding),
               child: Row(
                 children: [
                   Container(
