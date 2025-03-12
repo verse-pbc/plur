@@ -35,5 +35,5 @@ class Base {
 
   static double tabBarHeight = 46;
 
-  static int DEFAULT_DATA_INDEX = -1;
+  static int defaultDataIndex = -1;
 }
