@@ -25,8 +25,8 @@ class ContentCashuWidget extends StatelessWidget {
     double largeFontSize = 20;
 
     return Container(
-      margin: const EdgeInsets.all(Base.basePadding),
-      padding: const EdgeInsets.all(Base.basePadding * 2),
+      margin: const EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.BASE_PADDING * 2),
       decoration: BoxDecoration(
         color: cardColor,
         boxShadow: [
@@ -47,7 +47,7 @@ class ContentCashuWidget extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: Base.basePadding),
+                  margin: EdgeInsets.only(right: Base.BASE_PADDING),
                   child: Image.asset(
                     "assets/imgs/cashu_logo.png",
                     width: 50,
@@ -61,7 +61,7 @@ class ContentCashuWidget extends StatelessWidget {
                       children: [
                         Container(
                           margin:
-                              const EdgeInsets.only(right: Base.basePaddingHalf),
+                              const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
                           child: Text(
                             tokens.totalAmount().toString(),
                             style: TextStyle(

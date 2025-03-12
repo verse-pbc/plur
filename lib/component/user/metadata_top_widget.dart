@@ -183,9 +183,9 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
     Widget userNameWidget = Container(
       width: double.maxFinite,
       margin: const EdgeInsets.only(
-        left: Base.basePadding,
-        right: Base.basePadding,
-        bottom: Base.basePaddingHalf,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
+        bottom: Base.BASE_PADDING_HALF,
       ),
       child: Text.rich(
         TextSpan(
@@ -276,7 +276,7 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
           children: topList,
         ),
         Positioned(
-          left: Base.basePadding,
+          left: Base.BASE_PADDING,
           top: bannerHeight - HALF_IMAGE_WIDTH,
           child: Container(
             height: IMAGE_WIDTH + IMAGE_BORDER * 2,
@@ -533,9 +533,9 @@ class MetadataIconDataComp extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        bottom: Base.basePaddingHalf,
-        left: Base.basePadding,
-        right: Base.basePadding,
+        bottom: Base.BASE_PADDING_HALF,
+        left: Base.BASE_PADDING,
+        right: Base.BASE_PADDING,
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -548,7 +548,7 @@ class MetadataIconDataComp extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(
-                right: Base.basePaddingHalf,
+                right: Base.BASE_PADDING_HALF,
               ),
               child: leftWidget ??
                   Icon(
@@ -561,8 +561,8 @@ class MetadataIconDataComp extends StatelessWidget {
               child: Container(
                 padding: textBG
                     ? const EdgeInsets.only(
-                        left: Base.basePaddingHalf,
-                        right: Base.basePaddingHalf,
+                        left: Base.BASE_PADDING_HALF,
+                        right: Base.BASE_PADDING_HALF,
                         top: 4,
                         bottom: 4,
                       )

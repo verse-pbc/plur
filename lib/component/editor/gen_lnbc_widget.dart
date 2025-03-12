@@ -56,7 +56,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.all(Base.basePadding),
+                  padding: const EdgeInsets.all(Base.BASE_PADDING),
                   child: ContentStrLinkWidget(
                     str: localization.Add_now,
                     onTap: () async {
@@ -74,7 +74,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         List<Widget> list = [];
 
         list.add(Container(
-          margin: EdgeInsets.only(bottom: Base.basePadding),
+          margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
           child: Text(
             localization.Input_Sats_num_to_gen_lightning_invoice,
             style: TextStyle(
@@ -85,7 +85,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         ));
 
         list.add(Container(
-          margin: EdgeInsets.only(bottom: Base.basePadding),
+          margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
           child: TextField(
             controller: controller,
             minLines: 1,
@@ -113,7 +113,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
 
         list.add(Container(
           margin: const EdgeInsets.only(
-            top: Base.basePadding,
+            top: Base.BASE_PADDING,
             bottom: 6,
           ),
           child: Ink(
@@ -140,7 +140,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         ));
 
         var main = Container(
-          padding: const EdgeInsets.all(Base.basePadding),
+          padding: const EdgeInsets.all(Base.BASE_PADDING),
           decoration: BoxDecoration(
             color: cardColor,
           ),
