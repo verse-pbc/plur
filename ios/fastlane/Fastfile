@@ -94,11 +94,22 @@ platform :ios do
     )
   end
 
-  desc "Push a new Nos Release build to TestFlight"
+  desc "Push a new Plur Release build to TestFlight"
   lane :release do
     push_build(
       scheme: "Runner",
       appidentifier: "app.verse.prototype.plur",
+      tagprefix: "",
+      appstoreconnect: "https://appstoreconnect.apple.com/apps/6738932333/testflight/ios",
+      distribution_groups: []
+    )
+  end
+
+  desc "Push a new Plur staging build to TestFlight"
+  lane :deploy_staging do
+    push_build(
+      scheme: "Runner-Staging",
+      appidentifier: "app.verse.prototype.plur-staging",
       tagprefix: "",
       appstoreconnect: "https://appstoreconnect.apple.com/apps/6738932333/testflight/ios",
       distribution_groups: []
