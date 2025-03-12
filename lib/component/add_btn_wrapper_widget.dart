@@ -97,7 +97,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
         shape: MenuShape.linear,
         linearShapeParams: LinearShapeParams(
           alignment: LinearAlignment.left,
-          space: Base.BASE_PADDING,
+          space: Base.basePadding,
         ),
       ),
       controller: starMenuController,
@@ -155,8 +155,8 @@ class AddBtnStartItemButton extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: Base.BASE_PADDING_HALF,
           bottom: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,

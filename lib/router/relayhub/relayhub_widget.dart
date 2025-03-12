@@ -72,7 +72,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
           GestureDetector(
             onTap: testAllSpeed,
             child: Container(
-              padding: EdgeInsets.only(right: Base.BASE_PADDING),
+              padding: EdgeInsets.only(right: Base.basePadding),
               child: Icon(
                 Icons.speed,
                 color: themeData.appBarTheme.titleTextStyle!.color,
@@ -83,7 +83,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
       ),
       body: Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
         ),
         child: mainWidget,
       ),

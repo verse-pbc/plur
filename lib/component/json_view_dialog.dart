@@ -48,7 +48,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
     list.add(Expanded(
       child: Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
           bottom: Base.BASE_PADDING_HALF,
           left: Base.BASE_PADDING_HALF,
           right: Base.BASE_PADDING_HALF,
@@ -112,8 +112,8 @@ class _JsonViewDialog extends State<JsonViewDialog> {
         maxHeight: maxHeight * 0.8,
       ),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
         top: Base.BASE_PADDING_HALF,
         bottom: Base.BASE_PADDING_HALF,
       ),
@@ -148,8 +148,8 @@ class _JsonViewDialog extends State<JsonViewDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

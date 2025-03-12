@@ -80,8 +80,8 @@ class _EventTopWidgetState extends State<EventTopWidget> {
 
         return Container(
           padding: const EdgeInsets.only(
-            left: Base.BASE_PADDING,
-            right: Base.BASE_PADDING,
+            left: Base.basePadding,
+            right: Base.basePadding,
             bottom: Base.BASE_PADDING_HALF,
           ),
           child: Row(

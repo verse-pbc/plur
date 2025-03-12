@@ -120,13 +120,13 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
     list.add(Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
         top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING,
+        bottom: Base.basePadding,
       ),
       child: Wrap(
-        spacing: Base.BASE_PADDING,
+        spacing: Base.basePadding,
         runSpacing: Base.BASE_PADDING_HALF,
         children: numberWidgets,
       ),
@@ -134,9 +134,9 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
 
     list.add(Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePadding,
         top: Base.BASE_PADDING_HALF,
       ),
       child: TextField(
@@ -152,8 +152,8 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
       margin: EdgeInsets.only(
         top: Base.BASE_PADDING_HALF,
         bottom: 20,
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),

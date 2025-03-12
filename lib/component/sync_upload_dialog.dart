@@ -61,13 +61,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: EdgeInsets.only(top: Base.basePadding),
       child: Row(
         children: [
           Text("${localization.Upload_num}: ${widget.events.length}"),
           Container(
             margin: EdgeInsets.only(
-              left: Base.BASE_PADDING,
+              left: Base.basePadding,
               right: Base.BASE_PADDING_HALF,
             ),
             child: Text("${localization.Send_interval}: "),
@@ -119,7 +119,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
           relayAddr, _relaySelected[relayAddr] == true, onItemTap));
     }
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Text(localization.Select_relay_to_upload),
     ));
     list.add(Container(
@@ -133,7 +133,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING * 2,
+        top: Base.basePadding * 2,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -183,8 +183,8 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -281,8 +281,8 @@ class _SyncUploadItem extends State<SyncUploadItem> {
       },
       child: Container(
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
           top: Base.BASE_PADDING_HALF,
           bottom: Base.BASE_PADDING_HALF,
         ),

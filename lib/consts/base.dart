@@ -7,7 +7,7 @@ class Base {
   static const String privacyLink =
       "https://www.nos.social/terms-of-service";
 
-  static const double BASE_PADDING = 12;
+  static const double basePadding = 12;
 
   static const double BASE_PADDING_HALF = 6;
 

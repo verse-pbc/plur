@@ -183,8 +183,8 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
     Widget userNameWidget = Container(
       width: double.maxFinite,
       margin: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
         bottom: Base.BASE_PADDING_HALF,
       ),
       child: Text.rich(
@@ -276,7 +276,7 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
           children: topList,
         ),
         Positioned(
-          left: Base.BASE_PADDING,
+          left: Base.basePadding,
           top: bannerHeight - HALF_IMAGE_WIDTH,
           child: Container(
             height: IMAGE_WIDTH + IMAGE_BORDER * 2,
@@ -534,8 +534,8 @@ class MetadataIconDataComp extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.only(
         bottom: Base.BASE_PADDING_HALF,
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,

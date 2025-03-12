@@ -50,7 +50,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
 
         return Container(
           color: themeData.cardColor,
-          padding: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+          padding: const EdgeInsets.only(bottom: Base.basePadding),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(

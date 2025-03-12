@@ -27,7 +27,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
 
   @override
   Widget build(BuildContext context) {
-    var contentWidth = mediaDataCache.size.width - 4 * Base.BASE_PADDING;
+    var contentWidth = mediaDataCache.size.width - 4 * Base.basePadding;
     itemWidth = (contentWidth - 10) / 2;
 
     return SearchMentionWidget(

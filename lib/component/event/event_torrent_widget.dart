@@ -130,8 +130,8 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
     ));
 
     return Container(
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
-      margin: const EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
+      margin: const EdgeInsets.all(Base.basePadding),
       decoration: boxDecoration,
       width: double.infinity,
       child: Column(

@@ -40,7 +40,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
     List<Widget> mainList = [];
     mainList.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
+        top: Base.basePadding,
         bottom: 18,
       ),
       child: Text(
@@ -62,8 +62,8 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
       child: DynamicHeightGridView(
         shrinkWrap: true,
         crossAxisCount: crossAxisCount,
-        mainAxisSpacing: Base.BASE_PADDING,
-        crossAxisSpacing: Base.BASE_PADDING,
+        mainAxisSpacing: Base.basePadding,
+        crossAxisSpacing: Base.basePadding,
         itemCount: pubkeys.length,
         builder: (context, index) {
           var pubkey = pubkeys[index];
@@ -79,7 +79,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
       width: double.maxFinite,
       alignment: Alignment.centerRight,
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING * 2,
+        top: Base.basePadding * 2,
       ),
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -99,10 +99,10 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
     return Scaffold(
       body: Container(
         padding: EdgeInsets.only(
-          top: mediaData.padding.top + Base.BASE_PADDING,
-          right: Base.BASE_PADDING * 2,
-          bottom: Base.BASE_PADDING * 2,
-          left: Base.BASE_PADDING * 2,
+          top: mediaData.padding.top + Base.basePadding,
+          right: Base.basePadding * 2,
+          bottom: Base.basePadding * 2,
+          left: Base.basePadding * 2,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

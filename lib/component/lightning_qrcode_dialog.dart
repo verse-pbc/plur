@@ -61,8 +61,8 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
     }
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
         left: Base.BASE_PADDING_HALF,
         right: Base.BASE_PADDING_HALF,
       ),
@@ -124,8 +124,8 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

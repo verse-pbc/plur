@@ -22,7 +22,7 @@ class WebUtilItemWidget extends StatelessWidget {
       color: cardColor,
       margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       padding: const EdgeInsets.all(
-        Base.BASE_PADDING,
+        Base.basePadding,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

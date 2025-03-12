@@ -85,8 +85,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
         bottom: Base.BASE_PADDING_HALF,
       ),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING * 2,
-        right: Base.BASE_PADDING * 2,
+        left: Base.basePadding * 2,
+        right: Base.basePadding * 2,
       ),
       width: double.maxFinite,
       child: TextButton(
@@ -379,8 +379,8 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
           height: lineHeight,
           width: double.maxFinite,
           padding: const EdgeInsets.only(
-            left: Base.BASE_PADDING * 2,
-            right: Base.BASE_PADDING * 2,
+            left: Base.basePadding * 2,
+            right: Base.basePadding * 2,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
