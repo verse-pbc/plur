@@ -3,13 +3,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown/markdown.dart' as md;
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_video_widget.dart';
 import 'package:nostrmo/component/content/markdown/markdown_mention_event_element_builder.dart';
 import 'package:nostrmo/component/event/event_torrent_widget.dart';
 import 'package:nostrmo/component/event/event_zap_goals_widget.dart';
-import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
@@ -23,12 +21,10 @@ import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
-import '../../provider/replaceable_event_provider.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
 import '../confirm_dialog.dart';
 import '../content/content_widget.dart';
-import '../content/content_decoder.dart';
 import '../content/content_image_widget.dart';
 import '../content/content_link_widget.dart';
 import '../content/content_tag_widget.dart';
@@ -40,7 +36,6 @@ import '../content/markdown/markdown_nevent_inline_syntax.dart';
 import '../content/markdown/markdown_nprofile_inline_syntax.dart';
 import '../content/markdown/markdown_nrelay_element_builder.dart';
 import '../content/markdown/markdown_nrelay_inline_syntax copy.dart';
-import '../image_widget.dart';
 import '../zap/zap_split_icon_widget.dart';
 import 'event_poll_widget.dart';
 import '../webview_widget.dart';
@@ -183,7 +178,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     List<Widget> list = [];
     if (showWarning || !eventRelation.warning) {
       if (widget.event.kind == EventKind.LONG_FORM) {
-        var longFormMargin = EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
+        var longFormMargin =
+            const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF);
 
         List<Widget> subList = [];
         var longFormInfo = LongFormInfo.fromEvent(widget.event);
@@ -315,7 +311,6 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             );
           }
         }
-
       } else if (widget.event.kind == EventKind.STORAGE_SHARED_FILE) {
         list.add(buildStorageSharedFileWidget());
         if (!widget.inQuote) {
@@ -370,7 +365,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               list.add(Container(
                 width: double.infinity,
                 alignment: Alignment.centerLeft,
-                margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+                margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
                 child: Text(
                   eventRelation.subject!,
                   maxLines: 10,
@@ -550,7 +545,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             color: hintColor,
           ),
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: Base.BASE_PADDING_HALF,
               right: 3,
             ),
@@ -679,7 +674,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             MarkdownMentionEventElementBuilder(),
         MarkdownNrelayElementBuilder.TAG: MarkdownNrelayElementBuilder(),
       },
-      blockSyntaxes: [],
+      blockSyntaxes: const [],
       inlineSyntaxes: [
         MarkdownMentionEventInlineSyntax(),
         MarkdownMentionUserInlineSyntax(),
@@ -756,17 +751,17 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     final localization = S.of(context);
 
     return Container(
-      margin:
-          EdgeInsets.only(bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(
+          bottom: Base.BASE_PADDING, top: Base.BASE_PADDING),
       width: double.maxFinite,
       child: Column(
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.warning),
+              const Icon(Icons.warning),
               Container(
-                margin: EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+                margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
                 child: Text(
                   localization.Content_warning,
                   style: TextStyle(fontSize: largeTextSize),
@@ -782,7 +777,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               });
             },
             child: Container(
-              margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
               padding: const EdgeInsets.only(
                 top: 4,
                 bottom: 4,
@@ -795,7 +790,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               ),
               child: Text(
                 localization.Show,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -875,7 +870,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     ));
 
     return Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,
@@ -885,9 +880,9 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 }
 
 class EventReplyingComponent extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  EventReplyingComponent({required this.pubkey});
+  const EventReplyingComponent({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
