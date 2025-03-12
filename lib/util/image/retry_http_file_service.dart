@@ -61,7 +61,7 @@ class RetryHttpFileService extends FileService {
     var sign = HashUtil.md5("$base64Url$t${Base.IMAGE_PROXY_SERVICE_KEY}");
 
     // t and sign arg set to head
-    url = "${Base.IMAGE_PROXY_SERVICE}$base64Url";
+    url = "${Base.imageProxyService}$base64Url";
     // log("begin to retry image from ${url}");
 
     final req = http.Request('GET', Uri.parse(url));
