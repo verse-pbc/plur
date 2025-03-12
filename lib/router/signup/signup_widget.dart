@@ -51,8 +51,12 @@ class _SignupWidgetState extends State<SignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
+    
+    // Save some colors for later
     final themeData = Theme.of(context);
     final dimmedColor = themeData.customColors.dimmedColor;
+    final buttonTextColor = themeData.customColors.buttonTextColor;
+
     final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -155,10 +159,10 @@ class _SignupWidgetState extends State<SignupWidget> {
       // flex container.
       Expanded(flex: 2, child: Container()),
 
-      // Adds a checkbox list tile for user acknowledgment. The user must confirm
-      // they understand the risks of sharing their private key before proceeding.
+      // Adds a checkbox list tile for user acknowledgment. The user must
+      // confirm they understand the risks of sharing their private key before
+      // proceeding.
       // This enables the "Copy & Continue" button.
-
       ListTileTheme(
         data: const ListTileThemeData(
           titleAlignment: ListTileTitleAlignment.top,
@@ -204,8 +208,8 @@ class _SignupWidgetState extends State<SignupWidget> {
             ),
             backgroundColor: ColorList.accent,
             disabledBackgroundColor: ColorList.accent.withOpacity(0.4),
-            foregroundColor: ColorList.buttonText,
-            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+            foregroundColor: buttonTextColor,
+            disabledForegroundColor: buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
             localization.Copy_and_Continue,

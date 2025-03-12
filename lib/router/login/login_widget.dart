@@ -86,8 +86,12 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
+    
+    // Save some colors for later
     final themeData = Theme.of(context);
     final dimmedColor = themeData.customColors.dimmedColor;
+    final buttonTextColor = themeData.customColors.buttonTextColor;
+
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -206,8 +210,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: dimmedColor,
           disabledBackgroundColor: dimmedColor.withOpacity(0.4),
-          foregroundColor: ColorList.buttonText,
-          disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+          foregroundColor: buttonTextColor,
+          disabledForegroundColor: buttonTextColor.withOpacity(0.4),
         ),
         child: Text(
           localization.Login,

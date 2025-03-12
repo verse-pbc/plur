@@ -9,7 +9,6 @@ class ColorList {
   static Color accent = const Color(0xFFFF5F44);
   static Color primaryForeground = const Color(0xFFFFFFFF);
   static Color loginBG = const Color(0xFF160F24);
-  static Color buttonText = const Color(0xFFFFFFFF);
 
   static List<Color> ALL_COLOR = [
     Colors.purple[700]!,
