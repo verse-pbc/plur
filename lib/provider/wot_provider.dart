@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/data_util.dart';
+import 'dart:developer';
 
 import '../main.dart';
 
@@ -60,7 +61,7 @@ class WotProvider extends ChangeNotifier {
   }
 
   void reload(String pubkey, {bool pullNow = false}) async {
-    print("begin to reload wot infos");
+    log("begin to reload wot infos");
     _pubkeys[pubkey] = 1;
 
     Map<String, int> tempPubkeyMap = {};

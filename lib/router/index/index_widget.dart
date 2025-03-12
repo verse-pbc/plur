@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -61,7 +62,6 @@ class IndexWidget extends StatefulWidget {
 
 class _IndexWidgetState extends CustState<IndexWidget>
     with TickerProviderStateMixin, WidgetsBindingObserver {
-
   late TabController followTabController;
   late TabController globalsTabController;
   late TabController dmTabController;
@@ -96,7 +96,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
       try {
         asyncInitState();
       } catch (e) {
-        print(e);
+        log('$e');
       }
     }
   }
@@ -107,28 +107,29 @@ class _IndexWidgetState extends CustState<IndexWidget>
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed:
-        print("AppLifecycleState.resumed");
+        log("AppLifecycleState.resumed");
         // Reconnect to Nostr when app is resumed
         if (nostr != null) {
           nostr!.reconnect();
         }
         break;
       case AppLifecycleState.inactive:
-        print("AppLifecycleState.inactive");
+        log("AppLifecycleState.inactive");
         break;
       case AppLifecycleState.detached:
-        print("AppLifecycleState.detached");
+        log("AppLifecycleState.detached");
         break;
       case AppLifecycleState.paused:
-        print("AppLifecycleState.paused");
+        log("AppLifecycleState.paused");
         break;
       case AppLifecycleState.hidden:
-        print("AppLifecycleState.hidden");
+        log("AppLifecycleState.hidden");
         break;
     }
   }
 
   bool unlock = false;
+
   /// Handles initial authentication if lock is enabled
   @override
   Future<void> onReady(BuildContext context) async {
@@ -413,10 +414,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
               .finishTransactionIOS(productItem.transactionId!);
         }
       } catch (e) {
-        print(e);
+        log('$e');
       }
-      print('purchase-updated: $productItem');
-      BotToast.showText(text: "Thanks yours coffee!");
+      log('purchase-updated: $productItem');
+      BotToast.showText(text: "Thanks for your coffee!");
     });
   }
 

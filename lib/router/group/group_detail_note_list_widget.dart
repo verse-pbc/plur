@@ -4,6 +4,7 @@ import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:nostrmo/router/group/no_notes_widget.dart';
 import 'package:nostrmo/main.dart';
+import 'dart:developer';
 
 import '../../component/event/event_list_widget.dart';
 import '../../component/keep_alive_cust_state.dart';
@@ -143,7 +144,7 @@ class _GroupDetailNoteListWidgetState
         sendAfterAuth: true,
       );
     } catch (e) {
-      print("Error in subscription: $e");
+      log("Error in subscription: $e");
     }
   }
 
@@ -169,7 +170,7 @@ class _GroupDetailNoteListWidgetState
     try {
       nostr!.unsubscribe(subscribeId);
     } catch (e) {
-      print("Error unsubscribing: $e");
+      log("Error unsubscribing: $e");
     }
   }
 

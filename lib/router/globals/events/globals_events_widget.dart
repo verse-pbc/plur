@@ -87,7 +87,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
     }
 
     var str = await DioUtil.getStr(Base.INDEXS_EVENTS);
-    // print(str);
+
     if (StringUtil.isNotBlank(str)) {
       ids.clear();
       var itfs = jsonDecode(str!);
