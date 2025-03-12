@@ -11,7 +11,7 @@ class Base {
 
   static const double basePaddingHalf = 6;
 
-  static String INDEXS_EVENTS = "https://nostrmo.com/indexs/events.json";
+  static String indexsEvents = "https://nostrmo.com/indexs/events.json";
 
   static String INDEXS_CONTACTS = "https://nostrmo.com/indexs/contacts.json";
 
