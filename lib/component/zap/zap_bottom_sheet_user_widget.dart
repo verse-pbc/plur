@@ -44,7 +44,7 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
           margin: const EdgeInsets.only(
             left: Base.basePadding,
             right: Base.basePadding,
-            bottom: Base.BASE_PADDING_HALF,
+            bottom: Base.basePaddingHalf,
           ),
           alignment: Alignment.center,
           child: SimpleNameWidget(

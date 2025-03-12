@@ -49,9 +49,9 @@ class _JsonViewDialog extends State<JsonViewDialog> {
       child: Container(
         margin: const EdgeInsets.only(
           top: Base.basePadding,
-          bottom: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING_HALF,
-          right: Base.BASE_PADDING_HALF,
+          bottom: Base.basePaddingHalf,
+          left: Base.basePaddingHalf,
+          right: Base.basePaddingHalf,
         ),
         child: JsonView.string(
           widget.jsonText,
@@ -79,9 +79,9 @@ class _JsonViewDialog extends State<JsonViewDialog> {
     ));
     list.add(Container(
       margin: const EdgeInsets.only(
-        left: Base.BASE_PADDING_HALF,
-        right: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        left: Base.basePaddingHalf,
+        right: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -114,8 +114,8 @@ class _JsonViewDialog extends State<JsonViewDialog> {
       padding: const EdgeInsets.only(
         left: Base.basePadding,
         right: Base.basePadding,
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(15)),

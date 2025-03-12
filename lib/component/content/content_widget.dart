@@ -545,7 +545,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       for (var image in images) {
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+            margin: EdgeInsets.only(right: Base.basePaddingHalf),
             width: CONTENT_IMAGE_LIST_HEIGHT,
             height: CONTENT_IMAGE_LIST_HEIGHT,
             child: ContentImageWidget(

@@ -215,11 +215,11 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       list.add(Container(
         padding:
             const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         width: double.maxFinite,
         child: Wrap(
-          spacing: Base.BASE_PADDING_HALF,
-          runSpacing: Base.BASE_PADDING_HALF,
+          spacing: Base.basePaddingHalf,
+          runSpacing: Base.basePaddingHalf,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: tagPsWidgets,
         ),
@@ -245,7 +245,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         onTap: selectedTime,
         behavior: HitTestBehavior.translucent,
         child: Container(
-          margin: const EdgeInsets.only(left: 10, bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(left: 10, bottom: Base.basePaddingHalf),
           child: Row(
             children: [
               const Icon(Icons.timer_outlined),

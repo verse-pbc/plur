@@ -37,7 +37,7 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
       itemBuilder: (context, index) {
         var followSet = followSetList[index];
         return Container(
-          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
           child: GestureDetector(
             onTap: () {
               RouterUtil.router(context, RouterPath.FOLLOW_SET_FEED, followSet);
@@ -138,7 +138,7 @@ class FollowSetListItem extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                    margin: EdgeInsets.only(right: Base.basePaddingHalf),
                     child: Icon(Icons.people),
                   ),
                   Text(

@@ -258,8 +258,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               height: double.infinity,
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(
-                left: Base.BASE_PADDING_HALF,
-                right: Base.BASE_PADDING_HALF,
+                left: Base.basePaddingHalf,
+                right: Base.basePaddingHalf,
               ),
               child: Icon(
                 Icons.more_vert_rounded,
@@ -344,7 +344,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           mainList.add(Container(
             margin: const EdgeInsets.only(
               top: Base.basePadding,
-              bottom: Base.BASE_PADDING_HALF,
+              bottom: Base.basePaddingHalf,
             ),
             child: EventTopZapsWidget(eventReactions.zaps),
           ));
@@ -376,7 +376,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             }
 
             ers.add(Container(
-              margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(right: Base.basePaddingHalf),
               child: EventReactionEmojiNumWidget(
                 iconData: Icons.favorite_rounded,
                 iconText: likeText,
@@ -392,12 +392,12 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             padding: const EdgeInsets.only(
               left: Base.basePadding,
               right: Base.basePadding,
-              bottom: Base.BASE_PADDING_HALF,
+              bottom: Base.basePaddingHalf,
             ),
             width: double.maxFinite,
             child: Wrap(
-              runSpacing: Base.BASE_PADDING_HALF,
-              spacing: Base.BASE_PADDING_HALF,
+              runSpacing: Base.basePaddingHalf,
+              spacing: Base.basePaddingHalf,
               alignment: WrapAlignment.center,
               children: ers,
             ),
@@ -406,7 +406,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
         return Container(
           padding: const EdgeInsets.only(
-            bottom: Base.BASE_PADDING_HALF,
+            bottom: Base.basePaddingHalf,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

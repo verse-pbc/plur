@@ -44,8 +44,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
     List<Widget> list = [];
     list.add(Container(
       padding: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
         border: Border(
@@ -81,8 +81,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       padding: const EdgeInsets.only(
         left: Base.basePadding * 2,
@@ -328,10 +328,10 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
 
       if (StringUtil.isNotBlank(loginTag)) {
         list.add(Container(
-          margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(right: Base.basePaddingHalf),
           padding: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
             top: 4,
             bottom: 4,
           ),
@@ -348,8 +348,8 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
       list.add(Expanded(
           child: Container(
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING_HALF,
-          right: Base.BASE_PADDING_HALF,
+          left: Base.basePaddingHalf,
+          right: Base.basePaddingHalf,
           top: 4,
           bottom: 4,
         ),

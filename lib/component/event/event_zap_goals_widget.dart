@@ -68,7 +68,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
         var pollItemWidget = Container(
           width: double.maxFinite,
           margin: const EdgeInsets.only(
-            top: Base.BASE_PADDING_HALF,
+            top: Base.basePaddingHalf,
           ),
           decoration: BoxDecoration(
             color: pollBackgroundColor,
@@ -78,7 +78,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
             alignment: Alignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+                padding: EdgeInsets.all(Base.basePaddingHalf),
                 width: double.maxFinite,
                 child: Row(children: [
                   Icon(Icons.bolt),
@@ -130,8 +130,8 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
         return Container(
           width: double.maxFinite,
           margin: const EdgeInsets.only(
-            top: Base.BASE_PADDING_HALF,
-            bottom: Base.BASE_PADDING_HALF,
+            top: Base.basePaddingHalf,
+            bottom: Base.basePaddingHalf,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,

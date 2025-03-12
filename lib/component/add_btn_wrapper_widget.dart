@@ -133,7 +133,7 @@ class AddBtnStartItemButton extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> list = [];
     list.add(Container(
-      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
       decoration: BoxDecoration(
         color: iconBackgroundColor,
         borderRadius: BorderRadius.circular(20),
@@ -153,8 +153,8 @@ class AddBtnStartItemButton extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
           left: Base.basePadding,
           right: Base.basePadding,
         ),

@@ -87,7 +87,7 @@ class _FollowedCommunitiesWidgetState extends State<FollowedCommunitiesWidget> {
                     },
                     child: Container(
                       margin:
-                          const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+                          const EdgeInsets.only(left: Base.basePaddingHalf),
                       child: Icon(
                         iconData,
                         color: color,

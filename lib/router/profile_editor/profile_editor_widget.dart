@@ -111,8 +111,8 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         ),
         Container(
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
           ),
           child: const Text(" @ "),
         ),

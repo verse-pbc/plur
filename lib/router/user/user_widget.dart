@@ -166,7 +166,7 @@ class _UserWidgetState extends CustState<UserWidget>
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+                  margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
                   color: themeData.cardColor,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,

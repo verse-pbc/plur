@@ -35,8 +35,8 @@ class ColorSelectorWidget extends StatelessWidget {
         padding: const EdgeInsets.only(
           left: Base.basePadding,
           right: Base.basePadding,
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
