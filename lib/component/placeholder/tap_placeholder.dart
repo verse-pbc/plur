@@ -14,7 +14,7 @@ class TapPlaceholder extends StatelessWidget {
     return Container(
       width: width,
       height: 30,
-      padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: EdgeInsets.all(Base.basePaddingHalf),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(6),

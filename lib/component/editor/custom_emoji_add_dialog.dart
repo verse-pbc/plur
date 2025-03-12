@@ -50,7 +50,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     List<Widget> list = [];
 
     list.add(Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(bottom: Base.basePadding),
       child: Text(
         localization.Add_Custom_Emoji,
         style: TextStyle(
@@ -61,7 +61,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+      margin: EdgeInsets.only(bottom: Base.basePadding),
       child: TextField(
         controller: controller,
         minLines: 1,
@@ -91,7 +91,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
 
     list.add(Container(
       margin: EdgeInsets.only(
-        top: Base.BASE_PADDING,
+        top: Base.basePadding,
         bottom: 6,
       ),
       child: Ink(
@@ -118,7 +118,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     ));
 
     var main = Container(
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      padding: EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
         color: cardColor,
       ),
@@ -142,8 +142,8 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
             width: double.infinity,
             // height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

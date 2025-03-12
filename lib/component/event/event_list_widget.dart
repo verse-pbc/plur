@@ -63,9 +63,9 @@ class _EventListWidgetState extends State<EventListWidget> {
       controller: screenshotController,
       child: Container(
         color: cardColor,
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
           // bottom: Base.BASE_PADDING,
         ),
         child: EventMainWidget(

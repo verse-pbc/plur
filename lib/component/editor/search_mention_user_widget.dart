@@ -27,7 +27,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
 
   @override
   Widget build(BuildContext context) {
-    var contentWidth = mediaDataCache.size.width - 4 * Base.BASE_PADDING;
+    var contentWidth = mediaDataCache.size.width - 4 * Base.basePadding;
     itemWidth = (contentWidth - 10) / 2;
 
     return SearchMentionWidget(
@@ -48,8 +48,8 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         child: SizedBox(
           width: itemWidth * 2 + 10,
@@ -114,7 +114,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
     var main = Container(
       width: width,
       color: cardColor,
-      padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.basePaddingHalf),
       child: Row(
         children: [
           UserPicWidget(
@@ -124,7 +124,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+              padding: const EdgeInsets.only(left: Base.basePaddingHalf),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
