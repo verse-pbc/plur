@@ -23,8 +23,8 @@ class EventPlaceholder extends StatelessWidget {
         Container(
           width: double.maxFinite,
           padding: const EdgeInsets.only(
-            left: Base.BASE_PADDING,
-            right: Base.BASE_PADDING,
+            left: Base.basePadding,
+            right: Base.basePadding,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -71,10 +71,10 @@ class EventPlaceholder extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
       ),
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       color: cardColor,
       child: main,
     );

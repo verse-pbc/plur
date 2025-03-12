@@ -1,38 +1,55 @@
 import 'package:nostrmo/util/hash_util.dart';
 
+/// Top-level contants.
 class Base {
-  static const APP_NAME = "Nostrmo";
+  /// App name, visible in web browsers.
+  static const appName = "Plur";
 
-  static const String PRIVACY_LINK =
-      "https://www.nos.social/terms-of-service";
+  /// Link to terms of service.
+  static const String privacyLink = "https://www.nos.social/terms-of-service";
 
-  static const double BASE_PADDING = 12;
+  /// Standard padding to use when composing screens.
+  static const double basePadding = 12;
 
-  static const double BASE_PADDING_HALF = 6;
+  /// Half of [basePadding].
+  static const double basePaddingHalf = 6;
 
-  static String INDEXS_EVENTS = "https://nostrmo.com/indexs/events.json";
+  /// Url used by [GlobalEventsWidget].
+  static String indexsEvents = "https://nostrmo.com/indexs/events.json";
 
-  static String INDEXS_CONTACTS = "https://nostrmo.com/indexs/contacts.json";
+  /// Url used by [GlobalUsersWidget] and [FollowSuggestWidget].
+  static String indexsContacts = "https://nostrmo.com/indexs/contacts.json";
 
-  static String INDEXS_TOPICS = "https://nostrmo.com/indexs/topics.json";
+  /// Url used by [GlobalTagsWidget].
+  static String indexsTopics = "https://nostrmo.com/indexs/topics.json";
 
-  static String INDEXS_RELAYS = "https://nostrmo.com/indexs/relays.json";
+  /// Url used by [RelayhubWidget].
+  static String indexsRelays = "https://nostrmo.com/indexs/relays.json";
 
-  static String WEB_TOOLS = "https://nostrmo.com/indexs/webtools.json";
+  /// Url used by [WebUtilsWidget].
+  static String webTools = "https://nostrmo.com/indexs/webtools.json";
 
-  static String IMAGE_PROXY_SERVICE = "https://imagebridge.nostrmo.com/";
+  /// Url used by [RetryHttpFileService].
+  static String imageProxyService = "https://imagebridge.nostrmo.com/";
 
-  static String IMAGE_PROXY_SERVICE_KEY = "please_do_not_abuse_thanks";
+  /// Key used by [RetryHttpFileService].
+  static String imageProxyServiceKey = "please_do_not_abuse_thanks";
 
-  static String KEY_EKEY = HashUtil.md5("Jo49KwLvyhrsar");
+  /// Key to use in AES encryption along with [keyIV].
+  static String keyEKey = HashUtil.md5("Jo49KwLvyhrsar");
 
-  static String KEY_IV = "1681713832000000";
+  /// Initialization vector to use in AES encryption along with [keyEKey].
+  static String keyIV = "1681713832000000";
 
-  static double BASE_FONT_SIZE = 15;
+  /// Font size used by [SettingsProvider].
+  static double baseFontSize = 15;
 
-  static double BASE_FONT_SIZE_PC = 15;
+  /// Font size used by [SettingsProvider] in big screens.
+  static double baseFontSizePC = 15;
 
-  static double TABBAR_HEIGHT = 46;
+  /// Height of tab bar.
+  static double tabBarHeight = 46;
 
-  static int DEFAULT_DATA_INDEX = -1;
+  /// Default index to use when inserting to the events database.
+  static int defaultDataIndex = -1;
 }
