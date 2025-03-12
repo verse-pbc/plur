@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/data/event_db.dart';
+import 'dart:developer';
 
 import '../../main.dart';
 
@@ -19,8 +20,8 @@ mixin DMPlaintextHandle<T extends StatefulWidget> on State<T> {
             event.content = pc!;
             EventDB.update(settingsProvider.privateKeyIndex!, event);
           } catch (e, st) {
-            print(e);
-            print(st.toString());
+            log('$e');
+            log(st.toString());
           }
 
           setState(() {

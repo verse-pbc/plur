@@ -356,7 +356,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       // pull zap event
       var filter = Filter(kinds: [EventKind.ZAP], p: [widget.pubkey]);
       zapSubscribeId = StringUtil.rndNameStr(12);
-      // print(filter);
+
       nostr!.query([filter.toJson()], onZapEvent, id: zapSubscribeId);
 
       zapNum = 0;
@@ -369,7 +369,6 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
   }
 
   onZapEvent(Event event) {
-    // print(event.toJson());
     if (event.kind == EventKind.ZAP && zapEventBox!.add(event)) {
       setState(() {
         zapNum = zapNum! + ZapInfoUtil.getNumFromZapEvent(event);

@@ -101,8 +101,6 @@ class DMProvider extends ChangeNotifier with PenddingEventsLaterFunction {
 
     Map<String, List<Event>> eventListMap = {};
     for (var event in events) {
-      // print("dmEvent");
-      // print(event.toJson());
       var pubkey = _getPubkey(localPubkey, event);
       if (StringUtil.isNotBlank(pubkey)) {
         var list = eventListMap[pubkey!];

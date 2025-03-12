@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'relay_info.dart';
 
@@ -22,8 +23,7 @@ class RelayInfoUtil {
       final decodedResponse = jsonDecode(response.body) as Map;
       return RelayInfo.fromJson(decodedResponse);
     } catch (e) {
-      print("RelayInfo get error:");
-      print(e);
+      log("RelayInfo get error: $e");
     }
 
     return null;
