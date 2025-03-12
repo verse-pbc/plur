@@ -9,7 +9,7 @@ class Base {
 
   static const double basePadding = 12;
 
-  static const double BASE_PADDING_HALF = 6;
+  static const double basePaddingHalf = 6;
 
   static String INDEXS_EVENTS = "https://nostrmo.com/indexs/events.json";
 

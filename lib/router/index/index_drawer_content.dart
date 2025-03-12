@@ -75,7 +75,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       list.add(Container(
         margin: EdgeInsets.only(
           top: Base.basePadding + paddingTop,
-          bottom: Base.BASE_PADDING_HALF,
+          bottom: Base.basePaddingHalf,
         ),
         child: GestureDetector(
           onTap: () {
@@ -100,7 +100,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
           },
         ),
         Positioned(
-          top: paddingTop + Base.BASE_PADDING_HALF,
+          top: paddingTop + Base.basePaddingHalf,
           right: Base.basePadding,
           child: _readOnly
               ? Container()
@@ -172,7 +172,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     if (widget.smallMode) {
       // Add a button to exit small mode.
       list.add(Container(
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         child: IndexDrawerItemWidget(
           iconData: Icons.last_page_rounded,
           name: "",
@@ -207,7 +207,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         );
       }
       list.add(Container(
-        margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(top: Base.basePaddingHalf),
         padding: const EdgeInsets.only(
           left: Base.basePadding * 2,
           bottom: Base.basePadding,

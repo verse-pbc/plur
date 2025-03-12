@@ -122,7 +122,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
     var _webViewProvider = Provider.of<WebViewProvider>(context);
 
-    var btnTopPosition = Base.basePadding + Base.BASE_PADDING_HALF;
+    var btnTopPosition = Base.basePadding + Base.basePaddingHalf;
 
     var main = Stack(
       children: [

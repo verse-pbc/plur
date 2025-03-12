@@ -131,7 +131,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
           ),
           child: Container(
             margin: const EdgeInsets.only(
-              top: Base.BASE_PADDING_HALF,
+              top: Base.basePaddingHalf,
               left: Base.basePadding,
               bottom: Base.basePadding,
             ),

@@ -106,8 +106,8 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
 
     mainList.add(Container(
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-      padding: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+      padding: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: Column(
         children: [
           Stack(

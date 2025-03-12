@@ -61,7 +61,7 @@ class ContentCashuWidget extends StatelessWidget {
                       children: [
                         Container(
                           margin:
-                              const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                              const EdgeInsets.only(right: Base.basePaddingHalf),
                           child: Text(
                             tokens.totalAmount().toString(),
                             style: TextStyle(

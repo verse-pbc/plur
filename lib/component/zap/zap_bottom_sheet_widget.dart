@@ -122,12 +122,12 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
       padding: const EdgeInsets.only(
         left: Base.basePadding,
         right: Base.basePadding,
-        top: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
         bottom: Base.basePadding,
       ),
       child: Wrap(
         spacing: Base.basePadding,
-        runSpacing: Base.BASE_PADDING_HALF,
+        runSpacing: Base.basePaddingHalf,
         children: numberWidgets,
       ),
     ));
@@ -137,7 +137,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
         left: Base.basePadding,
         right: Base.basePadding,
         bottom: Base.basePadding,
-        top: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
       ),
       child: TextField(
         controller: msgController,
@@ -150,7 +150,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
 
     list.add(Container(
       margin: EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
         bottom: 20,
         left: Base.basePadding,
         right: Base.basePadding,

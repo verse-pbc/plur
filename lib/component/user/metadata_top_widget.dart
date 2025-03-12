@@ -185,7 +185,7 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
       margin: const EdgeInsets.only(
         left: Base.basePadding,
         right: Base.basePadding,
-        bottom: Base.BASE_PADDING_HALF,
+        bottom: Base.basePaddingHalf,
       ),
       child: Text.rich(
         TextSpan(
@@ -533,7 +533,7 @@ class MetadataIconDataComp extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        bottom: Base.BASE_PADDING_HALF,
+        bottom: Base.basePaddingHalf,
         left: Base.basePadding,
         right: Base.basePadding,
       ),
@@ -548,7 +548,7 @@ class MetadataIconDataComp extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(
-                right: Base.BASE_PADDING_HALF,
+                right: Base.basePaddingHalf,
               ),
               child: leftWidget ??
                   Icon(
@@ -561,8 +561,8 @@ class MetadataIconDataComp extends StatelessWidget {
               child: Container(
                 padding: textBG
                     ? const EdgeInsets.only(
-                        left: Base.BASE_PADDING_HALF,
-                        right: Base.BASE_PADDING_HALF,
+                        left: Base.basePaddingHalf,
+                        right: Base.basePaddingHalf,
                         top: 4,
                         bottom: 4,
                       )

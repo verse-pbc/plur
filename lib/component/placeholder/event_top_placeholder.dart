@@ -18,7 +18,7 @@ class EventTopPlaceholder extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: Base.basePadding,
         right: Base.basePadding,
-        bottom: Base.BASE_PADDING_HALF,
+        bottom: Base.basePaddingHalf,
       ),
       child: Row(
         children: [
@@ -33,7 +33,7 @@ class EventTopPlaceholder extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+              padding: const EdgeInsets.only(left: Base.basePaddingHalf),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,

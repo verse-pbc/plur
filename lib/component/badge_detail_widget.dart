@@ -87,7 +87,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget> {
                   UserPicWidget(
                       pubkey: widget.badgeDefinition.pubkey, width: 26),
                   Container(
-                    margin: EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+                    margin: EdgeInsets.only(left: Base.basePaddingHalf),
                     child: NameWidget(pubkey: widget.badgeDefinition.pubkey),
                   ),
                 ],
