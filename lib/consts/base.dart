@@ -2,7 +2,7 @@ import 'package:nostrmo/util/hash_util.dart';
 
 class Base {
   /// App name, visible in web browsers
-  static const APP_NAME = "Plur";
+  static const appName = "Plur";
 
   static const String PRIVACY_LINK =
       "https://www.nos.social/terms-of-service";
