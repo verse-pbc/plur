@@ -13,7 +13,7 @@ class Base {
 
   static String indexsEvents = "https://nostrmo.com/indexs/events.json";
 
-  static String INDEXS_CONTACTS = "https://nostrmo.com/indexs/contacts.json";
+  static String indexsContacts = "https://nostrmo.com/indexs/contacts.json";
 
   static String INDEXS_TOPICS = "https://nostrmo.com/indexs/topics.json";
 
