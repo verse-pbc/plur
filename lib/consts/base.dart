@@ -4,7 +4,7 @@ class Base {
   /// App name, visible in web browsers
   static const appName = "Plur";
 
-  static const String PRIVACY_LINK =
+  static const String privacyLink =
       "https://www.nos.social/terms-of-service";
 
   static const double BASE_PADDING = 12;

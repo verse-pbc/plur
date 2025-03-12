@@ -277,7 +277,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         GestureDetector(
           onTap: () {
-            WebViewWidget.open(context, Base.PRIVACY_LINK);
+            WebViewWidget.open(context, Base.privacyLink);
           },
           child: StyledText(
               text: localization.Accept_terms_of_service,
