@@ -59,6 +59,7 @@ class _SignupWidgetState extends State<SignupWidget> {
     final buttonTextColor = customColors.buttonTextColor;
     final accentColor = customColors.accentColor;
     final primaryForegroundColor = customColors.primaryForegroundColor;
+    final appBgColor = customColors.appBgColor;
 
     final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
@@ -231,7 +232,7 @@ class _SignupWidgetState extends State<SignupWidget> {
 
     return Scaffold(
       // Sets the background color for the login screen.
-      backgroundColor: ColorList.loginBG,
+      backgroundColor: appBgColor,
       body: SizedBox(
         // Expands to the full width of the screen.
         width: double.maxFinite,
