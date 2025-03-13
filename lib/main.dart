@@ -290,7 +290,7 @@ Future<void> main() async {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   } catch (e) {
-    print(e);
+    log('$e');
   }
 
   await initializeProviders();
@@ -349,24 +349,24 @@ class MyApp extends StatefulWidget {
 
   Future<void> _handleDeepLink(MethodCall call) async {
     if (nostr == null) {
-      print('nostr is null; the user is probably not logged in. aborting.');
+      log('nostr is null; the user is probably not logged in. aborting.');
       return;
     }
 
     if (call.method == 'onDeepLink') {
       final String link = call.arguments;
-      print('Received deep link: $link');
+      log('Received deep link: $link');
 
       Uri uri = Uri.parse(link);
       if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
         String? groupId = uri.queryParameters['group-id'];
         String? code = uri.queryParameters['code'];
         // Handle the extracted parameters
-        print('Group ID: $groupId');
-        print('Code: $code');
+        log('Group ID: $groupId');
+        log('Code: $code');
 
         if (groupId == null || groupId.isEmpty) {
-          print('Group ID is null or empty, aborting.');
+          log('Group ID is null or empty, aborting.');
           return;
         }
 
@@ -376,7 +376,7 @@ class MyApp extends StatefulWidget {
             joinGroup(context, 'wss://communities.nos.social', groupId, code);
           });
         } else {
-          print('Context is null, waiting for app to initialize...');
+          log('Context is null, waiting for app to initialize...');
         }
       }
     }

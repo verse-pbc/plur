@@ -113,7 +113,9 @@ mixin EditorMixin {
             color: openPrivateDM ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        tooltip: openPrivateDM ? localization.Close_Private_DM : localization.Open_Private_DM,
+        tooltip: openPrivateDM
+            ? localization.Close_Private_DM
+            : localization.Open_Private_DM,
       ));
     }
     inputBtnList.add(quill.QuillToolbarIconButton(
@@ -555,11 +557,11 @@ mixin EditorMixin {
                       fileBytes = File(value).readAsBytesSync();
                     }
 
-                    print("begin to gen blurhash");
+                    log("begin to gen blurhash");
                     final image = img.decodeImage(fileBytes);
                     final blurHash =
                         BlurHash.encode(image!, numCompX: 4, numCompY: 3);
-                    print("blurhash $blurHash");
+                    log("blurhash $blurHash");
 
                     tagsAddedWhenSend.add([
                       "imeta",
@@ -568,8 +570,7 @@ mixin EditorMixin {
                       "dim ${image.width}x${image.height}"
                     ]);
                   } catch (e) {
-                    print("handle upload file NIP-92 info error:");
-                    print(e.toString());
+                    log('handle upload file NIP-92 info error: ${e.toString()}');
                   }
                 }
 
@@ -666,9 +667,6 @@ mixin EditorMixin {
       }
     }
     result = result.trim();
-    // log(result);
-    // print(tags);
-    // print(tagsAddWhenSend);
     if (StringUtil.isBlank(result)) {
       return null;
     }
@@ -802,7 +800,7 @@ mixin EditorMixin {
     log(jsonEncode(event.toJson()));
     if (groupIdentifier != null) {
       var groupRelays = [groupIdentifier.host];
-      print(groupRelays);
+      log("send group event to $groupRelays");
       event.sources.addAll(groupRelays);
       return nostr!
           .sendEvent(event, targetRelays: groupRelays, tempRelays: groupRelays);
@@ -1158,8 +1156,7 @@ mixin EditorMixin {
         );
         longFormImage = fileUrl;
       } catch (e) {
-        print("image upload fail");
-        print(e);
+        log('image upload fail $e');
       } finally {
         cancelFunc();
       }

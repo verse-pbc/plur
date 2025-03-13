@@ -84,7 +84,7 @@ class RelayPool {
 
       return true;
     } else {
-      print("relay connect fail! ${relay.url}");
+      log("relay connection failed for ${relay.url}");
     }
 
     relay.relayStatus.onError();

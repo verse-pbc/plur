@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'dart:developer' as developer;
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -214,11 +215,8 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
       try {
         _doSaveImage();
       } catch (e) {
-        print(e);
+        developer.log("saveImage error $e");
       }
-      // } else {
-      //   print("Permission not found");
-      // }
     } else {
       _doSaveImage(isPc: true);
     }

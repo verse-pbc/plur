@@ -111,7 +111,7 @@ platform :ios do
       scheme: "Runner-Staging",
       appidentifier: "app.verse.prototype.plur-staging",
       tagprefix: "",
-      appstoreconnect: "https://appstoreconnect.apple.com/apps/6738932333/testflight/ios",
+      appstoreconnect: "https://appstoreconnect.apple.com/apps/6742746068/testflight/ios",
       distribution_groups: []
     )
   end

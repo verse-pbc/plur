@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'event.dart';
 import 'event_kind.dart';
@@ -275,7 +276,7 @@ class Nostr {
   }
 
   void reconnect() {
-    print("nostr reconnect");
+    log("nostr reconnect");
     _pool.reconnect();
   }
 

@@ -372,8 +372,6 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
         filters.add(m);
       }
 
-      // print(filters);
-
       nostr!.query(filters, onEvent);
     }
   }
