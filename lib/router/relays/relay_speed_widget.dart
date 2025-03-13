@@ -55,7 +55,7 @@ class _RelaySpeedWidgetState extends State<RelaySpeedWidget> {
         alignment: Alignment.center,
         constraints: const BoxConstraints(minWidth: 30),
         height: 30,
-        margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(right: Base.basePadding),
         child: main,
       ),
     );

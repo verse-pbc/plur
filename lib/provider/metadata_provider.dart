@@ -33,7 +33,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
         _metadataProvider!._metadataCache[md.pubkey!] = md;
       }
 
-      var events = await EventDB.list(Base.DEFAULT_DATA_INDEX,
+      var events = await EventDB.list(Base.defaultDataIndex,
           [EventKind.RELAY_LIST_METADATA, EventKind.CONTACT_LIST], 0, 1000000);
       _metadataProvider!._contactListMap.clear();
       for (var e in events) {
@@ -187,32 +187,32 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
         var oldRelayListMetadata = _relayListMetadataCache[event.pubkey];
         if (oldRelayListMetadata == null) {
           // insert
-          EventDB.insert(Base.DEFAULT_DATA_INDEX, event);
+          EventDB.insert(Base.defaultDataIndex, event);
           _eventToRelayListCache(event);
         } else if (event.createdAt > oldRelayListMetadata.createdAt) {
           // update, remote old event and insert new event
           EventDB.execute(
               "delete from event where key_index = ? and kind = ? and pubkey = ?",
               [
-                Base.DEFAULT_DATA_INDEX,
+                Base.defaultDataIndex,
                 EventKind.RELAY_LIST_METADATA,
                 event.pubkey
               ]);
-          EventDB.insert(Base.DEFAULT_DATA_INDEX, event);
+          EventDB.insert(Base.defaultDataIndex, event);
           _eventToRelayListCache(event);
         }
       } else if (event.kind == EventKind.CONTACT_LIST) {
         var oldContactList = _contactListMap[event.pubkey];
         if (oldContactList == null) {
           // insert
-          EventDB.insert(Base.DEFAULT_DATA_INDEX, event);
+          EventDB.insert(Base.defaultDataIndex, event);
           _eventToContactList(event);
         } else if (event.createdAt > oldContactList.createdAt) {
           // update, remote old event and insert new event
           EventDB.execute(
               "delete from event where key_index = ? and kind = ? and pubkey = ?",
-              [Base.DEFAULT_DATA_INDEX, EventKind.CONTACT_LIST, event.pubkey]);
-          EventDB.insert(Base.DEFAULT_DATA_INDEX, event);
+              [Base.defaultDataIndex, EventKind.CONTACT_LIST, event.pubkey]);
+          EventDB.insert(Base.defaultDataIndex, event);
           _eventToContactList(event);
         }
       }

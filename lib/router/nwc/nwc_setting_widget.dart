@@ -54,7 +54,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Row(
         children: [
           Expanded(
@@ -79,7 +79,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
                   ),
                 ),
           Container(
-            margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(left: Base.basePadding),
             child: GestureDetector(
               onTap: openGetalby,
               behavior: HitTestBehavior.translucent,
@@ -123,8 +123,8 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
+      padding: const EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
         color: themeData.hintColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(10),
@@ -146,8 +146,8 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       ),
       body: Container(
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
-          bottom: Base.BASE_PADDING,
+          top: Base.basePadding,
+          bottom: Base.basePadding,
           left: 20,
           right: 20,
         ),

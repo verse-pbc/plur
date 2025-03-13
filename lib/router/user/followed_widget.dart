@@ -53,7 +53,7 @@ class _FollowedWidgetState extends State<FollowedWidget> {
         }
 
         return Container(
-          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(
