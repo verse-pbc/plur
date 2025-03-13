@@ -31,8 +31,8 @@ class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
     if (musicInfo == null) {
       return Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         child: const MusicPlaceholder(),
       );
@@ -40,8 +40,8 @@ class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       child: MusicWidget(
         musicInfo!,

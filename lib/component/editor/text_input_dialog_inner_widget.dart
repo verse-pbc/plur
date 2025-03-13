@@ -49,7 +49,7 @@ class _TextInputDialogInnerWidgetState
     List<Widget> list = [];
 
     list.add(Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(bottom: Base.basePadding),
       child: Text(
         widget.title,
         style: TextStyle(
@@ -71,7 +71,7 @@ class _TextInputDialogInnerWidgetState
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -94,7 +94,7 @@ class _TextInputDialogInnerWidgetState
     ));
 
     var main = Container(
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
         color: cardColor,
       ),
