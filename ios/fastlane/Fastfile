@@ -150,6 +150,7 @@ platform :ios do
     )
     match_nuke(type: "appstore")
   end
+end
 
 # Helper functions
 def strip_markdown_links(text)
