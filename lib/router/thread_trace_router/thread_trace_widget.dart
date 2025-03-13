@@ -1,14 +1,10 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/event/event_main_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/router/thread_trace_router/event_trace_info.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_event_widget.dart';
-import 'package:screenshot/screenshot.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/event/event_bitcoin_icon_widget.dart';
@@ -37,7 +33,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
 
   Event? sourceEvent;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -140,7 +136,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Container(
+          child: SizedBox(
             width: needWidth,
             child: ThreadDetailItemWidget(
               item: item,

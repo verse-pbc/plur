@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/base.dart';
-import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 import 'text_input_dialog_inner_widget.dart';
@@ -17,7 +16,7 @@ class TextInputDialog extends StatefulWidget {
   bool Function(BuildContext, String)? valueCheck;
 
   TextInputDialog(
-    this.title, {
+    this.title, {super.key, 
     this.hintText,
     this.value,
     this.valueCheck,
@@ -35,7 +34,7 @@ class TextInputDialog extends StatefulWidget {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
+        builder: (context) {
           return TextInputDialog(
             StringUtil.breakWord(title),
             hintText: hintText,

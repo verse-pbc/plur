@@ -22,7 +22,7 @@ class GiftWrapProvider extends ChangeNotifier {
 
   bool initQuery = true;
 
-  int TIME_FLAG = 60 * 60 * 24 * 2;
+  int timeFlag = 60 * 60 * 24 * 2;
 
   void query({Nostr? targetNostr, int? since}) {
     targetNostr ??= nostr;
@@ -30,10 +30,10 @@ class GiftWrapProvider extends ChangeNotifier {
       if (initQuery) {
         // haven't query before
         var oldestEvent = box.oldestEvent;
-        since = oldestEvent!.createdAt - TIME_FLAG;
+        since = oldestEvent!.createdAt - timeFlag;
       } else {
         // queried before, since change to two days before now avoid query too much event
-        since = DateTime.now().millisecondsSinceEpoch ~/ 1000 - TIME_FLAG;
+        since = DateTime.now().millisecondsSinceEpoch ~/ 1000 - timeFlag;
       }
     }
 

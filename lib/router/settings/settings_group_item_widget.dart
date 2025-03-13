@@ -14,7 +14,7 @@ class SettingsGroupItemWidget extends StatelessWidget {
 
   Function? onTap;
 
-  SettingsGroupItemWidget({
+  SettingsGroupItemWidget({super.key, 
     required this.name,
     this.nameColor,
     this.value,
@@ -54,7 +54,7 @@ class SettingsGroupItemWidget extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         color: cardColor,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 12,
           left: 20 + Base.basePaddingHalf,
           right: 20 + Base.basePaddingHalf,

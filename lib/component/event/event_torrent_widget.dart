@@ -2,7 +2,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/tag_info_widget.dart';
 import 'package:nostrmo/util/store_util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,7 +13,7 @@ import '../tag_widget.dart';
 class EventTorrentWidget extends StatefulWidget {
   TorrentInfo torrentInfo;
 
-  EventTorrentWidget(this.torrentInfo);
+  EventTorrentWidget(this.torrentInfo, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -151,7 +150,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
           style: TextStyle(
             color: hintColor,
           )),
-      TextSpan(text: " "),
+      const TextSpan(text: " "),
       TextSpan(
           text: StoreUtil.bytesToShowStr(torrentFileInfo.size),
           style: TextStyle(

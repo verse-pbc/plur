@@ -6,9 +6,9 @@ import 'dart:developer';
 import '../main.dart';
 
 class WotProvider extends ChangeNotifier {
-  Map<String, int> _pubkeys = {};
+  final Map<String, dynamic> _pubkeys = {};
 
-  Map<String, int> _tempPubkeys = {};
+  final Map<String, dynamic> _tempPubkeys = {};
 
   void addTempFromEvents(List<Event> events) {
     for (var e in events) {
@@ -40,7 +40,7 @@ class WotProvider extends ChangeNotifier {
   }
 
   String genKey(String pubkey) {
-    return "${DataKey.WOT_PRE}$pubkey";
+    return "${DataKey.wotPre}$pubkey";
   }
 
   void init(String pubkey) async {

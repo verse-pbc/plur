@@ -149,11 +149,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
     final settingsProvider = Provider.of<SettingsProvider>(context);
     if (nostr == null) {
-      return LoginSignupWidget();
+      return const LoginSignupWidget();
     }
 
     if (!unlock) {
-      return Scaffold();
+      return const Scaffold();
     }
 
     var indexProvider = Provider.of<IndexProvider>(context);
@@ -374,7 +374,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     } else {
       return Scaffold(
         body: mainIndex,
-        drawer: Drawer(
+        drawer: const Drawer(
           child: IndexDrawerContent(
             smallMode: false,
           ),

@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 
 class Nip05Validor {
-  static Map<String, int> _checking = {};
+  static final Map<String, int> _checking = {};
 
   static var dio = Dio();
 

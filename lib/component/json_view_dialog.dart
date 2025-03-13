@@ -14,13 +14,13 @@ import '../util/theme_util.dart';
 class JsonViewDialog extends StatefulWidget {
   String jsonText;
 
-  JsonViewDialog(this.jsonText);
+  JsonViewDialog(this.jsonText, {super.key});
 
   static Future<bool?> show(BuildContext context, String jsonText) async {
     return await showDialog<bool>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return JsonViewDialog(
           jsonText,
         );
@@ -107,7 +107,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
       ),
     ));
 
-    var main = Container(
+    Widget main = Container(
       constraints: BoxConstraints(
         maxHeight: maxHeight * 0.8,
       ),
@@ -118,7 +118,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
         bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         color: cardColor,
       ),
       child: Column(
@@ -129,7 +129,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
     );
 
     if (PlatformUtil.isPC() || TableModeUtil.isTableMode()) {
-      main = Container(
+      main = SizedBox(
         width: mediaDataCache.size.width / 2,
         child: main,
       );

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
@@ -16,7 +15,7 @@ class ImageWidget extends StatelessWidget {
 
   PlaceholderWidgetBuilder? placeholder;
 
-  ImageWidget({
+  ImageWidget({super.key, 
     required this.imageUrl,
     this.width,
     this.height,
@@ -46,7 +45,7 @@ class ImageWidget extends StatelessWidget {
       height: height,
       fit: fit,
       placeholder: placeholder,
-      errorWidget: (context, url, error) => Icon(Icons.error),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
       cacheManager: imageLocalCacheManager,
       // imageRenderMethodForWeb: ImageRenderMethodForWeb.HttpGet,
     );

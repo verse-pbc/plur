@@ -31,7 +31,7 @@ class SimpleNameWidget extends StatefulWidget {
 
   TextOverflow? textOverflow;
 
-  SimpleNameWidget({
+  SimpleNameWidget({super.key, 
     required this.pubkey,
     this.metadata,
     this.textStyle,

@@ -17,7 +17,6 @@ import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/sendbox/sendbox.dart';
-import 'package:pointycastle/ecc/api.dart';
 import 'package:provider/provider.dart';
 import 'package:image/image.dart' as img;
 
@@ -27,7 +26,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../router/index/index_app_bar.dart';
-import '../content/content_decoder.dart';
 import '../emoji_picker_widget.dart';
 import '../image_widget.dart';
 import '../zap/zap_split_icon_widget.dart';
@@ -70,10 +68,14 @@ mixin EditorMixin {
   String? getPubkey();
 
   // group arg
-  GroupIdentifier? getGroupIdentifier() {}
+  GroupIdentifier? getGroupIdentifier() {
+    return null;
+  }
 
   // group event kind
-  int? getGroupEventKind() {}
+  int? getGroupEventKind() {
+    return null;
+  }
 
   BuildContext getContext();
 
@@ -150,7 +152,7 @@ mixin EditorMixin {
         ),
         quill.QuillToolbarIconButton(
           onPressed: emojiBeginToSelect,
-          icon: Icon(Icons.tag_faces),
+          icon: const Icon(Icons.tag_faces),
           isSelected: false,
           iconTheme: null,
           tooltip: localization.Emoji,
@@ -167,7 +169,7 @@ mixin EditorMixin {
       ),
       quill.QuillToolbarIconButton(
         onPressed: _inputMentionEvent,
-        icon: Icon(Icons.format_quote),
+        icon: const Icon(Icons.format_quote),
         isSelected: false,
         iconTheme: null,
         tooltip: localization.Quote,
@@ -176,7 +178,7 @@ mixin EditorMixin {
 
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: _inputTag,
-      icon: Icon(Icons.tag),
+      icon: const Icon(Icons.tag),
       isSelected: false,
       iconTheme: null,
       tooltip: localization.Hashtag,
@@ -184,7 +186,7 @@ mixin EditorMixin {
 
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: _inputLnbc,
-      icon: Icon(Icons.bolt),
+      icon: const Icon(Icons.bolt),
       isSelected: false,
       iconTheme: null,
       tooltip: localization.Lightning_Invoice,
@@ -270,7 +272,7 @@ mixin EditorMixin {
             ? [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  offset: Offset(0, -5),
+                  offset: const Offset(0, -5),
                   blurRadius: 10,
                   spreadRadius: 0,
                 ),
@@ -362,16 +364,16 @@ mixin EditorMixin {
   }
 
   Future<void> takeAPhoto() async {
-    ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
     if (photo != null) {
       _imageSubmitted(photo.path);
     }
   }
 
   Future<void> tackAVideo() async {
-    ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickVideo(source: ImageSource.camera);
+    ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickVideo(source: ImageSource.camera);
     if (photo != null) {
       _imageSubmitted(photo.path);
     }
@@ -415,7 +417,7 @@ mixin EditorMixin {
       context,
       localization.Search,
       localization.Please_input_user_pubkey,
-      SearchMentionUserWidget(),
+      const SearchMentionUserWidget(),
       hintText: localization.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {
@@ -445,7 +447,7 @@ mixin EditorMixin {
       context,
       S.of(context).Input_Sats_num,
       S.of(context).Please_input_lnbc_text,
-      GenLnbcWidget(),
+      const GenLnbcWidget(),
       hintText: "lnbc...",
     );
     if (StringUtil.isNotBlank(value)) {
@@ -864,7 +866,7 @@ mixin EditorMixin {
     if (!_lastIsSpace(result) && !_lastIsLineEnd(result)) {
       result += " ";
     }
-    result += value + " ";
+    result += "$value ";
     return result;
   }
 
@@ -872,7 +874,7 @@ mixin EditorMixin {
     if (!_lastIsLineEnd(result)) {
       result += "\n";
     }
-    result += value + "\n";
+    result += "$value\n";
     return result;
   }
 
@@ -994,7 +996,7 @@ mixin EditorMixin {
             onTap: () {
               WebViewWidget.open(context, "https://emojis-iota.vercel.app/");
             },
-            child: Container(
+            child: const SizedBox(
               width: 40,
               child: Icon(Icons.search),
             ),
@@ -1046,7 +1048,7 @@ mixin EditorMixin {
         onTap: () {
           addCustomEmoji();
         },
-        child: Container(
+        child: SizedBox(
           width: emojiBtnWidth,
           height: emojiBtnWidth,
           child: const Icon(
@@ -1163,7 +1165,7 @@ mixin EditorMixin {
   }
 
   Widget buildLongFormImageWidget() {
-    Widget main = Icon(Icons.image);
+    Widget main = const Icon(Icons.image);
 
     if (StringUtil.isBlank(longFormImage)) {
       main = GestureDetector(

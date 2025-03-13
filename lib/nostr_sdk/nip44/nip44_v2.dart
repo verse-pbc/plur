@@ -96,8 +96,9 @@ class NIP44V2 {
   }
 
   static Uint8List hmacAad(Uint8List key, Uint8List message, Uint8List aad) {
-    if (aad.length != 32)
+    if (aad.length != 32) {
       throw Exception('AAD associated data must be 32 bytes');
+    }
     var combined = Uint8List.fromList(aad + message);
     var hmac = HMac(SHA256Digest(), 64)..init(KeyParameter(key));
     return hmac.process(combined);

@@ -5,7 +5,6 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/main.dart';
 import 'package:provider/provider.dart';
 
 class CreateCommunityDialog extends StatefulWidget {

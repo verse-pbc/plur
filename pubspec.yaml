@@ -104,6 +104,22 @@ dependencies:
   path_provider: ^2.1.4
   package_info_plus: ^8.3.0
 
+  url_launcher: any
+  flutter_cache_manager: any
+  http: any
+  path: any
+  dio: any
+  dio_cookie_manager: any
+  cookie_jar: any
+  flutter_chat_types: any
+  markdown: any
+  cached_network_image_platform_interface: any
+  image: any
+  flutter_socks_proxy: any
+  sqflite: any
+  sqflite_common_ffi: any
+  sqflite_common_ffi_web: any
+  process_run: any
 dev_dependencies:
   flutter_launcher_icons: ^0.14.1
   flutter_test:
@@ -111,19 +127,13 @@ dev_dependencies:
   mockito: ^5.0.17
   build_runner: ^2.3.3
   shared_preferences: any
-  http: any
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^2.0.0
 
   # A Dart Build Plugin that uploads debug symbols for Android, iOS/macOS and 
   # source maps for Web to Sentry via sentry-cli.
   sentry_dart_plugin: ^2.0.0
 
+  sqflite_common_ffi: any
 dependency_overrides:
   photo_manager: ^3.5.0
   extended_image: ^8.3.0

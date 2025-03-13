@@ -1,4 +1,3 @@
-import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
@@ -7,7 +6,6 @@ import 'package:nostrmo/component/placeholder/music_placeholder.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/music_provider.dart';
-import 'package:nostrmo/util/encrypt_util.dart';
 import 'package:nostrmo/util/hash_util.dart';
 
 class ContentMusicWidget extends StatefulWidget {
@@ -36,7 +34,7 @@ class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
           top: Base.basePaddingHalf,
           bottom: Base.basePaddingHalf,
         ),
-        child: MusicPlaceholder(),
+        child: const MusicPlaceholder(),
       );
     }
 

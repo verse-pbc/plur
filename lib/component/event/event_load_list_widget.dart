@@ -4,6 +4,8 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
 class EventLoadListWidget extends StatelessWidget {
+  const EventLoadListWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
