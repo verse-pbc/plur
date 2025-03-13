@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -37,8 +38,6 @@ class NIP04 {
             KeyParameter(Uint8List.fromList(hex.decode(enctyptKey))), ivData),
         null);
     cipherCbc.init(true, paramsCbc);
-
-    // print(cipherCbc.algorithmName);
 
     var result = cipherCbc.process(Uint8List.fromList(utf8.encode(message)));
 
@@ -85,7 +84,7 @@ class NIP04 {
     try {
       y = liftX(x);
     } on Error {
-      print("error in handle pubkey");
+      developer.log("error in nip04 handle pubkey");
     }
     ECPoint endPoint = secp256k1.curve.createPoint(x, y!);
     return ECPublicKey(endPoint, secp256k1);

@@ -65,7 +65,6 @@ class _EventPollWidgetState extends State<EventPollWidget> {
               }
             }
 
-            // print("selectKey $selectKey num $num");
             if (num > 0 && StringUtil.isNotBlank(selectKey)) {
               total += num;
 
@@ -114,7 +113,6 @@ class _EventPollWidgetState extends State<EventPollWidget> {
             percent = num / total;
           }
           num ??= 0;
-          // print("percent $percent");
 
           var pollItemWidget = Container(
             width: double.maxFinite,
