@@ -38,7 +38,7 @@ class _TagInfoWidgetState extends State<TagInfoWidget> {
       height: widget.height,
       color: cardColor,
       alignment: Alignment.center,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -65,7 +65,7 @@ class _TagInfoWidgetState extends State<TagInfoWidget> {
                 }
               },
               child: Container(
-                margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+                margin: const EdgeInsets.only(left: Base.basePaddingHalf),
                 child: Icon(
                   iconData,
                   color: color,

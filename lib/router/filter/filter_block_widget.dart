@@ -53,18 +53,18 @@ class FilterBlockItemWidget extends StatelessWidget {
         });
       },
       child: Container(
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         decoration: BoxDecoration(
           color: cardColor,
           borderRadius: BorderRadius.circular(8),
         ),
-        padding: const EdgeInsets.all(Base.BASE_PADDING),
+        padding: const EdgeInsets.all(Base.basePadding),
         child: Row(children: [
           Expanded(child: Text(nip19Pubkey)),
           GestureDetector(
             onTap: delBlock,
             child: Container(
-              margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(left: Base.basePaddingHalf),
               child: const Icon(
                 Icons.delete,
               ),

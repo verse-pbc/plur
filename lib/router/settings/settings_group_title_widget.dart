@@ -30,7 +30,7 @@ class SettingsGroupTitleWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(right: Base.basePaddingHalf),
               child: Icon(
                 iconData,
                 color: hintColor,

@@ -36,10 +36,10 @@ class _FilterDirtywordWidgetState extends State<FilterDirtywordWidget> {
         Expanded(
           child: Container(
             width: double.maxFinite,
-            padding: const EdgeInsets.all(Base.BASE_PADDING),
+            padding: const EdgeInsets.all(Base.basePadding),
             child: Wrap(
-              spacing: Base.BASE_PADDING,
-              runSpacing: Base.BASE_PADDING,
+              spacing: Base.basePadding,
+              runSpacing: Base.basePadding,
               children: list,
             ),
           ),
@@ -102,8 +102,8 @@ class _FilterDirtywordItemWidgetState extends State<FilterDirtywordItemWidget> {
         },
         child: Container(
           padding: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
             top: 4,
             bottom: 4,
           ),
