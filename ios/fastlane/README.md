@@ -13,17 +13,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### debug_version
-
-```sh
-[bundle exec] fastlane debug_version
-```
-
-
-
-----
-
-
 ## iOS
 
 ### ios release
@@ -65,30 +54,6 @@ Refresh certificates in the match repo
 ```
 
 Clean App Store Connect of certificates
-
-### ios bump_major
-
-```sh
-[bundle exec] fastlane ios bump_major
-```
-
-Bump major version
-
-### ios bump_minor
-
-```sh
-[bundle exec] fastlane ios bump_minor
-```
-
-Bump minor version
-
-### ios bump_patch
-
-```sh
-[bundle exec] fastlane ios bump_patch
-```
-
-Bump patch version
 
 ----
 
