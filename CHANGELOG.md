@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced print statemanets with the Flutter logger. [#259](https://github.com/verse-pbc/issues/issues/259)
 - Fixed failing release deployment. [#220](https://github.com/verse-pbc/issues/issues/220)
 - Fixed staging app id in Fastfile. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Replaced color constants with theme colors. [#169](https://github.com/verse-pbc/issues/issues/169)
 
 ## [0.0.2]
 
