@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -55,6 +56,7 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
 import 'provider/badge_provider.dart';
@@ -253,12 +255,17 @@ Future<void> initializeProviders({bool isTesting = false}) async {
 }
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   try {
     MediaKit.ensureInitialized();
   } catch (e) {
     log("MediaKit init error $e");
   }
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
     await windowManager.ensureInitialized();
@@ -320,7 +327,8 @@ Future<void> main() async {
     await SentryFlutter.init(
       (options) {
         // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
-        options.environment = const String.fromEnvironment('ENVIRONMENT', defaultValue: 'production');
+        options.environment = const String.fromEnvironment('ENVIRONMENT',
+            defaultValue: 'production');
       },
       appRunner: () {
         startApp();
