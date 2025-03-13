@@ -38,11 +38,7 @@ class _GlobalEventItemWidgetState extends State<GlobalEventItemWidget> {
       builder: (context, event, child) {
         if (event == null) {
           return Container(
-<<<<<<< HEAD
-            margin: EdgeInsets.only(bottom: Base.basePaddingHalf),
-=======
-            margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
->>>>>>> main
+            margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
             color: cardColor,
             height: 150,
             child: Center(
