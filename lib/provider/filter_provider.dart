@@ -17,7 +17,7 @@ class FilterProvider extends ChangeNotifier implements EventFilter {
   static FilterProvider getInstance() {
     if (_instance == null) {
       _instance = FilterProvider();
-      var blockList = sharedPreferences.getStringList(DataKey.BLOCK_LIST);
+      var blockList = sharedPreferences.getStringList(DataKey.blockList);
       if (blockList != null && blockList.isNotEmpty) {
         for (var block in blockList) {
           _instance!.blocks[block] = 1;
@@ -25,7 +25,7 @@ class FilterProvider extends ChangeNotifier implements EventFilter {
       }
 
       var dirtywordList =
-          sharedPreferences.getStringList(DataKey.DIRTYWORD_LIST);
+          sharedPreferences.getStringList(DataKey.dirtywordList);
       if (dirtywordList != null && dirtywordList.isNotEmpty) {
         _instance!.dirtywordList = dirtywordList;
       }
@@ -68,7 +68,7 @@ class FilterProvider extends ChangeNotifier implements EventFilter {
   }
 
   void _updateDirtyword() {
-    sharedPreferences.setStringList(DataKey.DIRTYWORD_LIST, dirtywordList);
+    sharedPreferences.setStringList(DataKey.dirtywordList, dirtywordList);
     notifyListeners();
   }
 
@@ -88,7 +88,7 @@ class FilterProvider extends ChangeNotifier implements EventFilter {
 
   void _updateBlock() {
     var list = blocks.keys.toList();
-    sharedPreferences.setStringList(DataKey.BLOCK_LIST, list);
+    sharedPreferences.setStringList(DataKey.blockList, list);
     notifyListeners();
   }
 

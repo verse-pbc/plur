@@ -19,9 +19,9 @@ class SettingsProvider extends ChangeNotifier {
 
   SettingData? _settingData;
 
-  Map<String, String> _privateKeyMap = {};
+  final Map<String, String> _privateKeyMap = {};
 
-  Map<String, String> _nwcUrlMap = {};
+  final Map<String, String> _nwcUrlMap = {};
 
   static Future<SettingsProvider> getInstance() async {
     if (_settingsProvider == null) {
@@ -34,7 +34,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    String? settingStr = _sharedPreferences!.getString(DataKey.SETTING);
+    String? settingStr = _sharedPreferences!.getString(DataKey.setting);
     if (StringUtil.isNotBlank(settingStr)) {
       var jsonMap = json.decode(settingStr!);
       if (jsonMap != null) {
@@ -132,8 +132,8 @@ class SettingsProvider extends ChangeNotifier {
 
     for (var i = 0; i < 20; i++) {
       var index = i.toString();
-      var _pk = _privateKeyMap[index];
-      if (_pk == null) {
+      var pk0 = _privateKeyMap[index];
+      if (pk0 == null) {
         _privateKeyMap[index] = pk;
 
         _settingData!.privateKeyIndex = i;
@@ -260,18 +260,19 @@ class SettingsProvider extends ChangeNotifier {
 
   int? get openTranslate => _settingData!.openTranslate;
 
-  static const ALL_SUPPORT_LANGUAGES =
+  static const allSupportLanguages =
       "af,sq,ar,be,bn,bg,ca,zh,hr,cs,da,nl,en,eo,et,fi,fr,gl,ka,de,el,gu,ht,he,hi,hu,is,id,ga,it,ja,kn,ko,lv,lt,mk,ms,mt,mr,no,fa,pl,pt,ro,ru,sk,sl,es,sw,sv,tl,ta,te,th,tr,uk,ur,vi,cy";
 
   String? get translateSourceArgs {
     if (StringUtil.isNotBlank(_settingData!.translateSourceArgs)) {
       return _settingData!.translateSourceArgs!;
     }
+    return null;
   }
 
   String? get translateTarget => _settingData!.translateTarget;
 
-  Map<String, int> _translateSourceArgsMap = {};
+  final Map<String, int> _translateSourceArgsMap = {};
 
   void _reloadTranslateSourceArgs() {
     _translateSourceArgsMap.clear();
@@ -452,8 +453,8 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   /// fontFamily
-  set fontFamily(String? _fontFamily) {
-    _settingData!.fontFamily = _fontFamily;
+  set fontFamily(String? fontFamily) {
+    _settingData!.fontFamily = fontFamily;
     saveAndNotifyListeners();
   }
 
@@ -546,7 +547,7 @@ class SettingsProvider extends ChangeNotifier {
     _settingData!.updatedTime = DateTime.now().millisecondsSinceEpoch;
     var m = _settingData!.toJson();
     var jsonStr = json.encode(m);
-    await _sharedPreferences!.setString(DataKey.SETTING, jsonStr);
+    await _sharedPreferences!.setString(DataKey.setting, jsonStr);
     _settingsProvider!._reloadTranslateSourceArgs();
 
     if (updateUI) {

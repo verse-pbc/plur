@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
@@ -6,10 +5,8 @@ import 'package:nostrmo/component/user/user_pic_widget.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
-import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/router_util.dart';
-import '../image_widget.dart';
 import 'search_mention_widget.dart';
 
 class SearchMentionUserWidget extends StatefulWidget {
@@ -87,6 +84,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
   double width;
 
   SearchMentionUserItemWidget({
+    super.key, 
     required this.metadata,
     required this.width,
   });

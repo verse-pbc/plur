@@ -4,17 +4,14 @@ import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/component/new_notes_updated_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/follow_event_provider.dart';
 import 'package:nostrmo/provider/follow_new_event_provider.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/event/event_list_widget.dart';
 import '../../component/placeholder/event_list_placeholder.dart';
-import '../../component/placeholder/event_placeholder.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 
@@ -29,7 +26,7 @@ class FollowPostsWidget extends StatefulWidget {
 
 class _FollowPostsWidgetState extends KeepAliveCustState<FollowPostsWidget>
     with LoadMoreEvent {
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -40,9 +37,9 @@ class _FollowPostsWidgetState extends KeepAliveCustState<FollowPostsWidget>
   @override
   Widget doBuild(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _followEventProvider = Provider.of<FollowEventProvider>(context);
+    var followEventProvider = Provider.of<FollowEventProvider>(context);
 
-    var eventBox = _followEventProvider.postsBox;
+    var eventBox = followEventProvider.postsBox;
     var events = eventBox.all();
     if (events.isEmpty) {
       return EventListPlaceholder(

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/component/placeholder/tap_placeholder.dart';
 
 class TapListPlaceholder extends StatelessWidget {
+  const TapListPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);

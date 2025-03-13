@@ -14,6 +14,8 @@ import '../../util/theme_util.dart';
 import '../content/content_custom_emoji_widget.dart';
 
 class CustomEmojiAddDialog extends StatefulWidget {
+  const CustomEmojiAddDialog({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _CustomEmojiAddDialog();
@@ -23,8 +25,8 @@ class CustomEmojiAddDialog extends StatefulWidget {
     return await showDialog<CustomEmoji>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
-        return CustomEmojiAddDialog();
+      builder: (context) {
+        return const CustomEmojiAddDialog();
       },
     );
   }
@@ -61,7 +63,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
       child: TextField(
         controller: controller,
         minLines: 1,
@@ -69,7 +71,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
         autofocus: true,
         decoration: InputDecoration(
           hintText: localization.Input_Custom_Emoji_Name,
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
@@ -77,7 +79,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     List<Widget> imageWidgetList = [
       GestureDetector(
         onTap: pickPicture,
-        child: Icon(Icons.image),
+        child: const Icon(Icons.image),
       )
     ];
     if (StringUtil.isNotBlank(filepath)) {
@@ -90,7 +92,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         top: Base.BASE_PADDING,
         bottom: 6,
       ),
@@ -107,7 +109,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -118,7 +120,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     ));
 
     var main = Container(
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.BASE_PADDING),
       decoration: BoxDecoration(
         color: cardColor,
       ),

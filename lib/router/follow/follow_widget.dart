@@ -26,7 +26,7 @@ class FollowWidget extends StatefulWidget {
 
 class _FollowWidgetState extends KeepAliveCustState<FollowWidget>
     with LoadMoreEvent {
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
@@ -37,9 +37,9 @@ class _FollowWidgetState extends KeepAliveCustState<FollowWidget>
   @override
   Widget doBuild(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _followEventProvider = Provider.of<FollowEventProvider>(context);
+    var followEventProvider = Provider.of<FollowEventProvider>(context);
 
-    var eventBox = _followEventProvider.eventBox;
+    var eventBox = followEventProvider.eventBox;
     var events = eventBox.all();
     if (events.isEmpty) {
       return EventListPlaceholder(

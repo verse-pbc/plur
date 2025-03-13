@@ -680,7 +680,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       isScrollControlled: false,
       context: context,
       builder: (context) {
-        return LikeTextSelectBottomSheet();
+        return const LikeTextSelectBottomSheet();
       },
     );
 

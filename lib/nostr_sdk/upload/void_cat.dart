@@ -11,7 +11,7 @@ import '../utils/string_util.dart';
 import 'nostr_build_uploader.dart';
 
 class VoidCatUploader {
-  static const String UPLOAD_ACTION = "https://void.cat/upload?cli=true";
+  static const String uploadAction = "https://void.cat/upload?cli=true";
 
   static Future<String?> upload(String filePath, {String? fileName}) async {
     var extName = "";
@@ -46,7 +46,7 @@ class VoidCatUploader {
     }
 
     var response = await NostrBuildUploader.dio.post<String>(
-      UPLOAD_ACTION,
+      uploadAction,
       data: Stream.fromIterable(bytes.map((e) => [e])),
       options: Options(
         headers: headers,
@@ -54,7 +54,7 @@ class VoidCatUploader {
     );
     var body = response.data;
 
-    if (body != null && body.indexOf('"ok":false') > -1) {
+    if (body != null && body.contains('"ok":false')) {
       return null;
     }
 

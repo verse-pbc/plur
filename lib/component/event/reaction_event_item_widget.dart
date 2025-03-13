@@ -11,7 +11,7 @@ class ReactionEventItemWidget extends StatefulWidget {
 
   int createdAt;
 
-  ReactionEventItemWidget({
+  ReactionEventItemWidget({super.key, 
     required this.pubkey,
     required this.text,
     required this.createdAt,
@@ -33,7 +33,7 @@ class _ReactionEventItemWidgetState extends State<ReactionEventItemWidget> {
 
     list.add(ReactionEventMetadataWidget(pubkey: widget.pubkey));
 
-    list.add(Text(" " + widget.text + " "));
+    list.add(Text(" ${widget.text} "));
 
     list.add(Text(
       GetTimeAgo.parse(

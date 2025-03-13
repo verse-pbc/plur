@@ -4,13 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/editor/editor_mixin.dart';
-import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/dm_session_info_db.dart';
-import 'package:nostrmo/router/edit/editor_widget.dart';
-import 'package:nostrmo/router/index/index_app_bar.dart';
-import 'package:pointycastle/ecc/api.dart';
 import 'package:provider/provider.dart';
-import 'package:pointycastle/export.dart' as pointycastle;
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 import '../../component/appbar_back_btn_widget.dart';
@@ -23,7 +17,6 @@ import '../../component/editor/tag_embed_builder.dart';
 import '../../component/editor/video_embed_builder.dart';
 import '../../component/user/name_widget.dart';
 import '../../consts/base.dart';
-import '../../data/dm_session_info.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
@@ -266,11 +259,10 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
       cancelFunc.call();
     }
   }
-
   Future<void> addDmSessionToKnown() async {
-    var _detail = await dmProvider.addDmSessionToKnown(detail!);
+    var updatedDetail = await dmProvider.addDmSessionToKnown(detail!);
     setState(() {
-      detail = _detail;
+      detail = updatedDetail;
     });
   }
 

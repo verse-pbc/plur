@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import '../relay/relay_status.dart';
-import '../utils/string_util.dart';
 
 class NIP02 {
   static String relaysToContent(List<RelayStatus> relayStatuses) {

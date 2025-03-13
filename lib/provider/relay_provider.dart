@@ -27,7 +27,7 @@ class RelayProvider extends ChangeNotifier {
     if (_relayProvider == null) {
       _relayProvider = RelayProvider();
       // _relayProvider!._load();
-      var l = sharedPreferences.getStringList(DataKey.CACHE_RELAYS);
+      var l = sharedPreferences.getStringList(DataKey.cacheRelays);
       if (l != null) {
         _relayProvider!.cacheRelayAddrs.clear();
         _relayProvider!.cacheRelayAddrs.addAll(l);
@@ -256,7 +256,7 @@ class RelayProvider extends ChangeNotifier {
   }
 
   void saveCacheRelay() {
-    sharedPreferences.setStringList(DataKey.CACHE_RELAYS, cacheRelayAddrs);
+    sharedPreferences.setStringList(DataKey.cacheRelays, cacheRelayAddrs);
   }
 
   void _updateRelayToContactList() {

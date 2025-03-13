@@ -111,7 +111,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
                 onPressed: () {
                   delPollOption(controller);
                 },
-                icon: Icon(Icons.delete)),
+                icon: const Icon(Icons.delete)),
           ],
         );
       }
@@ -122,7 +122,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
       child: InkWell(
         onTap: addPollOption,
         child: Container(
@@ -131,7 +131,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
           alignment: Alignment.center,
           child: Text(
             localization.add_poll_option,
-            style: TextStyle(
+            style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
               fontWeight: FontWeight.bold,

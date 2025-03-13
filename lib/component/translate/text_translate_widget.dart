@@ -5,10 +5,7 @@ import 'package:google_mlkit_translation/src/on_device_translator.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:provider/provider.dart';
 
-import '../../consts/base.dart';
 import '../cust_state.dart';
 
 class TextTranslateWidget extends StatefulWidget {

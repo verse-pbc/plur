@@ -16,6 +16,8 @@ import '../../util/zap_action.dart';
 import '../content/content_str_link_widget.dart';
 
 class GenLnbcWidget extends StatefulWidget {
+  const GenLnbcWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _GenLnbcWidgetState();
@@ -74,7 +76,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         List<Widget> list = [];
 
         list.add(Container(
-          margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
           child: Text(
             localization.Input_Sats_num_to_gen_lightning_invoice,
             style: TextStyle(
@@ -85,7 +87,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         ));
 
         list.add(Container(
-          margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
           child: TextField(
             controller: controller,
             minLines: 1,
