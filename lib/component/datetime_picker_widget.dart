@@ -71,18 +71,18 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
-    var mainColor = themeData.primaryColor;
-    var bigTextSize = themeData.textTheme.bodyLarge!.fontSize;
+    final cardColor = themeData.cardColor;
+    final mainColor = themeData.primaryColor;
+    final bigTextSize = themeData.textTheme.bodyLarge!.fontSize;
     final localization = S.of(context);
 
-    var now = DateTime.now();
-    var calendarFirstDay = now.add(const Duration(days: -3650));
-    var calendarLastDay = now.add(const Duration(days: 3650));
+    final now = DateTime.now();
+    final calendarFirstDay = now.add(const Duration(days: -3650));
+    final calendarLastDay = now.add(const Duration(days: 3650));
 
-    var titleDateFormat = DateFormat("MMM yyyy");
+    final titleDateFormat = DateFormat("MMM yyyy");
 
-    var datePicker = Container(
+    final datePicker = Container(
       margin: const EdgeInsets.only(
         bottom: Base.BASE_PADDING,
       ),
@@ -140,11 +140,11 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
       ),
     );
 
-    var timeTitleTextStyle = TextStyle(
+    final timeTitleTextStyle = TextStyle(
       fontSize: bigTextSize,
       fontWeight: FontWeight.bold,
     );
-    var timePicker = Row(
+    final timePicker = Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         buildNumberPicker(localization.Hour, 0, 23, hour, (value) {
@@ -192,7 +192,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
       ),
     ));
 
-    var main = Container(
+    final main = Container(
       color: cardColor,
       padding: const EdgeInsets.all(Base.BASE_PADDING),
       child: Column(
