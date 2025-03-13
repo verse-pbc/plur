@@ -23,10 +23,10 @@ class MetadataPlaceholder extends StatelessWidget {
       Container(
         width: double.maxFinite,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
-          bottom: Base.BASE_PADDING,
+          top: Base.basePaddingHalf,
+          left: Base.basePadding,
+          right: Base.basePadding,
+          bottom: Base.basePadding,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
