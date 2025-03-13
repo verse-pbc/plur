@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:convert/convert.dart';
@@ -23,7 +22,7 @@ import '../../util/router_util.dart';
 class UserStatisticsWidget extends StatefulWidget {
   String pubkey;
 
-  UserStatisticsWidget({required this.pubkey});
+  UserStatisticsWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
@@ -80,10 +79,10 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     isLocal = widget.pubkey == nostr!.publicKey;
 
     if (isLocal) {
-      var _provider = Provider.of<ContactListProvider>(context);
+      var provider = Provider.of<ContactListProvider>(context);
       List<Widget> list = [];
       list.add(UserStatisticsItemWidget(
-        num: _provider.total(),
+        num: provider.total(),
         name: localization.Following,
         onTap: onFollowingTap,
         onLongPressStart: onLongPressStart,
@@ -91,7 +90,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       ));
 
       list.add(UserStatisticsItemWidget(
-          num: _provider.followSetEventMap.length,
+          num: provider.followSetEventMap.length,
           name: localization.Follow_set,
           onTap: () {
             RouterUtil.router(context, RouterPath.FOLLOW_SET_LIST);
@@ -130,13 +129,13 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       ));
 
       list.add(UserStatisticsItemWidget(
-        num: _provider.totalFollowedTags(),
+        num: provider.totalFollowedTags(),
         name: localization.Followed_Tags,
         onTap: onFollowedTagsTap,
       ));
 
       list.add(UserStatisticsItemWidget(
-        num: _provider.totalfollowedCommunities(),
+        num: provider.totalfollowedCommunities(),
         name: localization.Followed_Communities,
         onTap: onFollowedCommunitiesTap,
       ));
@@ -144,15 +143,15 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       return Container(
         // color: Colors.red,
         height: 18,
-        margin: EdgeInsets.only(bottom: Base.basePadding),
+        margin: const EdgeInsets.only(bottom: Base.basePadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
         ),
       );
     } else {
-      var _provider = Provider.of<MetadataProvider>(context);
-      contactList = _provider.getContactList(pubkey!);
+      var provider = Provider.of<MetadataProvider>(context);
+      contactList = provider.getContactList(pubkey!);
 
       List<Widget> list = [];
 
@@ -239,18 +238,18 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       List<EnumObj> enumList = [];
       for (var event in list) {
-        var _contactList = ContactList.fromJson(event.tags, event.createdAt);
+        var contactList = ContactList.fromJson(event.tags, event.createdAt);
         var dt = DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
         enumList.add(
-            EnumObj(event, "${format.encode(dt)} (${_contactList.total()})"));
+            EnumObj(event, "${format.encode(dt)} (${contactList.total()})"));
       }
 
       var result = await EnumSelectorWidget.show(context, enumList);
       if (result != null) {
         var event = result.value as Event;
-        var _contactList = ContactList.fromJson(event.tags, event.createdAt);
+        var contactList = ContactList.fromJson(event.tags, event.createdAt);
         RouterUtil.router(
-            context, RouterPath.USER_HISTORY_CONTACT_LIST, _contactList);
+            context, RouterPath.USER_HISTORY_CONTACT_LIST, contactList);
       }
     }
   }
@@ -420,7 +419,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
 
   Function(LongPressEndDetails)? onLongPressEnd;
 
-  UserStatisticsItemWidget({
+  UserStatisticsItemWidget({super.key, 
     required this.num,
     required this.name,
     required this.onTap,
@@ -449,13 +448,13 @@ class UserStatisticsItemWidget extends StatelessWidget {
         ),
       ));
     } else {
-      list.add(Icon(
+      list.add(const Icon(
         Icons.download,
         size: 14,
       ));
     }
     list.add(Container(
-      margin: EdgeInsets.only(left: 4),
+      margin: const EdgeInsets.only(left: 4),
       child: Text(
         name,
         style: TextStyle(
@@ -473,7 +472,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
       onLongPressStart: onLongPressStart,
       onLongPressEnd: onLongPressEnd,
       child: Container(
-        margin: EdgeInsets.only(left: Base.basePadding),
+        margin: const EdgeInsets.only(left: Base.basePadding),
         child: Row(children: list),
       ),
     );

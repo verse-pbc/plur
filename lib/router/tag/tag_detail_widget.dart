@@ -8,7 +8,6 @@ import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
 import '../../component/event/event_list_widget.dart';
 import '../../component/tag_info_widget.dart';
-import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/settings_provider.dart';
@@ -29,7 +28,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
     with PenddingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   bool showTitle = false;
 
@@ -129,7 +128,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
     return Scaffold(
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
-        actions: [],
+        actions: const [],
         title: appBarTitle,
       ),
       body: main,

@@ -46,7 +46,7 @@ class ZapGoalInputController {
 class ZapGoalInputWidget extends StatefulWidget {
   ZapGoalInputController zapGoalInputController;
 
-  ZapGoalInputWidget({required this.zapGoalInputController});
+  ZapGoalInputWidget({super.key, required this.zapGoalInputController});
 
   @override
   State<StatefulWidget> createState() {

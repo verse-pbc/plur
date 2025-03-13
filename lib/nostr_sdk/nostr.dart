@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'client_utils/keys.dart';
 import 'event.dart';
 import 'event_kind.dart';
 import 'event_mem_box.dart';

@@ -1,10 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:provider/provider.dart';
 
-import '../main.dart';
-import '../provider/badge_definition_provider.dart';
 import 'image_widget.dart';
 
 class BadgeWidget extends StatelessWidget {
@@ -12,7 +8,7 @@ class BadgeWidget extends StatelessWidget {
 
   BadgeDefinition badgeDefinition;
 
-  BadgeWidget({
+  BadgeWidget({super.key, 
     required this.badgeDefinition,
   });
 

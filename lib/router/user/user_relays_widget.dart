@@ -1,4 +1,3 @@
-import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
@@ -134,7 +133,7 @@ class RelayMetadataWidget extends StatelessWidget {
       bottomWidget = Row(
         children: [
           Container(
-            margin: EdgeInsets.only(right: Base.basePadding),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             child: Text(
               localization.Read,
               style: TextStyle(
@@ -144,7 +143,7 @@ class RelayMetadataWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: Base.basePadding),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             child: Text(
               localization.Write,
               style: TextStyle(
@@ -191,7 +190,7 @@ class RelayMetadataWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 2),
+                    margin: const EdgeInsets.only(bottom: 2),
                     child: Text(relayAddr!),
                   ),
                   bottomWidget,

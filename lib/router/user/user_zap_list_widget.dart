@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/event/zap_event_list_widget.dart';
-import '../../component/user/metadata_widget.dart';
-import '../../consts/base.dart';
-import '../../consts/router_path.dart';
-import '../../data/metadata.dart';
-import '../../generated/l10n.dart';
-import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 
 class UserZapListWidget extends StatefulWidget {

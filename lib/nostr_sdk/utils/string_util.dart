@@ -26,10 +26,10 @@ class StringUtil {
 
   static List<String> charByChar(String word) {
     List<String> letters = [];
-    word.runes.forEach((int rune) {
+    for (var rune in word.runes) {
       var character = String.fromCharCode(rune);
       letters.add(character);
-    });
+    }
     return letters;
   }
 

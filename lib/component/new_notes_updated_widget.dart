@@ -8,7 +8,7 @@ class NewNotesUpdatedWidget extends StatelessWidget {
 
   Function? onTap;
 
-  NewNotesUpdatedWidget({required this.num, this.onTap});
+  NewNotesUpdatedWidget({super.key, required this.num, this.onTap});
 
   @override
   Widget build(BuildContext context) {

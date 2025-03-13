@@ -28,7 +28,7 @@ class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
       if (nip05Status == Nip05Status.NIP05_NOT_FOUND ||
           nip05Status == Nip05Status.METADATA_NOT_FOUND) {
         // iconData = Icons.error;
-        return Container(
+        return const SizedBox(
           width: 0,
           height: 0,
         );

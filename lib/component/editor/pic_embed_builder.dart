@@ -16,7 +16,7 @@ class PicEmbedBuilder extends EmbedBuilder {
       return ImageWidget(
         imageUrl: imageUrl,
         fit: BoxFit.cover,
-        placeholder: (context, url) => CircularProgressIndicator(),
+        placeholder: (context, url) => const CircularProgressIndicator(),
       );
     } else {
       // local image

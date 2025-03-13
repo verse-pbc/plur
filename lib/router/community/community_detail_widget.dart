@@ -31,7 +31,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
 
   AId? aId;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   bool showTitle = false;
 

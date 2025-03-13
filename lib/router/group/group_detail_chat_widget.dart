@@ -92,7 +92,7 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            offset: Offset(0, -5),
+            offset: const Offset(0, -5),
             blurRadius: 10,
             spreadRadius: 0,
           ),

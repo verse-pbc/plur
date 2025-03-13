@@ -1,11 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
-import '../content/content_decoder.dart';
 import 'metadata_top_widget.dart';
 import 'user_badges_widget.dart';
 
@@ -20,7 +18,7 @@ class MetadataWidget extends StatefulWidget {
 
   bool userPicturePreview;
 
-  MetadataWidget({
+  MetadataWidget({super.key, 
     required this.pubkey,
     this.metadata,
     this.jumpable = false,
@@ -66,7 +64,7 @@ class _MetadataWidgetState extends State<MetadataWidget> {
             bottom: Base.basePaddingHalf,
           ),
           // child: Text(widget.metadata!.about!),
-          child: Container(
+          child: SizedBox(
             width: double.maxFinite,
             child: ContentWidget(
               content: widget.metadata!.about,

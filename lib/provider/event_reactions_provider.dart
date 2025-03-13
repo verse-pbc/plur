@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -7,9 +6,9 @@ import '../data/event_reactions.dart';
 import '../main.dart';
 
 class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
-  int update_time = 1000 * 60 * 10;
+  int updateTime = 1000 * 60 * 10;
 
-  Map<String, EventReactions> _eventReactionsMap = {};
+  final Map<String, EventReactions> _eventReactionsMap = {};
 
   EventReactionsProvider() {
     whenStopMS = 200;
@@ -92,7 +91,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
       var now = DateTime.now();
       // check dataTime if need to update
       if (now.millisecondsSinceEpoch - er.dataTime.millisecondsSinceEpoch >
-          update_time) {
+          updateTime) {
         _needHandleIds[id] = 1;
         // later(laterFunc, null);
         whenStop(laterFunc);
@@ -124,7 +123,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
     }
   }
 
-  List<int> SUPPORT_EVENT_KINDS = [
+  List<int> supportEventKinds = [
     EventKind.TEXT_NOTE,
     EventKind.REPOST,
     EventKind.GENERIC_REPOST,
@@ -138,7 +137,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
         // stop other quering
         localQueringCache[id] = 1;
 
-        var filter = Filter(e: [id], kinds: SUPPORT_EVENT_KINDS);
+        var filter = Filter(e: [id], kinds: supportEventKinds);
         var events = await nostr!.queryEvents([filter.toJson()],
             relayTypes: RelayType.CACHE_AND_LOCAL);
         if (events.isNotEmpty) {
@@ -170,9 +169,9 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
 
   Map<String, bool> _localNeedHandleIds = {};
 
-  Map<String, int> _needHandleIds = {};
+  final Map<String, int> _needHandleIds = {};
 
-  Map<String, int> _pullIds = {};
+  final Map<String, int> _pullIds = {};
 
   void _doPull() {
     if (_needHandleIds.isEmpty) {
@@ -182,7 +181,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
     List<Map<String, dynamic>> filters = [];
     for (var id in _needHandleIds.keys) {
       _pullIds[id] = 1;
-      var filter = Filter(e: [id], kinds: SUPPORT_EVENT_KINDS);
+      var filter = Filter(e: [id], kinds: supportEventKinds);
       filters.add(filter.toJson());
     }
     _needHandleIds.clear();
@@ -202,7 +201,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
     _penddingEvents.addAll(events);
   }
 
-  List<Event> _penddingEvents = [];
+  final List<Event> _penddingEvents = [];
 
   void _handleEvent() {
     bool updated = false;

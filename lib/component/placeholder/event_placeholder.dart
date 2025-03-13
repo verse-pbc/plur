@@ -5,6 +5,8 @@ import '../../consts/base.dart';
 import 'event_top_placeholder.dart';
 
 class EventPlaceholder extends StatelessWidget {
+  const EventPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -12,14 +14,14 @@ class EventPlaceholder extends StatelessWidget {
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     var cardColor = themeData.cardColor;
 
-    var textLineMagin = EdgeInsets.only(bottom: 3);
+    var textLineMagin = const EdgeInsets.only(bottom: 3);
 
     var main = Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        EventTopPlaceholder(),
+        const EventTopPlaceholder(),
         Container(
           width: double.maxFinite,
           padding: const EdgeInsets.only(

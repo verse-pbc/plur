@@ -34,7 +34,7 @@ class _UserWidgetState extends CustState<UserWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   String? pubkey;
 
@@ -53,21 +53,21 @@ class _UserWidgetState extends CustState<UserWidget>
     // queryLimit = 200;
 
     _controller.addListener(() {
-      var _showTitle = false;
-      var _showAppbarBG = false;
+      var showTitle = false;
+      var showAppbarBG = false;
 
       var offset = _controller.offset;
       if (offset > showTitleHeight) {
-        _showTitle = true;
+        showTitle = true;
       }
       if (offset > showAppbarBGHeight) {
-        _showAppbarBG = true;
+        showAppbarBG = true;
       }
 
-      if (_showTitle != showTitle || _showAppbarBG != showAppbarBG) {
+      if (showTitle != showTitle || showAppbarBG != showAppbarBG) {
         setState(() {
-          showTitle = _showTitle;
-          showAppbarBG = _showAppbarBG;
+          showTitle = showTitle;
+          showAppbarBG = showAppbarBG;
         });
       }
     });
@@ -120,8 +120,8 @@ class _UserWidgetState extends CustState<UserWidget>
       shouldRebuild: (previous, next) {
         return previous != next;
       },
-      selector: (context, _metadataProvider) {
-        return _metadataProvider.getMetadata(pubkey!);
+      selector: (context, metadataProvider) {
+        return metadataProvider.getMetadata(pubkey!);
       },
       builder: (context, metadata, child) {
         Color? appbarBackgroundColor = Colors.transparent;
@@ -202,7 +202,7 @@ class _UserWidgetState extends CustState<UserWidget>
           main,
           Positioned(
             top: paddingTop,
-            child: Container(
+            child: SizedBox(
               width: maxWidth,
               child: appBar,
             ),
