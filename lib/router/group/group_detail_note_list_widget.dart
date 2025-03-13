@@ -85,7 +85,7 @@ class _GroupDetailNoteListWidgetState
       } else {
         List<Widget> stackList = [main];
         stackList.add(Positioned(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
           child: NewNotesUpdatedWidget(
             num: newNotesLength,
             onTap: () {

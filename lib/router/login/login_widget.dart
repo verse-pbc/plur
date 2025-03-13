@@ -279,7 +279,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         GestureDetector(
           onTap: () {
-            WebViewWidget.open(context, Base.PRIVACY_LINK);
+            WebViewWidget.open(context, Base.privacyLink);
           },
           child: StyledText(
               text: localization.Accept_terms_of_service,
@@ -319,7 +319,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               // Adds padding to the content to ensure spacing on the sides.
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Base.BASE_PADDING * 2,
+                  horizontal: Base.basePadding * 2,
                 ),
                 // Column that holds the main content of the screen.
                 child: Column(
