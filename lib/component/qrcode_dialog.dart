@@ -72,17 +72,17 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         return Container(
           width: QR_WIDTH,
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               userImageWidget,
               Container(
-                margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+                margin: const EdgeInsets.only(left: Base.basePaddingHalf),
                 child: SizedBox(
-                  width: QR_WIDTH - IMAGE_WIDTH - Base.BASE_PADDING_HALF,
+                  width: QR_WIDTH - IMAGE_WIDTH - Base.basePaddingHalf,
                   child: userNameWidget,
                 ),
               ),
@@ -97,10 +97,10 @@ class _QrcodeDialog extends State<QrcodeDialog> {
     list.add(topWidget);
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
-        left: Base.BASE_PADDING_HALF,
-        right: Base.BASE_PADDING_HALF,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
+        left: Base.basePaddingHalf,
+        right: Base.basePaddingHalf,
       ),
       child: PrettyQr(
         data: nip19Pubkey,
@@ -114,8 +114,8 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         _doCopy(nip19Pubkey);
       },
       child: Container(
-        width: QR_WIDTH + Base.BASE_PADDING_HALF * 2,
-        padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
+        width: QR_WIDTH + Base.basePaddingHalf * 2,
+        padding: const EdgeInsets.all(Base.basePaddingHalf),
         decoration: BoxDecoration(
           color: hintColor.withOpacity(0.5),
           borderRadius: BorderRadius.circular(10),
@@ -146,8 +146,8 @@ class _QrcodeDialog extends State<QrcodeDialog> {
           ),
         ),
         Positioned(
-          right: Base.BASE_PADDING_HALF,
-          top: Base.BASE_PADDING_HALF,
+          right: Base.basePaddingHalf,
+          top: Base.basePaddingHalf,
           child: MetadataIconBtn(
             iconData: Icons.share,
             onTap: onShareTap,
@@ -169,8 +169,8 @@ class _QrcodeDialog extends State<QrcodeDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

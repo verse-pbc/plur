@@ -143,7 +143,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       return Container(
         // color: Colors.red,
         height: 18,
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.basePadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
@@ -200,7 +200,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       return Container(
         height: 18,
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.basePadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
@@ -472,7 +472,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
       onLongPressStart: onLongPressStart,
       onLongPressEnd: onLongPressEnd,
       child: Container(
-        margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(left: Base.basePadding),
         child: Row(children: list),
       ),
     );

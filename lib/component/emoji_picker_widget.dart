@@ -66,7 +66,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
                   child: Row(
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+                        margin: const EdgeInsets.only(left: Base.basePadding),
                         height: 40,
                         child: Icon(
                           Icons.search,

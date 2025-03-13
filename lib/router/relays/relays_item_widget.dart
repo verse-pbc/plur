@@ -59,7 +59,7 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
         Row(
           children: [
             Container(
-              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: const EdgeInsets.only(right: Base.basePadding),
               child: RelaysItemNumWidget(
                 iconData: Icons.mail,
                 num: widget.relayStatus.noteReceived,
@@ -72,7 +72,7 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
             ),
             Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING,
+                left: Base.basePadding,
               ),
               child: Text(
                 widget.rwText,
@@ -101,7 +101,7 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
           });
         },
         child: Container(
-          margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+          margin: const EdgeInsets.only(right: Base.basePadding),
           child: const Icon(
             Icons.copy,
           ),
@@ -136,10 +136,10 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
         ),
         child: Container(
           padding: const EdgeInsets.only(
-            top: Base.BASE_PADDING_HALF,
-            bottom: Base.BASE_PADDING_HALF,
-            left: Base.BASE_PADDING,
-            right: Base.BASE_PADDING,
+            top: Base.basePaddingHalf,
+            bottom: Base.basePaddingHalf,
+            left: Base.basePadding,
+            right: Base.basePadding,
           ),
           decoration: BoxDecoration(
             color: cardColor,
@@ -159,9 +159,9 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-        bottom: Base.BASE_PADDING,
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        bottom: Base.basePadding,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: main,
     );
@@ -195,7 +195,7 @@ class RelaysItemNumWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(right: Base.basePaddingHalf),
           child: Icon(
             iconData,
             color: iconColor,

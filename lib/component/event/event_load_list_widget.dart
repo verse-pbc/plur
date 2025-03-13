@@ -14,7 +14,7 @@ class EventLoadListWidget extends StatelessWidget {
     final localization = S.of(context);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       color: cardColor,
       height: 60,
       child: Center(child: Text(localization.Note_loading)),
