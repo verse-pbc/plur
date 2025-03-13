@@ -150,22 +150,6 @@ platform :ios do
     )
     match_nuke(type: "appstore")
   end
-end
-
-# Dynamically define 3 lanes:
-# bump_major
-# bump_minor
-# bump_patch
-# from: https://benscheirman.com/2020/10/managing-version-numbers-with-fastlane/
-%w{major minor patch}.each do |part|
-  lane "bump_#{part}".to_sym do
-    increment_version_number_in_xcodeproj(bump_type: part, target: "Runner")
-  end
-end
-
-lane :bump_version do
-  increment_build_number(xcodeproj: "Runner.xcodeproj")
-end
 
 # Helper functions
 def strip_markdown_links(text)
@@ -177,4 +161,3 @@ def cleaned_changelog
   changelog = read_changelog(changelog_path: CHANGELOG_PATH)
   strip_markdown_links(changelog)
 end
-
