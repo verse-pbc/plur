@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
+import 'dart:developer';
 
 import 'community_widget.dart';
 import '../../provider/relay_provider.dart';
@@ -111,7 +112,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         sendAfterAuth: true,
       );
     } catch (e) {
-      print("Error in subscription: $e");
+      log("Error in subscription: $e");
     }
   }
 
@@ -138,7 +139,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     try {
       nostr!.unsubscribe(subscribeId);
     } catch (e) {
-      print("Error unsubscribing: $e");
+      log("Error unsubscribing: $e");
     }
   }
 

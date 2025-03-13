@@ -84,7 +84,7 @@ class NIP96Uploader {
       var nip98Event = Event(nostr.publicKey, EventKind.HTTP_AUTH, tags, "");
 
       await nostr.signEvent(nip98Event);
-      
+
       headers["Authorization"] =
           "Nostr ${base64Url.encode(utf8.encode(jsonEncode(nip98Event.toJson())))}";
     }
@@ -116,8 +116,7 @@ class NIP96Uploader {
         }
       }
     } catch (e) {
-      log("nostr.build nip96 upload exception:");
-      log(e.toString());
+      log("nostr.build nip96 upload exception: $e");
     }
 
     return null;

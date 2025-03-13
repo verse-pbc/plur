@@ -262,8 +262,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       try {
         metadataMap = jsonDecode(profileEvent!.content);
       } catch (e) {
-        log("profileSave jsonDecode error");
-        print(e);
+        log("profileSave jsonDecode error: $e");
       }
     } else {
       metadataMap = {};

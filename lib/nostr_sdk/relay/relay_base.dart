@@ -15,7 +15,7 @@ class RelayBase extends Relay {
   @override
   Future<bool> doConnect() async {
     if (_wsChannel != null && _wsChannel!.closeCode == null) {
-      print("connect break: $url");
+      log("connection break: $url");
       return true;
     }
 
@@ -34,7 +34,7 @@ class RelayBase extends Relay {
           onMessage!(this, json);
         }
       }, onError: (error) async {
-        print(error);
+        log("Websocket error $url: $error");
         onError("Websocket error $url", reconnect: true);
       }, onDone: () {
         onError("Websocket stream closed by remote: $url", reconnect: true);

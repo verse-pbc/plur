@@ -81,7 +81,6 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
           _pullIds[id] != null) {
         return null;
       }
-      // print("begin to pull $id");
       _localNeedHandleIds[id] = avoidPull;
       whenStop(laterFunc);
 
@@ -142,7 +141,6 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
         var events = await nostr!.queryEvents([filter.toJson()],
             relayTypes: RelayType.CACHE_AND_LOCAL);
         if (events.isNotEmpty) {
-          // print("Event Reactions load from relayDB $id");
           onEvents(events);
           whenStop(laterFunc);
 

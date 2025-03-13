@@ -642,13 +642,13 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         ]);
         nostr!.query([filter.toJson()], onDeletedEventReceive);
       } catch (e) {
-        log("delete account error ${e.toString()}");
+        log("delete account error: $e");
       }
     }
   }
 
   onDeletedEventReceive(Event event) {
-    print(event.toJson());
+    log("onDeletedEventReceive ${event.toJson()}");
     waitingDeleteEventBox.add(event);
     whenStop(handleDeleteEvent);
   }

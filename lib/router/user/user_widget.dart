@@ -293,7 +293,6 @@ class _UserWidgetState extends CustState<UserWidget>
   }
 
   void _doQuery({Function(Event)? onEventFunc}) {
-    // print("_doQuery");
     onEventFunc ??= onEvent;
 
     preQuery();

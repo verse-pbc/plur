@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +22,9 @@ import '../util/store_util.dart';
 import '../util/theme_util.dart';
 
 class QrcodeDialog extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  QrcodeDialog({super.key, required this.pubkey});
+  const QrcodeDialog({super.key, required this.pubkey});
 
   static Future<String?> show(BuildContext context, String pubkey) async {
     return await showDialog<String>(
@@ -198,7 +200,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         Share.shareXFiles([XFile(tempFile)]);
       }
     }).catchError((onError) {
-      print(onError);
+      log("onShareTap error $onError");
     });
   }
 }
