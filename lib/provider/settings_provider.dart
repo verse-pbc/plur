@@ -547,7 +547,6 @@ class SettingsProvider extends ChangeNotifier {
     _settingData!.updatedTime = DateTime.now().millisecondsSinceEpoch;
     var m = _settingData!.toJson();
     var jsonStr = json.encode(m);
-    // print(jsonStr);
     await _sharedPreferences!.setString(DataKey.setting, jsonStr);
     _settingsProvider!._reloadTranslateSourceArgs();
 
