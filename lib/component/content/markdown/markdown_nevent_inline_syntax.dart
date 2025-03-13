@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:markdown/markdown.dart' as md;
 

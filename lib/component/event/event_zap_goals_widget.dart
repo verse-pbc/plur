@@ -1,7 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/event/event_reactions_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
@@ -17,7 +16,7 @@ class EventZapGoalsWidget extends StatefulWidget {
 
   EventRelation eventRelation;
 
-  EventZapGoalsWidget({
+  EventZapGoalsWidget({super.key, 
     required this.event,
     required this.eventRelation,
   });
@@ -78,10 +77,10 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
             alignment: Alignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+                padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
                 width: double.maxFinite,
                 child: Row(children: [
-                  Icon(Icons.bolt),
+                  const Icon(Icons.bolt),
                   Expanded(child: Container()),
                 ]),
               ),

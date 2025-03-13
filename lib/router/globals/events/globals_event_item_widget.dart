@@ -14,7 +14,7 @@ import '../../../generated/l10n.dart';
 class GlobalEventItemWidget extends StatefulWidget {
   String eventId;
 
-  GlobalEventItemWidget({required this.eventId});
+  GlobalEventItemWidget({super.key, required this.eventId});
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +38,7 @@ class _GlobalEventItemWidgetState extends State<GlobalEventItemWidget> {
       builder: (context, event, child) {
         if (event == null) {
           return Container(
-            margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+            margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
             color: cardColor,
             height: 150,
             child: Center(

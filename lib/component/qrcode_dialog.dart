@@ -1,8 +1,6 @@
-import 'dart:typed_data';
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -17,23 +15,21 @@ import 'package:share_plus/share_plus.dart';
 
 import '../consts/base.dart';
 import '../generated/l10n.dart';
-import '../main.dart';
 import '../provider/metadata_provider.dart';
 import '../util/router_util.dart';
 import '../util/store_util.dart';
 import '../util/theme_util.dart';
-import 'image_widget.dart';
 
 class QrcodeDialog extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  QrcodeDialog({required this.pubkey});
+  const QrcodeDialog({super.key, required this.pubkey});
 
   static Future<String?> show(BuildContext context, String pubkey) async {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
+        builder: (context) {
           return QrcodeDialog(
             pubkey: pubkey,
           );
@@ -85,7 +81,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
               userImageWidget,
               Container(
                 margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
-                child: Container(
+                child: SizedBox(
                   width: QR_WIDTH - IMAGE_WIDTH - Base.BASE_PADDING_HALF,
                   child: userNameWidget,
                 ),
@@ -94,8 +90,8 @@ class _QrcodeDialog extends State<QrcodeDialog> {
           ),
         );
       },
-      selector: (content, _provider) {
-        return _provider.getMetadata(widget.pubkey);
+      selector: (content, provider) {
+        return provider.getMetadata(widget.pubkey);
       },
     );
     list.add(topWidget);
@@ -110,7 +106,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         data: nip19Pubkey,
         size: QR_WIDTH,
         elementColor: themeData.textTheme.bodyMedium!.color ?? Colors.black,
-        image: AssetImage("assets/imgs/logo/logo512.png"),
+        image: const AssetImage("assets/imgs/logo/logo512.png"),
       ),
     ));
     list.add(GestureDetector(
@@ -119,7 +115,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
       },
       child: Container(
         width: QR_WIDTH + Base.BASE_PADDING_HALF * 2,
-        padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+        padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
         decoration: BoxDecoration(
           color: hintColor.withOpacity(0.5),
           borderRadius: BorderRadius.circular(10),

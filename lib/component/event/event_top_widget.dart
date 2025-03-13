@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get_time_ago/get_time_ago.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/relative_date_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
@@ -13,16 +11,14 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
-import '../../main.dart';
 import '../../provider/metadata_provider.dart';
-import '../image_widget.dart';
 import '../nip05_valid_widget.dart';
 
 class EventTopWidget extends StatefulWidget {
   Event event;
   String? pagePubkey;
 
-  EventTopWidget({
+  EventTopWidget({super.key, 
     required this.event,
     this.pagePubkey,
   });
@@ -64,8 +60,8 @@ class _EventTopWidgetState extends State<EventTopWidget> {
       shouldRebuild: (previous, next) {
         return previous != next;
       },
-      selector: (context, _metadataProvider) {
-        return _metadataProvider.getMetadata(pubkey!);
+      selector: (context, metadataProvider) {
+        return metadataProvider.getMetadata(pubkey!);
       },
       builder: (context, metadata, child) {
         final themeData = Theme.of(context);

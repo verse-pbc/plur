@@ -43,7 +43,7 @@ class _ThreadDetailItemWidgetState extends State<ThreadDetailItemWidget> {
       main = Stack(
         children: [
           main,
-          Positioned(
+          const Positioned(
             top: -35,
             right: -10,
             child: EventBitcoinIconWidget(),

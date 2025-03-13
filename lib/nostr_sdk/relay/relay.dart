@@ -29,7 +29,7 @@ abstract class Relay {
   // quries
   final Map<String, Subscription> _queries = {};
 
-  Relay(this.url, this.relayStatus) {}
+  Relay(this.url, this.relayStatus);
 
   /// The method to call connect function by framework.
   Future<bool> connect() async {

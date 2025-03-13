@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
-import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
-import '../../main.dart';
 
 typedef ResultBuildFunc = Widget Function();
 
@@ -67,7 +65,7 @@ class _SearchMentionWidgetState extends State<SearchMentionWidget>
         onTap: () {
           controller.text = "";
         },
-        child: Icon(Icons.close),
+        child: const Icon(Icons.close),
       );
     }
     list.add(TextField(

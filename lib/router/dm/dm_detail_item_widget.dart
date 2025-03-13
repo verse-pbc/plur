@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
-import 'package:nostrmo/component/content/content_decoder.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:pointycastle/export.dart' as pointycastle;
 import 'package:provider/provider.dart';
 
 import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
-import '../../main.dart';
 import '../../provider/settings_provider.dart';
 import 'dm_plaintext_handle.dart';
 
@@ -23,6 +20,7 @@ class DMDetailItemWidget extends StatefulWidget {
   bool isLocal;
 
   DMDetailItemWidget({
+    super.key, 
     required this.sessionPubkey,
     required this.event,
     required this.isLocal,
@@ -36,9 +34,9 @@ class DMDetailItemWidget extends StatefulWidget {
 
 class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     with DMPlaintextHandle {
-  static const double IMAGE_WIDTH = 34;
+  static const double imageWidth = 34;
 
-  static const double BLANK_WIDTH = 50;
+  static const double blankWidth = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
       margin: const EdgeInsets.only(top: 2),
       child: UserPicWidget(
         pubkey: widget.event.pubkey,
-        width: IMAGE_WIDTH,
+        width: imageWidth,
       ),
     );
     // var maxWidth = mediaDataCache.size.width;
@@ -165,17 +163,17 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
 
     List<Widget> list = [];
     if (widget.isLocal) {
-      list.add(Container(width: BLANK_WIDTH));
+      list.add(Container(width: blankWidth));
       list.add(Expanded(child: contentWidget));
       list.add(userHeadWidget);
     } else {
       list.add(userHeadWidget);
       list.add(Expanded(child: contentWidget));
-      list.add(Container(width: BLANK_WIDTH));
+      list.add(Container(width: blankWidth));
     }
 
     return Container(
-      padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,

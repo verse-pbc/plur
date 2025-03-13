@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:convert/convert.dart';
@@ -129,7 +127,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+                  padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
                   width: double.maxFinite,
                   child: AbsorbPointer(
                     child: ContentWidget(

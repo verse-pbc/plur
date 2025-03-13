@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -29,12 +28,12 @@ class LightningUtil {
         duration: const Duration(seconds: 5),
         onlyOne: false,
         leading: (cancelFunc) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
         },
         title: (cancelFunc) {
           return Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.bolt,
                 color: Colors.orange,
               ),
@@ -72,7 +71,7 @@ class LightningUtil {
       return;
     }
 
-    var link = 'lightning:' + invoiceCode;
+    var link = 'lightning:$invoiceCode';
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
       await LightningQrcodeDialog.show(context, link);
     } else {

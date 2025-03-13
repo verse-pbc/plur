@@ -26,7 +26,7 @@ class ZapGoalsInfo {
         if (key == "amount") {
           amount = int.tryParse(value);
           if (amount != null) {
-            amount = (amount! / 1000).toInt();
+            amount = amount! ~/ 1000;
           }
         } else if (key == "zapraiser") {
           amount = int.tryParse(value);

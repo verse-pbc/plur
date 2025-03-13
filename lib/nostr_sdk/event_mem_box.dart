@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'event.dart';
 import 'relay/relay.dart';
@@ -7,13 +6,13 @@ import 'utils/find_event_interface.dart';
 /// a memory event box
 /// use to hold event received from relay and offer event List to ui
 class EventMemBox implements FindEventInterface {
-  List<Event> _eventList = [];
+  final List<Event> _eventList = [];
 
-  Map<String, Event> _idMap = {};
+  final Map<String, Event> _idMap = {};
 
   bool sortAfterAdd;
 
-  EventMemBox({this.sortAfterAdd = true}) {}
+  EventMemBox({this.sortAfterAdd = true});
 
   @override
   List<Event> findEvent(String str, {int? limit = 5}) {

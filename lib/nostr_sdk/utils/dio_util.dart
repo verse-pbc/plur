@@ -1,11 +1,9 @@
-import 'dart:convert';
-import 'dart:io';
+import 'dart:convert' as convert;
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
-import 'dart:convert' as convert;
 
 Dio? _dio;
 var cookieJar = CookieJar();
@@ -20,6 +18,7 @@ class DioUtil {
           client.badCertificateCallback = (cert, host, port) {
             return true;
           };
+          return null;
         };
       }
 
@@ -48,7 +47,7 @@ class DioUtil {
     Response resp = await dio.get(link, queryParameters: queryParameters);
     if (resp.statusCode == 200) {
       if (resp.data is String) {
-        return json.decode(resp.data);
+        return convert.json.decode(resp.data);
       }
       return resp.data;
     } else {

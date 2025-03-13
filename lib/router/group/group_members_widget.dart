@@ -153,7 +153,7 @@ class GroupMemberItemWidget extends StatefulWidget {
 }
 
 class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
-  static double USER_PIC_WIDTH = 30;
+  static double userPicWidth = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +163,7 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
     List<Widget> list = [];
     list.add(Container(
       margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-      child: UserPicWidget(pubkey: widget.pubkey, width: USER_PIC_WIDTH),
+      child: UserPicWidget(pubkey: widget.pubkey, width: userPicWidth),
     ));
     list.add(NameWidget(pubkey: widget.pubkey));
 

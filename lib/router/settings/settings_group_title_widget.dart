@@ -7,7 +7,7 @@ class SettingsGroupTitleWidget extends StatelessWidget {
 
   String title;
 
-  SettingsGroupTitleWidget({
+  SettingsGroupTitleWidget({super.key, 
     required this.iconData,
     required this.title,
   });
@@ -22,7 +22,7 @@ class SettingsGroupTitleWidget extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Container(
         color: cardColor,
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 30,
           left: 20,
           right: 20,
@@ -30,7 +30,7 @@ class SettingsGroupTitleWidget extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
               child: Icon(
                 iconData,
                 color: hintColor,

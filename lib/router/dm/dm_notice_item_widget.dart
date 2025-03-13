@@ -10,13 +10,14 @@ import '../../consts/router_path.dart';
 import '../../util/router_util.dart';
 
 class DMNoticeItemWidget extends StatelessWidget {
-  static const double IMAGE_WIDTH = 34;
+  static const double imageWidth = 34;
 
   NoticeData newestNotice;
 
   bool hasNewMessage;
 
   DMNoticeItemWidget({
+    super.key, 
     required this.newestNotice,
     this.hasNewMessage = false,
   });
@@ -33,13 +34,13 @@ class DMNoticeItemWidget extends StatelessWidget {
     content = content.replaceAll("\n", " ");
 
     var leftWidget = Container(
-      margin: EdgeInsets.only(top: 4),
+      margin: const EdgeInsets.only(top: 4),
       child: Container(
-        width: IMAGE_WIDTH,
-        height: IMAGE_WIDTH,
+        width: imageWidth,
+        height: imageWidth,
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(IMAGE_WIDTH / 2),
+          borderRadius: BorderRadius.circular(imageWidth / 2),
           color: hintColor,
         ),
         child: Image.asset("assets/imgs/logo/logo512.png"),

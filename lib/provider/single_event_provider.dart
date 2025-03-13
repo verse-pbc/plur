@@ -6,13 +6,13 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import '../main.dart';
 
 class SingleEventProvider extends ChangeNotifier with LaterFunction {
-  Map<String, Event> _eventsMap = {};
+  final Map<String, Event> _eventsMap = {};
 
-  Map<String, String> _needUpdateIds = {};
+  final Map<String, String> _needUpdateIds = {};
 
-  Map<String, String> _handingIds = {};
+  final Map<String, String> _handingIds = {};
 
-  List<Event> _penddingEvents = [];
+  final List<Event> _penddingEvents = [];
 
   Event? getEvent(String id, {String? eventRelayAddr, bool queryData = true}) {
     var event = _eventsMap[id];
@@ -35,7 +35,7 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
     return null;
   }
 
-  Map<String, int> _localRelayQuering = {};
+  final Map<String, int> _localRelayQuering = {};
 
   void _getEventFromCacheRelay(String id) async {
     if (_localRelayQuering[id] == null) {
@@ -106,7 +106,7 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
           var eventRelayAddr = _handingIds.remove(id);
           if (StringUtil.isNotBlank(eventRelayAddr) && _eventsMap[id] == null) {
             // eventRelayAddr exist and event not found, send a single query again.
-            log("single event ${id} not found! Begin to query again from ${eventRelayAddr}.");
+            log("single event $id not found! begin to query again from $eventRelayAddr.");
             var filter = Filter(ids: [id]);
             nostr!.query([filter.toJson()], onEvent,
                 tempRelays: [eventRelayAddr!], relayTypes: RelayType.ONLY_TEMP);
