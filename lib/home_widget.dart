@@ -36,7 +36,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   @override
   Widget build(BuildContext context) {
     PlatformUtil.init(context);
-    var _webviewProvider = Provider.of<WebViewProvider>(context);
+    var webviewProvider = Provider.of<WebViewProvider>(context);
     final settingsProvider = Provider.of<SettingsProvider>(context);
 
     Widget child = widget.child;
@@ -76,8 +76,8 @@ class _HomeWidgetState extends State<HomeWidget> {
           webViewProvider.url != null
               ? Positioned(
                   child: Offstage(
-                  offstage: !_webviewProvider.showable,
-                  child: WebViewWidget(url: _webviewProvider.url!),
+                  offstage: !webviewProvider.showable,
+                  child: WebViewWidget(url: webviewProvider.url!),
                 ))
               : Container()
         ],

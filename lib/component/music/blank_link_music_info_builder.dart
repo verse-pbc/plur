@@ -1,10 +1,8 @@
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/music/music_info_builder.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 
-import '../content/content_decoder.dart';
 
 BlankLinkMusicInfoBuilder blankLinkMusicInfoBuilder =
     BlankLinkMusicInfoBuilder();

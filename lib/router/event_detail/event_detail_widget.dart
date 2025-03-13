@@ -32,7 +32,7 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
 
   bool showTitle = false;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   double rootEventHeight = 120;
 
@@ -97,15 +97,15 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
       );
     } else if (eventId != null) {
       mainEventWidget = Selector<SingleEventProvider, Event?>(
-        builder: (context, _event, child) {
-          if (_event == null) {
-            return EventLoadListWidget();
+        builder: (context, event, child) {
+          if (event == null) {
+            return const EventLoadListWidget();
           } else {
-            event = _event;
-            titlePubkey = event!.pubkey;
-            title = ThreadDetailWidget.getAppBarTitle(event!);
+            event = event;
+            titlePubkey = event.pubkey;
+            title = ThreadDetailWidget.getAppBarTitle(event);
             return EventListWidget(
-              event: _event,
+              event: event,
               showVideo: true,
               showDetailBtn: false,
             );

@@ -6,7 +6,6 @@ import '../../consts/router_path.dart';
 import '../../data/metadata.dart';
 import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
-import '../user/name_widget.dart';
 import 'content_str_link_widget.dart';
 
 class ContentMentionUserWidget extends StatefulWidget {

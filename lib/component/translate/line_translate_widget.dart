@@ -71,14 +71,14 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
             if (showSource) {
               spans.add(translateTips);
               spans.add(TextSpan(
-                text: "${inline} ",
+                text: "$inline ",
                 style: TextStyle(
                   color: hintColor,
                 ),
               ));
             }
           } else {
-            spans.add(TextSpan(text: "${inline} "));
+            spans.add(TextSpan(text: "$inline "));
           }
         } else {
           spans.add(WidgetSpan(child: inline));

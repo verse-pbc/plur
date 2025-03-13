@@ -25,13 +25,13 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
   @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
-    var _contactListProvider = Provider.of<ContactListProvider>(context);
+    var contactListProvider = Provider.of<ContactListProvider>(context);
 
     final themeData = Theme.of(context);
     var largeTextSize = themeData.textTheme.bodyLarge!.fontSize;
     var appbarColor = themeData.appBarTheme.titleTextStyle!.color;
 
-    var followSets = _contactListProvider.followSetMap.values;
+    var followSets = contactListProvider.followSetMap.values;
     var followSetList = followSets.toList();
     var main = ListView.builder(
       itemBuilder: (context, index) {
@@ -110,7 +110,7 @@ class FollowSetListItem extends StatelessWidget {
 
   Function listUIUpdate;
 
-  FollowSetListItem(this.followSet, this.listUIUpdate);
+  FollowSetListItem(this.followSet, this.listUIUpdate, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -134,12 +134,12 @@ class FollowSetListItem extends StatelessWidget {
                   context, RouterPath.FOLLOW_SET_DETAIL, followSet);
             },
             child: Container(
-              margin: EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-                    child: Icon(Icons.people),
+                    margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                    child: const Icon(Icons.people),
                   ),
                   Text(
                       "${followSet.privateContacts.length} / ${followSet.publicContacts.length}")
@@ -154,26 +154,26 @@ class FollowSetListItem extends StatelessWidget {
                 PopupMenuItem(
                   value: "editTitle",
                   child: Row(
-                    children: [Icon(Icons.edit), Text(" ${localization.Edit_name}")],
+                    children: [const Icon(Icons.edit), Text(" ${localization.Edit_name}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "edit",
                   child: Row(
-                    children: [Icon(Icons.people), Text(" ${localization.Edit}")],
+                    children: [const Icon(Icons.people), Text(" ${localization.Edit}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "delete",
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.delete,
                         color: Colors.red,
                       ),
                       Text(
                         " ${localization.Delete}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.red,
                         ),
                       ),
@@ -184,7 +184,7 @@ class FollowSetListItem extends StatelessWidget {
 
               return list;
             },
-            child: Icon(Icons.menu),
+            child: const Icon(Icons.menu),
             onSelected: (value) {
               onSelect(context, value);
             },

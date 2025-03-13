@@ -113,7 +113,7 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
       ));
     }
 
-    return Container(
+    return SizedBox(
       height: HEIGHT,
       child: Stack(
         alignment: Alignment.center,

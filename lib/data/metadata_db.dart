@@ -1,4 +1,3 @@
-import 'package:nostrmo/data/event_db.dart';
 import 'package:nostrmo/data/metadata.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,6 +23,7 @@ class MetadataDB {
     if (list.isNotEmpty) {
       return Metadata.fromJson(list[0]);
     }
+    return null;
   }
 
   static Future<int> insert(Metadata o, {DatabaseExecutor? db}) async {

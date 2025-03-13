@@ -14,7 +14,7 @@ class NIP07Dialog extends StatefulWidget {
 
   String? content;
 
-  NIP07Dialog({
+  NIP07Dialog({super.key, 
     required this.method,
     this.content,
   });
@@ -24,7 +24,7 @@ class NIP07Dialog extends StatefulWidget {
     return await showDialog<bool>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return NIP07Dialog(
           method: method,
           content: content,

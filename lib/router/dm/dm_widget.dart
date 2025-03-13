@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../main.dart';
-import '../../provider/dm_provider.dart';
 import 'dm_known_list_widget.dart';
-import 'dm_session_list_item_widget.dart';
 import 'dm_unknown_list_widget.dart';
 
 class DMWidget extends StatefulWidget {
@@ -27,7 +23,7 @@ class _DMWidgetState extends State<DMWidget> {
       color: themeData.scaffoldBackgroundColor,
       child: TabBarView(
         controller: widget.tabController,
-        children: [
+        children: const [
           DMKnownListWidget(),
           DMUnknownListWidget(),
         ],

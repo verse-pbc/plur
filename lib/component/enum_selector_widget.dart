@@ -10,6 +10,7 @@ class EnumSelectorWidget extends StatelessWidget {
   Widget Function(BuildContext, EnumObj)? enumItemBuild;
 
   EnumSelectorWidget({
+    super.key, 
     required this.list,
     this.enumItemBuild,
   });
@@ -18,7 +19,7 @@ class EnumSelectorWidget extends StatelessWidget {
     return await showDialog<EnumObj?>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return EnumSelectorWidget(
           list: list,
         );
@@ -54,7 +55,7 @@ class EnumSelectorWidget extends StatelessWidget {
         bottom: Base.BASE_PADDING_HALF,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         color: cardColor,
       ),
       constraints: BoxConstraints(
@@ -108,6 +109,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
   Color? color;
 
   EnumSelectorItemWidget({
+    super.key, 
     required this.enumObj,
     this.isLast = false,
     this.onTap,

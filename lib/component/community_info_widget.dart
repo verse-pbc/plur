@@ -72,7 +72,7 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
 
     List<Widget> list = [
       Container(
-        margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
         child: Row(
           children: [
             Container(

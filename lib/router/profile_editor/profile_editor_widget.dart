@@ -13,7 +13,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
-import '../index/index_app_bar.dart';
 
 class ProfileEditorWidget extends StatefulWidget {
   const ProfileEditorWidget({super.key});
@@ -254,6 +253,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         imageService: settingsProvider.imageService,
       );
     }
+    return null;
   }
 
   void profileSave() {

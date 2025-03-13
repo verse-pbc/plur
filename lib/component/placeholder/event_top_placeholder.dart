@@ -7,6 +7,8 @@ class EventTopPlaceholder extends StatelessWidget {
   static const double IMAGE_WIDTH = 34;
 
   static const double HALF_IMAGE_WIDTH = 17;
+
+  const EventTopPlaceholder({super.key});
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -48,7 +50,7 @@ class EventTopPlaceholder extends StatelessWidget {
                       color: hintColor,
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 50,
                     child: PlaceholderLines(
                       count: 1,
