@@ -13,34 +13,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### bump_major
+### debug_version
 
 ```sh
-[bundle exec] fastlane bump_major
-```
-
-
-
-### bump_minor
-
-```sh
-[bundle exec] fastlane bump_minor
-```
-
-
-
-### bump_patch
-
-```sh
-[bundle exec] fastlane bump_patch
-```
-
-
-
-### bump_version
-
-```sh
-[bundle exec] fastlane bump_version
+[bundle exec] fastlane debug_version
 ```
 
 
@@ -56,7 +32,15 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios release
 ```
 
-Push a new Nos Release build to TestFlight
+Push a new Plur Release build to TestFlight
+
+### ios deploy_staging
+
+```sh
+[bundle exec] fastlane ios deploy_staging
+```
+
+Push a new Plur staging build to TestFlight
 
 ### ios stamp_release
 
@@ -81,6 +65,30 @@ Refresh certificates in the match repo
 ```
 
 Clean App Store Connect of certificates
+
+### ios bump_major
+
+```sh
+[bundle exec] fastlane ios bump_major
+```
+
+Bump major version
+
+### ios bump_minor
+
+```sh
+[bundle exec] fastlane ios bump_minor
+```
+
+Bump minor version
+
+### ios bump_patch
+
+```sh
+[bundle exec] fastlane ios bump_patch
+```
+
+Bump patch version
 
 ----
 
