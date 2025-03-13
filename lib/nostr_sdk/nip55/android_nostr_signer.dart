@@ -355,5 +355,6 @@ class AndroidNostrSigner implements NostrSigner {
     } catch (e) {
       log("contentResolverQuery exception in android nostr signer: $e");
     }
+    return null;
   }
 }

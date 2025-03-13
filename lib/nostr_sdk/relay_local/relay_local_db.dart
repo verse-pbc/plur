@@ -20,7 +20,7 @@ class RelayLocalDB with LaterFunction {
   late Database _database;
 
   // a eventId map in mem, to avoid alway insert event.
-  Map<String, int> _memEventIdMap = {};
+  final Map<String, int> _memEventIdMap = {};
 
   RelayLocalDB._(Database database) {
     _database = database;
@@ -304,7 +304,7 @@ class RelayLocalDB with LaterFunction {
     var search = filter.remove("search");
     if (search != null && search is String) {
       conditions.add("content LIKE ? ESCAPE '\\'");
-      params.add("%${search.replaceAll("%", "\%")}%");
+      params.add("%${search.replaceAll("%", "%")}%");
     }
 
     List<String> tagQueryConditions = [];
@@ -316,7 +316,7 @@ class RelayLocalDB with LaterFunction {
       if (k != "limit") {
         for (var vItem in v) {
           tagQueryConditions.add("tags LIKE ? ESCAPE '\\'");
-          tagQuery.add("${k.replaceFirst("#", "")}\",\"${vItem}");
+          tagQuery.add("${k.replaceFirst("#", "")}\",\"$vItem");
         }
       }
     }
@@ -326,7 +326,7 @@ class RelayLocalDB with LaterFunction {
       conditions.add(tagQueryConditions[0]);
     }
     for (var tagValue in tagQuery) {
-      params.add("%${tagValue.replaceAll("%", "\%")}%");
+      params.add("%${tagValue.replaceAll("%", "%")}%");
     }
 
     if (conditions.isEmpty) {

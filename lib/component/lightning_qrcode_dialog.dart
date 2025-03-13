@@ -25,7 +25,7 @@ class LightningQrcodeDialog extends StatefulWidget {
     return await showDialog<bool>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return LightningQrcodeDialog(
           text: text,
           title: title,

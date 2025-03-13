@@ -15,7 +15,7 @@ import '../util/theme_util.dart';
 class SyncUploadDialog extends StatefulWidget {
   List<Event> events;
 
-  SyncUploadDialog({required this.events});
+  SyncUploadDialog({super.key, required this.events});
 
   static Future<void> show(BuildContext context, List<Event> events) async {
     await showDialog(
@@ -36,7 +36,7 @@ class SyncUploadDialog extends StatefulWidget {
 }
 
 class _SyncUploadDialog extends State<SyncUploadDialog> {
-  Map<String, bool?> _relaySelected = {};
+  final Map<String, bool?> _relaySelected = {};
 
   int sendInterval = 10;
 
@@ -49,7 +49,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
 
-    var _relayProvider = Provider.of<RelayProvider>(context);
+    var relayProvider = Provider.of<RelayProvider>(context);
 
     List<Widget> list = [];
     list.add(Text(
@@ -61,12 +61,12 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.basePadding),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Row(
         children: [
           Text("${localization.Upload_num}: ${widget.events.length}"),
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: Base.basePadding,
               right: Base.basePaddingHalf,
             ),
@@ -102,11 +102,11 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     List<Widget> subList = [];
-    List<String> addrs = []
-      ..add(RelayLocal.URL)
-      ..addAll(_relayProvider.relayAddrs);
+    List<String> addrs = [RelayLocal.URL, ...relayProvider.relayAddrs]
+      
+      ;
     for (var relayAddr in addrs) {
-      var relayStatus = _relayProvider.relayStatusMap[relayAddr];
+      var relayStatus = relayProvider.relayStatusMap[relayAddr];
       if (relayStatus == null) {
         if (relayAddr == RelayLocal.URL) {
           subList.add(SyncUploadItem(
@@ -260,7 +260,7 @@ class SyncUploadItem extends StatefulWidget {
 
   Function(String, bool) onTap;
 
-  SyncUploadItem(this.addr, this.check, this.onTap);
+  SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
 
   @override
   State<StatefulWidget> createState() {

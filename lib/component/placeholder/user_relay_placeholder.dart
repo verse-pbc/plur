@@ -58,7 +58,7 @@ class UserRelayPlaceholder extends StatelessWidget {
                 children: [
                   Container(
                     width: 230,
-                    margin: EdgeInsets.only(bottom: 2),
+                    margin: const EdgeInsets.only(bottom: 2),
                     child: PlaceholderLines(
                       count: 1,
                       color: hintColor,

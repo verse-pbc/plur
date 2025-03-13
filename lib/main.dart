@@ -46,7 +46,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:window_manager/window_manager.dart';
@@ -337,7 +336,7 @@ class MyApp extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  MyApp() {
+  MyApp({super.key}) {
     platform.setMethodCallHandler(_handleDeepLink);
   }
 
@@ -394,17 +393,17 @@ class _MyApp extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    Locale? _locale;
+    Locale? locale;
     if (StringUtil.isNotBlank(settingsProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
         if (item.languageCode == settingsProvider.i18n &&
             item.countryCode == settingsProvider.i18nCC) {
-          _locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
+          locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
           break;
         }
       }
     }
-    setGetTimeAgoDefaultLocale(_locale);
+    setGetTimeAgoDefaultLocale(locale);
 
     var lightTheme = getLightTheme();
     var darkTheme = getDarkTheme();
@@ -421,8 +420,8 @@ class _MyApp extends State<MyApp> {
 
     routes = {
       RouterPath.INDEX: (context) => IndexWidget(reload: reload),
-      RouterPath.LOGIN: (context) => LoginSignupWidget(),
-      RouterPath.SIGNUP: (context) => SignupWidget(),
+      RouterPath.LOGIN: (context) => const LoginSignupWidget(),
+      RouterPath.SIGNUP: (context) => const SignupWidget(),
       RouterPath.DONATE: (context) => const DonateWidget(),
       RouterPath.USER: (context) => const UserWidget(),
       RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),
@@ -431,7 +430,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.USER_ZAP_LIST: (context) => const UserZapListWidget(),
       RouterPath.USER_RELAYS: (context) => const UserRelayWidget(),
       RouterPath.DM_DETAIL: (context) => const DMDetailWidget(),
-      RouterPath.THREAD_DETAIL: (context) => ThreadDetailWidget(),
+      RouterPath.THREAD_DETAIL: (context) => const ThreadDetailWidget(),
       RouterPath.THREAD_TRACE: (context) => const ThreadTraceWidget(),
       RouterPath.EVENT_DETAIL: (context) => const EventDetailWidget(),
       RouterPath.TAG_DETAIL: (context) => const TagDetailWidget(),
@@ -554,7 +553,7 @@ class _MyApp extends State<MyApp> {
         ),
       ],
       child: HomeWidget(
-        locale: _locale,
+        locale: locale,
         theme: defaultTheme,
         child: MaterialApp(
           navigatorKey: MyApp.navigatorKey,
@@ -565,7 +564,7 @@ class _MyApp extends State<MyApp> {
           ],
           // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
-          locale: _locale,
+          locale: locale,
           title: Base.appName,
           localizationsDelegates: const [
             S.delegate,

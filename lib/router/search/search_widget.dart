@@ -76,7 +76,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
         onTap: () {
           controller.text = "";
         },
-        child: Icon(Icons.close),
+        child: const Icon(Icons.close),
       );
     }
 
@@ -197,7 +197,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 hintText: localization.Please_input_search_content,
                 suffixIcon: suffixWidget,
               ),

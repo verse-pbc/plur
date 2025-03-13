@@ -24,7 +24,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
     var mainColor = themeData.primaryColor;
     var bgColor = themeData.scaffoldBackgroundColor;
 
-    return Container(
+    return SizedBox(
       height: 260,
       child: EmojiPicker(
         onEmojiSelected: (Category? category, Emoji emoji) {

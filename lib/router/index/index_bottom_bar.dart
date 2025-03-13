@@ -6,9 +6,9 @@ import '../../component/add_btn_wrapper_widget.dart';
 import '../../main.dart';
 
 class IndexBottomBar extends StatefulWidget {
-  static const double HEIGHT = 50;
+  static const double height = 50;
 
-  IndexBottomBar();
+  const IndexBottomBar({super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,8 +20,8 @@ class _IndexBottomBar extends State<IndexBottomBar> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var _indexProvider = Provider.of<IndexProvider>(context);
-    var currentTap = _indexProvider.currentTap;
+    var indexProvider = Provider.of<IndexProvider>(context);
+    var currentTap = indexProvider.currentTap;
 
     List<Widget> list = [];
 
@@ -75,7 +75,7 @@ class _IndexBottomBar extends State<IndexBottomBar> {
         color: themeData.cardColor,
         surfaceTintColor: themeData.cardColor,
         shadowColor: themeData.shadowColor,
-        height: IndexBottomBar.HEIGHT,
+        height: IndexBottomBar.height,
         padding: EdgeInsets.zero,
         child: Container(
           color: Colors.transparent,
@@ -101,6 +101,7 @@ class IndexBottomBarButton extends StatelessWidget {
   Function? onDoubleTap;
 
   IndexBottomBarButton({
+    super.key, 
     required this.iconData,
     required this.index,
     required this.selected,
@@ -131,8 +132,8 @@ class IndexBottomBarButton extends StatelessWidget {
           onDoubleTap!();
         }
       },
-      child: Container(
-        height: IndexBottomBar.HEIGHT,
+      child: SizedBox(
+        height: IndexBottomBar.height,
         child: Icon(
           iconData,
           color: selected ? selectedColor : null,

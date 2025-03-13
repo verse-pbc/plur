@@ -286,7 +286,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
             var event = Event.fromJson(eventJson);
             events.add(event);
           } catch (e) {
-            log("importNotes error ${e}");
+            log("importNotes error $e");
           }
         }
       }
@@ -340,7 +340,7 @@ class RelayInfoItemWidget extends StatelessWidget {
 
   Widget child;
 
-  RelayInfoItemWidget({
+  RelayInfoItemWidget({super.key, 
     required this.title,
     required this.child,
   });

@@ -11,7 +11,7 @@ import '../../consts/base.dart';
 class GroupListItemWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
 
-  GroupListItemWidget(this.groupIdentifier, {super.key});
+  const GroupListItemWidget(this.groupIdentifier, {super.key});
 
   @override
   State<StatefulWidget> createState() {

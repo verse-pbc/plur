@@ -5,7 +5,7 @@ class MainBtnWidget extends StatelessWidget {
 
   Function? onTap;
 
-  MainBtnWidget({required this.text, this.onTap});
+  MainBtnWidget({super.key, required this.text, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class MainBtnWidget extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               color: Colors.white,
             ),

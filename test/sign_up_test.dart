@@ -95,7 +95,7 @@ void main() {
       ],
       supportedLocales: S.delegate.supportedLocales,
       locale: const Locale('en'),
-      home: Scaffold(body: SignupWidget()),
+      home: const Scaffold(body: SignupWidget()),
     ));
     await tester.pumpAndSettle();
 

@@ -6,7 +6,7 @@ import '../component/lightning_qrcode_dialog.dart';
 
 class CashuUtil {
   static Future<void> goTo(BuildContext context, String cashuStr) async {
-    var link = 'cashu:' + cashuStr;
+    var link = 'cashu:$cashuStr';
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
       await LightningQrcodeDialog.show(context, link, title: "");
     } else {

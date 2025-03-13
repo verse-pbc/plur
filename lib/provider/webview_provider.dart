@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/src/in_app_webview/in_app_webview_controller.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/main.dart';
 
 class WebViewProvider extends ChangeNotifier with WidgetsBindingObserver {
-  WebViewProvider._() {}
+  WebViewProvider._();
 
   static WebViewProvider? _instance;
 
@@ -32,15 +31,15 @@ class WebViewProvider extends ChangeNotifier with WidgetsBindingObserver {
   InAppWebViewController? webviewController;
 
   void open(String url) {
-    this._url = url;
-    this._showable = true;
+    _url = url;
+    _showable = true;
     notifyListeners();
   }
 
   void close() {
-    this._url = null;
-    this._showable = false;
-    this.webviewController = null;
+    _url = null;
+    _showable = false;
+    webviewController = null;
     notifyListeners();
   }
 
@@ -72,8 +71,8 @@ class WebViewProvider extends ChangeNotifier with WidgetsBindingObserver {
       openCompleter!.complete();
     }
 
-    this._url = url;
-    this._showable = true;
+    _url = url;
+    _showable = true;
     openCompleter = Completer();
 
     notifyListeners();

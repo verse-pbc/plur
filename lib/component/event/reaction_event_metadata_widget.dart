@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
@@ -6,15 +5,13 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/metadata.dart';
-import '../../main.dart';
 import '../../provider/metadata_provider.dart';
-import '../image_widget.dart';
 import '../user/simple_name_widget.dart';
 
 class ReactionEventMetadataWidget extends StatefulWidget {
   String pubkey;
 
-  ReactionEventMetadataWidget({
+  ReactionEventMetadataWidget({super.key, 
     required this.pubkey,
   });
 
@@ -42,7 +39,7 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
       ));
 
       list.add(Container(
-        margin: EdgeInsets.only(left: 5),
+        margin: const EdgeInsets.only(left: 5),
         child: Text(
           name,
           style: const TextStyle(
