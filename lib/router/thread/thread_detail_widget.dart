@@ -61,7 +61,7 @@ class ThreadDetailWidget extends StatefulWidget {
 }
 
 class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
-    with PenddingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
+    with PendingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
   Event? sourceEvent;
 
   bool showTitle = false;

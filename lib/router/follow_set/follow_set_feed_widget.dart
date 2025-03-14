@@ -24,7 +24,7 @@ class FollowSetFeedWidget extends StatefulWidget {
 }
 
 class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
-    with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
+    with PendingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   EventMemBox box = EventMemBox();
 
   final ScrollController _controller = ScrollController();
