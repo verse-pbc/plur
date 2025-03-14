@@ -135,7 +135,7 @@ class RelayLocalDB with LaterFunction {
     await _database.execute(sql, [id, pubkey]);
   }
 
-  List<Map<String, dynamic>> penddingEventMspList = [];
+  List<Map<String, dynamic>> pendingEventMspList = [];
 
   Future<int> addEvent(Map<String, dynamic> event) async {
     if (checkAndSetEventFromMem(event)) {
@@ -144,15 +144,15 @@ class RelayLocalDB with LaterFunction {
 
     // clone one, avoid change by others.
     event = Map.from(event);
-    penddingEventMspList.add(event);
+    pendingEventMspList.add(event);
     later(_batchAddEvents);
 
     return 0;
   }
 
   Future<void> _batchAddEvents() async {
-    var eventMapList = penddingEventMspList;
-    penddingEventMspList = [];
+    var eventMapList = pendingEventMspList;
+    pendingEventMspList = [];
 
     // check if exist
     List<String> ids = [];

@@ -33,7 +33,7 @@ class SearchWidget extends StatefulWidget {
 }
 
 class _SearchWidgetState extends CustState<SearchWidget>
-    with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
+    with PendingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   TextEditingController controller = TextEditingController();
 
   ScrollController loadableScrollController = ScrollController();
@@ -304,7 +304,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
     if (StringUtil.isNotBlank(searchText)) {
       filterMap!["search"] = searchText;
     }
-    penddingEvents.clear;
+    pendingEvents.clear;
     doQuery();
   }
 
@@ -451,7 +451,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
     filterMap = Filter(kinds: searchEventKinds, limit: queryLimit).toJson();
     filterMap!.remove("authors");
     filterMap!["search"] = value;
-    penddingEvents.clear;
+    pendingEvents.clear;
     doQuery();
   }
 }
