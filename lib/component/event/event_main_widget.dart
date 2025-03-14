@@ -611,8 +611,6 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     );
   }
 
-  bool forceShowLongContnet = false;
-
   bool hideLongContent = false;
 
   Widget buildContentWidget(
