@@ -53,6 +53,7 @@ jobs:
         with:
           name: lints-${{ matrix.branch }}.txt
           path: lints.txt
+          overwrite: true
 
   examine-lint-changes:
     name: Examine Lint Changes
@@ -74,6 +75,7 @@ jobs:
 
       - name: Compare lint results
         run: |
+          ls -la
           diff -u main-lints/lints.txt pr-lints/lints.txt | grep "^+" | grep -v "^+++" > lint-findings.txt || true
           while IFS= read -r line; do
             stripped_line="${line#+}"
