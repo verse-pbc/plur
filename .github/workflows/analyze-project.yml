@@ -79,6 +79,7 @@ jobs:
           diff -u main-lints/lints.txt pr-lints/lints.txt | grep "^+" | grep -v "^+++" > lint-findings.txt || true
           while IFS= read -r line; do
             stripped_line="${line#+}"
+            echo "Checking ${stripped_line} for entries in main lint findings..."
             if grep -Fxq "$stripped_line" main-lints/lints.txt; then
               echo "Already present: ${stripped_line}"
             else
