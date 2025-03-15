@@ -74,6 +74,9 @@ jobs:
 
       - name: Compare lint results
         run: |
+          ls -la
+          ls -la ./main-lints.txt
+          echo "----------------"
           diff -u main-lints.txt pr-lints.txt | grep "^+" | grep -v "^+++" > lint-findings.txt || true
           while IFS= read -r line; do
             stripped_line="${line#+}"
