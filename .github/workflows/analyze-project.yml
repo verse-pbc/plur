@@ -80,8 +80,10 @@ jobs:
           while IFS= read -r line; do
             stripped_line="${line#+}"
             if grep -Fxq "$stripped_line" main-lints/lints.txt; then
+              echo "${stripped_line} is already in main lints.txt, skipping..."
               continue
             else
+              echo "${stripped_line} is a new linting error, adding..."
               echo "${stripped_line}" > lint-changes.txt
             fi
           done < lint-findings.txt
