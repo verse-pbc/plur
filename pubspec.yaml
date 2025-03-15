@@ -103,6 +103,7 @@ dependencies:
   sentry_flutter: ^8.13.0
   path_provider: ^2.1.4
   package_info_plus: ^8.3.0
+  side_sheet: ^1.0.4
 
   url_launcher: any
   flutter_cache_manager: any
