@@ -64,23 +64,20 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: lints-main.txt
-          path: main-lints.txt
+          path: main-lints
 
       - name: Download PR branch artifact
         uses: actions/download-artifact@v4
         with:
           name: lints-${{ github.head_ref }}.txt
-          path: pr-lints.txt
+          path: pr-lints
 
       - name: Compare lint results
         run: |
-          ls -la
-          ls -la ./main-lints.txt
-          echo "----------------"
-          diff -u main-lints.txt pr-lints.txt | grep "^+" | grep -v "^+++" > lint-findings.txt || true
+          diff -u main-lints/lints.txt pr-lints/lints.txt | grep "^+" | grep -v "^+++" > lint-findings.txt || true
           while IFS= read -r line; do
             stripped_line="${line#+}"
-            if grep -Fxq "$stripped_line" main-lints.txt; then
+            if grep -Fxq "$stripped_line" main-lints/lints.txt; then
               echo "Already present: ${stripped_line}"
             else
               echo "${stripped_line}" > lint_changes.txt
