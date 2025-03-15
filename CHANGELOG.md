@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 
 ### Internal Changes
+- Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
 
 ## [0.0.3]
 
