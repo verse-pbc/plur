@@ -27,7 +27,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
 
       var list = await MetadataDB.all();
       for (var md in list) {
-        if (md.valid == Nip05Status.NIP05_NOT_VALIDED) {
+        if (md.valid == Nip05Status.NIP05_NOT_VALID) {
           md.valid = null;
         }
         _metadataProvider!._metadataCache[md.pubkey!] = md;
@@ -114,10 +114,10 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       // web can't valid NIP05 due to cors
       if (metadata != null) {
         if (metadata.nip05 != null) {
-          return Nip05Status.NIP05_VALIDED;
+          return Nip05Status.NIP05_VALID;
         }
 
-        return Nip05Status.NIP05_NOT_VALIDED;
+        return Nip05Status.NIP05_NOT_VALID;
       }
 
       return Nip05Status.NIP05_NOT_FOUND;
@@ -130,22 +130,22 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
         Nip05Validator.valid(metadata.nip05!, pubkey).then((valid) async {
           if (valid != null) {
             if (valid) {
-              metadata.valid = Nip05Status.NIP05_VALIDED;
+              metadata.valid = Nip05Status.NIP05_VALID;
               await MetadataDB.update(metadata);
             } else {
               // only update cache, next open app vill valid again
-              metadata.valid = Nip05Status.NIP05_NOT_VALIDED;
+              metadata.valid = Nip05Status.NIP05_NOT_VALID;
             }
             notifyListeners();
           }
         });
 
-        return Nip05Status.NIP05_NOT_VALIDED;
-      } else if (metadata.valid! == Nip05Status.NIP05_VALIDED) {
-        return Nip05Status.NIP05_VALIDED;
+        return Nip05Status.NIP05_NOT_VALID;
+      } else if (metadata.valid! == Nip05Status.NIP05_VALID) {
+        return Nip05Status.NIP05_VALID;
       }
 
-      return Nip05Status.NIP05_NOT_VALIDED;
+      return Nip05Status.NIP05_NOT_VALID;
     }
 
     return Nip05Status.NIP05_NOT_FOUND;
