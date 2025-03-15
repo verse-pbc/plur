@@ -74,12 +74,21 @@ jobs:
 
       - name: Compare lint results
         run: |
-          diff -u main-lints.txt pr-lints.txt | grep "^+" | grep -v "^+++" > lint-additions.txt || true
-          if [ -s lint-additions.txt ]; then
+          diff -u main-lints.txt pr-lints.txt | grep "^+" | grep -v "^+++" > lint-findings.txt || true
+          while IFS= read -r line; do
+            stripped_line="${line#+}"
+            if grep -Fxq "$stripped_line" main-lints.txt; then
+              echo "Already present: ${stripped_line}"
+            else
+              echo "New line: ${stripped_line}"
+              echo "${stripped_line}" > lint_changes.txt
+            fi
+          done < lint-findings.txt
+          if [ -s lint-changes.txt ]; then
             echo "Found new lint issues in PR branch:"
             echo "## Found new lint issues in PR branch:" >> $GITHUB_STEP_SUMMARY
-            cat lint-additions.txt >> $GITHUB_STEP_SUMMARY
-            cat lint-additions.txt
+            cat lint-changes.txt >> $GITHUB_STEP_SUMMARY
+            cat lint-changes.txt
             echo -e "\033[0;31mError: No new linting errors may be merged with main.\033[0m"
             exit 1
           else
