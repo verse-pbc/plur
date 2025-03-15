@@ -90,7 +90,6 @@ jobs:
             echo "> Found new lint issues in PR branch:" >> $GITHUB_STEP_SUMMARY
             while read -r line; do
               echo "> ${line}" >> $GITHUB_STEP_SUMMARY
-              echo "> --" >> $GITHUB_STEP_SUMMARY
             done < lint-changes.txt
             cat lint-changes.txt
             echo -e "\033[0;31mError: No new linting errors may be merged with main.\033[0m"
