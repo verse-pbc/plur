@@ -87,8 +87,11 @@ jobs:
           done < lint-findings.txt
           if [ -s lint-changes.txt ]; then
             echo "Found new lint issues in PR branch:"
-            echo "## Found new lint issues in PR branch:" >> $GITHUB_STEP_SUMMARY
-            cat lint-changes.txt >> $GITHUB_STEP_SUMMARY
+            echo "## \033[0;31mERROR: Found new lint issues in PR branch:\033[0m" >> $GITHUB_STEP_SUMMARY
+            while read -r line; do
+              echo "${line}" >> $GITHUB_STEP_SUMMARY
+              echo "------"
+            done < lint-changes.txt
             cat lint-changes.txt
             echo -e "\033[0;31mError: No new linting errors may be merged with main.\033[0m"
             exit 1
