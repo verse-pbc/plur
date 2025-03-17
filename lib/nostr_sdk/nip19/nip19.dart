@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bech32/bech32.dart';
 import 'package:hex/hex.dart';
 
@@ -59,7 +61,7 @@ class Nip19 {
     try {
       var code = encodePubKey(pubkey);
       var length = code.length;
-      return code.substring(0, 6) + ":" + code.substring(length - 6);
+      return "${code.substring(0, 6)}:${code.substring(length - 6)}";
     } catch (e) {
       if (pubkey.length > 12) {
         return pubkey.substring(0, 13);
@@ -81,7 +83,7 @@ class Nip19 {
       var data = convertBits(bech32Result.data, 5, 8, false);
       return HEX.encode(data);
     } catch (e) {
-      print("Nip19 decode error ${e.toString()}");
+      log("Nip19 decode error: ${e.toString()}");
       return "";
     }
   }
@@ -117,7 +119,7 @@ class Nip19 {
     var result = <int>[];
     var maxv = (1 << to) - 1;
 
-    data.forEach((v) {
+    for (var v in data) {
       if (v < 0 || (v >> from) != 0) {
         throw Exception();
       }
@@ -127,7 +129,7 @@ class Nip19 {
         bits -= to;
         result.add((acc >> bits) & maxv);
       }
-    });
+    }
 
     if (pad) {
       if (bits > 0) {

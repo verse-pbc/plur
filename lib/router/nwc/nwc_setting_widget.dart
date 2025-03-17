@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/colors_util.dart';
@@ -55,7 +54,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Row(
         children: [
           Expanded(
@@ -80,7 +79,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
                   ),
                 ),
           Container(
-            margin: EdgeInsets.only(left: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(left: Base.basePadding),
             child: GestureDetector(
               onTap: openGetalby,
               behavior: HitTestBehavior.translucent,
@@ -101,7 +100,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: 30),
+      margin: const EdgeInsets.only(top: 30),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -113,7 +112,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -124,8 +123,8 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
+      padding: const EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
         color: themeData.hintColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(10),
@@ -147,8 +146,8 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       ),
       body: Container(
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
-          bottom: Base.BASE_PADDING,
+          top: Base.basePadding,
+          bottom: Base.basePadding,
           left: 20,
           right: 20,
         ),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'dart:developer';
 
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/music/music_info_builder.dart';
@@ -21,7 +19,7 @@ class WavlakeTrackMusicInfoBuilder extends MusicInfoBuilder {
       var id = content.replaceAll(prefix0, "");
       id = id.replaceAll(prefix1, "");
       var jsonObj = await DioUtil.get(
-          "https://catalog-prod-dot-wavlake-alpha.uc.r.appspot.com/v1/episodes/${id}");
+          "https://catalog-prod-dot-wavlake-alpha.uc.r.appspot.com/v1/episodes/$id");
       if (jsonObj != null && jsonObj["success"] == true) {
         var name = jsonObj["data"]["podcast"]["name"];
         var title = jsonObj["data"]["title"];

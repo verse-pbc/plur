@@ -2,7 +2,7 @@ import 'base64.dart';
 
 class PathTypeUtil {
   static String? getPathType(String path) {
-    if (path.indexOf(BASE64.PREFIX) == 0) {
+    if (path.indexOf(BASE64.prefix) == 0) {
       return "image";
     }
 

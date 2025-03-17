@@ -6,6 +6,7 @@ import 'package:nostrmo/component/editor/cust_embed_types.dart';
 import 'package:nostrmo/data/custom_emoji.dart';
 
 class CustomEmojiEmbedBuilder extends EmbedBuilder {
+  @override
   bool get expanded => false;
 
   @override

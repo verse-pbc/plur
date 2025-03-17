@@ -7,6 +7,8 @@ class EventTopPlaceholder extends StatelessWidget {
   static const double IMAGE_WIDTH = 34;
 
   static const double HALF_IMAGE_WIDTH = 17;
+
+  const EventTopPlaceholder({super.key});
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -16,9 +18,9 @@ class EventTopPlaceholder extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING_HALF,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePaddingHalf,
       ),
       child: Row(
         children: [
@@ -33,7 +35,7 @@ class EventTopPlaceholder extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+              padding: const EdgeInsets.only(left: Base.basePaddingHalf),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +50,7 @@ class EventTopPlaceholder extends StatelessWidget {
                       color: hintColor,
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: 50,
                     child: PlaceholderLines(
                       count: 1,

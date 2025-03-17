@@ -4,6 +4,8 @@ import 'package:flutter_placeholder_textlines/placeholder_lines.dart';
 import '../../consts/base.dart';
 
 class MusicPlaceholder extends StatelessWidget {
+  const MusicPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -28,8 +30,8 @@ class MusicPlaceholder extends StatelessWidget {
       Expanded(
           child: Container(
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -37,14 +39,14 @@ class MusicPlaceholder extends StatelessWidget {
           children: [
             Container(
               width: 200,
-              margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
               child: PlaceholderLines(
                 count: 1,
                 lineHeight: titleFontSize,
                 color: hintColor,
               ),
             ),
-            Container(
+            SizedBox(
               width: 100,
               child: PlaceholderLines(
                 count: 1,
@@ -55,10 +57,10 @@ class MusicPlaceholder extends StatelessWidget {
           ],
         ),
       )),
-      Container(
+      SizedBox(
         width: imageHeight,
         height: imageHeight,
-        child: Icon(Icons.play_circle_outline),
+        child: const Icon(Icons.play_circle_outline),
       ),
     ];
 

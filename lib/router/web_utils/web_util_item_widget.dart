@@ -8,7 +8,11 @@ class WebUtilItemWidget extends StatelessWidget {
 
   String des;
 
-  WebUtilItemWidget({required this.link, required this.des});
+  WebUtilItemWidget({
+    super.key,
+    required this.link,
+    required this.des,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,18 +24,18 @@ class WebUtilItemWidget extends StatelessWidget {
     var main = Container(
       width: double.maxFinite,
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       padding: const EdgeInsets.all(
-        Base.BASE_PADDING,
+        Base.basePadding,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 3),
+            margin: const EdgeInsets.only(bottom: 3),
             child: Text(
-              this.link,
+              link,
               style: TextStyle(
                 fontSize: largeTextSize,
                 fontWeight: FontWeight.bold,
@@ -39,7 +43,7 @@ class WebUtilItemWidget extends StatelessWidget {
             ),
           ),
           Text(
-            this.des,
+            des,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

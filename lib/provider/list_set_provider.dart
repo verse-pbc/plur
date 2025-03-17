@@ -7,9 +7,9 @@ class ListSetProvider extends ChangeNotifier with LaterFunction {
   // key - “kind:pubkey:dTag”, value - event
   final Map<String, Event> _holder = {};
 
-  List<String> _penddingAIdStrs = [];
+  final List<String> _penddingAIdStrs = [];
 
-  Map<String, int> _handingAIds = {};
+  final Map<String, int> _handingAIds = {};
 
   Event? getByAId(String aIdStr) {
     var event = _holder[aIdStr];

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import '../subscription.dart';
 import 'client_connected.dart';
 import 'relay_info.dart';
@@ -27,7 +29,7 @@ abstract class Relay {
   // quries
   final Map<String, Subscription> _queries = {};
 
-  Relay(this.url, this.relayStatus) {}
+  Relay(this.url, this.relayStatus);
 
   /// The method to call connect function by framework.
   Future<bool> connect() async {
@@ -38,13 +40,12 @@ abstract class Relay {
         try {
           onConnected();
         } catch (e) {
-          print("onConnected exception.");
-          print(e);
+          log("onConnected exception: $e");
         }
       }
       return result;
     } catch (e) {
-      print("connect fail");
+      log("connection fail: $e");
       disconnect();
       return false;
     }
@@ -59,7 +60,7 @@ abstract class Relay {
       // TODO To check result? and how to handle if send fail?
       var result = send(message);
       if (!result) {
-        print("message send fail onConnected");
+        log("message send fail onConnected");
       }
     }
 
@@ -77,7 +78,7 @@ abstract class Relay {
   bool _waitingReconnect = false;
 
   void onError(String errMsg, {bool reconnect = false}) {
-    print("relay error $errMsg");
+    log("relay error: $errMsg");
     relayStatus.onError();
     relayStatus.connected = ClientConneccted.UN_CONNECT;
     if (relayStatusCallback != null) {

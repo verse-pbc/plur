@@ -5,6 +5,8 @@ import '../../consts/base.dart';
 import 'metadata_top_placeholder.dart';
 
 class MetadataPlaceholder extends StatelessWidget {
+  const MetadataPlaceholder({super.key});
+
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
@@ -15,16 +17,16 @@ class MetadataPlaceholder extends StatelessWidget {
 
     List<Widget> mainList = [];
 
-    mainList.add(MetadataTopPlaceholderWidget());
+    mainList.add(const MetadataTopPlaceholderWidget());
 
     mainList.add(
       Container(
         width: double.maxFinite,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
-          bottom: Base.BASE_PADDING,
+          top: Base.basePaddingHalf,
+          left: Base.basePadding,
+          right: Base.basePadding,
+          bottom: Base.basePadding,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

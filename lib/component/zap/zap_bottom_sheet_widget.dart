@@ -32,7 +32,7 @@ class ZapBottomSheetWidget extends StatefulWidget {
     showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (BuildContext _context) {
+      builder: (BuildContext context) {
         return ZapBottomSheetWidget(
           context,
           list,
@@ -50,7 +50,7 @@ class ZapBottomSheetWidget extends StatefulWidget {
 
   ZapBottomSheetWidget(
     this.parentContext,
-    this.zapInfos, {
+    this.zapInfos, {super.key, 
     this.eventId,
   });
 
@@ -101,11 +101,11 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
     list.add(const Divider());
 
     List<Widget> numberWidgets = [];
-    numberWidgets.add(wrapByBtn(localization, Text("50"), value: 50));
-    numberWidgets.add(wrapByBtn(localization, Text("100"), value: 100));
-    numberWidgets.add(wrapByBtn(localization, Text("500"), value: 500));
-    numberWidgets.add(wrapByBtn(localization, Text("1k"), value: 1000));
-    numberWidgets.add(wrapByBtn(localization, Text("5k"), value: 5000));
+    numberWidgets.add(wrapByBtn(localization, const Text("50"), value: 50));
+    numberWidgets.add(wrapByBtn(localization, const Text("100"), value: 100));
+    numberWidgets.add(wrapByBtn(localization, const Text("500"), value: 500));
+    numberWidgets.add(wrapByBtn(localization, const Text("1k"), value: 1000));
+    numberWidgets.add(wrapByBtn(localization, const Text("5k"), value: 5000));
     numberWidgets.add(wrapByBtn(
       localization,
       Expanded(
@@ -120,40 +120,40 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
     list.add(Container(
       alignment: Alignment.center,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePadding,
       ),
       child: Wrap(
-        spacing: Base.BASE_PADDING,
-        runSpacing: Base.BASE_PADDING_HALF,
+        spacing: Base.basePadding,
+        runSpacing: Base.basePaddingHalf,
         children: numberWidgets,
       ),
     ));
 
     list.add(Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
-        top: Base.BASE_PADDING_HALF,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePadding,
+        top: Base.basePaddingHalf,
       ),
       child: TextField(
         controller: msgController,
         decoration: InputDecoration(
           hintText: "${localization.Input_Comment} (${localization.Optional})",
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1)),
+          border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
+      margin: const EdgeInsets.only(
+        top: Base.basePaddingHalf,
         bottom: 20,
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -168,7 +168,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -181,7 +181,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
     return Padding(
       padding:
           EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-      child: Container(
+      child: SizedBox(
         // height: 200,
         width: double.infinity,
         child: Column(

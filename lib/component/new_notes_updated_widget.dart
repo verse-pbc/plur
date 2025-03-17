@@ -8,7 +8,7 @@ class NewNotesUpdatedWidget extends StatelessWidget {
 
   Function? onTap;
 
-  NewNotesUpdatedWidget({required this.num, this.onTap});
+  NewNotesUpdatedWidget({super.key, required this.num, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,8 @@ class NewNotesUpdatedWidget extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: 4,
           bottom: 4,
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         decoration: BoxDecoration(
           color: mainColor,

@@ -59,12 +59,14 @@ class EventDB {
     if (list.isNotEmpty) {
       return Event.fromJson(list[0]);
     }
+    return null;
   }
 
   static Future<Event?> execute(String sql, List<Object?> arguments,
       {DatabaseExecutor? db}) async {
     db = await DB.getDB(db);
     await db.execute(sql, arguments);
+    return null;
   }
 
   static Future<Event?> delete(int keyIndex, String id,
@@ -72,6 +74,7 @@ class EventDB {
     db = await DB.getDB(db);
     await db.execute(
         "delete from event where key_index = ? and id = ?", [keyIndex, id]);
+    return null;
   }
 
   static Future<void> deleteAll(int keyIndex, {DatabaseExecutor? db}) async {

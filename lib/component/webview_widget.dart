@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
@@ -61,7 +60,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
   double progress = 0;
 
   Future<void> nip07Reject(String resultId, String contnet) async {
-    var script = "window.nostr.reject(\"$resultId\", \"${contnet}\");";
+    var script = "window.nostr.reject(\"$resultId\", \"$contnet\");";
     await webViewController!.evaluateJavascript(source: script);
     // _controller.runJavaScript(script);
   }
@@ -76,26 +75,20 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
               id: 1,
               title: "Special",
               action: () async {
-                print("Menu item Special clicked!");
-                print(await webViewController?.getSelectedText());
+                log("Menu item Special clicked!");
                 await webViewController?.clearFocus();
               })
         ],
         settings: ContextMenuSettings(hideDefaultSystemContextMenuItems: false),
         onCreateContextMenu: (hitTestResult) async {
-          print("onCreateContextMenu");
-          print(hitTestResult.extra);
-          print(await webViewController?.getSelectedText());
+          log("onCreateContextMenu");
         },
         onHideContextMenu: () {
-          print("onHideContextMenu");
+          log("onHideContextMenu");
         },
         onContextMenuActionItemClicked: (contextMenuItemClicked) async {
           var id = contextMenuItemClicked.id;
-          print("onContextMenuActionItemClicked: " +
-              id.toString() +
-              " " +
-              contextMenuItemClicked.title);
+          log("onContextMenuActionItemClicked: $id ${contextMenuItemClicked.title}");
         });
 
     pullToRefreshController = kIsWeb ||
@@ -126,9 +119,9 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     var appBarBG = themeData.appBarTheme.backgroundColor;
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     final settingsProvider = Provider.of<SettingsProvider>(context);
-    var _webViewProvider = Provider.of<WebViewProvider>(context);
+    var webViewProvider = Provider.of<WebViewProvider>(context);
 
-    var btnTopPosition = Base.BASE_PADDING + Base.BASE_PADDING_HALF;
+    var btnTopPosition = Base.basePadding + Base.basePaddingHalf;
 
     var main = Stack(
       children: [
@@ -185,7 +178,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           },
           onUpdateVisitedHistory: (controller, url, isReload) {},
           onConsoleMessage: (controller, consoleMessage) {
-            print(consoleMessage);
+            log("onConsoleMessage $consoleMessage");
           },
         ),
         progress < 1.0 ? LinearProgressIndicator(value: progress) : Container(),
@@ -209,7 +202,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           getMoreWidget(Container(
             height: btnWidth,
             width: btnWidth,
-            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             alignment: Alignment.center,
             child: Icon(
               Icons.more_horiz,
@@ -239,12 +232,12 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           children: [
             main,
             Positioned(
-              left: Base.BASE_PADDING,
+              left: Base.basePadding,
               top: btnTopPosition,
               child: lefeBtn,
             ),
             Positioned(
-              right: Base.BASE_PADDING,
+              right: Base.basePadding,
               top: btnTopPosition,
               child: getMoreWidget(Container(
                 height: btnWidth,
@@ -262,8 +255,8 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       );
     }
 
-    if (_webViewProvider.showable &&
-        !_webViewProvider.webviewNavigatorObserver.canPop()) {
+    if (webViewProvider.showable &&
+        !webViewProvider.webviewNavigatorObserver.canPop()) {
       // check the navigator whether can pop to add a popscope, i don't know why need this code..., it just test by me and had took me a lot of time.
       bodyWidget = PopScope(
         canPop: false,
@@ -329,8 +322,8 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     } else if (value == "copyInitUrl") {
       _doCopy(widget.url);
     } else if (value == "openInBrowser") {
-      var _url = Uri.parse(widget.url);
-      launchUrl(_url);
+      var url0 = Uri.parse(widget.url);
+      launchUrl(url0);
     } else if (value == "hideBrowser") {
       webViewProvider.hide();
     } else if (value == "close") {
@@ -373,7 +366,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_getPublicKey",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_getPublicKey $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
 
@@ -392,7 +384,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_signEvent",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_signEvent $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
         var content = jsonObj["msg"];
@@ -430,7 +421,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_getRelays",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_getRelays $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
 
@@ -456,7 +446,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_nip04_encrypt",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_nip04_encrypt $jsMsg");
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
         var msg = jsonObj["msg"];
@@ -485,7 +474,6 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
       handlerName: "Nostrmo_JS_nip04_decrypt",
       callback: (jsMsgs) async {
         var jsMsg = jsMsgs[0];
-        // print("Nostrmo_JS_nip04_decrypt $jsMsg");
         var jsonObj = jsonDecode(jsMsg.message);
         var resultId = jsonObj["resultId"];
         var msg = jsonObj["msg"];

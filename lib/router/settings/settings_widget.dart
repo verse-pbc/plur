@@ -4,11 +4,9 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_font_picker/flutter_font_picker.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/color_pick_dialog.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/consts/thread_mode.dart';
 import 'package:nostrmo/router/index/account_manager_widget.dart';
@@ -17,7 +15,6 @@ import 'package:nostrmo/util/store_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
-import '../../component/colors_selector_widget.dart';
 import '../../component/confirm_dialog.dart';
 import '../../component/editor/text_input_dialog.dart';
 import '../../component/enum_multi_selector_widget.dart';
@@ -25,7 +22,6 @@ import '../../component/enum_selector_widget.dart';
 import '../../component/translate/translate_model_manager.dart';
 import '../../consts/base_consts.dart';
 import '../../consts/image_services.dart';
-import '../../consts/theme_style.dart';
 import '../../data/metadata.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
@@ -215,7 +211,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     list.add(SettingsGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
     String? networkHintText = settingsProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
-      networkHintText = localization.Please_input + " " + localization.Network;
+      networkHintText = "${localization.Please_input} ${localization.Network}";
     }
     Widget networkWidget = Text(
       networkHintText!,
@@ -354,7 +350,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         }
       }
       resetTheme();
-      Future.delayed(Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 1), () {
         setState(() {
           // TODO others setting enumObjList
           i18nList = null;
@@ -646,13 +642,13 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         ]);
         nostr!.query([filter.toJson()], onDeletedEventReceive);
       } catch (e) {
-        log("delete account error ${e.toString()}");
+        log("delete account error: $e");
       }
     }
   }
 
   onDeletedEventReceive(Event event) {
-    print(event.toJson());
+    log("onDeletedEventReceive ${event.toJson()}");
     waitingDeleteEventBox.add(event);
     whenStop(handleDeleteEvent);
   }

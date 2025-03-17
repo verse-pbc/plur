@@ -1,15 +1,13 @@
 import 'dart:io';
 
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../../main.dart';
 import '../image_widget.dart';
 
 class ContentCustomEmojiWidget extends StatelessWidget {
   final String imagePath;
 
-  ContentCustomEmojiWidget({required this.imagePath});
+  const ContentCustomEmojiWidget({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

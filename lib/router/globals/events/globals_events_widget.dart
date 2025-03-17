@@ -6,7 +6,6 @@ import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:provider/provider.dart';
 
-import '../../../component/cust_state.dart';
 import '../../../component/event/event_list_widget.dart';
 import '../../../component/placeholder/event_list_placeholder.dart';
 import '../../../consts/base.dart';
@@ -15,7 +14,6 @@ import '../../../main.dart';
 import '../../../provider/settings_provider.dart';
 import '../../../util/dio_util.dart';
 import '../../../util/table_mode_util.dart';
-import 'globals_event_item_widget.dart';
 
 class GlobalsEventsWidget extends StatefulWidget {
   const GlobalsEventsWidget({super.key});
@@ -86,8 +84,8 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
       unsubscribe();
     }
 
-    var str = await DioUtil.getStr(Base.INDEXS_EVENTS);
-    // print(str);
+    var str = await DioUtil.getStr(Base.indexsEvents);
+
     if (StringUtil.isNotBlank(str)) {
       ids.clear();
       var itfs = jsonDecode(str!);

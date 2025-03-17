@@ -1,5 +1,5 @@
 mixin WhenStopFunction {
-  bool _WhenStopRunning = true;
+  bool _whenStopRunning = true;
 
   int whenStopMS = 200;
 
@@ -21,7 +21,7 @@ mixin WhenStopFunction {
 
   void _goWaitForStop(Function func) {
     Future.delayed(Duration(milliseconds: whenStopMS), () {
-      if (!_WhenStopRunning) {
+      if (!_whenStopRunning) {
         return;
       }
 
@@ -36,6 +36,6 @@ mixin WhenStopFunction {
   }
 
   void disposeWhenStop() {
-    _WhenStopRunning = false;
+    _whenStopRunning = false;
   }
 }

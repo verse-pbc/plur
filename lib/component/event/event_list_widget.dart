@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -62,9 +63,9 @@ class _EventListWidgetState extends State<EventListWidget> {
       controller: screenshotController,
       child: Container(
         color: cardColor,
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
           // bottom: Base.BASE_PADDING,
         ),
         child: EventMainWidget(
@@ -119,7 +120,7 @@ class _EventListWidgetState extends State<EventListWidget> {
               context, RouterPath.getThreadDetailPath(), repostEvent);
           return;
         } catch (e) {
-          print(e);
+          log("jumpToThread error $e");
         }
       }
 

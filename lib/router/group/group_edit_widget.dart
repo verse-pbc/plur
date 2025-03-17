@@ -51,8 +51,8 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       RouterUtil.back(context);
       return Container();
     }
-    groupIdentifier = arg as GroupIdentifier;
-    var margin = const EdgeInsets.only(bottom: Base.BASE_PADDING);
+    groupIdentifier = arg;
+    var margin = const EdgeInsets.only(bottom: Base.basePadding);
     var padding = const EdgeInsets.only(left: 20, right: 20);
 
     GroupProvider groupProvider = Provider.of<GroupProvider>(context);
@@ -97,7 +97,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     var appBar = Appbar4Stack(
       backgroundColor: themeData.customColors.navBgColor,
       action: Container(
-        margin: EdgeInsets.only(right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(right: Base.basePadding),
         child: submitBtn,
       ),
     );
@@ -147,7 +147,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         decoration: InputDecoration(
           prefixIcon: GestureDetector(
             onTap: pickPicture,
-            child: Icon(Icons.image),
+            child: const Icon(Icons.image),
           ),
           labelText: localization.Picture,
         ),
@@ -238,7 +238,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
             margin: EdgeInsets.only(top: mediaDataCache.padding.top),
             child: Container(
               padding: EdgeInsets.only(
-                  top: mediaDataCache.padding.top + Base.BASE_PADDING),
+                  top: mediaDataCache.padding.top + Base.basePadding),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -273,6 +273,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         imageService: settingsProvider.imageService,
       );
     }
+    return null;
   }
 
   Future<void> pickPicture() async {

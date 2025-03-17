@@ -8,7 +8,6 @@ import '../../component/cust_state.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../util/dio_util.dart';
-import '../../util/router_util.dart';
 import 'web_util_item_widget.dart';
 
 class WebUtilsWidget extends StatefulWidget {
@@ -62,7 +61,7 @@ class _WebUtilsWidgetState extends CustState<WebUtilsWidget> {
   List<WebUtilItem> webUtils = [];
 
   Future<void> load() async {
-    var str = await DioUtil.getStr(Base.WEB_TOOLS);
+    var str = await DioUtil.getStr(Base.webTools);
     if (StringUtil.isNotBlank(str)) {
       var itfs = jsonDecode(str!);
       webUtils = [];

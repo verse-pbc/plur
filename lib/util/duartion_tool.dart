@@ -5,23 +5,23 @@ extension DurationTool on Duration {
     var hours = inHours % 24;
     if (hours != 0) {
       if (hours > 9) {
-        components.add('${hours}:');
+        components.add('$hours:');
       } else {
-        components.add('0${hours}:');
+        components.add('0$hours:');
       }
     }
     var minutes = inMinutes % 60;
     if (minutes > 9) {
-      components.add('${minutes}:');
+      components.add('$minutes:');
     } else {
-      components.add('0${minutes}:');
+      components.add('0$minutes:');
     }
 
     var seconds = inSeconds % 60;
     if (seconds > 9) {
-      components.add('${seconds}');
+      components.add('$seconds');
     } else {
-      components.add('0${seconds}');
+      components.add('0$seconds');
     }
     return components.join();
   }

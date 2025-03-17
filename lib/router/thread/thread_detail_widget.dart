@@ -12,16 +12,16 @@ import '../../component/event/event_load_list_widget.dart';
 import '../../component/event_reply_callback.dart';
 import '../../component/user/simple_name_widget.dart';
 import '../../consts/base.dart';
-import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
-import 'thread_detail_event.dart';
 import 'thread_detail_event_main_widget.dart';
 import 'thread_detail_item_widget.dart';
 import 'thread_router_helper.dart';
 
 class ThreadDetailWidget extends StatefulWidget {
+  const ThreadDetailWidget({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _ThreadDetailWidgetState();
@@ -44,7 +44,7 @@ class ThreadDetailWidget extends StatefulWidget {
       ),
     );
     appBarTitleList.add(nameComponnet);
-    appBarTitleList.add(Text(" : "));
+    appBarTitleList.add(const Text(" : "));
     appBarTitleList.add(Expanded(
         child: Text(
       title,
@@ -66,7 +66,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
 
   bool showTitle = false;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   double rootEventHeight = 120;
 
@@ -199,7 +199,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
         rootEventWidget = Selector<SingleEventProvider, Event?>(
             builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListWidget();
+            return const EventLoadListWidget();
           }
 
           titlePubkey = event.pubkey;
@@ -241,7 +241,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
         rootEventWidget = Selector<ReplaceableEventProvider, Event?>(
             builder: (context, event, child) {
           if (event == null) {
-            return EventLoadListWidget();
+            return const EventLoadListWidget();
           }
 
           if (rootId != null) {
@@ -290,7 +290,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
     for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
-              (Base.BASE_PADDING +
+              (Base.basePadding +
                   ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
           ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
       if (needWidth > mediaDataCache.size.width) {
@@ -371,8 +371,6 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
         m["#a"] = [aId!.toAString()];
         filters.add(m);
       }
-
-      // print(filters);
 
       nostr!.query(filters, onEvent);
     }

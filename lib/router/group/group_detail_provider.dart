@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -7,7 +6,7 @@ import '../../main.dart';
 
 class GroupDetailProvider extends ChangeNotifier
     with PenddingEventsLaterFunction {
-  static const int PREVIOUS_LENGTH = 5;
+  static const int previousLength = 5;
 
   late int _initTime;
 
@@ -184,14 +183,14 @@ class GroupDetailProvider extends ChangeNotifier
 
   List<String> timelinePrevious(
     EventMemBox box, {
-    int length = PREVIOUS_LENGTH,
+    int length = previousLength,
   }) {
     var list = box.all();
     var listLength = list.length;
 
     List<String> previous = [];
 
-    for (var i = 0; i < PREVIOUS_LENGTH; i++) {
+    for (var i = 0; i < previousLength; i++) {
       var index = listLength - i - 1;
       if (index < 0) {
         break;

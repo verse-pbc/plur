@@ -11,9 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+
+### Internal Changes
+- Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Migrated TimestampProvider from Provider to Riverpod Notifier.
+
+## [0.0.3]
+
+### Release Notes
 - Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
 - Removed the "Add test groups" button from the side menu. [#256](https://github.com/verse-pbc/issues/issues/256)
 - Fixed a bug where replies could be posted publicly instead of inside the group. [#251](https://github.com/verse-pbc/issues/issues/251)
+- Fixed version number displayed in the main menu. [#255](https://github.com/verse-pbc/issues/issues/255)
 
 ### Internal Changes
 - Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
@@ -23,7 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed TestFlight deployments by manually installing iOS 18.2. [#257](https://github.com/verse-pbc/issues/issues/257)
 - Enabled separate builds for production, staging, and dev. [#220](https://github.com/verse-pbc/issues/issues/220)
 - Added push notification entitlements. [#195](https://github.com/verse-pbc/issues/issues/195)
-- Migrated TimestampProvider from Provider to Riverpod Notifier.
+- Replaced print statemanets with the Flutter logger. [#259](https://github.com/verse-pbc/issues/issues/259)
+- Fixed failing release deployment. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Fixed staging app id in Fastfile. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Replaced color constants with theme colors. [#169](https://github.com/verse-pbc/issues/issues/169)
 
 ## [0.0.2]
 

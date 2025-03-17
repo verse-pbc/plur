@@ -1,7 +1,6 @@
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/event/event_reactions_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
@@ -17,7 +16,7 @@ class EventZapGoalsWidget extends StatefulWidget {
 
   EventRelation eventRelation;
 
-  EventZapGoalsWidget({
+  EventZapGoalsWidget({super.key, 
     required this.event,
     required this.eventRelation,
   });
@@ -68,7 +67,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
         var pollItemWidget = Container(
           width: double.maxFinite,
           margin: const EdgeInsets.only(
-            top: Base.BASE_PADDING_HALF,
+            top: Base.basePaddingHalf,
           ),
           decoration: BoxDecoration(
             color: pollBackgroundColor,
@@ -78,10 +77,10 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
             alignment: Alignment.center,
             children: [
               Container(
-                padding: EdgeInsets.all(Base.BASE_PADDING_HALF),
+                padding: const EdgeInsets.all(Base.basePaddingHalf),
                 width: double.maxFinite,
                 child: Row(children: [
-                  Icon(Icons.bolt),
+                  const Icon(Icons.bolt),
                   Expanded(child: Container()),
                 ]),
               ),
@@ -101,7 +100,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
                 ),
               ),
               Positioned(
-                right: Base.BASE_PADDING,
+                right: Base.basePadding,
                 child: Text(
                   "${(percent * 100).toStringAsFixed(2)}%  ${NumberFormatUtil.format(zapNum)}/${NumberFormatUtil.format(zapGoalsInfo!.amount!)} sats",
                   style: const TextStyle(
@@ -130,8 +129,8 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
         return Container(
           width: double.maxFinite,
           margin: const EdgeInsets.only(
-            top: Base.BASE_PADDING_HALF,
-            bottom: Base.BASE_PADDING_HALF,
+            top: Base.basePaddingHalf,
+            bottom: Base.basePaddingHalf,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
