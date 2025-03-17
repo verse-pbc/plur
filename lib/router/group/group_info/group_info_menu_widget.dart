@@ -12,6 +12,7 @@ enum GroupInfoMenuItem {
   const GroupInfoMenuItem(this.title);
 }
 
+/// Displays a scrollable menu in the group info screen.
 class GroupInfoMenuWidget extends StatelessWidget {
   final GroupIdentifier groupId;
 

@@ -4,6 +4,7 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import '../../../component/group/admin_tag_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
+/// Displays some info about a group member.
 class GroupMemberInfoWidget extends StatelessWidget {
   final String pubkey;
   final Metadata? metadata;
