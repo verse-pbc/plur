@@ -81,7 +81,7 @@
       buildConfiguration = "Debug-Runner-Staging">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug-Runner-Staging"
+      buildConfiguration = "Release-Runner-Staging"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
