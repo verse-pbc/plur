@@ -336,51 +336,7 @@ class MyApp extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  MyApp({super.key}) {
-    platform.setMethodCallHandler(_handleDeepLink);
-  }
-
-  void joinGroup(
-      BuildContext context, String host, String groupId, String? code) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
-  }
-
-  Future<void> _handleDeepLink(MethodCall call) async {
-    if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.');
-      return;
-    }
-
-    if (call.method == 'onDeepLink') {
-      final String link = call.arguments;
-      log('Received deep link: $link');
-
-      Uri uri = Uri.parse(link);
-      if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
-        String? groupId = uri.queryParameters['group-id'];
-        String? code = uri.queryParameters['code'];
-        // Handle the extracted parameters
-        log('Group ID: $groupId');
-        log('Code: $code');
-
-        if (groupId == null || groupId.isEmpty) {
-          log('Group ID is null or empty, aborting.');
-          return;
-        }
-
-        final context = navigatorKey.currentContext;
-        if (context != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            joinGroup(context, 'wss://communities.nos.social', groupId, code);
-          });
-        } else {
-          log('Context is null, waiting for app to initialize...');
-        }
-      }
-    }
-  }
+  const MyApp({super.key});
 
   @override
   State<StatefulWidget> createState() => _MyApp();
@@ -587,12 +543,66 @@ class _MyApp extends State<MyApp> {
   void initState() {
     super.initState();
     SystemTimer.run();
+
+    MyApp.platform.setMethodCallHandler(_handleDeepLink);
   }
 
   @override
   void dispose() {
     super.dispose();
     SystemTimer.stopTask();
+  }
+
+  void _joinGroup(
+    BuildContext context,
+    String host,
+    String groupId,
+    String? code,
+  ) {
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
+    listProvider.joinGroup(groupIdentifier, context: context);
+  }
+
+  Future<void> _handleDeepLink(MethodCall call) async {
+    if (nostr == null) {
+      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
+      return;
+    }
+
+    if (call.method == 'onDeepLink') {
+      final String link = call.arguments;
+      log('Received deep link: $link', name: 'DeepLink');
+
+      _processDeepLink(link);
+    }
+  }
+
+  void _processDeepLink(String link) {
+    if (nostr == null) {
+      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
+      return;
+    }
+
+    log('Processing deep link: $link', name: 'DeepLink');
+
+    Uri uri = Uri.parse(link);
+    if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
+      String? groupId = uri.queryParameters['group-id'];
+      String? code = uri.queryParameters['code'];
+
+      if (groupId == null || groupId.isEmpty) {
+        log('Group ID is null or empty, aborting.', name: 'DeepLink');
+        return;
+      }
+
+      final context = MyApp.navigatorKey.currentContext;
+      if (context != null) {
+        _joinGroup(context, 'wss://communities.nos.social', groupId, code);
+      } else {
+        log('Context still null after initialization - this is unexpected', name: 'DeepLink');
+      }
+    }
   }
 
   ThemeData getLightTheme() {
