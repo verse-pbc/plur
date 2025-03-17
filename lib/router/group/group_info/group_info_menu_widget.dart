@@ -4,12 +4,18 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/group_info/group_info_menu_item_widget.dart';
+import 'package:nostrmo/generated/l10n.dart';
 
 enum GroupInfoMenuItem {
-  members('Members');
+  members;
 
-  final String title;
-  const GroupInfoMenuItem(this.title);
+  String getTitle(BuildContext context) {
+    final localization = S.of(context);
+    switch (this) {
+      case GroupInfoMenuItem.members:
+        return localization.Members;
+    }
+  }
 }
 
 /// Displays a scrollable menu in the group info screen.
@@ -30,28 +36,28 @@ class GroupInfoMenuWidget extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       borderRadius: BorderRadius.circular(10),
       child: ListView.builder(
-          shrinkWrap: true,
-          padding: EdgeInsets.zero,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: _menuItems.length,
-          itemBuilder: (context, index) {
-            final item = _menuItems[index];
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                GroupInfoMenuItemWidget(
-                  title: item.title,
-                  onTap: () => _navigateToMenuItem(context, item),
+        shrinkWrap: true,
+        padding: EdgeInsets.zero,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: _menuItems.length,
+        itemBuilder: (context, index) {
+          final item = _menuItems[index];
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GroupInfoMenuItemWidget(
+                title: item.getTitle(context),
+                onTap: () => _navigateToMenuItem(context, item),
+              ),
+              if (index < _menuItems.length - 1)
+                Divider(
+                  height: 1,
+                  color: themeData.customColors.navBgColor,
                 ),
-                if (index < _menuItems.length - 1)
-                  Divider(
-                    height: 1,
-                    color: themeData.customColors.navBgColor,
-                  ),
-              ],
-            );
-          },
-        ),
+            ],
+          );
+        },
+      ),
     );
   }
 
