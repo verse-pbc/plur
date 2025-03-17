@@ -175,4 +175,20 @@ def flutter_version(params)
   else
     UI.user_error!("Could not find version information in pubspec.yaml")
   end
+end
+
+platform :android do
+  desc "Deploy to internal testing track"
+  lane :release do
+    sh("flutter build appbundle --release")
+    
+    # Upload to Play Store
+    upload_to_play_store(
+      track: 'internal',
+      aab: 'build/app/outputs/bundle/release/app-release.aab',
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+    )
+  end
 end 

@@ -1,7 +1,12 @@
+# iOS
 app_identifier("app.verse.prototype.plur")
 apple_id("ci@verse.app")
 itc_team_id("119631974")
 team_id("GZCZBKH7MY")
+
+# Android
+json_key_file("~/.fastlane/pub-verse-app-67a51dd1c561.json")
+package_name("app.verse.prototype.plur")
 
 # For more information about the Appfile, see:
 #     https://docs.fastlane.tools/advanced/#appfile 
