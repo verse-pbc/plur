@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
 - Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
 - Updated linting in CI to be more intelligent in comparison [65](https://github.com/verse-pbc/issues/issues/65).
+- Migrated TimestampProvider from Provider to Riverpod Notifier.
 
 ## [0.0.3]
 
