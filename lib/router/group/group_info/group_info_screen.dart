@@ -11,7 +11,8 @@ import 'group_info_header_widget.dart';
 import 'group_info_menu_widget.dart';
 import 'group_info_popupmenu_widget.dart';
 import '../../../consts/base.dart';
-/// A widget that displays detailed information about a group.
+
+/// Displays detailed information about a group.
 class GroupInfoWidget extends StatelessWidget {
   const GroupInfoWidget({Key? key}) : super(key: key);
 

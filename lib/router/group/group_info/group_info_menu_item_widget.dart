@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
+/// Displays a menu item in the group info screen.
 class GroupInfoMenuItemWidget extends StatelessWidget {
   final String title;
   final VoidCallback onTap;

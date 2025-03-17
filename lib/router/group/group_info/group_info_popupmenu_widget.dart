@@ -5,6 +5,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/component/styled_popup_menu.dart';
 
+/// Displays a popup menu at the top right of the group info screen.
 class GroupInfoPopupMenuWidget extends StatelessWidget {
   final GroupIdentifier groupId;
 
