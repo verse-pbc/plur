@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
 import '../../provider/metadata_provider.dart';
-import '../image_widget.dart';
 import '../user/user_pic_widget.dart';
 
 class ZapBottomSheetUserWidget extends StatefulWidget {
@@ -42,9 +41,9 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
         Widget userNameWidget = Container(
           width: widget.configMaxWidth ? 100 : null,
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING,
-            right: Base.BASE_PADDING,
-            bottom: Base.BASE_PADDING_HALF,
+            left: Base.basePadding,
+            right: Base.basePadding,
+            bottom: Base.basePaddingHalf,
           ),
           alignment: Alignment.center,
           child: SimpleNameWidget(

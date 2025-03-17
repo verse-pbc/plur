@@ -53,7 +53,7 @@ class _FollowedTagsListWidgetState extends State<FollowedTagsListWidget> {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 3,
-          crossAxisSpacing: Base.BASE_PADDING_HALF,
+          crossAxisSpacing: Base.basePaddingHalf,
         ),
         itemBuilder: (context, index) {
           var tag = tagList[index];

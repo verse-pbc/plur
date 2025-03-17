@@ -50,7 +50,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
 
         return Container(
           color: themeData.cardColor,
-          padding: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+          padding: const EdgeInsets.only(bottom: Base.basePadding),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(
@@ -94,7 +94,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
   }
 
   Future<void> refresh() async {
-    var str = await DioUtil.getStr(Base.INDEXS_CONTACTS);
+    var str = await DioUtil.getStr(Base.indexsContacts);
     if (StringUtil.isNotBlank(str)) {
       pubkeys.clear();
       var itfs = jsonDecode(str!);
@@ -115,7 +115,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
   }
 
   int getRandomInt(int min, int max) {
-    final _random = new Random();
-    return _random.nextInt((max - min).floor()) + min;
+    final random = Random();
+    return random.nextInt((max - min).floor()) + min;
   }
 }

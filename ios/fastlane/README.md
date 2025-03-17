@@ -13,41 +13,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 # Available Actions
 
-### bump_major
-
-```sh
-[bundle exec] fastlane bump_major
-```
-
-
-
-### bump_minor
-
-```sh
-[bundle exec] fastlane bump_minor
-```
-
-
-
-### bump_patch
-
-```sh
-[bundle exec] fastlane bump_patch
-```
-
-
-
-### bump_version
-
-```sh
-[bundle exec] fastlane bump_version
-```
-
-
-
-----
-
-
 ## iOS
 
 ### ios release
@@ -56,7 +21,15 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios release
 ```
 
-Push a new Nos Release build to TestFlight
+Push a new Plur Release build to TestFlight
+
+### ios deploy_staging
+
+```sh
+[bundle exec] fastlane ios deploy_staging
+```
+
+Push a new Plur staging build to TestFlight
 
 ### ios stamp_release
 

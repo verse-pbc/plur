@@ -47,7 +47,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:window_manager/window_manager.dart';
@@ -267,7 +266,7 @@ Future<void> main() async {
       backgroundColor: Colors.transparent,
       skipTaskbar: false,
       titleBarStyle: TitleBarStyle.normal,
-      title: Base.APP_NAME,
+      title: Base.appName,
     );
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.show();
@@ -288,7 +287,7 @@ Future<void> main() async {
     await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
         overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
   } catch (e) {
-    print(e);
+    log('$e');
   }
 
   await initializeProviders();
@@ -338,7 +337,7 @@ class MyApp extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  MyApp() {
+  MyApp({super.key}) {
     platform.setMethodCallHandler(_handleDeepLink);
   }
 
@@ -351,24 +350,24 @@ class MyApp extends StatefulWidget {
 
   Future<void> _handleDeepLink(MethodCall call) async {
     if (nostr == null) {
-      print('nostr is null; the user is probably not logged in. aborting.');
+      log('nostr is null; the user is probably not logged in. aborting.');
       return;
     }
 
     if (call.method == 'onDeepLink') {
       final String link = call.arguments;
-      print('Received deep link: $link');
+      log('Received deep link: $link');
 
       Uri uri = Uri.parse(link);
       if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
         String? groupId = uri.queryParameters['group-id'];
         String? code = uri.queryParameters['code'];
         // Handle the extracted parameters
-        print('Group ID: $groupId');
-        print('Code: $code');
+        log('Group ID: $groupId');
+        log('Code: $code');
 
         if (groupId == null || groupId.isEmpty) {
-          print('Group ID is null or empty, aborting.');
+          log('Group ID is null or empty, aborting.');
           return;
         }
 
@@ -378,7 +377,7 @@ class MyApp extends StatefulWidget {
             joinGroup(context, 'wss://communities.nos.social', groupId, code);
           });
         } else {
-          print('Context is null, waiting for app to initialize...');
+          log('Context is null, waiting for app to initialize...');
         }
       }
     }
@@ -395,17 +394,17 @@ class _MyApp extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    Locale? _locale;
+    Locale? locale;
     if (StringUtil.isNotBlank(settingsProvider.i18n)) {
       for (var item in S.delegate.supportedLocales) {
         if (item.languageCode == settingsProvider.i18n &&
             item.countryCode == settingsProvider.i18nCC) {
-          _locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
+          locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
           break;
         }
       }
     }
-    setGetTimeAgoDefaultLocale(_locale);
+    setGetTimeAgoDefaultLocale(locale);
 
     var lightTheme = getLightTheme();
     var darkTheme = getDarkTheme();
@@ -422,8 +421,8 @@ class _MyApp extends State<MyApp> {
 
     routes = {
       RouterPath.INDEX: (context) => IndexWidget(reload: reload),
-      RouterPath.LOGIN: (context) => LoginSignupWidget(),
-      RouterPath.SIGNUP: (context) => SignupWidget(),
+      RouterPath.LOGIN: (context) => const LoginSignupWidget(),
+      RouterPath.SIGNUP: (context) => const SignupWidget(),
       RouterPath.DONATE: (context) => const DonateWidget(),
       RouterPath.USER: (context) => const UserWidget(),
       RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),
@@ -432,7 +431,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.USER_ZAP_LIST: (context) => const UserZapListWidget(),
       RouterPath.USER_RELAYS: (context) => const UserRelayWidget(),
       RouterPath.DM_DETAIL: (context) => const DMDetailWidget(),
-      RouterPath.THREAD_DETAIL: (context) => ThreadDetailWidget(),
+      RouterPath.THREAD_DETAIL: (context) => const ThreadDetailWidget(),
       RouterPath.THREAD_TRACE: (context) => const ThreadTraceWidget(),
       RouterPath.EVENT_DETAIL: (context) => const EventDetailWidget(),
       RouterPath.TAG_DETAIL: (context) => const TagDetailWidget(),
@@ -552,7 +551,7 @@ class _MyApp extends State<MyApp> {
         ),
       ],
       child: HomeWidget(
-        locale: _locale,
+        locale: locale,
         theme: defaultTheme,
         child: MaterialApp(
           navigatorKey: MyApp.navigatorKey,
@@ -563,8 +562,8 @@ class _MyApp extends State<MyApp> {
           ],
           // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
-          locale: _locale,
-          title: Base.APP_NAME,
+          locale: locale,
+          title: Base.appName,
           localizationsDelegates: const [
             S.delegate,
             FlutterQuillLocalizations.delegate,

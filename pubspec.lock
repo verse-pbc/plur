@@ -215,7 +215,7 @@ packages:
     source: hosted
     version: "3.4.1"
   cached_network_image_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cached_network_image_platform_interface
       sha256: "35814b016e37fbdc91f7ae18c8caf49ba5c88501813f73ce8a07027a395e2829"
@@ -295,7 +295,7 @@ packages:
     source: hosted
     version: "3.1.1"
   cookie_jar:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cookie_jar
       sha256: a6ac027d3ed6ed756bfce8f3ff60cb479e266f3b0fdabd6242b804b6765e52de
@@ -423,7 +423,7 @@ packages:
     source: hosted
     version: "0.4.1"
   dio:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio
       sha256: "5598aa796bbf4699afd5c67c0f5f6e2ed542afc956884b9cd58c306966efc260"
@@ -431,7 +431,7 @@ packages:
     source: hosted
     version: "5.7.0"
   dio_cookie_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dio_cookie_manager
       sha256: "47cacbf6a783c263bfa7cd7d08101e93127d87760ddb003ba289162f7be0f679"
@@ -588,7 +588,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_cache_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_cache_manager
       sha256: "400b6592f16a4409a7f2bb929a9a7e38c72cceb8ffb99ee57bbf2cb2cecf8386"
@@ -596,7 +596,7 @@ packages:
     source: hosted
     version: "3.4.1"
   flutter_chat_types:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_chat_types
       sha256: e285b588f6d19d907feb1f6d912deaf22e223656769c34093b64e1c59b094fb9
@@ -890,7 +890,7 @@ packages:
     source: hosted
     version: "1.0.1"
   flutter_socks_proxy:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_socks_proxy
       sha256: "5603ad90c2849d2e6f2b4ed3d337653b3a6c8fb471f535e3715254913a9206ce"
@@ -1004,7 +1004,7 @@ packages:
     source: hosted
     version: "0.15.4"
   http:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: http
       sha256: b9c29a161230ee03d3ccf545097fccd9b87a5264228c5d348202e0f0c28f9010
@@ -1036,7 +1036,7 @@ packages:
     source: hosted
     version: "4.0.2"
   image:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: image
       sha256: "2237616a36c0d69aef7549ab439b833fb7f9fb9fc861af2cc9ac3eedddd69ca8"
@@ -1276,7 +1276,7 @@ packages:
     source: hosted
     version: "0.1.2-main.4"
   markdown:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: markdown
       sha256: ef2a1298144e3f985cc736b22e0ccdaf188b5b3970648f2d9dc13efd1d9df051
@@ -1435,23 +1435,23 @@ packages:
     source: hosted
     version: "2.1.1"
   package_info_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: package_info_plus
-      sha256: cb44f49b6e690fa766f023d5b22cac6b9affe741dd792b6ac7ad4fabe0d7b097
+      sha256: "7976bfe4c583170d6cdc7077e3237560b364149fcd268b5f53d95a991963b191"
       url: "https://pub.dev"
     source: hosted
-    version: "6.0.0"
+    version: "8.3.0"
   package_info_plus_platform_interface:
     dependency: transitive
     description:
       name: package_info_plus_platform_interface
-      sha256: "9bc8ba46813a4cc42c66ab781470711781940780fd8beddd0c3da62506d3a6c6"
+      sha256: "6c935fb612dff8e3cc9632c2b301720c77450a126114126ffaafe28d2e87956c"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.1"
+    version: "3.2.0"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
@@ -1635,7 +1635,7 @@ packages:
     source: hosted
     version: "5.0.3"
   process_run:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: process_run
       sha256: "3d5335d17003a7c2fd5148be2d313f5b84244ab2e625162fdd44b4aaa48bea66"
@@ -1968,7 +1968,7 @@ packages:
     source: hosted
     version: "7.0.0"
   sqflite:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite
       sha256: ff5a2436ef8ebdfda748fbfe957f9981524cb5ff11e7bafa8c42771840e8a788
@@ -1984,7 +1984,7 @@ packages:
     source: hosted
     version: "2.5.4+4"
   sqflite_common_ffi:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite_common_ffi
       sha256: "883dd810b2b49e6e8c3b980df1829ef550a94e3f87deab5d864917d27ca6bf36"
@@ -1992,7 +1992,7 @@ packages:
     source: hosted
     version: "2.3.4+4"
   sqflite_common_ffi_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqflite_common_ffi_web
       sha256: f540ad769e5fd31aabe77bfa6e774fdd36145a83e33cdc39239f310c5f8559c3
@@ -2160,7 +2160,7 @@ packages:
     source: hosted
     version: "2.0.2"
   url_launcher:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: url_launcher
       sha256: "21b704ce5fa560ea9f3b525b43601c678728ba46725bab9b01187b4831377ed3"
@@ -2307,18 +2307,18 @@ packages:
     dependency: transitive
     description:
       name: wakelock_plus
-      sha256: "104d94837bb28c735894dcd592877e990149c380e6358b00c04398ca1426eed4"
+      sha256: "36c88af0b930121941345306d259ec4cc4ecca3b151c02e3a9e71aede83c615e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.10"
   wakelock_plus_platform_interface:
     dependency: transitive
     description:
       name: wakelock_plus_platform_interface
-      sha256: "422d1cdbb448079a8a62a5a770b69baa489f8f7ca21aef47800c726d404f9d16"
+      sha256: "70e780bc99796e1db82fe764b1e7dcb89a86f1e5b3afb1db354de50f2e41eb7a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.1"
+    version: "1.2.2"
   watcher:
     dependency: transitive
     description:

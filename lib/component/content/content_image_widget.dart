@@ -82,8 +82,8 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
       width: widget.width,
       height: widget.height,
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF / 2,
-        bottom: Base.BASE_PADDING_HALF / 2,
+        top: Base.basePaddingHalf / 2,
+        bottom: Base.basePaddingHalf / 2,
       ),
       child: main,
     );

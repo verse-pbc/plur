@@ -13,7 +13,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../util/table_mode_util.dart';
-import '../index/index_app_bar.dart';
 
 class ProfileEditorWidget extends StatefulWidget {
   const ProfileEditorWidget({super.key});
@@ -83,12 +82,12 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       backgroundColor: appbarBackgroundColor,
       // title: appbarTitle,
       action: Container(
-        margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(right: Base.basePadding),
         child: submitBtn,
       ),
     );
 
-    var margin = const EdgeInsets.only(bottom: Base.BASE_PADDING);
+    var margin = const EdgeInsets.only(bottom: Base.basePadding);
     var padding = const EdgeInsets.only(left: 20, right: 20);
 
     List<Widget> list = [];
@@ -111,8 +110,8 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         ),
         Container(
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
           ),
           child: const Text(" @ "),
         ),
@@ -205,7 +204,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
             child: Container(
               color: cardColor,
               padding: EdgeInsets.only(
-                  top: mediaDataCache.padding.top + Base.BASE_PADDING),
+                  top: mediaDataCache.padding.top + Base.basePadding),
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -254,6 +253,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         imageService: settingsProvider.imageService,
       );
     }
+    return null;
   }
 
   void profileSave() {
@@ -262,8 +262,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       try {
         metadataMap = jsonDecode(profileEvent!.content);
       } catch (e) {
-        log("profileSave jsonDecode error");
-        print(e);
+        log("profileSave jsonDecode error: $e");
       }
     } else {
       metadataMap = {};

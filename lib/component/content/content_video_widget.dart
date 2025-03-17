@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -106,8 +105,8 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       child: WidgetSize(
         onChange: ((size) {

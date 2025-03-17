@@ -3,7 +3,7 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 
 class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
-  Map<String, int> _approvedMap = {};
+  final Map<String, int> _approvedMap = {};
 
   List<String> eids = [];
 

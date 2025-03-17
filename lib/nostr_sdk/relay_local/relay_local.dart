@@ -1,4 +1,3 @@
-import '../event_kind.dart';
 import '../relay/client_connected.dart';
 import '../relay/relay.dart';
 import '../relay/relay_info.dart';

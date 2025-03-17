@@ -11,7 +11,7 @@ class EventIdRouterWidget extends StatefulWidget {
 
   String? relayAddr;
 
-  EventIdRouterWidget(this.eventId, this.relayAddr);
+  EventIdRouterWidget(this.eventId, this.relayAddr, {super.key});
 
   static Future<void> router(
     BuildContext context,

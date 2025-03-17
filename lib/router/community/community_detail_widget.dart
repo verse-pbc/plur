@@ -31,7 +31,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
 
   AId? aId;
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   bool showTitle = false;
 
@@ -126,8 +126,8 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
             onTap: addToCommunity,
             child: Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING,
-                right: Base.BASE_PADDING,
+                left: Base.basePadding,
+                right: Base.basePadding,
               ),
               child: Icon(
                 Icons.add,

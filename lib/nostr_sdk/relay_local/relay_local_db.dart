@@ -20,7 +20,7 @@ class RelayLocalDB with LaterFunction {
   late Database _database;
 
   // a eventId map in mem, to avoid alway insert event.
-  Map<String, int> _memEventIdMap = {};
+  final Map<String, int> _memEventIdMap = {};
 
   RelayLocalDB._(Database database) {
     _database = database;
@@ -201,9 +201,8 @@ class RelayLocalDB with LaterFunction {
           batch.insert("event", event);
         }
         batch.commit();
-        // print("batch insert ${notExistEventMapList.length} events");
       } catch (e) {
-        print(e);
+        log("batch insert ${notExistEventMapList.length} events error: $e");
       }
     }
   }
@@ -223,7 +222,6 @@ class RelayLocalDB with LaterFunction {
   //   try {
   //     return await _database.insert("event", event);
   //   } catch (e) {
-  //     // print(e);
   //     return 0;
   //   }
   // }
@@ -240,7 +238,6 @@ class RelayLocalDB with LaterFunction {
       Map<String, dynamic> filter) async {
     List<dynamic> params = [];
     var sql = queryEventsSql(filter, false, params);
-    // print("doQueryEvent $sql $params");
     var rawEvents = await _database.rawQuery(sql, params);
     var events = _handleEventMaps(rawEvents);
     return events;
@@ -307,7 +304,7 @@ class RelayLocalDB with LaterFunction {
     var search = filter.remove("search");
     if (search != null && search is String) {
       conditions.add("content LIKE ? ESCAPE '\\'");
-      params.add("%${search.replaceAll("%", "\%")}%");
+      params.add("%${search.replaceAll("%", "%")}%");
     }
 
     List<String> tagQueryConditions = [];
@@ -319,7 +316,7 @@ class RelayLocalDB with LaterFunction {
       if (k != "limit") {
         for (var vItem in v) {
           tagQueryConditions.add("tags LIKE ? ESCAPE '\\'");
-          tagQuery.add("${k.replaceFirst("#", "")}\",\"${vItem}");
+          tagQuery.add("${k.replaceFirst("#", "")}\",\"$vItem");
         }
       }
     }
@@ -329,7 +326,7 @@ class RelayLocalDB with LaterFunction {
       conditions.add(tagQueryConditions[0]);
     }
     for (var tagValue in tagQuery) {
-      params.add("%${tagValue.replaceAll("%", "\%")}%");
+      params.add("%${tagValue.replaceAll("%", "%")}%");
     }
 
     if (conditions.isEmpty) {
@@ -353,15 +350,11 @@ class RelayLocalDB with LaterFunction {
           " SELECT id, pubkey, created_at, kind, tags, content, sig, sources FROM event WHERE ${conditions.join(" AND ")} ORDER BY created_at DESC LIMIT ?";
     }
 
-    // print("sql ${query}");
-    // print("params ${jsonEncode(params)}");
-
     return query;
   }
 
   Future<List<Map<String, Object?>>> queryEventByPubkey(String pubkey,
       {List<int>? eventKinds}) async {
-    // print("queryEventByPubkey $pubkey $eventKinds");
     String kindsStr = "";
     if (eventKinds != null && eventKinds.isNotEmpty) {
       var length = eventKinds.length;

@@ -10,6 +10,7 @@ class EnumSelectorWidget extends StatelessWidget {
   Widget Function(BuildContext, EnumObj)? enumItemBuild;
 
   EnumSelectorWidget({
+    super.key, 
     required this.list,
     this.enumItemBuild,
   });
@@ -18,7 +19,7 @@ class EnumSelectorWidget extends StatelessWidget {
     return await showDialog<EnumObj?>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return EnumSelectorWidget(
           list: list,
         );
@@ -48,13 +49,13 @@ class EnumSelectorWidget extends StatelessWidget {
     Widget main = Container(
       width: double.infinity,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
         color: cardColor,
       ),
       constraints: BoxConstraints(
@@ -81,8 +82,8 @@ class EnumSelectorWidget extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -108,6 +109,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
   Color? color;
 
   EnumSelectorItemWidget({
+    super.key, 
     required this.enumObj,
     this.isLast = false,
     this.onTap,
@@ -121,7 +123,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
 
     Widget main = Container(
       padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING + 5, right: Base.BASE_PADDING + 5),
+          left: Base.basePadding + 5, right: Base.basePadding + 5),
       child: Text(enumObj.name),
     );
 

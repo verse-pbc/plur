@@ -1,17 +1,14 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:ui';
+import 'dart:developer' as developer;
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:nostrmo/util/image_tool.dart';
-import 'package:nostrmo/util/store_util.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../generated/l10n.dart';
 
@@ -218,11 +215,8 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
       try {
         _doSaveImage();
       } catch (e) {
-        print(e);
+        developer.log("saveImage error $e");
       }
-      // } else {
-      //   print("Permission not found");
-      // }
     } else {
       _doSaveImage(isPc: true);
     }

@@ -13,7 +13,7 @@ class ReactionEventListWidget extends StatefulWidget {
 
   String text;
 
-  ReactionEventListWidget({
+  ReactionEventListWidget({super.key, 
     required this.event,
     this.jumpable = true,
     required this.text,
@@ -31,10 +31,10 @@ class _ReactionEventListWidgetState extends State<ReactionEventListWidget> {
 
     var main = Container(
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       padding: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       child: ReactionEventItemWidget(
         pubkey: widget.event.pubkey,

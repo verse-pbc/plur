@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
-import '../../../component/cust_state.dart';
 import '../../../component/keep_alive_cust_state.dart';
 import '../../../component/placeholder/tap_list_placeholder.dart';
 import '../../../component/tag_widget.dart';
@@ -28,7 +27,7 @@ class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
     final themeData = Theme.of(context);
 
     if (topics.isEmpty) {
-      return TapListPlaceholder();
+      return const TapListPlaceholder();
     } else {
       List<Widget> list = [];
       for (var topic in topics) {
@@ -55,7 +54,7 @@ class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    var str = await DioUtil.getStr(Base.INDEXS_TOPICS);
+    var str = await DioUtil.getStr(Base.indexsTopics);
     if (StringUtil.isNotBlank(str)) {
       topics.clear();
       var itfs = jsonDecode(str!);
@@ -76,7 +75,7 @@ class _GlobalsTagsWidgetState extends KeepAliveCustState<GlobalsTagsWidget> {
   }
 
   int getRandomInt(int min, int max) {
-    final _random = new Random();
-    return _random.nextInt((max - min).floor()) + min;
+    final random = Random();
+    return random.nextInt((max - min).floor()) + min;
   }
 }

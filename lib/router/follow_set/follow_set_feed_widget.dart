@@ -1,10 +1,8 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar4stack.dart';
 import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +27,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   EventMemBox box = EventMemBox();
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   FollowSet? followSet;
 
@@ -163,7 +161,6 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
       return;
     }
 
-    // print("_doQuery");
     onEventFunc ??= onEvent;
 
     preQuery();

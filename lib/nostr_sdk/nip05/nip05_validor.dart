@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
 class Nip05Validor {
-  static Map<String, int> _checking = {};
+  static final Map<String, int> _checking = {};
 
   static var dio = Dio();
 
@@ -55,7 +56,7 @@ class Nip05Validor {
         }
       }
     } catch (e) {
-      print(e);
+      log("getPubkey error in nip05 validator: $e");
     }
 
     return null;

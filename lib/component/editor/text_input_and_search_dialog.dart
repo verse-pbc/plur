@@ -8,7 +8,6 @@ import '../../generated/l10n.dart';
 import '../../router/index/index_app_bar.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
-import 'search_mention_user_widget.dart';
 import 'text_input_dialog_inner_widget.dart';
 
 class TextInputAndSearchDialog extends StatefulWidget {
@@ -27,11 +26,14 @@ class TextInputAndSearchDialog extends StatefulWidget {
   TextInputAndSearchDialog(
     this.searchTabName,
     this.title,
-    this.searchWidget, {
-    this.hintText,
-    this.value,
-    this.valueCheck,
-  });
+    this.searchWidget, 
+    {
+      super.key, 
+      this.hintText,
+      this.value,
+      this.valueCheck,
+    }
+  );
 
   static Future<String?> show(BuildContext context, String searchTabName,
       String title, Widget searchWidget,
@@ -41,7 +43,7 @@ class TextInputAndSearchDialog extends StatefulWidget {
     return await showDialog<String>(
         context: context,
         useRootNavigator: false,
-        builder: (_context) {
+        builder: (context) {
           return TextInputAndSearchDialog(
             searchTabName,
             StringUtil.breakWord(title),
@@ -143,8 +145,8 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

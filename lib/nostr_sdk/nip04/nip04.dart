@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer' as developer;
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -38,11 +39,9 @@ class NIP04 {
         null);
     cipherCbc.init(true, paramsCbc);
 
-    // print(cipherCbc.algorithmName);
-
     var result = cipherCbc.process(Uint8List.fromList(utf8.encode(message)));
 
-    return base64.encode(result) + "?iv=" + base64.encode(ivData);
+    return "${base64.encode(result)}?iv=${base64.encode(ivData)}";
   }
 
   static String decrypt(
@@ -85,7 +84,7 @@ class NIP04 {
     try {
       y = liftX(x);
     } on Error {
-      print("error in handle pubkey");
+      developer.log("error in nip04 handle pubkey");
     }
     ECPoint endPoint = secp256k1.curve.createPoint(x, y!);
     return ECPublicKey(endPoint, secp256k1);
@@ -99,12 +98,12 @@ class NIP04 {
   // liftX returns Y for this X
   static BigInt liftX(BigInt x) {
     if (x >= curveP) {
-      throw new Error();
+      throw Error();
     }
     var ySq = (x.modPow(BigInt.from(3), curveP) + BigInt.from(7)) % curveP;
     var y = ySq.modPow((curveP + BigInt.one) ~/ BigInt.from(4), curveP);
     if (y.modPow(BigInt.two, curveP) != ySq) {
-      throw new Error();
+      throw Error();
     }
     return y % BigInt.two == BigInt.zero /* even */ ? y : curveP - y;
   }

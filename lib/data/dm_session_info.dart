@@ -28,13 +28,13 @@ class DMSessionInfo {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['key_index'] = this.keyIndex;
-    data['pubkey'] = this.pubkey;
-    data['readed_time'] = this.readedTime;
-    data['value1'] = this.value1;
-    data['value2'] = this.value2;
-    data['value3'] = this.value3;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['key_index'] = keyIndex;
+    data['pubkey'] = pubkey;
+    data['readed_time'] = readedTime;
+    data['value1'] = value1;
+    data['value2'] = value2;
+    data['value3'] = value3;
     return data;
   }
 }

@@ -63,8 +63,8 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       child: Text(
         relayInfo.name,
@@ -77,11 +77,11 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        bottom: Base.BASE_PADDING,
+        bottom: Base.basePadding,
       ),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: Text(relayInfo.description),
     ));
@@ -143,8 +143,8 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
     list.add(RelayInfoItemWidget(
       title: "NIPs",
       child: Wrap(
-        spacing: Base.BASE_PADDING,
-        runSpacing: Base.BASE_PADDING,
+        spacing: Base.basePadding,
+        runSpacing: Base.basePadding,
         children: nipWidgets,
       ),
     ));
@@ -286,7 +286,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
             var event = Event.fromJson(eventJson);
             events.add(event);
           } catch (e) {
-            log("importNotes error ${e}");
+            log("importNotes error $e");
           }
         }
       }
@@ -340,7 +340,7 @@ class RelayInfoItemWidget extends StatelessWidget {
 
   Widget child;
 
-  RelayInfoItemWidget({
+  RelayInfoItemWidget({super.key, 
     required this.title,
     required this.child,
   });
@@ -358,19 +358,19 @@ class RelayInfoItemWidget extends StatelessWidget {
 
     list.add(Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: child,
     ));
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       margin: const EdgeInsets.only(
-        bottom: Base.BASE_PADDING,
+        bottom: Base.basePadding,
       ),
       width: double.maxFinite,
       child: Column(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
@@ -22,10 +24,10 @@ class ZapGoalInputController {
   }
 
   bool checkInput(BuildContext context) {
-    print("goal input call");
+    log("goal input called");
     final localization = S.of(context);
     if (StringUtil.isBlank(goalAmountController.text)) {
-      print("checked is blank!");
+      log("checked input is blank!");
       BotToast.showText(text: localization.Input_can_not_be_null);
       return false;
     }
@@ -44,7 +46,7 @@ class ZapGoalInputController {
 class ZapGoalInputWidget extends StatefulWidget {
   ZapGoalInputController zapGoalInputController;
 
-  ZapGoalInputWidget({required this.zapGoalInputController});
+  ZapGoalInputWidget({super.key, required this.zapGoalInputController});
 
   @override
   State<StatefulWidget> createState() {
@@ -77,9 +79,9 @@ class _ZapGoalInputWidgetState extends State<ZapGoalInputWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       width: double.maxFinite,
       child: Column(

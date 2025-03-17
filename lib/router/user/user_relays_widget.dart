@@ -1,4 +1,3 @@
-import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
@@ -62,7 +61,7 @@ class _UserRelayWidgetState extends State<UserRelayWidget> {
       ),
       body: Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
         ),
         child: ListView.builder(
           itemBuilder: (context, index) {
@@ -134,7 +133,7 @@ class RelayMetadataWidget extends StatelessWidget {
       bottomWidget = Row(
         children: [
           Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             child: Text(
               localization.Read,
               style: TextStyle(
@@ -144,7 +143,7 @@ class RelayMetadataWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             child: Text(
               localization.Write,
               style: TextStyle(
@@ -159,9 +158,9 @@ class RelayMetadataWidget extends StatelessWidget {
 
     return Container(
       margin: const EdgeInsets.only(
-        bottom: Base.BASE_PADDING,
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        bottom: Base.basePadding,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
@@ -170,10 +169,10 @@ class RelayMetadataWidget extends StatelessWidget {
       ),
       child: Container(
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         decoration: BoxDecoration(
           color: cardColor,
@@ -191,7 +190,7 @@ class RelayMetadataWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 2),
+                    margin: const EdgeInsets.only(bottom: 2),
                     child: Text(relayAddr!),
                   ),
                   bottomWidget,

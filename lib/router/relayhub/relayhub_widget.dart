@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/placeholder/user_relay_placeholder.dart';
-import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +11,6 @@ import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/base.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/dio_util.dart';
-import '../../util/router_util.dart';
 import '../user/user_relays_widget.dart';
 
 class RelayhubWidget extends StatefulWidget {
@@ -52,7 +50,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
     } else {
       mainWidget = ListView.builder(
         itemBuilder: (context, index) {
-          return UserRelayPlaceholder();
+          return const UserRelayPlaceholder();
         },
         itemCount: 10,
       );
@@ -72,7 +70,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
           GestureDetector(
             onTap: testAllSpeed,
             child: Container(
-              padding: EdgeInsets.only(right: Base.BASE_PADDING),
+              padding: const EdgeInsets.only(right: Base.basePadding),
               child: Icon(
                 Icons.speed,
                 color: themeData.appBarTheme.titleTextStyle!.color,
@@ -83,7 +81,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
       ),
       body: Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
         ),
         child: mainWidget,
       ),
@@ -92,8 +90,7 @@ class _RelayhubWidgetState extends CustState<RelayhubWidget> {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    var str = await DioUtil.getStr(Base.INDEXS_RELAYS);
-    // print(str);
+    var str = await DioUtil.getStr(Base.indexsRelays);
     if (StringUtil.isNotBlank(str)) {
       addrs.clear();
       var itfs = jsonDecode(str!);

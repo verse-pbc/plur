@@ -10,6 +10,7 @@ import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
+import '../../util/theme_util.dart';
 
 /// A widget for user sign-up.
 ///
@@ -50,6 +51,16 @@ class _SignupWidgetState extends State<SignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
+    
+    // Save some colors for later
+    final themeData = Theme.of(context);
+    final customColors = themeData.customColors;
+    final dimmedColor = customColors.dimmedColor;
+    final buttonTextColor = customColors.buttonTextColor;
+    final accentColor = customColors.accentColor;
+    final primaryForegroundColor = customColors.primaryForegroundColor;
+    final appBgColor = customColors.appBgColor;
+
     final maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
     if (TableModeUtil.isTableMode()) {
@@ -81,7 +92,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           Text(
             localization.This_is_the_key_to_your_account,
             style: TextStyle(
-              color: ColorList.primaryForeground,
+              color: primaryForegroundColor,
               fontSize: 31.26,
               fontWeight: FontWeight.w700,
               letterSpacing: 1.8,
@@ -94,14 +105,11 @@ class _SignupWidgetState extends State<SignupWidget> {
       // Adds a fixed space.
       const SizedBox(height: 40),
 
-      // Displays the private key inside a styled container. The key is initially
-      // obscured and can be toggled visible using a button.
+      // Displays the private key inside a styled container. The key is
+      // initially obscured and can be toggled visible using a button.
       Container(
         decoration: BoxDecoration(
-          border: Border.all(
-            color: ColorList.dimmed,
-            width: 2,
-          ),
+          border: Border.all(color: dimmedColor, width: 2),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Column(
@@ -118,7 +126,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                   fontSize: 15.93,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.182,
-                  color: ColorList.dimmed,
+                  color: dimmedColor,
                 ),
               ),
             ),
@@ -131,12 +139,12 @@ class _SignupWidgetState extends State<SignupWidget> {
               },
               icon: Icon(
                 _isTextObscured ? Icons.visibility : Icons.visibility_off,
-                color: ColorList.dimmed,
+                color: dimmedColor,
               ),
               label: Text(
                 localization.view_key,
                 style: TextStyle(
-                  color: ColorList.dimmed,
+                  color: dimmedColor,
                   fontSize: 15.93,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.182,
@@ -155,10 +163,10 @@ class _SignupWidgetState extends State<SignupWidget> {
       // flex container.
       Expanded(flex: 2, child: Container()),
 
-      // Adds a checkbox list tile for user acknowledgment. The user must confirm
-      // they understand the risks of sharing their private key before proceeding.
+      // Adds a checkbox list tile for user acknowledgment. The user must
+      // confirm they understand the risks of sharing their private key before
+      // proceeding.
       // This enables the "Copy & Continue" button.
-
       ListTileTheme(
         data: const ListTileThemeData(
           titleAlignment: ListTileTitleAlignment.top,
@@ -171,7 +179,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             style: TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w400,
-              color: ColorList.primaryForeground,
+              color: primaryForegroundColor,
               letterSpacing: 0.7,
               height: kTextHeightNone,
             ),
@@ -182,8 +190,8 @@ class _SignupWidgetState extends State<SignupWidget> {
               _isDoneButtonEnabled = value!;
             });
           },
-          activeColor: ColorList.accent,
-          side: BorderSide(color: ColorList.dimmed, width: 2),
+          activeColor: accentColor,
+          side: BorderSide(color: dimmedColor, width: 2),
           controlAffinity: ListTileControlAffinity.leading,
           dense: true,
           visualDensity: VisualDensity.compact,
@@ -202,10 +210,10 @@ class _SignupWidgetState extends State<SignupWidget> {
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.zero,
             ),
-            backgroundColor: ColorList.accent,
-            disabledBackgroundColor: ColorList.accent.withOpacity(0.4),
-            foregroundColor: ColorList.buttonText,
-            disabledForegroundColor: ColorList.buttonText.withOpacity(0.4),
+            backgroundColor: accentColor,
+            disabledBackgroundColor: accentColor.withOpacity(0.4),
+            foregroundColor: buttonTextColor,
+            disabledForegroundColor: buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
             localization.Copy_and_Continue,
@@ -224,7 +232,7 @@ class _SignupWidgetState extends State<SignupWidget> {
 
     return Scaffold(
       // Sets the background color for the login screen.
-      backgroundColor: ColorList.loginBG,
+      backgroundColor: appBgColor,
       body: SizedBox(
         // Expands to the full width of the screen.
         width: double.maxFinite,
@@ -241,7 +249,7 @@ class _SignupWidgetState extends State<SignupWidget> {
               // Adds padding to the content to ensure spacing on the sides.
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Base.BASE_PADDING * 2,
+                  horizontal: Base.basePadding * 2,
                 ),
                 // Column that holds the main content of the screen.
                 child: Column(

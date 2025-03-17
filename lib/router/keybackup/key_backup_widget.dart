@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
+import 'dart:developer';
 
 import '../../component/appbar4stack.dart';
 import '../../generated/l10n.dart';
@@ -54,10 +55,10 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
 
     List<Widget> list = [];
     list.add(Container(
-      margin: EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Text(
         localization.Backup_and_Safety_tips,
-        style: TextStyle(
+        style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,
         ),
@@ -65,7 +66,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Text(
         localization.The_key_is_a_random_string_that_resembles_,
       ),
@@ -76,7 +77,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     }
 
     list.add(Container(
-      margin: EdgeInsets.all(Base.BASE_PADDING),
+      margin: const EdgeInsets.all(Base.basePadding),
       child: InkWell(
         onTap: copyKey,
         child: Container(
@@ -116,7 +117,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
             child: Container(
               color: cardColor,
               child: Center(
-                child: Container(
+                child: SizedBox(
                   width: mediaDataCache.size.width * 0.8,
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -128,7 +129,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
           ),
           Positioned(
             top: mediaDataCache.padding.top,
-            child: Container(
+            child: SizedBox(
               width: mediaDataCache.size.width,
               child: appBar,
             ),
@@ -162,7 +163,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
         ],
       ),
       onTap: () {
-        print(item.name);
+        log(item.name);
         setState(() {
           item.value = !item.value;
         });

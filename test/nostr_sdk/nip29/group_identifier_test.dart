@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../../../lib/nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostrmo/nostr_sdk/nip29/group_identifier.dart';
 
 void main() {
   group('GroupIdentifier', () {
