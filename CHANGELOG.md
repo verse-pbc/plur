@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal Changes
 - Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Moved fastlane scripts from `ios/fastlane/` to `fastlane/` [#104](https://github.com/verse-pbc/plur/pull/104)
 
 ## [0.0.3]
 
