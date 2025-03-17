@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal Changes
 - Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
+- Updated linting in CI to be more intelligent in comparison [65](https://github.com/verse-pbc/issues/issues/65).
 
 ## [0.0.3]
 
@@ -82,5 +84,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where video content was crashing the app. [#174](https://github.com/verse-pbc/issues/issues/174)
 - Simplified imports of nostr_sdk. [#88](https://github.com/verse-pbc/issues/issues/88)
 - Fixed an issue causing tests to fail. [#223](https://github.com/verse-pbc/issues/issues/223)
-- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
-- Updated linting in CI to be more intelligent in comparison [65](https://github.com/verse-pbc/issues/issues/65).
