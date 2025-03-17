@@ -4,9 +4,9 @@ import 'package:nostrmo/component/placeholder/metadata_placeholder.dart';
 class MetadataListPlaceholder extends StatelessWidget {
   Function? onRefresh;
 
-  MetadataListPlaceholder({this.onRefresh});
+  MetadataListPlaceholder({super.key, this.onRefresh});
 
-  ScrollController _controller = ScrollController();
+  final ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class MetadataListPlaceholder extends StatelessWidget {
         },
         child: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return MetadataPlaceholder();
+            return const MetadataPlaceholder();
           },
           itemCount: 10,
         ),

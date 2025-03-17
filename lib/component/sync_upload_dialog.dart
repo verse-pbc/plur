@@ -15,7 +15,7 @@ import '../util/theme_util.dart';
 class SyncUploadDialog extends StatefulWidget {
   List<Event> events;
 
-  SyncUploadDialog({required this.events});
+  SyncUploadDialog({super.key, required this.events});
 
   static Future<void> show(BuildContext context, List<Event> events) async {
     await showDialog(
@@ -36,7 +36,7 @@ class SyncUploadDialog extends StatefulWidget {
 }
 
 class _SyncUploadDialog extends State<SyncUploadDialog> {
-  Map<String, bool?> _relaySelected = {};
+  final Map<String, bool?> _relaySelected = {};
 
   int sendInterval = 10;
 
@@ -49,7 +49,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     Color cardColor = themeData.cardColor;
     var hintColor = themeData.hintColor;
 
-    var _relayProvider = Provider.of<RelayProvider>(context);
+    var relayProvider = Provider.of<RelayProvider>(context);
 
     List<Widget> list = [];
     list.add(Text(
@@ -61,14 +61,14 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     list.add(Container(
-      margin: EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Row(
         children: [
           Text("${localization.Upload_num}: ${widget.events.length}"),
           Container(
-            margin: EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING_HALF,
+            margin: const EdgeInsets.only(
+              left: Base.basePadding,
+              right: Base.basePaddingHalf,
             ),
             child: Text("${localization.Send_interval}: "),
           ),
@@ -102,11 +102,11 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     List<Widget> subList = [];
-    List<String> addrs = []
-      ..add(RelayLocal.URL)
-      ..addAll(_relayProvider.relayAddrs);
+    List<String> addrs = [RelayLocal.URL, ...relayProvider.relayAddrs]
+      
+      ;
     for (var relayAddr in addrs) {
-      var relayStatus = _relayProvider.relayStatusMap[relayAddr];
+      var relayStatus = relayProvider.relayStatusMap[relayAddr];
       if (relayStatus == null) {
         if (relayAddr == RelayLocal.URL) {
           subList.add(SyncUploadItem(
@@ -119,21 +119,21 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
           relayAddr, _relaySelected[relayAddr] == true, onItemTap));
     }
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Text(localization.Select_relay_to_upload),
     ));
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: Wrap(
-        spacing: Base.BASE_PADDING_HALF,
-        runSpacing: Base.BASE_PADDING_HALF,
+        spacing: Base.basePaddingHalf,
+        runSpacing: Base.basePaddingHalf,
         children: subList,
       ),
     ));
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING * 2,
+        top: Base.basePadding * 2,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -183,8 +183,8 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -260,7 +260,7 @@ class SyncUploadItem extends StatefulWidget {
 
   Function(String, bool) onTap;
 
-  SyncUploadItem(this.addr, this.check, this.onTap);
+  SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -281,10 +281,10 @@ class _SyncUploadItem extends State<SyncUploadItem> {
       },
       child: Container(
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          left: Base.basePadding,
+          right: Base.basePadding,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
           color: widget.check ? mainColor.withOpacity(0.2) : null,
@@ -292,7 +292,7 @@ class _SyncUploadItem extends State<SyncUploadItem> {
             width: 1,
             color: hintColor.withOpacity(0.5),
           ),
-          borderRadius: BorderRadius.circular(Base.BASE_PADDING_HALF),
+          borderRadius: BorderRadius.circular(Base.basePaddingHalf),
         ),
         child: Text(widget.addr),
       ),

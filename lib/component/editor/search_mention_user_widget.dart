@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
@@ -6,10 +5,8 @@ import 'package:nostrmo/component/user/user_pic_widget.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
-import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/router_util.dart';
-import '../image_widget.dart';
 import 'search_mention_widget.dart';
 
 class SearchMentionUserWidget extends StatefulWidget {
@@ -27,7 +24,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
 
   @override
   Widget build(BuildContext context) {
-    var contentWidth = mediaDataCache.size.width - 4 * Base.BASE_PADDING;
+    var contentWidth = mediaDataCache.size.width - 4 * Base.basePadding;
     itemWidth = (contentWidth - 10) / 2;
 
     return SearchMentionWidget(
@@ -48,8 +45,8 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         child: SizedBox(
           width: itemWidth * 2 + 10,
@@ -87,6 +84,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
   double width;
 
   SearchMentionUserItemWidget({
+    super.key, 
     required this.metadata,
     required this.width,
   });
@@ -114,7 +112,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
     var main = Container(
       width: width,
       color: cardColor,
-      padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.basePaddingHalf),
       child: Row(
         children: [
           UserPicWidget(
@@ -124,7 +122,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+              padding: const EdgeInsets.only(left: Base.basePaddingHalf),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

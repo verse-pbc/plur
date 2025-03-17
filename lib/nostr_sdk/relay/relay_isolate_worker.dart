@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:isolate';
-
+import 'dart:developer';
 import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -43,18 +43,13 @@ class RelayIsolateWorker {
         }
       } else if (message is int) {
         // this is const msg.
-        // print("msg is $message ${config.url}");
         if (message == RelayIsolateMsgs.CONNECT) {
-          // print("${config.url} worker receive connect command");
           // receive the connect command!
           if (wsChannel == null || wsChannel!.closeCode != null) {
             // the websocket is close, close again and try to connect.
             _closeWS(wsChannel);
-            // print("${config.url} worker connect again");
             wsChannel = await handleWS();
           } else {
-            // print("${config.url} worker send ping");
-            // wsChannel!.sink.add("ping");
             // TODO the websocket is connected, try to check or reconnect.
           }
         } else if (message == RelayIsolateMsgs.DIS_CONNECT) {
@@ -80,7 +75,7 @@ class RelayIsolateWorker {
 
     final wsUrl = Uri.parse(url);
     try {
-      print("Begin to connect ${config.url}");
+      log("Begin to connect ${config.url}");
       wsChannel = WebSocketChannel.connect(wsUrl);
       wsChannel!.stream.listen((message) {
         List<dynamic> json = jsonDecode(message);
@@ -99,16 +94,16 @@ class RelayIsolateWorker {
         }
         subToMainSendPort.send(json);
       }, onError: (error) async {
-        print("Websocket stream error:  $url");
+        log("Websocket stream for $url error: $error");
         _closeWS(wsChannel);
         subToMainSendPort.send(RelayIsolateMsgs.DIS_CONNECTED);
       }, onDone: () {
-        print("Websocket stream closed by remote:  $url");
+        log("Websocket stream closed by remote $url");
         _closeWS(wsChannel);
         subToMainSendPort.send(RelayIsolateMsgs.DIS_CONNECTED);
       });
       await wsChannel!.ready;
-      print("Connect complete! ${config.url}");
+      log("Connect complete! ${config.url}");
       subToMainSendPort.send(RelayIsolateMsgs.CONNECTED);
 
       return wsChannel;
@@ -128,7 +123,7 @@ class RelayIsolateWorker {
     try {
       wsChannel.sink.close();
     } catch (e) {
-      print("ws close error ${e.toString()}");
+      log("ws close error: $e");
     }
 
     wsChannel = null;

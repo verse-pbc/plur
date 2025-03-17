@@ -11,9 +11,7 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/component/music/wavlake/wavlake_track_music_info_builder.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
@@ -23,7 +21,6 @@ import '../event/event_quote_widget.dart';
 import '../link_router_util.dart';
 import '../music/blank_link_music_info_builder.dart';
 import '../music/wavlake/wavlake_album_music_info_builder.dart';
-import '../webview_widget.dart';
 import 'content_cashu_widget.dart';
 import 'content_custom_emoji_widget.dart';
 import 'content_event_tag_infos.dart';
@@ -156,7 +153,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   TextStyle? mdh4Style;
 
-  TextStyle boldStyle = TextStyle(
+  TextStyle boldStyle = const TextStyle(
     fontWeight: FontWeight.w600,
   );
 
@@ -170,7 +167,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   TextStyle? highlightStyle;
 
-  TextStyle boldAndItalicStyle = TextStyle(
+  TextStyle boldAndItalicStyle = const TextStyle(
     fontWeight: FontWeight.w600,
     fontStyle: FontStyle.italic,
   );
@@ -275,7 +272,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             alignment: Alignment.center,
             children: [
               Container(
-                decoration: BoxDecoration(),
+                decoration: const BoxDecoration(),
                 clipBehavior: Clip.hardEdge,
                 height: lineHeight * MAX_SHOW_LINE_NUM,
                 child: Wrap(
@@ -288,7 +285,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 right: 0,
                 child: Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(right: Base.BASE_PADDING),
+                  padding: const EdgeInsets.only(right: Base.basePadding),
                   height: 30,
                   color: themeData.cardColor.withOpacity(0.85),
                   child: Text(
@@ -432,7 +429,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               width: 4,
               height: fontSize + 5.5,
               color: hintColor,
-              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: const EdgeInsets.only(right: Base.basePadding),
             )));
             continue;
           } else if (j == 0 && str.startsWith("```")) {
@@ -458,7 +455,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               currentList.add(
                 WidgetSpan(
                   child: Container(
-                    padding: const EdgeInsets.all(Base.BASE_PADDING),
+                    padding: const EdgeInsets.all(Base.basePadding),
                     width: double.infinity,
                     decoration: BoxDecoration(color: codeBackgroundColor),
                     child: SelectableText(codeText),
@@ -520,7 +517,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
     closeLine(buffer, currentList, allList, images);
 
-    var main = Container(
+    var main = SizedBox(
       width: !widget.smallest ? double.infinity : null,
       // padding: EdgeInsets.only(bottom: 20),
       // color: Colors.red,
@@ -545,7 +542,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       for (var image in images) {
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
-            margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+            margin: const EdgeInsets.only(right: Base.basePaddingHalf),
             width: CONTENT_IMAGE_LIST_HEIGHT,
             height: CONTENT_IMAGE_LIST_HEIGHT,
             child: ContentImageWidget(
@@ -562,7 +559,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         index++;
       }
 
-      mainList.add(Container(
+      mainList.add(SizedBox(
         height: CONTENT_IMAGE_LIST_HEIGHT,
         width: double.infinity,
         child: CustomScrollView(

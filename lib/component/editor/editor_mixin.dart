@@ -17,7 +17,6 @@ import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/sendbox/sendbox.dart';
-import 'package:pointycastle/ecc/api.dart';
 import 'package:provider/provider.dart';
 import 'package:image/image.dart' as img;
 
@@ -27,7 +26,6 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
 import '../../router/index/index_app_bar.dart';
-import '../content/content_decoder.dart';
 import '../emoji_picker_widget.dart';
 import '../image_widget.dart';
 import '../zap/zap_split_icon_widget.dart';
@@ -70,10 +68,14 @@ mixin EditorMixin {
   String? getPubkey();
 
   // group arg
-  GroupIdentifier? getGroupIdentifier() {}
+  GroupIdentifier? getGroupIdentifier() {
+    return null;
+  }
 
   // group event kind
-  int? getGroupEventKind() {}
+  int? getGroupEventKind() {
+    return null;
+  }
 
   BuildContext getContext();
 
@@ -111,7 +113,9 @@ mixin EditorMixin {
             color: openPrivateDM ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        tooltip: openPrivateDM ? localization.Close_Private_DM : localization.Open_Private_DM,
+        tooltip: openPrivateDM
+            ? localization.Close_Private_DM
+            : localization.Open_Private_DM,
       ));
     }
     inputBtnList.add(quill.QuillToolbarIconButton(
@@ -148,7 +152,7 @@ mixin EditorMixin {
         ),
         quill.QuillToolbarIconButton(
           onPressed: emojiBeginToSelect,
-          icon: Icon(Icons.tag_faces),
+          icon: const Icon(Icons.tag_faces),
           isSelected: false,
           iconTheme: null,
           tooltip: localization.Emoji,
@@ -165,7 +169,7 @@ mixin EditorMixin {
       ),
       quill.QuillToolbarIconButton(
         onPressed: _inputMentionEvent,
-        icon: Icon(Icons.format_quote),
+        icon: const Icon(Icons.format_quote),
         isSelected: false,
         iconTheme: null,
         tooltip: localization.Quote,
@@ -174,7 +178,7 @@ mixin EditorMixin {
 
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: _inputTag,
-      icon: Icon(Icons.tag),
+      icon: const Icon(Icons.tag),
       isSelected: false,
       iconTheme: null,
       tooltip: localization.Hashtag,
@@ -182,7 +186,7 @@ mixin EditorMixin {
 
     inputBtnList.add(quill.QuillToolbarIconButton(
       onPressed: _inputLnbc,
-      icon: Icon(Icons.bolt),
+      icon: const Icon(Icons.bolt),
       isSelected: false,
       iconTheme: null,
       tooltip: localization.Lightning_Invoice,
@@ -255,7 +259,7 @@ mixin EditorMixin {
 
     inputBtnList.add(
       Container(
-        width: Base.BASE_PADDING,
+        width: Base.basePadding,
       ),
     );
 
@@ -268,7 +272,7 @@ mixin EditorMixin {
             ? [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),
-                  offset: Offset(0, -5),
+                  offset: const Offset(0, -5),
                   blurRadius: 10,
                   spreadRadius: 0,
                 ),
@@ -360,16 +364,16 @@ mixin EditorMixin {
   }
 
   Future<void> takeAPhoto() async {
-    ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickImage(source: ImageSource.camera);
+    ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
     if (photo != null) {
       _imageSubmitted(photo.path);
     }
   }
 
   Future<void> tackAVideo() async {
-    ImagePicker _picker = ImagePicker();
-    final XFile? photo = await _picker.pickVideo(source: ImageSource.camera);
+    ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickVideo(source: ImageSource.camera);
     if (photo != null) {
       _imageSubmitted(photo.path);
     }
@@ -413,7 +417,7 @@ mixin EditorMixin {
       context,
       localization.Search,
       localization.Please_input_user_pubkey,
-      SearchMentionUserWidget(),
+      const SearchMentionUserWidget(),
       hintText: localization.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {
@@ -443,7 +447,7 @@ mixin EditorMixin {
       context,
       S.of(context).Input_Sats_num,
       S.of(context).Please_input_lnbc_text,
-      GenLnbcWidget(),
+      const GenLnbcWidget(),
       hintText: "lnbc...",
     );
     if (StringUtil.isNotBlank(value)) {
@@ -553,11 +557,11 @@ mixin EditorMixin {
                       fileBytes = File(value).readAsBytesSync();
                     }
 
-                    print("begin to gen blurhash");
+                    log("begin to gen blurhash");
                     final image = img.decodeImage(fileBytes);
                     final blurHash =
                         BlurHash.encode(image!, numCompX: 4, numCompY: 3);
-                    print("blurhash $blurHash");
+                    log("blurhash $blurHash");
 
                     tagsAddedWhenSend.add([
                       "imeta",
@@ -566,8 +570,7 @@ mixin EditorMixin {
                       "dim ${image.width}x${image.height}"
                     ]);
                   } catch (e) {
-                    print("handle upload file NIP-92 info error:");
-                    print(e.toString());
+                    log('handle upload file NIP-92 info error: ${e.toString()}');
                   }
                 }
 
@@ -664,9 +667,6 @@ mixin EditorMixin {
       }
     }
     result = result.trim();
-    // log(result);
-    // print(tags);
-    // print(tagsAddWhenSend);
     if (StringUtil.isBlank(result)) {
       return null;
     }
@@ -800,7 +800,7 @@ mixin EditorMixin {
     log(jsonEncode(event.toJson()));
     if (groupIdentifier != null) {
       var groupRelays = [groupIdentifier.host];
-      print(groupRelays);
+      log("send group event to $groupRelays");
       event.sources.addAll(groupRelays);
       return nostr!
           .sendEvent(event, targetRelays: groupRelays, tempRelays: groupRelays);
@@ -866,7 +866,7 @@ mixin EditorMixin {
     if (!_lastIsSpace(result) && !_lastIsLineEnd(result)) {
       result += " ";
     }
-    result += value + " ";
+    result += "$value ";
     return result;
   }
 
@@ -874,7 +874,7 @@ mixin EditorMixin {
     if (!_lastIsLineEnd(result)) {
       result += "\n";
     }
-    result += value + "\n";
+    result += "$value\n";
     return result;
   }
 
@@ -968,7 +968,7 @@ mixin EditorMixin {
 
     return Container(
       height: 260,
-      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(left: Base.basePaddingHalf),
       width: double.infinity,
       child: Selector<ListProvider, Event?>(
         builder: (context, emojiEvent, child) {
@@ -996,7 +996,7 @@ mixin EditorMixin {
             onTap: () {
               WebViewWidget.open(context, "https://emojis-iota.vercel.app/");
             },
-            child: Container(
+            child: const SizedBox(
               width: 40,
               child: Icon(Icons.search),
             ),
@@ -1007,12 +1007,12 @@ mixin EditorMixin {
               child: Column(
                 children: [
                   SizedBox(
-                    height: Base.TABBAR_HEIGHT,
+                    height: Base.tabBarHeight,
                     child: Row(
                       children: [
                         Expanded(
                           child: SizedBox(
-                            height: Base.TABBAR_HEIGHT,
+                            height: Base.tabBarHeight,
                             child: TabBar(
                               tabs: tabBarList,
                               indicatorColor: mainColor,
@@ -1048,7 +1048,7 @@ mixin EditorMixin {
         onTap: () {
           addCustomEmoji();
         },
-        child: Container(
+        child: SizedBox(
           width: emojiBtnWidth,
           height: emojiBtnWidth,
           child: const Icon(
@@ -1077,15 +1077,15 @@ mixin EditorMixin {
 
     var main = SingleChildScrollView(
       child: Wrap(
-        runSpacing: Base.BASE_PADDING_HALF,
-        spacing: Base.BASE_PADDING_HALF,
+        runSpacing: Base.basePaddingHalf,
+        spacing: Base.basePaddingHalf,
         children: list,
       ),
     );
 
     return Container(
       height: 260,
-      padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.only(left: Base.basePaddingHalf),
       width: double.infinity,
       child: main,
     );
@@ -1117,8 +1117,8 @@ mixin EditorMixin {
     return Container(
       // color: Colors.red,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: AutoSizeTextField(
         maxLength: 80,
@@ -1156,8 +1156,7 @@ mixin EditorMixin {
         );
         longFormImage = fileUrl;
       } catch (e) {
-        print("image upload fail");
-        print(e);
+        log('image upload fail $e');
       } finally {
         cancelFunc();
       }
@@ -1166,7 +1165,7 @@ mixin EditorMixin {
   }
 
   Widget buildLongFormImageWidget() {
-    Widget main = Icon(Icons.image);
+    Widget main = const Icon(Icons.image);
 
     if (StringUtil.isBlank(longFormImage)) {
       main = GestureDetector(
@@ -1182,8 +1181,8 @@ mixin EditorMixin {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       alignment: Alignment.centerLeft,
       child: main,
@@ -1201,8 +1200,8 @@ mixin EditorMixin {
     return Container(
       // margin: EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: TextField(
         maxLines: 5,

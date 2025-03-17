@@ -25,19 +25,19 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
   @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
-    var _contactListProvider = Provider.of<ContactListProvider>(context);
+    var contactListProvider = Provider.of<ContactListProvider>(context);
 
     final themeData = Theme.of(context);
     var largeTextSize = themeData.textTheme.bodyLarge!.fontSize;
     var appbarColor = themeData.appBarTheme.titleTextStyle!.color;
 
-    var followSets = _contactListProvider.followSetMap.values;
+    var followSets = contactListProvider.followSetMap.values;
     var followSetList = followSets.toList();
     var main = ListView.builder(
       itemBuilder: (context, index) {
         var followSet = followSetList[index];
         return Container(
-          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
           child: GestureDetector(
             onTap: () {
               RouterUtil.router(context, RouterPath.FOLLOW_SET_FEED, followSet);
@@ -110,7 +110,7 @@ class FollowSetListItem extends StatelessWidget {
 
   Function listUIUpdate;
 
-  FollowSetListItem(this.followSet, this.listUIUpdate);
+  FollowSetListItem(this.followSet, this.listUIUpdate, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +119,10 @@ class FollowSetListItem extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       color: themeData.cardColor,
       child: Row(
@@ -134,12 +134,12 @@ class FollowSetListItem extends StatelessWidget {
                   context, RouterPath.FOLLOW_SET_DETAIL, followSet);
             },
             child: Container(
-              margin: EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: const EdgeInsets.only(right: Base.basePadding),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-                    child: Icon(Icons.people),
+                    margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+                    child: const Icon(Icons.people),
                   ),
                   Text(
                       "${followSet.privateContacts.length} / ${followSet.publicContacts.length}")
@@ -154,26 +154,26 @@ class FollowSetListItem extends StatelessWidget {
                 PopupMenuItem(
                   value: "editTitle",
                   child: Row(
-                    children: [Icon(Icons.edit), Text(" ${localization.Edit_name}")],
+                    children: [const Icon(Icons.edit), Text(" ${localization.Edit_name}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "edit",
                   child: Row(
-                    children: [Icon(Icons.people), Text(" ${localization.Edit}")],
+                    children: [const Icon(Icons.people), Text(" ${localization.Edit}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "delete",
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.delete,
                         color: Colors.red,
                       ),
                       Text(
                         " ${localization.Delete}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.red,
                         ),
                       ),
@@ -184,7 +184,7 @@ class FollowSetListItem extends StatelessWidget {
 
               return list;
             },
-            child: Icon(Icons.menu),
+            child: const Icon(Icons.menu),
             onSelected: (value) {
               onSelect(context, value);
             },

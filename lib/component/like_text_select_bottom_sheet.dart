@@ -1,15 +1,13 @@
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nostrmo/component/emoji_picker_widget.dart';
 
 import '../consts/base.dart';
-import '../generated/l10n.dart';
 import '../router/index/index_drawer_content.dart';
 import '../util/router_util.dart';
-import '../util/theme_util.dart';
 
 class LikeTextSelectBottomSheet extends StatefulWidget {
+  const LikeTextSelectBottomSheet({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return _LikeTextSelectBottomSheet();
@@ -25,8 +23,8 @@ class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
     List<Widget> list = [];
     list.add(Container(
       padding: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
         border: Border(

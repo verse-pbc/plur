@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../consts/base.dart';
@@ -10,13 +9,13 @@ import '../util/theme_util.dart';
 class ColorPickDialog extends StatelessWidget {
   Color? defaultColor;
 
-  ColorPickDialog(this.defaultColor);
+  ColorPickDialog(this.defaultColor, {super.key});
 
   static Future<Color?> show(BuildContext context, Color? color) async {
     return await showDialog<Color>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return ColorPickDialog(color);
       },
     );
@@ -43,7 +42,7 @@ class ColorPickDialog extends StatelessWidget {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
+        top: Base.basePadding,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -70,7 +69,7 @@ class ColorPickDialog extends StatelessWidget {
 
     Widget main = Container(
       color: themeData.cardColor,
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: list,
@@ -90,8 +89,8 @@ class ColorPickDialog extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

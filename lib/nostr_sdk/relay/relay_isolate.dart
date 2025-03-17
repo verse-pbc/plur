@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:isolate';
 
 import 'client_connected.dart';
@@ -107,9 +106,7 @@ class RelayIsolate extends Relay {
     receivePort.listen((message) {
       if (message is int) {
         // this is const msg.
-        // print("msg is $message $url");
         if (message == RelayIsolateMsgs.CONNECTED) {
-          // print("$url receive connected status!");
           relayStatus.connected = ClientConneccted.CONNECTED;
           if (relayStatusCallback != null) {
             relayStatusCallback!();

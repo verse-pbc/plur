@@ -96,7 +96,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
 
     if (addFunc != null) {
       list.add(Container(
-        margin: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(left: Base.basePaddingHalf),
         child: GestureDetector(
           onTap: () {
             addFunc();
@@ -109,7 +109,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
     return Container(
       margin: const EdgeInsets.only(
         left: 20,
-        top: Base.BASE_PADDING,
+        top: Base.basePadding,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -153,7 +153,7 @@ class GroupMemberItemWidget extends StatefulWidget {
 }
 
 class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
-  static double USER_PIC_WIDTH = 30;
+  static double userPicWidth = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -162,8 +162,8 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
 
     List<Widget> list = [];
     list.add(Container(
-      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-      child: UserPicWidget(pubkey: widget.pubkey, width: USER_PIC_WIDTH),
+      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+      child: UserPicWidget(pubkey: widget.pubkey, width: userPicWidth),
     ));
     list.add(NameWidget(pubkey: widget.pubkey));
 
@@ -174,8 +174,8 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
       list.add(Expanded(
         child: Container(
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
           ),
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
@@ -209,12 +209,12 @@ class _GroupMemberItemWidgetState extends State<GroupMemberItemWidget> {
       },
       child: Container(
         alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(top: Base.basePadding),
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          left: Base.basePadding,
+          right: Base.basePadding,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         color: cardColor,
         child: Row(

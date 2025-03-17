@@ -74,7 +74,7 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
 
     Widget userImageWidget = Container(
       margin: const EdgeInsets.only(
-        right: Base.BASE_PADDING,
+        right: Base.basePadding,
       ),
       child: UserPicWidget(
         pubkey: widget.pubkey,
@@ -90,7 +90,7 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
         color: cardColor.withOpacity(0.4),
       ),
       Container(
-        padding: const EdgeInsets.only(left: Base.BASE_PADDING),
+        padding: const EdgeInsets.only(left: Base.basePadding),
         child: Row(
           children: [
             userImageWidget,
@@ -105,7 +105,7 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
 
     if (widget.showFollow) {
       list.add(Positioned(
-        right: Base.BASE_PADDING,
+        right: Base.basePadding,
         child: FollowBtnWidget(
           pubkey: widget.pubkey,
           followedBorderColor: themeData.primaryColor,
@@ -113,7 +113,7 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
       ));
     }
 
-    return Container(
+    return SizedBox(
       height: HEIGHT,
       child: Stack(
         alignment: Alignment.center,

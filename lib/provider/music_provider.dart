@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:media_kit/media_kit.dart';
+import 'dart:developer';
 
 class MusicProvider extends ChangeNotifier {
   Player? _player;
@@ -8,7 +9,7 @@ class MusicProvider extends ChangeNotifier {
     if (_player == null) {
       _player = Player();
       init();
-    }    
+    }
     return _player!;
   }
 
@@ -40,14 +41,12 @@ class MusicProvider extends ChangeNotifier {
 
   Future<void> play(MusicInfo mi) async {
     try {
-      print(_musicInfo);
-      print(_musicInfo!.audioUrl);
-      print(mi.audioUrl);
+      log('music info: $_musicInfo');
     } catch (e) {}
 
     if (_musicInfo != null && mi.audioUrl == _musicInfo!.audioUrl) {
       player.seek(Duration.zero);
-      print("seek to zero and play again!");
+      log("seek to zero and play again!");
       return;
     }
 

@@ -14,11 +14,14 @@ class TextInputDialogInnerWidget extends StatefulWidget {
   bool Function(BuildContext, String)? valueCheck;
 
   TextInputDialogInnerWidget(
-    this.title, {
-    this.hintText,
-    this.value,
-    this.valueCheck,
-  });
+    this.title, 
+    {
+      super.key, 
+      this.hintText,
+      this.value,
+      this.valueCheck,
+    }
+  );
 
   @override
   State<StatefulWidget> createState() {
@@ -46,7 +49,7 @@ class _TextInputDialogInnerWidgetState
     List<Widget> list = [];
 
     list.add(Container(
-      margin: EdgeInsets.only(bottom: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(bottom: Base.basePadding),
       child: Text(
         widget.title,
         style: TextStyle(
@@ -68,7 +71,7 @@ class _TextInputDialogInnerWidgetState
     ));
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
@@ -80,7 +83,7 @@ class _TextInputDialogInnerWidgetState
             alignment: Alignment.center,
             child: Text(
               S.of(context).Confirm,
-              style: TextStyle(
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
@@ -91,7 +94,7 @@ class _TextInputDialogInnerWidgetState
     ));
 
     var main = Container(
-      padding: EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
         color: cardColor,
       ),

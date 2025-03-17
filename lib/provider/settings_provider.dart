@@ -19,9 +19,9 @@ class SettingsProvider extends ChangeNotifier {
 
   SettingData? _settingData;
 
-  Map<String, String> _privateKeyMap = {};
+  final Map<String, String> _privateKeyMap = {};
 
-  Map<String, String> _nwcUrlMap = {};
+  final Map<String, String> _nwcUrlMap = {};
 
   static Future<SettingsProvider> getInstance() async {
     if (_settingsProvider == null) {
@@ -34,7 +34,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    String? settingStr = _sharedPreferences!.getString(DataKey.SETTING);
+    String? settingStr = _sharedPreferences!.getString(DataKey.setting);
     if (StringUtil.isNotBlank(settingStr)) {
       var jsonMap = json.decode(settingStr!);
       if (jsonMap != null) {
@@ -48,12 +48,12 @@ class SettingsProvider extends ChangeNotifier {
         try {
           if (StringUtil.isNotBlank(privateKeyMapText)) {
             privateKeyMapText = EncryptUtil.aesDecrypt(
-                privateKeyMapText!, Base.KEY_EKEY, Base.KEY_IV);
+                privateKeyMapText!, Base.keyEKey, Base.keyIV);
           } else if (StringUtil.isNotBlank(_settingData!.privateKeyMap) &&
               StringUtil.isBlank(_settingData!.encryptPrivateKeyMap)) {
             privateKeyMapText = _settingData!.privateKeyMap;
             _settingData!.encryptPrivateKeyMap = EncryptUtil.aesEncrypt(
-                _settingData!.privateKeyMap!, Base.KEY_EKEY, Base.KEY_IV);
+                _settingData!.privateKeyMap!, Base.keyEKey, Base.keyIV);
             _settingData!.privateKeyMap = null;
           }
         } catch (e) {
@@ -79,7 +79,7 @@ class SettingsProvider extends ChangeNotifier {
         if (StringUtil.isNotBlank(nwcUrlMap)) {
           try {
             nwcUrlMap =
-                EncryptUtil.aesDecrypt(nwcUrlMap!, Base.KEY_EKEY, Base.KEY_IV);
+                EncryptUtil.aesDecrypt(nwcUrlMap!, Base.keyEKey, Base.keyIV);
             var jsonKeyMap = jsonDecode(nwcUrlMap);
             if (jsonKeyMap != null) {
               for (var entry in (jsonKeyMap as Map<String, dynamic>).entries) {
@@ -132,8 +132,8 @@ class SettingsProvider extends ChangeNotifier {
 
     for (var i = 0; i < 20; i++) {
       var index = i.toString();
-      var _pk = _privateKeyMap[index];
-      if (_pk == null) {
+      var pk0 = _privateKeyMap[index];
+      if (pk0 == null) {
         _privateKeyMap[index] = pk;
 
         _settingData!.privateKeyIndex = i;
@@ -152,7 +152,7 @@ class SettingsProvider extends ChangeNotifier {
   void _encodePrivateKeyMap() {
     var privateKeyMap = json.encode(_privateKeyMap);
     _settingData!.encryptPrivateKeyMap =
-        EncryptUtil.aesEncrypt(privateKeyMap, Base.KEY_EKEY, Base.KEY_IV);
+        EncryptUtil.aesEncrypt(privateKeyMap, Base.keyEKey, Base.keyIV);
   }
 
   void removeKey(int index) {
@@ -197,7 +197,7 @@ class SettingsProvider extends ChangeNotifier {
   void _encodeNwcUrlMap() {
     var nwcUrlMap = json.encode(_nwcUrlMap);
     _settingData!.nwcUrlMap =
-        EncryptUtil.aesEncrypt(nwcUrlMap, Base.KEY_EKEY, Base.KEY_IV);
+        EncryptUtil.aesEncrypt(nwcUrlMap, Base.keyEKey, Base.keyIV);
   }
 
   SettingData get settingData => _settingData!;
@@ -260,18 +260,19 @@ class SettingsProvider extends ChangeNotifier {
 
   int? get openTranslate => _settingData!.openTranslate;
 
-  static const ALL_SUPPORT_LANGUAGES =
+  static const allSupportLanguages =
       "af,sq,ar,be,bn,bg,ca,zh,hr,cs,da,nl,en,eo,et,fi,fr,gl,ka,de,el,gu,ht,he,hi,hu,is,id,ga,it,ja,kn,ko,lv,lt,mk,ms,mt,mr,no,fa,pl,pt,ro,ru,sk,sl,es,sw,sv,tl,ta,te,th,tr,uk,ur,vi,cy";
 
   String? get translateSourceArgs {
     if (StringUtil.isNotBlank(_settingData!.translateSourceArgs)) {
       return _settingData!.translateSourceArgs!;
     }
+    return null;
   }
 
   String? get translateTarget => _settingData!.translateTarget;
 
-  Map<String, int> _translateSourceArgsMap = {};
+  final Map<String, int> _translateSourceArgsMap = {};
 
   void _reloadTranslateSourceArgs() {
     _translateSourceArgsMap.clear();
@@ -296,8 +297,8 @@ class SettingsProvider extends ChangeNotifier {
   double get fontSize =>
       _settingData!.fontSize ??
       (TableModeUtil.isTableMode()
-          ? Base.BASE_FONT_SIZE_PC
-          : Base.BASE_FONT_SIZE);
+          ? Base.baseFontSizePC
+          : Base.baseFontSize);
 
   int get webviewAppbarOpen => _settingData!.webviewAppbarOpen;
 
@@ -452,8 +453,8 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   /// fontFamily
-  set fontFamily(String? _fontFamily) {
-    _settingData!.fontFamily = _fontFamily;
+  set fontFamily(String? fontFamily) {
+    _settingData!.fontFamily = fontFamily;
     saveAndNotifyListeners();
   }
 
@@ -546,8 +547,7 @@ class SettingsProvider extends ChangeNotifier {
     _settingData!.updatedTime = DateTime.now().millisecondsSinceEpoch;
     var m = _settingData!.toJson();
     var jsonStr = json.encode(m);
-    // print(jsonStr);
-    await _sharedPreferences!.setString(DataKey.SETTING, jsonStr);
+    await _sharedPreferences!.setString(DataKey.setting, jsonStr);
     _settingsProvider!._reloadTranslateSourceArgs();
 
     if (updateUI) {

@@ -24,7 +24,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
     var mainColor = themeData.primaryColor;
     var bgColor = themeData.scaffoldBackgroundColor;
 
-    return Container(
+    return SizedBox(
       height: 260,
       child: EmojiPicker(
         onEmojiSelected: (Category? category, Emoji emoji) {
@@ -66,7 +66,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
                   child: Row(
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+                        margin: const EdgeInsets.only(left: Base.basePadding),
                         height: 40,
                         child: Icon(
                           Icons.search,

@@ -17,14 +17,15 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
       _needUpdatePubKeys.add(pubkey);
     }
     later(_laterCallback);
+    return null;
   }
 
-  Map<String, int> _handingPubkeys = {};
+  final Map<String, int> _handingPubkeys = {};
 
-  List<String> _needUpdatePubKeys = [];
+  final List<String> _needUpdatePubKeys = [];
 
   // one user contains multi bedge defintion, here may not works
-  List<Event> _penddingEvents = [];
+  final List<Event> _penddingEvents = [];
 
   void _laterCallback() {
     if (_needUpdatePubKeys.isNotEmpty) {

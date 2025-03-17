@@ -4,11 +4,11 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import '../main.dart';
 
 class ReplaceableEventProvider extends ChangeNotifier with LaterFunction {
-  Map<String, Event> _eventsMap = {};
+  final Map<String, Event> _eventsMap = {};
 
-  Map<String, AId> _needUpdateIds = {};
+  final Map<String, AId> _needUpdateIds = {};
 
-  Map<String, AId> _handingIds = {};
+  final Map<String, AId> _handingIds = {};
 
   Event? getEvent(AId aId) {
     var aIdStr = aId.toAString();

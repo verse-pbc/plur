@@ -25,7 +25,7 @@ class LightningQrcodeDialog extends StatefulWidget {
     return await showDialog<bool>(
       context: context,
       useRootNavigator: false,
-      builder: (_context) {
+      builder: (context) {
         return LightningQrcodeDialog(
           text: text,
           title: title,
@@ -61,10 +61,10 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
     }
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
-        left: Base.BASE_PADDING_HALF,
-        right: Base.BASE_PADDING_HALF,
+        top: Base.basePadding,
+        bottom: Base.basePadding,
+        left: Base.basePaddingHalf,
+        right: Base.basePaddingHalf,
       ),
       child: PrettyQr(
         data: widget.text,
@@ -76,11 +76,11 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
         _doCopy(widget.text);
       },
       child: Container(
-        padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
+        padding: const EdgeInsets.all(Base.basePaddingHalf),
         margin: const EdgeInsets.only(
           left: 20,
           right: 20,
-          bottom: Base.BASE_PADDING_HALF,
+          bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
           color: hintColor.withOpacity(0.5),
@@ -124,8 +124,8 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

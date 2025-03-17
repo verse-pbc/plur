@@ -3,7 +3,6 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/colors_util.dart';
 
 import '../../consts/base.dart';
-import '../../generated/l10n.dart';
 import '../../util/cashu_util.dart';
 
 class ContentCashuWidget extends StatelessWidget {
@@ -25,8 +24,8 @@ class ContentCashuWidget extends StatelessWidget {
     double largeFontSize = 20;
 
     return Container(
-      margin: const EdgeInsets.all(Base.BASE_PADDING),
-      padding: const EdgeInsets.all(Base.BASE_PADDING * 2),
+      margin: const EdgeInsets.all(Base.basePadding),
+      padding: const EdgeInsets.all(Base.basePadding * 2),
       decoration: BoxDecoration(
         color: cardColor,
         boxShadow: [
@@ -41,13 +40,13 @@ class ContentCashuWidget extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               bottom: 15,
             ),
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: Base.BASE_PADDING),
+                  margin: const EdgeInsets.only(right: Base.basePadding),
                   child: Image.asset(
                     "assets/imgs/cashu_logo.png",
                     width: 50,
@@ -61,7 +60,7 @@ class ContentCashuWidget extends StatelessWidget {
                       children: [
                         Container(
                           margin:
-                              const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+                              const EdgeInsets.only(right: Base.basePaddingHalf),
                           child: Text(
                             tokens.totalAmount().toString(),
                             style: TextStyle(
@@ -80,7 +79,7 @@ class ContentCashuWidget extends StatelessWidget {
                       ],
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 4),
+                      margin: const EdgeInsets.only(top: 4),
                       child: Text(
                         tokens.memo != null ? tokens.memo! : "",
                         style: TextStyle(color: hintColor),
@@ -91,7 +90,7 @@ class ContentCashuWidget extends StatelessWidget {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: double.maxFinite,
             child: InkWell(
               onTap: () async {
@@ -102,7 +101,7 @@ class ContentCashuWidget extends StatelessWidget {
                 color: ColorsUtil.hexToColor("#dcc099"),
                 height: 42,
                 alignment: Alignment.center,
-                child: Text(
+                child: const Text(
                   "Claim",
                   style: TextStyle(
                     color: Colors.white,
