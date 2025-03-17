@@ -9,6 +9,8 @@ import '../../../generated/l10n.dart';
 import '../../../component/appbar_bottom_border.dart';
 import 'group_member_item_widget.dart';
 import '../../../consts/base.dart';
+
+/// Displays a list of members of a group.
 class GroupMembersWidget extends StatefulWidget {
   const GroupMembersWidget({super.key});
 

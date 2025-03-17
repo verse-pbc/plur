@@ -4,6 +4,7 @@ import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../../../component/group/group_avatar_widget.dart';
 
+/// Displays the header of the group info screen.
 class GroupInfoHeaderWidget extends StatelessWidget {
   final GroupMetadata metadata;
   final int memberCount;
