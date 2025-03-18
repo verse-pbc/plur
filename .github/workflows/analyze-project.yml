@@ -48,10 +48,17 @@ jobs:
       - name: Lint the project
         run: flutter analyze --no-fatal-infos --no-fatal-warnings --write=lints.txt
 
+      - name: Set sanitized branch name
+        id: sanitize
+        run: |
+          BRANCH="${{ matrix.branch }}"
+          SANITIZED_BRANCH="${BRANCH//\//-}"
+          echo "branch=$SANITIZED_BRANCH" >> $GITHUB_OUTPUT
+
       - name: Upload lints artifact
         uses: actions/upload-artifact@v4
         with:
-          name: lints-${{ matrix.branch }}.txt
+          name: lints-${{ steps.sanitize.outputs.branch }}.txt
           path: lints.txt
           overwrite: true
 
