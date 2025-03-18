@@ -37,7 +37,6 @@ class RelayIsolateWorker {
   void onMainToSubMessage(message) async {
     try {
       if (message is String) {
-        // this is the msg need to sended.
         if (wsChannel != null) {
           wsChannel!.sink.add(message);
         }

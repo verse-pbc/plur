@@ -5,7 +5,7 @@ import '../../main.dart';
 import 'thread_detail_event.dart';
 
 mixin ThreadRouterHelper<T extends StatefulWidget>
-    on State<T>, WhenStopFunction, PenddingEventsLaterFunction {
+    on State<T>, WhenStopFunction, PendingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
   GlobalKey sourceEventKey = GlobalKey();
