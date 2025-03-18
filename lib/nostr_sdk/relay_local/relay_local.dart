@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:logging/logging.dart';
 import '../relay/client_connected.dart';
 import '../relay/relay.dart';
 import '../relay/relay_info.dart';
@@ -23,6 +25,11 @@ class RelayLocal extends Relay with RelayLocalMixin {
   }
 
   void broadcaseToLocal(Map<String, dynamic> event) {
+    log(
+      "Broadcasting event to local relay...\n\nevent.toString()",
+      level: Level.FINEST.value,
+      name: "RelayLocal",
+    );
     relayLocalDB.addEvent(event);
   }
 
