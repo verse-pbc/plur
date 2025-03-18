@@ -98,8 +98,8 @@ class RelayIsolate extends Relay {
             relayStatus.connected == ClientConneccted.CONNECTED)) {
       final encoded = jsonEncode(message);
       log(
-        "Sending message to $url...\n\n$encoded", 
-        level: Level.FINEST.value, 
+        "Sending message to $url...\n\n$encoded",
+        level: Level.FINEST.value,
         name: "RelayIsolate",
       );
       mainToSubSendPort!.send(encoded);
