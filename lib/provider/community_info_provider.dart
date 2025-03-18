@@ -10,7 +10,7 @@ class CommunityInfoProvider extends ChangeNotifier with LaterFunction {
 
   final List<String> _needPullIds = [];
 
-  final List<Event> _penddingEvents = [];
+  final List<Event> _pendingEvents = [];
 
   CommunityInfo? getCommunity(String aid) {
     var ci = _cache[aid];
@@ -32,8 +32,8 @@ class CommunityInfoProvider extends ChangeNotifier with LaterFunction {
       _laterSearch();
     }
 
-    if (_penddingEvents.isNotEmpty) {
-      _handlePenddingEvents();
+    if (_pendingEvents.isNotEmpty) {
+      _handlePendingEvents();
     }
   }
 
@@ -61,14 +61,14 @@ class CommunityInfoProvider extends ChangeNotifier with LaterFunction {
   }
 
   void _onEvent(Event event) {
-    _penddingEvents.add(event);
+    _pendingEvents.add(event);
     later(_laterCallback);
   }
 
-  void _handlePenddingEvents() {
+  void _handlePendingEvents() {
     bool updated = false;
 
-    for (var event in _penddingEvents) {
+    for (var event in _pendingEvents) {
       var communityInfo = CommunityInfo.fromEvent(event);
       if (communityInfo != null) {
         var aid = communityInfo.aId.toAString();
@@ -79,7 +79,7 @@ class CommunityInfoProvider extends ChangeNotifier with LaterFunction {
         }
       }
     }
-    _penddingEvents.clear;
+    _pendingEvents.clear;
 
     if (updated) {
       notifyListeners();
