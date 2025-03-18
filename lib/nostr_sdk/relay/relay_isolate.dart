@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:isolate';
+
+import 'package:logging/logging.dart';
 
 import 'client_connected.dart';
 import 'relay.dart';
@@ -94,7 +97,11 @@ class RelayIsolate extends Relay {
         (mainToSubSendPort != null &&
             relayStatus.connected == ClientConneccted.CONNECTED)) {
       final encoded = jsonEncode(message);
-      // log(encoded);
+      log(
+        "Sending message to $url...\n\n$encoded", 
+        level: Level.FINEST.value, 
+        name: "RelayIsolate",
+      );
       mainToSubSendPort!.send(encoded);
       return true;
     }
