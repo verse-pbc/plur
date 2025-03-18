@@ -1,4 +1,6 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 
@@ -148,20 +150,22 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   }
 
   void query(GroupIdentifier groupIdentifier) {
-    var metadataJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_METADATA);
-    var adminsJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_ADMINS);
-    var membersJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
+    final groupId = groupIdentifier.groupId;
+    var metadataJsonMap = _genFilter(groupId, EventKind.GROUP_METADATA);
+    var adminsJsonMap = _genFilter(groupId, EventKind.GROUP_ADMINS);
+    var membersJsonMap = _genFilter(groupId, EventKind.GROUP_MEMBERS);
+    final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
 
-    // log(jsonEncode([metadataJsonMap, adminsJsonMap, membersJsonMap]));
+
+    log(
+      "Querying group $groupId...\n\n${filters.toString()}",
+      level: Level.FINE.value,
+      name: 'GroupProvider',
+    );
 
     nostr!.query(
-      [metadataJsonMap, adminsJsonMap, membersJsonMap],
-      (e) {
-        onEvent(groupIdentifier, e);
-      },
+      filters,
+      (e) => onEvent(groupIdentifier, e),
       tempRelays: [groupIdentifier.host],
       relayTypes: RelayType.ONLY_TEMP,
       sendAfterAuth: true,
