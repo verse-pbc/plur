@@ -6,7 +6,7 @@ import '../main.dart';
 import '../router/tag/topic_map.dart';
 
 class FollowEventProvider extends ChangeNotifier
-    with PenddingEventsLaterFunction
+    with PendingEventsLaterFunction
     implements FindEventInterface {
   late int _initTime;
 
@@ -69,7 +69,7 @@ class FollowEventProvider extends ChangeNotifier
     targetNostr ??= nostr!;
     bool queriedTags = false;
 
-    doUnscribe(targetNostr);
+    doUnsubscribe(targetNostr);
 
     List<String> subscribeIds = [];
     Iterable<Contact> contactList = contactListProvider.list();
@@ -110,7 +110,7 @@ class FollowEventProvider extends ChangeNotifier
     }
   }
 
-  void doUnscribe(Nostr targetNostr) {
+  void doUnsubscribe(Nostr targetNostr) {
     if (_subscribeIds.isNotEmpty) {
       for (var subscribeId in _subscribeIds) {
         try {
@@ -282,7 +282,7 @@ class FollowEventProvider extends ChangeNotifier
     eventBox.clear();
     postsBox.clear();
 
-    doUnscribe(nostr!);
+    doUnsubscribe(nostr!);
 
     notifyListeners();
   }

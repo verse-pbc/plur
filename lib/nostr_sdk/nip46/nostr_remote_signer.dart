@@ -118,11 +118,11 @@ class NostrRemoteSigner extends NostrSigner {
       );
     }
     relay.onMessage = onMessage;
-    addPenddingQueryMsg(relay);
+    addPendingQueryMsg(relay);
     relay.relayStatusCallback = () {
       if (relayStatus.connected == ClientConneccted.UN_CONNECT) {
         if (relay!.pendingMessages.isEmpty) {
-          addPenddingQueryMsg(relay);
+          addPendingQueryMsg(relay);
         }
       }
     };
@@ -133,7 +133,7 @@ class NostrRemoteSigner extends NostrSigner {
   }
 
   /// Adds a pending query message to the relay.
-  Future<void> addPenddingQueryMsg(Relay relay) async {
+  Future<void> addPendingQueryMsg(Relay relay) async {
     // add a query event
     var queryMsg = await genQueryMsg();
     if (queryMsg != null) {

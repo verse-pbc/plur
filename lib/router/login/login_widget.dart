@@ -372,7 +372,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         // try to find pubkey first.
         var cancelFunc = BotToast.showLoading();
         try {
-          pubkey = await Nip05Validor.getPubkey(pk);
+          pubkey = await Nip05Validator.getPubkey(pk);
         } catch (exception, stackTrace) {
           await Sentry.captureException(exception, stackTrace: stackTrace);
         } finally {
