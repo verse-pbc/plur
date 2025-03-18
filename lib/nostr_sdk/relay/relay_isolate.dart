@@ -58,7 +58,7 @@ class RelayIsolate extends Relay {
       // the isolate had bean run
       if (relayStatus.connected == ClientConneccted.CONNECTED) {
         // relay has bean connected, return true, but also send a connect message.
-        mainToSubSendPort!.send(RelayIsolateMsgs.CONNECT);
+        mainToSubSendPort!.send(RelayIsolateMsgs.connect);
         return true;
       } else {
         // haven't connected
@@ -69,7 +69,7 @@ class RelayIsolate extends Relay {
           if (mainToSubSendPort != null) {
             relayStatus.connected = ClientConneccted.CONNECTING;
             // send connect msg
-            mainToSubSendPort!.send(RelayIsolateMsgs.CONNECT);
+            mainToSubSendPort!.send(RelayIsolateMsgs.connect);
             // wait connected msg.
             relayConnectResultComplete = Completer();
             return await relayConnectResultComplete!.future;
@@ -86,7 +86,7 @@ class RelayIsolate extends Relay {
     if (relayStatus.connected != ClientConneccted.UN_CONNECT) {
       relayStatus.connected = ClientConneccted.UN_CONNECT;
       if (mainToSubSendPort != null) {
-        mainToSubSendPort!.send(RelayIsolateMsgs.DIS_CONNECT);
+        mainToSubSendPort!.send(RelayIsolateMsgs.disconnect);
       }
     }
   }
@@ -113,13 +113,13 @@ class RelayIsolate extends Relay {
     receivePort.listen((message) {
       if (message is int) {
         // this is const msg.
-        if (message == RelayIsolateMsgs.CONNECTED) {
+        if (message == RelayIsolateMsgs.connected) {
           relayStatus.connected = ClientConneccted.CONNECTED;
           if (relayStatusCallback != null) {
             relayStatusCallback!();
           }
           _relayConnectComplete(true);
-        } else if (message == RelayIsolateMsgs.DIS_CONNECTED) {
+        } else if (message == RelayIsolateMsgs.disconnected) {
           onError("Websocket error $url", reconnect: true);
           _relayConnectComplete(false);
         }
@@ -161,11 +161,15 @@ class RelayIsolateConfig {
 }
 
 class RelayIsolateMsgs {
-  static const int CONNECT = 1;
+  /// Message for opening a connection.
+  static const int connect = 1;
 
-  static const int DIS_CONNECT = 2;
+  /// Message for closing a connection.
+  static const int disconnect = 2;
 
-  static const int CONNECTED = 101;
+  /// Message that signals that a connection is open.
+  static const int connected = 101;
 
-  static const int DIS_CONNECTED = 102;
+  /// Message that signals that a connection is closed.
+  static const int disconnected = 102;
 }
