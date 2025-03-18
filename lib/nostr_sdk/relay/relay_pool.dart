@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:logging/logging.dart';
 
 import '../utils/relay_addr_util.dart';
 
@@ -147,11 +146,6 @@ class RelayPool {
         return true;
       } else {
         if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
-          log(
-            "Querying ${relay.url} with ${subscription.id}...\n\n$message",
-            level: Level.FINER.value,
-            name: "RelayPool",
-          );
           return relay.send(message);
         } else {
           relay.pendingMessages.add(message);
