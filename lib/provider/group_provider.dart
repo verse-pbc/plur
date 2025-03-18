@@ -132,6 +132,8 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     notifyListeners();
   }
 
+  /// Returns a [Filter] object that can be used to query events with kind
+  /// [eventKind] relevante to group [groupId] from relays.
   Map<String, dynamic> _genFilter(String groupId, int eventKind) {
     var filter = Filter(
       kinds: [eventKind],
@@ -142,6 +144,8 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     return jsonMap;
   }
 
+  /// Query metadata, admin list, and member list, from group [groupIdentifier]
+  /// from the network.
   void query(GroupIdentifier groupIdentifier) {
     final groupId = groupIdentifier.groupId;
     var metadataJsonMap = _genFilter(groupId, EventKind.GROUP_METADATA);
