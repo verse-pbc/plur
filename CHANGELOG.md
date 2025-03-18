@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Release Notes
 - Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
+- Fixed issue where invite links do not work if app is not already running. [#249](https://github.com/verse-pbc/issues/issues/249)
 
 ### Internal Changes
 - Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
