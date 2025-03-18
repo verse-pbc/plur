@@ -59,8 +59,8 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
 
   double progress = 0;
 
-  Future<void> nip07Reject(String resultId, String contnet) async {
-    var script = "window.nostr.reject(\"$resultId\", \"$contnet\");";
+  Future<void> nip07Reject(String resultId, String content) async {
+    var script = "window.nostr.reject(\"$resultId\", \"$content\");";
     await webViewController!.evaluateJavascript(source: script);
     // _controller.runJavaScript(script);
   }
