@@ -162,7 +162,7 @@ class RelayPool {
 
   void _broadcaseToCache(Map<String, dynamic> event) {
     if (relayLocal != null) {
-      relayLocal!.broadcaseToLocal(event);
+      relayLocal!.broadcastToLocal(event);
     }
 
     for (var relay in _cacheRelays.values) {
