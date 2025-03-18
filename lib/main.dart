@@ -312,7 +312,7 @@ Future<void> main() async {
     FlutterNativeSplash.remove();
     runApp(
       riverpod.ProviderScope(
-        child: MyApp(),
+        child: const MyApp(),
       ),
     );
   }
@@ -740,7 +740,7 @@ void setGetTimeAgoDefaultLocale(Locale? locale) {
   }
 
   if (StringUtil.isNotBlank(localeName)) {
-    if (GetTimeAgoSupportLocale.containsKey(localeName)) {
+    if (_timeAgoSupportLocale.containsKey(localeName)) {
       GetTimeAgo.setDefaultLocale(localeName!);
     } else if (localeName == "zh_tw") {
       GetTimeAgo.setDefaultLocale("zh_tr");
@@ -748,7 +748,7 @@ void setGetTimeAgoDefaultLocale(Locale? locale) {
   }
 }
 
-final Map<String, int> GetTimeAgoSupportLocale = {
+final Map<String, int> _timeAgoSupportLocale = {
   'ar': 1,
   'en': 1,
   'es': 1,
