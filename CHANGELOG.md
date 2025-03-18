@@ -11,9 +11,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
 
 ### Internal Changes
-- Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
+- Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
+- Updated linting in CI to be more intelligent in comparison [65](https://github.com/verse-pbc/issues/issues/65).
+- Migrated TimestampProvider from Provider to Riverpod Notifier.
+- Fixed many typos.
 
 ## [0.0.3]
 
@@ -65,7 +70,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
 - Fixed an issue where a capitalized deep links would not work. [#252](https://github.com/verse-pbc/issues/issues/252)
 - Fixed an issue when photos could not be published to a group. [#231](https://github.com/verse-pbc/issues/issues/231)
-- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
+
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.

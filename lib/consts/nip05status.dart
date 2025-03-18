@@ -3,7 +3,7 @@ class Nip05Status {
 
   static const int NIP05_NOT_FOUND = -1;
 
-  static const int NIP05_NOT_VALIDED = 1;
+  static const int NIP05_NOT_VALID = 1;
 
-  static const int NIP05_VALIDED = 2;
+  static const int NIP05_VALID = 2;
 }
