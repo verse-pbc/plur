@@ -311,8 +311,8 @@ Future<void> main() async {
   void startApp() {
     FlutterNativeSplash.remove();
     runApp(
-      riverpod.ProviderScope(
-        child: const MyApp(),
+      const riverpod.ProviderScope(
+        child: MyApp(),
       ),
     );
   }
