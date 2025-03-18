@@ -65,7 +65,7 @@ void main() {
 
   testWidgets('Sign Up button creates account', (WidgetTester tester) async {
     // launch the app
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(const MyApp());
 
     await tester.pumpAndSettle();
 

@@ -12,7 +12,7 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
 
   final Map<String, String> _handingIds = {};
 
-  final List<Event> _penddingEvents = [];
+  final List<Event> _pendingEvents = [];
 
   Event? getEvent(String id, {String? eventRelayAddr, bool queryData = true}) {
     var event = _eventsMap[id];
@@ -60,13 +60,13 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
       _laterSearch();
     }
 
-    if (_penddingEvents.isNotEmpty) {
-      _handlePenddingEvents();
+    if (_pendingEvents.isNotEmpty) {
+      _handlePendingEvents();
     }
   }
 
-  void _handlePenddingEvents() {
-    for (var event in _penddingEvents) {
+  void _handlePendingEvents() {
+    for (var event in _pendingEvents) {
       var oldEvent = _eventsMap[event.id];
       if (oldEvent != null) {
         if (event.sources.isNotEmpty &&
@@ -79,12 +79,12 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
 
       _handingIds.remove(event.id);
     }
-    _penddingEvents.clear;
+    _pendingEvents.clear;
     notifyListeners();
   }
 
   void onEvent(Event event) {
-    _penddingEvents.add(event);
+    _pendingEvents.add(event);
     later(_laterCallback);
   }
 
