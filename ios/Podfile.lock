@@ -355,37 +355,37 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/wakelock_plus/ios"
 
 SPEC CHECKSUMS:
-  blurhash_ffi: 87aab623d744d4d6cd6057d285bd2258df904786
-  cryptography_flutter: 70166b3780db39960caf51fd90fe308bec22d3f1
-  device_info_plus: 71ffc6ab7634ade6267c7a93088ed7e4f74e5896
+  blurhash_ffi: 4831b96320d4273876c9a2fd3f7d50b8a3a53509
+  cryptography_flutter: 381bdacc984abcfbe3ca45ef7c76566ff061614c
+  device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
-  emoji_picker_flutter: ed468d9746c21711e66b2788880519a9de5de211
-  file_picker: 9b3292d7c8bc68c8a7bf8eb78f730e49c8efc517
-  file_saver: 6cdbcddd690cb02b0c1a0c225b37cd805c2bf8b6
+  emoji_picker_flutter: fe2e6151c5b548e975d546e6eeb567daf0962a58
+  file_picker: 09aa5ec1ab24135ccd7a1621c46c84134bfd6655
+  file_saver: 503e386464dbe118f630e17b4c2e1190fa0cf808
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_image_compress_common: 1697a328fd72bfb335507c6bca1a65fa5ad87df1
-  flutter_inapp_purchase: 722da12971a50f306f37e62fc1aaf576b1cbecf6
-  flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
-  flutter_keyboard_visibility_temp_fork: b8c3574e96b2d85c7330ce4faece5c5a14b54dab
-  flutter_native_splash: 35ddbc7228eafcb3969dcc5f1fbbe27c1145a4f0
-  google_mlkit_commons: 414fc36ac51758c806381de33a1d148d2ba71ce4
-  google_mlkit_language_id: adbee8ef9c7bf7fae7d7dada9ac7769be5d93ca8
-  google_mlkit_translation: d277047569ab6165c3ce13a36c5bdc29594e60cb
+  flutter_image_compress_common: ec1d45c362c9d30a3f6a0426c297f47c52007e3e
+  flutter_inapp_purchase: 5c6a1ac3f11b11d0c8c0321c0c41c1f05805e4c8
+  flutter_inappwebview_ios: 6f63631e2c62a7c350263b13fa5427aedefe81d4
+  flutter_keyboard_visibility_temp_fork: 442dadca3b81868a225cd6a2f605bffff1215844
+  flutter_native_splash: edf599c81f74d093a4daf8e17bd7a018854bc778
+  google_mlkit_commons: 242b715c38863e1ca5e732c909a1545ba52f1375
+  google_mlkit_language_id: 5d23732ad3665890a88460fc0942c178ae03e451
+  google_mlkit_translation: 123a621b48b517b5f91cb76214b8a6f95fe61440
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleMLKit: 97ac7af399057e99182ee8edfa8249e3226a4065
   GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
   GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
   GTMSessionFetcher: 8000756fc1c19d2e5697b90311f7832d2e33f6cd
-  image_gallery_saver: 14711d79da40581063e8842a11acf1969d781ed7
-  image_picker_ios: 85f2b3c9fb98c09d63725c4d12ebd585b56ec35d
+  image_gallery_saver: cb43cc43141711190510e92c460eb1655cd343cb
+  image_picker_ios: 99dfe1854b4fa34d0364e74a78448a0151025425
   libwebp: 1786c9f4ff8a279e4dac1e8f385004d5fc253009
-  local_auth_darwin: 553ce4f9b16d3fdfeafce9cf042e7c9f77c1c391
+  local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
   Mantle: c5aa8794a29a022dfbbfc9799af95f477a69b62d
-  media_kit_libs_ios_video: 5a18affdb97d1f5d466dc79988b13eff6c5e2854
-  media_kit_native_event_loop: 5fba1a849a6c87a34985f1e178a0de5bd444a0cf
-  media_kit_video: 1746e198cb697d1ffb734b1d05ec429d1fcd1474
+  media_kit_libs_ios_video: a5fe24bc7875ccd6378a0978c13185e1344651c1
+  media_kit_native_event_loop: e6b2ab20cf0746eb1c33be961fcf79667304fa2a
+  media_kit_video: 5da63f157170e5bf303bf85453b7ef6971218a2e
   MLImage: 1824212150da33ef225fbd3dc49f184cf611046c
   MLKitCommon: afec63980417d29ffbb4790529a1b0a2291699e1
   MLKitLanguageID: a897902aa4e58f7bf0943b07a1f9b58d762273aa
@@ -395,27 +395,27 @@ SPEC CHECKSUMS:
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: 580e9a5f1b6ca5594e7c9ed5f92d1dfb2a66b5e1
-  path_provider_foundation: 608fcb11be570ce83519b076ab6a1fffe2474f05
-  permission_handler_apple: 4ed2196e43d0651e8ff7ca3483a069d469701f2d
-  photo_manager: d2fbcc0f2d82458700ee6256a15018210a81d413
+  package_info_plus: c0502532a26c7662a62a356cebe2692ec5fe4ec4
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  photo_manager: ff695c7a1dd5bc379974953a2b5c0a293f7c4c8a
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  qr_code_scanner: d77f94ecc9abf96d9b9b8fc04ef13f611e5a147a
-  quill_native_bridge: fd2819cf6da02fb6cbf9de37835f96e798e145eb
-  screen_brightness_ios: 5ed898fa50fa82a26171c086ca5e28228f932576
+  qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
+  quill_native_bridge: e5afa7d49c08cf68c52a5e23bc272eba6925c622
+  screen_brightness_ios: 715ca807df953bf676d339f11464e438143ee625
   SDWebImage: dfe95b2466a9823cf9f0c6d01217c06550d7b29a
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   Sentry: 0f9bc9adfc0b960e7f3bb5ec67e9a3d8193f3bdb
-  sentry_flutter: be956a32343176b344ef4b23ecdab47ab6f0ffa6
-  share_plus: 011d6fb4f9d2576b83179a3a5c5e323202cdabcf
-  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
-  sqflite: c35dad70033b8862124f8337cc994a809fcd9fa3
+  sentry_flutter: c4c3e7feec83e061daf829f6f9359efefab00d87
+  share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad
+  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
+  sqflite: 673a0e54cc04b7d6dba8d24fb8095b31c3a99eec
   SSZipArchive: c69881e8ac5521f0e622291387add5f60f30f3c4
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
-  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
-  video_player_avfoundation: d8a6ee3315d903ee946db5087da809f3f73b3f48
-  volume_controller: ca1cde542ee70fad77d388f82e9616488110942b
-  wakelock_plus: fd58c82b1388f4afe3fe8aa2c856503a262a5b03
+  url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
+  video_player_avfoundation: 2b4384f3b157206b5e150a0083cdc0c905d260d3
+  volume_controller: 531ddf792994285c9b17f9d8a7e4dcdd29b3eae9
+  wakelock_plus: 373cfe59b235a6dd5837d0fb88791d2f13a90d56
 
 PODFILE CHECKSUM: d25b87d7d5c9cf5983359bee1f5b7fcf4f2a0dac
 
