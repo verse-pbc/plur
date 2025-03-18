@@ -31,7 +31,7 @@ class UserWidget extends StatefulWidget {
 }
 
 class _UserWidgetState extends CustState<UserWidget>
-    with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
+    with PendingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
   final ScrollController _controller = ScrollController();

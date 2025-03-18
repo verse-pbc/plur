@@ -15,7 +15,7 @@ export 'nip02/contact.dart';
 export 'nip02/contact_list.dart';
 export 'nip04/nip04.dart';
 export 'nip04/dm_session.dart';
-export 'nip05/nip05_validor.dart';
+export 'nip05/nip05_validator.dart';
 export 'nip07/kind_descriptions.dart';
 export 'nip07/nip07_methods.dart';
 export 'nip07/nip07_signer.dart';
