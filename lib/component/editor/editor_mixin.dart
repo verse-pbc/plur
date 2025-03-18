@@ -417,7 +417,9 @@ mixin EditorMixin {
       context,
       localization.Search,
       localization.Please_input_user_pubkey,
-      const SearchMentionUserWidget(),
+      SearchMentionUserWidget(
+        groupIdentifier: getGroupIdentifier(),
+      ),
       hintText: localization.User_Pubkey,
     );
     if (StringUtil.isNotBlank(value)) {

@@ -11,13 +11,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
+- Fixed issue where invite links do not work if app is not already running. [#249](https://github.com/verse-pbc/issues/issues/249)
 - Fixed an issue where the group metadata events where fetch from more groups than needed. [#273](https://github.com/verse-pbc/issues/issues/273)
 
 ### Internal Changes
 - Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Moved fastlane scripts from `ios/fastlane/` to `fastlane/` [#104](https://github.com/verse-pbc/plur/pull/104)
 - Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
 - Updated linting in CI to be more intelligent in comparison [65](https://github.com/verse-pbc/issues/issues/65).
 - Migrated TimestampProvider from Provider to Riverpod Notifier.
+- Fixed many typos.
+- Fixed lint job that fails when there is a slash in the branch name.
 
 ## [0.0.3]
 
