@@ -61,7 +61,8 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       for (var metadata in values) {
         if ((metadata.displayName != null &&
                 metadata.displayName!.contains(str)) ||
-            (metadata.name != null && metadata.name!.contains(str))) {
+            (metadata.name != null && metadata.name!.contains(str)) ||
+            (metadata.nip05 != null && metadata.nip05!.contains(str))) {
           list.add(metadata);
 
           if (limit != null && list.length >= limit) {
