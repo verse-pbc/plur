@@ -42,10 +42,10 @@ jobs:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
       - name: Fastlane build and deploy
-        working-directory: ./ios
+        working-directory: ./fastlane
         run: |
           bundle install
-          bundle exec fastlane release
+          bundle exec fastlane ios release
         env:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}
