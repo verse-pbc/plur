@@ -27,7 +27,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
 
       var list = await MetadataDB.all();
       for (var md in list) {
-        if (md.valid == Nip05Status.NIP05_NOT_VALIDED) {
+        if (md.valid == Nip05Status.NIP05_NOT_VALID) {
           md.valid = null;
         }
         _metadataProvider!._metadataCache[md.pubkey!] = md;
@@ -78,8 +78,8 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       _laterSearch();
     }
 
-    if (!_penddingEvents.isEmpty()) {
-      _handlePenddingEvents();
+    if (!_pendingEvents.isEmpty()) {
+      _handlePendingEvents();
     }
   }
 
@@ -114,10 +114,10 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       // web can't valid NIP05 due to cors
       if (metadata != null) {
         if (metadata.nip05 != null) {
-          return Nip05Status.NIP05_VALIDED;
+          return Nip05Status.NIP05_VALID;
         }
 
-        return Nip05Status.NIP05_NOT_VALIDED;
+        return Nip05Status.NIP05_NOT_VALID;
       }
 
       return Nip05Status.NIP05_NOT_FOUND;
@@ -127,34 +127,34 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       return Nip05Status.METADATA_NOT_FOUND;
     } else if (StringUtil.isNotBlank(metadata.nip05)) {
       if (metadata.valid == null) {
-        Nip05Validor.valid(metadata.nip05!, pubkey).then((valid) async {
+        Nip05Validator.valid(metadata.nip05!, pubkey).then((valid) async {
           if (valid != null) {
             if (valid) {
-              metadata.valid = Nip05Status.NIP05_VALIDED;
+              metadata.valid = Nip05Status.NIP05_VALID;
               await MetadataDB.update(metadata);
             } else {
               // only update cache, next open app vill valid again
-              metadata.valid = Nip05Status.NIP05_NOT_VALIDED;
+              metadata.valid = Nip05Status.NIP05_NOT_VALID;
             }
             notifyListeners();
           }
         });
 
-        return Nip05Status.NIP05_NOT_VALIDED;
-      } else if (metadata.valid! == Nip05Status.NIP05_VALIDED) {
-        return Nip05Status.NIP05_VALIDED;
+        return Nip05Status.NIP05_NOT_VALID;
+      } else if (metadata.valid! == Nip05Status.NIP05_VALID) {
+        return Nip05Status.NIP05_VALID;
       }
 
-      return Nip05Status.NIP05_NOT_VALIDED;
+      return Nip05Status.NIP05_NOT_VALID;
     }
 
     return Nip05Status.NIP05_NOT_FOUND;
   }
 
-  final EventMemBox _penddingEvents = EventMemBox(sortAfterAdd: false);
+  final EventMemBox _pendingEvents = EventMemBox(sortAfterAdd: false);
 
-  void _handlePenddingEvents() {
-    for (var event in _penddingEvents.all()) {
+  void _handlePendingEvents() {
+    for (var event in _pendingEvents.all()) {
       if (event.kind == EventKind.METADATA) {
         if (StringUtil.isBlank(event.content)) {
           continue;
@@ -218,12 +218,12 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       }
     }
 
-    _penddingEvents.clear();
+    _pendingEvents.clear();
     notifyListeners();
   }
 
   void onEvent(Event event) {
-    _penddingEvents.add(event);
+    _pendingEvents.add(event);
     later(_laterCallback);
   }
 

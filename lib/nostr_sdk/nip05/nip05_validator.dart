@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-class Nip05Validor {
+class Nip05Validator {
   static final Map<String, int> _checking = {};
 
   static var dio = Dio();

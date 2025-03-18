@@ -6,7 +6,7 @@ import '../data/dm_session_info_db.dart';
 import '../data/event_db.dart';
 import '../main.dart';
 
-class DMProvider extends ChangeNotifier with PenddingEventsLaterFunction {
+class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
   static DMProvider? _dmProvider;
 
   final List<DMSessionDetail> _knownList = [];
@@ -56,8 +56,8 @@ class DMProvider extends ChangeNotifier with PenddingEventsLaterFunction {
   }
 
   void addEventAndUpdateReadedTime(DMSessionDetail detail, Event event) {
-    penddingEvents.add(event);
-    eventLaterHandle(penddingEvents, updateUI: false);
+    pendingEvents.add(event);
+    eventLaterHandle(pendingEvents, updateUI: false);
     updateReadedTime(detail);
   }
 
@@ -221,8 +221,8 @@ class DMProvider extends ChangeNotifier with PenddingEventsLaterFunction {
   }
 
   // void handleEventImmediately(Event event) {
-  //   penddingEvents.add(event);
-  //   eventLaterHandle(penddingEvents);
+  //   pendingEvents.add(event);
+  //   eventLaterHandle(pendingEvents);
   // }
 
   void onEvent(Event event) {
