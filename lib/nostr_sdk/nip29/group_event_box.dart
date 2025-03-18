@@ -13,7 +13,7 @@ class GroupEventBox {
 
   final EventMemBox _chatBox = EventMemBox(sortAfterAdd: false);
 
-  final EventMemBox _notePenddingBox = EventMemBox(sortAfterAdd: false);
+  final EventMemBox _notePendingBox = EventMemBox(sortAfterAdd: false);
 
   int get newestTime => _newestTime;
 
@@ -21,7 +21,7 @@ class GroupEventBox {
     _newestTime = 0;
     _noteBox.clear();
     _chatBox.clear();
-    _notePenddingBox.clear();
+    _notePendingBox.clear();
   }
 
   bool _addEvent(EventMemBox box, Event event) {
@@ -58,7 +58,7 @@ class GroupEventBox {
       }
     }
     {
-      var nbe = _notePenddingBox.newestEvent;
+      var nbe = _notePendingBox.newestEvent;
       if (nbe != null && nbe.createdAt > _newestTime) {
         _newestTime = nbe.createdAt;
       }
@@ -81,11 +81,11 @@ class GroupEventBox {
     return _addEvents(_chatBox, events);
   }
 
-  bool addNotePenddingEvent(Event event) {
-    return _addEvent(_notePenddingBox, event);
+  bool addNotePendingEvent(Event event) {
+    return _addEvent(_notePendingBox, event);
   }
 
-  bool addNotePenddingEvents(List<Event> events) {
-    return _addEvents(_notePenddingBox, events);
+  bool addNotePendingEvents(List<Event> events) {
+    return _addEvents(_notePendingBox, events);
   }
 }

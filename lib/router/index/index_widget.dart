@@ -274,7 +274,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
             if (musicInfo != null) {
               return MusicWidget(
                 musicInfo,
-                clearAble: true,
+                clearable: true,
               );
             }
 

@@ -31,7 +31,7 @@ class GroupDetailNoteListWidget extends StatefulWidget {
 
 class _GroupDetailNoteListWidgetState
     extends KeepAliveCustState<GroupDetailNoteListWidget>
-    with LoadMoreEvent, PenddingEventsLaterFunction {
+    with LoadMoreEvent, PendingEventsLaterFunction {
   final ScrollController _controller = ScrollController();
 
   ScrollController scrollController = ScrollController();
