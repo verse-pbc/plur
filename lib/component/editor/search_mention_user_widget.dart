@@ -47,7 +47,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 
     // Get the group members
     final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    final groupMembers = groupProvider.getMembers(groupId); //watch this somehow?
+    final groupMembers = groupProvider.getMembers(groupId);
     final memberPubkeys = groupMembers?.members;
     if (memberPubkeys == null || memberPubkeys.isEmpty) {
       return;
