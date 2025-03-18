@@ -31,14 +31,6 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     _handlingMembersIds[key] = t;
   }
 
-  void _cleanHandling(GroupIdentifier groupIdentifier) {
-    var key = groupIdentifier.toString();
-
-    _handlingMetadataIds.remove(key);
-    _handlingAdminsIds.remove(key);
-    _handlingMembersIds.remove(key);
-  }
-
   void deleteEvent(GroupIdentifier groupIdentifier, String eventId) {
     NIP29.deleteEvent(nostr!, groupIdentifier, eventId);
   }
