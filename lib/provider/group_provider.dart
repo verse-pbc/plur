@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
+import 'package:sentry_flutter/sentry_flutter.dart'; 
 
 class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, GroupMetadata> groupMetadatas = {};
@@ -156,6 +157,10 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     var membersJsonMap = _genFilter(groupId, EventKind.GROUP_MEMBERS);
     final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
 
+    if (nostr == null) {
+      Sentry.captureMessage("nostr is null", level: SentryLevel.error);
+      return;
+    }
 
     log(
       "Querying group $groupId...\n\n${filters.toString()}",
