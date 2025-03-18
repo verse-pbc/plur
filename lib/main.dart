@@ -598,7 +598,7 @@ class _MyApp extends State<MyApp> {
 
       final context = MyApp.navigatorKey.currentContext;
       if (context != null) {
-        _joinGroup(context, 'wss://communities.nos.social', groupId, code);
+        _joinGroup(context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
       } else {
         log('Context still null after initialization - this is unexpected', name: 'DeepLink');
       }
