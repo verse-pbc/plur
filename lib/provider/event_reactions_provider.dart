@@ -69,7 +69,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
   }
 
   // void update(String id) {
-  //   _penddingIds[id] = 1;
+  //   _pendingIds[id] = 1;
   //   whenStop(laterFunc);
   // }
 
@@ -104,7 +104,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
 
   Map<String, int> localQueringCache = {};
 
-  _handleLocalPenddings() {
+  _handleLocalPendings() {
     var entries = _localNeedHandleIds.entries;
     _localNeedHandleIds = {};
     for (var entry in entries) {
@@ -157,12 +157,12 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
   void laterFunc() {
     // log("laterFunc call!");
     if (_localNeedHandleIds.isNotEmpty) {
-      _handleLocalPenddings();
+      _handleLocalPendings();
     }
     if (_needHandleIds.isNotEmpty) {
       _doPull();
     }
-    if (_penddingEvents.isNotEmpty) {
+    if (_pendingEvents.isNotEmpty) {
       _handleEvent();
     }
   }
@@ -194,19 +194,19 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
   }
 
   void onEvent(Event event) {
-    _penddingEvents.add(event);
+    _pendingEvents.add(event);
   }
 
   void onEvents(List<Event> events) {
-    _penddingEvents.addAll(events);
+    _pendingEvents.addAll(events);
   }
 
-  final List<Event> _penddingEvents = [];
+  final List<Event> _pendingEvents = [];
 
   void _handleEvent() {
     bool updated = false;
 
-    for (var event in _penddingEvents) {
+    for (var event in _pendingEvents) {
       _pullIds.remove(event.id);
 
       for (var tag in event.tags) {
@@ -230,14 +230,14 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
         }
       }
     }
-    _penddingEvents.clear();
+    _pendingEvents.clear();
 
     if (updated) {
       notifyListeners();
     }
   }
 
-  void removePendding(String id) {
+  void removePending(String id) {
     _needHandleIds.remove(id);
     _localNeedHandleIds.remove(id);
   }

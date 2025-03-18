@@ -35,9 +35,9 @@ class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
       }
 
       Color iconColor = Colors.red;
-      if (nip05Status == Nip05Status.NIP05_NOT_VALIDED) {
+      if (nip05Status == Nip05Status.NIP05_NOT_VALID) {
         iconColor = Colors.yellow;
-      } else if (nip05Status == Nip05Status.NIP05_VALIDED) {
+      } else if (nip05Status == Nip05Status.NIP05_VALID) {
         iconColor = mainColor;
       }
 

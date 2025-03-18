@@ -26,7 +26,7 @@ class CommunityDetailWidget extends StatefulWidget {
 }
 
 class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
   AId? aId;
