@@ -24,7 +24,7 @@ class CommunitiesWidget extends StatefulWidget {
 }
 
 class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   final subscribeId = StringUtil.rndNameStr(16);
 
   @override
