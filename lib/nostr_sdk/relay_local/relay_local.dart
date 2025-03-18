@@ -24,9 +24,10 @@ class RelayLocal extends Relay with RelayLocalMixin {
         "0.1.0");
   }
 
-  void broadcaseToLocal(Map<String, dynamic> event) {
+  /// Saves [event] in the local relay.
+  void broadcastToLocal(Map<String, dynamic> event) {
     log(
-      "Broadcasting event to local relay...\n\nevent.toString()",
+      "Broadcasting event to local relay...\n\n${event.toString()}",
       level: Level.FINEST.value,
       name: "RelayLocal",
     );
