@@ -148,7 +148,7 @@ class RelayPool {
       } else {
         if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
           log(
-            "Querying ${relay.url} with ${subscription.id}...\n\n$message", 
+            "Querying ${relay.url} with ${subscription.id}...\n\n$message",
             level: Level.FINER.value,
             name: "RelayPool",
           );
