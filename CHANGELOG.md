@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Fixed an issue where the group metadata events where fetch from more groups than needed. [#273](https://github.com/verse-pbc/issues/issues/273)
 
 ### Internal Changes
 - Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
