@@ -25,7 +25,7 @@ class GlobalsEventsWidget extends StatefulWidget {
 }
 
 class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   ScrollController scrollController = ScrollController();
 
   List<String> ids = [];
