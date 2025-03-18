@@ -27,7 +27,7 @@ class ThreadTraceWidget extends StatefulWidget {
 }
 
 class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
-    with PenddingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
+    with PendingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
   // used to filter parent events
   List<EventTraceInfo> parentEventTraces = [];
 

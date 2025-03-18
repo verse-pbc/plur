@@ -7,7 +7,7 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
 
   List<String> eids = [];
 
-  List<Event> penddingEvents = [];
+  List<Event> pendingEvents = [];
 
   bool check(String pubkey, String eid, {AId? aId}) {
     if (_approvedMap[eid] != null || aId == null) {
@@ -38,10 +38,10 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
       nostr!.query([filter], onEvent);
     }
 
-    if (penddingEvents.isNotEmpty) {
+    if (pendingEvents.isNotEmpty) {
       bool updated = false;
 
-      for (var e in penddingEvents) {
+      for (var e in pendingEvents) {
         var eid = getEId(e);
         if (eid != null) {
           // TODO need to check pubkey is Moderated or not.
@@ -53,7 +53,7 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
         }
       }
 
-      penddingEvents.clear();
+      pendingEvents.clear();
       if (updated) {
         notifyListeners();
       }
@@ -61,7 +61,7 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
   }
 
   void onEvent(Event e) {
-    penddingEvents.add(e);
+    pendingEvents.add(e);
     later(laterFunction);
   }
 
