@@ -238,6 +238,7 @@ class Nostr {
       onComplete: onComplete,
       tempRelays: tempRelays,
       targetRelays: targetRelays,
+      relayTypes: relayTypes,
       sendAfterAuth: sendAfterAuth,
     );
   }
