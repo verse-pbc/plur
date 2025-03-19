@@ -1,6 +1,9 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
+import 'package:sentry_flutter/sentry_flutter.dart'; 
 
 class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, GroupMetadata> groupMetadatas = {};
@@ -26,14 +29,6 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     _handlingMetadataIds[key] = t;
     _handlingAdminsIds[key] = t;
     _handlingMembersIds[key] = t;
-  }
-
-  void _cleanHandling(GroupIdentifier groupIdentifier) {
-    var key = groupIdentifier.toString();
-
-    _handlingMetadataIds.remove(key);
-    _handlingAdminsIds.remove(key);
-    _handlingMembersIds.remove(key);
   }
 
   void deleteEvent(GroupIdentifier groupIdentifier, String eventId) {
@@ -94,7 +89,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
 
   void _updateMember(GroupIdentifier groupIdentifier) {
     var membersJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
+        genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
 
     nostr!.query(
       [membersJsonMap],
@@ -137,31 +132,41 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     notifyListeners();
   }
 
-  Map<String, dynamic> _genFilter(String groupId, int eventKind) {
+  /// Returns a [Filter] object that can be used to query events with kind
+  /// [eventKind] relevante to group [groupId] from relays.
+  @visibleForTesting
+  Map<String, dynamic> genFilter(String groupId, int eventKind) {
     var filter = Filter(
       kinds: [eventKind],
     );
     var jsonMap = filter.toJson();
-    jsonMap["d"] = [groupId];
-
+    jsonMap["#d"] = [groupId];
     return jsonMap;
   }
 
+  /// Query metadata, admin list, and member list, from group [groupIdentifier]
+  /// from the network.
   void query(GroupIdentifier groupIdentifier) {
-    var metadataJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_METADATA);
-    var adminsJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_ADMINS);
-    var membersJsonMap =
-        _genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
+    final groupId = groupIdentifier.groupId;
+    var metadataJsonMap = genFilter(groupId, EventKind.GROUP_METADATA);
+    var adminsJsonMap = genFilter(groupId, EventKind.GROUP_ADMINS);
+    var membersJsonMap = genFilter(groupId, EventKind.GROUP_MEMBERS);
+    final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
 
-    // log(jsonEncode([metadataJsonMap, adminsJsonMap, membersJsonMap]));
+    if (nostr == null) {
+      Sentry.captureMessage("nostr is null", level: SentryLevel.error);
+      return;
+    }
+
+    log(
+      "Querying group $groupId...\n\n${filters.toString()}",
+      level: Level.FINE.value,
+      name: 'GroupProvider',
+    );
 
     nostr!.query(
-      [metadataJsonMap, adminsJsonMap, membersJsonMap],
-      (e) {
-        onEvent(groupIdentifier, e);
-      },
+      filters,
+      (e) => onEvent(groupIdentifier, e),
       tempRelays: [groupIdentifier.host],
       relayTypes: RelayType.ONLY_TEMP,
       sendAfterAuth: true,
