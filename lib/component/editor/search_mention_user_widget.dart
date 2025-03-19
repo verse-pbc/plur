@@ -5,7 +5,7 @@ import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../main.dart';
 import '../../provider/group_provider.dart';
 import '../../provider/metadata_provider.dart';
@@ -30,16 +30,16 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
   static const int searchMemLimit = 100;
   double _itemWidth = 50;
 
-  List<Metadata> _metadatas = [];
-  List<Metadata?> _allMemberMetadatas = [];
+  List<User> _users = [];
+  List<User?> _allUsers = [];
 
   @override
   void initState() {
     super.initState();
-    _loadMemberMetadata();
+    _loadMembers();
   }
 
-  Future<void> _loadMemberMetadata() async {
+  Future<void> _loadMembers() async {
     final groupId = widget.groupIdentifier;
     if (groupId == null) {
       return;
@@ -55,7 +55,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 
     // Initialize the metadata list with nulls to maintain order
     setState(() {
-      _allMemberMetadatas = List.filled(memberPubkeys.length, null);
+      _allUsers = List.filled(memberPubkeys.length, null);
     });
 
     // Load metadata for each member
@@ -63,9 +63,9 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     for (int i = 0; i < memberPubkeys.length; i++) {
       final pubkey = memberPubkeys[i];
 
-      Metadata? initialMetadata = metadataProvider.getMetadata(pubkey);
-      if (initialMetadata != null) {
-        _allMemberMetadatas[i] = initialMetadata;
+      User? initialUser = metadataProvider.getUser(pubkey);
+      if (initialUser != null) {
+        _allUsers[i] = initialUser;
       }
     }
 
@@ -84,15 +84,15 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
   }
 
   Widget _resultBuild() {
-    if (_metadatas.isEmpty) {
+    if (_users.isEmpty) {
      return const Center(
        child: CircularProgressIndicator(),
      );
     }
 
-    final userWidgetList = _metadatas.map(
-          (metadata) => SearchMentionUserItemWidget(
-        metadata: metadata,
+    final userWidgetList = _users.map(
+          (user) => SearchMentionUserItemWidget(
+        user: user,
         width: _itemWidth,
       ),
     ).toList();
@@ -117,13 +117,13 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
   }
 
   void _handleSearch(String? text) {
-    _metadatas.clear();
+    _users.clear();
 
     if (text == null || text.isEmpty) {
-      _metadatas = _allMemberMetadatas.whereType<Metadata>().toList();
+      _users = _allUsers.whereType<User>().toList();
     } else {
       final metadataProvider = Provider.of<MetadataProvider>(context, listen: false);
-      _metadatas = metadataProvider.findUser(text, limit: searchMemLimit);
+      _users = metadataProvider.findUser(text, limit: searchMemLimit);
     }
 
     setState(() {});
@@ -133,12 +133,12 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 class SearchMentionUserItemWidget extends StatelessWidget {
   static const double IMAGE_WIDTH = 36;
 
-  final Metadata metadata;
+  final User user;
   final double width;
 
   const SearchMentionUserItemWidget({
     super.key,
-    required this.metadata,
+    required this.user,
     required this.width,
   });
 
@@ -147,17 +147,17 @@ class SearchMentionUserItemWidget extends StatelessWidget {
     final themeData = Theme.of(context);
     var cardColor = themeData.cardColor;
 
-    String nip19Name = Nip19.encodeSimplePubKey(metadata.pubkey!);
+    String nip19Name = Nip19.encodeSimplePubKey(user.pubkey!);
     String displayName = nip19Name;
-    if (StringUtil.isNotBlank(metadata.displayName)) {
-      displayName = metadata.displayName!;
+    if (StringUtil.isNotBlank(user.displayName)) {
+      displayName = user.displayName!;
     } else {
-      if (StringUtil.isNotBlank(metadata.name)) {
-        displayName = metadata.name!;
+      if (StringUtil.isNotBlank(user.name)) {
+        displayName = user.name!;
       }
     }
 
-    var nip05Text = metadata.nip05;
+    var nip05Text = user.nip05;
     if (StringUtil.isBlank(nip05Text)) {
       nip05Text = nip19Name;
     }
@@ -169,9 +169,9 @@ class SearchMentionUserItemWidget extends StatelessWidget {
       child: Row(
         children: [
           UserPicWidget(
-            pubkey: metadata.pubkey!,
+            pubkey: user.pubkey!,
             width: IMAGE_WIDTH,
-            metadata: metadata,
+            user: user,
           ),
           Expanded(
             child: Container(
@@ -202,7 +202,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
                           child: Container(
                             margin: const EdgeInsets.only(left: 3),
                             child:
-                                Nip05ValidWidget(pubkey: metadata.pubkey!),
+                                Nip05ValidWidget(pubkey: user.pubkey!),
                           ),
                         ),
                       ],
@@ -220,7 +220,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        RouterUtil.back(context, metadata.pubkey);
+        RouterUtil.back(context, user.pubkey);
       },
       child: main,
     );

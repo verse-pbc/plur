@@ -46,9 +46,9 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
     if (groupMembers != null && groupMembers.members != null) {
       // Create a list of member data to sort
       var membersList = groupMembers.members!.map((pubkey) {
-        final metadata = metadataProvider.getMetadata(pubkey);
+        final user = metadataProvider.getUser(pubkey);
         final isAdmin = groupAdmins?.containsUser(pubkey) ?? false;
-        return (pubkey: pubkey, metadata: metadata, isAdmin: isAdmin);
+        return (pubkey: pubkey, user: user, isAdmin: isAdmin);
       }).toList();
 
       // Sort the list - admins first, then by display name
@@ -59,11 +59,11 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
         }
 
         // Then compare by display name
-        final member1Name = member1.metadata?.displayName ??
-            member1.metadata?.name ??
+        final member1Name = member1.user?.displayName ??
+            member1.user?.name ??
             Nip19.encodeSimplePubKey(member1.pubkey);
-        final member2Name = member2.metadata?.displayName ??
-            member2.metadata?.name ??
+        final member2Name = member2.user?.displayName ??
+            member2.user?.name ??
             Nip19.encodeSimplePubKey(member2.pubkey);
         return member1Name.compareTo(member2Name);
       });
@@ -72,7 +72,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
             groupIdentifier: groupIdentifier!,
             pubkey: member.pubkey,
             isAdmin: member.isAdmin,
-            metadata: member.metadata,
+            user: member.user,
           )));
     }
 

@@ -7,7 +7,7 @@ import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -291,8 +291,8 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
     }
     final localization = S.of(context);
 
-    return Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
+    return Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
       Color currentColor = Colors.green;
       List<Widget> list = [];
 
@@ -315,14 +315,14 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
       list.add(UserPicWidget(
         pubkey: pubkey,
         width: imageWidth,
-        metadata: metadata,
+        user: user,
       ));
 
       list.add(Container(
         margin: const EdgeInsets.only(left: 5, right: 5),
         child: NameWidget(
           pubkey: pubkey,
-          metadata: metadata,
+          user: user,
         ),
       ));
 
@@ -389,7 +389,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
         ),
       );
     }, selector: (_, provider) {
-      return provider.getMetadata(pubkey);
+      return provider.getUser(pubkey);
     });
   }
 

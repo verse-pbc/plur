@@ -44,8 +44,8 @@ class ZapAction {
       BuildContext context, int sats, String pubkey,
       {String? eventId, String? pollOption, String? comment}) async {
     final localization = S.of(context);
-    var metadata = metadataProvider.getMetadata(pubkey);
-    if (metadata == null) {
+    final user = metadataProvider.getUser(pubkey);
+    if (user == null) {
       BotToast.showText(text: localization.Metadata_can_not_be_found);
       return null;
     }
@@ -55,12 +55,12 @@ class ZapAction {
     // lud06 like: LNURL1DP68GURN8GHJ7MRW9E6XJURN9UH8WETVDSKKKMN0WAHZ7MRWW4EXCUP0XPURJCEKXVERVDEJXCMKYDFHV43KX2HK8GT
     // lud16 like: pavol@rusnak.io
     // but some people set lud16 to lud06
-    String? lnurl = metadata.lud06;
+    String? lnurl = user.lud06;
     String? lud16Link;
 
     if (StringUtil.isBlank(lnurl)) {
-      if (StringUtil.isNotBlank(metadata.lud16)) {
-        lnurl = Zap.getLnurlFromLud16(metadata.lud16!);
+      if (StringUtil.isNotBlank(user.lud16)) {
+        lnurl = Zap.getLnurlFromLud16(user.lud16!);
       }
     }
     if (StringUtil.isBlank(lnurl)) {
@@ -69,17 +69,17 @@ class ZapAction {
     }
     // check if user set wrong
     if (lnurl!.contains("@")) {
-      lnurl = Zap.getLnurlFromLud16(metadata.lud16!);
+      lnurl = Zap.getLnurlFromLud16(user.lud16!);
     }
 
     if (StringUtil.isBlank(lud16Link)) {
-      if (StringUtil.isNotBlank(metadata.lud16)) {
-        lud16Link = Zap.getLud16LinkFromLud16(metadata.lud16!);
+      if (StringUtil.isNotBlank(user.lud16)) {
+        lud16Link = Zap.getLud16LinkFromLud16(user.lud16!);
       }
     }
     if (StringUtil.isBlank(lud16Link)) {
-      if (StringUtil.isNotBlank(metadata.lud06)) {
-        lud16Link = Zap.decodeLud06Link(metadata.lud06!);
+      if (StringUtil.isNotBlank(user.lud06)) {
+        lud16Link = Zap.decodeLud06Link(user.lud06!);
       }
     }
 

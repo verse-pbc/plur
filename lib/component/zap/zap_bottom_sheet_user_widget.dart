@@ -3,7 +3,7 @@ import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../provider/metadata_provider.dart';
 import '../user/user_pic_widget.dart';
 
@@ -36,8 +36,8 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
     final themeData = Theme.of(context);
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
 
-    return Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
+    return Selector<MetadataProvider, User?>(
+      builder: (context, user, child) {
         Widget userNameWidget = Container(
           width: widget.configMaxWidth ? 100 : null,
           margin: const EdgeInsets.only(
@@ -48,7 +48,7 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
           alignment: Alignment.center,
           child: SimpleNameWidget(
             pubkey: widget.pubkey,
-            metadata: metadata,
+            user: user,
             maxLines: 1,
             textOverflow: TextOverflow.ellipsis,
           ),
@@ -68,7 +68,7 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
           child: UserPicWidget(
             pubkey: widget.pubkey,
             width: IMAGE_WIDTH,
-            metadata: metadata,
+            user: user,
           ),
         );
 
@@ -84,7 +84,7 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
         );
       },
       selector: (_, provider) {
-        return provider.getMetadata(widget.pubkey);
+        return provider.getUser(widget.pubkey);
       },
     );
   }

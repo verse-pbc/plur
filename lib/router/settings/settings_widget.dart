@@ -22,7 +22,7 @@ import '../../component/enum_selector_widget.dart';
 import '../../component/translate/translate_model_manager.dart';
 import '../../consts/base_consts.dart';
 import '../../consts/image_services.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/settings_provider.dart';
@@ -639,7 +639,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         waitingDeleteEventBox.clear();
 
         // use a blank metadata to update it
-        var blankMetadata = Metadata();
+        var blankMetadata = User();
         var updateEvent = Event(nostr!.publicKey, EventKind.METADATA, [],
             jsonEncode(blankMetadata));
         nostr!.sendEvent(updateEvent);

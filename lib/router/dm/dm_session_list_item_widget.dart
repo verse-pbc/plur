@@ -6,7 +6,7 @@ import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -36,8 +36,8 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
 
   @override
   Widget build(BuildContext context) {
-    var main = Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
+    var main = Selector<MetadataProvider, User?>(
+      builder: (context, user, child) {
         final themeData = Theme.of(context);
         var mainColor = themeData.primaryColor;
         var hintColor = themeData.hintColor;
@@ -114,7 +114,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
                           Expanded(
                             child: NameWidget(
                               pubkey: dmSession.pubkey,
-                              metadata: metadata,
+                              user: user,
                               maxLines: 1,
                               textOverflow: TextOverflow.ellipsis,
                             ),
@@ -146,7 +146,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
         );
       },
       selector: (_, provider) {
-        return provider.getMetadata(widget.detail.dmSession.pubkey);
+        return provider.getUser(widget.detail.dmSession.pubkey);
       },
     );
 

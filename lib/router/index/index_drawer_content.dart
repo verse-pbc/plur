@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/component/user/metadata_top_widget.dart';
+import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
@@ -9,7 +9,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
@@ -85,17 +85,17 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       ));
     } else {
       list.add(Stack(children: [
-        Selector<MetadataProvider, Metadata?>(
-          builder: (context, metadata, child) {
-            return MetadataTopWidget(
+        Selector<MetadataProvider, User?>(
+          builder: (context, user, child) {
+            return UserTopWidget(
               pubkey: pubkey,
-              metadata: metadata,
+              user: user,
               isLocal: true,
               jumpable: true,
             );
           },
           selector: (_, provider) {
-            return provider.getMetadata(pubkey);
+            return provider.getUser(pubkey);
           },
         ),
         Positioned(
@@ -240,8 +240,8 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
 
   /// Navigates to the profile edit screen.
   void _jumpToProfileEdit() {
-    var metadata = metadataProvider.getMetadata(nostr!.publicKey);
-    RouterUtil.router(context, RouterPath.PROFILE_EDITOR, metadata);
+    final user = metadataProvider.getUser(nostr!.publicKey);
+    RouterUtil.router(context, RouterPath.PROFILE_EDITOR, user);
   }
 
   /// Displays the account manager modal bottom sheet.
