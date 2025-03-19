@@ -7,9 +7,9 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
 class ContentLnbcWidget extends StatelessWidget {
-  String lnbc;
+  final String lnbc;
 
-  ContentLnbcWidget({super.key, required this.lnbc});
+  const ContentLnbcWidget({super.key, required this.lnbc});
 
   @override
   Widget build(BuildContext context) {
