@@ -167,9 +167,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     nostr!.query(
       filters,
       (e) => onEvent(groupIdentifier, e),
-      tempRelays: [groupIdentifier.host],
-      relayTypes: RelayType.ONLY_TEMP,
-      sendAfterAuth: true,
+      relayTypes: [RelayType.LOCAL],
     );
   }
 
