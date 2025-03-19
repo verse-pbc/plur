@@ -44,35 +44,35 @@ import 'event_reactions_widget.dart';
 import 'event_top_widget.dart';
 
 class EventMainWidget extends StatefulWidget {
-  ScreenshotController screenshotController;
+  final ScreenshotController screenshotController;
 
-  Event event;
+  final Event event;
 
-  String? pagePubkey;
+  final String? pagePubkey;
 
-  bool showReplying;
+  final bool showReplying;
 
-  Function? textOnTap;
+  final Function? textOnTap;
 
-  bool showVideo;
+  final bool showVideo;
 
-  bool imageListMode;
+  final bool imageListMode;
 
-  bool showDetailBtn;
+  final bool showDetailBtn;
 
-  bool showLongContent;
+  final bool showLongContent;
 
-  bool showSubject;
+  final bool showSubject;
 
-  bool showCommunity;
+  final bool showCommunity;
 
-  EventRelation? eventRelation;
+  final EventRelation? eventRelation;
 
-  bool showLinkedLongForm;
+  final bool showLinkedLongForm;
 
-  bool inQuote;
+  final bool inQuote;
 
-  bool traceMode;
+  final bool traceMode;
 
   EventMainWidget({
     super.key,
@@ -128,7 +128,6 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     }
   }
 
-  @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
     var settingsProvider = Provider.of<SettingsProvider>(context);
