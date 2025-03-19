@@ -75,7 +75,7 @@ class ColorSelectorWidget extends StatelessWidget {
 }
 
 class ColorSelectorItemWidget extends StatelessWidget {
-  static const double HEIGHT = 44;
+  static const double height = 44;
 
   final Color color;
 
@@ -92,10 +92,10 @@ class ColorSelectorItemWidget extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(Base.basePadding),
         alignment: Alignment.center,
-        height: HEIGHT,
+        height: height,
         child: Container(
-          height: HEIGHT,
-          width: HEIGHT,
+          height: height,
+          width: height,
           color: color,
         ),
       ),
