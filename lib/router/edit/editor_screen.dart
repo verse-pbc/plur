@@ -110,10 +110,15 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
   }
 
   bool _checkForMedia(Object delta) {
-    return (delta as dynamic).toList().any((operation) =>
-        operation.key == "insert" &&
-        operation.data is Map &&
-        _isMediaData(operation.data as Map));
+    try {
+      final operations = (delta as dynamic).toList();
+      return operations.any((operation) =>
+          operation?.key == "insert" &&
+          operation?.data is Map &&
+          _isMediaData(operation.data as Map));
+    } catch (e) {
+      return false;
+    }
   }
 
   bool _isMediaData(Map data) =>

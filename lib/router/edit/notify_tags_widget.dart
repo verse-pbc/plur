@@ -23,13 +23,14 @@ class NotifyTagsWidget extends StatelessWidget {
 
     final List<Widget> tagPsWidgets = [Text("${S.of(context).Notify}:")];
 
-    for (var item in notifyItems!) {
-      tagPsWidgets.add(EditorNotifyItemWidget(item: item));
+    if (notifyItems != null) {
+      for (var item in notifyItems!) {
+        tagPsWidgets.add(EditorNotifyItemWidget(item: item));
+      }
     }
 
     for (var editorNotifyItem in editorNotifyItems) {
-      var exist = notifyItems!
-          .any((element) => element.pubkey == editorNotifyItem.pubkey);
+      var exist = notifyItems?.any((element) => element.pubkey == editorNotifyItem.pubkey) ?? false;
       if (!exist) {
         tagPsWidgets.add(EditorNotifyItemWidget(item: editorNotifyItem));
       }
