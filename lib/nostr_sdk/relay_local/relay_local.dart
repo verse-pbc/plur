@@ -45,7 +45,11 @@ class RelayLocal extends Relay with RelayLocalMixin {
   @override
   bool send(List message, {bool? forceSend}) {
     // all messages were resend by the local, so we didn't check sig here.
-
+    log(
+      "Sending message to local relay...\n\n${message.toString()}",
+      level: Level.FINEST.value,
+      name: "RelayLocal",
+    );
     if (message.isNotEmpty) {
       var action = message[0];
       if (action == "EVENT") {
