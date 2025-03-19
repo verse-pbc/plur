@@ -4,11 +4,11 @@ import 'package:nostrmo/component/webview_widget.dart';
 import '../../consts/base.dart';
 
 class WebUtilItemWidget extends StatelessWidget {
-  String link;
+  final String link;
 
-  String des;
+  final String des;
 
-  WebUtilItemWidget({
+  const WebUtilItemWidget({
     super.key,
     required this.link,
     required this.des,
