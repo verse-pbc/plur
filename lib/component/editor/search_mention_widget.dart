@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
@@ -24,33 +26,36 @@ class SearchMentionWidget extends StatefulWidget {
   }
 }
 
-class _SearchMentionWidgetState extends State<SearchMentionWidget>
-    with WhenStopFunction {
-  TextEditingController controller = TextEditingController();
-
-  ScrollController scrollController = ScrollController();
+class _SearchMentionWidgetState extends State<SearchMentionWidget> {
+  final _controller = TextEditingController();
+  bool _showsClearButton = false;
+  Timer? _debouncer;
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
-      var hasText = StringUtil.isNotBlank(controller.text);
-      if (!showSuffix && hasText) {
+
+    _controller.addListener(() {
+      final hasText = StringUtil.isNotBlank(_controller.text);
+      if (_showsClearButton != hasText) {
         setState(() {
-          showSuffix = true;
-        });
-        return;
-      } else if (showSuffix && !hasText) {
-        setState(() {
-          showSuffix = false;
+          _showsClearButton = hasText;
         });
       }
 
-      whenStop(checkInput);
+      _debouncer?.cancel();
+      _debouncer = Timer(const Duration(milliseconds: 200), () {
+        _checkInput();
+      });
     });
   }
 
-  bool showSuffix = false;
+  @override
+  void dispose() {
+    _debouncer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,23 +65,23 @@ class _SearchMentionWidgetState extends State<SearchMentionWidget>
     List<Widget> list = [];
 
     Widget? suffixWidget;
-    if (showSuffix) {
+    if (_showsClearButton) {
       suffixWidget = GestureDetector(
         onTap: () {
-          controller.text = "";
+          _controller.text = "";
         },
         child: const Icon(Icons.close),
       );
     }
     list.add(TextField(
       autofocus: true,
-      controller: controller,
+      controller: _controller,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
         hintText: localization.Please_input_search_content,
         suffixIcon: suffixWidget,
       ),
-      onEditingComplete: checkInput,
+      onEditingComplete: _checkInput,
     ));
 
     list.add(Expanded(
@@ -92,8 +97,7 @@ class _SearchMentionWidgetState extends State<SearchMentionWidget>
     );
   }
 
-  checkInput() {
-    var text = controller.text;
-    widget.handleSearchFunc(text);
+  _checkInput() {
+    widget.handleSearchFunc(_controller.text);
   }
 }

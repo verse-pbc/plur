@@ -32,6 +32,8 @@ migrate_working_dir/
 .pub/
 /build/
 ios/build
+Plur.ipa
+Plur.app.dSYM.zip
 
 # Symbolication related
 app.*.symbols
@@ -48,4 +50,4 @@ app.*.map.json
 .fvm/
 
 # Fastlane
-ios/fastlane/report.xml
+fastlane/report.xml

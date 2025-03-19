@@ -5,7 +5,7 @@ import '../main.dart';
 import 'follow_event_provider.dart';
 
 class FollowNewEventProvider extends ChangeNotifier
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   EventMemBox eventPostMemBox = EventMemBox(sortAfterAdd: false);
   EventMemBox eventMemBox = EventMemBox();
 
@@ -13,7 +13,7 @@ class FollowNewEventProvider extends ChangeNotifier
 
   List<String> _subscribeIds = [];
 
-  void doUnscribe() {
+  void doUnsubscribe() {
     if (_subscribeIds.isNotEmpty) {
       for (var subscribeId in _subscribeIds) {
         try {
@@ -25,7 +25,7 @@ class FollowNewEventProvider extends ChangeNotifier
   }
 
   void queryNew() {
-    doUnscribe();
+    doUnsubscribe();
 
     bool queriedTags = false;
     _localSince =
