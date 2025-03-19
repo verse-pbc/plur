@@ -7,13 +7,13 @@ import 'thread_detail_event.dart';
 import 'thread_detail_event_main_widget.dart';
 
 class ThreadDetailItemWidget extends StatefulWidget {
-  double totalMaxWidth;
+  final double totalMaxWidth;
 
-  ThreadDetailEvent item;
+  final ThreadDetailEvent item;
 
-  String sourceEventId;
+  final String sourceEventId;
 
-  GlobalKey sourceEventKey;
+  final GlobalKey sourceEventKey;
 
   ThreadDetailItemWidget({
     super.key,
