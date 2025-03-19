@@ -1,4 +1,4 @@
-class Metadata {
+class User {
   String? pubkey;
   String? name;
   String? displayName;
@@ -12,7 +12,7 @@ class Metadata {
   int? updated_at;
   int? valid;
 
-  Metadata({
+  User({
     this.pubkey,
     this.name,
     this.displayName,
@@ -27,23 +27,23 @@ class Metadata {
     this.valid,
   });
 
-  Metadata.fromJson(Map<String, dynamic> json) {
-    pubkey = json['pub_key'];
-    name = json['name'];
-    displayName = json['display_name'];
-    picture = json['picture'];
-    banner = json['banner'];
-    website = json['website'];
-    about = json['about'];
-    if (json['nip05'] != null && json['nip05'] is String) {
-      nip05 = json['nip05'];
-    }
-    lud16 = json['lud16'];
-    lud06 = json['lud06'];
-    if (json['updated_at'] != null && json['updated_at'] is int) {
-      updated_at = json['updated_at'];
-    }
-    valid = json['valid'];
+  factory User.fromJson(Map<String, dynamic> json) {
+    final nip05 = json['nip05'];
+    final updated_at = json['updated_at'];
+    return User(
+      pubkey: json['pub_key'],
+      name: json['name'],
+      displayName: json['display_name'],
+      picture: json['picture'],
+      banner: json['banner'],
+      website: json['website'],
+      about: json['about'],
+      nip05: nip05 != null && nip05 is String ? nip05 : null,
+      lud16: json['lud16'],
+      lud06: json['lud06'],
+      updated_at: updated_at != null && updated_at is int ? updated_at : null,
+      valid: json['valid'],
+    );
   }
 
   Map<String, dynamic> toFullJson() {

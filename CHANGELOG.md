@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 
 ### Internal Changes
+- Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
 
 ## [0.0.4]
 

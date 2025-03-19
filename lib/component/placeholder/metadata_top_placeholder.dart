@@ -4,7 +4,7 @@ import 'package:nostrmo/util/table_mode_util.dart';
 
 import '../../consts/base.dart';
 import '../../main.dart';
-import '../user/metadata_top_widget.dart';
+import '../user/user_top_widget.dart';
 
 class MetadataTopPlaceholderWidget extends StatelessWidget {
   static const double IMAGE_BORDER = 4;
@@ -24,7 +24,7 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
     var bannerHeight = maxWidth / 3;
     if (TableModeUtil.isTableMode()) {
       bannerHeight =
-          MetadataTopWidget.getPcBannerHeight(mediaDataCache.size.height);
+          UserTopWidget.getPcBannerHeight(mediaDataCache.size.height);
     }
     var textSize = themeData.textTheme.bodyMedium!.fontSize;
 

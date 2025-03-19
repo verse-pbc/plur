@@ -5,7 +5,7 @@ import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
-import 'package:nostrmo/component/user/simple_metadata_widget.dart';
+import 'package:nostrmo/component/user/simple_user_widget.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
@@ -54,7 +54,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
 
     List<Widget> userWidgetList = [];
     for (var pubkey in pubkeys) {
-      userWidgetList.add(SimpleMetadataWidget(
+      userWidgetList.add(SimpleUserWidget(
         pubkey: pubkey,
       ));
     }
@@ -67,7 +67,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
         itemCount: pubkeys.length,
         builder: (context, index) {
           var pubkey = pubkeys[index];
-          return SimpleMetadataWidget(
+          return SimpleUserWidget(
             pubkey: pubkey,
             showFollow: true,
           );

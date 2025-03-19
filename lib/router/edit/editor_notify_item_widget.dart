@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -33,16 +33,16 @@ class _EditorNotifyItemWidgetState extends State<EditorNotifyItemWidget> {
     var textColor = themeData.appBarTheme.titleTextStyle!.color;
 
     List<Widget> list = [];
-    list.add(Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
+    list.add(Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
       String name =
-          SimpleNameWidget.getSimpleName(widget.item.pubkey, metadata);
+          SimpleNameWidget.getSimpleName(widget.item.pubkey, user);
       return Text(
         name,
         style: TextStyle(color: textColor),
       );
     }, selector: (_, provider) {
-      return provider.getMetadata(widget.item.pubkey);
+      return provider.getUser(widget.item.pubkey);
     }));
 
     list.add(SizedBox(

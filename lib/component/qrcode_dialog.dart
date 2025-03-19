@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
-import 'package:nostrmo/component/user/metadata_top_widget.dart';
+import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -56,17 +56,17 @@ class _QrcodeDialog extends State<QrcodeDialog> {
 
     List<Widget> list = [];
     var nip19Pubkey = Nip19.encodePubKey(widget.pubkey);
-    Widget topWidget = Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
+    Widget topWidget = Selector<MetadataProvider, User?>(
+      builder: (context, user, child) {
         Widget userImageWidget = UserPicWidget(
           pubkey: widget.pubkey,
           width: IMAGE_WIDTH,
-          metadata: metadata,
+          user: user,
         );
 
         Widget userNameWidget = NameWidget(
           pubkey: widget.pubkey,
-          metadata: metadata,
+          user: user,
         );
 
         return Container(
@@ -91,7 +91,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         );
       },
       selector: (content, provider) {
-        return provider.getMetadata(widget.pubkey);
+        return provider.getUser(widget.pubkey);
       },
     );
     list.add(topWidget);

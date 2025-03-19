@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
 
 class SimpleNameWidget extends StatefulWidget {
-  static String getSimpleName(String pubkey, Metadata? metadata) {
+  static String getSimpleName(String pubkey, User? user) {
     String? name;
-    if (metadata != null) {
-      if (StringUtil.isNotBlank(metadata.displayName)) {
-        name = metadata.displayName;
-      } else if (StringUtil.isNotBlank(metadata.name)) {
-        name = metadata.name;
+    if (user != null) {
+      if (StringUtil.isNotBlank(user.displayName)) {
+        name = user.displayName;
+      } else if (StringUtil.isNotBlank(user.name)) {
+        name = user.name;
       }
     }
     if (StringUtil.isBlank(name)) {
@@ -23,7 +23,7 @@ class SimpleNameWidget extends StatefulWidget {
 
   String pubkey;
 
-  Metadata? metadata;
+  User? user;
 
   TextStyle? textStyle;
 
@@ -33,7 +33,7 @@ class SimpleNameWidget extends StatefulWidget {
 
   SimpleNameWidget({super.key, 
     required this.pubkey,
-    this.metadata,
+    this.user,
     this.textStyle,
     this.maxLines,
     this.textOverflow,
@@ -48,20 +48,20 @@ class SimpleNameWidget extends StatefulWidget {
 class _SimpleNameWidgetState extends State<SimpleNameWidget> {
   @override
   Widget build(BuildContext context) {
-    if (widget.metadata != null) {
-      return buildWidget(widget.metadata);
+    if (widget.user != null) {
+      return buildWidget(widget.user);
     }
 
-    return Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
-      return buildWidget(metadata);
+    return Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
+      return buildWidget(user);
     }, selector: (_, provider) {
-      return provider.getMetadata(widget.pubkey);
+      return provider.getUser(widget.pubkey);
     });
   }
 
-  Widget buildWidget(Metadata? metadata) {
-    var name = SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
+  Widget buildWidget(User? user) {
+    var name = SimpleNameWidget.getSimpleName(widget.pubkey, user);
     return Text(
       name,
       style: widget.textStyle,

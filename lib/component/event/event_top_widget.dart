@@ -10,7 +10,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../provider/metadata_provider.dart';
 import '../nip05_valid_widget.dart';
 
@@ -56,21 +56,21 @@ class _EventTopWidgetState extends State<EventTopWidget> {
       }
     }
 
-    return Selector<MetadataProvider, Metadata?>(
+    return Selector<MetadataProvider, User?>(
       shouldRebuild: (previous, next) {
         return previous != next;
       },
       selector: (context, metadataProvider) {
-        return metadataProvider.getMetadata(pubkey!);
+        return metadataProvider.getUser(pubkey!);
       },
-      builder: (context, metadata, child) {
+      builder: (context, user, child) {
         final themeData = Theme.of(context);
 
         String nip05Text = Nip19.encodeSimplePubKey(pubkey!);
 
-        if (metadata != null) {
-          if (StringUtil.isNotBlank(metadata.nip05)) {
-            nip05Text = metadata.nip05!;
+        if (user != null) {
+          if (StringUtil.isNotBlank(user.nip05)) {
+            nip05Text = user.nip05!;
           }
         }
 
@@ -88,7 +88,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                 child: UserPicWidget(
                   width: IMAGE_WIDTH,
                   pubkey: pubkey!,
-                  metadata: metadata,
+                  user: user,
                 ),
               )),
               Expanded(
@@ -104,7 +104,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                             child: jumpWrap(
                               NameWidget(
                                 pubkey: widget.event.pubkey,
-                                metadata: metadata,
+                                user: user,
                                 maxLines: 1,
                                 textOverflow: TextOverflow.ellipsis,
                                 showNip05: false,

@@ -3,9 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/user/metadata_top_widget.dart';
+import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/data/event_find_util.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/router/search/search_action_item_widget.dart';
 import 'package:nostrmo/router/search/search_actions.dart';
 import 'package:provider/provider.dart';
@@ -120,19 +120,19 @@ class _SearchWidgetState extends CustState<SearchWidget>
         body = ListView.builder(
           controller: scrollController,
           itemBuilder: (BuildContext context, int index) {
-            var metadata = metadatas[index];
+            var user = users[index];
 
             return GestureDetector(
               onTap: () {
-                RouterUtil.router(context, RouterPath.USER, metadata.pubkey);
+                RouterUtil.router(context, RouterPath.USER, user.pubkey);
               },
-              child: MetadataTopWidget(
-                pubkey: metadata.pubkey!,
-                metadata: metadata,
+              child: UserTopWidget(
+                pubkey: user.pubkey!,
+                user: user,
               ),
             );
           },
-          itemCount: metadatas.length,
+          itemCount: users.length,
         );
       } else if (searchAction == SearchActions.searchEventFromCache) {
         loadable = false;
@@ -368,11 +368,11 @@ class _SearchWidgetState extends CustState<SearchWidget>
     }
   }
 
-  List<Metadata> metadatas = [];
+  List<User> users = [];
 
   searchMetadataFromCache() {
     hideKeyBoard();
-    metadatas.clear();
+    users.clear();
     searchAction = SearchActions.searchMetadataFromCache;
 
     var text = controller.text;
@@ -380,7 +380,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
       var list = metadataProvider.findUser(text, limit: searchMemLimit);
 
       setState(() {
-        metadatas = list;
+        users = list;
       });
     }
   }

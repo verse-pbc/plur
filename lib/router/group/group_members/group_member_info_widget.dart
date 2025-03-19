@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/data/metadata.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import '../../../component/group/admin_tag_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
+
+import '../../../component/group/admin_tag_widget.dart';
+import '../../../data/user.dart';
 
 /// Displays some info about a group member.
 class GroupMemberInfoWidget extends StatelessWidget {
   final String pubkey;
-  final Metadata? metadata;
+  final User? user;
   final bool isAdmin;
 
   const GroupMemberInfoWidget({
     super.key,
     required this.pubkey,
-    required this.metadata,
+    required this.user,
     required this.isAdmin,
   });
 
@@ -28,8 +29,8 @@ class GroupMemberInfoWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                metadata?.displayName ??
-                    metadata?.name ??
+                user?.displayName ??
+                    user?.name ??
                     Nip19.encodeSimplePubKey(pubkey),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
@@ -38,7 +39,7 @@ class GroupMemberInfoWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                metadata?.nip05 ?? "",
+                user?.nip05 ?? "",
                 style: TextStyle(
                   fontSize: themeData.textTheme.bodySmall!.fontSize,
                   color: themeData.customColors.dimmedColor,

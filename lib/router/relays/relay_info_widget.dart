@@ -12,7 +12,7 @@ import 'package:nostrmo/component/sync_upload_dialog.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:nostrmo/util/store_util.dart';
@@ -93,8 +93,8 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     list.add(RelayInfoItemWidget(
       title: localization.Owner,
-      child: Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
+      child: Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
           List<Widget> list = [];
 
           list.add(Container(
@@ -102,7 +102,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
             child: UserPicWidget(
               pubkey: relayInfo.pubkey,
               width: IMAGE_WIDTH,
-              metadata: metadata,
+              user: user,
             ),
           ));
 
@@ -116,7 +116,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
           );
         },
         selector: (_, provider) {
-          return provider.getMetadata(relayInfo.pubkey);
+          return provider.getUser(relayInfo.pubkey);
         },
       ),
     ));

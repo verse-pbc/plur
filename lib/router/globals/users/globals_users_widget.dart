@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 
 import '../../../component/keep_alive_cust_state.dart';
 import '../../../component/placeholder/metadata_list_placeholder.dart';
-import '../../../component/user/metadata_widget.dart';
+import '../../../component/user/user_metadata_widget.dart';
 import '../../../consts/base.dart';
 import '../../../consts/router_path.dart';
-import '../../../data/metadata.dart';
+import '../../../data/user.dart';
 import '../../../main.dart';
 import '../../../provider/metadata_provider.dart';
 import '../../../util/dio_util.dart';
@@ -51,22 +51,22 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
         return Container(
           color: themeData.cardColor,
           padding: const EdgeInsets.only(bottom: Base.basePadding),
-          child: Selector<MetadataProvider, Metadata?>(
-            builder: (context, metadata, child) {
+          child: Selector<MetadataProvider, User?>(
+            builder: (context, user, child) {
               return GestureDetector(
                 onTap: () {
                   RouterUtil.router(context, RouterPath.USER, pubkey);
                 },
                 behavior: HitTestBehavior.translucent,
-                child: MetadataWidget(
+                child: UserMetadataWidget(
                   pubkey: pubkey,
-                  metadata: metadata,
+                  user: user,
                   jumpable: true,
                 ),
               );
             },
             selector: (_, provider) {
-              return provider.getMetadata(pubkey);
+              return provider.getUser(pubkey);
             },
           ),
         );

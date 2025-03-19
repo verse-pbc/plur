@@ -3,7 +3,7 @@ import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/router_path.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 import 'content_str_link_widget.dart';
@@ -22,10 +22,10 @@ class ContentMentionUserWidget extends StatefulWidget {
 class _ContentMentionUserWidgetState extends State<ContentMentionUserWidget> {
   @override
   Widget build(BuildContext context) {
-    return Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
+    return Selector<MetadataProvider, User?>(
+      builder: (context, user, child) {
         String name =
-            SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
+            SimpleNameWidget.getSimpleName(widget.pubkey, user);
 
         return ContentStrLinkWidget(
           str: "@$name",
@@ -36,7 +36,7 @@ class _ContentMentionUserWidgetState extends State<ContentMentionUserWidget> {
         );
       },
       selector: (_, provider) {
-        return provider.getMetadata(widget.pubkey);
+        return provider.getUser(widget.pubkey);
       },
     );
   }

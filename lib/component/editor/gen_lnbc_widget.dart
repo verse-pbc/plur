@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
@@ -37,16 +37,16 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
+    return Selector<MetadataProvider, User?>(
+      builder: (context, user, child) {
         final themeData = Theme.of(context);
         Color cardColor = themeData.cardColor;
         var mainColor = themeData.primaryColor;
         var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
         final localization = S.of(context);
-        if (metadata == null ||
-            (StringUtil.isBlank(metadata.lud06) &&
-                StringUtil.isBlank(metadata.lud16))) {
+        if (user == null ||
+            (StringUtil.isBlank(user.lud06) &&
+                StringUtil.isBlank(user.lud16))) {
           return Center(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -63,7 +63,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
                     str: localization.Add_now,
                     onTap: () async {
                       await RouterUtil.router(
-                          context, RouterPath.PROFILE_EDITOR, metadata);
+                          context, RouterPath.PROFILE_EDITOR, user);
                       metadataProvider.update(nostr!.publicKey);
                     },
                   ),
@@ -122,7 +122,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
             decoration: BoxDecoration(color: mainColor),
             child: InkWell(
               onTap: () {
-                _onConfirm(metadata.pubkey!);
+                _onConfirm(user.pubkey!);
               },
               highlightColor: mainColor.withOpacity(0.2),
               child: Container(
@@ -156,7 +156,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         return main;
       },
       selector: (_, provider) {
-        return provider.getMetadata(nostr!.publicKey);
+        return provider.getUser(nostr!.publicKey);
       },
     );
   }

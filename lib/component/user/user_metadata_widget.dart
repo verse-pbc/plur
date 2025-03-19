@@ -3,14 +3,14 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
 
 import '../../consts/base.dart';
-import '../../data/metadata.dart';
-import 'metadata_top_widget.dart';
+import '../../data/user.dart';
+import 'user_top_widget.dart';
 import 'user_badges_widget.dart';
 
-class MetadataWidget extends StatefulWidget {
+class UserMetadataWidget extends StatefulWidget {
   String pubkey;
 
-  Metadata? metadata;
+  User? user;
 
   bool jumpable;
 
@@ -18,9 +18,9 @@ class MetadataWidget extends StatefulWidget {
 
   bool userPicturePreview;
 
-  MetadataWidget({super.key, 
+  UserMetadataWidget({super.key,
     required this.pubkey,
-    this.metadata,
+    this.user,
     this.jumpable = false,
     this.showBadges = false,
     this.userPicturePreview = false,
@@ -32,15 +32,15 @@ class MetadataWidget extends StatefulWidget {
   }
 }
 
-class _MetadataWidgetState extends State<MetadataWidget> {
+class _MetadataWidgetState extends State<UserMetadataWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     List<Widget> mainList = [];
 
-    mainList.add(MetadataTopWidget(
+    mainList.add(UserTopWidget(
       pubkey: widget.pubkey,
-      metadata: widget.metadata,
+      user: widget.user,
       jumpable: widget.jumpable,
       userPicturePreview: widget.userPicturePreview,
     ));
@@ -52,8 +52,8 @@ class _MetadataWidgetState extends State<MetadataWidget> {
       ));
     }
 
-    if (widget.metadata != null &&
-        StringUtil.isNotBlank(widget.metadata!.about)) {
+    if (widget.user != null &&
+        StringUtil.isNotBlank(widget.user!.about)) {
       mainList.add(
         Container(
           width: double.maxFinite,
@@ -67,7 +67,7 @@ class _MetadataWidgetState extends State<MetadataWidget> {
           child: SizedBox(
             width: double.maxFinite,
             child: ContentWidget(
-              content: widget.metadata!.about,
+              content: widget.user!.about,
               // TODO this should add source event
               showLinkPreview: false,
             ),

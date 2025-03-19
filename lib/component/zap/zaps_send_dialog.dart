@@ -3,7 +3,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ import '../../util/lightning_util.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 import '../../util/zap_action.dart';
-import '../user/metadata_top_widget.dart';
+import '../user/user_top_widget.dart';
 
 class ZapsSendDialog extends StatefulWidget {
   Map<String, int> pubkeyZapNumbers;
@@ -159,8 +159,8 @@ class ZapsSendDialogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    return Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
+    return Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
       var userPicComp = UserPicWidget(pubkey: pubkey, width: height);
 
       var nameColum = Container(
@@ -173,7 +173,7 @@ class ZapsSendDialogItem extends StatelessWidget {
           children: [
             NameWidget(
               pubkey: pubkey,
-              metadata: metadata,
+              user: user,
             ),
             Text(
               "$zapNumber Sats",
@@ -232,7 +232,7 @@ class ZapsSendDialogItem extends StatelessWidget {
         ],
       );
     }, selector: (context, provider) {
-      return provider.getMetadata(pubkey);
+      return provider.getUser(pubkey);
     });
   }
 }

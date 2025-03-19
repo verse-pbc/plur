@@ -5,7 +5,7 @@ import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../provider/metadata_provider.dart';
 import '../image_widget.dart';
 
@@ -18,13 +18,13 @@ class UserPicWidget extends StatefulWidget {
   final double width;
 
   /// The metadata of the user. This is optional.
-  final Metadata? metadata;
+  final User? user;
 
   const UserPicWidget({
     super.key,
     required this.pubkey,
     required this.width,
-    this.metadata,
+    this.user,
   });
 
   @override
@@ -36,18 +36,18 @@ class UserPicWidget extends StatefulWidget {
 class _UserPicWidgetState extends State<UserPicWidget> {
   @override
   Widget build(BuildContext context) {
-    if (widget.metadata != null) {
-      return buildWidget(widget.metadata);
+    if (widget.user != null) {
+      return buildWidget(widget.user);
     }
 
     // Using Selector to watch changes in MetadataProvider and rebuild widget
     // accordingly.
-    return Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
-        return buildWidget(metadata);
+    return Selector<MetadataProvider, User?>(
+      builder: (context, user, child) {
+        return buildWidget(user);
       },
       selector: (_, provider) {
-        return provider.getMetadata(widget.pubkey);
+        return provider.getUser(widget.pubkey);
       },
     );
   }
@@ -56,7 +56,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
   ///
   /// If metadata is provided, it will use the picture URL from the metadata
   /// to display the profile picture. Otherwise, it will use a placeholder.
-  Widget buildWidget(Metadata? metadata) {
+  Widget buildWidget(User? user) {
     final themeData = Theme.of(context);
     var provider = Provider.of<SettingsProvider>(context);
 
@@ -64,15 +64,15 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     double imageBorder = widget.width / 14;
 
     Widget? imageWidget;
-    if (metadata != null) {
+    if (user != null) {
       // Checking if profile picture preview is enabled and metadata contains a
       // picture.
       bool showPreview = provider.profilePicturePreview != OpenStatus.CLOSE;
-      bool hasMetadataPic = StringUtil.isNotBlank(metadata.picture);
+      bool hasMetadataPic = StringUtil.isNotBlank(user.picture);
 
       if (showPreview && hasMetadataPic) {
         imageWidget = ImageWidget(
-          imageUrl: metadata.picture!,
+          imageUrl: user.picture!,
           width: widget.width - imageBorder * 2,
           height: widget.width - imageBorder * 2,
           fit: BoxFit.cover,

@@ -11,9 +11,9 @@ import 'package:provider/provider.dart';
 import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
 import '../../component/event/event_list_widget.dart';
-import '../../component/user/metadata_widget.dart';
+import '../../component/user/user_metadata_widget.dart';
 import '../../consts/base_consts.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
 import '../../provider/settings_provider.dart';
@@ -116,14 +116,14 @@ class _UserWidgetState extends CustState<UserWidget>
 
     final themeData = Theme.of(context);
 
-    return Selector<MetadataProvider, Metadata?>(
+    return Selector<MetadataProvider, User?>(
       shouldRebuild: (previous, next) {
         return previous != next;
       },
       selector: (context, metadataProvider) {
-        return metadataProvider.getMetadata(pubkey!);
+        return metadataProvider.getUser(pubkey!);
       },
-      builder: (context, metadata, child) {
+      builder: (context, user, child) {
         Color? appbarBackgroundColor = Colors.transparent;
         if (showAppbarBG) {
           appbarBackgroundColor = themeData.cardColor.withOpacity(0.6);
@@ -131,7 +131,7 @@ class _UserWidgetState extends CustState<UserWidget>
         Widget? appbarTitle;
         if (showTitle) {
           String displayName =
-              SimpleNameWidget.getSimpleName(pubkey!, metadata);
+              SimpleNameWidget.getSimpleName(pubkey!, user);
 
           appbarTitle = Container(
             alignment: Alignment.center,
@@ -157,9 +157,9 @@ class _UserWidgetState extends CustState<UserWidget>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverToBoxAdapter(
-                child: MetadataWidget(
+                child: UserMetadataWidget(
                   pubkey: pubkey!,
-                  metadata: metadata,
+                  user: user,
                   showBadges: true,
                   userPicturePreview: true,
                 ),
