@@ -142,12 +142,20 @@ class RelayPool {
     try {
       var message = subscription.toJson();
       if (sendAfterAuth && !relay.relayStatus.authed) {
+        log(
+          "Adding to pending authed messages...\n\n$message",
+          name: "RelayPool",
+        );
         relay.pendingAuthedMessages.add(message);
         return true;
       } else {
         if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
           return relay.send(message);
         } else {
+          log(
+            "Adding to pending messages...\n\n$message",
+            name: "RelayPool",
+          );
           relay.pendingMessages.add(message);
           return true;
         }
@@ -534,6 +542,10 @@ class RelayPool {
     if (tempRelays != null &&
         tempRelays.isNotEmpty &&
         relayTypes.contains(RelayType.TEMP)) {
+      log(
+        "Relay type contains temp ${subscription.id} \n\n${subscription.toJson()}", 
+        name: "RelayPool",
+      );
       for (var tempRelayAddr in tempRelays) {
         // check if normal relays has this temp relay, try to get relay from normal relays
         Relay? relay = _relays[tempRelayAddr];
@@ -546,6 +558,10 @@ class RelayPool {
 
     // normal relay, usually will query all the normal relays, but if targetRelays has provide, it only query from the provided querys.
     if (relayTypes.contains(RelayType.NORMAL)) {
+      log(
+        "Relay type contains normal ${subscription.id}\n\n${subscription.toJson()}", 
+        name: "RelayPool",
+      );
       for (var entry in _relays.entries) {
         var relayAddr = entry.key;
         var relay = entry.value;
@@ -562,6 +578,10 @@ class RelayPool {
 
     // cache relay
     if (relayTypes.contains(RelayType.CACHE)) {
+      log(
+        "Relay type contains cache ${subscription.id}\n\n${subscription.toJson()}", 
+        name: "RelayPool",
+      );
       for (var relay in _cacheRelays.values) {
         relayDoQuery(relay, subscription, sendAfterAuth);
       }
@@ -569,6 +589,10 @@ class RelayPool {
 
     // local relay
     if (relayTypes.contains(RelayType.LOCAL) && relayLocal != null) {
+      log(
+        "Relay type contains local ${subscription.id}\n\n${subscription.toJson()}", 
+        name: "RelayPool",
+      );
       relayDoQuery(relayLocal!, subscription, sendAfterAuth);
     }
 
