@@ -17,7 +17,7 @@ import 'package:screenshot/screenshot.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../consts/router_path.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/metadata_provider.dart';
@@ -836,8 +836,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     for (var zapInfo in eventRelation.zapInfos) {
       userWidgetList.add(Container(
         margin: const EdgeInsets.only(left: Base.basePaddingHalf),
-        child: Selector<MetadataProvider, Metadata?>(
-          builder: (context, metadata, child) {
+        child: Selector<MetadataProvider, User?>(
+          builder: (context, user, child) {
             return GestureDetector(
               onTap: () {
                 RouterUtil.router(context, RouterPath.USER, zapInfo.pubkey);
@@ -849,13 +849,13 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 child: UserPicWidget(
                   pubkey: zapInfo.pubkey,
                   width: imgSize,
-                  metadata: metadata,
+                  user: user,
                 ),
               ),
             );
           },
           selector: (buildContext, provider) {
-            return provider.getMetadata(zapInfo.pubkey);
+            return provider.getUser(zapInfo.pubkey);
           },
         ),
       ));
@@ -894,13 +894,13 @@ class _EventReplyingComponent extends State<EventReplyingComponent> {
       onTap: () {
         RouterUtil.router(context, RouterPath.USER, widget.pubkey);
       },
-      child: Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
+      child: Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
           final themeData = Theme.of(context);
           var hintColor = themeData.hintColor;
           var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
           var displayName =
-              SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
+              SimpleNameWidget.getSimpleName(widget.pubkey, user);
 
           return Text(
             displayName,
@@ -911,7 +911,7 @@ class _EventReplyingComponent extends State<EventReplyingComponent> {
           );
         },
         selector: (_, provider) {
-          return provider.getMetadata(widget.pubkey);
+          return provider.getUser(widget.pubkey);
         },
       ),
     );

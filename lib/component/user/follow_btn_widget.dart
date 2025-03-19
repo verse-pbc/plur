@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../main.dart';
 import '../../provider/contact_list_provider.dart';
 import '../follow_set_follow_bottom_sheet.dart';
-import 'metadata_top_widget.dart';
+import 'user_top_widget.dart';
 
 class FollowBtnWidget extends StatefulWidget {
   String pubkey;

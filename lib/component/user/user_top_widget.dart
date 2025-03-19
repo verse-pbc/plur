@@ -15,14 +15,14 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 
 import '../../consts/base.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../confirm_dialog.dart';
 import '../image_widget.dart';
 import '../image_preview_dialog.dart';
 import '../zap/zap_bottom_sheet_widget.dart';
 import 'follow_btn_widget.dart';
 
-class MetadataTopWidget extends StatefulWidget {
+class UserTopWidget extends StatefulWidget {
   static double getPcBannerHeight(double maxHeight) {
     var height = maxHeight * 0.2;
     if (height > 200) {
@@ -34,7 +34,7 @@ class MetadataTopWidget extends StatefulWidget {
 
   String pubkey;
 
-  Metadata? metadata;
+  User? user;
 
   // is local user
   bool isLocal;
@@ -43,10 +43,10 @@ class MetadataTopWidget extends StatefulWidget {
 
   bool userPicturePreview;
 
-  MetadataTopWidget({
+  UserTopWidget({
     super.key,
     required this.pubkey,
-    this.metadata,
+    this.user,
     this.isLocal = false,
     this.jumpable = false,
     this.userPicturePreview = false,
@@ -54,11 +54,11 @@ class MetadataTopWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _MetadataTopWidgetState();
+    return _UserTopWidgetState();
   }
 }
 
-class _MetadataTopWidgetState extends State<MetadataTopWidget> {
+class _UserTopWidgetState extends State<UserTopWidget> {
   static const double IMAGE_BORDER = 4;
 
   static const double IMAGE_WIDTH = 80;
@@ -86,28 +86,28 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
     var bannerHeight = maxWidth / 3;
     if (TableModeUtil.isTableMode()) {
       bannerHeight =
-          MetadataTopWidget.getPcBannerHeight(mediaDataCache.size.height);
+          UserTopWidget.getPcBannerHeight(mediaDataCache.size.height);
     }
 
     String nip19Name = Nip19.encodeSimplePubKey(widget.pubkey);
     String displayName = "";
     String? name;
-    if (widget.metadata != null) {
-      if (StringUtil.isNotBlank(widget.metadata!.displayName)) {
-        displayName = widget.metadata!.displayName!;
-        if (StringUtil.isNotBlank(widget.metadata!.name)) {
-          name = widget.metadata!.name;
+    if (widget.user != null) {
+      if (StringUtil.isNotBlank(widget.user!.displayName)) {
+        displayName = widget.user!.displayName!;
+        if (StringUtil.isNotBlank(widget.user!.name)) {
+          name = widget.user!.name;
         }
-      } else if (StringUtil.isNotBlank(widget.metadata!.name)) {
-        displayName = widget.metadata!.name!;
+      } else if (StringUtil.isNotBlank(widget.user!.name)) {
+        displayName = widget.user!.name!;
       }
     }
 
     Widget? bannerImage;
-    if (widget.metadata != null &&
-        StringUtil.isNotBlank(widget.metadata!.banner)) {
+    if (widget.user != null &&
+        StringUtil.isNotBlank(widget.user!.banner)) {
       bannerImage = ImageWidget(
-        imageUrl: widget.metadata!.banner!,
+        imageUrl: widget.user!.banner!,
         width: maxWidth,
         height: bannerHeight,
         fit: BoxFit.cover,
@@ -136,9 +136,9 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
     )));
 
     if (!widget.isLocal) {
-      if (widget.metadata != null &&
-          (StringUtil.isNotBlank(widget.metadata!.lud06) ||
-              StringUtil.isNotBlank(widget.metadata!.lud16))) {
+      if (widget.user != null &&
+          (StringUtil.isNotBlank(widget.user!.lud06) ||
+              StringUtil.isNotBlank(widget.user!.lud16))) {
         topBtnList.add(wrapBtn(MetadataIconBtn(
           onTap: openZapDialog,
           iconData: Icons.currency_bitcoin,
@@ -212,37 +212,37 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
       ),
     ));
     topList.add(userNameWidget);
-    if (widget.metadata != null) {
+    if (widget.user != null) {
       topList.add(MetadataIconDataComp(
         iconData: Icons.key,
         text: nip19PubKey,
         textBG: true,
         onTap: copyPubKey,
       ));
-      if (StringUtil.isNotBlank(widget.metadata!.nip05)) {
+      if (StringUtil.isNotBlank(widget.user!.nip05)) {
         topList.add(MetadataIconDataComp(
-          text: widget.metadata!.nip05!,
+          text: widget.user!.nip05!,
           leftWidget: Container(
             margin: const EdgeInsets.only(right: 2),
             child: Nip05ValidWidget(pubkey: widget.pubkey),
           ),
         ));
       }
-      if (widget.metadata != null) {
-        if (StringUtil.isNotBlank(widget.metadata!.website)) {
+      if (widget.user != null) {
+        if (StringUtil.isNotBlank(widget.user!.website)) {
           topList.add(MetadataIconDataComp(
             iconData: Icons.link,
-            text: widget.metadata!.website!,
+            text: widget.user!.website!,
             onTap: () {
-              WebViewWidget.open(context, widget.metadata!.website!);
+              WebViewWidget.open(context, widget.user!.website!);
             },
           ));
         }
-        if (StringUtil.isNotBlank(widget.metadata!.lud16)) {
+        if (StringUtil.isNotBlank(widget.user!.lud16)) {
           topList.add(MetadataIconDataComp(
             iconData: Icons.bolt,
             iconColor: Colors.orange,
-            text: widget.metadata!.lud16!,
+            text: widget.user!.lud16!,
           ));
         }
       }
@@ -251,7 +251,7 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
     Widget userImageWidget = UserPicWidget(
       pubkey: widget.pubkey,
       width: IMAGE_WIDTH,
-      metadata: widget.metadata,
+      user: widget.user,
     );
     if (widget.userPicturePreview) {
       userImageWidget = GestureDetector(
@@ -353,10 +353,10 @@ class _MetadataTopWidgetState extends State<MetadataTopWidget> {
   }
 
   void userPicturePreview() {
-    if (widget.metadata != null &&
-        StringUtil.isNotBlank(widget.metadata!.picture)) {
+    if (widget.user != null &&
+        StringUtil.isNotBlank(widget.user!.picture)) {
       List<ImageProvider> imageProviders = [];
-      imageProviders.add(CachedNetworkImageProvider(widget.metadata!.picture!));
+      imageProviders.add(CachedNetworkImageProvider(widget.user!.picture!));
 
       MultiImageProvider multiImageProvider =
           MultiImageProvider(imageProviders, initialIndex: 0);

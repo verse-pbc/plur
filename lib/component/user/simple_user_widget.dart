@@ -4,33 +4,33 @@ import 'package:nostrmo/component/user/follow_btn_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../image_widget.dart';
 
-class SimpleMetadataWidget extends StatefulWidget {
+class SimpleUserWidget extends StatefulWidget {
   String pubkey;
 
-  Metadata? metadata;
+  User? user;
 
   bool showFollow;
 
-  SimpleMetadataWidget({
+  SimpleUserWidget({
     super.key,
     required this.pubkey,
-    this.metadata,
+    this.user,
     this.showFollow = false,
   });
 
   @override
   State<StatefulWidget> createState() {
-    return _SimpleMetadataWidgetState();
+    return _SimpleUserWidgetState();
   }
 }
 
-class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
+class _SimpleUserWidgetState extends State<SimpleUserWidget> {
   static const double IMAGE_WIDTH = 50;
 
   static const double HEIGHT = 64;
@@ -38,32 +38,32 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    if (widget.metadata != null) {
-      return buildWidget(themeData, widget.metadata!);
+    if (widget.user != null) {
+      return buildWidget(themeData, widget.user!);
     }
 
-    return Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
-      if (metadata == null) {
+    return Selector<MetadataProvider, User?>(
+        builder: (context, user, child) {
+      if (user == null) {
         return Container(
           height: HEIGHT,
           color: themeData.hintColor,
         );
       }
 
-      return buildWidget(themeData, metadata);
+      return buildWidget(themeData, user);
     }, selector: (context, provider) {
-      return provider.getMetadata(widget.pubkey);
+      return provider.getUser(widget.pubkey);
     });
   }
 
-  Widget buildWidget(ThemeData themeData, Metadata metadata) {
+  Widget buildWidget(ThemeData themeData, User user) {
     var cardColor = themeData.cardColor;
 
     Widget? bannerImage;
-    if (StringUtil.isNotBlank(metadata.banner)) {
+    if (StringUtil.isNotBlank(user.banner)) {
       bannerImage = ImageWidget(
-        imageUrl: metadata.banner!,
+        imageUrl: user.banner!,
         width: double.maxFinite,
         height: HEIGHT,
         fit: BoxFit.fitWidth,
@@ -79,7 +79,7 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
       child: UserPicWidget(
         pubkey: widget.pubkey,
         width: IMAGE_WIDTH,
-        metadata: metadata,
+        user: user,
       ),
     );
 
@@ -95,8 +95,8 @@ class _SimpleMetadataWidgetState extends State<SimpleMetadataWidget> {
           children: [
             userImageWidget,
             NameWidget(
-              pubkey: metadata.pubkey!,
-              metadata: metadata,
+              pubkey: user.pubkey!,
+              user: user,
             ),
           ],
         ),
