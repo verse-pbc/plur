@@ -10,11 +10,11 @@ typedef ResultBuildFunc = Widget Function();
 typedef HandleSearchFunc = void Function(String);
 
 class SearchMentionWidget extends StatefulWidget {
-  ResultBuildFunc resultBuildFunc;
+  final ResultBuildFunc resultBuildFunc;
 
-  HandleSearchFunc handleSearchFunc;
+  final HandleSearchFunc handleSearchFunc;
 
-  SearchMentionWidget({
+  const SearchMentionWidget({
     super.key,
     required this.resultBuildFunc,
     required this.handleSearchFunc,
