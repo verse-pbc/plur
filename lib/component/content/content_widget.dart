@@ -1112,13 +1112,6 @@ class _ContentWidgetState extends State<ContentWidget> {
     return String.fromCharCodes(subList);
   }
 
-  void _onlyBufferToList(StringBuffer buffer, List<InlineSpan> allList) {
-    var text = buffer.toString();
-    buffer.clear();
-    if (StringUtil.isNotBlank(text)) {
-      _addTextToList(text, allList);
-    }
-  }
 
   void _addTextToList(String text, List<InlineSpan> allList,
       {TextStyle? textStyle}) {

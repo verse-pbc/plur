@@ -90,7 +90,7 @@ class RelayMetadataWidget extends StatelessWidget {
 
   final bool addAble;
 
-  RelayMetadataWidget({super.key, this.relayMetadata, this.addr, this.addAble = true})
+  const RelayMetadataWidget({super.key, this.relayMetadata, this.addr, this.addAble = true})
       : assert(relayMetadata != null || addr != null);
 
   @override

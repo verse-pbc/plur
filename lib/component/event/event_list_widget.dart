@@ -32,7 +32,7 @@ class EventListWidget extends StatefulWidget {
 
   final bool showCommunity;
 
-  EventListWidget({
+  const EventListWidget({
     super.key,
     required this.event,
     this.pagePubkey,
