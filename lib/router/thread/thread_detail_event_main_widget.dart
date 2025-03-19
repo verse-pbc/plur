@@ -25,7 +25,7 @@ class ThreadDetailItemMainWidget extends StatefulWidget {
 
   final GlobalKey sourceEventKey;
 
-  ThreadDetailItemMainWidget({
+  const ThreadDetailItemMainWidget({
     super.key,
     required this.item,
     required this.totalMaxWidth,
