@@ -17,9 +17,9 @@ import '../../util/zap_action.dart';
 import '../editor/text_input_dialog.dart';
 
 class EventPollWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  EventPollWidget({super.key, required this.event});
+  const EventPollWidget({super.key, required this.event});
 
   @override
   State<StatefulWidget> createState() {
