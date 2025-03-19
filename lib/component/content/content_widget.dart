@@ -1012,17 +1012,17 @@ class _ContentWidgetState extends State<ContentWidget> {
     var result = matcher.check(codeUnits);
 
     for (var item in result.items) {
-      if (item.textType == TargetTextType.PURE_TEXT) {
+      if (item.textType == TargetTextType.pureText) {
         _addTextToList(
             codeUnitsToString(codeUnits, item.start, item.end), currentList);
       } else if (item.args.isNotEmpty) {
         var firstArg = item.args[0];
 
         // not pure text and args not empty
-        if (item.textType == TargetTextType.MD_LINK) {
+        if (item.textType == TargetTextType.mdLink) {
           if (item.args.length > 1) {
             var linkArg = item.args[1];
-            if (linkArg.textType == TargetTextType.PURE_TEXT) {
+            if (linkArg.textType == TargetTextType.pureText) {
               var str =
                   codeUnitsToString(codeUnits, linkArg.start, linkArg.end);
               var pathType = PathTypeUtil.getPathType(str);
@@ -1039,9 +1039,9 @@ class _ContentWidgetState extends State<ContentWidget> {
               }
             }
           }
-        } else if (item.textType == TargetTextType.MD_IMAGE) {
+        } else if (item.textType == TargetTextType.mdImage) {
           var linkArg = item.args.last;
-          if (linkArg.textType == TargetTextType.PURE_TEXT) {
+          if (linkArg.textType == TargetTextType.pureText) {
             var str = codeUnitsToString(codeUnits, linkArg.start, linkArg.end);
             images.add(str);
             if (!widget.showImage) {
@@ -1071,19 +1071,19 @@ class _ContentWidgetState extends State<ContentWidget> {
               }
             }
           }
-        } else if (item.textType == TargetTextType.MD_BOLD) {
+        } else if (item.textType == TargetTextType.mdBold) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: boldStyle);
-        } else if (item.textType == TargetTextType.MD_ITALIC) {
+        } else if (item.textType == TargetTextType.mdItalic) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: italicStyle);
-        } else if (item.textType == TargetTextType.MD_DELETE) {
+        } else if (item.textType == TargetTextType.mdDelete) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: deleteStyle);
-        } else if (item.textType == TargetTextType.MD_HIGHLIGHT) {
+        } else if (item.textType == TargetTextType.mdHighlight) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: highlightStyle);
-        } else if (item.textType == TargetTextType.MD_INLINE_CODE) {
+        } else if (item.textType == TargetTextType.mdInlineCode) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           currentList.add(TextSpan(
             text: str,
@@ -1091,11 +1091,11 @@ class _ContentWidgetState extends State<ContentWidget> {
               backgroundColor: codeBackgroundColor,
             ),
           ));
-        } else if (item.textType == TargetTextType.MD_BOLD_AND_ITALIC) {
+        } else if (item.textType == TargetTextType.mdBoldAndItalic) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: boldAndItalicStyle);
         }
-      } else if (item.textType == TargetTextType.NOSTR_CUSTOM_EMOJI) {
+      } else if (item.textType == TargetTextType.nostrCustomEmoji) {
         var emojiKey =
             codeUnitsToString(codeUnits, item.start + 1, item.end - 1);
         var emojiValue = tagInfos!.emojiMap[emojiKey];
