@@ -3290,6 +3290,16 @@ class S {
     );
   }
 
+  /// `Admin`
+  String get Admin {
+    return Intl.message(
+      'Admin',
+      name: 'Admin',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All media is publicly accessible to anyone with the URL.`
   String get All_media_public {
     return Intl.message(

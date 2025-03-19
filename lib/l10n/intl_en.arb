@@ -323,5 +323,6 @@
     "group": "group",
     "Group_Info": "Group Info",
     "Your_Groups": "Your Groups",
+    "Admin": "Admin",
     "All_media_public": "All media is publicly accessible to anyone with the URL."
 }
