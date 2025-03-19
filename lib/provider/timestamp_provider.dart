@@ -1,25 +1,26 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'timestamp_provider.g.dart';
 
 /// Keeps track of time and updates every minute.
 /// Automatically notifies listeners when the time changes.
-class TimestampProvider extends ChangeNotifier {
+@riverpod
+class Timestamp extends _$Timestamp {
   Timer? _timer;
-  DateTime _currentTime = DateTime.now();
-
-  DateTime get currentTime => _currentTime;
-
-  TimestampProvider() {
-    // Update every 60 seconds
-    _timer = Timer.periodic(const Duration(seconds: 60), (_) {
-      _currentTime = DateTime.now();
-      notifyListeners();
-    });
-  }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  DateTime build() {
+    ref.onDispose(() {
+      _timer?.cancel();
+    });
+
+    // Start the timer and update state every minute
+    _timer = Timer.periodic(const Duration(seconds: 60), (_) {
+      state = DateTime.now();
+    });
+
+    // Return the initial value
+    return DateTime.now();
   }
 }

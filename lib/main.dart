@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_quill/translations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_cache_manager/src/cache_store.dart';
@@ -81,7 +82,6 @@ import 'provider/single_event_provider.dart';
 import 'provider/url_speed_provider.dart';
 import 'provider/webview_provider.dart';
 import 'provider/wot_provider.dart';
-import 'provider/timestamp_provider.dart';
 import 'router/bookmark/bookmark_widget.dart';
 import 'router/community/community_detail_widget.dart';
 import 'router/dm/dm_detail_widget.dart';
@@ -196,8 +196,6 @@ late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
 
-late TimestampProvider timestampProvider;
-
 Future<void> initializeProviders({bool isTesting = false}) async {
   var dbInitTask = DB.getCurrentDatabase();
   var dataUtilTask = DataUtil.getInstance();
@@ -247,7 +245,6 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   nwcProvider = NWCProvider()..init();
   groupProvider = GroupProvider();
   wotProvider = WotProvider();
-  timestampProvider = TimestampProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
@@ -313,7 +310,11 @@ Future<void> main() async {
   // Hides the splash and runs the app.
   void startApp() {
     FlutterNativeSplash.remove();
-    runApp(MyApp());
+    runApp(
+      const riverpod.ProviderScope(
+        child: MyApp(),
+      ),
+    );
   }
 
   if (const bool.hasEnvironment("SENTRY_DSN")) {
@@ -336,51 +337,7 @@ class MyApp extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  MyApp({super.key}) {
-    platform.setMethodCallHandler(_handleDeepLink);
-  }
-
-  void joinGroup(
-      BuildContext context, String host, String groupId, String? code) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
-  }
-
-  Future<void> _handleDeepLink(MethodCall call) async {
-    if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.');
-      return;
-    }
-
-    if (call.method == 'onDeepLink') {
-      final String link = call.arguments;
-      log('Received deep link: $link');
-
-      Uri uri = Uri.parse(link);
-      if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
-        String? groupId = uri.queryParameters['group-id'];
-        String? code = uri.queryParameters['code'];
-        // Handle the extracted parameters
-        log('Group ID: $groupId');
-        log('Code: $code');
-
-        if (groupId == null || groupId.isEmpty) {
-          log('Group ID is null or empty, aborting.');
-          return;
-        }
-
-        final context = navigatorKey.currentContext;
-        if (context != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            joinGroup(context, 'wss://communities.nos.social', groupId, code);
-          });
-        } else {
-          log('Context is null, waiting for app to initialize...');
-        }
-      }
-    }
-  }
+  const MyApp({super.key});
 
   @override
   State<StatefulWidget> createState() => _MyApp();
@@ -548,9 +505,6 @@ class _MyApp extends State<MyApp> {
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
         ),
-        ListenableProvider<TimestampProvider>.value(
-          value: timestampProvider,
-        ),
       ],
       child: HomeWidget(
         locale: locale,
@@ -587,12 +541,66 @@ class _MyApp extends State<MyApp> {
   void initState() {
     super.initState();
     SystemTimer.run();
+
+    MyApp.platform.setMethodCallHandler(_handleDeepLink);
   }
 
   @override
   void dispose() {
     super.dispose();
     SystemTimer.stopTask();
+  }
+
+  void _joinGroup(
+    BuildContext context,
+    String host,
+    String groupId,
+    String? code,
+  ) {
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
+    listProvider.joinGroup(groupIdentifier, context: context);
+  }
+
+  Future<void> _handleDeepLink(MethodCall call) async {
+    if (nostr == null) {
+      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
+      return;
+    }
+
+    if (call.method == 'onDeepLink') {
+      final String link = call.arguments;
+      log('Received deep link: $link', name: 'DeepLink');
+
+      _processDeepLink(link);
+    }
+  }
+
+  void _processDeepLink(String link) {
+    if (nostr == null) {
+      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
+      return;
+    }
+
+    log('Processing deep link: $link', name: 'DeepLink');
+
+    Uri uri = Uri.parse(link);
+    if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
+      String? groupId = uri.queryParameters['group-id'];
+      String? code = uri.queryParameters['code'];
+
+      if (groupId == null || groupId.isEmpty) {
+        log('Group ID is null or empty, aborting.', name: 'DeepLink');
+        return;
+      }
+
+      final context = MyApp.navigatorKey.currentContext;
+      if (context != null) {
+        _joinGroup(context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
+      } else {
+        log('Context still null after initialization - this is unexpected', name: 'DeepLink');
+      }
+    }
   }
 
   ThemeData getLightTheme() {
@@ -732,7 +740,7 @@ void setGetTimeAgoDefaultLocale(Locale? locale) {
   }
 
   if (StringUtil.isNotBlank(localeName)) {
-    if (GetTimeAgoSupportLocale.containsKey(localeName)) {
+    if (_timeAgoSupportLocale.containsKey(localeName)) {
       GetTimeAgo.setDefaultLocale(localeName!);
     } else if (localeName == "zh_tw") {
       GetTimeAgo.setDefaultLocale("zh_tr");
@@ -740,7 +748,7 @@ void setGetTimeAgoDefaultLocale(Locale? locale) {
   }
 }
 
-final Map<String, int> GetTimeAgoSupportLocale = {
+final Map<String, int> _timeAgoSupportLocale = {
   'ar': 1,
   'en': 1,
   'es': 1,
