@@ -29,7 +29,7 @@ class EditorWidget extends StatefulWidget {
   final bool isPoll;
   final bool isZapGoal;
 
-  EditorWidget({
+  const EditorWidget({
     super.key,
     required this.tags,
     required this.tagsAddedWhenSend,
@@ -167,7 +167,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       ),
       body: Container(
         color: themeData.customColors.loginBgColor,
-        padding:  EdgeInsets.only(top: hasMedia? 0 : 20),
+        padding: EdgeInsets.only(top: hasMedia ? 0 : 20),
         child: Column(
           children: [
             EditorHeader(
@@ -276,6 +276,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     final cancelFunc = BotToast.showLoading();
     try {
       final event = await doDocumentSave();
+      if (!mounted) return;
       if (event == null) {
         BotToast.showText(text: S.of(context).Send_fail);
         return;

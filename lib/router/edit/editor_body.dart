@@ -41,6 +41,7 @@ class EditorBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Widget quillWidget = QuillEditor(
+      controller: editorController,
       configurations: QuillEditorConfigurations(
         placeholder: placeholder,
         embedBuilders: [
@@ -59,7 +60,6 @@ class EditorBody extends StatelessWidget {
           left: Base.basePadding,
           right: Base.basePadding,
         ),
-        controller: editorController,
       ),
       scrollController: ScrollController(),
       focusNode: focusNode,
