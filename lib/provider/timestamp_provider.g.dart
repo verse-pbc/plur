@@ -6,9 +6,12 @@ part of 'timestamp_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$timestampHash() => r'd270b84b880b035279ed0ddd39cada20f961bccf';
+String _$timestampHash() => r'a1b07ac81a891e5390aeb94905f95e19b46e000c';
 
-/// See also [Timestamp].
+/// Keeps track of time and updates every minute.
+/// Automatically notifies listeners when the time changes.
+///
+/// Copied from [Timestamp].
 @ProviderFor(Timestamp)
 final timestampProvider =
     AutoDisposeNotifierProvider<Timestamp, DateTime>.internal(

@@ -22,6 +22,12 @@ class MainActivity: FlutterFragmentActivity() {
 
     private lateinit var flutterEngine: FlutterEngine
 
+    private val deepLinkChannel by lazy {
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
+    }
+
+    private var pendingDeepLink: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,6 +45,19 @@ class MainActivity: FlutterFragmentActivity() {
         } catch (e : Exception) {
             Log.e(TAG, "Error registering plugin NostrmoPlugin, app.verse.prototype.plur.NostrmoPlugin", e)
         }
+
+        // Check if we have a pending deep link to process
+        pendingDeepLink?.let {
+            deepLinkChannel.invokeMethod("onDeepLink", it)
+            pendingDeepLink = null
+        }
+
+        // Set up method channel for future deep links
+        intent?.data?.let { data ->
+            if (data.scheme.equals("plur", ignoreCase = true)) {
+                deepLinkChannel.invokeMethod("onDeepLink", data.toString())
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -49,10 +68,14 @@ class MainActivity: FlutterFragmentActivity() {
 
     private fun handleIntent(intent: Intent) {
         val data: Uri? = intent.data
+        if (::flutterEngine.isInitialized) {
+            deepLinkChannel.invokeMethod("onDeepLink", data.toString())
+        } else {
+            pendingDeepLink = data.toString()
+        }
         if (data != null && data.scheme.equals("plur", ignoreCase = true)) {
             // Pass the data to Flutter
-            val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
-            channel.invokeMethod("onDeepLink", data.toString())
+            deepLinkChannel.invokeMethod("onDeepLink", data.toString())
         }
     }
 }
