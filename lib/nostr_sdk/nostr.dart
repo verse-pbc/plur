@@ -200,23 +200,47 @@ class Nostr {
     _pool.unsubscribe(id);
   }
 
+  /// Queries the relays with the specified filters and parameters.
+  ///
+  /// This method allows you to query a pool of relays using a set of filters
+  /// and get a list of received events as a result.
+  ///
+  /// - [filters]: A list of maps containing the filters to apply to the query.
+  /// - [id]: (Optional) A unique identifier for the query.
+  /// - [tempRelays]: (Optional) A list of temporary relays to use for the
+  /// query.
+  /// - [targetRelays]: (Optional) A list of target relays to focus the query
+  /// on.
+  /// - [relayTypes]: A list of relay types to configure which kind of relays
+  /// are queried. Defaults to [RelayType.ALL].
+  /// - [sendAfterAuth]: A boolean indicating whether to wait for authentication
+  /// before sending the query. Defaults to `false`.
+  ///
+  /// Returns a list of received events.
   Future<List<Event>> queryEvents(
     List<Map<String, dynamic>> filters, {
     String? id,
     List<String>? tempRelays,
+    List<String>? targetRelays,
     List<int> relayTypes = RelayType.ALL,
     bool sendAfterAuth = false,
   }) async {
     var eventBox = EventMemBox(sortAfterAdd: false);
     var completer = Completer();
-
-    query(filters, id: id, tempRelays: tempRelays, sendAfterAuth: sendAfterAuth,
-        (event) {
-      eventBox.add(event);
-    }, onComplete: () {
-      completer.complete();
-    });
-
+    query(
+      filters,
+      id: id,
+      tempRelays: tempRelays,
+      targetRelays: targetRelays,
+      relayTypes: relayTypes,
+      sendAfterAuth: sendAfterAuth,
+      (event) {
+        eventBox.add(event);
+      },
+      onComplete: () {
+        completer.complete();
+      },
+    );
     await completer.future;
     return eventBox.all();
   }
