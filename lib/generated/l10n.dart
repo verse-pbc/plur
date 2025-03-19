@@ -3289,6 +3289,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Admin`
+  String get Admin {
+    return Intl.message(
+      'Admin',
+      name: 'Admin',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
