@@ -13,7 +13,7 @@ import '../../util/table_mode_util.dart';
 class ContactListWidget extends StatefulWidget {
   final ContactList contactList;
 
-  ContactListWidget({super.key, required this.contactList});
+  const ContactListWidget({super.key, required this.contactList});
 
   @override
   State<StatefulWidget> createState() {

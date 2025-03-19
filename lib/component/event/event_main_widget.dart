@@ -74,7 +74,7 @@ class EventMainWidget extends StatefulWidget {
 
   final bool traceMode;
 
-  EventMainWidget({
+  const EventMainWidget({
     super.key,
     required this.screenshotController,
     required this.event,
@@ -854,7 +854,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               ),
             );
           },
-          selector: (BuildContext, provider) {
+          selector: (buildContext, provider) {
             return provider.getMetadata(zapInfo.pubkey);
           },
         ),

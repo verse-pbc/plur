@@ -8,7 +8,7 @@ import '../generated/l10n.dart';
 class EmojiPickerWidget extends StatefulWidget {
   final Function(String) onEmojiPick;
 
-  EmojiPickerWidget(this.onEmojiPick, {super.key});
+  const EmojiPickerWidget(this.onEmojiPick, {super.key});
 
   @override
   State<StatefulWidget> createState() {

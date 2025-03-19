@@ -11,7 +11,7 @@ class ThreadTraceEventWidget extends StatefulWidget {
 
   final bool traceMode;
 
-  ThreadTraceEventWidget(
+  const ThreadTraceEventWidget(
     this.event, {
     super.key,
     this.textOnTap,

@@ -22,7 +22,7 @@ import '../../util/router_util.dart';
 class UserStatisticsWidget extends StatefulWidget {
   final String pubkey;
 
-  UserStatisticsWidget({super.key, required this.pubkey});
+  const UserStatisticsWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
@@ -419,7 +419,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
 
   final Function(LongPressEndDetails)? onLongPressEnd;
 
-  UserStatisticsItemWidget({super.key, 
+  const UserStatisticsItemWidget({super.key, 
     required this.num,
     required this.name,
     required this.onTap,
