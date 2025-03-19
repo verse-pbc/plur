@@ -2,9 +2,9 @@ name: TestFlight Staging Deployment
 permissions:
   contents: write  # This is needed for tag pushing
 on:
-  push:
-    branches:
-      - main
+  #push:
+  #  branches:
+  #    - main
   # Enable manual run
   workflow_dispatch:
 
