@@ -14,7 +14,7 @@ import '../../consts/base_consts.dart';
 import '../../main.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
-import '../edit/editor_widget.dart';
+import '../edit/editor_screen.dart';
 
 class CommunityDetailWidget extends StatefulWidget {
   const CommunityDetailWidget({super.key});

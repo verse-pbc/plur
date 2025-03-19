@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../component/appbar_back_btn_widget.dart';
 import '../../generated/l10n.dart';
 import '../../provider/notice_provider.dart';
-import '../edit/editor_widget.dart';
+import '../edit/editor_screen.dart';
 import 'notice_list_item_widget.dart';
 
 class NoticeWidget extends StatefulWidget {

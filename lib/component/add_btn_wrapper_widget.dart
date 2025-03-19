@@ -3,7 +3,7 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:star_menu/star_menu.dart';
 
 import '../consts/colors.dart';
-import '../router/edit/editor_widget.dart';
+import '../router/edit/editor_screen.dart';
 
 class AddBtnWrapperWidget extends StatefulWidget {
   Widget child;
@@ -121,7 +121,7 @@ class AddBtnStartItemButton extends StatelessWidget {
   Function onTap;
 
   AddBtnStartItemButton({
-    super.key, 
+    super.key,
     required this.iconData,
     required this.iconBackgroundColor,
     this.iconSize,

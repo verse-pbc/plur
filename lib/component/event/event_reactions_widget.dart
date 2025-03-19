@@ -21,7 +21,7 @@ import '../../data/event_reactions.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/event_reactions_provider.dart';
-import '../../router/edit/editor_widget.dart';
+import '../../router/edit/editor_screen.dart';
 import '../../util/number_format_util.dart';
 import '../../util/router_util.dart';
 import '../../util/store_util.dart';

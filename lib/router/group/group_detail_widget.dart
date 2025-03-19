@@ -4,7 +4,7 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';
-import 'package:nostrmo/router/edit/editor_widget.dart';
+import 'package:nostrmo/router/edit/editor_screen.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
