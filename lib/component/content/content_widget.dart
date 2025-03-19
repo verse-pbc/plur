@@ -63,7 +63,7 @@ class ContentWidget extends StatefulWidget {
   final EventRelation? eventRelation;
 
   const ContentWidget({
-    super.key, 
+    super.key,
     this.content,
     this.event,
     this.textOnTap,
@@ -136,10 +136,6 @@ class _ContentWidgetState extends State<ContentWidget> {
   static const preCashuLink = "cashu:";
 
   static const preCashu = "cashu";
-
-  static List<String> lnbcList = [lnbc, lightning, otherLightning];
-
-  static const lnbcNumEnd = "1p";
 
   static const maxShowLineNum = 19;
 
@@ -766,8 +762,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         if (nrelay != null) {
           // inline
           bufferToList(buffer, currentList, images);
-          currentList
-              .add(WidgetSpan(child: ContentRelayWidget(nrelay.addr)));
+          currentList.add(WidgetSpan(child: ContentRelayWidget(nrelay.addr)));
 
           return otherStr;
         } else {
