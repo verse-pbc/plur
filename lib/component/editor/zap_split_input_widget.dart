@@ -11,9 +11,9 @@ import 'search_mention_user_widget.dart';
 import 'text_input_and_search_dialog.dart';
 
 class ZapSplitInputWidget extends StatefulWidget {
-  List<EventZapInfo> eventZapInfos;
+  final List<EventZapInfo> eventZapInfos;
 
-  ZapSplitInputWidget(
+  const ZapSplitInputWidget(
     this.eventZapInfos, {super.key}
   );
 
