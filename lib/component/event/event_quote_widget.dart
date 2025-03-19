@@ -14,17 +14,17 @@ import '../cust_state.dart';
 import 'event_main_widget.dart';
 
 class EventQuoteWidget extends StatefulWidget {
-  Event? event;
+  final Event? event;
 
-  String? id;
+  final String? id;
 
-  AId? aId;
+  final AId? aId;
 
-  String? eventRelayAddr;
+  final String? eventRelayAddr;
 
-  bool showVideo;
+  final bool showVideo;
 
-  EventQuoteWidget({
+  const EventQuoteWidget({
     super.key,
     this.event,
     this.id,
