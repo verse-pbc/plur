@@ -221,6 +221,27 @@ class Nostr {
     return eventBox.all();
   }
 
+  /// Queries the relays with the specified filters and parameters.
+  ///
+  /// This method allows you to query a pool of relays using a set of filters
+  /// and handle events as they are received.
+  ///
+  /// - [filters]: A list of maps containing the filters to apply to the query.
+  /// - [onEvent]: A callback function that is triggered for each event
+  /// received.
+  /// - [id]: (Optional) A unique identifier for the query.
+  /// - [onComplete]: (Optional) A callback function that is triggered when the
+  /// query is complete.
+  /// - [tempRelays]: (Optional) A list of temporary relays to use for the
+  /// query.
+  /// - [targetRelays]: (Optional) A list of target relays to focus the query
+  /// on.
+  /// - [relayTypes]: A list of relay types to configure which kind of relays
+  /// are queried. Defaults to [RelayType.ALL].
+  /// - [sendAfterAuth]: A boolean indicating whether to wait for authentication
+  /// before sending the query. Defaults to `false`.
+  ///
+  /// Returns the subscription ID.
   String query(
     List<Map<String, dynamic>> filters,
     Function(Event) onEvent, {
