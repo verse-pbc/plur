@@ -6,11 +6,11 @@ import '../../consts/base.dart';
 import '../../util/cashu_util.dart';
 
 class ContentCashuWidget extends StatelessWidget {
-  String cashuStr;
+  final String cashuStr;
 
-  Tokens tokens;
+  final Tokens tokens;
 
-  ContentCashuWidget({
+  const ContentCashuWidget({
     super.key,
     required this.tokens,
     required this.cashuStr,
