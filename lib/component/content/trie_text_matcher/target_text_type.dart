@@ -1,30 +1,30 @@
 class TargetTextType {
-  static const int PURE_TEXT = 1;
+  static const int pureText = 1;
 
   // md link: [xxx](http://xxxx)
-  static const int MD_LINK = 101;
+  static const int mdLink = 101;
 
   // md image: ![xxx](http://xxxx)
-  static const int MD_IMAGE = 102;
+  static const int mdImage = 102;
 
   // md bold: **xxx** or __xxx__
-  static const int MD_BOLD = 103;
+  static const int mdBold = 103;
 
   // md italic: *xxx* or _xxx_
-  static const int MD_ITALIC = 104;
+  static const int mdItalic = 104;
 
   // md delete: ~~xxx~~
-  static const int MD_DELETE = 105;
+  static const int mdDelete = 105;
 
   // md highlight: ==xxx==
-  static const int MD_HIGHLIGHT = 106;
+  static const int mdHighlight = 106;
 
   // md italic: `xxx` or ```xxx```
-  static const int MD_INLINE_CODE = 107;
+  static const int mdInlineCode = 107;
 
   // md All bold and italic: ***xx***
-  static const int MD_BOLD_AND_ITALIC = 108;
+  static const int mdBoldAndItalic = 108;
 
   // nostr emoji: :xxx:
-  static const int NOSTR_CUSTOM_EMOJI = 1010;
+  static const int nostrCustomEmoji = 1010;
 }
