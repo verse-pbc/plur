@@ -7,7 +7,8 @@ import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
 class ColorPickDialog extends StatelessWidget {
-  Color? defaultColor;
+  final Color? defaultColor;
+  Color? selectedColor;
 
   ColorPickDialog(this.defaultColor, {super.key});
 
@@ -20,8 +21,6 @@ class ColorPickDialog extends StatelessWidget {
       },
     );
   }
-
-  Color? selectedColor;
 
   void onColorChanged(Color color) {
     selectedColor = color;
