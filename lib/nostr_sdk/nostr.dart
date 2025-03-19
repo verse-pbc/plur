@@ -234,12 +234,8 @@ class Nostr {
       targetRelays: targetRelays,
       relayTypes: relayTypes,
       sendAfterAuth: sendAfterAuth,
-      (event) {
-        eventBox.add(event);
-      },
-      onComplete: () {
-        completer.complete();
-      },
+      (event) => eventBox.add(event),
+      onComplete: () => completer.complete(),
     );
     await completer.future;
     return eventBox.all();
