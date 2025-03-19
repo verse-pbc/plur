@@ -7,9 +7,9 @@ import '../util/router_util.dart';
 class EnumSelectorWidget extends StatelessWidget {
   final List<EnumObj> list;
 
-  Widget Function(BuildContext, EnumObj)? enumItemBuild;
+  final Widget Function(BuildContext, EnumObj)? enumItemBuild;
 
-  EnumSelectorWidget({
+  const EnumSelectorWidget({
     super.key, 
     required this.list,
     this.enumItemBuild,
@@ -98,17 +98,17 @@ class EnumSelectorWidget extends StatelessWidget {
 }
 
 class EnumSelectorItemWidget extends StatelessWidget {
-  static const double HEIGHT = 44;
+  static const double height = 44;
 
   final EnumObj enumObj;
 
   final bool isLast;
 
-  Function(EnumObj)? onTap;
+  final Function(EnumObj)? onTap;
 
-  Color? color;
+  final Color? color;
 
-  EnumSelectorItemWidget({
+  const EnumSelectorItemWidget({
     super.key, 
     required this.enumObj,
     this.isLast = false,
@@ -142,7 +142,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
               isLast ? null : Border(bottom: BorderSide(color: dividerColor)),
         ),
         alignment: Alignment.center,
-        height: HEIGHT,
+        height: height,
         child: main,
       ),
     );
