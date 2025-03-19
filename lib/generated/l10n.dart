@@ -3289,6 +3289,16 @@ class S {
       args: [],
     );
   }
+
+  /// `All media is publicly accessible to anyone with the URL.`
+  String get All_media_public {
+    return Intl.message(
+      'All media is publicly accessible to anyone with the URL.',
+      name: 'All_media_public',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
