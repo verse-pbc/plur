@@ -20,7 +20,7 @@ import '../../util/number_format_util.dart';
 import '../../util/router_util.dart';
 
 class UserStatisticsWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
   UserStatisticsWidget({super.key, required this.pubkey});
 
@@ -407,17 +407,17 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 }
 
 class UserStatisticsItemWidget extends StatelessWidget {
-  int? num;
+  final int? num;
 
-  String name;
+  final String name;
 
-  Function onTap;
+  final Function onTap;
 
-  bool formatNum;
+  final bool formatNum;
 
-  Function(LongPressStartDetails)? onLongPressStart;
+  final Function(LongPressStartDetails)? onLongPressStart;
 
-  Function(LongPressEndDetails)? onLongPressEnd;
+  final Function(LongPressEndDetails)? onLongPressEnd;
 
   UserStatisticsItemWidget({super.key, 
     required this.num,

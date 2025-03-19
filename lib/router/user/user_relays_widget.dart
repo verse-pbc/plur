@@ -84,11 +84,11 @@ class _UserRelayWidgetState extends State<UserRelayWidget> {
 }
 
 class RelayMetadataWidget extends StatelessWidget {
-  RelayMetadata? relayMetadata;
+  final RelayMetadata? relayMetadata;
 
-  String? addr;
+  final String? addr;
 
-  bool addAble;
+  final bool addAble;
 
   RelayMetadataWidget({super.key, this.relayMetadata, this.addr, this.addAble = true})
       : assert(relayMetadata != null || addr != null);
