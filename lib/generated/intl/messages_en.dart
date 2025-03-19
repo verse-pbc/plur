@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Address": MessageLookupByLibrary.simpleMessage("Address"),
         "Address_can_t_be_null":
             MessageLookupByLibrary.simpleMessage("Address can\'t be null."),
+        "Admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "Admins": MessageLookupByLibrary.simpleMessage("Admins"),
         "Any": MessageLookupByLibrary.simpleMessage("Any"),
         "Authenticat_need":
