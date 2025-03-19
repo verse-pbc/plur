@@ -38,7 +38,7 @@ class ZapsSendDialog extends StatefulWidget {
 class _ZapsSendDialog extends CustState<ZapsSendDialog> {
   Map<String, String> invoicesMap = {};
 
-  Map<String, bool> sendedMap = {};
+  Map<String, bool> sentMap = {};
 
   @override
   Widget doBuild(BuildContext context) {
@@ -49,7 +49,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
     for (var zapInfo in widget.zapInfos) {
       var pubkey = zapInfo.pubkey;
       var invoiceCode = invoicesMap[pubkey];
-      var sended = sendedMap[pubkey];
+      var sent = sentMap[pubkey];
       var zapNumber = widget.pubkeyZapNumbers[pubkey];
       if (zapNumber == null) {
         continue;
@@ -65,7 +65,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
           zapNumber,
           sendZapFunction,
           invoiceCode: invoiceCode,
-          sended: sended,
+          sent: sent,
         ),
       ));
     }
@@ -110,7 +110,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
   @override
   Future<void> onReady(BuildContext context) async {
     invoicesMap.clear();
-    sendedMap.clear();
+    sentMap.clear();
 
     for (var zapInfo in widget.zapInfos) {
       var pubkey = zapInfo.pubkey;
@@ -131,7 +131,7 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
   void sendZapFunction(String pubkey, String invoiceCode, int zapNum) {
     LightningUtil.goToPay(context, invoiceCode, zapNum: zapNum);
     setState(() {
-      sendedMap[pubkey] = true;
+      sentMap[pubkey] = true;
     });
   }
 }
@@ -149,12 +149,12 @@ class ZapsSendDialogItem extends StatelessWidget {
 
   String? invoiceCode;
 
-  bool? sended;
+  bool? sent;
 
   Function(String, String, int) sendZapFunction;
 
   ZapsSendDialogItem(this.pubkey, this.zapNumber, this.sendZapFunction,
-      {super.key, this.invoiceCode, this.sended});
+      {super.key, this.invoiceCode, this.sent});
 
   @override
   Widget build(BuildContext context) {
@@ -193,7 +193,7 @@ class ZapsSendDialogItem extends StatelessWidget {
           color: Colors.green,
         ),
       );
-      if (sended != true && invoiceCode != null) {
+      if (sent != true && invoiceCode != null) {
         rightComp = GestureDetector(
           child: SizedBox(
             height: rightHeight,

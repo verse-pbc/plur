@@ -25,15 +25,15 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
   final List<String> _needUpdatePubKeys = [];
 
   // one user contains multi bedge defintion, here may not works
-  final List<Event> _penddingEvents = [];
+  final List<Event> _pendingEvents = [];
 
   void _laterCallback() {
     if (_needUpdatePubKeys.isNotEmpty) {
       _laterSearch();
     }
 
-    if (_penddingEvents.isNotEmpty) {
-      _handlePenddingEvents();
+    if (_pendingEvents.isNotEmpty) {
+      _handlePendingEvents();
     }
   }
 
@@ -55,14 +55,14 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
   }
 
   void _onEvent(Event event) {
-    _penddingEvents.add(event);
+    _pendingEvents.add(event);
     later(_laterCallback);
   }
 
-  void _handlePenddingEvents() {
+  void _handlePendingEvents() {
     bool updated = false;
 
-    for (var event in _penddingEvents) {
+    for (var event in _pendingEvents) {
       var bd = BadgeDefinition.loadFromEvent(event);
       if (bd != null) {
         var badgeId = "30009:${event.pubkey}:${bd.d}";
@@ -74,7 +74,7 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
         }
       }
     }
-    _penddingEvents.clear;
+    _pendingEvents.clear;
 
     if (updated) {
       notifyListeners();
