@@ -7,9 +7,9 @@ import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 
 class EventIdRouterWidget extends StatefulWidget {
-  String eventId;
+  final String eventId;
 
-  String? relayAddr;
+  final String? relayAddr;
 
   EventIdRouterWidget(this.eventId, this.relayAddr, {super.key});
 
