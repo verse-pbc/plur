@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrated TimestampProvider from Provider to Riverpod Notifier.
 - Fixed many typos.
 - Fixed lint job that fails when there is a slash in the branch name.
-- Fixed issue in which RelayTypes are not passed on to RelayPool. [#274](https://github.com/verse-pbc/issues/issues/274)
+- Fixed issue where RelayTypes were not passed to RelayPool. [#274](https://github.com/verse-pbc/issues/issues/274)
 
 ## [0.0.3]
 
