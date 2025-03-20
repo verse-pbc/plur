@@ -12,7 +12,7 @@ class PicEmbedBuilder extends EmbedBuilder {
       bool readOnly, bool inline, TextStyle textStyle) {
     var imageUrl = node.value.data as String;
     if (imageUrl.indexOf("http") == 0 || imageUrl.indexOf(BASE64.PREFIX) == 0) {
-      // netword image
+      // network image
       return ImageWidget(
         imageUrl: imageUrl,
         fit: BoxFit.cover,
