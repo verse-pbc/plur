@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -109,30 +110,67 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     inputPoll = widget.isPoll;
     inputZapGoal = widget.isZapGoal;
     handleFocusInit();
-    _setupMediaListener();
+    _setUpListener();
   }
 
-  void _setupMediaListener() {
-    editorController.addListener(_updateHasMedia);
+  void _setUpListener() {
+    editorController.addListener(_editorControllerListener);
   }
 
-  void _updateHasMedia() {
+  void _editorControllerListener() {
+    // Check for media
     final delta = editorController.document.toDelta();
-    final newHasMedia = _checkForMedia(delta);
-    if (hasMedia != newHasMedia) {
-      setState(() => hasMedia = newHasMedia);
-    }
-  }
+    var updated = false;
 
-  bool _checkForMedia(Object delta) {
     try {
-      final operations = (delta as dynamic).toList();
-      return operations.any((operation) =>
-          operation?.key == "insert" &&
-          operation?.data is Map &&
+      final operations = delta.toList();
+      final newHasMedia = operations.any((operation) =>
+          operation.key == "insert" &&
+          operation.data is Map &&
           _isMediaData(operation.data as Map));
+      if (_hasMedia != newHasMedia) {
+        _hasMedia = newHasMedia;
+        updated = true;
+      }
+
+      // Process mentions
+      Map<String, int> mentionUserMap = {};
+      editorNotifyItems = [];
+
+      for (var operation in operations) {
+        if (operation.key == "insert" && operation.data is Map) {
+          var m = operation.data as Map;
+          var value = m["mentionUser"];
+          if (StringUtil.isNotBlank(value)) {
+            mentionUserMap[value] = 1;
+          }
+        }
+      }
+
+      // Handle deletions
+      List<EditorNotifyItem> itemsToDelete = [];
+      for (var item in editorNotifyItems) {
+        var exist = mentionUserMap.remove(item.pubkey);
+        if (exist == null) {
+          itemsToDelete.add(item);
+          updated = true;
+        }
+      }
+      editorNotifyItems.removeWhere((element) => itemsToDelete.contains(element));
+
+      // Handle additions
+      if (mentionUserMap.isNotEmpty) {
+        for (var entry in mentionUserMap.entries) {
+          editorNotifyItems.add(EditorNotifyItem(pubkey: entry.key));
+          updated = true;
+        }
+      }
     } catch (e) {
-      return false;
+      log(e.toString());
+    }
+
+    if (updated) {
+      setState(() {});
     }
   }
 
@@ -281,7 +319,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     }
 
     Widget quillWidget = QuillEditor(
-       controller: editorController,
+      controller: editorController,
       configurations: QuillEditorConfigurations(
         placeholder: localization.What_s_happening,
         embedBuilders: [
@@ -351,7 +389,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       ),
     ));
 
-    if (hasMedia) {
+    if (_hasMedia) {
       list.add(InfoMessageWidget(
         message: localization.All_media_public,
         icon: Icons.info,
@@ -417,48 +455,6 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
       editorController.moveCursorToPosition(0);
     }
-
-    editorNotifyItems = [];
-    editorController.addListener(() {
-      bool updated = false;
-      Map<String, int> mentionUserMap = {};
-
-      var delta = editorController.document.toDelta();
-      var operations = delta.toList();
-      for (var operation in operations) {
-        if (operation.key == "insert") {
-          if (operation.data is Map) {
-            var m = operation.data as Map;
-            var value = m["mentionUser"];
-            if (StringUtil.isNotBlank(value)) {
-              mentionUserMap[value] = 1;
-            }
-          }
-        }
-      }
-
-      List<EditorNotifyItem> needDeleds = [];
-      for (var item in editorNotifyItems) {
-        var exist = mentionUserMap.remove(item.pubkey);
-        if (exist == null) {
-          updated = true;
-          needDeleds.add(item);
-        }
-      }
-      editorNotifyItems.removeWhere((element) => needDeleds.contains(element));
-
-      if (mentionUserMap.isNotEmpty) {
-        var entries = mentionUserMap.entries;
-        for (var entry in entries) {
-          updated = true;
-          editorNotifyItems.add(EditorNotifyItem(pubkey: entry.key));
-        }
-      }
-
-      if (updated) {
-        setState(() {});
-      }
-    });
   }
 
   Future<void> documentSave() async {
@@ -532,7 +528,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
   @override
   void dispose() {
-    editorController.removeListener(_updateHasMedia);
+    editorController.removeListener(_editorControllerListener);
     super.dispose();
   }
 }
