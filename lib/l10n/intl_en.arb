@@ -323,5 +323,6 @@
     "group": "group",
     "Group_Info": "Group Info",
     "Your_Groups": "Your Groups",
-    "Admin": "Admin"
+    "Admin": "Admin",
+    "Admin_Panel": "Admin Panel"
 }

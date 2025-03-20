@@ -26,6 +26,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/mention_me_new_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/nwc_provider.dart';
+import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
@@ -412,6 +413,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.FOLLOW_SET_DETAIL: (context) => const FollowSetDetailWidget(),
       RouterPath.FOLLOW_SET_FEED: (context) => const FollowSetFeedWidget(),
       RouterPath.NWC_SETTING: (context) => const NwcSettingWidget(),
+      RouterPath.GROUP_ADMIN: (_) => const GroupAdminScreen(),
       RouterPath.GROUP_LIST: (context) => const CommunitiesWidget(),
       RouterPath.GROUP_DETAIL: (context) => const GroupDetailWidget(),
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
