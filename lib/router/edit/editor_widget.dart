@@ -3,7 +3,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:intl/intl.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/lnbc_embed_builder.dart';
 import 'package:nostrmo/component/editor/mention_event_embed_builder.dart';
 import 'package:nostrmo/component/editor/mention_user_embed_builder.dart';

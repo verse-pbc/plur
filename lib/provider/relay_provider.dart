@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 

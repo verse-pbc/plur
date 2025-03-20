@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/replaceable_event_provider.dart';
 import 'package:nostrmo/provider/single_event_provider.dart';
 import 'package:provider/provider.dart';

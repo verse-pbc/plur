@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base_consts.dart';
