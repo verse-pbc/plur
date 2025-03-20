@@ -42,7 +42,6 @@ import FirebaseMessaging
         }
         
         GeneratedPluginRegistrant.register(with: self)
-        Messaging.messaging().apnsToken = deviceToken
         return super.application(application, didFinishLaunchingWithOptions: launchOptions)
     }
     
