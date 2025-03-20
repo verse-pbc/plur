@@ -21,6 +21,11 @@ class GroupInfoPopupMenuWidget extends StatelessWidget {
     return StyledPopupMenu(
       items: [
         StyledPopupItem(
+          value: "admin",
+          text: localization.Admin_Panel,
+          icon: Icons.admin_panel_settings,
+        ),
+        StyledPopupItem(
           value: "edit",
           text: localization.Edit,
           icon: Icons.edit_outlined,
@@ -28,6 +33,8 @@ class GroupInfoPopupMenuWidget extends StatelessWidget {
       ],
       onSelected: (value) {
         switch (value) {
+          case "admin":
+            RouterUtil.router(context, RouterPath.GROUP_ADMIN, groupId);
           case "edit":
             RouterUtil.router(context, RouterPath.GROUP_EDIT, groupId);
         }
