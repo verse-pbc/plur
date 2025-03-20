@@ -7,7 +7,8 @@
         {
             "name": "plur",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart"
         },
         {
             "name": "plur (profile mode)",
