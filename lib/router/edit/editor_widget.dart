@@ -101,7 +101,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
   List<EditorNotifyItem> editorNotifyItems = [];
 
-  bool hasMedia = false;
+  var _hasMedia = false;
 
   @override
   void initState() {
