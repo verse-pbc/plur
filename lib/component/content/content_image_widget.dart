@@ -14,21 +14,21 @@ import '../image_widget.dart';
 import '../image_preview_dialog.dart';
 
 class ContentImageWidget extends StatefulWidget {
-  String imageUrl;
+  final String imageUrl;
 
-  List<String>? imageList;
+  final List<String>? imageList;
 
-  int imageIndex;
+  final int imageIndex;
 
-  double? width;
+  final double? width;
 
-  double? height;
+  final double? height;
 
-  BoxFit imageBoxFix;
+  final BoxFit imageBoxFix;
 
-  FileMetadata? fileMetadata;
+  final FileMetadata? fileMetadata;
 
-  ContentImageWidget({super.key,
+  const ContentImageWidget({super.key,
     required this.imageUrl,
     this.imageList,
     this.imageIndex = 0,
@@ -90,12 +90,13 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
   }
 
   void previewImages(context) {
-    if (widget.imageList == null || widget.imageList!.isEmpty) {
-      widget.imageList = [widget.imageUrl];
+    List<String> imageList = widget.imageList ?? [];
+    if (imageList.isEmpty) {
+      imageList = [widget.imageUrl];
     }
 
     List<ImageProvider> imageProviders = [];
-    for (var imageUrl in widget.imageList!) {
+    for (var imageUrl in imageList) {
       imageProviders.add(CachedNetworkImageProvider(imageUrl));
     }
 

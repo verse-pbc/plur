@@ -9,9 +9,9 @@ import '../util/theme_util.dart';
 import 'badge_detail_widget.dart';
 
 class BadgeDetailDialog extends StatefulWidget {
-  BadgeDefinition badgeDefinition;
+  final BadgeDefinition badgeDefinition;
 
-  BadgeDetailDialog({
+  const BadgeDetailDialog({
     super.key,
     required this.badgeDefinition,
   });

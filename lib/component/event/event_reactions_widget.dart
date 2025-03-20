@@ -791,17 +791,17 @@ class EventReactionNumWidget extends StatelessWidget {
 }
 
 class EventReactionEmojiNumWidget extends StatelessWidget {
-  String? iconText;
+  final String? iconText;
 
-  IconData iconData;
+  final IconData iconData;
 
-  int num;
+  final int num;
 
-  Color color;
+  final Color color;
 
-  double fontSize;
+  final double fontSize;
 
-  EventReactionEmojiNumWidget({
+  const EventReactionEmojiNumWidget({
     super.key,
     this.iconText,
     required this.iconData,

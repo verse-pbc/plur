@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed many typos.
 - Fixed lint job that fails when there is a slash in the branch name.
 - Add an ADR for the decision to use Riverpod [#272](https://github.com/verse-pbc/issues/issues/272)
+- Fixed several lint errors with Claude Code [#116](https://github.com/verse-pbc/plur/pull/116)
 
 ## [0.0.3]
 
