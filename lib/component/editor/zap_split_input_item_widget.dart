@@ -7,11 +7,11 @@ import 'package:flutter_seekbar/flutter_seekbar.dart';
 
 
 class ZapSplitInputItemWidget extends StatefulWidget {
-  EventZapInfo eventZapInfo;
+  final EventZapInfo eventZapInfo;
 
-  Function recountWeightAndRefresh;
+  final Function recountWeightAndRefresh;
 
-  ZapSplitInputItemWidget(this.eventZapInfo, this.recountWeightAndRefresh, {super.key});
+  const ZapSplitInputItemWidget(this.eventZapInfo, this.recountWeightAndRefresh, {super.key});
 
   @override
   State<StatefulWidget> createState() {

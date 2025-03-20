@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 
 class ContentStrLinkWidget extends StatelessWidget {
-  bool showUnderline;
+  final bool showUnderline;
 
-  String str;
+  final String str;
 
-  Function onTap;
+  final Function onTap;
 
-  ContentStrLinkWidget(
+  const ContentStrLinkWidget(
       {super.key,
       required this.str,
       required this.onTap,

@@ -10,9 +10,9 @@ import 'package:nostrmo/util/router_util.dart';
 import '../generated/l10n.dart';
 
 class BadgeDetailWidget extends StatefulWidget {
-  BadgeDefinition badgeDefinition;
+  final BadgeDefinition badgeDefinition;
 
-  BadgeDetailWidget({
+  const BadgeDetailWidget({
     super.key,
     required this.badgeDefinition,
   });
