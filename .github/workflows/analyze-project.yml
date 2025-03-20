@@ -132,7 +132,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Run Tests
+      - name: Run Main Tests
         run: |
           mkdir -p test-results
           flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results.txt
@@ -143,3 +143,15 @@ jobs:
         with:
           name: test-results
           path: test-results/
+
+      - name: Run nostr_sdk tests
+        run: |
+          cd packages/nostr_sdk
+          flutter test --no-fail-fast -r github --file-reporter github:test-results/flutter_test_results.txt
+
+      - name: Upload nostr_sdk test results artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nostr-sdk-test-results
+          path: packages/nostr_sdk/test-results/
