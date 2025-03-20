@@ -1406,7 +1406,7 @@ packages:
   nostr_sdk:
     dependency: "direct main"
     description:
-      path: "lib/nostr_sdk"
+      path: "packages/nostr_sdk"
       relative: true
     source: path
     version: "0.0.1"
