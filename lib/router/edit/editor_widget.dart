@@ -1,4 +1,3 @@
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -24,32 +23,25 @@ import '../../component/editor/poll_input_widget.dart';
 import '../../component/editor/zap_split_input_widget.dart';
 import '../../generated/l10n.dart';
 import 'editor_notify_item_widget.dart';
+import '../../component/info_message_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 
 class EditorWidget extends StatefulWidget {
   static double appbarHeight = 56;
 
   // dm arg
-  String? pubkey;
+  final String? pubkey;
+  final GroupIdentifier? groupIdentifier;
+  final int? groupEventKind;
+  final List<dynamic> tags;
+  final List<dynamic> tagsAddedWhenSend;
+  final List<dynamic> tagPs;
+  final List<BlockEmbed>? initEmbeds;
+  final bool isLongForm;
+  final bool isPoll;
+  final bool isZapGoal;
 
-  GroupIdentifier? groupIdentifier;
-
-  int? groupEventKind;
-
-  List<dynamic> tags = [];
-
-  List<dynamic> tagsAddedWhenSend = [];
-
-  List<dynamic> tagPs = [];
-
-  List<BlockEmbed>? initEmbeds;
-
-  bool isLongForm;
-
-  bool isPoll;
-
-  bool isZapGoal;
-
-  EditorWidget({
+  const EditorWidget({
     super.key,
     required this.tags,
     required this.tagsAddedWhenSend,
@@ -108,6 +100,8 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
   List<EditorNotifyItem>? notifyItems;
 
   List<EditorNotifyItem> editorNotifyItems = [];
+
+  bool hasMedia = false;
 
   @override
   void initState() {
@@ -239,8 +233,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         }
       }
       list.add(Container(
-        padding:
-            const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
+        padding: const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
         margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         width: double.maxFinite,
         child: Wrap(
@@ -288,6 +281,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     }
 
     Widget quillWidget = QuillEditor(
+       controller: editorController,
       configurations: QuillEditorConfigurations(
         placeholder: localization.What_s_happening,
         embedBuilders: [
@@ -307,7 +301,6 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           left: Base.basePadding,
           right: Base.basePadding,
         ),
-        controller: editorController,
       ),
       scrollController: ScrollController(),
       focusNode: focusNode,
@@ -472,6 +465,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     var cancelFunc = BotToast.showLoading();
     try {
       var event = await doDocumentSave();
+      if (!mounted) return;
       if (event == null) {
         BotToast.showText(text: S.of(context).Send_fail);
         return;
