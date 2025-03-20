@@ -16,23 +16,23 @@ import 'event_bitcoin_icon_widget.dart';
 import 'event_main_widget.dart';
 
 class EventListWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  String? pagePubkey;
+  final String? pagePubkey;
 
-  bool jumpable;
+  final bool jumpable;
 
-  bool showVideo;
+  final bool showVideo;
 
-  bool imageListMode;
+  final bool imageListMode;
 
-  bool showDetailBtn;
+  final bool showDetailBtn;
 
-  bool showLongContent;
+  final bool showLongContent;
 
-  bool showCommunity;
+  final bool showCommunity;
 
-  EventListWidget({
+  const EventListWidget({
     super.key,
     required this.event,
     this.pagePubkey,

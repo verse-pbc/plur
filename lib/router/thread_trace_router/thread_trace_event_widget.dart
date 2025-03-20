@@ -5,13 +5,13 @@ import 'package:screenshot/screenshot.dart';
 import '../../component/event/event_main_widget.dart';
 
 class ThreadTraceEventWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  Function? textOnTap;
+  final Function? textOnTap;
 
-  bool traceMode;
+  final bool traceMode;
 
-  ThreadTraceEventWidget(
+  const ThreadTraceEventWidget(
     this.event, {
     super.key,
     this.textOnTap,

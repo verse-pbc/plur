@@ -13,19 +13,19 @@ import '../../generated/l10n.dart';
 import '../../provider/settings_provider.dart';
 
 class ThreadDetailItemMainWidget extends StatefulWidget {
-  static double BORDER_LEFT_WIDTH = 2;
+  static const double borderLeftWidth = 2;
 
-  static double EVENT_MAIN_MIN_WIDTH = 200;
+  static const double eventMainMinWidth = 200;
 
-  ThreadDetailEvent item;
+  final ThreadDetailEvent item;
 
-  double totalMaxWidth;
+  final double totalMaxWidth;
 
-  String sourceEventId;
+  final String sourceEventId;
 
-  GlobalKey sourceEventKey;
+  final GlobalKey sourceEventKey;
 
-  ThreadDetailItemMainWidget({
+  const ThreadDetailItemMainWidget({
     super.key,
     required this.item,
     required this.totalMaxWidth,
@@ -70,10 +70,10 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
     List<Widget> list = [];
     var currentWidth = mediaDataCache.size.width;
     var leftWidth = (widget.item.currentLevel - 1) *
-        (Base.basePadding + ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH);
+        (Base.basePadding + ThreadDetailItemMainWidget.borderLeftWidth);
     currentWidth = mediaDataCache.size.width - leftWidth;
-    if (currentWidth < ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH) {
-      currentWidth = ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
+    if (currentWidth < ThreadDetailItemMainWidget.eventMainMinWidth) {
+      currentWidth = ThreadDetailItemMainWidget.eventMainMinWidth;
     }
     list.add(Container(
       alignment: Alignment.centerLeft,
@@ -104,7 +104,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                width: ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH,
+                width: ThreadDetailItemMainWidget.borderLeftWidth,
                 color: hintColor,
               ),
             ),
@@ -124,7 +124,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
           decoration: BoxDecoration(
             border: Border(
               left: BorderSide(
-                width: ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH,
+                width: ThreadDetailItemMainWidget.borderLeftWidth,
                 color: hintColor,
               ),
             ),
