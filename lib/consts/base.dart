@@ -52,4 +52,7 @@ class Base {
 
   /// Default index to use when inserting to the events database.
   static int defaultDataIndex = -1;
+
+  /// Maximum width that the view should expand to on bigger screens.
+  static const double maxScreenWidth = 600;
 }
