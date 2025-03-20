@@ -433,7 +433,7 @@ SPEC CHECKSUMS:
   flutter_inapp_purchase: 722da12971a50f306f37e62fc1aaf576b1cbecf6
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_keyboard_visibility_temp_fork: b8c3574e96b2d85c7330ce4faece5c5a14b54dab
-  flutter_local_notifications: ad39620c743ea4c15127860f4b5641649a988100
+  flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
   flutter_native_splash: 35ddbc7228eafcb3969dcc5f1fbbe27c1145a4f0
   google_mlkit_commons: 92c769cc2e0a2bfdeb3c38091a36e8a9cc8c63d4
   google_mlkit_language_id: 7ade47ac519169b1d2fdf709a67de542ff992410
