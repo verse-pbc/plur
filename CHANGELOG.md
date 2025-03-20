@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrated TimestampProvider from Provider to Riverpod Notifier.
 - Fixed many typos.
 - Fixed lint job that fails when there is a slash in the branch name.
+- Add an ADR for the decision to use Riverpod [#272](https://github.com/verse-pbc/issues/issues/272)
 
 ## [0.0.3]
 
