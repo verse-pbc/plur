@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'db.dart';
