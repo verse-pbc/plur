@@ -115,7 +115,35 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     inputPoll = widget.isPoll;
     inputZapGoal = widget.isZapGoal;
     handleFocusInit();
+    _setupMediaListener();
   }
+
+  void _setupMediaListener() {
+    editorController.addListener(_updateHasMedia);
+  }
+
+  void _updateHasMedia() {
+    final delta = editorController.document.toDelta();
+    final newHasMedia = _checkForMedia(delta);
+    if (hasMedia != newHasMedia) {
+      setState(() => hasMedia = newHasMedia);
+    }
+  }
+
+  bool _checkForMedia(Object delta) {
+    try {
+      final operations = (delta as dynamic).toList();
+      return operations.any((operation) =>
+          operation?.key == "insert" &&
+          operation?.data is Map &&
+          _isMediaData(operation.data as Map));
+    } catch (e) {
+      return false;
+    }
+  }
+
+  bool _isMediaData(Map data) =>
+      data.containsKey("image") || data.containsKey("video");
 
   @override
   GroupIdentifier? getGroupIdentifier() {
@@ -320,12 +348,22 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: editorList,
+              children: [
+                ...editorList,
+                const SizedBox(height: 50),
+              ],
             ),
           ),
         ),
       ),
     ));
+
+    if (hasMedia) {
+      list.add(InfoMessageWidget(
+        message: localization.All_media_public,
+        icon: Icons.info,
+      ));
+    }
 
     list.add(buildEditorBtns());
     if (emojiShow) {
@@ -338,6 +376,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cardColor,
+        bottom: const AppBarBottomBorder(),
         leading: const AppbarBackBtnWidget(),
         actions: [
           TextButton(
@@ -495,5 +534,11 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
   @override
   bool isDM() {
     return false;
+  }
+
+  @override
+  void dispose() {
+    editorController.removeListener(_updateHasMedia);
+    super.dispose();
   }
 }
