@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
@@ -33,6 +35,7 @@ import 'package:nostrmo/router/group/group_members_widget.dart';
 import 'package:nostrmo/router/group/group_info_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/signup/signup_widget.dart';
+import 'package:nostrmo/router/test/push_notification_test_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_list_widget.dart';
@@ -254,6 +257,23 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
 
+// Firebase messaging background handler
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // Initialize Firebase in background context
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
+  log("Handling a background message: ${message.messageId}");
+  log("Message data: ${message.data}");
+  log("Message notification: ${message.notification?.title}, ${message.notification?.body}");
+  
+  // The notification should be automatically displayed by FCM in the background,
+  // but we can add some extra logging to help debug
+  
+  // For debugging purposes, we'll just log the message details
+  // The system should automatically display notifications when the app is in background
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -262,10 +282,21 @@ Future<void> main() async {
     log("MediaKit init error $e");
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
+  // Set up FCM background message handler
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
+  // Initialize local notifications
+  await NotificationUtil.initializeLocalNotifications();
+  
+  // Request notification permissions
+  await NotificationUtil.requestPermissions();
+  
+  // Set up foreground messaging to show local notifications
+  NotificationUtil.setupForegroundMessaging();
 
   if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
     await windowManager.ensureInitialized();
@@ -346,6 +377,25 @@ class MyApp extends StatefulWidget {
 
   MyApp({super.key}) {
     platform.setMethodCallHandler(_handleDeepLink);
+    _setupNotificationClickHandler();
+  }
+  
+  void _setupNotificationClickHandler() {
+    // Set up notification click handlers using our NotificationUtil
+    NotificationUtil.setupBackgroundMessaging(_handleNotificationClick);
+  }
+  
+  void _handleNotificationClick(RemoteMessage message) {
+    log("Notification clicked with data: ${message.data}");
+    // TODO: Navigate to appropriate screen based on message data
+    // For example:
+    // if (message.data.containsKey('eventId')) {
+    //   final eventId = message.data['eventId'];
+    //   final context = navigatorKey.currentContext;
+    //   if (context != null) {
+    //     Navigator.of(context).pushNamed(RouterPath.EVENT_DETAIL, arguments: eventId);
+    //   }
+    // }
   }
 
   void joinGroup(
@@ -468,6 +518,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
       RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
+      RouterPath.PUSH_NOTIFICATION_TEST: (context) => const PushNotificationTestWidget(),
     };
 
     return MultiProvider(

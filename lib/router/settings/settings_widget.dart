@@ -116,6 +116,16 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       onTap: pickWotFilter,
     ));
 
+    // Add Push Notification Test item for development
+    if (true) { // Set to false in production
+      list.add(SettingsGroupItemWidget(
+        name: "Push Notification Test (Dev)",
+        onTap: () {
+          RouterUtil.router(context, RouterPath.PUSH_NOTIFICATION_TEST);
+        },
+      ));
+    }
+
     list.add(SettingsGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
     list.add(SettingsGroupItemWidget(
       name: localization.Link_preview,
