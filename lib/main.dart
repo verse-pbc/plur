@@ -262,14 +262,14 @@ Future<void> initializeProviders({bool isTesting = false}) async {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // Initialize Firebase in background context
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  
+
   log("Handling a background message: ${message.messageId}");
   log("Message data: ${message.data}");
   log("Message notification: ${message.notification?.title}, ${message.notification?.body}");
-  
+
   // The notification should be automatically displayed by FCM in the background,
   // but we can add some extra logging to help debug
-  
+
   // For debugging purposes, we'll just log the message details
   // The system should automatically display notifications when the app is in background
 }
@@ -288,13 +288,10 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   // Initialize local notifications
   await NotificationUtil.initializeLocalNotifications();
-  
-  // Request notification permissions
-  await NotificationUtil.requestPermissions();
-  
+
   // Set up foreground messaging to show local notifications
   NotificationUtil.setupForegroundMessaging();
 
@@ -379,12 +376,12 @@ class MyApp extends StatefulWidget {
     platform.setMethodCallHandler(_handleDeepLink);
     _setupNotificationClickHandler();
   }
-  
+
   void _setupNotificationClickHandler() {
     // Set up notification click handlers using our NotificationUtil
     NotificationUtil.setupBackgroundMessaging(_handleNotificationClick);
   }
-  
+
   void _handleNotificationClick(RemoteMessage message) {
     log("Notification clicked with data: ${message.data}");
     // TODO: Navigate to appropriate screen based on message data
@@ -518,7 +515,8 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
       RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
-      RouterPath.PUSH_NOTIFICATION_TEST: (context) => const PushNotificationTestWidget(),
+      RouterPath.PUSH_NOTIFICATION_TEST: (context) =>
+          const PushNotificationTestWidget(),
     };
 
     return MultiProvider(
