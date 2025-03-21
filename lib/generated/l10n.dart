@@ -3320,10 +3320,10 @@ class S {
     );
   }
 
-  /// `Open Group`
+  /// `Open group`
   String get Open_group {
     return Intl.message(
-      'Open Group',
+      'Open group',
       name: 'Open_group',
       desc: '',
       args: [],
