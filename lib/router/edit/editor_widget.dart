@@ -1,4 +1,4 @@
-
+import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -24,32 +24,25 @@ import '../../component/editor/poll_input_widget.dart';
 import '../../component/editor/zap_split_input_widget.dart';
 import '../../generated/l10n.dart';
 import 'editor_notify_item_widget.dart';
+import '../../component/info_message_widget.dart';
+import '../../component/appbar_bottom_border.dart';
 
 class EditorWidget extends StatefulWidget {
   static double appbarHeight = 56;
 
   // dm arg
-  String? pubkey;
+  final String? pubkey;
+  final GroupIdentifier? groupIdentifier;
+  final int? groupEventKind;
+  final List<dynamic> tags;
+  final List<dynamic> tagsAddedWhenSend;
+  final List<dynamic> tagPs;
+  final List<BlockEmbed>? initEmbeds;
+  final bool isLongForm;
+  final bool isPoll;
+  final bool isZapGoal;
 
-  GroupIdentifier? groupIdentifier;
-
-  int? groupEventKind;
-
-  List<dynamic> tags = [];
-
-  List<dynamic> tagsAddedWhenSend = [];
-
-  List<dynamic> tagPs = [];
-
-  List<BlockEmbed>? initEmbeds;
-
-  bool isLongForm;
-
-  bool isPoll;
-
-  bool isZapGoal;
-
-  EditorWidget({
+  const EditorWidget({
     super.key,
     required this.tags,
     required this.tagsAddedWhenSend,
@@ -109,13 +102,80 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
   List<EditorNotifyItem> editorNotifyItems = [];
 
+  var _hasMedia = false;
+
   @override
   void initState() {
     super.initState();
     inputPoll = widget.isPoll;
     inputZapGoal = widget.isZapGoal;
     handleFocusInit();
+    _setUpListener();
   }
+
+  void _setUpListener() {
+    editorController.addListener(_editorControllerListener);
+  }
+
+  void _editorControllerListener() {
+    // Check for media
+    final delta = editorController.document.toDelta();
+    var updated = false;
+
+    try {
+      final operations = delta.toList();
+      final newHasMedia = operations.any((operation) =>
+          operation.key == "insert" &&
+          operation.data is Map &&
+          _isMediaData(operation.data as Map));
+      if (_hasMedia != newHasMedia) {
+        _hasMedia = newHasMedia;
+        updated = true;
+      }
+
+      // Process mentions
+      Map<String, int> mentionUserMap = {};
+      editorNotifyItems = [];
+
+      for (final operation in operations) {
+        if (operation.key == "insert" && operation.data is Map) {
+          final m = operation.data as Map;
+          final value = m["mentionUser"];
+          if (StringUtil.isNotBlank(value)) {
+            mentionUserMap[value] = 1;
+          }
+        }
+      }
+
+      // Handle deletions
+      List<EditorNotifyItem> itemsToDelete = [];
+      for (final item in editorNotifyItems) {
+        final exist = mentionUserMap.remove(item.pubkey);
+        if (exist == null) {
+          itemsToDelete.add(item);
+          updated = true;
+        }
+      }
+      editorNotifyItems.removeWhere((element) => itemsToDelete.contains(element));
+
+      // Handle additions
+      if (mentionUserMap.isNotEmpty) {
+        for (final entry in mentionUserMap.entries) {
+          editorNotifyItems.add(EditorNotifyItem(pubkey: entry.key));
+          updated = true;
+        }
+      }
+    } catch (e) {
+      log(e.toString());
+    }
+
+    if (updated) {
+      setState(() {});
+    }
+  }
+
+  bool _isMediaData(Map data) =>
+      data.containsKey("image") || data.containsKey("video");
 
   @override
   GroupIdentifier? getGroupIdentifier() {
@@ -211,8 +271,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         }
       }
       list.add(Container(
-        padding:
-            const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
+        padding: const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
         margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         width: double.maxFinite,
         child: Wrap(
@@ -260,6 +319,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     }
 
     Widget quillWidget = QuillEditor(
+      controller: editorController,
       configurations: QuillEditorConfigurations(
         placeholder: localization.What_s_happening,
         embedBuilders: [
@@ -279,7 +339,6 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           left: Base.basePadding,
           right: Base.basePadding,
         ),
-        controller: editorController,
       ),
       scrollController: ScrollController(),
       focusNode: focusNode,
@@ -320,12 +379,22 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: editorList,
+              children: [
+                ...editorList,
+                if (_hasMedia) const SizedBox(height: 50),
+              ],
             ),
           ),
         ),
       ),
     ));
+
+    if (_hasMedia) {
+      list.add(InfoMessageWidget(
+        message: localization.All_media_public,
+        icon: Icons.info,
+      ));
+    }
 
     list.add(buildEditorBtns());
     if (emojiShow) {
@@ -338,6 +407,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: cardColor,
+        bottom: const AppBarBottomBorder(),
         leading: const AppbarBackBtnWidget(),
         actions: [
           TextButton(
@@ -385,54 +455,13 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
       editorController.moveCursorToPosition(0);
     }
-
-    editorNotifyItems = [];
-    editorController.addListener(() {
-      bool updated = false;
-      Map<String, int> mentionUserMap = {};
-
-      var delta = editorController.document.toDelta();
-      var operations = delta.toList();
-      for (var operation in operations) {
-        if (operation.key == "insert") {
-          if (operation.data is Map) {
-            var m = operation.data as Map;
-            var value = m["mentionUser"];
-            if (StringUtil.isNotBlank(value)) {
-              mentionUserMap[value] = 1;
-            }
-          }
-        }
-      }
-
-      List<EditorNotifyItem> needDeleds = [];
-      for (var item in editorNotifyItems) {
-        var exist = mentionUserMap.remove(item.pubkey);
-        if (exist == null) {
-          updated = true;
-          needDeleds.add(item);
-        }
-      }
-      editorNotifyItems.removeWhere((element) => needDeleds.contains(element));
-
-      if (mentionUserMap.isNotEmpty) {
-        var entries = mentionUserMap.entries;
-        for (var entry in entries) {
-          updated = true;
-          editorNotifyItems.add(EditorNotifyItem(pubkey: entry.key));
-        }
-      }
-
-      if (updated) {
-        setState(() {});
-      }
-    });
   }
 
   Future<void> documentSave() async {
     var cancelFunc = BotToast.showLoading();
     try {
       var event = await doDocumentSave();
+      if (!mounted) return;
       if (event == null) {
         BotToast.showText(text: S.of(context).Send_fail);
         return;
@@ -495,5 +524,11 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
   @override
   bool isDM() {
     return false;
+  }
+
+  @override
+  void dispose() {
+    editorController.removeListener(_editorControllerListener);
+    super.dispose();
   }
 }
