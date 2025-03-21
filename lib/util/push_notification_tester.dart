@@ -7,7 +7,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 /// Utility class for testing push notifications during development
 class PushNotificationTester {
   static final Dio _dio = Dio();
-  
+
   /// Get the current FCM token for the device
   static Future<String?> getDeviceToken() async {
     try {
@@ -17,9 +17,9 @@ class PushNotificationTester {
       return null;
     }
   }
-  
+
   /// Send a test notification to the current device
-  /// 
+  ///
   /// This would typically be called from a debug/test screen in your app
   static Future<void> sendTestNotification({
     required String token,
@@ -31,10 +31,11 @@ class PushNotificationTester {
       // Note: In a real implementation, you would never include your Firebase server key in client code
       // This is just for testing purposes during development
       // You would typically have a backend service that sends notifications
-      
+
       // This is a fake key for demonstration purposes only
-      const String fcmServerKey = 'REPLACE_WITH_YOUR_FCM_SERVER_KEY_DURING_TESTING';
-      
+      const String fcmServerKey =
+          'REPLACE_WITH_YOUR_FCM_SERVER_KEY_DURING_TESTING';
+
       final response = await _dio.post(
         'https://fcm.googleapis.com/fcm/send',
         options: Options(
@@ -54,14 +55,14 @@ class PushNotificationTester {
           'priority': 'high',
         }),
       );
-      
+
       log('Test notification sent: ${response.statusCode}');
       log('Response: ${response.data}');
     } catch (e) {
       log('Error sending test notification: $e');
     }
   }
-  
+
   /// Trigger a local test notification (doesn't require FCM)
   static Future<void> triggerLocalTestNotification({
     required String title,
@@ -69,11 +70,9 @@ class PushNotificationTester {
     Map<String, dynamic>? data,
   }) async {
     try {
-      // Create instance of FlutterLocalNotificationsPlugin
-      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = 
+      final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
           FlutterLocalNotificationsPlugin();
-      
-      // Create Android notification details
+
       const AndroidNotificationDetails androidPlatformChannelSpecifics =
           AndroidNotificationDetails(
         'high_importance_channel',
@@ -83,21 +82,19 @@ class PushNotificationTester {
         priority: Priority.high,
         showWhen: true,
       );
-      
-      // Create iOS notification details
+
       const DarwinNotificationDetails iOSPlatformChannelSpecifics =
           DarwinNotificationDetails(
         presentAlert: true,
         presentBadge: true,
         presentSound: true,
       );
-      
-      // Create notification details for all platforms
+
       const NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
         iOS: iOSPlatformChannelSpecifics,
       );
-      
+
       // Show the notification
       await flutterLocalNotificationsPlugin.show(
         0, // Notification ID
@@ -106,7 +103,7 @@ class PushNotificationTester {
         platformChannelSpecifics,
         payload: json.encode(data ?? {}),
       );
-      
+
       log('Local test notification triggered');
     } catch (e) {
       log('Error triggering local test notification: $e');
