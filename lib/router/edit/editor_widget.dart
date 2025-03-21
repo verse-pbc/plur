@@ -137,10 +137,10 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       Map<String, int> mentionUserMap = {};
       editorNotifyItems = [];
 
-      for (var operation in operations) {
+      for (final operation in operations) {
         if (operation.key == "insert" && operation.data is Map) {
-          var m = operation.data as Map;
-          var value = m["mentionUser"];
+          final m = operation.data as Map;
+          final value = m["mentionUser"];
           if (StringUtil.isNotBlank(value)) {
             mentionUserMap[value] = 1;
           }
@@ -149,8 +149,8 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
       // Handle deletions
       List<EditorNotifyItem> itemsToDelete = [];
-      for (var item in editorNotifyItems) {
-        var exist = mentionUserMap.remove(item.pubkey);
+      for (final item in editorNotifyItems) {
+        final exist = mentionUserMap.remove(item.pubkey);
         if (exist == null) {
           itemsToDelete.add(item);
           updated = true;
@@ -160,7 +160,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
       // Handle additions
       if (mentionUserMap.isNotEmpty) {
-        for (var entry in mentionUserMap.entries) {
+        for (final entry in mentionUserMap.entries) {
           editorNotifyItems.add(EditorNotifyItem(pubkey: entry.key));
           updated = true;
         }
@@ -381,7 +381,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
               mainAxisSize: MainAxisSize.min,
               children: [
                 ...editorList,
-                const SizedBox(height: 50),
+                if (_hasMedia) const SizedBox(height: 50),
               ],
             ),
           ),
