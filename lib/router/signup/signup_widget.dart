@@ -6,7 +6,6 @@ import 'package:flutter/services.dart';
 import 'package:nostrmo/nostr_sdk/client_utils/keys.dart';
 
 import '../../consts/base.dart';
-import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
