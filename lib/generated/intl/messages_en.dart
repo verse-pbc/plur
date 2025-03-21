@@ -297,7 +297,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Open Private DM"),
         "Open_User_page":
             MessageLookupByLibrary.simpleMessage("Open User page"),
-        "Open_group": MessageLookupByLibrary.simpleMessage("Open Group"),
+        "Open_group": MessageLookupByLibrary.simpleMessage("Open group"),
         "Open_in_browser":
             MessageLookupByLibrary.simpleMessage("Open in browser"),
         "Opened": MessageLookupByLibrary.simpleMessage("Opened"),

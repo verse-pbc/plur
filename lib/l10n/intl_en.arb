@@ -326,7 +326,7 @@
     "Admin": "Admin",
     "All_media_public": "All media is publicly accessible to anyone with the URL.",
     "Closed_group": "Closed group",
-    "Open_group": "Open Group",
+    "Open_group": "Open group",
     "Group_member": "{number} Member",
     "@group_member": {
       "placeholders": {
