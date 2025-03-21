@@ -20,6 +20,10 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(number) => "${number} Member";
+
+  static String m1(number) => "${number} Members";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "About": MessageLookupByLibrary.simpleMessage("About"),
@@ -87,6 +91,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Close Private DM"),
         "Close_at": MessageLookupByLibrary.simpleMessage("Close at"),
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
+        "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
@@ -184,6 +189,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Group": MessageLookupByLibrary.simpleMessage("Group"),
         "GroupId": MessageLookupByLibrary.simpleMessage("GroupId"),
         "Group_Info": MessageLookupByLibrary.simpleMessage("Group Info"),
+        "Group_member": m0,
+        "Group_members": m1,
         "Groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Hashtag"),
         "Hide": MessageLookupByLibrary.simpleMessage("Hide"),
@@ -291,6 +298,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Open Private DM"),
         "Open_User_page":
             MessageLookupByLibrary.simpleMessage("Open User page"),
+        "Open_group": MessageLookupByLibrary.simpleMessage("Open group"),
         "Open_in_browser":
             MessageLookupByLibrary.simpleMessage("Open in browser"),
         "Opened": MessageLookupByLibrary.simpleMessage("Opened"),
