@@ -3,7 +3,7 @@ import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
-import '../../nostr_sdk/utils/string_util.dart';
+import 'package:nostr_sdk/utils/string_util.dart';
 import '../../consts/base.dart';
 import '../../consts/coffee_ids.dart';
 import '../../generated/l10n.dart';
