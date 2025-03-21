@@ -26,7 +26,7 @@ class CommunityDetailWidget extends StatefulWidget {
 }
 
 class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   EventMemBox box = EventMemBox();
 
   AId? aId;
@@ -126,8 +126,8 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
             onTap: addToCommunity,
             child: Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING,
-                right: Base.BASE_PADDING,
+                left: Base.basePadding,
+                right: Base.basePadding,
               ),
               child: Icon(
                 Icons.add,

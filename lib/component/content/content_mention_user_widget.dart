@@ -9,9 +9,9 @@ import '../../util/router_util.dart';
 import 'content_str_link_widget.dart';
 
 class ContentMentionUserWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  ContentMentionUserWidget({super.key, required this.pubkey});
+  const ContentMentionUserWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {

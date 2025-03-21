@@ -11,9 +11,9 @@ import '../../consts/base.dart';
 import '../link_router_util.dart';
 
 class ContentLinkPreWidget extends StatefulWidget {
-  String link;
+  final String link;
 
-  ContentLinkPreWidget({super.key, required this.link});
+  const ContentLinkPreWidget({super.key, required this.link});
 
   @override
   State<StatefulWidget> createState() {
@@ -38,7 +38,7 @@ class _ContentLinkPreWidgetState extends State<ContentLinkPreWidget> {
         }
 
         return Container(
-          margin: const EdgeInsets.all(Base.BASE_PADDING),
+          margin: const EdgeInsets.all(Base.basePadding),
           decoration: BoxDecoration(
             color: cardColor,
             boxShadow: [

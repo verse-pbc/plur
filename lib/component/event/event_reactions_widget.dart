@@ -258,8 +258,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               height: double.infinity,
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(
-                left: Base.BASE_PADDING_HALF,
-                right: Base.BASE_PADDING_HALF,
+                left: Base.basePaddingHalf,
+                right: Base.basePaddingHalf,
               ),
               child: Icon(
                 Icons.more_vert_rounded,
@@ -343,8 +343,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             eventReactions.zaps.isNotEmpty) {
           mainList.add(Container(
             margin: const EdgeInsets.only(
-              top: Base.BASE_PADDING,
-              bottom: Base.BASE_PADDING_HALF,
+              top: Base.basePadding,
+              bottom: Base.basePaddingHalf,
             ),
             child: EventTopZapsWidget(eventReactions.zaps),
           ));
@@ -376,7 +376,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             }
 
             ers.add(Container(
-              margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+              margin: const EdgeInsets.only(right: Base.basePaddingHalf),
               child: EventReactionEmojiNumWidget(
                 iconData: Icons.favorite_rounded,
                 iconText: likeText,
@@ -390,14 +390,14 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           mainList.add(Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
-              bottom: Base.BASE_PADDING_HALF,
+              left: Base.basePadding,
+              right: Base.basePadding,
+              bottom: Base.basePaddingHalf,
             ),
             width: double.maxFinite,
             child: Wrap(
-              runSpacing: Base.BASE_PADDING_HALF,
-              spacing: Base.BASE_PADDING_HALF,
+              runSpacing: Base.basePaddingHalf,
+              spacing: Base.basePaddingHalf,
               alignment: WrapAlignment.center,
               children: ers,
             ),
@@ -406,7 +406,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
         return Container(
           padding: const EdgeInsets.only(
-            bottom: Base.BASE_PADDING_HALF,
+            bottom: Base.basePaddingHalf,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -505,7 +505,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
   void dispose() {
     super.dispose();
     var id = widget.event.id;
-    eventReactionsProvider.removePendding(id);
+    eventReactionsProvider.removePending(id);
   }
 
   Future<void> onCommmentTap() async {
@@ -791,17 +791,17 @@ class EventReactionNumWidget extends StatelessWidget {
 }
 
 class EventReactionEmojiNumWidget extends StatelessWidget {
-  String? iconText;
+  final String? iconText;
 
-  IconData iconData;
+  final IconData iconData;
 
-  int num;
+  final int num;
 
-  Color color;
+  final Color color;
 
-  double fontSize;
+  final double fontSize;
 
-  EventReactionEmojiNumWidget({
+  const EventReactionEmojiNumWidget({
     super.key,
     this.iconText,
     required this.iconData,

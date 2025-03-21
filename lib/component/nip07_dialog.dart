@@ -61,7 +61,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     list.add(const Divider());
 
     list.add(Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Row(
         children: [
           Text("${localization.Method}:  "),
@@ -91,7 +91,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
       methodDesc = localization.NIP07_lightning;
     }
     list.add(Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Row(
         children: [
           Text(methodDesc),
@@ -103,21 +103,21 @@ class _NIP07Dialog extends State<NIP07Dialog> {
       list.add(Text("${localization.Content}:"));
       list.add(Container(
         width: double.maxFinite,
-        padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
+        padding: const EdgeInsets.all(Base.basePaddingHalf),
         decoration: BoxDecoration(
           color: hintColor.withOpacity(0.3),
           borderRadius: BorderRadius.circular(6),
         ),
         margin: const EdgeInsets.only(
-          bottom: Base.BASE_PADDING_HALF,
-          top: Base.BASE_PADDING_HALF,
+          bottom: Base.basePaddingHalf,
+          top: Base.basePaddingHalf,
         ),
         child: SelectableText(widget.content!),
       ));
     }
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: Row(children: [
         Expanded(
             child: InkWell(
@@ -138,7 +138,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
           ),
         )),
         Container(
-          width: Base.BASE_PADDING,
+          width: Base.basePadding,
         ),
         Expanded(
             child: InkWell(
@@ -189,8 +189,8 @@ class _NIP07Dialog extends State<NIP07Dialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

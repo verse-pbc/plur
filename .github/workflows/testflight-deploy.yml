@@ -1,9 +1,13 @@
 name: TestFlight Release Deployment
 permissions:
   contents: write  # This is needed for tag pushing
+
 on:
   # Enable manual run
   workflow_dispatch:
+  # Scheduled build at midnight UTC
+  schedule:
+    - cron: '0 0 * * *'
 
 concurrency:
   group: ${{ github.workflow }}
@@ -42,10 +46,10 @@ jobs:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
       - name: Fastlane build and deploy
-        working-directory: ./ios
+        working-directory: ./fastlane
         run: |
           bundle install
-          bundle exec fastlane release
+          bundle exec fastlane ios release
         env:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}

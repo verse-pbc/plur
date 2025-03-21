@@ -48,10 +48,10 @@ class _JsonViewDialog extends State<JsonViewDialog> {
     list.add(Expanded(
       child: Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING,
-          bottom: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING_HALF,
-          right: Base.BASE_PADDING_HALF,
+          top: Base.basePadding,
+          bottom: Base.basePaddingHalf,
+          left: Base.basePaddingHalf,
+          right: Base.basePaddingHalf,
         ),
         child: JsonView.string(
           widget.jsonText,
@@ -79,9 +79,9 @@ class _JsonViewDialog extends State<JsonViewDialog> {
     ));
     list.add(Container(
       margin: const EdgeInsets.only(
-        left: Base.BASE_PADDING_HALF,
-        right: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        left: Base.basePaddingHalf,
+        right: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -107,15 +107,15 @@ class _JsonViewDialog extends State<JsonViewDialog> {
       ),
     ));
 
-    var main = Container(
+    Widget main = Container(
       constraints: BoxConstraints(
         maxHeight: maxHeight * 0.8,
       ),
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -132,7 +132,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
       main = SizedBox(
         width: mediaDataCache.size.width / 2,
         child: main,
-      ) as Container;
+      );
     }
 
     return Scaffold(
@@ -148,8 +148,8 @@ class _JsonViewDialog extends State<JsonViewDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

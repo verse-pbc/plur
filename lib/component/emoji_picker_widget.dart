@@ -6,9 +6,9 @@ import '../consts/base.dart';
 import '../generated/l10n.dart';
 
 class EmojiPickerWidget extends StatefulWidget {
-  Function(String) onEmojiPick;
+  final Function(String) onEmojiPick;
 
-  EmojiPickerWidget(this.onEmojiPick, {super.key});
+  const EmojiPickerWidget(this.onEmojiPick, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -66,7 +66,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
                   child: Row(
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+                        margin: const EdgeInsets.only(left: Base.basePadding),
                         height: 40,
                         child: Icon(
                           Icons.search,

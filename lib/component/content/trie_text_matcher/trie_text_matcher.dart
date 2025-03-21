@@ -50,7 +50,7 @@ class TrieTextMatcher {
             if (argStart != null) {
               // there is some arg before, add arg to args
               args.add(TrieTextMatchResultItem(
-                  TargetTextType.PURE_TEXT, argStart, index - 1));
+                  TargetTextType.pureText, argStart, index - 1));
               argStart = null;
             }
             break;
@@ -62,7 +62,7 @@ class TrieTextMatcher {
             if (argStart != null) {
               // there is some arg before, add arg to args
               args.add(TrieTextMatchResultItem(
-                  TargetTextType.PURE_TEXT, argStart, index - 1));
+                  TargetTextType.pureText, argStart, index - 1));
               argStart = null;
             }
           }
@@ -82,13 +82,13 @@ class TrieTextMatcher {
       } else {
         // can't find other textType, this type is pure text
         if (result.items.isNotEmpty &&
-            result.items.last.textType == TargetTextType.PURE_TEXT) {
+            result.items.last.textType == TargetTextType.pureText) {
           // add to the last
           result.items.last.end = start;
         } else {
           // add a new pure text item
           result.items.add(
-              TrieTextMatchResultItem(TargetTextType.PURE_TEXT, start, start));
+              TrieTextMatchResultItem(TargetTextType.pureText, start, start));
         }
 
         if (args.isNotEmpty) {

@@ -59,8 +59,8 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
 
   double progress = 0;
 
-  Future<void> nip07Reject(String resultId, String contnet) async {
-    var script = "window.nostr.reject(\"$resultId\", \"$contnet\");";
+  Future<void> nip07Reject(String resultId, String content) async {
+    var script = "window.nostr.reject(\"$resultId\", \"$content\");";
     await webViewController!.evaluateJavascript(source: script);
     // _controller.runJavaScript(script);
   }
@@ -121,7 +121,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     final settingsProvider = Provider.of<SettingsProvider>(context);
     var webViewProvider = Provider.of<WebViewProvider>(context);
 
-    var btnTopPosition = Base.BASE_PADDING + Base.BASE_PADDING_HALF;
+    var btnTopPosition = Base.basePadding + Base.basePaddingHalf;
 
     var main = Stack(
       children: [
@@ -202,7 +202,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           getMoreWidget(Container(
             height: btnWidth,
             width: btnWidth,
-            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             alignment: Alignment.center,
             child: Icon(
               Icons.more_horiz,
@@ -232,12 +232,12 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           children: [
             main,
             Positioned(
-              left: Base.BASE_PADDING,
+              left: Base.basePadding,
               top: btnTopPosition,
               child: lefeBtn,
             ),
             Positioned(
-              right: Base.BASE_PADDING,
+              right: Base.basePadding,
               top: btnTopPosition,
               child: getMoreWidget(Container(
                 height: btnWidth,

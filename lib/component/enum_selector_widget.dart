@@ -7,9 +7,9 @@ import '../util/router_util.dart';
 class EnumSelectorWidget extends StatelessWidget {
   final List<EnumObj> list;
 
-  Widget Function(BuildContext, EnumObj)? enumItemBuild;
+  final Widget Function(BuildContext, EnumObj)? enumItemBuild;
 
-  EnumSelectorWidget({
+  const EnumSelectorWidget({
     super.key, 
     required this.list,
     this.enumItemBuild,
@@ -49,10 +49,10 @@ class EnumSelectorWidget extends StatelessWidget {
     Widget main = Container(
       width: double.infinity,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(15)),
@@ -82,8 +82,8 @@ class EnumSelectorWidget extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -98,17 +98,17 @@ class EnumSelectorWidget extends StatelessWidget {
 }
 
 class EnumSelectorItemWidget extends StatelessWidget {
-  static const double HEIGHT = 44;
+  static const double height = 44;
 
   final EnumObj enumObj;
 
   final bool isLast;
 
-  Function(EnumObj)? onTap;
+  final Function(EnumObj)? onTap;
 
-  Color? color;
+  final Color? color;
 
-  EnumSelectorItemWidget({
+  const EnumSelectorItemWidget({
     super.key, 
     required this.enumObj,
     this.isLast = false,
@@ -123,7 +123,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
 
     Widget main = Container(
       padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING + 5, right: Base.BASE_PADDING + 5),
+          left: Base.basePadding + 5, right: Base.basePadding + 5),
       child: Text(enumObj.name),
     );
 
@@ -142,7 +142,7 @@ class EnumSelectorItemWidget extends StatelessWidget {
               isLast ? null : Border(bottom: BorderSide(color: dividerColor)),
         ),
         alignment: Alignment.center,
-        height: HEIGHT,
+        height: height,
         child: main,
       ),
     );

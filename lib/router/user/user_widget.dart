@@ -31,7 +31,7 @@ class UserWidget extends StatefulWidget {
 }
 
 class _UserWidgetState extends CustState<UserWidget>
-    with PenddingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
+    with PendingEventsLaterFunction, LoadMoreEvent, WhenStopFunction {
   final GlobalKey<NestedScrollViewState> globalKey = GlobalKey();
 
   final ScrollController _controller = ScrollController();
@@ -166,7 +166,7 @@ class _UserWidgetState extends CustState<UserWidget>
               ),
               SliverToBoxAdapter(
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+                  margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
                   color: themeData.cardColor,
                   child: SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -211,8 +211,8 @@ class _UserWidgetState extends CustState<UserWidget>
 
         if (dataSyncMode) {
           mainList.add(Positioned(
-            right: Base.BASE_PADDING * 5,
-            bottom: Base.BASE_PADDING * 4,
+            right: Base.basePadding * 5,
+            bottom: Base.basePadding * 4,
             child: GestureDetector(
               onTap: beginToDown,
               child: const Icon(Icons.cloud_download),
@@ -220,8 +220,8 @@ class _UserWidgetState extends CustState<UserWidget>
           ));
 
           mainList.add(Positioned(
-            right: Base.BASE_PADDING * 2,
-            bottom: Base.BASE_PADDING * 4,
+            right: Base.basePadding * 2,
+            bottom: Base.basePadding * 4,
             child: GestureDetector(
               onTap: broadcaseAll,
               child: const Icon(Icons.cloud_upload),

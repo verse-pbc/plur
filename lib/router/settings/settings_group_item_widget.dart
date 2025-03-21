@@ -56,8 +56,8 @@ class SettingsGroupItemWidget extends StatelessWidget {
         color: cardColor,
         padding: const EdgeInsets.only(
           top: 12,
-          left: 20 + Base.BASE_PADDING_HALF,
-          right: 20 + Base.BASE_PADDING_HALF,
+          left: 20 + Base.basePaddingHalf,
+          right: 20 + Base.basePaddingHalf,
         ),
         child: GestureDetector(
           onTap: () {

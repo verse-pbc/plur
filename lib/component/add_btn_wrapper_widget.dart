@@ -6,9 +6,9 @@ import '../consts/colors.dart';
 import '../router/edit/editor_widget.dart';
 
 class AddBtnWrapperWidget extends StatefulWidget {
-  Widget child;
+  final Widget child;
 
-  AddBtnWrapperWidget({
+  const AddBtnWrapperWidget({
     super.key,
     required this.child,
   });
@@ -97,7 +97,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
         shape: MenuShape.linear,
         linearShapeParams: LinearShapeParams(
           alignment: LinearAlignment.left,
-          space: Base.BASE_PADDING,
+          space: Base.basePadding,
         ),
       ),
       controller: starMenuController,
@@ -108,19 +108,19 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
 }
 
 class AddBtnStartItemButton extends StatelessWidget {
-  IconData iconData;
+  final IconData iconData;
 
-  Color iconBackgroundColor;
+  final Color iconBackgroundColor;
 
-  double? iconSize;
+  final double? iconSize;
 
-  String name;
+  final String name;
 
-  Color backgroundColor;
+  final Color backgroundColor;
 
-  Function onTap;
+  final Function onTap;
 
-  AddBtnStartItemButton({
+  const AddBtnStartItemButton({
     super.key, 
     required this.iconData,
     required this.iconBackgroundColor,
@@ -134,7 +134,7 @@ class AddBtnStartItemButton extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> list = [];
     list.add(Container(
-      margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
       decoration: BoxDecoration(
         color: iconBackgroundColor,
         borderRadius: BorderRadius.circular(20),
@@ -154,10 +154,10 @@ class AddBtnStartItemButton extends StatelessWidget {
       },
       child: Container(
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         decoration: BoxDecoration(
           color: backgroundColor,
