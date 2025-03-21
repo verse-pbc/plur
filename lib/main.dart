@@ -373,31 +373,38 @@ class MyApp extends StatefulWidget {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
 
-  const MyApp({super.key}) {
-    platform.setMethodCallHandler(_handleDeepLink);
+  const MyApp({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _MyApp();
+}
+
+class _MyApp extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    SystemTimer.run();
+
+    MyApp.platform.setMethodCallHandler(_handleDeepLink);
+
     _setupNotificationClickHandler();
   }
 
   void _setupNotificationClickHandler() {
-    // Set up notification click handlers using our NotificationUtil
     NotificationUtil.setupBackgroundMessaging(_handleNotificationClick);
   }
 
   void _handleNotificationClick(RemoteMessage message) {
     log("Notification clicked with data: ${message.data}");
     // TODO: Navigate to appropriate screen based on message data
-    // For example:
-    // if (message.data.containsKey('eventId')) {
-    //   final eventId = message.data['eventId'];
-    //   final context = navigatorKey.currentContext;
-    //   if (context != null) {
-    //     Navigator.of(context).pushNamed(RouterPath.EVENT_DETAIL, arguments: eventId);
-    //   }
-    // }
   }
 
-  void joinGroup(
-      BuildContext context, String host, String groupId, String? code) {
+  void _joinGroup(
+    BuildContext context,
+    String host,
+    String groupId,
+    String? code,
+  ) {
     final listProvider = Provider.of<ListProvider>(context, listen: false);
     final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
     listProvider.joinGroup(groupIdentifier, context: context);
@@ -405,44 +412,19 @@ class MyApp extends StatefulWidget {
 
   Future<void> _handleDeepLink(MethodCall call) async {
     if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.');
+      log('nostr is null; the user is probably not logged in. aborting.',
+          name: 'DeepLink');
       return;
     }
 
     if (call.method == 'onDeepLink') {
       final String link = call.arguments;
-      log('Received deep link: $link');
+      log('Received deep link: $link', name: 'DeepLink');
 
-      Uri uri = Uri.parse(link);
-      if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
-        String? groupId = uri.queryParameters['group-id'];
-        String? code = uri.queryParameters['code'];
-        // Handle the extracted parameters
-        log('Group ID: $groupId');
-        log('Code: $code');
-
-        if (groupId == null || groupId.isEmpty) {
-          log('Group ID is null or empty, aborting.');
-          return;
-        }
-
-        final context = navigatorKey.currentContext;
-        if (context != null) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            joinGroup(context, 'wss://communities.nos.social', groupId, code);
-          });
-        } else {
-          log('Context is null, waiting for app to initialize...');
-        }
-      }
+      _processDeepLink(link);
     }
   }
 
-  @override
-  State<StatefulWidget> createState() => _MyApp();
-}
-
-class _MyApp extends State<MyApp> {
   reload() {
     setState(() {});
   }
@@ -639,47 +621,15 @@ class _MyApp extends State<MyApp> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    SystemTimer.run();
-
-    MyApp.platform.setMethodCallHandler(_handleDeepLink);
-  }
-
-  @override
   void dispose() {
     super.dispose();
     SystemTimer.stopTask();
   }
 
-  void _joinGroup(
-    BuildContext context,
-    String host,
-    String groupId,
-    String? code,
-  ) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
-  }
-
-  Future<void> _handleDeepLink(MethodCall call) async {
-    if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
-      return;
-    }
-
-    if (call.method == 'onDeepLink') {
-      final String link = call.arguments;
-      log('Received deep link: $link', name: 'DeepLink');
-
-      _processDeepLink(link);
-    }
-  }
-
   void _processDeepLink(String link) {
     if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
+      log('nostr is null; the user is probably not logged in. aborting.',
+          name: 'DeepLink');
       return;
     }
 
@@ -697,9 +647,11 @@ class _MyApp extends State<MyApp> {
 
       final context = MyApp.navigatorKey.currentContext;
       if (context != null) {
-        _joinGroup(context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
+        _joinGroup(
+            context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
       } else {
-        log('Context still null after initialization - this is unexpected', name: 'DeepLink');
+        log('Context still null after initialization - this is unexpected',
+            name: 'DeepLink');
       }
     }
   }
