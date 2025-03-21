@@ -118,70 +118,6 @@ class _PushNotificationTestWidgetState
     }
   }
 
-  Future<void> _testSystemNotification() async {
-    setState(() => _isLoading = true);
-    try {
-      // This tests notification display directly using the system channel
-      final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-      const AndroidNotificationDetails androidDetails =
-          AndroidNotificationDetails(
-        'high_importance_channel',
-        'High Importance Notifications',
-        channelDescription: 'This channel is used for important notifications.',
-        importance: Importance.max,
-        priority: Priority.high,
-        showWhen: true,
-        enableVibration: true,
-        playSound: true,
-      );
-
-      // iOS notification details
-      const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
-        presentAlert: true,
-        presentBadge: true,
-        presentSound: true,
-        // Add thread identifier for grouping related notifications
-        threadIdentifier: 'test_thread',
-        // Customize sound if needed
-        sound: 'default',
-        // Add category for action buttons (if implementing later)
-        categoryIdentifier: 'default_category',
-      );
-
-      const NotificationDetails platformDetails = NotificationDetails(
-        android: androidDetails,
-        iOS: iosDetails,
-      );
-
-      await flutterLocalNotificationsPlugin.show(
-        0, // notification id
-        _titleController.text.isEmpty
-            ? 'System Channel Test'
-            : _titleController.text,
-        _bodyController.text.isEmpty
-            ? 'This is a direct test of the notification system channel'
-            : _bodyController.text,
-        platformDetails,
-      );
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content:
-                Text('System notification sent - check notification drawer')),
-      );
-
-      dev.log('System notification test triggered');
-    } catch (e) {
-      dev.log('Error showing system notification: $e');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error: $e')),
-      );
-    } finally {
-      setState(() => _isLoading = false);
-    }
-  }
-
   Future<void> _triggerLocalNotification() async {
     await PushNotificationTester.triggerLocalTestNotification(
       title: _titleController.text,
@@ -377,19 +313,6 @@ class _PushNotificationTestWidgetState
                                 _isLoading ? null : _triggerLocalNotification,
                             icon: const Icon(Icons.send),
                             label: const Text('Trigger Local Notification'),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed:
-                                _isLoading ? null : _testSystemNotification,
-                            icon: const Icon(Icons.assessment),
-                            label: const Text('Test System Channel'),
                           ),
                         ),
                       ],
