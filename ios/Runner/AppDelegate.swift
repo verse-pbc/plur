@@ -10,6 +10,9 @@ import FirebaseMessaging
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // Needed by FlutterLocalNotificationsPlugin
+        UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+        
         // Set messaging delegate for Firebase
         Messaging.messaging().delegate = self
         
