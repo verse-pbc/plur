@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_image_widget.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/link_preview_data_provider.dart';
