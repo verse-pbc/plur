@@ -32,7 +32,6 @@ dependencies:
   mime: ^1.0.5
   android_content_provider: ^0.4.2
   sentry_flutter: ^8.13.0
-  logging: ^1.3.0
 
 dev_dependencies:
   flutter_test:
