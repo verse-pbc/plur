@@ -153,15 +153,6 @@ class NotificationUtil {
             notification.title,
             notification.body,
             platformChannelSpecifics,
-            // NotificationDetails(
-            //   android: AndroidNotificationDetails(
-            //     _channel.id,
-            //     _channel.name,
-            //     channelDescription: _channel.description,
-            //     icon: android?.smallIcon ?? 'ic_launcher',
-            //   ),
-            //   iOS: const DarwinNotificationDetails(),
-            // ),
             payload: message.data.toString(),
           );
         }
@@ -270,17 +261,5 @@ class NotificationUtil {
   static void _handleBackgroundNotificationClick(RemoteMessage message) {
     log("Notification clicked with data: ${message.data}");
     // TODO: Navigate to appropriate screen based on message data
-  }
-
-  /// Subscribe to a topic for broadcast messages
-  static Future<void> subscribeToTopic(String topic) async {
-    await FirebaseMessaging.instance.subscribeToTopic(topic);
-    log('Subscribed to topic: $topic');
-  }
-
-  /// Unsubscribe from a topic
-  static Future<void> unsubscribeFromTopic(String topic) async {
-    await FirebaseMessaging.instance.unsubscribeFromTopic(topic);
-    log('Unsubscribed from topic: $topic');
   }
 }
