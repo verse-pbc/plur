@@ -254,23 +254,6 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
 
-// Firebase messaging background handler
-@pragma('vm:entry-point')
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // Initialize Firebase in background context
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  log("Handling a background message: ${message.messageId}");
-  log("Message data: ${message.data}");
-  log("Message notification: ${message.notification?.title}, ${message.notification?.body}");
-
-  // The notification should be automatically displayed by FCM in the background,
-  // but we can add some extra logging to help debug
-
-  // For debugging purposes, we'll just log the message details
-  // The system should automatically display notifications when the app is in background
-}
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
@@ -279,18 +262,9 @@ Future<void> main() async {
     log("MediaKit init error $e");
   }
 
-  // Set up FCM background message handler
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-  // Initialize local notifications
-  await NotificationUtil.initializeLocalNotifications();
-
-  // Set up foreground messaging to show local notifications
-  NotificationUtil.setupForegroundMessaging();
 
   if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
     await windowManager.ensureInitialized();
@@ -387,16 +361,7 @@ class _MyApp extends State<MyApp> {
 
     MyApp.platform.setMethodCallHandler(_handleDeepLink);
 
-    _setupNotificationClickHandler();
-  }
-
-  void _setupNotificationClickHandler() {
-    NotificationUtil.setupBackgroundMessaging(_handleNotificationClick);
-  }
-
-  void _handleNotificationClick(RemoteMessage message) {
-    log("Notification clicked with data: ${message.data}");
-    // TODO: Navigate to appropriate screen based on message data
+    NotificationUtil.setUp();
   }
 
   void _joinGroup(

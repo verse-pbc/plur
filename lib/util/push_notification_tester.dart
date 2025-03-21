@@ -78,7 +78,7 @@ class PushNotificationTester {
         'high_importance_channel',
         'High Importance Notifications',
         channelDescription: 'This channel is used for important notifications.',
-        importance: Importance.max,
+        importance: Importance.high,
         priority: Priority.high,
         showWhen: true,
       );
