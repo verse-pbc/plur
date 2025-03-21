@@ -11,19 +11,19 @@ import '../../util/theme_util.dart';
 import 'text_input_dialog_inner_widget.dart';
 
 class TextInputAndSearchDialog extends StatefulWidget {
-  String searchTabName;
+  final String searchTabName;
 
-  String title;
+  final String title;
 
-  String? hintText;
+  final String? hintText;
 
-  String? value;
+  final String? value;
 
-  Widget searchWidget;
+  final Widget searchWidget;
 
-  bool Function(BuildContext, String)? valueCheck;
+  final bool Function(BuildContext, String)? valueCheck;
 
-  TextInputAndSearchDialog(
+  const TextInputAndSearchDialog(
     this.searchTabName,
     this.title,
     this.searchWidget, 
@@ -145,8 +145,8 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

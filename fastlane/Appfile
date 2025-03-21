@@ -1,0 +1,7 @@
+app_identifier("app.verse.prototype.plur")
+apple_id("ci@verse.app")
+itc_team_id("119631974")
+team_id("GZCZBKH7MY")
+
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/#appfile 

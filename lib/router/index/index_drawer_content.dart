@@ -6,6 +6,7 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/metadata.dart';
@@ -39,6 +40,21 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
   /// Defaults to false.
   bool _readOnly = false;
 
+  PackageInfo _packageInfo = PackageInfo(
+    appName: '',
+    packageName: '',
+    version: '',
+    buildNumber: '',
+    buildSignature: '',
+    installerStore: '',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     var indexProvider = Provider.of<IndexProvider>(context);
@@ -57,8 +73,8 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     if (widget.smallMode) {
       list.add(Container(
         margin: EdgeInsets.only(
-          top: Base.BASE_PADDING + paddingTop,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePadding + paddingTop,
+          bottom: Base.basePaddingHalf,
         ),
         child: GestureDetector(
           onTap: () {
@@ -83,8 +99,8 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
           },
         ),
         Positioned(
-          top: paddingTop + Base.BASE_PADDING_HALF,
-          right: Base.BASE_PADDING,
+          top: paddingTop + Base.basePaddingHalf,
+          right: Base.basePadding,
           child: _readOnly
               ? Container()
               : Container(
@@ -155,7 +171,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     if (widget.smallMode) {
       // Add a button to exit small mode.
       list.add(Container(
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         child: IndexDrawerItemWidget(
           iconData: Icons.last_page_rounded,
           name: "",
@@ -165,7 +181,12 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       ));
     } else {
       // Add the app version.
-      Widget versionWidget = Text("V ${Base.VERSION_NAME}");
+      final version = _packageInfo.version;
+      final versionText = switch (_packageInfo.buildNumber) {
+        "" => version,
+        var buildNumber => "$version ($buildNumber)",
+      };
+      Widget versionWidget = Text("${localization.Version}: $versionText");
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
@@ -173,7 +194,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
           onTap: _toggleSmallMode,
           behavior: HitTestBehavior.translucent,
           child: Container(
-            margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+            margin: const EdgeInsets.only(right: Base.basePadding),
             child: const Icon(Icons.first_page_rounded),
           ),
         ));
@@ -185,11 +206,11 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         );
       }
       list.add(Container(
-        margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(top: Base.basePaddingHalf),
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING * 2,
-          bottom: Base.BASE_PADDING,
-          top: Base.BASE_PADDING,
+          left: Base.basePadding * 2,
+          bottom: Base.basePadding,
+          top: Base.basePadding,
         ),
         decoration: BoxDecoration(
           border: Border(top: BorderSide(width: 1, color: hintColor)),
@@ -207,6 +228,14 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         children: list,
       ),
     );
+  }
+
+  /// Fetches package information from the current platform.
+  void _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   /// Navigates to the profile edit screen.
@@ -303,8 +332,8 @@ class IndexDrawerItemWidget extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING * 2,
-                right: Base.BASE_PADDING,
+                left: Base.basePadding * 2,
+                right: Base.basePadding,
               ),
               child: iconWidget,
             ),

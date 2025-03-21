@@ -62,9 +62,9 @@ class PollInputController {
 }
 
 class PollInputWidget extends StatefulWidget {
-  PollInputController pollInputController;
+  final PollInputController pollInputController;
 
-  PollInputWidget({super.key, required this.pollInputController});
+  const PollInputWidget({super.key, required this.pollInputController});
 
   @override
   State<StatefulWidget> createState() {
@@ -122,7 +122,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
     }
 
     list.add(Container(
-      margin: const EdgeInsets.only(top: Base.BASE_PADDING),
+      margin: const EdgeInsets.only(top: Base.basePadding),
       child: InkWell(
         onTap: addPollOption,
         child: Container(
@@ -152,7 +152,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
           keyboardType: TextInputType.number,
         )),
         Container(
-          width: Base.BASE_PADDING,
+          width: Base.basePadding,
         ),
         Expanded(
             child: TextField(
@@ -167,9 +167,9 @@ class _PollInputWidgetState extends State<PollInputWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       width: double.maxFinite,
       child: Column(

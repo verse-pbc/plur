@@ -221,7 +221,7 @@ class _DonateButtonWidget extends StatelessWidget {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+            margin: const EdgeInsets.only(top: Base.basePaddingHalf),
             child: Text(price),
           ),
         ],

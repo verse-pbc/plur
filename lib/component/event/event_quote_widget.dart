@@ -14,17 +14,17 @@ import '../cust_state.dart';
 import 'event_main_widget.dart';
 
 class EventQuoteWidget extends StatefulWidget {
-  Event? event;
+  final Event? event;
 
-  String? id;
+  final String? id;
 
-  AId? aId;
+  final AId? aId;
 
-  String? eventRelayAddr;
+  final String? eventRelayAddr;
 
-  bool showVideo;
+  final bool showVideo;
 
-  EventQuoteWidget({
+  const EventQuoteWidget({
     super.key,
     this.event,
     this.id,
@@ -112,8 +112,8 @@ class _EventQuoteWidgetState extends CustState<EventQuoteWidget> {
     return Screenshot(
       controller: screenshotController,
       child: Container(
-        padding: const EdgeInsets.only(top: Base.BASE_PADDING),
-        margin: const EdgeInsets.all(Base.BASE_PADDING),
+        padding: const EdgeInsets.only(top: Base.basePadding),
+        margin: const EdgeInsets.all(Base.basePadding),
         decoration: boxDecoration,
         child: GestureDetector(
           onTap: () {
@@ -138,7 +138,7 @@ class _EventQuoteWidgetState extends CustState<EventQuoteWidget> {
 
   Widget buildBlankWidget(BoxDecoration boxDecoration) {
     return Container(
-      margin: const EdgeInsets.all(Base.BASE_PADDING),
+      margin: const EdgeInsets.all(Base.basePadding),
       height: 60,
       decoration: boxDecoration,
       child: Center(child: Text(S.of(context).Note_loading)),

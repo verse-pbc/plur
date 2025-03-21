@@ -11,9 +11,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
+- Fixed issue where invite links do not work if app is not already running. [#249](https://github.com/verse-pbc/issues/issues/249)
+- Add ability to view list of members in a group [#262](https://github.com/verse-pbc/issues/issues/262)
+- Added a warning that group media is public. [#246](https://github.com/verse-pbc/issues/issues/246)
+
+### Internal Changes
+- Fixed bundle id and provisioning profile names for staging builds. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Moved fastlane scripts from `ios/fastlane/` to `fastlane/` [#104](https://github.com/verse-pbc/plur/pull/104)
+- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
+- Updated linting in CI to be more intelligent in comparison [65](https://github.com/verse-pbc/issues/issues/65).
+- Migrated TimestampProvider from Provider to Riverpod Notifier.
+- Fixed many typos.
+- Fixed lint job that fails when there is a slash in the branch name.
+- Add an ADR for the decision to use Riverpod [#272](https://github.com/verse-pbc/issues/issues/272)
+- Fixed several lint errors with Claude Code [#116](https://github.com/verse-pbc/plur/pull/116)
+
+## [0.0.3]
+
+### Release Notes
 - Fixed an issue where the group lists do not refresh after switching accounts. [#228](https://github.com/verse-pbc/issues/issues/228)
 - Removed the "Add test groups" button from the side menu. [#256](https://github.com/verse-pbc/issues/issues/256)
 - Fixed a bug where replies could be posted publicly instead of inside the group. [#251](https://github.com/verse-pbc/issues/issues/251)
+- Fixed version number displayed in the main menu. [#255](https://github.com/verse-pbc/issues/issues/255)
 
 ### Internal Changes
 - Removed markdown links from TestFlight release notes. [#74](https://github.com/verse-pbc/plur/pull/74)
@@ -26,6 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced print statemanets with the Flutter logger. [#259](https://github.com/verse-pbc/issues/issues/259)
 - Fixed failing release deployment. [#220](https://github.com/verse-pbc/issues/issues/220)
 - Fixed staging app id in Fastfile. [#220](https://github.com/verse-pbc/issues/issues/220)
+- Replaced color constants with theme colors. [#169](https://github.com/verse-pbc/issues/issues/169)
 
 ## [0.0.2]
 
@@ -56,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated home screen navigation bar to match design. [#152](https://github.com/verse-pbc/issues/issues/152)
 - Fixed an issue where a capitalized deep links would not work. [#252](https://github.com/verse-pbc/issues/issues/252)
 - Fixed an issue when photos could not be published to a group. [#231](https://github.com/verse-pbc/issues/issues/231)
-- Added linting with main comparison [65](https://github.com/verse-pbc/issues/issues/65)
+
 
 ### Known Issues
 - Communities.nos.social sometimes loses group data and prevents publishing of new notes to the group.

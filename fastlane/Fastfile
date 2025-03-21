@@ -13,12 +13,10 @@
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
-default_platform(:ios)
-
 # Work around
 # https://github.com/fastlane/fastlane/issues/20919
 ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60" 
-CHANGELOG_PATH = "../CHANGELOG.md"
+CHANGELOG_PATH = "CHANGELOG.md"
 
 platform :ios do
   asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n")
@@ -31,7 +29,9 @@ platform :ios do
 
   desc "Push a new build to TestFlight using the provided scheme and identifier"
   private_lane :push_build do |options|
-    xcodes # verify version from .xcode-version is used 
+    xcode_version = File.read("../ios/.xcode-version").strip
+    xcodes(version: xcode_version)
+    
     app_store_connect_api_key(
       key_id: asc_key_id,
       issuer_id: asc_issuer_id,
@@ -63,16 +63,16 @@ platform :ios do
         app_identifier: options[:appidentifier]
       )
     end
-    version_number = get_version_number(
-      xcodeproj: "Runner.xcodeproj",
-      target: "Runner"
-    )
+    version_info = flutter_version(pubspec_location: '../pubspec.yaml')
+    version_number = version_info['version_name']
     build_number = latest_testflight_build_number(app_identifier: options[:appidentifier]) + 1
-    increment_build_number(build_number: build_number)
+    increment_build_number(
+      build_number: build_number,
+      xcodeproj: "ios/Runner.xcodeproj"
+    )
     gym(
       scheme: options[:scheme], 
-      clean: true#,
-      #xcargs: "-skipPackagePluginValidation -skipMacroValidation" # TODO: Do we need these?
+      workspace: "ios/Runner.xcworkspace"
     )
 
     testflight_groups = options[:distribution_groups] || []
@@ -84,10 +84,10 @@ platform :ios do
       groups: testflight_groups 
     )
     
-    add_git_tag(tag: "v#{options[:tagprefix]}#{version_number}-#{build_number}")
+    add_git_tag(tag: "v#{version_number}-#{build_number}")
     push_git_tags
     notification(
-      subtitle: "Build uploaded", 
+      subtitle: "iOS Build uploaded", 
       message: "tap to open App Store Connect", 
       sound: "Pebble", 
       open: options[:appstoreconnect]
@@ -99,7 +99,6 @@ platform :ios do
     push_build(
       scheme: "Runner",
       appidentifier: "app.verse.prototype.plur",
-      tagprefix: "",
       appstoreconnect: "https://appstoreconnect.apple.com/apps/6738932333/testflight/ios",
       distribution_groups: []
     )
@@ -110,7 +109,6 @@ platform :ios do
     push_build(
       scheme: "Runner-Staging",
       appidentifier: "app.verse.prototype.plur-staging",
-      tagprefix: "",
       appstoreconnect: "https://appstoreconnect.apple.com/apps/6742746068/testflight/ios",
       distribution_groups: []
     )
@@ -119,12 +117,12 @@ platform :ios do
   desc "Mark a deployed commit as having been deployed to our public beta testers"
   lane :stamp_release do
     changelog = read_changelog(changelog_path: CHANGELOG_PATH)
-    version_number = get_version_number(
-      xcodeproj: "Runner.xcodeproj",
-      target: "Runner"
+    version_info = flutter_version(
+      pubspec_location: '../pubspec.yaml'
     )
+    version_number = version_info['version_name']
     build_number = get_build_number(
-      xcodeproj: "Runner.xcodeproj"
+      xcodeproj: "ios/Runner.xcodeproj"
     )
     stamp_changelog(changelog_path: CHANGELOG_PATH, section_identifier: "#{version_number}")
     git_commit(message: "Stamping beta deployment", path: "*")
@@ -152,22 +150,7 @@ platform :ios do
   end
 end
 
-# Dynamically define 3 lanes:
-# bump_major
-# bump_minor
-# bump_patch
-# from: https://benscheirman.com/2020/10/managing-version-numbers-with-fastlane/
-%w{major minor patch}.each do |part|
-  lane "bump_#{part}".to_sym do
-    increment_version_number_in_xcodeproj(bump_type: part, target: "Runner")
-  end
-end
-
-lane :bump_version do
-  increment_build_number(xcodeproj: "Runner.xcodeproj")
-end
-
-# Helper functions
+# Helper functions (shared between platforms)
 def strip_markdown_links(text)
   # Remove markdown links of the form [text](url)
   text.gsub(/\[([^\]]*)\]\([^)]*\)/, '')
@@ -178,3 +161,18 @@ def cleaned_changelog
   strip_markdown_links(changelog)
 end
 
+# Add a custom action to get Flutter version info
+def flutter_version(params)
+  pubspec_path = params[:pubspec_location] || 'pubspec.yaml'
+  pubspec_content = File.read(pubspec_path)
+  version_match = pubspec_content.match(/version:\s+(\d+\.\d+\.\d+)(?:\+(\d+))?/)
+  
+  if version_match
+    {
+      'version_name' => version_match[1],
+      'version_code' => version_match[2] || '1'  
+    }
+  else
+    UI.user_error!("Could not find version information in pubspec.yaml")
+  end
+end 

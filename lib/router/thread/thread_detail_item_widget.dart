@@ -7,15 +7,15 @@ import 'thread_detail_event.dart';
 import 'thread_detail_event_main_widget.dart';
 
 class ThreadDetailItemWidget extends StatefulWidget {
-  double totalMaxWidth;
+  final double totalMaxWidth;
 
-  ThreadDetailEvent item;
+  final ThreadDetailEvent item;
 
-  String sourceEventId;
+  final String sourceEventId;
 
-  GlobalKey sourceEventKey;
+  final GlobalKey sourceEventKey;
 
-  ThreadDetailItemWidget({
+  const ThreadDetailItemWidget({
     super.key,
     required this.item,
     required this.totalMaxWidth,
@@ -53,7 +53,7 @@ class _ThreadDetailItemWidgetState extends State<ThreadDetailItemWidget> {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: main,
     );
   }

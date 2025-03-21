@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base.dart';
-import 'package:nostrmo/util/duartion_tool.dart';
+import 'package:nostrmo/util/duration_tool.dart';
 import 'package:provider/provider.dart';
 import 'package:widget_size/widget_size.dart';
 
@@ -13,9 +13,9 @@ import '../image_widget.dart';
 class MusicWidget extends StatefulWidget {
   MusicInfo musicInfo;
 
-  bool clearAble;
+  bool clearable;
 
-  MusicWidget(this.musicInfo, {super.key, this.clearAble = false});
+  MusicWidget(this.musicInfo, {super.key, this.clearable = false});
 
   @override
   State<StatefulWidget> createState() {
@@ -74,7 +74,7 @@ class _MusicWidgetState extends State<MusicWidget> {
     List<Widget> musicSubInfos = [];
     if (StringUtil.isNotBlank(widget.musicInfo.icon)) {
       musicSubInfos.add(Container(
-        margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(right: Base.basePaddingHalf),
         child: Image.asset(
           widget.musicInfo.icon!,
           width: 18,
@@ -117,8 +117,8 @@ class _MusicWidgetState extends State<MusicWidget> {
       Expanded(
           child: Container(
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
+          left: Base.basePadding,
+          right: Base.basePadding,
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +154,7 @@ class _MusicWidgetState extends State<MusicWidget> {
         ),
       ),
     ];
-    if (widget.clearAble) {
+    if (widget.clearable) {
       topList.add(SizedBox(
         width: imageHeight,
         height: imageHeight,

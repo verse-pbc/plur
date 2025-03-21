@@ -25,7 +25,7 @@ class GlobalsEventsWidget extends StatefulWidget {
 }
 
 class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   ScrollController scrollController = ScrollController();
 
   List<String> ids = [];
@@ -84,7 +84,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
       unsubscribe();
     }
 
-    var str = await DioUtil.getStr(Base.INDEXS_EVENTS);
+    var str = await DioUtil.getStr(Base.indexsEvents);
 
     if (StringUtil.isNotBlank(str)) {
       ids.clear();

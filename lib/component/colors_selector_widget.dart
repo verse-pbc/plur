@@ -33,10 +33,10 @@ class ColorSelectorWidget extends StatelessWidget {
         width: double.infinity,
         height: 100,
         padding: const EdgeInsets.only(
-          left: Base.BASE_PADDING,
-          right: Base.BASE_PADDING,
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          left: Base.basePadding,
+          right: Base.basePadding,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -59,8 +59,8 @@ class ColorSelectorWidget extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
@@ -75,7 +75,7 @@ class ColorSelectorWidget extends StatelessWidget {
 }
 
 class ColorSelectorItemWidget extends StatelessWidget {
-  static const double HEIGHT = 44;
+  static const double height = 44;
 
   final Color color;
 
@@ -90,12 +90,12 @@ class ColorSelectorItemWidget extends StatelessWidget {
         RouterUtil.back(context, color);
       },
       child: Container(
-        margin: const EdgeInsets.all(Base.BASE_PADDING),
+        margin: const EdgeInsets.all(Base.basePadding),
         alignment: Alignment.center,
-        height: HEIGHT,
+        height: height,
         child: Container(
-          height: HEIGHT,
-          width: HEIGHT,
+          height: height,
+          width: height,
           color: color,
         ),
       ),

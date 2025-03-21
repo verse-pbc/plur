@@ -11,9 +11,9 @@ import '../../util/router_util.dart';
 import '../../util/table_mode_util.dart';
 
 class ContactListWidget extends StatefulWidget {
-  ContactList contactList;
+  final ContactList contactList;
 
-  ContactListWidget({super.key, required this.contactList});
+  const ContactListWidget({super.key, required this.contactList});
 
   @override
   State<StatefulWidget> createState() {
@@ -35,7 +35,7 @@ class _ContactListWidgetState extends State<ContactListWidget> {
       itemBuilder: (context, index) {
         var contact = list![index];
         return Container(
-          margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
           child: Selector<MetadataProvider, Metadata?>(
             builder: (context, metadata, child) {
               return GestureDetector(

@@ -6,10 +6,13 @@ import '../generated/l10n.dart';
 import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
-class ColorPickDialog extends StatelessWidget {
-  Color? defaultColor;
+class ColorPickDialog extends StatefulWidget {
+  final Color? defaultColor;
 
-  ColorPickDialog(this.defaultColor, {super.key});
+  const ColorPickDialog(this.defaultColor, {super.key});
+  
+  @override
+  State<ColorPickDialog> createState() => _ColorPickDialogState();
 
   static Future<Color?> show(BuildContext context, Color? color) async {
     return await showDialog<Color>(
@@ -21,8 +24,11 @@ class ColorPickDialog extends StatelessWidget {
     );
   }
 
-  Color? selectedColor;
+}
 
+class _ColorPickDialogState extends State<ColorPickDialog> {
+  Color? selectedColor;
+  
   void onColorChanged(Color color) {
     selectedColor = color;
   }
@@ -34,7 +40,7 @@ class ColorPickDialog extends StatelessWidget {
 
     List<Widget> list = [];
     list.add(HueRingPicker(
-      pickerColor: defaultColor != null ? defaultColor! : Colors.black,
+      pickerColor: widget.defaultColor != null ? widget.defaultColor! : Colors.black,
       onColorChanged: onColorChanged,
       enableAlpha: true,
       displayThumbColor: false,
@@ -42,7 +48,7 @@ class ColorPickDialog extends StatelessWidget {
 
     list.add(Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING,
+        top: Base.basePadding,
       ),
       child: Ink(
         decoration: BoxDecoration(color: mainColor),
@@ -69,7 +75,7 @@ class ColorPickDialog extends StatelessWidget {
 
     Widget main = Container(
       color: themeData.cardColor,
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
+      padding: const EdgeInsets.all(Base.basePadding),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: list,
@@ -89,8 +95,8 @@ class ColorPickDialog extends StatelessWidget {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(
