@@ -132,6 +132,8 @@ class _PushNotificationTestWidgetState
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Push Notification Test'),
@@ -141,9 +143,9 @@ class _PushNotificationTestWidgetState
               margin: const EdgeInsets.all(14),
               width: 24,
               height: 24,
-              child: const CircularProgressIndicator(
+              child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: Colors.white,
+                color: theme.colorScheme.onPrimary,
               ),
             ),
         ],
@@ -161,6 +163,8 @@ class _PushNotificationTestWidgetState
 
             // Permission status card
             Card(
+              color: Colors.transparent,
+              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -181,10 +185,10 @@ class _PushNotificationTestWidgetState
                             style: TextStyle(
                               color: _permissionStatus.toLowerCase() ==
                                       'authorized'
-                                  ? Colors.green
+                                  ? theme.colorScheme.primary
                                   : _permissionStatus.toLowerCase() == 'denied'
-                                      ? Colors.red
-                                      : Colors.orange,
+                                      ? theme.colorScheme.error
+                                      : theme.colorScheme.tertiary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -209,6 +213,8 @@ class _PushNotificationTestWidgetState
 
             // Token card
             Card(
+              color: Colors.transparent,
+              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -255,12 +261,15 @@ class _PushNotificationTestWidgetState
                     Container(
                       padding: const EdgeInsets.all(8.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
+                        color: theme.colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: SelectableText(
                         _token ?? 'Loading token...',
-                        style: const TextStyle(fontFamily: 'monospace'),
+                        style: TextStyle(
+                          fontFamily: 'monospace',
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ),
                   ],
@@ -271,6 +280,8 @@ class _PushNotificationTestWidgetState
 
             // Test notification card
             Card(
+              color: Colors.transparent,
+              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -325,32 +336,34 @@ class _PushNotificationTestWidgetState
 
             // Info card
             Card(
-              color: Colors.blue.shade50,
-              child: const Padding(
-                padding: EdgeInsets.all(16.0),
+              color: theme.colorScheme.primary.withOpacity(0.1),
+              elevation: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.info, color: Colors.blue),
-                        SizedBox(width: 8),
+                        Icon(Icons.info, color: theme.colorScheme.primary),
+                        const SizedBox(width: 8),
                         Text(
                           'Developer Info',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.blue),
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.primary),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8),
-                    Text(
+                    const SizedBox(height: 8),
+                    const Text(
                       'To send actual test notifications, you need to use:',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                    SizedBox(height: 4),
-                    Text('• Firebase console'),
-                    Text('• A server with your FCM server key'),
-                    Text('• The Firebase Admin SDK'),
+                    const SizedBox(height: 4),
+                    const Text('• Firebase console'),
+                    const Text('• A server with your FCM server key'),
+                    const Text('• The Firebase Admin SDK'),
                   ],
                 ),
               ),
