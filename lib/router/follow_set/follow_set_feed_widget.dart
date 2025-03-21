@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar4stack.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/util/router_util.dart';

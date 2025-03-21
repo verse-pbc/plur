@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 import 'package:provider/provider.dart';
 import 'package:widget_size/widget_size.dart';
