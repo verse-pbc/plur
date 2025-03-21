@@ -1,5 +1,7 @@
 import 'dart:developer';
 
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import '../utils/relay_addr_util.dart';
 
 import '../event.dart';
@@ -279,7 +281,14 @@ class RelayPool {
           Event(localNostr.publicKey, EventKind.AUTHENTICATION, tags, "");
       event = await localNostr.nostrSigner.signEvent(event);
       if (event != null) {
-        relay.send(["AUTH", event.toJson()], forceSend: true);
+        final json = event.toJson();
+        if (!json.containsKey("created_at")) {
+          await Sentry.captureMessage(
+            "Sending an AUTH event without created_at",
+            level: SentryLevel.error,
+          );
+        }
+        relay.send(["AUTH", json], forceSend: true);
 
         relay.relayStatus.authed = true;
 
