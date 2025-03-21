@@ -10,25 +10,6 @@ import FirebaseMessaging
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
-        // Register for remote notifications
-        if #available(iOS 10.0, *) {
-            // For iOS 10 and above
-            UNUserNotificationCenter.current().delegate = self
-            
-            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-            UNUserNotificationCenter.current().requestAuthorization(
-                options: authOptions,
-                completionHandler: { _, _ in }
-            )
-        } else {
-            // For iOS 9 and below
-            let settings: UIUserNotificationSettings =
-                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-            application.registerUserNotificationSettings(settings)
-        }
-        
-        application.registerForRemoteNotifications()
-        
         // Set messaging delegate for Firebase
         Messaging.messaging().delegate = self
         
@@ -70,34 +51,6 @@ import FirebaseMessaging
             return true
         }
         return false
-    }
-}
-
-// MARK: - UNUserNotificationCenterDelegate
-extension AppDelegate {
-    override func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
-    ) {
-        // Show notification even when app is in foreground
-        if #available(iOS 14.0, *) {
-            completionHandler([[.banner, .sound]])
-        } else {
-            completionHandler([[.alert, .sound]])
-        }
-    }
-    
-    override func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        // Handle notification tap
-        let userInfo = response.notification.request.content.userInfo
-        print("Received notification with userInfo: \(userInfo)")
-        
-        completionHandler()
     }
 }
 

@@ -116,17 +116,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       onTap: pickWotFilter,
     ));
 
-    // Add Push Notification Test item for development
-    if (true) { // Set to false in production
-      list.add(SettingsGroupItemWidget(
-        name: "Push Notification Test (Dev)",
-        onTap: () {
-          RouterUtil.router(context, RouterPath.PUSH_NOTIFICATION_TEST);
-        },
-      ));
-    }
-
-    list.add(SettingsGroupTitleWidget(iconData: Icons.article, title: localization.Notes));
+    list.add(SettingsGroupTitleWidget(
+        iconData: Icons.article, title: localization.Notes));
     list.add(SettingsGroupItemWidget(
       name: localization.Link_preview,
       value: getOpenList(settingsProvider.linkPreview).name,
@@ -218,7 +209,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       onTap: inputMaxSubNotesNumber,
     ));
 
-    list.add(SettingsGroupTitleWidget(iconData: Icons.cloud, title: localization.Network));
+    list.add(SettingsGroupTitleWidget(
+        iconData: Icons.cloud, title: localization.Network));
     String? networkHintText = settingsProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
       networkHintText = "${localization.Please_input} ${localization.Network}";
@@ -262,7 +254,18 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       onTap: pickHideRelayNotices,
     ));
 
-    list.add(SettingsGroupTitleWidget(iconData: Icons.source, title: localization.Data));
+    list.add(SettingsGroupTitleWidget(
+        iconData: Icons.code, title: localization.Development));
+
+    list.add(SettingsGroupItemWidget(
+      name: "Test Push Notifications",
+      onTap: () {
+        RouterUtil.router(context, RouterPath.PUSH_NOTIFICATION_TEST);
+      },
+    ));
+
+    list.add(SettingsGroupTitleWidget(
+        iconData: Icons.source, title: localization.Data));
     list.add(SettingsGroupItemWidget(
       name: localization.Delete_Account,
       nameColor: Colors.red,
@@ -427,15 +430,15 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         await EnumSelectorWidget.show(context, newLockOpenList);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == OpenStatus.CLOSE) {
-        bool didAuthenticate = await AuthUtil.authenticate(
-            context, localization.Please_authenticate_to_turn_off_the_privacy_lock);
+        bool didAuthenticate = await AuthUtil.authenticate(context,
+            localization.Please_authenticate_to_turn_off_the_privacy_lock);
         if (didAuthenticate) {
           settingsProvider.lockOpen = resultEnumObj.value;
         }
         settingsProvider.lockOpen = resultEnumObj.value;
       } else if (resultEnumObj.value == OpenStatus.OPEN) {
-        bool didAuthenticate = await AuthUtil.authenticate(
-            context, localization.Please_authenticate_to_turn_on_the_privacy_lock);
+        bool didAuthenticate = await AuthUtil.authenticate(context,
+            localization.Please_authenticate_to_turn_on_the_privacy_lock);
         if (didAuthenticate) {
           settingsProvider.lockOpen = resultEnumObj.value;
         }
@@ -571,16 +574,16 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         await EnumSelectorWidget.show(context, imageServiceList!);
     if (resultEnumObj != null) {
       if (resultEnumObj.value == ImageServices.NIP_96) {
-        var addr = await TextInputDialog.show(
-            context, "${localization.Please_input} NIP-96 ${localization.Image_service_path}");
+        var addr = await TextInputDialog.show(context,
+            "${localization.Please_input} NIP-96 ${localization.Image_service_path}");
         if (StringUtil.isNotBlank(addr)) {
           settingsProvider.imageService = ImageServices.NIP_96;
           settingsProvider.imageServiceAddr = addr;
         }
         return;
       } else if (resultEnumObj.value == ImageServices.BLOSSOM) {
-        var addr = await TextInputDialog.show(
-            context, "${localization.Please_input} Blossom ${localization.Image_service_path}");
+        var addr = await TextInputDialog.show(context,
+            "${localization.Please_input} Blossom ${localization.Image_service_path}");
         if (StringUtil.isNotBlank(addr)) {
           settingsProvider.imageService = ImageServices.BLOSSOM;
           settingsProvider.imageServiceAddr = addr;
