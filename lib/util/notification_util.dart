@@ -118,12 +118,6 @@ class NotificationUtil {
       // Show a local notification on mobile platforms
       try {
         if (notification != null) {
-          AndroidNotification? android = message.notification?.android;
-
-          final FlutterLocalNotificationsPlugin
-              flutterLocalNotificationsPlugin =
-              FlutterLocalNotificationsPlugin();
-
           const AndroidNotificationDetails androidPlatformChannelSpecifics =
               AndroidNotificationDetails(
             'high_importance_channel',
@@ -260,6 +254,6 @@ class NotificationUtil {
 
   static void _handleBackgroundNotificationClick(RemoteMessage message) {
     log("Notification clicked with data: ${message.data}");
-    // TODO: Navigate to appropriate screen based on message data
+    // Navigate to appropriate screen based on message data
   }
 }
