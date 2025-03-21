@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostrmo/nostr_sdk/event_kind.dart';
-import 'package:nostrmo/nostr_sdk/nip19/nip19.dart';
-import 'package:nostrmo/nostr_sdk/event_relation.dart';
-import 'package:nostrmo/nostr_sdk/event.dart';
-import '../helpers/test_data.dart';
+import 'package:nostr_sdk/event_kind.dart';
+import 'package:nostr_sdk/nip19/nip19.dart';
+import 'package:nostr_sdk/event_relation.dart';
+import 'package:nostr_sdk/event.dart';
+import 'test_data.dart';
 
 void main() {
   group('EventRelation tag processing', () {
