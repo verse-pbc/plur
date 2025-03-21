@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -463,7 +462,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
       RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
-      RouterPath.PUSH_NOTIFICATION_TEST: (context) =>
+      RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };
 

@@ -260,7 +260,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     list.add(SettingsGroupItemWidget(
       name: "Test Push Notifications",
       onTap: () {
-        RouterUtil.router(context, RouterPath.PUSH_NOTIFICATION_TEST);
+        RouterUtil.router(context, RouterPath.pushNotificationTest);
       },
     ));
 
@@ -424,10 +424,12 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       newLockOpenList.add(openList![0]);
     }
 
+    if (!mounted) return;
     final localization = S.of(context);
 
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, newLockOpenList);
+    if (!mounted) return;
     if (resultEnumObj != null) {
       if (resultEnumObj.value == OpenStatus.CLOSE) {
         bool didAuthenticate = await AuthUtil.authenticate(context,
@@ -572,7 +574,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   Future<void> _pickImageService() async {
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, imageServiceList!);
-    if (resultEnumObj != null) {
+    if (resultEnumObj != null && mounted) {
       if (resultEnumObj.value == ImageServices.NIP_96) {
         var addr = await TextInputDialog.show(context,
             "${localization.Please_input} NIP-96 ${localization.Image_service_path}");
@@ -923,7 +925,9 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
               if (targetFile.existsSync()) {
                 targetFile.deleteSync();
               }
-            } catch (e) {}
+            } catch (e) {
+              log("Error deleting old background image: $e");
+            }
           }
           settingsProvider.backgroundImage = targetFilePath;
           settingsProvider.translateTarget = null;

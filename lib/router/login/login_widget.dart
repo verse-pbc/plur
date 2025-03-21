@@ -8,7 +8,6 @@ import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
-import '../../consts/colors.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';

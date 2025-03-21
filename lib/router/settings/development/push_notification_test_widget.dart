@@ -2,7 +2,6 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/util/push_notification_tester.dart';
 import 'package:share_plus/share_plus.dart';
@@ -41,9 +40,11 @@ class _PushNotificationTestWidgetState
         _token = token;
       });
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error getting token: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error getting token: $e')),
+        );
+      }
     } finally {
       setState(() => _isLoading = false);
     }
@@ -71,7 +72,8 @@ class _PushNotificationTestWidgetState
       final token = await FirebaseMessaging.instance.getToken();
       dev.log('FCM Token exists: ${token != null}');
 
-      if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+      if (settings.authorizationStatus != AuthorizationStatus.authorized &&
+          mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -92,15 +94,19 @@ class _PushNotificationTestWidgetState
     setState(() => _isLoading = true);
     try {
       await NotificationUtil.requestPermissions();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Notification permissions requested')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Notification permissions requested')),
+        );
+      }
       // Check the status after requesting
       await _checkPermissionStatus();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error requesting permissions: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error requesting permissions: $e')),
+        );
+      }
     } finally {
       setState(() => _isLoading = false);
     }
@@ -112,9 +118,11 @@ class _PushNotificationTestWidgetState
     try {
       await Share.share('My FCM Token: $_token');
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sharing token: $e')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error sharing token: $e')),
+        );
+      }
     }
   }
 
@@ -125,9 +133,11 @@ class _PushNotificationTestWidgetState
       data: {'type': 'test', 'id': '123'},
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Local notification triggered')),
-    );
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Local notification triggered')),
+      );
+    }
   }
 
   @override
@@ -163,8 +173,6 @@ class _PushNotificationTestWidgetState
 
             // Permission status card
             Card(
-              color: Colors.transparent,
-              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -213,8 +221,6 @@ class _PushNotificationTestWidgetState
 
             // Token card
             Card(
-              color: Colors.transparent,
-              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -280,8 +286,6 @@ class _PushNotificationTestWidgetState
 
             // Test notification card
             Card(
-              color: Colors.transparent,
-              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -337,7 +341,6 @@ class _PushNotificationTestWidgetState
             // Info card
             Card(
               color: theme.colorScheme.primary.withOpacity(0.1),
-              elevation: 0,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
