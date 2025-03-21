@@ -5,15 +5,15 @@ import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 
 class TextInputDialogInnerWidget extends StatefulWidget {
-  String title;
+  final String title;
 
-  String? hintText;
+  final String? hintText;
 
-  String? value;
+  final String? value;
 
-  bool Function(BuildContext, String)? valueCheck;
+  final bool Function(BuildContext, String)? valueCheck;
 
-  TextInputDialogInnerWidget(
+  const TextInputDialogInnerWidget(
     this.title, 
     {
       super.key, 

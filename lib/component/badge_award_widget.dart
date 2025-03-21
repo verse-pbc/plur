@@ -10,9 +10,9 @@ import '../generated/l10n.dart';
 import 'badge_detail_widget.dart';
 
 class BadgeAwardWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  BadgeAwardWidget({
+  const BadgeAwardWidget({
     super.key,
     required this.event,
   });

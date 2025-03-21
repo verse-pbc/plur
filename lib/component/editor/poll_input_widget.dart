@@ -62,9 +62,9 @@ class PollInputController {
 }
 
 class PollInputWidget extends StatefulWidget {
-  PollInputController pollInputController;
+  final PollInputController pollInputController;
 
-  PollInputWidget({super.key, required this.pollInputController});
+  const PollInputWidget({super.key, required this.pollInputController});
 
   @override
   State<StatefulWidget> createState() {

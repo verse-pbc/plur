@@ -291,8 +291,8 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
               (Base.basePadding +
-                  ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
-          ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
+                  ThreadDetailItemMainWidget.borderLeftWidth) +
+          ThreadDetailItemMainWidget.eventMainMinWidth;
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,

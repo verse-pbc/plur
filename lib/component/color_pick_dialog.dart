@@ -6,10 +6,13 @@ import '../generated/l10n.dart';
 import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
-class ColorPickDialog extends StatelessWidget {
-  Color? defaultColor;
+class ColorPickDialog extends StatefulWidget {
+  final Color? defaultColor;
 
-  ColorPickDialog(this.defaultColor, {super.key});
+  const ColorPickDialog(this.defaultColor, {super.key});
+  
+  @override
+  State<ColorPickDialog> createState() => _ColorPickDialogState();
 
   static Future<Color?> show(BuildContext context, Color? color) async {
     return await showDialog<Color>(
@@ -21,8 +24,11 @@ class ColorPickDialog extends StatelessWidget {
     );
   }
 
-  Color? selectedColor;
+}
 
+class _ColorPickDialogState extends State<ColorPickDialog> {
+  Color? selectedColor;
+  
   void onColorChanged(Color color) {
     selectedColor = color;
   }
@@ -34,7 +40,7 @@ class ColorPickDialog extends StatelessWidget {
 
     List<Widget> list = [];
     list.add(HueRingPicker(
-      pickerColor: defaultColor != null ? defaultColor! : Colors.black,
+      pickerColor: widget.defaultColor != null ? widget.defaultColor! : Colors.black,
       onColorChanged: onColorChanged,
       enableAlpha: true,
       displayThumbColor: false,
