@@ -1,4 +1,4 @@
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../consts/base_consts.dart';
 import '../main.dart';

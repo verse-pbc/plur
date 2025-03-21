@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub/
 /build/
 ios/build
+packages/nostr_sdk/build/**
 Plur.ipa
 Plur.app.dSYM.zip
 
