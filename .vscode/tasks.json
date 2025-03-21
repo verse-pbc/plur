@@ -15,6 +15,21 @@
                 "clear": true
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Run nostr_sdk Tests",
+            "type": "shell",
+            "command": "cd packages/nostr_sdk && fvm flutter test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new",
+                "clear": true
+            },
+            "problemMatcher": []
         }
     ]
-} 
+}
