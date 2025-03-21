@@ -6,15 +6,15 @@ import '../util/theme_util.dart';
 class Appbar4Stack extends StatefulWidget {
   static double height = 46;
 
-  Widget? title;
+  final Widget? title;
 
-  Color? textColor;
+  final Color? textColor;
 
-  Color? backgroundColor;
+  final Color? backgroundColor;
 
-  Widget? action;
+  final Widget? action;
 
-  Appbar4Stack({
+  const Appbar4Stack({
     super.key, 
     this.title,
     this.textColor,

@@ -9,9 +9,9 @@ import 'content/content_widget.dart';
 import 'image_widget.dart';
 
 class CommunityInfoWidget extends StatefulWidget {
-  CommunityInfo info;
+  final CommunityInfo info;
 
-  CommunityInfoWidget({super.key, required this.info});
+  const CommunityInfoWidget({super.key, required this.info});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +20,7 @@ class CommunityInfoWidget extends StatefulWidget {
 }
 
 class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
-  static const double IMAGE_WIDTH = 40;
+  static const double imageWidth = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
     if (StringUtil.isNotBlank(widget.info.image)) {
       imageWidget = ImageWidget(
         imageUrl: widget.info.image!,
-        width: IMAGE_WIDTH,
-        height: IMAGE_WIDTH,
+        width: imageWidth,
+        height: imageWidth,
         fit: BoxFit.cover,
         placeholder: (context, url) => const CircularProgressIndicator(),
       );
@@ -77,11 +77,11 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
           children: [
             Container(
               alignment: Alignment.center,
-              height: IMAGE_WIDTH,
-              width: IMAGE_WIDTH,
+              height: imageWidth,
+              width: imageWidth,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(IMAGE_WIDTH / 2),
+                borderRadius: BorderRadius.circular(imageWidth / 2),
                 color: themeData.hintColor,
               ),
               child: imageWidget,
