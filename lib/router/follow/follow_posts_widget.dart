@@ -82,7 +82,7 @@ class _FollowPostsWidgetState extends KeepAliveCustState<FollowPostsWidget>
 
     List<Widget> stackList = [ri];
     stackList.add(Positioned(
-      top: Base.BASE_PADDING,
+      top: Base.basePadding,
       child: Selector<FollowNewEventProvider, int>(
         builder: (context, newEventNum, child) {
           if (newEventNum <= 0) {

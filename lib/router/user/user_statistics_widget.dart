@@ -20,9 +20,9 @@ import '../../util/number_format_util.dart';
 import '../../util/router_util.dart';
 
 class UserStatisticsWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  UserStatisticsWidget({super.key, required this.pubkey});
+  const UserStatisticsWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
@@ -143,7 +143,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       return Container(
         // color: Colors.red,
         height: 18,
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.basePadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
@@ -200,7 +200,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       return Container(
         height: 18,
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(bottom: Base.basePadding),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: list,
@@ -407,19 +407,19 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 }
 
 class UserStatisticsItemWidget extends StatelessWidget {
-  int? num;
+  final int? num;
 
-  String name;
+  final String name;
 
-  Function onTap;
+  final Function onTap;
 
-  bool formatNum;
+  final bool formatNum;
 
-  Function(LongPressStartDetails)? onLongPressStart;
+  final Function(LongPressStartDetails)? onLongPressStart;
 
-  Function(LongPressEndDetails)? onLongPressEnd;
+  final Function(LongPressEndDetails)? onLongPressEnd;
 
-  UserStatisticsItemWidget({super.key, 
+  const UserStatisticsItemWidget({super.key, 
     required this.num,
     required this.name,
     required this.onTap,
@@ -472,7 +472,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
       onLongPressStart: onLongPressStart,
       onLongPressEnd: onLongPressEnd,
       child: Container(
-        margin: const EdgeInsets.only(left: Base.BASE_PADDING),
+        margin: const EdgeInsets.only(left: Base.basePadding),
         child: Row(children: list),
       ),
     );

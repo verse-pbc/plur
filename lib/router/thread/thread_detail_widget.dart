@@ -61,7 +61,7 @@ class ThreadDetailWidget extends StatefulWidget {
 }
 
 class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
-    with PenddingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
+    with PendingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
   Event? sourceEvent;
 
   bool showTitle = false;
@@ -290,9 +290,9 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
     for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
-              (Base.BASE_PADDING +
-                  ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
-          ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
+              (Base.basePadding +
+                  ThreadDetailItemMainWidget.borderLeftWidth) +
+          ThreadDetailItemMainWidget.eventMainMinWidth;
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,

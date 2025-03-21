@@ -266,7 +266,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ],
       ),
       Positioned(
-        bottom: Base.BASE_PADDING,
+        bottom: Base.basePadding,
         left: 0,
         right: 0,
         child: Selector<MusicProvider, MusicInfo?>(
@@ -274,7 +274,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
             if (musicInfo != null) {
               return MusicWidget(
                 musicInfo,
-                clearAble: true,
+                clearable: true,
               );
             }
 

@@ -23,8 +23,8 @@ class _LikeTextSelectBottomSheet extends State<LikeTextSelectBottomSheet> {
     List<Widget> list = [];
     list.add(Container(
       padding: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       decoration: BoxDecoration(
         border: Border(

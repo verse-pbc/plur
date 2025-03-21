@@ -7,15 +7,15 @@ import '../../util/theme_util.dart';
 import 'text_input_dialog_inner_widget.dart';
 
 class TextInputDialog extends StatefulWidget {
-  String title;
+  final String title;
 
-  String? hintText;
+  final String? hintText;
 
-  String? value;
+  final String? value;
 
-  bool Function(BuildContext, String)? valueCheck;
+  final bool Function(BuildContext, String)? valueCheck;
 
-  TextInputDialog(
+  const TextInputDialog(
     this.title, {super.key, 
     this.hintText,
     this.value,
@@ -69,8 +69,8 @@ class _TextInputDialog extends State<TextInputDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

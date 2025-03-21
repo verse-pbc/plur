@@ -11,9 +11,9 @@ import 'search_mention_user_widget.dart';
 import 'text_input_and_search_dialog.dart';
 
 class ZapSplitInputWidget extends StatefulWidget {
-  List<EventZapInfo> eventZapInfos;
+  final List<EventZapInfo> eventZapInfos;
 
-  ZapSplitInputWidget(
+  const ZapSplitInputWidget(
     this.eventZapInfos, {super.key}
   );
 
@@ -35,7 +35,7 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-          margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
+          margin: const EdgeInsets.only(right: Base.basePaddingHalf),
           child: ZapSplitIconWidget(titleFontSize + 2),
         ),
         Text(
@@ -53,7 +53,7 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
     list.add(const Divider());
 
     list.add(Container(
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Text(
         localization.Split_Zap_Tip,
         style: TextStyle(
@@ -64,7 +64,7 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
 
     for (var zapInfo in widget.eventZapInfos) {
       list.add(Container(
-        margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(top: Base.basePaddingHalf),
         child: ZapSplitInputItemWidget(
           zapInfo,
           recountWeightAndRefresh,
@@ -75,8 +75,8 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
     return Container(
       // color: Colors.red,
       padding: const EdgeInsets.only(
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
+        left: Base.basePadding,
+        right: Base.basePadding,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

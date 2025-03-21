@@ -9,13 +9,13 @@ import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/util/hash_util.dart';
 
 class ContentMusicWidget extends StatefulWidget {
-  String? eventId;
+  final String? eventId;
 
-  String content;
+  final String content;
 
-  MusicInfoBuilder musicInfoBuilder;
+  final MusicInfoBuilder musicInfoBuilder;
 
-  ContentMusicWidget(this.eventId, this.content, this.musicInfoBuilder, {super.key});
+  const ContentMusicWidget(this.eventId, this.content, this.musicInfoBuilder, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -31,8 +31,8 @@ class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
     if (musicInfo == null) {
       return Container(
         margin: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         child: const MusicPlaceholder(),
       );
@@ -40,8 +40,8 @@ class _ContentMusicWidgetState extends CustState<ContentMusicWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       child: MusicWidget(
         musicInfo!,

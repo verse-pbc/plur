@@ -27,7 +27,7 @@ class ThreadTraceWidget extends StatefulWidget {
 }
 
 class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
-    with PenddingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
+    with PendingEventsLaterFunction, WhenStopFunction, ThreadRouterHelper {
   // used to filter parent events
   List<EventTraceInfo> parentEventTraces = [];
 
@@ -102,8 +102,8 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
 
     mainList.add(Container(
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
-      padding: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
+      padding: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: Column(
         children: [
           Stack(
@@ -130,9 +130,9 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     for (var item in rootSubList) {
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
-              (Base.BASE_PADDING +
-                  ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
-          ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
+              (Base.basePadding +
+                  ThreadDetailItemMainWidget.borderLeftWidth) +
+          ThreadDetailItemMainWidget.eventMainMinWidth;
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,

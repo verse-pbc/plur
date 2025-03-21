@@ -9,9 +9,9 @@ import 'content/content_widget.dart';
 import 'image_widget.dart';
 
 class CommunityInfoWidget extends StatefulWidget {
-  CommunityInfo info;
+  final CommunityInfo info;
 
-  CommunityInfoWidget({super.key, required this.info});
+  const CommunityInfoWidget({super.key, required this.info});
 
   @override
   State<StatefulWidget> createState() {
@@ -20,7 +20,7 @@ class CommunityInfoWidget extends StatefulWidget {
 }
 
 class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
-  static const double IMAGE_WIDTH = 40;
+  static const double imageWidth = 40;
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
     if (StringUtil.isNotBlank(widget.info.image)) {
       imageWidget = ImageWidget(
         imageUrl: widget.info.image!,
-        width: IMAGE_WIDTH,
-        height: IMAGE_WIDTH,
+        width: imageWidth,
+        height: imageWidth,
         fit: BoxFit.cover,
         placeholder: (context, url) => const CircularProgressIndicator(),
       );
@@ -57,8 +57,8 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
         },
         child: Container(
           margin: const EdgeInsets.only(
-            left: Base.BASE_PADDING_HALF,
-            right: Base.BASE_PADDING_HALF,
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
           ),
           child: Icon(
             iconData,
@@ -72,23 +72,23 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
 
     List<Widget> list = [
       Container(
-        margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
         child: Row(
           children: [
             Container(
               alignment: Alignment.center,
-              height: IMAGE_WIDTH,
-              width: IMAGE_WIDTH,
+              height: imageWidth,
+              width: imageWidth,
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(IMAGE_WIDTH / 2),
+                borderRadius: BorderRadius.circular(imageWidth / 2),
                 color: themeData.hintColor,
               ),
               child: imageWidget,
             ),
             Container(
               margin: const EdgeInsets.only(
-                left: Base.BASE_PADDING,
+                left: Base.basePadding,
               ),
               child: Text(
                 widget.info.aId.title,
@@ -110,8 +110,8 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
 
     return Container(
       decoration: BoxDecoration(color: cardColor),
-      padding: const EdgeInsets.all(Base.BASE_PADDING),
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.basePadding),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: list,

@@ -2,15 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../data/metadata.dart';
 import '../../main.dart';
+import '../../provider/group_provider.dart';
+import '../../provider/metadata_provider.dart';
 import '../../util/router_util.dart';
 import 'search_mention_widget.dart';
 
 class SearchMentionUserWidget extends StatefulWidget {
-  const SearchMentionUserWidget({super.key});
+  final GroupIdentifier? groupIdentifier;
+
+  const SearchMentionUserWidget({
+    super.key,
+    this.groupIdentifier,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -18,38 +26,86 @@ class SearchMentionUserWidget extends StatefulWidget {
   }
 }
 
-class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
-    with WhenStopFunction {
-  double itemWidth = 50;
+class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
+  static const int searchMemLimit = 100;
+  double _itemWidth = 50;
+
+  List<Metadata> _metadatas = [];
+  List<Metadata?> _allMemberMetadatas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMemberMetadata();
+  }
+
+  Future<void> _loadMemberMetadata() async {
+    final groupId = widget.groupIdentifier;
+    if (groupId == null) {
+      return;
+    }
+
+    // Get the group members
+    final groupProvider = Provider.of<GroupProvider>(context, listen: false);
+    final groupMembers = groupProvider.getMembers(groupId);
+    final memberPubkeys = groupMembers?.members;
+    if (memberPubkeys == null || memberPubkeys.isEmpty) {
+      return;
+    }
+
+    // Initialize the metadata list with nulls to maintain order
+    setState(() {
+      _allMemberMetadatas = List.filled(memberPubkeys.length, null);
+    });
+
+    // Load metadata for each member
+    final metadataProvider = Provider.of<MetadataProvider>(context, listen: false);
+    for (int i = 0; i < memberPubkeys.length; i++) {
+      final pubkey = memberPubkeys[i];
+
+      Metadata? initialMetadata = metadataProvider.getMetadata(pubkey);
+      if (initialMetadata != null) {
+        _allMemberMetadatas[i] = initialMetadata;
+      }
+    }
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
-    var contentWidth = mediaDataCache.size.width - 4 * Base.BASE_PADDING;
-    itemWidth = (contentWidth - 10) / 2;
+    var contentWidth = mediaDataCache.size.width - 4 * Base.basePadding;
+    _itemWidth = (contentWidth - 10) / 2;
 
     return SearchMentionWidget(
-      resultBuildFunc: resultBuild,
-      handleSearchFunc: handleSearch,
+      resultBuildFunc: _resultBuild,
+      handleSearchFunc: _handleSearch,
     );
   }
 
-  Widget resultBuild() {
-    List<Widget> userWidgetList = [];
-    for (var metadata in metadatas) {
-      userWidgetList.add(SearchMentionUserItemWidget(
-        metadata: metadata,
-        width: itemWidth,
-      ));
+  Widget _resultBuild() {
+    if (_metadatas.isEmpty) {
+     return const Center(
+       child: CircularProgressIndicator(),
+     );
     }
+
+    final userWidgetList = _metadatas.map(
+          (metadata) => SearchMentionUserItemWidget(
+        metadata: metadata,
+        width: _itemWidth,
+      ),
+    ).toList();
+
     return SingleChildScrollView(
       child: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.only(
-          top: Base.BASE_PADDING_HALF,
-          bottom: Base.BASE_PADDING_HALF,
+          top: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf,
         ),
         child: SizedBox(
-          width: itemWidth * 2 + 10,
+          width: _itemWidth * 2 + 10,
           child: Wrap(
             spacing: 10,
             runSpacing: 10,
@@ -60,16 +116,14 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
     );
   }
 
-  static const int searchMemLimit = 100;
+  void _handleSearch(String? text) {
+    _metadatas.clear();
 
-  List<Metadata> metadatas = [];
-
-  void handleSearch(String? text) {
-    metadatas.clear();
-
-    if (StringUtil.isNotBlank(text)) {
-      var list = metadataProvider.findUser(text!, limit: searchMemLimit);
-      metadatas = list;
+    if (text == null || text.isEmpty) {
+      _metadatas = _allMemberMetadatas.whereType<Metadata>().toList();
+    } else {
+      final metadataProvider = Provider.of<MetadataProvider>(context, listen: false);
+      _metadatas = metadataProvider.findUser(text, limit: searchMemLimit);
     }
 
     setState(() {});
@@ -79,12 +133,11 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget>
 class SearchMentionUserItemWidget extends StatelessWidget {
   static const double IMAGE_WIDTH = 36;
 
-  Metadata metadata;
+  final Metadata metadata;
+  final double width;
 
-  double width;
-
-  SearchMentionUserItemWidget({
-    super.key, 
+  const SearchMentionUserItemWidget({
+    super.key,
     required this.metadata,
     required this.width,
   });
@@ -112,7 +165,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
     var main = Container(
       width: width,
       color: cardColor,
-      padding: const EdgeInsets.all(Base.BASE_PADDING_HALF),
+      padding: const EdgeInsets.all(Base.basePaddingHalf),
       child: Row(
         children: [
           UserPicWidget(
@@ -122,7 +175,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              padding: const EdgeInsets.only(left: Base.BASE_PADDING_HALF),
+              padding: const EdgeInsets.only(left: Base.basePaddingHalf),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -5,7 +5,7 @@ import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
 import '../../main.dart';
 
 class GroupDetailProvider extends ChangeNotifier
-    with PenddingEventsLaterFunction {
+    with PendingEventsLaterFunction {
   static const int previousLength = 5;
 
   late int _initTime;

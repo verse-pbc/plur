@@ -32,9 +32,9 @@ import 'content_relay_widget.dart';
 import 'content_tag_widget.dart';
 import 'content_video_widget.dart';
 
-const int NPUB_LENGTH = 63;
+const int npubLength = 63;
 
-const int NOTEID_LENGTH = 63;
+const int noteIdLength = 63;
 
 /// This is the new ContentWidget.
 /// 1. Support image, video, link. These can config showable or replace by a str_line_component.
@@ -49,21 +49,21 @@ const int NOTEID_LENGTH = 63;
 /// 10.Show more, hide extral when the content is too long.
 /// 11.Simple Markdown support. (LineStr with pre # - FontWeight blod and bigger fontSize, with pre ## - FontWeight blod and normal fontSize).
 class ContentWidget extends StatefulWidget {
-  String? content;
-  Event? event;
+  final String? content;
+  final Event? event;
 
-  Function? textOnTap;
-  bool showImage = true;
-  bool showVideo = false;
-  bool showLinkPreview = true;
-  bool imageListMode = false;
+  final Function? textOnTap;
+  final bool showImage;
+  final bool showVideo;
+  final bool showLinkPreview;
+  final bool imageListMode;
 
-  bool smallest;
+  final bool smallest;
 
-  EventRelation? eventRelation;
+  final EventRelation? eventRelation;
 
-  ContentWidget({
-    super.key, 
+  const ContentWidget({
+    super.key,
     this.content,
     this.event,
     this.textOnTap,
@@ -83,67 +83,63 @@ class ContentWidget extends StatefulWidget {
 
 class _ContentWidgetState extends State<ContentWidget> {
   // new line
-  static const String NL = "\n";
+  static const String nl = "\n";
 
   // space
-  static const String SP = " ";
+  static const String sp = " ";
 
   // markdown h1
-  static const String MD_H1 = "#";
+  static const String mdH1 = "#";
 
   // markdown h2
-  static const String MD_H2 = "##";
+  static const String mdH2 = "##";
 
   // markdown h3
-  static const String MD_H3 = "###";
+  static const String mdH3 = "###";
 
   // markdown h4
-  static const String MD_H4 = "####";
+  static const String mdH4 = "####";
 
   // markdown h5
-  static const String MD_H5 = "#####";
+  static const String mdH5 = "#####";
 
   // markdown h6
-  static const String MD_H6 = "######";
+  static const String mdH6 = "######";
 
   // markdown quoting
-  static const String MD_QUOTING = ">";
+  static const String mdQuoting = ">";
 
   // http pre
-  static const String HTTP_PRE = "http://";
+  static const String httpPre = "http://";
 
   // https pre
-  static const String HTTPS_PRE = "https://";
+  static const String httpsPre = "https://";
 
-  static const String PRE_NOSTR_BASE = "nostr:";
+  static const String preNostrBase = "nostr:";
 
-  static const String PRE_NOSTR_AT = "@nostr:";
+  static const String preNostrAt = "@nostr:";
 
-  static const String PRE_AT_USER = "@npub";
+  static const String preAtUser = "@npub";
 
-  static const String PRE_AT_NOTE = "@note";
+  static const String preAtNote = "@note";
 
-  static const String PRE_USER = "npub1";
+  static const String preUser = "npub1";
 
-  static const String PRE_NOTE = "note1";
+  static const String preNote = "note1";
 
-  static const OTHER_LIGHTNING = "lightning=";
+  static const otherLightning = "lightning=";
 
-  static const LIGHTNING = "lightning:";
+  static const lightning = "lightning:";
 
-  static const LNBC = "lnbc";
+  static const lnbc = "lnbc";
 
-  static const PRE_CASHU_LINK = "cashu:";
+  static const preCashuLink = "cashu:";
 
-  static const PRE_CASHU = "cashu";
+  static const preCashu = "cashu";
 
-  static List<String> LNBC_LIST = [LNBC, LIGHTNING, OTHER_LIGHTNING];
+  static const maxShowLineNum = 19;
 
-  static const LNBC_NUM_END = "1p";
-
-  static const MAX_SHOW_LINE_NUM = 19;
-
-  static const MAX_SHOW_LINE_NUM_REACH = 23;
+  static const maxShowLineNumReach = 23;
 
   TextStyle? mdh1Style;
 
@@ -267,14 +263,14 @@ class _ContentWidgetState extends State<ContentWidget> {
         var lineHeight = textPainter.preferredLineHeight;
         var lineNum = textPainter.height / lineHeight;
 
-        if (lineNum > MAX_SHOW_LINE_NUM_REACH) {
+        if (lineNum > maxShowLineNumReach) {
           return Stack(
             alignment: Alignment.center,
             children: [
               Container(
                 decoration: const BoxDecoration(),
                 clipBehavior: Clip.hardEdge,
-                height: lineHeight * MAX_SHOW_LINE_NUM,
+                height: lineHeight * maxShowLineNum,
                 child: Wrap(
                   children: [main],
                 ),
@@ -285,7 +281,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 right: 0,
                 child: Container(
                   alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.only(right: Base.BASE_PADDING),
+                  padding: const EdgeInsets.only(right: Base.basePadding),
                   height: 30,
                   color: themeData.cardColor.withOpacity(0.85),
                   child: Text(
@@ -307,7 +303,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
   }
 
-  static const double CONTENT_IMAGE_LIST_HEIGHT = 90;
+  static const double contentImageListHeight = 90;
 
   TextStyle? currentTextStyle;
 
@@ -360,8 +356,8 @@ class _ContentWidgetState extends State<ContentWidget> {
           },
           child: Container(
             margin: const EdgeInsets.only(
-              left: MARGIN,
-              right: MARGIN,
+              left: margin,
+              right: margin,
             ),
             height: iconWidgetWidth,
             width: iconWidgetWidth,
@@ -393,31 +389,31 @@ class _ContentWidgetState extends State<ContentWidget> {
 
         if (lineBegin) {
           // the first str, check simple markdown support
-          if (str == MD_H1) {
+          if (str == mdH1) {
             closeLine(buffer, currentList, allList, images);
             currentTextStyle = mdh1Style;
             continue;
-          } else if (str == MD_H2) {
+          } else if (str == mdH2) {
             closeLine(buffer, currentList, allList, images);
             currentTextStyle = mdh2Style;
             continue;
-          } else if (str == MD_H3) {
+          } else if (str == mdH3) {
             closeLine(buffer, currentList, allList, images);
             currentTextStyle = mdh3Style;
             continue;
-          } else if (str == MD_H4) {
+          } else if (str == mdH4) {
             closeLine(buffer, currentList, allList, images);
             currentTextStyle = mdh4Style;
             continue;
-          } else if (str == MD_H5) {
+          } else if (str == mdH5) {
             closeLine(buffer, currentList, allList, images);
             currentTextStyle = mdh4Style;
             continue;
-          } else if (str == MD_H6) {
+          } else if (str == mdH6) {
             closeLine(buffer, currentList, allList, images);
             currentTextStyle = mdh4Style;
             continue;
-          } else if (str == MD_QUOTING) {
+          } else if (str == mdQuoting) {
             if (j == 0) {
               closeLine(buffer, currentList, allList, images);
               currentTextStyle = null;
@@ -429,7 +425,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               width: 4,
               height: fontSize + 5.5,
               color: hintColor,
-              margin: const EdgeInsets.only(right: Base.BASE_PADDING),
+              margin: const EdgeInsets.only(right: Base.basePadding),
             )));
             continue;
           } else if (j == 0 && str.startsWith("```")) {
@@ -448,14 +444,14 @@ class _ContentWidgetState extends State<ContentWidget> {
               List<String> codeLines = [];
               for (var tempI = i + 1; tempI < endI; tempI++) {
                 var strs = lineStrs[tempI];
-                codeLines.add(strs.join(SP));
+                codeLines.add(strs.join(sp));
               }
 
-              var codeText = codeLines.join(NL);
+              var codeText = codeLines.join(nl);
               currentList.add(
                 WidgetSpan(
                   child: Container(
-                    padding: const EdgeInsets.all(Base.BASE_PADDING),
+                    padding: const EdgeInsets.all(Base.basePadding),
                     width: double.infinity,
                     decoration: BoxDecoration(color: codeBackgroundColor),
                     child: SelectableText(codeText),
@@ -505,13 +501,13 @@ class _ContentWidgetState extends State<ContentWidget> {
         }
 
         if (j < strsLength - 1) {
-          buffer.write(SP);
+          buffer.write(sp);
         }
       }
 
       if (i < lineLength - 1) {
         bufferToList(buffer, currentList, images);
-        buffer.write(NL);
+        buffer.write(nl);
         bufferToList(buffer, currentList, images);
       }
     }
@@ -542,15 +538,15 @@ class _ContentWidgetState extends State<ContentWidget> {
       for (var image in images) {
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
-            margin: const EdgeInsets.only(right: Base.BASE_PADDING_HALF),
-            width: CONTENT_IMAGE_LIST_HEIGHT,
-            height: CONTENT_IMAGE_LIST_HEIGHT,
+            margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+            width: contentImageListHeight,
+            height: contentImageListHeight,
             child: ContentImageWidget(
               imageUrl: image,
               imageList: images,
               imageIndex: index,
-              height: CONTENT_IMAGE_LIST_HEIGHT,
-              width: CONTENT_IMAGE_LIST_HEIGHT,
+              height: contentImageListHeight,
+              width: contentImageListHeight,
               fileMetadata: getFileMetadata(image),
               // imageBoxFix: BoxFit.fitWidth,
             ),
@@ -560,7 +556,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       }
 
       mainList.add(SizedBox(
-        height: CONTENT_IMAGE_LIST_HEIGHT,
+        height: contentImageListHeight,
         width: double.infinity,
         child: CustomScrollView(
           slivers: imageWidgetList,
@@ -590,8 +586,8 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   String? checkAndHandleStr(String str, StringBuffer buffer,
       List<InlineSpan> currentList, List<String> images) {
-    if (str.indexOf(HTTPS_PRE) == 0 ||
-        str.indexOf(HTTP_PRE) == 0 ||
+    if (str.indexOf(httpsPre) == 0 ||
+        str.indexOf(httpPre) == 0 ||
         str.indexOf(BASE64.PREFIX) == 0) {
       // http style, get path style
       var pathType = PathTypeUtil.getPathType(str);
@@ -622,7 +618,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
             bufferToList(buffer, currentList, images, removeLastSpan: true);
             currentList.add(WidgetSpan(child: imageWidget));
-            counterAddLines(fake_image_counter);
+            counterAddLines(fakeImageCounter);
           }
         }
         return null;
@@ -632,7 +628,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           bufferToList(buffer, currentList, images, removeLastSpan: true);
           var vComponent = ContentVideoWidget(url: str);
           currentList.add(WidgetSpan(child: vComponent));
-          counterAddLines(fake_video_counter);
+          counterAddLines(fakeVideoCounter);
         } else {
           // inline
           bufferToList(buffer, currentList, images);
@@ -651,7 +647,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           var w =
               ContentMusicWidget(eventId, str, wavlakeTrackMusicInfoBuilder);
           currentList.add(WidgetSpan(child: w));
-          counterAddLines(fake_music_counter);
+          counterAddLines(fakeMusicCounter);
 
           return null;
         }
@@ -665,7 +661,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           var w =
               ContentMusicWidget(eventId, str, wavlakeAlbumMusicInfoBuilder);
           currentList.add(WidgetSpan(child: w));
-          counterAddLines(fake_music_counter);
+          counterAddLines(fakeMusicCounter);
 
           return null;
         }
@@ -680,7 +676,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             link: str,
           );
           currentList.add(WidgetSpan(child: w));
-          counterAddLines(fake_link_pre_counter);
+          counterAddLines(fakeLinkPreCounter);
         }
 
         return null;
@@ -692,27 +688,27 @@ class _ContentWidgetState extends State<ContentWidget> {
         bufferToList(buffer, currentList, images, removeLastSpan: true);
         var w = ContentMusicWidget(eventId, str, blankLinkMusicInfoBuilder);
         currentList.add(WidgetSpan(child: w));
-        counterAddLines(fake_music_counter);
+        counterAddLines(fakeMusicCounter);
 
         return null;
       }
-    } else if (str.indexOf(PRE_NOSTR_BASE) == 0 ||
-        str.indexOf(PRE_NOSTR_AT) == 0 ||
-        str.indexOf(PRE_AT_USER) == 0 ||
-        str.indexOf(PRE_AT_NOTE) == 0 ||
-        str.indexOf(PRE_USER) == 0 ||
-        str.indexOf(PRE_NOTE) == 0) {
+    } else if (str.indexOf(preNostrBase) == 0 ||
+        str.indexOf(preNostrAt) == 0 ||
+        str.indexOf(preAtUser) == 0 ||
+        str.indexOf(preAtNote) == 0 ||
+        str.indexOf(preUser) == 0 ||
+        str.indexOf(preNote) == 0) {
       var key = str.replaceFirst("@", "");
-      key = key.replaceFirst(PRE_NOSTR_BASE, "");
+      key = key.replaceFirst(preNostrBase, "");
 
       String? otherStr;
 
       if (Nip19.isPubkey(key)) {
         // inline
         // mention user
-        if (key.length > NPUB_LENGTH) {
-          otherStr = key.substring(NPUB_LENGTH);
-          key = key.substring(0, NPUB_LENGTH);
+        if (key.length > npubLength) {
+          otherStr = key.substring(npubLength);
+          key = key.substring(0, npubLength);
         }
         key = Nip19.decode(key);
         bufferToList(buffer, currentList, images);
@@ -722,9 +718,9 @@ class _ContentWidgetState extends State<ContentWidget> {
         return otherStr;
       } else if (Nip19.isNoteId(key)) {
         // block
-        if (key.length > NOTEID_LENGTH) {
-          otherStr = key.substring(NOTEID_LENGTH);
-          key = key.substring(0, NOTEID_LENGTH);
+        if (key.length > noteIdLength) {
+          otherStr = key.substring(noteIdLength);
+          key = key.substring(0, noteIdLength);
         }
         key = Nip19.decode(key);
         bufferToList(buffer, currentList, images, removeLastSpan: true);
@@ -733,7 +729,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           showVideo: widget.showVideo,
         );
         currentList.add(WidgetSpan(child: w));
-        counterAddLines(fake_event_counter);
+        counterAddLines(fakeEventCounter);
 
         return otherStr;
       } else if (NIP19Tlv.isNprofile(key)) {
@@ -766,8 +762,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         if (nrelay != null) {
           // inline
           bufferToList(buffer, currentList, images);
-          currentList
-              .add(WidgetSpan(child: ContentRelayWidget(nrelay.addr)));
+          currentList.add(WidgetSpan(child: ContentRelayWidget(nrelay.addr)));
 
           return otherStr;
         } else {
@@ -794,7 +789,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             showVideo: widget.showVideo,
           );
           currentList.add(WidgetSpan(child: w));
-          counterAddLines(fake_event_counter);
+          counterAddLines(fakeEventCounter);
 
           return otherStr;
         } else {
@@ -848,7 +843,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               showVideo: widget.showVideo,
             );
             currentList.add(WidgetSpan(child: w));
-            counterAddLines(fake_event_counter);
+            counterAddLines(fakeEventCounter);
 
             return otherStr;
           } else if (naddr.kind == EventKind.LIVE_EVENT) {
@@ -857,7 +852,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               link: "https://zap.stream/$key",
             );
             currentList.add(WidgetSpan(child: w));
-            counterAddLines(fake_link_pre_counter);
+            counterAddLines(fakeLinkPreCounter);
 
             return otherStr;
           }
@@ -896,17 +891,17 @@ class _ContentWidgetState extends State<ContentWidget> {
       }
 
       return null;
-    } else if (str.indexOf(LNBC) == 0 ||
-        str.indexOf(LIGHTNING) == 0 ||
-        str.indexOf(OTHER_LIGHTNING) == 0) {
+    } else if (str.indexOf(lnbc) == 0 ||
+        str.indexOf(lightning) == 0 ||
+        str.indexOf(otherLightning) == 0) {
       bufferToList(buffer, currentList, images, removeLastSpan: true);
       var w = ContentLnbcWidget(lnbc: str);
       currentList.add(WidgetSpan(child: w));
-      counterAddLines(fake_zap_counter);
+      counterAddLines(fakeZapCounter);
 
       return null;
-    } else if (str.length > 20 && str.indexOf(PRE_CASHU) == 0) {
-      var cashuStr = str.replaceFirst(PRE_CASHU_LINK, str);
+    } else if (str.length > 20 && str.indexOf(preCashu) == 0) {
+      var cashuStr = str.replaceFirst(preCashuLink, str);
       var cashuTokens = Tokens.load(cashuStr);
       if (cashuTokens != null) {
         // decode success
@@ -916,7 +911,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           cashuStr: cashuStr,
         );
         currentList.add(WidgetSpan(child: w));
-        counterAddLines(fake_zap_counter);
+        counterAddLines(fakeZapCounter);
         return null;
       }
     } else if (widget.event != null &&
@@ -944,7 +939,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               showVideo: widget.showVideo,
             );
             currentList.add(WidgetSpan(child: w));
-            counterAddLines(fake_event_counter);
+            counterAddLines(fakeEventCounter);
 
             return null;
           } else if (tagType == "p") {
@@ -1012,17 +1007,17 @@ class _ContentWidgetState extends State<ContentWidget> {
     var result = matcher.check(codeUnits);
 
     for (var item in result.items) {
-      if (item.textType == TargetTextType.PURE_TEXT) {
+      if (item.textType == TargetTextType.pureText) {
         _addTextToList(
             codeUnitsToString(codeUnits, item.start, item.end), currentList);
       } else if (item.args.isNotEmpty) {
         var firstArg = item.args[0];
 
         // not pure text and args not empty
-        if (item.textType == TargetTextType.MD_LINK) {
+        if (item.textType == TargetTextType.mdLink) {
           if (item.args.length > 1) {
             var linkArg = item.args[1];
-            if (linkArg.textType == TargetTextType.PURE_TEXT) {
+            if (linkArg.textType == TargetTextType.pureText) {
               var str =
                   codeUnitsToString(codeUnits, linkArg.start, linkArg.end);
               var pathType = PathTypeUtil.getPathType(str);
@@ -1035,13 +1030,13 @@ class _ContentWidgetState extends State<ContentWidget> {
                   link: str,
                 );
                 currentList.add(WidgetSpan(child: w));
-                counterAddLines(fake_link_pre_counter);
+                counterAddLines(fakeLinkPreCounter);
               }
             }
           }
-        } else if (item.textType == TargetTextType.MD_IMAGE) {
+        } else if (item.textType == TargetTextType.mdImage) {
           var linkArg = item.args.last;
-          if (linkArg.textType == TargetTextType.PURE_TEXT) {
+          if (linkArg.textType == TargetTextType.pureText) {
             var str = codeUnitsToString(codeUnits, linkArg.start, linkArg.end);
             images.add(str);
             if (!widget.showImage) {
@@ -1067,23 +1062,23 @@ class _ContentWidgetState extends State<ContentWidget> {
                 );
 
                 currentList.add(WidgetSpan(child: imageWidget));
-                counterAddLines(fake_image_counter);
+                counterAddLines(fakeImageCounter);
               }
             }
           }
-        } else if (item.textType == TargetTextType.MD_BOLD) {
+        } else if (item.textType == TargetTextType.mdBold) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: boldStyle);
-        } else if (item.textType == TargetTextType.MD_ITALIC) {
+        } else if (item.textType == TargetTextType.mdItalic) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: italicStyle);
-        } else if (item.textType == TargetTextType.MD_DELETE) {
+        } else if (item.textType == TargetTextType.mdDelete) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: deleteStyle);
-        } else if (item.textType == TargetTextType.MD_HIGHLIGHT) {
+        } else if (item.textType == TargetTextType.mdHighlight) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: highlightStyle);
-        } else if (item.textType == TargetTextType.MD_INLINE_CODE) {
+        } else if (item.textType == TargetTextType.mdInlineCode) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           currentList.add(TextSpan(
             text: str,
@@ -1091,11 +1086,11 @@ class _ContentWidgetState extends State<ContentWidget> {
               backgroundColor: codeBackgroundColor,
             ),
           ));
-        } else if (item.textType == TargetTextType.MD_BOLD_AND_ITALIC) {
+        } else if (item.textType == TargetTextType.mdBoldAndItalic) {
           var str = codeUnitsToString(codeUnits, firstArg.start, firstArg.end);
           _addTextToList(str, currentList, textStyle: boldAndItalicStyle);
         }
-      } else if (item.textType == TargetTextType.NOSTR_CUSTOM_EMOJI) {
+      } else if (item.textType == TargetTextType.nostrCustomEmoji) {
         var emojiKey =
             codeUnitsToString(codeUnits, item.start + 1, item.end - 1);
         var emojiValue = tagInfos!.emojiMap[emojiKey];
@@ -1117,13 +1112,6 @@ class _ContentWidgetState extends State<ContentWidget> {
     return String.fromCharCodes(subList);
   }
 
-  void _onlyBufferToList(StringBuffer buffer, List<InlineSpan> allList) {
-    var text = buffer.toString();
-    buffer.clear();
-    if (StringUtil.isNotBlank(text)) {
-      _addTextToList(text, allList);
-    }
-  }
 
   void _addTextToList(String text, List<InlineSpan> allList,
       {TextStyle? textStyle}) {
@@ -1166,11 +1154,11 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   static ContentDecoderInfo decodeTest(String content) {
     content = content.trim();
-    var strs = content.split(NL);
+    var strs = content.split(nl);
 
     ContentDecoderInfo info = ContentDecoderInfo();
     for (var str in strs) {
-      var subStrs = str.split(SP);
+      var subStrs = str.split(sp);
       info.strs.add(subStrs);
       for (var subStr in subStrs) {
         if (subStr.indexOf("http") == 0) {
@@ -1186,25 +1174,25 @@ class _ContentWidgetState extends State<ContentWidget> {
     return info;
   }
 
-  int fake_event_counter = 10;
+  int fakeEventCounter = 10;
 
-  int fake_image_counter = 11;
+  int fakeImageCounter = 11;
 
-  int fake_video_counter = 11;
+  int fakeVideoCounter = 11;
 
-  int fake_link_pre_counter = 7;
+  int fakeLinkPreCounter = 7;
 
-  int fake_music_counter = 3;
+  int fakeMusicCounter = 3;
 
-  int fake_zap_counter = 6;
+  int fakeZapCounter = 6;
 
   void counterAddLines(int lineNum) {
     for (var i = 0; i < lineNum; i++) {
-      counter.write(NL);
+      counter.write(nl);
     }
   }
 
-  static const double MARGIN = 4;
+  static const double margin = 4;
 
   Map<String, String> targetTextMap = {};
 
@@ -1286,7 +1274,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             sourceLanguage: sourceLanguage!, targetLanguage: targetLanguage!);
 
         for (var text in textList) {
-          if (text == NL || StringUtil.isBlank(text)) {
+          if (text == nl || StringUtil.isBlank(text)) {
             continue;
           }
           var result = await onDeviceTranslator.translateText(text);

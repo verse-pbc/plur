@@ -31,7 +31,7 @@ class GroupDetailNoteListWidget extends StatefulWidget {
 
 class _GroupDetailNoteListWidgetState
     extends KeepAliveCustState<GroupDetailNoteListWidget>
-    with LoadMoreEvent, PenddingEventsLaterFunction {
+    with LoadMoreEvent, PendingEventsLaterFunction {
   final ScrollController _controller = ScrollController();
 
   ScrollController scrollController = ScrollController();
@@ -85,7 +85,7 @@ class _GroupDetailNoteListWidgetState
       } else {
         List<Widget> stackList = [main];
         stackList.add(Positioned(
-          top: Base.BASE_PADDING,
+          top: Base.basePadding,
           child: NewNotesUpdatedWidget(
             num: newNotesLength,
             onTap: () {

@@ -10,9 +10,9 @@ import '../generated/l10n.dart';
 import 'badge_detail_widget.dart';
 
 class BadgeAwardWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  BadgeAwardWidget({
+  const BadgeAwardWidget({
     super.key,
     required this.event,
   });
@@ -74,10 +74,10 @@ class _BadgeAwardWidgetState extends State<BadgeAwardWidget> {
             badgeProvider.wear(badgeId, widget.event.id, relayAddr: source);
           },
           child: Container(
-            margin: const EdgeInsets.only(top: Base.BASE_PADDING_HALF),
+            margin: const EdgeInsets.only(top: Base.basePaddingHalf),
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             color: theme.primaryColor,
             width: double.infinity,
@@ -100,10 +100,10 @@ class _BadgeAwardWidgetState extends State<BadgeAwardWidget> {
 
     return Container(
       padding: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        left: Base.BASE_PADDING,
-        right: Base.BASE_PADDING,
-        bottom: Base.BASE_PADDING,
+        top: Base.basePaddingHalf,
+        left: Base.basePadding,
+        right: Base.basePadding,
+        bottom: Base.basePadding,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,

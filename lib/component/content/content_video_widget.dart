@@ -11,9 +11,9 @@ import 'package:widget_size/widget_size.dart';
 import '../../consts/base64.dart';
 
 class ContentVideoWidget extends StatefulWidget {
-  String url;
+  final String url;
 
-  ContentVideoWidget({super.key, required this.url});
+  const ContentVideoWidget({super.key, required this.url});
 
   @override
   State<StatefulWidget> createState() {
@@ -105,8 +105,8 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
     return Container(
       margin: const EdgeInsets.only(
-        top: Base.BASE_PADDING_HALF,
-        bottom: Base.BASE_PADDING_HALF,
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
       ),
       child: WidgetSize(
         onChange: ((size) {

@@ -2,9 +2,9 @@ name: TestFlight Staging Deployment
 permissions:
   contents: write  # This is needed for tag pushing
 on:
-  push:
-    branches:
-      - main
+  #push:
+  #  branches:
+  #    - main
   # Enable manual run
   workflow_dispatch:
 
@@ -38,10 +38,10 @@ jobs:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
       - name: Fastlane build and deploy
-        working-directory: ./ios
+        working-directory: ./fastlane
         run: |
           bundle install
-          bundle exec fastlane deploy_staging
+          bundle exec fastlane ios deploy_staging
         env:
           APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
           APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}

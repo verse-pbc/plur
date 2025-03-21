@@ -9,9 +9,9 @@ import '../util/theme_util.dart';
 import 'badge_detail_widget.dart';
 
 class BadgeDetailDialog extends StatefulWidget {
-  BadgeDefinition badgeDefinition;
+  final BadgeDefinition badgeDefinition;
 
-  BadgeDetailDialog({
+  const BadgeDetailDialog({
     super.key,
     required this.badgeDefinition,
   });
@@ -21,7 +21,7 @@ class BadgeDetailDialog extends StatefulWidget {
     return await showDialog<bool>(
       context: context,
       useRootNavigator: false,
-      builder: (context) {
+      builder: (_) {
         return BadgeDetailDialog(
           badgeDefinition: badgeDefinition,
         );
@@ -63,8 +63,8 @@ class _BadgeDetailDialog extends State<BadgeDetailDialog> {
             width: double.infinity,
             height: double.infinity,
             padding: const EdgeInsets.only(
-              left: Base.BASE_PADDING,
-              right: Base.BASE_PADDING,
+              left: Base.basePadding,
+              right: Base.basePadding,
             ),
             alignment: Alignment.center,
             child: GestureDetector(

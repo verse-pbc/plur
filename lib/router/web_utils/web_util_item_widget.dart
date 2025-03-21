@@ -4,11 +4,11 @@ import 'package:nostrmo/component/webview_widget.dart';
 import '../../consts/base.dart';
 
 class WebUtilItemWidget extends StatelessWidget {
-  String link;
+  final String link;
 
-  String des;
+  final String des;
 
-  WebUtilItemWidget({
+  const WebUtilItemWidget({
     super.key,
     required this.link,
     required this.des,
@@ -24,9 +24,9 @@ class WebUtilItemWidget extends StatelessWidget {
     var main = Container(
       width: double.maxFinite,
       color: cardColor,
-      margin: const EdgeInsets.only(bottom: Base.BASE_PADDING_HALF),
+      margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       padding: const EdgeInsets.all(
-        Base.BASE_PADDING,
+        Base.basePadding,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
