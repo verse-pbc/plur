@@ -124,7 +124,8 @@ class _PushNotificationTestWidgetState
       // This tests notification display directly using the system channel
       final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-      const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      const AndroidNotificationDetails androidDetails =
+          AndroidNotificationDetails(
         'high_importance_channel',
         'High Importance Notifications',
         channelDescription: 'This channel is used for important notifications.',
@@ -134,7 +135,7 @@ class _PushNotificationTestWidgetState
         enableVibration: true,
         playSound: true,
       );
-      
+
       // iOS notification details
       const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
         presentAlert: true,
@@ -190,20 +191,6 @@ class _PushNotificationTestWidgetState
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Local notification triggered')),
-    );
-  }
-
-  Future<void> _subscribeToTestTopic() async {
-    await NotificationUtil.subscribeToTopic('test');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Subscribed to test topic')),
-    );
-  }
-
-  Future<void> _unsubscribeFromTestTopic() async {
-    await NotificationUtil.unsubscribeFromTopic('test');
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Unsubscribed from test topic')),
     );
   }
 
@@ -353,11 +340,11 @@ class _PushNotificationTestWidgetState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
+                    const Row(
                       children: [
-                        const Icon(Icons.notifications),
-                        const SizedBox(width: 8),
-                        const Text(
+                        Icon(Icons.notifications),
+                        SizedBox(width: 8),
+                        Text(
                           'Test Notification',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
@@ -413,66 +400,16 @@ class _PushNotificationTestWidgetState
             ),
             const SizedBox(height: 16),
 
-            // Topic testing card
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.topic),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Topic Testing',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-                    const Text(
-                      'Subscribe to topics to receive broadcast messages sent to that topic.',
-                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: ElevatedButton.icon(
-                            onPressed:
-                                _isLoading ? null : _subscribeToTestTopic,
-                            icon: const Icon(Icons.add),
-                            label: const Text('Subscribe to Test Topic'),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed:
-                                _isLoading ? null : _unsubscribeFromTestTopic,
-                            icon: const Icon(Icons.remove),
-                            label: const Text('Unsubscribe'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 24),
-
             // Info card
             Card(
               color: Colors.blue.shade50,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
+              child: const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: const [
+                      children: [
                         Icon(Icons.info, color: Colors.blue),
                         SizedBox(width: 8),
                         Text(
@@ -482,15 +419,15 @@ class _PushNotificationTestWidgetState
                         ),
                       ],
                     ),
-                    const SizedBox(height: 8),
-                    const Text(
+                    SizedBox(height: 8),
+                    Text(
                       'To send actual test notifications, you need to use:',
                       style: TextStyle(fontStyle: FontStyle.italic),
                     ),
-                    const SizedBox(height: 4),
-                    const Text('• Firebase console'),
-                    const Text('• A server with your FCM server key'),
-                    const Text('• The Firebase Admin SDK'),
+                    SizedBox(height: 4),
+                    Text('• Firebase console'),
+                    Text('• A server with your FCM server key'),
+                    Text('• The Firebase Admin SDK'),
                   ],
                 ),
               ),
