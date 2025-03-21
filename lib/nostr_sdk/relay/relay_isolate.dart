@@ -1,9 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:isolate';
-
-import 'package:logging/logging.dart';
 
 import 'client_connected.dart';
 import 'relay.dart';
@@ -58,7 +55,7 @@ class RelayIsolate extends Relay {
       // the isolate had bean run
       if (relayStatus.connected == ClientConneccted.CONNECTED) {
         // relay has bean connected, return true, but also send a connect message.
-        mainToSubSendPort!.send(RelayIsolateMsgs.connect);
+        mainToSubSendPort!.send(RelayIsolateMsgs.CONNECT);
         return true;
       } else {
         // haven't connected
@@ -69,7 +66,7 @@ class RelayIsolate extends Relay {
           if (mainToSubSendPort != null) {
             relayStatus.connected = ClientConneccted.CONNECTING;
             // send connect msg
-            mainToSubSendPort!.send(RelayIsolateMsgs.connect);
+            mainToSubSendPort!.send(RelayIsolateMsgs.CONNECT);
             // wait connected msg.
             relayConnectResultComplete = Completer();
             return await relayConnectResultComplete!.future;
@@ -86,7 +83,7 @@ class RelayIsolate extends Relay {
     if (relayStatus.connected != ClientConneccted.UN_CONNECT) {
       relayStatus.connected = ClientConneccted.UN_CONNECT;
       if (mainToSubSendPort != null) {
-        mainToSubSendPort!.send(RelayIsolateMsgs.disconnect);
+        mainToSubSendPort!.send(RelayIsolateMsgs.DIS_CONNECT);
       }
     }
   }
@@ -97,11 +94,7 @@ class RelayIsolate extends Relay {
         (mainToSubSendPort != null &&
             relayStatus.connected == ClientConneccted.CONNECTED)) {
       final encoded = jsonEncode(message);
-      log(
-        "Sending message to $url...\n\n$encoded",
-        level: Level.FINEST.value,
-        name: "RelayIsolate",
-      );
+      // log(encoded);
       mainToSubSendPort!.send(encoded);
       return true;
     }
@@ -113,22 +106,17 @@ class RelayIsolate extends Relay {
     receivePort.listen((message) {
       if (message is int) {
         // this is const msg.
-        if (message == RelayIsolateMsgs.connected) {
+        if (message == RelayIsolateMsgs.CONNECTED) {
           relayStatus.connected = ClientConneccted.CONNECTED;
           if (relayStatusCallback != null) {
             relayStatusCallback!();
           }
           _relayConnectComplete(true);
-        } else if (message == RelayIsolateMsgs.disconnected) {
+        } else if (message == RelayIsolateMsgs.DIS_CONNECTED) {
           onError("Websocket error $url", reconnect: true);
           _relayConnectComplete(false);
         }
       } else if (message is List && onMessage != null) {
-        log(
-          "Received message from $url.\n\n${message.toString()}",
-          level: Level.FINEST.value,
-          name: "RelayIsolate",
-        );
         onMessage!(this, message);
       } else if (message is SendPort) {
         mainToSubSendPort = message;
@@ -166,15 +154,11 @@ class RelayIsolateConfig {
 }
 
 class RelayIsolateMsgs {
-  /// Message for opening a connection.
-  static const int connect = 1;
+  static const int CONNECT = 1;
 
-  /// Message for closing a connection.
-  static const int disconnect = 2;
+  static const int DIS_CONNECT = 2;
 
-  /// Message that signals that a connection is open.
-  static const int connected = 101;
+  static const int CONNECTED = 101;
 
-  /// Message that signals that a connection is closed.
-  static const int disconnected = 102;
+  static const int DIS_CONNECTED = 102;
 }

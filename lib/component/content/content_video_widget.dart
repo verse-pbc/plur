@@ -11,9 +11,9 @@ import 'package:widget_size/widget_size.dart';
 import '../../consts/base64.dart';
 
 class ContentVideoWidget extends StatefulWidget {
-  String url;
+  final String url;
 
-  ContentVideoWidget({super.key, required this.url});
+  const ContentVideoWidget({super.key, required this.url});
 
   @override
   State<StatefulWidget> createState() {
