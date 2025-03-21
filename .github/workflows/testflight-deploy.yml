@@ -1,9 +1,13 @@
 name: TestFlight Release Deployment
 permissions:
   contents: write  # This is needed for tag pushing
+
 on:
   # Enable manual run
   workflow_dispatch:
+  # Scheduled build at midnight UTC
+  schedule:
+    - cron: '0 0 * * *'
 
 concurrency:
   group: ${{ github.workflow }}
