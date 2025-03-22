@@ -65,9 +65,9 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
     }));
 
     list.add(
-        Selector<GroupProvider, GroupAdmins?>(builder: (context, value, child) {
-      if (value == null || value.contains(nostr!.publicKey) == null) {
-        return Container();
+        Selector<GroupProvider, GroupAdmins?>(builder: (context, admins, child) {
+      if (admins == null || !admins.containsUser(nostr!.publicKey)) {
+        return const SizedBox.shrink();
       }
 
       return GestureDetector(

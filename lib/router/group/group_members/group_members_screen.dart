@@ -47,7 +47,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
       // Create a list of member data to sort
       var membersList = groupMembers.members!.map((pubkey) {
         final metadata = metadataProvider.getMetadata(pubkey);
-        final isAdmin = groupAdmins?.contains(pubkey) != null;
+        final isAdmin = groupAdmins?.containsUser(pubkey) ?? false;
         return (pubkey: pubkey, metadata: metadata, isAdmin: isAdmin);
       }).toList();
 
