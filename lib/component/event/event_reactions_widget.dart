@@ -236,8 +236,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               var pubkey = nostr!.publicKey;
               if ((!isGroupEvent && widget.event.pubkey == pubkey) ||
                   (isGroupEvent &&
-                      groupAdmins != null &&
-                      groupAdmins.contains(pubkey) != null)) {
+                      (groupAdmins?.containsUser(pubkey) ?? false))) {
                 list.add(const PopupMenuDivider());
                 list.add(PopupMenuItem(
                   value: "delete",
