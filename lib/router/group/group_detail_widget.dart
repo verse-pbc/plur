@@ -113,7 +113,11 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             icon: const Icon(Icons.person_add),
             tooltip: 'Invite to Community',
             onPressed: () {
-              InviteToCommunityDialog.show(context, groupIdentifier!, listProvider);
+              InviteToCommunityDialog.show(
+                context: context,
+                groupIdentifier: groupIdentifier!,
+                listProvider: listProvider,
+              );
             },
           ),
         IconButton(
