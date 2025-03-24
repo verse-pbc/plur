@@ -1,14 +1,14 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../consts/base.dart';
 import '../generated/l10n.dart';
 
 class EmojiPickerWidget extends StatefulWidget {
-  Function(String) onEmojiPick;
+  final Function(String) onEmojiPick;
 
-  EmojiPickerWidget(this.onEmojiPick, {super.key});
+  const EmojiPickerWidget(this.onEmojiPick, {super.key});
 
   @override
   State<StatefulWidget> createState() {

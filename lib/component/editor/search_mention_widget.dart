@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../generated/l10n.dart';
 
@@ -10,11 +10,11 @@ typedef ResultBuildFunc = Widget Function();
 typedef HandleSearchFunc = void Function(String);
 
 class SearchMentionWidget extends StatefulWidget {
-  ResultBuildFunc resultBuildFunc;
+  final ResultBuildFunc resultBuildFunc;
 
-  HandleSearchFunc handleSearchFunc;
+  final HandleSearchFunc handleSearchFunc;
 
-  SearchMentionWidget({
+  const SearchMentionWidget({
     super.key,
     required this.resultBuildFunc,
     required this.handleSearchFunc,

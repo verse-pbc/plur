@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/confirm_dialog.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
@@ -9,9 +9,9 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
 class ContentRelayWidget extends StatelessWidget {
-  String addr;
+  final String addr;
 
-  ContentRelayWidget(this.addr, {super.key});
+  const ContentRelayWidget(this.addr, {super.key});
 
   @override
   Widget build(BuildContext context) {

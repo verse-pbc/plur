@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
@@ -44,9 +44,9 @@ class ZapGoalInputController {
 }
 
 class ZapGoalInputWidget extends StatefulWidget {
-  ZapGoalInputController zapGoalInputController;
+  final ZapGoalInputController zapGoalInputController;
 
-  ZapGoalInputWidget({super.key, required this.zapGoalInputController});
+  const ZapGoalInputWidget({super.key, required this.zapGoalInputController});
 
   @override
   State<StatefulWidget> createState() {

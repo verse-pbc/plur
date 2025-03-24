@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event/event_id_router_widget.dart';
 
 import '../consts/router_path.dart';
@@ -17,14 +17,14 @@ class LinkRouterUtil {
     var key = link.replaceFirst("nostr:", "");
 
     if (Nip19.isPubkey(key)) {
-      if (key.length > NPUB_LENGTH) {
-        key = key.substring(0, NPUB_LENGTH);
+      if (key.length > npubLength) {
+        key = key.substring(0, npubLength);
       }
       key = Nip19.decode(key);
       RouterUtil.router(context, RouterPath.USER, key);
     } else if (Nip19.isNoteId(key)) {
-      if (key.length > NOTEID_LENGTH) {
-        key = key.substring(0, NOTEID_LENGTH);
+      if (key.length > noteIdLength) {
+        key = key.substring(0, noteIdLength);
       }
       key = Nip19.decode(key);
       RouterUtil.router(context, RouterPath.THREAD_TRACE, key);

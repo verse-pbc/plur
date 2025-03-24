@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_cache_manager/src/web/file_service.dart';
 import 'package:http/http.dart' as http;
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/util/hash_util.dart';
 

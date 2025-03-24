@@ -9,13 +9,13 @@ import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/util/hash_util.dart';
 
 class ContentMusicWidget extends StatefulWidget {
-  String? eventId;
+  final String? eventId;
 
-  String content;
+  final String content;
 
-  MusicInfoBuilder musicInfoBuilder;
+  final MusicInfoBuilder musicInfoBuilder;
 
-  ContentMusicWidget(this.eventId, this.content, this.musicInfoBuilder, {super.key});
+  const ContentMusicWidget(this.eventId, this.content, this.musicInfoBuilder, {super.key});
 
   @override
   State<StatefulWidget> createState() {

@@ -322,5 +322,25 @@
     "Member": "Member",
     "group": "group",
     "Group_Info": "Group Info",
-    "Your_Groups": "Your Groups"
+    "Your_Groups": "Your Groups",
+    "Admin": "Admin",
+    "All_media_public": "All media is publicly accessible to anyone with the URL.",
+    "Closed_group": "Closed group",
+    "Open_group": "Open group",
+    "Group_member": "{number} Member",
+    "@group_member": {
+      "placeholders": {
+        "number": {
+          "type": "int"
+        }
+      }
+    },
+    "Group_members": "{number} Members",
+    "@group_members": {
+      "placeholders": {
+        "number": {
+          "type": "int"
+        }
+      }
+    }
 }

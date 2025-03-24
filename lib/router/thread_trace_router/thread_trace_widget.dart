@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/router/thread_trace_router/event_trace_info.dart';
@@ -131,8 +131,8 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
       var totalLevelNum = item.totalLevelNum;
       var needWidth = (totalLevelNum - 1) *
               (Base.basePadding +
-                  ThreadDetailItemMainWidget.BORDER_LEFT_WIDTH) +
-          ThreadDetailItemMainWidget.EVENT_MAIN_MIN_WIDTH;
+                  ThreadDetailItemMainWidget.borderLeftWidth) +
+          ThreadDetailItemMainWidget.eventMainMinWidth;
       if (needWidth > mediaDataCache.size.width) {
         mainList.add(SingleChildScrollView(
           scrollDirection: Axis.horizontal,

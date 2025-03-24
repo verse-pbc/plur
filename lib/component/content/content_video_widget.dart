@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:media_kit_video/media_kit_video.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/util/store_util.dart';
 import 'package:widget_size/widget_size.dart';
@@ -11,9 +11,9 @@ import 'package:widget_size/widget_size.dart';
 import '../../consts/base64.dart';
 
 class ContentVideoWidget extends StatefulWidget {
-  String url;
+  final String url;
 
-  ContentVideoWidget({super.key, required this.url});
+  const ContentVideoWidget({super.key, required this.url});
 
   @override
   State<StatefulWidget> createState() {
