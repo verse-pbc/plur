@@ -1,78 +1,112 @@
+import 'dart:developer';
+
+import 'package:logging/logging.dart';
+
 import '../event_kind.dart';
 import 'relay_local_db.dart';
 
+/// Adds functions capable of handling COUNT, REQ and EVENT requests.
 mixin RelayLocalMixin {
-  RelayLocalDB getRelayLocalDB();
-
+  /// Callback function used for returning results.
+  ///
+  /// [connId]: Connection ID, might be used to identify the source of the
+  /// callback.
+  /// [message]: List of messages that are being returned as response.
   void callback(String? connId, List<dynamic> list);
 
-  void doEvent(String? connId, List message) {
-    var event = message[1];
-    var id = event["id"];
-    var eventKind = event["kind"];
-    var pubkey = event["pubkey"];
+  /// Processes a COUNT message.
+  ///
+  /// [connId]: Connection ID, might be used to identify the source of the
+  /// callback.
+  /// [message]: List of messages that are being sent to the relay.
+  Future<void> doCount(String? connId, List message) async {
+    if (message.length < 3) {
+      return;
+    }
+    final subscriptionId = message[1];
+    final filter = message[2];
+    log(
+      "Processing COUNT $subscriptionId...\n\n${message.toString()}",
+      level: Level.FINEST.value,
+      name: "RelayLocal",
+    );
+    final count = await getRelayLocalDB().doQueryCount(filter);
+    final result = {"count", count};
+    callback(connId, ["COUNT", subscriptionId, result]);
+  }
 
-    if (eventKind == EventKind.EVENT_DELETION) {
-      var tags = event["tags"];
-      if (tags is List && tags.isNotEmpty) {
-        for (var tag in tags) {
-          if (tag is List && tag.isNotEmpty && tag.length > 1) {
-            var k = tag[0];
-            var v = tag[1];
-            if (k == "e") {
-              getRelayLocalDB().deleteEvent(pubkey, v);
-            } else if (k == "a") {
-              // TODO should add support delete by aid
+  /// Processes an EVENT message.
+  ///
+  /// [connId]: Connection ID, might be used to identify the source of the
+  /// callback.
+  /// [message]: List of messages that are being sent to the relay.
+  void doEvent(String? connId, List message) {
+    if (message.length < 2) {
+      return;
+    }
+    final event = message[1];
+    final id = event["id"];
+    final eventKind = event["kind"];
+    final pubkey = event["pubkey"];
+    log(
+      "Processing EVENT of kind $eventKind...\n\n${message.toString()}",
+      level: Level.FINEST.value,
+      name: "RelayLocal",
+    );
+    switch (eventKind) {
+      case EventKind.EVENT_DELETION:
+        final tags = event["tags"];
+        if (tags is List && tags.isNotEmpty) {
+          for (var tag in tags) {
+            if (tag is List && tag.isNotEmpty && tag.length > 1) {
+              final k = tag[0];
+              final v = tag[1];
+              if (k == "e") {
+                getRelayLocalDB().deleteEvent(pubkey, v);
+              } else if (k == "a") {
+                // TODO should add support delete by aid
+              }
             }
           }
         }
-      }
-    } else {
-      if (eventKind == EventKind.METADATA ||
-          eventKind == EventKind.CONTACT_LIST) {
-        // these eventkind can only save 1 event, so delete other event first.
+      case EventKind.METADATA:
+      case EventKind.CONTACT_LIST:
+        // These eventkinds can only save 1 event, so delete other event first.
         getRelayLocalDB().deleteEventByKind(pubkey, eventKind);
-      }
-
-      // maybe it shouldn't insert here, due to it doesn't had a source.
-      getRelayLocalDB().addEvent(event);
+        continue addEvent;
+      addEvent:
+      default:
+        // maybe it shouldn't insert here, due to it doesn't had a source.
+        getRelayLocalDB().addEvent(event);
     }
-
-    // send callback
     callback(connId, ["OK", id, true]);
   }
 
+  /// Processes a REQ message.
+  ///
+  /// [connId]: Connection ID, might be used to identify the source of the
+  /// callback.
+  /// [message]: List of messages that are being sent to the relay.
   Future<void> doReq(String? connId, List message) async {
-    if (message.length > 2) {
-      var subscriptionId = message[1];
-
-      for (var i = 2; i < message.length; i++) {
-        var filter = message[i];
-
-        var events = await getRelayLocalDB().doQueryEvent(filter);
-        for (var event in events) {
-          // send callback
-          callback(connId, ["EVENT", subscriptionId, event]);
-        }
+    if (message.length < 3) {
+      return;
+    }
+    final subscriptionId = message[1];
+    log(
+      "Processing REQ $subscriptionId...\n\n${message.toString()}",
+      level: Level.FINEST.value,
+      name: "RelayLocal",
+    );
+    for (var i = 2; i < message.length; i++) {
+      final filter = message[i];
+      final events = await getRelayLocalDB().doQueryEvent(filter);
+      for (var event in events) {
+        callback(connId, ["EVENT", subscriptionId, event]);
       }
-
-      // query complete, send callback
-      callback(connId, ["EOSE", subscriptionId]);
     }
+    callback(connId, ["EOSE", subscriptionId]);
   }
 
-  Future<void> doCount(String? connId, List message) async {
-    if (message.length > 2) {
-      var subscriptionId = message[1];
-      var filter = message[2];
-      var count = await getRelayLocalDB().doQueryCount(filter);
-
-      // send callback
-      callback(connId, [
-        "COUNT",
-        subscriptionId,
-        {"count": count}
-      ]);
-    }
-  }
+  /// Returns a [RelayLocalDB] instance.
+  RelayLocalDB getRelayLocalDB();
 }
