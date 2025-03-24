@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -7,11 +7,11 @@ import 'package:flutter_seekbar/flutter_seekbar.dart';
 
 
 class ZapSplitInputItemWidget extends StatefulWidget {
-  EventZapInfo eventZapInfo;
+  final EventZapInfo eventZapInfo;
 
-  Function recountWeightAndRefresh;
+  final Function recountWeightAndRefresh;
 
-  ZapSplitInputItemWidget(this.eventZapInfo, this.recountWeightAndRefresh, {super.key});
+  const ZapSplitInputItemWidget(this.eventZapInfo, this.recountWeightAndRefresh, {super.key});
 
   @override
   State<StatefulWidget> createState() {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/zap_split_input_item_widget.dart';
 import 'package:nostrmo/component/user/metadata_top_widget.dart';
 import 'package:nostrmo/main.dart';
@@ -11,9 +11,9 @@ import 'search_mention_user_widget.dart';
 import 'text_input_and_search_dialog.dart';
 
 class ZapSplitInputWidget extends StatefulWidget {
-  List<EventZapInfo> eventZapInfos;
+  final List<EventZapInfo> eventZapInfos;
 
-  ZapSplitInputWidget(
+  const ZapSplitInputWidget(
     this.eventZapInfos, {super.key}
   );
 

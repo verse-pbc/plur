@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/blurhash_image_component/blurhash_image_widget.dart'
     if (dart.library.io) 'package:nostrmo/component/blurhash_image_component/blurhash_image_component_io.dart'
     if (dart.library.js) 'package:nostrmo/component/blurhash_image_component/blurhash_image_component_web.dart';
@@ -14,21 +14,21 @@ import '../image_widget.dart';
 import '../image_preview_dialog.dart';
 
 class ContentImageWidget extends StatefulWidget {
-  String imageUrl;
+  final String imageUrl;
 
-  List<String>? imageList;
+  final List<String>? imageList;
 
-  int imageIndex;
+  final int imageIndex;
 
-  double? width;
+  final double? width;
 
-  double? height;
+  final double? height;
 
-  BoxFit imageBoxFix;
+  final BoxFit imageBoxFix;
 
-  FileMetadata? fileMetadata;
+  final FileMetadata? fileMetadata;
 
-  ContentImageWidget({super.key,
+  const ContentImageWidget({super.key,
     required this.imageUrl,
     this.imageList,
     this.imageIndex = 0,
@@ -90,12 +90,13 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
   }
 
   void previewImages(context) {
-    if (widget.imageList == null || widget.imageList!.isEmpty) {
-      widget.imageList = [widget.imageUrl];
+    List<String> imageList = widget.imageList ?? [];
+    if (imageList.isEmpty) {
+      imageList = [widget.imageUrl];
     }
 
     List<ImageProvider> imageProviders = [];
-    for (var imageUrl in widget.imageList!) {
+    for (var imageUrl in imageList) {
       imageProviders.add(CachedNetworkImageProvider(imageUrl));
     }
 

@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_video_widget.dart';
 import 'package:nostrmo/component/content/markdown/markdown_mention_event_element_builder.dart';
 import 'package:nostrmo/component/event/event_torrent_widget.dart';
@@ -44,37 +44,37 @@ import 'event_reactions_widget.dart';
 import 'event_top_widget.dart';
 
 class EventMainWidget extends StatefulWidget {
-  ScreenshotController screenshotController;
+  final ScreenshotController screenshotController;
 
-  Event event;
+  final Event event;
 
-  String? pagePubkey;
+  final String? pagePubkey;
 
-  bool showReplying;
+  final bool showReplying;
 
-  Function? textOnTap;
+  final Function? textOnTap;
 
-  bool showVideo;
+  final bool showVideo;
 
-  bool imageListMode;
+  final bool imageListMode;
 
-  bool showDetailBtn;
+  final bool showDetailBtn;
 
-  bool showLongContent;
+  final bool showLongContent;
 
-  bool showSubject;
+  final bool showSubject;
 
-  bool showCommunity;
+  final bool showCommunity;
 
-  EventRelation? eventRelation;
+  final EventRelation? eventRelation;
 
-  bool showLinkedLongForm;
+  final bool showLinkedLongForm;
 
-  bool inQuote;
+  final bool inQuote;
 
-  bool traceMode;
+  final bool traceMode;
 
-  EventMainWidget({
+  const EventMainWidget({
     super.key,
     required this.screenshotController,
     required this.event,
@@ -128,7 +128,6 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     }
   }
 
-  @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
     var settingsProvider = Provider.of<SettingsProvider>(context);
@@ -855,7 +854,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               ),
             );
           },
-          selector: (BuildContext, provider) {
+          selector: (buildContext, provider) {
             return provider.getMetadata(zapInfo.pubkey);
           },
         ),

@@ -8,13 +8,13 @@ import '../generated/l10n.dart';
 import '../util/router_util.dart';
 
 class DatetimePickerWidget extends StatefulWidget {
-  DateTime? dateTime;
+  final DateTime? dateTime;
 
-  bool showDate;
+  final bool showDate;
 
-  bool showHour;
+  final bool showHour;
 
-  DatetimePickerWidget({
+  const DatetimePickerWidget({
     super.key,
     this.dateTime,
     required this.showDate,

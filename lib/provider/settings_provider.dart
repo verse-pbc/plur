@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/encrypt_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';

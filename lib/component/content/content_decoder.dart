@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_event_tag_infos.dart';
 
 import '../../consts/base.dart';
@@ -17,25 +17,25 @@ import 'content_tag_widget.dart';
 import 'content_video_widget.dart';
 
 class ContentDecoder {
-  static const OTHER_LIGHTNING = "lightning=";
+  static const otherLightning = "lightning=";
 
-  static const LIGHTNING = "lightning:";
+  static const lightning = "lightning:";
 
-  static const LNBC = "lnbc";
+  static const lnbc = "lnbc";
 
-  static const NOTE_REFERENCES = "nostr:";
+  static const noteReferences = "nostr:";
 
-  static const NOTE_REFERENCES_AT = "@nostr:";
+  static const noteReferencesAt = "@nostr:";
 
-  static const MENTION_USER = "@npub";
+  static const mentionUser = "@npub";
 
-  static const MENTION_NOTE = "@note";
+  static const mentionNote = "@note";
 
-  static const LNBC_NUM_END = "1p";
+  static const lnbcNumEnd = "1p";
 
-  static const int NPUB_LENGTH = 63;
+  static const int npubLength = 63;
 
-  static const int NOTEID_LENGTH = 63;
+  static const int noteidLength = 63;
 
   static String _addToHandledStr(String handledStr, String subStr) {
     if (StringUtil.isBlank(handledStr)) {
@@ -228,28 +228,28 @@ class ContentDecoder {
               list.add(w);
             }
           }
-        } else if (subStr.indexOf(NOTE_REFERENCES) == 0 ||
-            subStr.indexOf(NOTE_REFERENCES_AT) == 0) {
-          var key = subStr.replaceFirst(NOTE_REFERENCES_AT, "");
-          key = key.replaceFirst(NOTE_REFERENCES, "");
+        } else if (subStr.indexOf(noteReferences) == 0 ||
+            subStr.indexOf(noteReferencesAt) == 0) {
+          var key = subStr.replaceFirst(noteReferencesAt, "");
+          key = key.replaceFirst(noteReferences, "");
 
           String? otherStr;
 
           if (Nip19.isPubkey(key)) {
             // inline
             // mention user
-            if (key.length > NPUB_LENGTH) {
-              otherStr = key.substring(NPUB_LENGTH);
-              key = key.substring(0, NPUB_LENGTH);
+            if (key.length > npubLength) {
+              otherStr = key.substring(npubLength);
+              key = key.substring(0, npubLength);
             }
             key = Nip19.decode(key);
             handledStr = _closeHandledStr(handledStr, inlines);
             inlines.add(ContentMentionUserWidget(pubkey: key));
           } else if (Nip19.isNoteId(key)) {
             // block
-            if (key.length > NOTEID_LENGTH) {
-              otherStr = key.substring(NOTEID_LENGTH);
-              key = key.substring(0, NOTEID_LENGTH);
+            if (key.length > noteidLength) {
+              otherStr = key.substring(noteidLength);
+              key = key.substring(0, noteidLength);
             }
             key = Nip19.decode(key);
             handledStr = _closeHandledStr(handledStr, inlines);
@@ -331,14 +331,14 @@ class ContentDecoder {
           if (StringUtil.isNotBlank(otherStr)) {
             handledStr = _addToHandledStr(handledStr, otherStr!);
           }
-        } else if (subStr.indexOf(MENTION_USER) == 0) {
+        } else if (subStr.indexOf(mentionUser) == 0) {
           var key = subStr.replaceFirst("@", "");
           // inline
           // mention user
           key = Nip19.decode(key);
           handledStr = _closeHandledStr(handledStr, inlines);
           inlines.add(ContentMentionUserWidget(pubkey: key));
-        } else if (subStr.indexOf(MENTION_NOTE) == 0) {
+        } else if (subStr.indexOf(mentionNote) == 0) {
           var key = subStr.replaceFirst("@", "");
           // block
           key = Nip19.decode(key);
@@ -349,19 +349,19 @@ class ContentDecoder {
             showVideo: showVideo,
           );
           list.add(widget);
-        } else if (subStr.indexOf(LNBC) == 0) {
+        } else if (subStr.indexOf(lnbc) == 0) {
           // block
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
           var w = ContentLnbcWidget(lnbc: subStr);
           list.add(w);
-        } else if (subStr.indexOf(LIGHTNING) == 0) {
+        } else if (subStr.indexOf(lightning) == 0) {
           // block
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
           var w = ContentLnbcWidget(lnbc: subStr);
           list.add(w);
-        } else if (subStr.contains(OTHER_LIGHTNING)) {
+        } else if (subStr.contains(otherLightning)) {
           // block
           handledStr = _closeHandledStr(handledStr, inlines);
           _closeInlines(inlines, list, textOnTap: textOnTap);
@@ -465,14 +465,14 @@ class ContentDecoder {
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
             margin: const EdgeInsets.only(right: Base.basePaddingHalf),
-            width: CONTENT_IMAGE_LIST_HEIGHT,
-            height: CONTENT_IMAGE_LIST_HEIGHT,
+            width: contentImageListHeight,
+            height: contentImageListHeight,
             child: ContentImageWidget(
               imageUrl: image,
               imageList: imageList,
               imageIndex: index,
-              height: CONTENT_IMAGE_LIST_HEIGHT,
-              width: CONTENT_IMAGE_LIST_HEIGHT,
+              height: contentImageListHeight,
+              width: contentImageListHeight,
               // imageBoxFix: BoxFit.fitWidth,
             ),
           ),
@@ -481,7 +481,7 @@ class ContentDecoder {
       }
 
       list.add(SizedBox(
-        height: CONTENT_IMAGE_LIST_HEIGHT,
+        height: contentImageListHeight,
         width: double.infinity,
         child: CustomScrollView(
           slivers: imageWidgetList,
@@ -493,7 +493,7 @@ class ContentDecoder {
     return list;
   }
 
-  static const double CONTENT_IMAGE_LIST_HEIGHT = 90;
+  static const double contentImageListHeight = 90;
 }
 
 class ContentDecoderInfo {

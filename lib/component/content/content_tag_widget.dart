@@ -5,9 +5,9 @@ import 'package:nostrmo/util/router_util.dart';
 import 'content_str_link_widget.dart';
 
 class ContentTagWidget extends StatelessWidget {
-  String tag;
+  final String tag;
 
-  ContentTagWidget({super.key, required this.tag});
+  const ContentTagWidget({super.key, required this.tag});
 
   @override
   Widget build(BuildContext context) {
