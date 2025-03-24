@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
-import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../event.dart';
 import '../relay/event_filter.dart';
@@ -13,7 +13,7 @@ import '../utils/platform_util.dart';
 import '../utils/string_util.dart';
 
 class RelayLocalDB with LaterFunction {
-  static const _VERSION = 2;
+  static const _version = 2;
 
   static const _dbName = "local_relay.db";
 
@@ -30,7 +30,7 @@ class RelayLocalDB with LaterFunction {
     var path = await getFilepath();
 
     var database = await openDatabase(path,
-        version: _VERSION, onCreate: _onCreate, onUpgrade: onUpgrade);
+        version: _version, onCreate: _onCreate, onUpgrade: onUpgrade);
 
     return RelayLocalDB._(database);
   }
@@ -90,11 +90,6 @@ class RelayLocalDB with LaterFunction {
           "CREATE INDEX IF NOT EXISTS kindpubtimeidx ON event(kind,pubkey,created_at DESC)");
       log("onUpgrade complete! ${DateTime.now().toLocal()}");
     }
-  }
-
-  List<Event> _loadEventFromRawEvents(List<Map<String, Object?>> rawEvents) {
-    rawEvents = _handleEventMaps(rawEvents);
-    return loadEventFromMaps(rawEvents);
   }
 
   List<Event> loadEventFromMaps(List<Map<String, Object?>> rawEvents,
@@ -399,20 +394,6 @@ class RelayLocalDB with LaterFunction {
     }
 
     return events;
-  }
-
-  Map<String, Object?> _handleEventMap(Map<String, Object?> rawEvent) {
-    var event = Map<String, Object?>.from(rawEvent);
-    var tagsStr = rawEvent["tags"];
-    if (tagsStr is String) {
-      event["tags"] = jsonDecode(tagsStr);
-    }
-    var sourcesStr = rawEvent["sources"];
-    if (sourcesStr != null) {
-      event["sources"] = jsonDecode(sourcesStr as String);
-    }
-
-    return event;
   }
 
   Future<int?> allDataCount() async {
