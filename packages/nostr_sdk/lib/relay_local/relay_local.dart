@@ -7,7 +7,7 @@ import 'relay_local_db.dart';
 import 'relay_local_mixin.dart';
 
 class RelayLocal extends Relay with RelayLocalMixin {
-  static const URL = "Local Relay";
+  static const localUrl = "Local Relay";
 
   RelayLocalDB relayLocalDB;
 

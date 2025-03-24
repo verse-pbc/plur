@@ -171,9 +171,9 @@ class RelayProvider extends ChangeNotifier {
     // add local relay
     if (relayLocalDB != null &&
         settingsProvider.relayLocal != OpenStatus.CLOSE) {
-      relayStatusLocal = RelayStatus(RelayLocal.URL);
+      relayStatusLocal = RelayStatus(RelayLocal.localUrl);
       var relayLocal =
-          RelayLocal(RelayLocal.URL, relayStatusLocal!, relayLocalDB!)
+          RelayLocal(RelayLocal.localUrl, relayStatusLocal!, relayLocalDB!)
             ..relayStatusCallback = onRelayStatusChange;
       nostr.addRelay(relayLocal, init: true);
     }
