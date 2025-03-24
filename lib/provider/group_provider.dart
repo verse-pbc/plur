@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
-import 'package:sentry_flutter/sentry_flutter.dart'; 
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, GroupMetadata> groupMetadatas = {};
@@ -174,13 +174,17 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   void onEvent(GroupIdentifier groupIdentifier, Event e) {
     bool updated = false;
     if (e.kind == EventKind.GROUP_METADATA) {
-      updated = handleEvent(groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
+      updated = handleEvent(
+          groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_ADMINS) {
-      updated = handleEvent(groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
+      updated = handleEvent(
+          groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_MEMBERS) {
-      updated = handleEvent(groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
+      updated = handleEvent(
+          groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {
-      updated = handleEvent(groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
+      updated = handleEvent(
+          groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     }
 
     if (updated) {
@@ -188,9 +192,10 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     }
   }
 
-  /// Updates the given Map with the new data contained in groupIdentifier and 
+  /// Updates the given Map with the new data contained in groupIdentifier and
   /// groupObject with some validation to filter out bad data.
-  bool handleEvent(Map map, GroupIdentifier groupIdentifier, GroupObject? groupObject) {
+  bool handleEvent(
+      Map map, GroupIdentifier groupIdentifier, GroupObject? groupObject) {
     var key = groupIdentifier.toString();
     if (groupObject == null) {
       return false;

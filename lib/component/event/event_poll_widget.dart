@@ -2,7 +2,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -17,9 +17,9 @@ import '../../util/zap_action.dart';
 import '../editor/text_input_dialog.dart';
 
 class EventPollWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  EventPollWidget({super.key, required this.event});
+  const EventPollWidget({super.key, required this.event});
 
   @override
   State<StatefulWidget> createState() {

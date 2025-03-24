@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../component/event/event_bitcoin_icon_widget.dart';
 import '../../consts/base.dart';
@@ -7,15 +7,15 @@ import 'thread_detail_event.dart';
 import 'thread_detail_event_main_widget.dart';
 
 class ThreadDetailItemWidget extends StatefulWidget {
-  double totalMaxWidth;
+  final double totalMaxWidth;
 
-  ThreadDetailEvent item;
+  final ThreadDetailEvent item;
 
-  String sourceEventId;
+  final String sourceEventId;
 
-  GlobalKey sourceEventKey;
+  final GlobalKey sourceEventKey;
 
-  ThreadDetailItemWidget({
+  const ThreadDetailItemWidget({
     super.key,
     required this.item,
     required this.totalMaxWidth,

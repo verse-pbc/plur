@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
@@ -62,9 +62,9 @@ class PollInputController {
 }
 
 class PollInputWidget extends StatefulWidget {
-  PollInputController pollInputController;
+  final PollInputController pollInputController;
 
-  PollInputWidget({super.key, required this.pollInputController});
+  const PollInputWidget({super.key, required this.pollInputController});
 
   @override
   State<StatefulWidget> createState() {

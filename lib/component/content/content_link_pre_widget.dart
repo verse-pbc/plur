@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_image_widget.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/link_preview_data_provider.dart';
@@ -11,9 +11,9 @@ import '../../consts/base.dart';
 import '../link_router_util.dart';
 
 class ContentLinkPreWidget extends StatefulWidget {
-  String link;
+  final String link;
 
-  ContentLinkPreWidget({super.key, required this.link});
+  const ContentLinkPreWidget({super.key, required this.link});
 
   @override
   State<StatefulWidget> createState() {

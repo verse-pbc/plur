@@ -1,4 +1,4 @@
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 class EventTraceInfo {
   Event event;

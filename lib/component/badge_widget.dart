@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 import 'image_widget.dart';
 
 class BadgeWidget extends StatelessWidget {
-  static const double IMAGE_WIDTH = 28;
+  static const double imageWidth = 28;
 
-  BadgeDefinition badgeDefinition;
+  final BadgeDefinition badgeDefinition;
 
-  BadgeWidget({super.key, 
+  const BadgeWidget({super.key, 
     required this.badgeDefinition,
   });
 
@@ -24,8 +24,8 @@ class BadgeWidget extends StatelessWidget {
     if (StringUtil.isNotBlank(imagePath)) {
       imageWidget = ImageWidget(
         imageUrl: imagePath!,
-        width: IMAGE_WIDTH,
-        height: IMAGE_WIDTH,
+        width: imageWidth,
+        height: imageWidth,
         fit: BoxFit.cover,
         placeholder: (context, url) => const CircularProgressIndicator(),
       );
@@ -33,11 +33,11 @@ class BadgeWidget extends StatelessWidget {
 
     var main = Container(
       alignment: Alignment.center,
-      height: IMAGE_WIDTH,
-      width: IMAGE_WIDTH,
+      height: imageWidth,
+      width: imageWidth,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(IMAGE_WIDTH / 2),
+        borderRadius: BorderRadius.circular(imageWidth / 2),
         color: themeData.hintColor,
       ),
       child: imageWidget,

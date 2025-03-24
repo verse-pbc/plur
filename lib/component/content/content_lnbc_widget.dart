@@ -1,15 +1,15 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/lightning_util.dart';
 
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 
 class ContentLnbcWidget extends StatelessWidget {
-  String lnbc;
+  final String lnbc;
 
-  ContentLnbcWidget({super.key, required this.lnbc});
+  const ContentLnbcWidget({super.key, required this.lnbc});
 
   @override
   Widget build(BuildContext context) {

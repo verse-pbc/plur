@@ -2,7 +2,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:convert/convert.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/contact_list_provider.dart';
@@ -20,9 +20,9 @@ import '../../util/number_format_util.dart';
 import '../../util/router_util.dart';
 
 class UserStatisticsWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  UserStatisticsWidget({super.key, required this.pubkey});
+  const UserStatisticsWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
@@ -407,19 +407,19 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 }
 
 class UserStatisticsItemWidget extends StatelessWidget {
-  int? num;
+  final int? num;
 
-  String name;
+  final String name;
 
-  Function onTap;
+  final Function onTap;
 
-  bool formatNum;
+  final bool formatNum;
 
-  Function(LongPressStartDetails)? onLongPressStart;
+  final Function(LongPressStartDetails)? onLongPressStart;
 
-  Function(LongPressEndDetails)? onLongPressEnd;
+  final Function(LongPressEndDetails)? onLongPressEnd;
 
-  UserStatisticsItemWidget({super.key, 
+  const UserStatisticsItemWidget({super.key, 
     required this.num,
     required this.name,
     required this.onTap,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 
@@ -9,9 +9,9 @@ import '../util/theme_util.dart';
 import 'badge_detail_widget.dart';
 
 class BadgeDetailDialog extends StatefulWidget {
-  BadgeDefinition badgeDefinition;
+  final BadgeDefinition badgeDefinition;
 
-  BadgeDetailDialog({
+  const BadgeDetailDialog({
     super.key,
     required this.badgeDefinition,
   });

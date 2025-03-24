@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:nostrmo/router/relays/relay_speed_widget.dart';
@@ -84,13 +84,13 @@ class _UserRelayWidgetState extends State<UserRelayWidget> {
 }
 
 class RelayMetadataWidget extends StatelessWidget {
-  RelayMetadata? relayMetadata;
+  final RelayMetadata? relayMetadata;
 
-  String? addr;
+  final String? addr;
 
-  bool addAble;
+  final bool addAble;
 
-  RelayMetadataWidget({super.key, this.relayMetadata, this.addr, this.addAble = true})
+  const RelayMetadataWidget({super.key, this.relayMetadata, this.addr, this.addAble = true})
       : assert(relayMetadata != null || addr != null);
 
   @override
