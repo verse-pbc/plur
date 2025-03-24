@@ -4,31 +4,53 @@ import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
+import 'package:nostrmo/provider/list_provider.dart';
 
-class InviteToCommunityDialog extends StatelessWidget {
+class InviteToCommunityDialog extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
-  final String inviteCode;
+  final ListProvider listProvider;
 
-  InviteToCommunityDialog({super.key, required this.groupIdentifier})
-      : inviteCode = StringCodeGenerator.generateInviteCode();
+  const InviteToCommunityDialog({
+    super.key,
+    required this.groupIdentifier,
+    required this.listProvider,
+  });
 
-  static Future<void> show(
-      BuildContext context, GroupIdentifier groupIdentifier) async {
+  static Future<void> show(BuildContext context,
+      GroupIdentifier groupIdentifier, ListProvider listProvider) async {
     await showDialog<void>(
       context: context,
       useRootNavigator: false,
       builder: (_) {
-        return InviteToCommunityDialog(groupIdentifier: groupIdentifier);
+        return InviteToCommunityDialog(
+          groupIdentifier: groupIdentifier,
+          listProvider: listProvider,
+        );
       },
     );
+  }
+
+  @override
+  State<InviteToCommunityDialog> createState() =>
+      _InviteToCommunityDialogState();
+}
+
+class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
+  late final String inviteCode;
+  late final String inviteLink;
+
+  @override
+  void initState() {
+    super.initState();
+    inviteCode = StringCodeGenerator.generateInviteCode();
+    inviteLink = widget.listProvider
+        .createInviteLink(widget.groupIdentifier, inviteCode);
   }
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
-    final inviteLink =
-        'plur://join-community?group-id=${groupIdentifier.groupId}&code=$inviteCode';
 
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
@@ -64,7 +86,7 @@ class InviteToCommunityDialog extends StatelessWidget {
                         ),
                       ),
                       InvitePeopleWidget(
-                          groupIdentifier: groupIdentifier,
+                          groupIdentifier: widget.groupIdentifier,
                           shareableLink: inviteLink,
                           showCreatePostButton: false),
                     ],
