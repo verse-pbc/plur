@@ -99,8 +99,13 @@ mixin RelayLocalMixin {
     );
     for (var i = 2; i < message.length; i++) {
       final filter = message[i];
-      final events = await getRelayLocalDB().doQueryEvent(filter);
+      final events = await getRelayLocalDB().doQueryEvent(filter); 
       for (var event in events) {
+        log(
+          "Processed REQ $subscriptionId\n\n${event.toString()}",
+          level: Level.FINEST.value,
+          name: "RelayLocal",
+        );
         callback(connId, ["EVENT", subscriptionId, event]);
       }
     }
