@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/util/duration_tool.dart';

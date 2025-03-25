@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/metadata_top_widget.dart';
 import 'package:nostrmo/data/event_find_util.dart';
 import 'package:nostrmo/data/metadata.dart';

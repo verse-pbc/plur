@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:nostrmo/router/relays/relay_speed_widget.dart';
