@@ -7,7 +7,7 @@ import 'package:nostrmo/util/string_code_generator.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 
 class InviteToCommunityDialog extends StatefulWidget {
-  final GroupIdentifier groupIdentifier;
+  final GroupIdentifier? groupIdentifier;
   final ListProvider listProvider;
 
   const InviteToCommunityDialog({
@@ -18,9 +18,11 @@ class InviteToCommunityDialog extends StatefulWidget {
 
   static Future<void> show({
     required BuildContext context,
-    required GroupIdentifier groupIdentifier,
+    required GroupIdentifier? groupIdentifier,
     required ListProvider listProvider,
   }) async {
+    if (groupIdentifier == null) return;
+
     await showDialog<void>(
       context: context,
       useRootNavigator: false,
@@ -47,7 +49,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
     super.initState();
     inviteCode = StringCodeGenerator.generateInviteCode();
     inviteLink = widget.listProvider
-        .createInviteLink(widget.groupIdentifier, inviteCode);
+        .createInviteLink(widget.groupIdentifier!, inviteCode);
   }
 
   @override
@@ -89,7 +91,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                         ),
                       ),
                       InvitePeopleWidget(
-                          groupIdentifier: widget.groupIdentifier,
+                          groupIdentifier: widget.groupIdentifier!,
                           shareableLink: inviteLink,
                           showCreatePostButton: false),
                     ],
