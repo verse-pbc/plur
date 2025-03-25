@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_video_widget.dart';
 import 'package:nostrmo/component/content/markdown/markdown_mention_event_element_builder.dart';
 import 'package:nostrmo/component/event/event_torrent_widget.dart';
