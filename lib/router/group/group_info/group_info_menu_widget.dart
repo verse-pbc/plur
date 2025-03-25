@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/group_info/group_info_menu_item_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 
