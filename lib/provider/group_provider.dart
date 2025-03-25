@@ -69,6 +69,11 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     return null;
   }
 
+  bool isAdmin(String pubkey, GroupIdentifier groupIdentifier) {
+    final admins = getAdmins(groupIdentifier);
+    return admins?.containsUser(pubkey) ?? false;
+  }
+
   GroupMembers? getMembers(GroupIdentifier groupIdentifier) {
     var key = groupIdentifier.toString();
     var m = groupMembers[key];
