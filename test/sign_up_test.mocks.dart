@@ -6,14 +6,12 @@
 import 'dart:async' as _i3;
 import 'dart:convert' as _i4;
 import 'dart:typed_data' as _i6;
-import 'dart:ui' as _i12;
+import 'dart:ui' as _i10;
 
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
-import 'package:nostrmo/nostr_sdk/event.dart' as _i9;
-import 'package:nostrmo/nostr_sdk/nip02/contact_list.dart' as _i10;
-import 'package:nostrmo/nostr_sdk/nip65/relay_list_metadata.dart' as _i11;
+import 'package:nostr_sdk/nostr_sdk.dart' as _i9;
 import 'package:nostrmo/data/metadata.dart' as _i8;
 import 'package:nostrmo/provider/metadata_provider.dart' as _i7;
 
@@ -477,23 +475,23 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
       );
 
   @override
-  _i10.ContactList? getContactList(String? pubkey) => (super.noSuchMethod(
+  _i9.ContactList? getContactList(String? pubkey) => (super.noSuchMethod(
         Invocation.method(
           #getContactList,
           [pubkey],
         ),
         returnValueForMissingStub: null,
-      ) as _i10.ContactList?);
+      ) as _i9.ContactList?);
 
   @override
-  _i11.RelayListMetadata? getRelayListMetadata(String? pubkey) =>
+  _i9.RelayListMetadata? getRelayListMetadata(String? pubkey) =>
       (super.noSuchMethod(
         Invocation.method(
           #getRelayListMetadata,
           [pubkey],
         ),
         returnValueForMissingStub: null,
-      ) as _i11.RelayListMetadata?);
+      ) as _i9.RelayListMetadata?);
 
   @override
   List<String> getExtralRelays(
@@ -513,7 +511,7 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
       ) as List<String>);
 
   @override
-  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -522,7 +520,7 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
       );
 
   @override
-  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

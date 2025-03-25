@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 class ContentStrLinkWidget extends StatelessWidget {
   final bool showUnderline;

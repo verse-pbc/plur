@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/group_provider.dart';
@@ -65,9 +65,9 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
     }));
 
     list.add(
-        Selector<GroupProvider, GroupAdmins?>(builder: (context, value, child) {
-      if (value == null || value.contains(nostr!.publicKey) == null) {
-        return Container();
+        Selector<GroupProvider, GroupAdmins?>(builder: (context, admins, child) {
+      if (admins == null || !admins.containsUser(nostr!.publicKey)) {
+        return const SizedBox.shrink();
       }
 
       return GestureDetector(
