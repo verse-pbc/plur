@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +47,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
       // Create a list of member data to sort
       var membersList = groupMembers.members!.map((pubkey) {
         final metadata = metadataProvider.getMetadata(pubkey);
-        final isAdmin = groupAdmins?.contains(pubkey) != null;
+        final isAdmin = groupAdmins?.containsUser(pubkey) ?? false;
         return (pubkey: pubkey, metadata: metadata, isAdmin: isAdmin);
       }).toList();
 
