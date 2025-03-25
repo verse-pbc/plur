@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../../../component/group/group_avatar_widget.dart';
@@ -45,6 +45,5 @@ class GroupInfoHeaderWidget extends StatelessWidget {
   }
 
   String _groupStatusText(S localization) =>
-      '${metadata.open ?? false ? localization.Opened : localization.Closed} '
-      '${localization.group} • $memberCount ${memberCount == 1 ? localization.Member : localization.Members}';
+      '${metadata.open ?? false ? localization.Open_group : localization.Closed_group} • ${memberCount == 1 ? localization.Group_member(memberCount) : localization.Group_members(memberCount)}';
 }

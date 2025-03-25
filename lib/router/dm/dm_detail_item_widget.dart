@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
