@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/event.dart' as nostr_event;
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/event.dart' as nostr_event;
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';
@@ -29,49 +29,48 @@ class GroupDetailWidget extends StatefulWidget {
 }
 
 class _GroupDetailWidgetState extends State<GroupDetailWidget> {
-  GroupIdentifier? groupIdentifier;
+  GroupIdentifier? _groupIdentifier;
 
-  GroupDetailProvider groupDetailProvider = GroupDetailProvider();
+  final _groupDetailProvider = GroupDetailProvider();
 
   @override
   void initState() {
     super.initState();
-    groupDetailProvider.refresh();
+    _groupDetailProvider.refresh();
   }
 
   @override
   void dispose() {
     super.dispose();
-    groupDetailProvider.dispose();
+    _groupDetailProvider.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final groupIdentifier = RouterUtil.routerArgs(context);
+    if (groupIdentifier == null || groupIdentifier is! GroupIdentifier) {
+      RouterUtil.back(context);
+      return Container();
+    }
+
+    _groupIdentifier ??= groupIdentifier;
+    _groupDetailProvider.updateGroupIdentifier(groupIdentifier);
+
     final themeData = Theme.of(context);
     final bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
     final localization = S.of(context);
 
-    final argIntf = RouterUtil.routerArgs(context);
-    if (argIntf == null || argIntf is! GroupIdentifier) {
-      RouterUtil.back(context);
-      return Container();
-    }
-    groupIdentifier = argIntf as GroupIdentifier?;
-    groupDetailProvider.updateGroupIdentifier(groupIdentifier!);
-
     final groupProvider = Provider.of<GroupProvider>(context);
-    final groupMetadata = groupProvider.getMetadata(groupIdentifier!);
-    final groupAdmins = groupProvider.getAdmins(groupIdentifier!);
-    final isAdmin = groupAdmins?.contains(nostr!.publicKey) != null;
+    final groupMetadata = groupProvider.getMetadata(groupIdentifier);
+    final groupAdmins = groupProvider.getAdmins(groupIdentifier);
+    final isAdmin = groupAdmins?.containsUser(nostr!.publicKey) ?? false;
 
     String title = "${localization.Group} ${localization.Detail}";
     Widget flexBackground = Container(
       color: themeData.appBarTheme.backgroundColor,
     );
-    if (groupMetadata != null) {
-      if (StringUtil.isNotBlank(groupMetadata.name)) {
+    if (groupMetadata != null && StringUtil.isNotBlank(groupMetadata.name)) {
         title = groupMetadata.name!;
-      }
     }
 
     var appbar = SliverAppBar(
@@ -131,11 +130,11 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       child: MultiProvider(
         providers: [
           ListenableProvider<GroupDetailProvider>.value(
-            value: groupDetailProvider,
+            value: _groupDetailProvider,
           ),
         ],
         child: GroupDetailNoteListWidget(
-            groupIdentifier!, groupMetadata?.name ?? groupIdentifier!.groupId),
+            groupIdentifier, groupMetadata?.name ?? groupIdentifier.groupId),
       ),
     );
 
@@ -144,7 +143,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
           onDeleteCallback: _onEventDelete,
           child: GroupIdentifierInheritedWidget(
             key: Key("GD_${groupIdentifier.toString()}"),
-            groupIdentifier: groupIdentifier!,
+            groupIdentifier: groupIdentifier,
             groupAdmins: groupAdmins,
             child: CustomScrollView(
               slivers: [
@@ -165,26 +164,26 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
 
   void _jumpToAddNote() {
     List<dynamic> tags = [];
-    var previousTag = ["previous", ...groupDetailProvider.notesPrevious()];
+    var previousTag = ["previous", ..._groupDetailProvider.notesPrevious()];
     tags.add(previousTag);
     EditorWidget.open(
       context,
-      groupIdentifier: groupIdentifier,
+      groupIdentifier: _groupIdentifier,
       groupEventKind: EventKind.GROUP_NOTE,
       tagsAddedWhenSend: tags,
     ).then((event) {
-      if (event != null && groupDetailProvider.isGroupNote(event)) {
-        groupDetailProvider.handleDirectEvent(event);
+      if (event != null && _groupDetailProvider.isGroupNote(event)) {
+        _groupDetailProvider.handleDirectEvent(event);
       }
     });
   }
 
   void _onEventDelete(nostr_event.Event e) {
-    groupDetailProvider.deleteEvent(e);
+    _groupDetailProvider.deleteEvent(e);
   }
 
   void _leaveGroup() {
-    final id = groupIdentifier;
+    final id = _groupIdentifier;
     if (id != null) {
       listProvider.leaveGroup(id);
     }
@@ -192,6 +191,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   }
 
   void _showGroupInfo() {
-    RouterUtil.router(context, RouterPath.GROUP_INFO, groupIdentifier);
+    RouterUtil.router(context, RouterPath.GROUP_INFO, _groupIdentifier);
   }
 }

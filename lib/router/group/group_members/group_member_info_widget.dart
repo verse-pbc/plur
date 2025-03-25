@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/data/metadata.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import '../../../component/group/admin_tag_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/nostr_sdk/nostr_sdk.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 
 class GroupIdentifierInheritedWidget extends InheritedWidget {
   GroupIdentifier groupIdentifier;
@@ -19,25 +19,15 @@ class GroupIdentifierInheritedWidget extends InheritedWidget {
   }
 
   static GroupIdentifier? getGroupIdentifier(BuildContext context) {
-    var inheritedWidget = of(context);
-    if (inheritedWidget != null) {
-      return inheritedWidget.groupIdentifier;
-    }
-
-    return null;
+    final inheritedWidget = of(context);
+    return inheritedWidget?.groupIdentifier;
   }
 
   static GroupAdmins? getGroupAdmins(BuildContext context) {
-    var inheritedWidget = of(context);
-    if (inheritedWidget != null) {
-      return inheritedWidget.groupAdmins;
-    }
-
-    return null;
+    final inheritedWidget = of(context);
+    return inheritedWidget?.groupAdmins;
   }
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    return false;
-  }
+  bool updateShouldNotify(covariant InheritedWidget oldWidget) => false;
 }
