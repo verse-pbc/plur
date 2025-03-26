@@ -94,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
+        "Community_Name":
+            MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
@@ -137,6 +139,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Delete Account"),
         "Delete_Account_Tips": MessageLookupByLibrary.simpleMessage(
             "We will try to delete you infomation. When you login with this Key again, you will lose your data."),
+        "Description": MessageLookupByLibrary.simpleMessage("Description"),
         "Detail": MessageLookupByLibrary.simpleMessage("Detail"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Dirtywords"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Display Name"),
@@ -149,6 +152,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
         "Empty_text_may_be_ban_by_relays": MessageLookupByLibrary.simpleMessage(
             "Empty text may be ban by relays."),
+        "Enter_Community_Description": MessageLookupByLibrary.simpleMessage(
+            "Enter a description of your community"),
+        "Enter_Community_Name": MessageLookupByLibrary.simpleMessage(
+            "Enter a name for your community"),
         "Event_Sign_Check":
             MessageLookupByLibrary.simpleMessage("Event Sign Check"),
         "Face": MessageLookupByLibrary.simpleMessage("Face"),
@@ -374,6 +381,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remove from public bookmark"),
         "Replying": MessageLookupByLibrary.simpleMessage("Replying"),
         "Request": MessageLookupByLibrary.simpleMessage("Request"),
+        "Save": MessageLookupByLibrary.simpleMessage("Save"),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "Search_User_from_cache":
             MessageLookupByLibrary.simpleMessage("Search User from cache"),
@@ -436,6 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Translate Source Language"),
         "Translate_Target_Language":
             MessageLookupByLibrary.simpleMessage("Translate Target Language"),
+        "Update_Image": MessageLookupByLibrary.simpleMessage("Update Image"),
         "Upload_fail": MessageLookupByLibrary.simpleMessage("Upload fail."),
         "Upload_num": MessageLookupByLibrary.simpleMessage("Upload num"),
         "Url": MessageLookupByLibrary.simpleMessage("Url"),
