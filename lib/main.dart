@@ -413,7 +413,6 @@ class _MyApp extends State<MyApp> {
       RouterPath.FOLLOW_SET_DETAIL: (context) => const FollowSetDetailWidget(),
       RouterPath.FOLLOW_SET_FEED: (context) => const FollowSetFeedWidget(),
       RouterPath.NWC_SETTING: (context) => const NwcSettingWidget(),
-      RouterPath.GROUP_ADMIN: (_) => const GroupAdminScreen(),
       RouterPath.GROUP_LIST: (context) => const CommunitiesWidget(),
       RouterPath.GROUP_DETAIL: (context) => const GroupDetailWidget(),
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
@@ -534,6 +533,23 @@ class _MyApp extends State<MyApp> {
           darkTheme: defaultDarkTheme,
           initialRoute: RouterPath.INDEX,
           routes: routes,
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case RouterPath.GROUP_ADMIN:
+                final groupId = settings.arguments as GroupIdentifier?;
+                if (groupId == null) {
+                  return null;
+                }
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: groupId,
+                    child: const GroupAdminScreen(),
+                  ),
+                );
+              default:
+                return null;
+            }
+          },
         ),
       ),
     );
