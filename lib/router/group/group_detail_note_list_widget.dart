@@ -159,11 +159,6 @@ class _GroupDetailNoteListWidgetState
     }, null);
   }
 
-  /// Handles events created by the current user.
-  void handleDirectEvent(Event event) {
-    groupDetailProvider?.handleDirectEvent(event);
-  }
-
   Future<void> refresh() async {
     _subscribe();
   }
