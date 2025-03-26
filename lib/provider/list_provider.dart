@@ -90,7 +90,7 @@ class ListProvider extends ChangeNotifier {
           var host = tag[2];
           if (k == "group") {
             var gi = GroupIdentifier(host, groupId);
-            _groupIdentifiers.add(gi);
+            _addGroupIdentifier(gi);
           }
         }
       }

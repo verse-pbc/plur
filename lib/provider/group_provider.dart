@@ -167,7 +167,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     nostr!.query(
       filters,
       (e) => onEvent(groupIdentifier, e),
-      relayTypes: [RelayType.LOCAL],
+      relayTypes: RelayType.tempAndLocal,
     );
   }
 
