@@ -18,8 +18,7 @@ The app uses Firebase Cloud Messaging (FCM) for cross-platform push notification
 
 1. Navigate to the Settings, then tap Push Notification Test at the bottom
 2. Check the Permission Status - it should show "AUTHORIZED"
-3. Test local notifications using the "Test System Channel" button
-4. Subscribe to the test topic if you want to test broadcast messages
+3. Test local notifications using the "Trigger Local Notification" button
 
 ### Testing with Firebase Console
 
