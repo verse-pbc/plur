@@ -3310,6 +3310,66 @@ class S {
     );
   }
 
+  /// `Update Image`
+  String get Update_Image {
+    return Intl.message(
+      'Update Image',
+      name: 'Update_Image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Name`
+  String get Community_Name {
+    return Intl.message(
+      'Community Name',
+      name: 'Community_Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a name for your community`
+  String get Enter_Community_Name {
+    return Intl.message(
+      'Enter a name for your community',
+      name: 'Enter_Community_Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a description of your community`
+  String get Enter_Community_Description {
+    return Intl.message(
+      'Enter a description of your community',
+      name: 'Enter_Community_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get Description {
+    return Intl.message(
+      'Description',
+      name: 'Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get Save {
+    return Intl.message(
+      'Save',
+      name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All media is publicly accessible to anyone with the URL.`
   String get All_media_public {
     return Intl.message(
