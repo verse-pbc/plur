@@ -10,9 +10,11 @@ import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
 import 'dart:developer';
 
+import '../../component/shimmer/shimmer.dart';
 import 'community_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
+import '../../util/theme_util.dart';
 
 class CommunitiesWidget extends StatefulWidget {
   const CommunitiesWidget({super.key});
@@ -31,32 +33,45 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
   Widget doBuild(BuildContext context) {
     final listProvider = Provider.of<ListProvider>(context);
     final groupIds = listProvider.groupIdentifiers;
+    final themeData = Theme.of(context);
+    final appBgColor = themeData.customColors.appBgColor;
+    final separatorColor = themeData.customColors.separatorColor;
+    final shimmerGradient = LinearGradient(
+      colors: [separatorColor, appBgColor, separatorColor],
+      stops: [0.1, 0.3, 0.4],
+      begin: Alignment(-1.0, -0.3),
+      end: Alignment(1.0, 0.3),
+      tileMode: TileMode.clamp,
+    );
 
     return Scaffold(
-      body: Container(
-        child: groupIds.isEmpty
-            ? const Center(
-                child: NoCommunitiesWidget(),
-              )
-            : GridView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 52),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 32.0,
-                  childAspectRatio: 1,
-                ),
-                itemCount: groupIds.length,
-                itemBuilder: (context, index) {
-                  final groupIdentifier = groupIds[index];
-                  return InkWell(
-                    onTap: () {
-                      RouterUtil.router(
-                          context, RouterPath.GROUP_DETAIL, groupIdentifier);
-                    },
-                    child: CommunityWidget(groupIdentifier),
-                  );
-                }),
+      body: Shimmer(
+        linearGradient: shimmerGradient,
+        child: Container(
+          child: groupIds.isEmpty
+          ? const Center(
+            child: NoCommunitiesWidget(),
+          )
+          : GridView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 52),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 0.0,
+              mainAxisSpacing: 32.0,
+              childAspectRatio: 1,
+            ),
+            itemCount: groupIds.length,
+            itemBuilder: (context, index) {
+              final groupIdentifier = groupIds[index];
+              return InkWell(
+                onTap: () {
+                  RouterUtil.router(
+                    context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                },
+                child: CommunityWidget(groupIdentifier),
+              );
+            }),
+        ),
       ),
     );
   }
