@@ -173,6 +173,7 @@ class _PushNotificationTestWidgetState
 
             // Permission status card
             Card(
+              color: Colors.transparent,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -221,6 +222,7 @@ class _PushNotificationTestWidgetState
 
             // Token card
             Card(
+              color: Colors.transparent,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
@@ -286,6 +288,7 @@ class _PushNotificationTestWidgetState
 
             // Test notification card
             Card(
+              color: Colors.transparent,
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
