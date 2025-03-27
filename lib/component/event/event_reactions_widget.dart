@@ -236,8 +236,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               var pubkey = nostr!.publicKey;
               if ((!isGroupEvent && widget.event.pubkey == pubkey) ||
                   (isGroupEvent &&
-                      groupAdmins != null &&
-                      groupAdmins.contains(pubkey) != null)) {
+                      (groupAdmins?.containsUser(pubkey) ?? false))) {
                 list.add(const PopupMenuDivider());
                 list.add(PopupMenuItem(
                   value: "delete",
@@ -497,6 +496,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
+      if (!mounted) return;
       BotToast.showText(text: S.of(context).Copy_success);
     });
   }
@@ -566,6 +566,9 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       groupIdentifier: groupIdentifier,
       groupEventKind: groupEventKind,
     );
+
+    if (!mounted) return;
+
     if (event != null) {
       eventReactionsProvider.addEventAndHandle(event);
       var callback = EventReplyCallback.of(context);

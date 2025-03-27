@@ -9,15 +9,8 @@ class GroupAdmins extends GroupObject {
   GroupAdmins(String groupId, int createdAt, this.users)
       : super(groupId, createdAt);
 
-  GroupAdminUser? contains(String pubkey) {
-    for (var u in users) {
-      if (u.pubkey == pubkey) {
-        return u;
-      }
-    }
-
-    return null;
-  }
+  bool containsUser(String pubkey) =>
+      users.any((user) => user.pubkey == pubkey);
 
   static GroupAdmins? loadFromEvent(Event e) {
     if (e.kind != EventKind.GROUP_ADMINS) {
