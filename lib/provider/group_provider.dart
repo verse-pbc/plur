@@ -43,6 +43,11 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     var key = groupIdentifier.toString();
     var m = groupMetadatas[key];
     if (m != null) {
+      log(
+        "Requested metadata for group $groupIdentifier\n\n${m.toString()}",
+        level: Level.FINE.value,
+        name: "GroupProvider",
+      );
       return m;
     }
 
@@ -51,6 +56,11 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       _markHandling(groupIdentifier);
       query(groupIdentifier);
     }
+    log(
+        "Requested metadata for group $groupIdentifier but is null. Requesting from relay...",
+        level: Level.FINE.value,
+        name: "GroupProvider",
+      );
     return null;
   }
 
@@ -159,7 +169,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     }
 
     log(
-      "Querying group $groupId...\n\n${filters.toString()}",
+      "Querying metadata for group $groupId...\n\n${filters.toString()}",
       level: Level.FINE.value,
       name: 'GroupProvider',
     );
