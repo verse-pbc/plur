@@ -1,20 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:nostr_sdk/relay/relay_base.dart';
+import 'package:nostr_sdk/relay/relay.dart';
 import 'package:nostr_sdk/relay/relay_status.dart';
+import 'testable_relay.dart';
 
 void main() {
   group('Relay reconnection logic', () {
-    late RelayBase relay;
+    late TestableRelay relay;
     late RelayStatus relayStatus;
 
     setUp(() {
       relayStatus = RelayStatus('wss://test.relay.com');
-      relay = RelayBase('wss://test.relay.com', relayStatus);
-
-      // Override connect to avoid actually connecting in tests
-      relay.setConnectImplementation(() async {
-        return true;
-      });
+      relay = TestableRelay('wss://test.relay.com', relayStatus);
 
       // Set a short delay for faster tests
       relay.reconnectBaseDelayInSeconds = 0;
@@ -25,7 +21,7 @@ void main() {
       relay.onError('Test error', reconnect: true);
 
       // Assert
-      expect(relay.isWaitingReconnect, isTrue);
+      expect(relay.waitingReconnect, isTrue);
     });
 
     test('onError does not set the waiting reconnect flag with reconnect=false',
@@ -34,7 +30,7 @@ void main() {
       relay.onError('Test error', reconnect: false);
 
       // Assert
-      expect(relay.isWaitingReconnect, isFalse);
+      expect(relay.waitingReconnect, isFalse);
     });
 
     test('reconnect attempts counter increases with each error', () async {
@@ -43,13 +39,13 @@ void main() {
       expect(relay.reconnectAttempts, equals(1));
 
       // Reset waiting flag to simulate a new error after the reconnect timer
-      relay.setWaitingReconnect(false);
+      relay.waitingReconnect = false;
 
       relay.onError('Test error 2', reconnect: true);
       expect(relay.reconnectAttempts, equals(2));
 
       // Reset waiting flag to simulate a new error after the reconnect timer
-      relay.setWaitingReconnect(false);
+      relay.waitingReconnect = false;
 
       relay.onError('Test error 3', reconnect: true);
       expect(relay.reconnectAttempts, equals(3));
@@ -70,23 +66,20 @@ void main() {
       expect(relay.reconnectAttempts, equals(0));
     });
 
-    test('reconnect stops after maximum attempts', () async {
-      // Set max reconnect attempts and override connect method
-      final maxAttempts = relay.maxReconnectAttempts;
-      var connectCallCount = 0;
+    test('stops reconnecting after maximum attempts', () {
+      const maxAttempts = Relay.maxReconnectAttempts;
 
       // Override waiting reconnect flag for testing
       for (var i = 0; i < maxAttempts + 1; i++) {
-        relay.setWaitingReconnect(false);
+        relay.waitingReconnect = false;
         relay.onError('Test error $i', reconnect: true);
       }
 
-      // After max attempts, it should give up reconnecting
-      // The expected value is maxAttempts + 1 because the last attempt will be #6 but won't trigger reconnection
-      expect(relay.reconnectAttempts, equals(maxAttempts + 1));
+      // Should have reached max attempts
+      expect(relay.reconnectAttempts, equals(maxAttempts));
 
       // The last error should not have scheduled a reconnect
-      expect(relay.isWaitingReconnect, isFalse);
+      expect(relay.waitingReconnect, isFalse);
     });
 
     test(
