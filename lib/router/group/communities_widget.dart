@@ -38,9 +38,9 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     final separatorColor = themeData.customColors.separatorColor;
     final shimmerGradient = LinearGradient(
       colors: [separatorColor, appBgColor, separatorColor],
-      stops: [0.1, 0.3, 0.4],
-      begin: Alignment(-1.0, -0.3),
-      end: Alignment(1.0, 0.3),
+      stops: const [0.1, 0.3, 0.4],
+      begin: const Alignment(-1.0, -0.3),
+      end: const Alignment(1.0, 0.3),
       tileMode: TileMode.clamp,
     );
 
