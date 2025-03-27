@@ -152,7 +152,6 @@ abstract class Relay {
         waitingReconnect = false;
         connect().then((success) {
           if (success) {
-            // Reset attempt counter on successful connection
             resetReconnectAttempts();
           }
         });
