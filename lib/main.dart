@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -14,6 +15,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
@@ -33,6 +35,7 @@ import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/signup/signup_widget.dart';
+import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_list_widget.dart';
@@ -56,6 +59,7 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
 import 'provider/badge_provider.dart';
@@ -250,12 +254,16 @@ Future<void> initializeProviders({bool isTesting = false}) async {
 }
 
 Future<void> main() async {
-  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   try {
     MediaKit.ensureInitialized();
   } catch (e) {
     log("MediaKit init error $e");
   }
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
     await windowManager.ensureInitialized();
@@ -321,7 +329,8 @@ Future<void> main() async {
     await SentryFlutter.init(
       (options) {
         // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
-        options.environment = const String.fromEnvironment('ENVIRONMENT', defaultValue: 'production');
+        options.environment = const String.fromEnvironment('ENVIRONMENT',
+            defaultValue: 'production');
       },
       appRunner: () {
         startApp();
@@ -344,6 +353,42 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    SystemTimer.run();
+
+    MyApp.platform.setMethodCallHandler(_handleDeepLink);
+
+    NotificationUtil.setUp();
+  }
+
+  void _joinGroup(
+    BuildContext context,
+    String host,
+    String groupId,
+    String? code,
+  ) {
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
+    listProvider.joinGroup(groupIdentifier, context: context);
+  }
+
+  Future<void> _handleDeepLink(MethodCall call) async {
+    if (nostr == null) {
+      log('nostr is null; the user is probably not logged in. aborting.',
+          name: 'DeepLink');
+      return;
+    }
+
+    if (call.method == 'onDeepLink') {
+      final String link = call.arguments;
+      log('Received deep link: $link', name: 'DeepLink');
+
+      _processDeepLink(link);
+    }
+  }
+
   reload() {
     setState(() {});
   }
@@ -417,6 +462,8 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
       RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
+      RouterPath.pushNotificationTest: (context) =>
+          const PushNotificationTestWidget(),
     };
 
     return MultiProvider(
@@ -538,47 +585,15 @@ class _MyApp extends State<MyApp> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    SystemTimer.run();
-
-    MyApp.platform.setMethodCallHandler(_handleDeepLink);
-  }
-
-  @override
   void dispose() {
     super.dispose();
     SystemTimer.stopTask();
   }
 
-  void _joinGroup(
-    BuildContext context,
-    String host,
-    String groupId,
-    String? code,
-  ) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
-  }
-
-  Future<void> _handleDeepLink(MethodCall call) async {
-    if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
-      return;
-    }
-
-    if (call.method == 'onDeepLink') {
-      final String link = call.arguments;
-      log('Received deep link: $link', name: 'DeepLink');
-
-      _processDeepLink(link);
-    }
-  }
-
   void _processDeepLink(String link) {
     if (nostr == null) {
-      log('nostr is null; the user is probably not logged in. aborting.', name: 'DeepLink');
+      log('nostr is null; the user is probably not logged in. aborting.',
+          name: 'DeepLink');
       return;
     }
 
@@ -596,9 +611,11 @@ class _MyApp extends State<MyApp> {
 
       final context = MyApp.navigatorKey.currentContext;
       if (context != null) {
-        _joinGroup(context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
+        _joinGroup(
+            context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
       } else {
-        log('Context still null after initialization - this is unexpected', name: 'DeepLink');
+        log('Context still null after initialization - this is unexpected',
+            name: 'DeepLink');
       }
     }
   }
