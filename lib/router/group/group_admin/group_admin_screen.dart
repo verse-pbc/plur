@@ -1,4 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/nip29/group_metadata.dart';
@@ -9,8 +10,8 @@ import '../../../component/appbar_back_btn_widget.dart';
 import '../../../component/group/group_avatar_widget.dart';
 import '../../../consts/router_path.dart';
 import '../../../generated/l10n.dart';
-import '../../../main.dart';
 import '../../../provider/group_provider.dart';
+import '../../../provider/uploader.dart';
 import '../../../util/router_util.dart';
 
 class GroupAdminScreen extends StatefulWidget {
@@ -23,8 +24,10 @@ class GroupAdminScreen extends StatefulWidget {
 class _GroupAdminScreenState extends State<GroupAdminScreen> {
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
+  String? _pictureUrl;
   var _hasChanges = false;
   var _isSaving = false;
+  var _isUploading = false;
 
   @override
   void initState() {
@@ -54,6 +57,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
 
     _nameController.text = metadata?.name ?? "";
     _descriptionController.text = metadata?.about ?? "";
+    _pictureUrl = metadata?.picture;
     setState(() => _hasChanges = false);
   }
 
@@ -63,7 +67,8 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
     final metadata = groupProvider.getMetadata(groupId);
 
     final newHasChanges = _nameController.text != metadata?.name ||
-        _descriptionController.text != metadata?.about;
+        _descriptionController.text != metadata?.about ||
+        _pictureUrl != metadata?.picture;
 
     if (_hasChanges != newHasChanges) {
       setState(() => _hasChanges = newHasChanges);
@@ -145,11 +150,16 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 20),
-            GroupAvatar(imageUrl: metadata?.picture),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                GroupAvatar(imageUrl: _pictureUrl),
+                if (_isUploading)
+                  const Center(child: CircularProgressIndicator()),
+              ],
+            ),
             TextButton(
-              onPressed: () {
-                // TODO: Handle image changing
-              },
+              onPressed: _updateImage,
               style: TextButton.styleFrom(
                 textStyle: const TextStyle(
                   fontSize: 18.0,
@@ -212,17 +222,37 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
     );
   }
 
+  Future<void> _updateImage() async {
+    try {
+      final files = await Uploader.pickFiles(
+        context,
+        type: FileType.image,
+        allowMultiple: false,
+      );
+
+      final firstFile = files.firstOrNull;
+      if (firstFile == null) return;
+
+      setState(() => _isUploading = true);
+      final remoteUrl = await Uploader.upload(firstFile);
+      setState(() => _pictureUrl = remoteUrl);
+      _checkForChanges();
+    } catch (e) {
+      BotToast.showText(text: e.toString());
+    } finally {
+      setState(() => _isUploading = false);
+    }
+  }
+
   void _save() async {
-    setState(() {
-      _isSaving = true;
-    });
+    setState(() => _isSaving = true);
 
     final groupIdentifier = context.read<GroupIdentifier>();
     GroupMetadata groupMetadata = GroupMetadata(
       groupIdentifier.groupId,
       0,
       name: _nameController.text,
-      picture: "",
+      picture: _pictureUrl,
       about: _descriptionController.text,
     );
 
@@ -235,9 +265,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
     } catch (e) {
       BotToast.showText(text: e.toString());
     } finally {
-      setState(() {
-        _isSaving = false;
-      });
+      setState(() => _isSaving = false);
     }
   }
 }
