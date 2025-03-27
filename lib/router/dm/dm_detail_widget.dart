@@ -229,7 +229,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
   void handleDefaultPrivateDMSetting(Event? e) {
     if (!_handledDefaultPrivateDM &&
         e != null &&
-        e.kind == EventKind.PRIVATE_DIRECT_MESSAGE) {
+        e.kind == EventKind.privateDirectMessage) {
       openPrivateDM = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         updateUI();
@@ -247,9 +247,9 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
         BotToast.showText(text: S.of(context).Send_fail);
         return;
       }
-      if (event.kind == EventKind.DIRECT_MESSAGE) {
+      if (event.kind == EventKind.directMessage) {
         dmProvider.addEventAndUpdateReadedTime(detail!, event);
-      } else if (event.kind == EventKind.GIFT_WRAP) {
+      } else if (event.kind == EventKind.giftWrap) {
         giftWrapProvider.onEvent(event);
       }
 

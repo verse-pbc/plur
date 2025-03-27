@@ -46,7 +46,7 @@ class CommunityInfoProvider extends ChangeNotifier with LaterFunction {
       }
 
       var filter = Filter(
-          kinds: [EventKind.COMMUNITY_DEFINITION], authors: [aId.pubkey]);
+          kinds: [EventKind.communityDefinition], authors: [aId.pubkey]);
       var queryArg = filter.toJson();
       queryArg["#d"] = [aId.title];
       filters.add(queryArg);

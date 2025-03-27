@@ -40,7 +40,7 @@ mixin RelayLocalMixin {
     final eventKind = event["kind"];
     final pubkey = event["pubkey"];
     switch (eventKind) {
-      case EventKind.EVENT_DELETION:
+      case EventKind.eventDeletion:
         final tags = event["tags"];
         if (tags is List && tags.isNotEmpty) {
           for (var tag in tags) {
@@ -55,8 +55,8 @@ mixin RelayLocalMixin {
             }
           }
         }
-      case EventKind.METADATA:
-      case EventKind.CONTACT_LIST:
+      case EventKind.metadata:
+      case EventKind.contactList:
         // These eventkinds can only save 1 event, so delete other event first.
         getRelayLocalDB().deleteEventByKind(pubkey, eventKind);
         continue addEvent;

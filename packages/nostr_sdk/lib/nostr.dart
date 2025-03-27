@@ -41,7 +41,7 @@ class Nostr {
 
     Event event = Event(
         _publicKey,
-        EventKind.REACTION,
+        EventKind.reaction,
         [
           ["e", id]
         ],
@@ -54,7 +54,7 @@ class Nostr {
       {List<String>? tempRelays, List<String>? targetRelays}) async {
     Event event = Event(
         _publicKey,
-        EventKind.EVENT_DELETION,
+        EventKind.eventDeletion,
         [
           ["e", eventId]
         ],
@@ -70,7 +70,7 @@ class Nostr {
       tags.add(["e", eventId]);
     }
 
-    Event event = Event(_publicKey, EventKind.EVENT_DELETION, tags, "delete");
+    Event event = Event(_publicKey, EventKind.eventDeletion, tags, "delete");
     return await sendEvent(event,
         tempRelays: tempRelays, targetRelays: targetRelays);
   }
@@ -84,7 +84,7 @@ class Nostr {
     if (StringUtil.isNotBlank(relayAddr)) {
       tag.add(relayAddr);
     }
-    Event event = Event(_publicKey, EventKind.REPOST, [tag], content);
+    Event event = Event(_publicKey, EventKind.repost, [tag], content);
     return await sendEvent(event,
         tempRelays: tempRelays, targetRelays: targetRelays);
   }
@@ -92,7 +92,7 @@ class Nostr {
   Future<Event?> sendContactList(ContactList contacts, String content,
       {List<String>? tempRelays, List<String>? targetRelays}) async {
     final tags = contacts.toJson();
-    final event = Event(_publicKey, EventKind.CONTACT_LIST, tags, content);
+    final event = Event(_publicKey, EventKind.contactList, tags, content);
     return await sendEvent(event,
         tempRelays: tempRelays, targetRelays: targetRelays);
   }
