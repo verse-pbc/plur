@@ -112,7 +112,11 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             icon: const Icon(Icons.person_add),
             tooltip: 'Invite to Community',
             onPressed: () {
-              InviteToCommunityDialog.show(context, groupIdentifier);
+              InviteToCommunityDialog.show(
+                context: context,
+                groupIdentifier: groupIdentifier,
+                listProvider: listProvider,
+              );
             },
           ),
         IconButton(
@@ -149,13 +153,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             ),
           ),
         ),
-      floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
           onPressed: _jumpToAddNote,
           backgroundColor: themeData.customColors.accentColor,
           shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 29),
-      )
-    );
+        ));
   }
 
   void _jumpToAddNote() {
