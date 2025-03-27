@@ -11,16 +11,6 @@ class RelayBase extends Relay {
   RelayBase(String url, RelayStatus relayStatus) : super(url, relayStatus);
 
   WebSocketChannel? _wsChannel;
-  
-  /// Factory function for creating WebSocketChannel - useful for testing
-  WebSocketChannel Function(Uri url) createWebSocketChannel = 
-      (url) => WebSocketChannel.connect(url);
-  
-  /// Override reconnect base delay for testing
-  @override
-  int get reconnectBaseDelayInSeconds => _reconnectBaseDelayInSeconds;
-  set reconnectBaseDelayInSeconds(int value) => _reconnectBaseDelayInSeconds = value;
-  int _reconnectBaseDelayInSeconds = 10;
 
   @override
   Future<bool> doConnect() async {
@@ -35,8 +25,7 @@ class RelayBase extends Relay {
 
       final wsUrl = Uri.parse(url);
       log("Connect begin: $url");
-      _wsChannel = createWebSocketChannel(wsUrl);
-      // await _wsChannel!.ready;
+      _wsChannel = WebSocketChannel.connect(wsUrl);
       log("Connect complete: $url");
       _wsChannel!.stream.listen((message) {
         if (onMessage != null) {
