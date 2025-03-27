@@ -39,7 +39,6 @@ class RelayBase extends Relay {
         onError("Websocket stream closed by remote: $url", reconnect: true);
       });
       relayStatus.connected = ClientConneccted.CONNECTED;
-      resetReconnectAttempts(); // Reset reconnect attempts on successful connection
       if (relayStatusCallback != null) {
         relayStatusCallback!();
       }
