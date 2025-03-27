@@ -37,12 +37,12 @@ class MentionMeProvider extends ChangeNotifier
 
   List<int> queryEventKinds() {
     return [
-      EventKind.TEXT_NOTE,
-      EventKind.REPOST,
-      EventKind.BADGE_AWARD,
-      EventKind.GENERIC_REPOST,
-      EventKind.ZAP,
-      EventKind.LONG_FORM,
+      EventKind.textNote,
+      EventKind.repost,
+      EventKind.badgeAward,
+      EventKind.genericRepost,
+      EventKind.zap,
+      EventKind.longForm,
     ];
   }
 
@@ -95,7 +95,7 @@ class MentionMeProvider extends ChangeNotifier
 
   void onEvent(Event event) {
     // filter the zap send by myself.
-    if (event.kind == EventKind.ZAP) {
+    if (event.kind == EventKind.zap) {
       for (var tag in event.tags) {
         if (tag is List && tag.length > 1) {
           var k = tag[0];

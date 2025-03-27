@@ -125,7 +125,7 @@ class EventRelation {
               zapInfos.add(zapInfo);
             }
 
-          case "description" when event.kind == EventKind.ZAP:
+          case "description" when event.kind == EventKind.zap:
             innerZapContent = SpiderUtil.subUntil(value, '"content":"', '",');
 
           case "imeta":

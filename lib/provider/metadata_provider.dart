@@ -34,14 +34,14 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       }
 
       var events = await EventDB.list(Base.defaultDataIndex,
-          [EventKind.RELAY_LIST_METADATA, EventKind.CONTACT_LIST], 0, 1000000);
+          [EventKind.relayListMetadata, EventKind.contactList], 0, 1000000);
       _metadataProvider!._contactListMap.clear();
       for (var e in events) {
-        if (e.kind == EventKind.RELAY_LIST_METADATA) {
+        if (e.kind == EventKind.relayListMetadata) {
           var relayListMetadata = RelayListMetadata.fromEvent(e);
           _metadataProvider!._relayListMetadataCache[relayListMetadata.pubkey] =
               relayListMetadata;
-        } else if (e.kind == EventKind.CONTACT_LIST) {
+        } else if (e.kind == EventKind.contactList) {
           var contactList = ContactList.fromJson(e.tags, e.createdAt);
           _metadataProvider!._contactListMap[e.pubkey] = contactList;
         }
@@ -156,7 +156,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
 
   void _handlePendingEvents() {
     for (var event in _pendingEvents.all()) {
-      if (event.kind == EventKind.METADATA) {
+      if (event.kind == EventKind.metadata) {
         if (StringUtil.isBlank(event.content)) {
           continue;
         }
@@ -183,7 +183,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
           _metadataCache[md.pubkey!] = md;
           // refresh
         }
-      } else if (event.kind == EventKind.RELAY_LIST_METADATA) {
+      } else if (event.kind == EventKind.relayListMetadata) {
         // this is relayInfoMetadata, only set to cache, not update UI
         var oldRelayListMetadata = _relayListMetadataCache[event.pubkey];
         if (oldRelayListMetadata == null) {
@@ -196,13 +196,13 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
               "delete from event where key_index = ? and kind = ? and pubkey = ?",
               [
                 Base.defaultDataIndex,
-                EventKind.RELAY_LIST_METADATA,
+                EventKind.relayListMetadata,
                 event.pubkey
               ]);
           EventDB.insert(Base.defaultDataIndex, event);
           _eventToRelayListCache(event);
         }
-      } else if (event.kind == EventKind.CONTACT_LIST) {
+      } else if (event.kind == EventKind.contactList) {
         var oldContactList = _contactListMap[event.pubkey];
         if (oldContactList == null) {
           // insert
@@ -212,7 +212,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
           // update, remote old event and insert new event
           EventDB.execute(
               "delete from event where key_index = ? and kind = ? and pubkey = ?",
-              [Base.defaultDataIndex, EventKind.CONTACT_LIST, event.pubkey]);
+              [Base.defaultDataIndex, EventKind.contactList, event.pubkey]);
           EventDB.insert(Base.defaultDataIndex, event);
           _eventToContactList(event);
         }
@@ -244,7 +244,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       {
         var filter = Filter(
           kinds: [
-            EventKind.METADATA,
+            EventKind.metadata,
           ],
           authors: [pubkey],
           limit: 1,
@@ -254,7 +254,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       {
         var filter = Filter(
           kinds: [
-            EventKind.RELAY_LIST_METADATA,
+            EventKind.relayListMetadata,
           ],
           authors: [pubkey],
           limit: 1,
@@ -264,7 +264,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       {
         var filter = Filter(
           kinds: [
-            EventKind.CONTACT_LIST,
+            EventKind.contactList,
           ],
           authors: [pubkey],
           limit: 1,

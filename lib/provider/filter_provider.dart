@@ -99,9 +99,9 @@ class FilterProvider extends ChangeNotifier implements EventFilter {
     }
 
     if (EventKind.supportedEvents.contains(e.kind) ||
-        e.kind == EventKind.DIRECT_MESSAGE ||
-        e.kind == EventKind.GIFT_WRAP) {
-      if (e.kind != EventKind.ZAP_GOALS && !wotProvider.check(e.pubkey)) {
+        e.kind == EventKind.directMessage ||
+        e.kind == EventKind.giftWrap) {
+      if (e.kind != EventKind.zapGoals && !wotProvider.check(e.pubkey)) {
         return true;
       }
 

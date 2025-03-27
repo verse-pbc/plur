@@ -91,7 +91,7 @@ mixin ThreadRouterHelper<T extends StatefulWidget>
   void onEvent(Event event) {
     wotProvider.addTempFromEvent(event);
 
-    if (event.kind == EventKind.ZAP && StringUtil.isBlank(event.content)) {
+    if (event.kind == EventKind.zap && StringUtil.isBlank(event.content)) {
       var innerZapContent = EventRelation.getInnerZapContent(event);
       if (StringUtil.isBlank(innerZapContent)) {
         return;
