@@ -11,7 +11,7 @@ class RelayStatus {
   bool readAccess;
 
   RelayStatus(this.addr,
-      {this.relayType = RelayType.NORMAL,
+      {this.relayType = RelayType.normal,
       this.writeAccess = true,
       this.readAccess = true});
 

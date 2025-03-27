@@ -26,7 +26,7 @@ class RelaysWidget extends StatefulWidget {
 class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
   TextEditingController controller = TextEditingController();
 
-  int relayType = RelayType.NORMAL;
+  int relayType = RelayType.normal;
 
   @override
   Widget doBuild(BuildContext context) {
@@ -211,11 +211,11 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
                 left: Base.basePadding, right: Base.basePaddingHalf),
             items: [
               DropdownMenuItem(
-                value: RelayType.NORMAL,
+                value: RelayType.normal,
                 child: Text(localization.Normal),
               ),
               DropdownMenuItem(
-                value: RelayType.CACHE,
+                value: RelayType.cache,
                 child: Text(localization.Cache),
               ),
             ],
@@ -252,9 +252,9 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       return;
     }
 
-    if (relayType == RelayType.NORMAL) {
+    if (relayType == RelayType.normal) {
       relayProvider.addRelay(addr);
-    } else if (relayType == RelayType.CACHE) {
+    } else if (relayType == RelayType.cache) {
       relayProvider.addCacheRelay(addr);
     } else {
       return;

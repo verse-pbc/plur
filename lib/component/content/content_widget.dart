@@ -778,7 +778,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         var nevent = NIP19Tlv.decodeNevent(key);
         if (nevent != null &&
             (nevent.kind == null ||
-                EventKind.SUPPORTED_EVENTS.contains(nevent.kind))) {
+                EventKind.supportedEvents.contains(nevent.kind))) {
           // block
           bufferToList(buffer, currentList, images, removeLastSpan: true);
           var w = EventQuoteWidget(
@@ -825,7 +825,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
             return otherStr;
           } else if (StringUtil.isNotBlank(naddr.id) &&
-              EventKind.SUPPORTED_EVENTS.contains(naddr.kind)) {
+              EventKind.supportedEvents.contains(naddr.kind)) {
             // block
             String? id = naddr.id;
             AId? aid;

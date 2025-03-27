@@ -102,7 +102,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
         onEvent(groupIdentifier, e);
       },
       tempRelays: [groupIdentifier.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
     );
   }
 

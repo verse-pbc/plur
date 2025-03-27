@@ -417,7 +417,7 @@ class ListProvider extends ChangeNotifier {
       [filterMap],
       (Event event) => _checkTagsForMembership(event, completer),
       tempRelays: [request.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
 
@@ -617,7 +617,7 @@ class ListProvider extends ChangeNotifier {
         }
       },
       tempRelays: [groupId.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
   }
@@ -643,7 +643,7 @@ class ListProvider extends ChangeNotifier {
         _extractGroupIdentifiersFromTags(event, tagPrefix: "d").forEach(_addGroupIdentifier);
       },
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
   }

@@ -43,7 +43,7 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
       try {
         var filter = Filter(ids: [id]);
         var events = await nostr!.queryEvents([filter.toJson()],
-            relayTypes: RelayType.CACHE_AND_LOCAL);
+            relayTypes: RelayType.cacheAndLocal);
         if (events.isNotEmpty) {
           _eventsMap[id] = events.first;
           _needUpdateIds.remove(id);
@@ -109,14 +109,14 @@ class SingleEventProvider extends ChangeNotifier with LaterFunction {
             log("single event $id not found! begin to query again from $eventRelayAddr.");
             var filter = Filter(ids: [id]);
             nostr!.query([filter.toJson()], onEvent,
-                tempRelays: [eventRelayAddr!], relayTypes: RelayType.ONLY_TEMP);
+                tempRelays: [eventRelayAddr!], relayTypes: RelayType.onlyTemp);
           }
         }
       }
 
       nostr!.query([filter.toJson()], onEvent, id: subscriptId, onComplete: () {
         onCompete();
-      }, relayTypes: RelayType.ONLY_NORMAL);
+      }, relayTypes: RelayType.onlyNormal);
       Future.delayed(const Duration(seconds: 2), onCompete);
 
       for (var entry in _needUpdateIds.entries) {

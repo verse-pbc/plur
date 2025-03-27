@@ -1,19 +1,30 @@
+/// Class holding constants for relay types.
 class RelayType {
-  static const int NORMAL = 1;
+  /// Normal relay.
+  static const int normal = 1;
 
-  static const int TEMP = 2;
+  /// Temporary relay.
+  static const int temp = 2;
 
-  static const int LOCAL = 3;
+  /// Local relay.
+  /// This relay type is used for local storage.
+  static const int local = 3;
 
-  static const int CACHE = 4;
+  /// Cache relay.
+  static const int cache = 4;
 
-  static const List<int> CACHE_AND_LOCAL = [LOCAL, CACHE];
+  /// Cache and local relays.
+  static const List<int> cacheAndLocal = [local, cache];
   
-  static const List<int> tempAndLocal = [TEMP, LOCAL];
+  /// Temporary and local relays.
+  static const List<int> tempAndLocal = [temp, local];
 
-  static const List<int> ONLY_NORMAL = [NORMAL];
+  /// Only normal relays.
+  static const List<int> onlyNormal = [normal];
 
-  static const List<int> ONLY_TEMP = [TEMP];
+  /// Only temporary relays.
+  static const List<int> onlyTemp = [temp];
 
-  static const List<int> ALL = [NORMAL, TEMP, LOCAL, CACHE];
+  /// All relays.
+  static const List<int> all = [normal, temp, local, cache];
 }
