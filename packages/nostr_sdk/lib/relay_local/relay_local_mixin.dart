@@ -1,7 +1,3 @@
-import 'dart:developer';
-
-import 'package:logging/logging.dart';
-
 import '../event_kind.dart';
 import 'relay_local_db.dart';
 
@@ -25,11 +21,6 @@ mixin RelayLocalMixin {
     }
     final subscriptionId = message[1];
     final filter = message[2];
-    log(
-      "Processing COUNT $subscriptionId...\n\n${message.toString()}",
-      level: Level.FINEST.value,
-      name: "RelayLocal",
-    );
     final count = await getRelayLocalDB().doQueryCount(filter);
     final result = {"count", count};
     callback(connId, ["COUNT", subscriptionId, result]);
@@ -48,11 +39,6 @@ mixin RelayLocalMixin {
     final id = event["id"];
     final eventKind = event["kind"];
     final pubkey = event["pubkey"];
-    log(
-      "Processing EVENT of kind $eventKind...\n\n${message.toString()}",
-      level: Level.FINEST.value,
-      name: "RelayLocal",
-    );
     switch (eventKind) {
       case EventKind.EVENT_DELETION:
         final tags = event["tags"];
@@ -92,20 +78,10 @@ mixin RelayLocalMixin {
       return;
     }
     final subscriptionId = message[1];
-    log(
-      "Processing REQ $subscriptionId...\n\n${message.toString()}",
-      level: Level.FINEST.value,
-      name: "RelayLocal",
-    );
     for (var i = 2; i < message.length; i++) {
       final filter = message[i];
       final events = await getRelayLocalDB().doQueryEvent(filter); 
       for (var event in events) {
-        log(
-          "Processed REQ $subscriptionId\n\n${event.toString()}",
-          level: Level.FINEST.value,
-          name: "RelayLocal",
-        );
         callback(connId, ["EVENT", subscriptionId, event]);
       }
     }
