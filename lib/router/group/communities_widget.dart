@@ -122,7 +122,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         filters,
         _handleSubscriptionEvent,
         id: subscribeId,
-        relayTypes: [RelayType.TEMP],
+        relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );

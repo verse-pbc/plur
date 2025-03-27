@@ -51,15 +51,15 @@ class RelayPool {
     Relay relay, {
     bool autoSubscribe = false,
     bool init = false,
-    int relayType = RelayType.NORMAL,
+    int relayType = RelayType.normal,
   }) async {
-    if (relayType == RelayType.NORMAL) {
+    if (relayType == RelayType.normal) {
       if (_relays.containsKey(relay.url)) {
         return true;
       } else {
         _relays[relay.url] = relay;
       }
-    } else if (relayType == RelayType.CACHE) {
+    } else if (relayType == RelayType.cache) {
       if (_cacheRelays.containsKey(relay.url)) {
         return true;
       } else {
@@ -113,13 +113,13 @@ class RelayPool {
     _relays.clear();
   }
 
-  void remove(String url, {int relayType = RelayType.NORMAL}) {
+  void remove(String url, {int relayType = RelayType.normal}) {
     log('Removing $url');
-    if (relayType == RelayType.NORMAL) {
+    if (relayType == RelayType.normal) {
       _relays[url]?.disconnect();
       _relays[url]?.dispose();
       _relays.remove(url);
-    } else if (relayType == RelayType.CACHE) {
+    } else if (relayType == RelayType.cache) {
       _cacheRelays[url]?.disconnect();
       _cacheRelays[url]?.dispose();
       _cacheRelays.remove(url);
@@ -180,7 +180,7 @@ class RelayPool {
     if (messageType == 'EVENT') {
       try {
         if (relay is! RelayLocal &&
-            (relay.relayStatus.relayType != RelayType.CACHE)) {
+            (relay.relayStatus.relayType != RelayType.cache)) {
           var event = Map<String, dynamic>.from(json[2]);
           var kind = event["kind"];
           if (!EventKind.cacheAvoidEvents.contains(kind)) {
@@ -202,7 +202,7 @@ class RelayPool {
         }
 
         if (relay is RelayLocal ||
-            relay.relayStatus.relayType == RelayType.CACHE) {
+            relay.relayStatus.relayType == RelayType.cache) {
           // local message read source from json
           var sources = json[2]["sources"];
           if (sources != null && sources is List) {
@@ -337,7 +337,7 @@ class RelayPool {
     String? id,
     List<String>? tempRelays,
     List<String>? targetRelays,
-    List<int> relayTypes = RelayType.ALL,
+    List<int> relayTypes = RelayType.all,
     bool sendAfterAuth = false,
   }) {
     // Validate that we have at least one filter
@@ -372,7 +372,7 @@ class RelayPool {
     }
 
     // Process normal relays if included in relay types
-    if (relayTypes.contains(RelayType.NORMAL)) {
+    if (relayTypes.contains(RelayType.normal)) {
       for (var entry in _relays.entries) {
         var relayAddr = entry.key;
         var relay = entry.value;
@@ -389,14 +389,14 @@ class RelayPool {
     }
 
     // Subscribe to cache relays if included in relay types
-    if (relayTypes.contains(RelayType.CACHE)) {
+    if (relayTypes.contains(RelayType.cache)) {
       for (var relay in _cacheRelays.values) {
         subscribeToRelay(relay, subscription, sendAfterAuth);
       }
     }
 
     // Subscribe to local relay if available and included in relay types
-    if (relayTypes.contains(RelayType.LOCAL) && relayLocal != null) {
+    if (relayTypes.contains(RelayType.local) && relayLocal != null) {
       subscribeToRelay(relayLocal!, subscription, sendAfterAuth);
     }
 
@@ -518,7 +518,7 @@ class RelayPool {
     Function? onComplete,
     List<String>? tempRelays,
     List<String>? targetRelays,
-    List<int> relayTypes = RelayType.ALL,
+    List<int> relayTypes = RelayType.all,
     bool sendAfterAuth =
         false, // if relay not connected, it will send after auth
   }) {
@@ -543,7 +543,7 @@ class RelayPool {
     // tempRelay, only query those relay which has bean provide
     if (tempRelays != null &&
         tempRelays.isNotEmpty &&
-        relayTypes.contains(RelayType.TEMP)) {
+        relayTypes.contains(RelayType.temp)) {
       for (var tempRelayAddr in tempRelays) {
         // check if normal relays has this temp relay, try to get relay from normal relays
         Relay? relay = _relays[tempRelayAddr];
@@ -555,7 +555,7 @@ class RelayPool {
     }
 
     // normal relay, usually will query all the normal relays, but if targetRelays has provide, it only query from the provided querys.
-    if (relayTypes.contains(RelayType.NORMAL)) {
+    if (relayTypes.contains(RelayType.normal)) {
       for (var entry in _relays.entries) {
         var relayAddr = entry.key;
         var relay = entry.value;
@@ -571,14 +571,14 @@ class RelayPool {
     }
 
     // cache relay
-    if (relayTypes.contains(RelayType.CACHE)) {
+    if (relayTypes.contains(RelayType.cache)) {
       for (var relay in _cacheRelays.values) {
         relayDoQuery(relay, subscription, sendAfterAuth);
       }
     }
 
     // local relay
-    if (relayTypes.contains(RelayType.LOCAL) && relayLocal != null) {
+    if (relayTypes.contains(RelayType.local) && relayLocal != null) {
       relayDoQuery(relayLocal!, subscription, sendAfterAuth);
     }
 

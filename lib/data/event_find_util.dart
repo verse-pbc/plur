@@ -20,12 +20,12 @@ class EventFindUtil {
 
     if (eventBox.length() < limit) {
       // try to find something from localRelay
-      var filter = Filter(kinds: EventKind.SUPPORTED_EVENTS, limit: 5);
+      var filter = Filter(kinds: EventKind.supportedEvents, limit: 5);
       var filterMap = filter.toJson();
       filterMap["search"] = str;
 
       var events = await nostr!
-          .queryEvents([filterMap], relayTypes: RelayType.CACHE_AND_LOCAL);
+          .queryEvents([filterMap], relayTypes: RelayType.cacheAndLocal);
       eventBox.addList(events);
     }
 
