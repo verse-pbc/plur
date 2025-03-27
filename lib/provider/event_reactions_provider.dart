@@ -124,11 +124,11 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
   }
 
   List<int> supportEventKinds = [
-    EventKind.TEXT_NOTE,
-    EventKind.REPOST,
-    EventKind.GENERIC_REPOST,
-    EventKind.REACTION,
-    EventKind.ZAP
+    EventKind.textNote,
+    EventKind.repost,
+    EventKind.genericRepost,
+    EventKind.reaction,
+    EventKind.zap
   ];
 
   Future<bool> _loadFromRelayLocal(String id) async {

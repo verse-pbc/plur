@@ -87,12 +87,12 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       },
       {
         // Listen for community deletions
-        "kinds": [EventKind.GROUP_DELETE_GROUP],
+        "kinds": [EventKind.groupDeleteGroup],
         "since": since,
       },
       {
         // Listen for community metadata edits
-        "kinds": [EventKind.GROUP_EDIT_METADATA],
+        "kinds": [EventKind.groupEditMetadata],
         "since": since,
       }
     ];
@@ -116,11 +116,11 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       final listProvider = Provider.of<ListProvider>(context, listen: false);
 
       switch (event.kind) {
-        case EventKind.GROUP_DELETE_GROUP:
+        case EventKind.groupDeleteGroup:
           listProvider.handleGroupDeleteEvent(event);
         case EventKind.groupMembers || EventKind.groupAdmins:
           listProvider.handleAdminMembershipEvent(event);
-        case EventKind.GROUP_EDIT_METADATA:
+        case EventKind.groupEditMetadata:
           listProvider.handleEditMetadataEvent(event);
       }
     }, null);

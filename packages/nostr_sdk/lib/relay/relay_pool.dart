@@ -279,7 +279,7 @@ class RelayPool {
         ["challenge", challenge]
       ];
       Event? event =
-          Event(localNostr.publicKey, EventKind.AUTHENTICATION, tags, "");
+          Event(localNostr.publicKey, EventKind.authentication, tags, "");
       event = await localNostr.nostrSigner.signEvent(event);
       if (event != null) {
         final json = event.toJson();

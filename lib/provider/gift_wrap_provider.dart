@@ -12,7 +12,7 @@ class GiftWrapProvider extends ChangeNotifier {
   Future<void> init() async {
     var keyIndex = settingsProvider.privateKeyIndex!;
     var events =
-        await EventDB.list(keyIndex, [EventKind.GIFT_WRAP], 0, 10000000);
+        await EventDB.list(keyIndex, [EventKind.giftWrap], 0, 10000000);
 
     for (var event in events) {
       box.add(event);
@@ -38,7 +38,7 @@ class GiftWrapProvider extends ChangeNotifier {
     }
 
     var filter = Filter(
-      kinds: [EventKind.GIFT_WRAP],
+      kinds: [EventKind.giftWrap],
       since: since,
       p: [nostr!.publicKey],
     );
@@ -55,7 +55,7 @@ class GiftWrapProvider extends ChangeNotifier {
 
       // some event need some handle
       if (sourceEvent != null) {
-        if (sourceEvent.kind == EventKind.PRIVATE_DIRECT_MESSAGE) {
+        if (sourceEvent.kind == EventKind.privateDirectMessage) {
           // private DM, handle by dmProvider
           dmProvider.onEvent(sourceEvent);
         }
