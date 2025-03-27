@@ -145,7 +145,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
   void doQuery() {
     // tag query
     // https://github.com/nostr-protocol/nips/blob/master/12.md
-    var filter = Filter(kinds: EventKind.SUPPORTED_EVENTS, limit: 100);
+    var filter = Filter(kinds: EventKind.supportedEvents, limit: 100);
     var queryArg = filter.toJson();
     var plainTag = tag!.replaceFirst("#", "");
     // this place set #t not #r ???

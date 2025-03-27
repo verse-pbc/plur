@@ -53,7 +53,7 @@ class FollowEventProvider extends ChangeNotifier
   }
 
   List<int> queryEventKinds() {
-    return EventKind.SUPPORTED_EVENTS;
+    return EventKind.supportedEvents;
   }
 
   void doQuery(

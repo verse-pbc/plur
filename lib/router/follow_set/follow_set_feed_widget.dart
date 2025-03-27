@@ -170,7 +170,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
 
     // load event from relay
     var filter = Filter(
-      kinds: EventKind.SUPPORTED_EVENTS,
+      kinds: EventKind.supportedEvents,
       until: until,
       limit: queryLimit,
     );

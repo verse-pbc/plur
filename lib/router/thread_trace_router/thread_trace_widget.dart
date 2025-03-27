@@ -209,7 +209,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
       aId = eventRelation.aId;
     }
 
-    List<int> replyKinds = [...EventKind.SUPPORTED_EVENTS]
+    List<int> replyKinds = [...EventKind.supportedEvents]
       ..remove(EventKind.REPOST)
       ..remove(EventKind.LONG_FORM)
       ..add(EventKind.ZAP);

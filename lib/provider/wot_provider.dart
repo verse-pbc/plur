@@ -79,7 +79,7 @@ class WotProvider extends ChangeNotifier {
         EventKind.FOLLOW_SETS,
       ]);
       var events = await nostr!.queryEvents([filter.toJson()],
-          relayTypes: RelayType.CACHE_AND_LOCAL);
+          relayTypes: RelayType.cacheAndLocal);
 
       if (events.isNotEmpty) {
         for (var event in events) {

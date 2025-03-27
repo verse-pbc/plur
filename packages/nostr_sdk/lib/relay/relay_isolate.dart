@@ -124,11 +124,13 @@ class RelayIsolate extends Relay {
           _relayConnectComplete(false);
         }
       } else if (message is List && onMessage != null) {
-        log(
-          "Received message from $url.\n\n${message.toString()}",
-          level: Level.FINEST.value,
-          name: "RelayIsolate",
-        );
+        if (message.isNotEmpty && message[0] == "EVENT") {
+          log(
+            "Received message from $url.\n\n${message.toString()}",
+            level: Level.FINEST.value,
+            name: "RelayIsolate",
+          );
+        } 
         onMessage!(this, message);
       } else if (message is SendPort) {
         mainToSubSendPort = message;

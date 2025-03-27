@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../component/shimmer/shimmer_loading.dart';
 import '../../util/theme_util.dart';
+import 'community_title_widget.dart';
 
 class CommunityWidget extends StatelessWidget {
   final GroupIdentifier groupIdentifier;
@@ -47,21 +48,13 @@ class CommunityWidget extends StatelessWidget {
           width: imageSize,
           child: SizedBox(
             height: 60,
-            child: Text(
-              metadata?.name ?? groupIdentifier.groupId,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: themeData.textTheme.bodyMedium!.color,
-              ),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              maxLines: 2,
+            child: ShimmerLoading(
+              isLoading: metadata == null,
+              child: CommunityTitleWidget(groupIdentifier.groupId, metadata),
             ),
           ),
         ),
       ],
     );
   }
-
 }

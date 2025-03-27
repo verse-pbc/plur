@@ -123,14 +123,14 @@ class _GroupDetailNoteListWidgetState
       {
         // Listen for group notes
         // Use #h tag to match how notes are created
-        "kinds": [EventKind.GROUP_NOTE],
+        "kinds": [EventKind.groupNote],
         "#h": [widget.groupIdentifier.groupId],
         "since": currentTime
       },
       {
         // Listen for group note replies
         // Use #h tag to match how notes are created
-        "kinds": [EventKind.GROUP_NOTE_REPLY],
+        "kinds": [EventKind.groupNoteReply],
         "#h": [widget.groupIdentifier.groupId],
         "since": currentTime
       }
@@ -141,7 +141,7 @@ class _GroupDetailNoteListWidgetState
         filters,
         _handleSubscriptionEvent,
         id: subscribeId,
-        relayTypes: [RelayType.TEMP],
+        relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );

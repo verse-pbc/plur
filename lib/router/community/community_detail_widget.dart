@@ -154,7 +154,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
   }
 
   void queryEvents() {
-    var filter = Filter(kinds: EventKind.SUPPORTED_EVENTS, limit: 100);
+    var filter = Filter(kinds: EventKind.supportedEvents, limit: 100);
     var queryArg = filter.toJson();
     queryArg["#a"] = [aId!.toAString()];
     nostr!.query([queryArg], onEvent, id: subscribeId);

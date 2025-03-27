@@ -356,7 +356,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
       //   nostr!.query([filter.toJson()], onRootEvent);
       // }
 
-      List<int> replyKinds = [...EventKind.SUPPORTED_EVENTS]
+      List<int> replyKinds = [...EventKind.supportedEvents]
         ..remove(EventKind.REPOST)
         ..remove(EventKind.LONG_FORM)
         ..add(EventKind.ZAP);
