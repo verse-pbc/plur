@@ -11,6 +11,7 @@ import 'package:nostrmo/main.dart';
 import 'dart:developer';
 
 import '../../component/shimmer/shimmer.dart';
+import 'communities_grid_widget.dart';
 import 'community_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
@@ -45,33 +46,15 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     );
 
     return Scaffold(
-      body: Shimmer(
-        linearGradient: shimmerGradient,
-        child: Container(
-          child: groupIds.isEmpty
-          ? const Center(
-            child: NoCommunitiesWidget(),
-          )
-          : GridView.builder(
-            padding: const EdgeInsets.symmetric(vertical: 52),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 0.0,
-              mainAxisSpacing: 32.0,
-              childAspectRatio: 1,
-            ),
-            itemCount: groupIds.length,
-            itemBuilder: (context, index) {
-              final groupIdentifier = groupIds[index];
-              return InkWell(
-                onTap: () {
-                  RouterUtil.router(
-                    context, RouterPath.GROUP_DETAIL, groupIdentifier);
-                },
-                child: CommunityWidget(groupIdentifier),
-              );
-            }),
-        ),
+      body: Container(
+        child: groupIds.isEmpty
+            ? const Center(
+                child: NoCommunitiesWidget(),
+              )
+            : Shimmer(
+                linearGradient: shimmerGradient,
+                child: CommunitiesGridWidget(groupIds: groupIds),
+              ),
       ),
     );
   }
