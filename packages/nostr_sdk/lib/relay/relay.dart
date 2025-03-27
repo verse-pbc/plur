@@ -75,17 +75,24 @@ abstract class Relay {
 
   Future<void> disconnect();
 
-  @protected
+  /// Whether we are waiting to reconnect to this relay (due to exponential
+  /// backoff from a previous error)
+  @visibleForTesting
   bool waitingReconnect = false;
 
-  @protected
+  /// The number of times we've attempted to reconnect to this relay since the
+  /// last successful connection.
+  @visibleForTesting
   int reconnectAttempts = 0;
 
-  static const int maxReconnectAttempts = 5;
+  /// The maximum time we will wait before attempting to reconnect to
+  /// this relay.
+  static const int maxDelaySeconds = 32;
 
   /// The base delay in seconds before attempting to reconnect after an error
-  int get reconnectBaseDelayInSeconds => 10;
-  set reconnectBaseDelayInSeconds(int value) {}
+  /// We set this to 0 while testing to reconnect immediately.
+  @visibleForTesting
+  int reconnectBaseDelay = 1;
 
   /// Reset reconnect attempt counter
   void resetReconnectAttempts() {
@@ -103,14 +110,13 @@ abstract class Relay {
 
     // For subsequent attempts, use exponential backoff
     // Exponential backoff: baseDelay * 2^(attempt-2)
-    // We subtract 2 from the attempt count since we're starting exponential backoff
-    // from the third attempt onward
+    // We subtract 2 from the attempt count since we're starting exponential
+    // backoff from the third attempt onward.
     final int adjustedAttempt = reconnectAttempts - 2;
-    final double backoffFactor =
-        adjustedAttempt > 8 ? 256.0 : (1 << adjustedAttempt).toDouble();
-    final int delaySeconds =
-        (reconnectBaseDelayInSeconds * backoffFactor).round();
-    final int cappedDelaySeconds = delaySeconds > 300 ? 300 : delaySeconds;
+    final double backoffFactor = (1 << adjustedAttempt).toDouble();
+    final int delaySeconds = (reconnectBaseDelay * backoffFactor).round();
+    final int cappedDelaySeconds =
+        delaySeconds > maxDelaySeconds ? maxDelaySeconds : delaySeconds;
 
     // Add jitter (±10% variation) to prevent reconnection storms
     final random =
@@ -133,13 +139,6 @@ abstract class Relay {
     if (reconnect && !waitingReconnect) {
       reconnectAttempts++;
       waitingReconnect = true;
-
-      // If we've reached or exceeded maximum reconnect attempts, log and don't attempt again
-      if (reconnectAttempts >= maxReconnectAttempts) {
-        log("Maximum reconnect attempts ($maxReconnectAttempts) reached for $url, giving up.");
-        waitingReconnect = false;
-        return;
-      }
 
       final delay = calculateReconnectDelay();
 
