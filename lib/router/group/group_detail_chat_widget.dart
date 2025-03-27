@@ -226,6 +226,6 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
 
   @override
   int? getGroupEventKind() {
-    return EventKind.GROUP_CHAT_MESSAGE;
+    return EventKind.groupChatMessage;
   }
 }

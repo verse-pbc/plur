@@ -95,13 +95,13 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     final filters = [
       {
         // Listen for communities where user is a member
-        "kinds": [EventKind.GROUP_MEMBERS],
+        "kinds": [EventKind.groupMembers],
         "#p": [nostr!.publicKey],
         "since": since,
       },
       {
         // Listen for communities where user is an admin
-        "kinds": [EventKind.GROUP_ADMINS],
+        "kinds": [EventKind.groupAdmins],
         "#p": [nostr!.publicKey],
         "since": since,
       },
@@ -138,7 +138,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       switch (event.kind) {
         case EventKind.GROUP_DELETE_GROUP:
           listProvider.handleGroupDeleteEvent(event);
-        case EventKind.GROUP_MEMBERS || EventKind.GROUP_ADMINS:
+        case EventKind.groupMembers || EventKind.groupAdmins:
           listProvider.handleAdminMembershipEvent(event);
         case EventKind.GROUP_EDIT_METADATA:
           listProvider.handleEditMetadataEvent(event);

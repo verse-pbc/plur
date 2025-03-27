@@ -17,13 +17,13 @@ class EventKind {
 
   static const int BADGE_AWARD = 8;
 
-  static const int GROUP_CHAT_MESSAGE = 9;
+  static const int groupChatMessage = 9;
 
-  static const int GROUP_CHAT_REPLY = 10;
+  static const int groupChatReply = 10;
 
-  static const int GROUP_NOTE = 11;
+  static const int groupNote = 11;
 
-  static const int GROUP_NOTE_REPLY = 12;
+  static const int groupNoteReply = 12;
 
   static const int SEAL_EVENT_KIND = 13;
 
@@ -89,7 +89,7 @@ class EventKind {
 
   static const int NWC_RESPONSE_EVENT = 23195;
 
-  static const int NOSTR_REMOTE_SIGNING = 24133;
+  static const int nostrRemoteSigning = 24133;
 
   static const int BLOSSOM_HTTP_AUTH = 24242;
 
@@ -115,19 +115,19 @@ class EventKind {
 
   static const int GROUP_METADATA = 39000;
 
-  static const int GROUP_ADMINS = 39001;
+  static const int groupAdmins = 39001;
 
-  static const int GROUP_MEMBERS = 39002;
+  static const int groupMembers = 39002;
 
   // avoid to send these events to cache relay
-  static List<int> CACHE_AVOID_EVENTS = [
-    NOSTR_REMOTE_SIGNING,
-    GROUP_ADMINS,
-    GROUP_MEMBERS,
-    GROUP_CHAT_MESSAGE,
-    GROUP_CHAT_REPLY,
-    GROUP_NOTE,
-    GROUP_NOTE_REPLY,
+  static List<int> cacheAvoidEvents = [
+    nostrRemoteSigning,
+    groupAdmins,
+    groupMembers,
+    groupChatMessage,
+    groupChatReply,
+    groupNote,
+    groupNoteReply,
   ];
 
   static List<int> SUPPORTED_EVENTS = [

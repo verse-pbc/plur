@@ -13,7 +13,7 @@ class GroupAdmins extends GroupObject {
       users.any((user) => user.pubkey == pubkey);
 
   static GroupAdmins? loadFromEvent(Event e) {
-    if (e.kind != EventKind.GROUP_ADMINS) {
+    if (e.kind != EventKind.groupAdmins) {
       return null;
     }
 

@@ -94,7 +94,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
 
   void _updateMember(GroupIdentifier groupIdentifier) {
     var membersJsonMap =
-        genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
+        genFilter(groupIdentifier.groupId, EventKind.groupMembers);
 
     nostr!.query(
       [membersJsonMap],
@@ -154,8 +154,8 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   void query(GroupIdentifier groupIdentifier) {
     final groupId = groupIdentifier.groupId;
     var metadataJsonMap = genFilter(groupId, EventKind.GROUP_METADATA);
-    var adminsJsonMap = genFilter(groupId, EventKind.GROUP_ADMINS);
-    var membersJsonMap = genFilter(groupId, EventKind.GROUP_MEMBERS);
+    var adminsJsonMap = genFilter(groupId, EventKind.groupAdmins);
+    var membersJsonMap = genFilter(groupId, EventKind.groupMembers);
     final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
     if (nostr == null) {
       Sentry.captureMessage("nostr is null", level: SentryLevel.error);
@@ -173,10 +173,10 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     if (e.kind == EventKind.GROUP_METADATA) {
       updated = handleEvent(
           groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
-    } else if (e.kind == EventKind.GROUP_ADMINS) {
+    } else if (e.kind == EventKind.groupAdmins) {
       updated = handleEvent(
           groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
-    } else if (e.kind == EventKind.GROUP_MEMBERS) {
+    } else if (e.kind == EventKind.groupMembers) {
       updated = handleEvent(
           groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
     } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {

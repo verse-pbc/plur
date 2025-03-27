@@ -40,8 +40,8 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   void onNewEvent(Event e) {
-    if (e.kind == EventKind.GROUP_NOTE ||
-        e.kind == EventKind.GROUP_NOTE_REPLY) {
+    if (e.kind == EventKind.groupNote ||
+        e.kind == EventKind.groupNoteReply) {
       if (!notesBox.contains(e.id)) {
         if (newNotesBox.add(e)) {
           if (e.createdAt > _initTime) {
@@ -54,8 +54,8 @@ class GroupDetailProvider extends ChangeNotifier
           }
         }
       }
-    } else if (e.kind == EventKind.GROUP_CHAT_MESSAGE ||
-        e.kind == EventKind.GROUP_CHAT_REPLY) {
+    } else if (e.kind == EventKind.groupChatMessage ||
+        e.kind == EventKind.groupChatReply) {
       if (chatsBox.add(e)) {
         chatsBox.sort();
         notifyListeners();
@@ -75,10 +75,10 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   static List<int> supportEventKinds = [
-    EventKind.GROUP_NOTE,
-    EventKind.GROUP_NOTE_REPLY,
-    EventKind.GROUP_CHAT_MESSAGE,
-    EventKind.GROUP_CHAT_REPLY,
+    EventKind.groupNote,
+    EventKind.groupNoteReply,
+    EventKind.groupChatMessage,
+    EventKind.groupChatReply,
   ];
 
   void doQuery(int? until) {
@@ -132,13 +132,13 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   bool isGroupNote(Event e) {
-    return e.kind == EventKind.GROUP_NOTE ||
-        e.kind == EventKind.GROUP_NOTE_REPLY;
+    return e.kind == EventKind.groupNote ||
+        e.kind == EventKind.groupNoteReply;
   }
 
   bool isGroupChat(Event e) {
-    return e.kind == EventKind.GROUP_CHAT_MESSAGE ||
-        e.kind == EventKind.GROUP_CHAT_REPLY;
+    return e.kind == EventKind.groupChatMessage ||
+        e.kind == EventKind.groupChatReply;
   }
 
   void deleteEvent(Event e) {

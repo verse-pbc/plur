@@ -231,8 +231,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
               var groupAdmins =
                   GroupIdentifierInheritedWidget.getGroupAdmins(context);
-              var isGroupEvent = (widget.event.kind == EventKind.GROUP_NOTE ||
-                  widget.event.kind == EventKind.GROUP_NOTE_REPLY);
+              var isGroupEvent = (widget.event.kind == EventKind.groupNote ||
+                  widget.event.kind == EventKind.groupNoteReply);
               var pubkey = nostr!.publicKey;
               if ((!isGroupEvent && widget.event.pubkey == pubkey) ||
                   (isGroupEvent &&
@@ -469,8 +469,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     } else if (value == "block") {
       filterProvider.addBlock(widget.event.pubkey);
     } else if (value == "delete") {
-      if (widget.event.kind == EventKind.GROUP_NOTE ||
-          widget.event.kind == EventKind.GROUP_NOTE_REPLY) {
+      if (widget.event.kind == EventKind.groupNote ||
+          widget.event.kind == EventKind.groupNoteReply) {
         var groupIdentifier = widget.event.relations().groupIdentifier;
         if (groupIdentifier != null) {
           groupProvider.deleteEvent(groupIdentifier, widget.event.id);
@@ -549,11 +549,11 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
     GroupIdentifier? groupIdentifier;
     int? groupEventKind;
-    if (widget.event.kind == EventKind.GROUP_NOTE ||
-        widget.event.kind == EventKind.GROUP_NOTE_REPLY) {
+    if (widget.event.kind == EventKind.groupNote ||
+        widget.event.kind == EventKind.groupNoteReply) {
       groupIdentifier = widget.event.relations().groupIdentifier;
       if (groupIdentifier != null) {
-        groupEventKind = EventKind.GROUP_NOTE_REPLY;
+        groupEventKind = EventKind.groupNoteReply;
       }
     }
 
@@ -696,8 +696,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
   List<String>? getGroupRelays() {
     List<String>? relayAddrs;
-    if (widget.event.kind == EventKind.GROUP_NOTE ||
-        widget.event.kind == EventKind.GROUP_NOTE_REPLY) {
+    if (widget.event.kind == EventKind.groupNote ||
+        widget.event.kind == EventKind.groupNoteReply) {
       var groupIdentifier =
           GroupIdentifierInheritedWidget.getGroupIdentifier(context);
       if (groupIdentifier != null) {
