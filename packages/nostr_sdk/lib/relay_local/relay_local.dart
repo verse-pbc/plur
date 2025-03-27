@@ -60,7 +60,7 @@ class RelayLocal extends Relay with RelayLocalMixin {
   }
 
   @override
-  bool send(List message, {bool? forceSend}) { 
+  bool send(List message, {bool? forceSend}) {
     if (message.isNotEmpty) {
       switch (message[0]) {
         case "EVENT":
