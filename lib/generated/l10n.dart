@@ -3310,6 +3310,16 @@ class S {
     );
   }
 
+  /// `Development`
+  String get Development {
+    return Intl.message(
+      'Development',
+      name: 'Development',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Closed group`
   String get Closed_group {
     return Intl.message(
