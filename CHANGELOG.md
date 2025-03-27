@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+
+### Internal Changes
+
+## [0.0.4]
+
+### Release Notes
 - Fixed an issue with mentioning users in a group. [#232](https://github.com/verse-pbc/issues/issues/232)
 - Fixed issue where invite links do not work if app is not already running. [#249](https://github.com/verse-pbc/issues/issues/249)
 - Fixed an issue where the group metadata events where fetch from more groups than needed. [#273](https://github.com/verse-pbc/issues/issues/273)
@@ -28,6 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed lint job that fails when there is a slash in the branch name.
 - Add an ADR for the decision to use Riverpod [#272](https://github.com/verse-pbc/issues/issues/272)
 - Fixed several lint errors with Claude Code [#116](https://github.com/verse-pbc/plur/pull/116)
+- Integrated Firebase Cloud Messaging for notifications [#239](https://github.com/verse-pbc/issues/issues/239)
 - Moved nostr_sdk into packages folder. [#122](https://github.com/verse-pbc/plur/pull/122)
 - Fixed issue where RelayTypes were not passed to RelayPool. [#274](https://github.com/verse-pbc/issues/issues/274)
 - Minor refactor of checking isAdmin and GroupDetailWidget.
