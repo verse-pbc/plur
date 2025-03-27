@@ -22,7 +22,7 @@ mixin RelayLocalMixin {
     final subscriptionId = message[1];
     final filter = message[2];
     final count = await getRelayLocalDB().doQueryCount(filter);
-    final result = {"count", count};
+    final result = {"count": count};
     callback(connId, ["COUNT", subscriptionId, result]);
   }
 
