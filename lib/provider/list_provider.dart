@@ -407,7 +407,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   Future<bool> _verifyMembership(JoinGroupParameters request) async {
-    final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
+    final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
     final filterMap = filter.toJson();
     filterMap["#d"] = [request.groupId];
 
@@ -432,7 +432,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _checkTagsForMembership(Event event, Completer<bool> completer) {
-    if (event.kind == EventKind.GROUP_MEMBERS) {
+    if (event.kind == EventKind.groupMembers) {
       for (var tag in event.tags) {
         if (tag is List && tag.length > 1) {
           if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
@@ -627,12 +627,12 @@ class ListProvider extends ChangeNotifier {
     final filters = [
       {
         // Get groups where user is a member
-        "kinds": [EventKind.GROUP_MEMBERS],
+        "kinds": [EventKind.groupMembers],
         "#p": [nostr!.publicKey],
       },
       {
         // Get groups where user is an admin
-        "kinds": [EventKind.GROUP_ADMINS],
+        "kinds": [EventKind.groupAdmins],
         "#p": [nostr!.publicKey],
       }
     ];
@@ -659,8 +659,8 @@ class ListProvider extends ChangeNotifier {
 
   /// Handles membership/admin events by adding new groups to _groupIdentifiers
   void handleAdminMembershipEvent(Event event) {
-    if (event.kind == EventKind.GROUP_MEMBERS ||
-        event.kind == EventKind.GROUP_ADMINS) {
+    if (event.kind == EventKind.groupMembers ||
+        event.kind == EventKind.groupAdmins) {
       _extractGroupIdentifiersFromTags(event, tagPrefix: "d")
           .forEach(_addGroupIdentifier);
       notifyListeners();

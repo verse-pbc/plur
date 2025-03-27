@@ -86,7 +86,7 @@ class NostrRemoteSigner extends NostrSigner {
         relay.relayStatus.noteReceive();
 
         final event = Event.fromJson(json[2]);
-        if (event.kind == EventKind.NOSTR_REMOTE_SIGNING) {
+        if (event.kind == EventKind.nostrRemoteSigning) {
           var response = await NostrRemoteResponse.decrypt(
               event.content, localNostrSigner, event.pubkey);
           if (response != null) {
@@ -150,7 +150,7 @@ class NostrRemoteSigner extends NostrSigner {
     var filter = Filter(
       since: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       p: [pubkey],
-      kinds: [EventKind.NOSTR_REMOTE_SIGNING],
+      kinds: [EventKind.nostrRemoteSigning],
     );
     List<dynamic> queryMsg = ["REQ", StringUtil.rndNameStr(12)];
     queryMsg.add(filter.toJson());
@@ -165,7 +165,7 @@ class NostrRemoteSigner extends NostrSigner {
     var content =
         await request.encrypt(localNostrSigner, info.remoteSignerPubkey);
     if (StringUtil.isNotBlank(senderPubkey) && content != null) {
-      Event? event = Event(senderPubkey!, EventKind.NOSTR_REMOTE_SIGNING,
+      Event? event = Event(senderPubkey!, EventKind.nostrRemoteSigning,
           [getRemoteSignerPubkeyTags()], content);
       event = await localNostrSigner.signEvent(event);
       if (event != null) {

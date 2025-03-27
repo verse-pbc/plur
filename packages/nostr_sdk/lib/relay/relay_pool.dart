@@ -183,7 +183,7 @@ class RelayPool {
             (relay.relayStatus.relayType != RelayType.CACHE)) {
           var event = Map<String, dynamic>.from(json[2]);
           var kind = event["kind"];
-          if (!EventKind.CACHE_AVOID_EVENTS.contains(kind)) {
+          if (!EventKind.cacheAvoidEvents.contains(kind)) {
             event["sources"] = [relay.url];
             _broadcastToCache(event);
           }
