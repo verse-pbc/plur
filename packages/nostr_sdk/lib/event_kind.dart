@@ -130,7 +130,7 @@ class EventKind {
     groupNoteReply,
   ];
 
-  static List<int> SUPPORTED_EVENTS = [
+  static List<int> supportedEvents = [
     TEXT_NOTE,
     REPOST,
     GENERIC_REPOST,

@@ -212,7 +212,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
     );
   }
 
-  List<int> searchEventKinds = EventKind.SUPPORTED_EVENTS;
+  List<int> searchEventKinds = EventKind.supportedEvents;
 
   String? subscribeId;
 

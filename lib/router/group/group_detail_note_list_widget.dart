@@ -141,7 +141,7 @@ class _GroupDetailNoteListWidgetState
         filters,
         _handleSubscriptionEvent,
         id: subscribeId,
-        relayTypes: [RelayType.TEMP],
+        relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );

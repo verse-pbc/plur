@@ -94,7 +94,7 @@ class GroupDetailProvider extends ChangeNotifier
         [jsonMap],
         onEvent,
         tempRelays: relays,
-        relayTypes: RelayType.ONLY_TEMP,
+        relayTypes: RelayType.onlyTemp,
         sendAfterAuth: true,
       );
     }
