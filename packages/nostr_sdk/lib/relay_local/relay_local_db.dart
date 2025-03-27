@@ -345,11 +345,6 @@ class RelayLocalDB with LaterFunction {
       query =
           " SELECT id, pubkey, created_at, kind, tags, content, sig, sources FROM event WHERE ${conditions.join(" AND ")} ORDER BY created_at DESC LIMIT ?";
     }
-    log(
-      "Built query for filter ${filter.toString()}\n\n$query",
-      level: Level.FINEST.value,
-      name: "RelayLocal",
-    );
     return query;
   }
 

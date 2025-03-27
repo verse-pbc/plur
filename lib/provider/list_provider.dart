@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
@@ -595,11 +596,16 @@ class ListProvider extends ChangeNotifier {
 
   /// Add a group identifier to the list and fetch its metadata
   void _addGroupIdentifier(GroupIdentifier groupId) {
-    if (!_groupIdentifiers.contains(groupId)) {
-      _groupIdentifiers.add(groupId);
-      // Fetch metadata for just this new group
-      _queryGroupMetadata(groupId);
+    if (_groupIdentifiers.contains(groupId)) {
+      return;
     }
+    _groupIdentifiers.add(groupId);
+    _queryGroupMetadata(groupId);
+    log(
+      "Added group $groupId to list.",
+      level: Level.FINE.value,
+      name: "ListProvider",
+    );
   }
 
   /// Fetch metadata for a specific group
