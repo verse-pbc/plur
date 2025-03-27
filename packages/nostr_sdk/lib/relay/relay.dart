@@ -29,10 +29,30 @@ abstract class Relay {
   // quries
   final Map<String, Subscription> _queries = {};
 
-  Relay(this.url, this.relayStatus);
+  Relay(this.url, this.relayStatus) {
+    _connectImplementation = _defaultConnectImplementation;
+  }
 
   /// The method to call connect function by framework.
   Future<bool> connect() async {
+    return _connectImplementation();
+  }
+
+  /// Implementation function that can be replaced in tests
+  late Future<bool> Function() _connectImplementation;
+
+  /// For testing - allows replacing the connect implementation
+  void setConnectImplementation(Future<bool> Function() implementation) {
+    _connectImplementation = implementation;
+  }
+
+  /// Reset to the default connect implementation
+  void resetConnectImplementation() {
+    _connectImplementation = _defaultConnectImplementation;
+  }
+
+  /// Default implementation of connect
+  Future<bool> _defaultConnectImplementation() async {
     try {
       relayStatus.authed = false;
       var result = await doConnect();
@@ -76,8 +96,68 @@ abstract class Relay {
   Future<void> disconnect();
 
   bool _waitingReconnect = false;
+  int _reconnectAttempts = 0;
+  static const int _maxReconnectAttempts = 5;
 
-  void onError(String errMsg, {bool reconnect = false}) {
+  /// For testing purposes - expose the waiting reconnect state
+  bool get isWaitingReconnect => _waitingReconnect;
+
+  /// For testing purposes - expose reconnect attempts
+  int get reconnectAttempts => _reconnectAttempts;
+
+  /// For testing purposes - expose max reconnect attempts
+  int get maxReconnectAttempts => _maxReconnectAttempts;
+
+  /// For testing purposes - set the waiting reconnect flag
+  void setWaitingReconnect(bool value) => _waitingReconnect = value;
+
+  /// The base delay in seconds before attempting to reconnect after an error
+  /// Can be overridden in subclasses for testing
+  int get reconnectBaseDelayInSeconds => 10;
+
+  /// Reset reconnect attempt counter
+  void resetReconnectAttempts() {
+    _reconnectAttempts = 0;
+  }
+
+  /// Calculate delay using exponential backoff with jitter
+  Duration _calculateReconnectDelay() {
+    // First attempt: reconnect immediately
+    if (_reconnectAttempts <= 1) return Duration.zero;
+
+    // Second attempt: wait just 1 second
+    if (_reconnectAttempts == 2) return const Duration(seconds: 1);
+
+    // For subsequent attempts, use exponential backoff
+    // Exponential backoff: baseDelay * 2^(attempt-2)
+    // We subtract 2 from the attempt count since we're starting exponential backoff
+    // from the third attempt onward
+    final int adjustedAttempt = _reconnectAttempts - 2;
+    final double backoffFactor =
+        adjustedAttempt > 8 ? 256.0 : (1 << adjustedAttempt).toDouble();
+    final int delaySeconds =
+        (reconnectBaseDelayInSeconds * backoffFactor).round();
+    final int cappedDelaySeconds = delaySeconds > 300 ? 300 : delaySeconds;
+
+    // Add jitter (±10% variation) to prevent reconnection storms
+    final random =
+        (DateTime.now().microsecondsSinceEpoch % 1000) / 10000; // 0.0-0.1
+    final jitterFactor = 0.9 + random * 0.2; // 0.9-1.1
+
+    return Duration(
+        milliseconds: (cappedDelaySeconds * 1000 * jitterFactor).round());
+  }
+
+  /// For testing - expose the calculate reconnect delay method
+  Duration calculateReconnectDelayForAttempt(int attemptNumber) {
+    final oldAttempts = _reconnectAttempts;
+    _reconnectAttempts = attemptNumber;
+    final result = _calculateReconnectDelay();
+    _reconnectAttempts = oldAttempts;
+    return result;
+  }
+
+  void onError(String errMsg, {bool reconnect = true}) {
     log("relay error: $errMsg");
     relayStatus.onError();
     relayStatus.connected = ClientConneccted.UN_CONNECT;
@@ -87,10 +167,32 @@ abstract class Relay {
     disconnect();
 
     if (reconnect && !_waitingReconnect) {
+      _reconnectAttempts++;
       _waitingReconnect = true;
-      Future.delayed(const Duration(seconds: 30), () {
+
+      // If we've reached or exceeded maximum reconnect attempts, log and don't attempt again
+      if (_reconnectAttempts >= _maxReconnectAttempts) {
+        log("Maximum reconnect attempts ($_maxReconnectAttempts) reached for $url, giving up.");
         _waitingReconnect = false;
-        connect();
+        return;
+      }
+
+      final delay = _calculateReconnectDelay();
+
+      if (delay.inMilliseconds == 0) {
+        log("Reconnecting immediately (attempt #$_reconnectAttempts) for $url");
+      } else {
+        log("Scheduling reconnect attempt #$_reconnectAttempts for $url in ${delay.inSeconds}s");
+      }
+
+      Future.delayed(delay, () {
+        _waitingReconnect = false;
+        connect().then((success) {
+          if (success) {
+            // Reset attempt counter on successful connection
+            resetReconnectAttempts();
+          }
+        });
       });
     }
   }

@@ -10,7 +10,7 @@ import '../main.dart';
 import 'data_util.dart';
 
 class RelayProvider extends ChangeNotifier {
-  static const defaultGroupsRelayAddress = 'wss://communities.nos.social';
+  static const defaultGroupsRelayAddress = 'ws://0.0.0.0:8080';
   static RelayProvider? _relayProvider;
 
   List<String> relayAddrs = [];
