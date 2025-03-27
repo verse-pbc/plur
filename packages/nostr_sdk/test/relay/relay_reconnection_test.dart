@@ -10,9 +10,6 @@ void main() {
     setUp(() {
       relayStatus = RelayStatus('wss://test.relay.com');
       relay = TestableRelay('wss://test.relay.com', relayStatus);
-
-      // Set a short delay for faster tests
-      relay.reconnectBaseDelay = 0;
     });
 
     test('onError sets the waiting reconnect flag with reconnect=true', () {
@@ -68,9 +65,6 @@ void main() {
     test(
         'reconnection delay follows immediate, short, then exponential pattern up to max',
         () {
-      // Set a fixed base delay to make calculations predictable
-      relay.reconnectBaseDelay = 10;
-
       // First attempt should reconnect immediately (0 delay)
       final delay1 = relay.calculateReconnectDelayForAttempt(1);
       expect(delay1, equals(Duration.zero));
@@ -79,37 +73,36 @@ void main() {
       final delay2 = relay.calculateReconnectDelayForAttempt(2);
       expect(delay2, equals(const Duration(seconds: 1)));
 
-      // Third attempt should start exponential backoff (10 seconds)
+      // Third attempt should start exponential backoff
       final delay3 = relay.calculateReconnectDelayForAttempt(3);
-
-      // Fourth attempt (10 * 2 = 20 seconds)
       final delay4 = relay.calculateReconnectDelayForAttempt(4);
-
-      // Fifth attempt (10 * 4 = 40 seconds, but should be capped at 32)
       final delay5 = relay.calculateReconnectDelayForAttempt(5);
+      // Test that higher attempts are properly capped at 32 seconds
+      final delay8 = relay.calculateReconnectDelayForAttempt(8);
 
       // Check specific delays (accounting for ±10% jitter)
-      // Third attempt: 10 * 2^1 = 20 seconds ±10%
-      final int approxDelay3Seconds = delay3.inMilliseconds ~/ 1000;
-      expect(approxDelay3Seconds >= 18, isTrue,
-          reason: "Third attempt delay too short: ${delay3.inSeconds}s");
-      expect(approxDelay3Seconds <= 22, isTrue,
-          reason: "Third attempt delay too long: ${delay3.inSeconds}s");
+      // Third attempt: 1 * 2^1 = 2 seconds ±10%
+      expect(delay3.inMilliseconds >= 1800, isTrue,
+          reason: "Third attempt delay too short: ${delay3.inMilliseconds}ms");
+      expect(delay3.inMilliseconds <= 2200, isTrue,
+          reason: "Third attempt delay too long: ${delay3.inMilliseconds}ms");
 
-      // Fourth attempt and beyond should be capped at 32 seconds ±10%
-      // Min = 32 * 0.9 = 28.8 seconds, Max = 32 * 1.1 = 35.2 seconds
-      final int approxDelay4Seconds = delay4.inMilliseconds ~/ 1000;
-      expect(approxDelay4Seconds >= 28, isTrue,
-          reason: "Fourth attempt delay too short: ${delay4.inSeconds}s");
-      expect(approxDelay4Seconds <= 35, isTrue,
-          reason: "Fourth attempt delay too long: ${delay4.inSeconds}s");
+      // Fourth attempt: 1 * 2^2 = 4 seconds ±10%
+      expect(delay4.inMilliseconds >= 3600, isTrue,
+          reason: "Fourth attempt delay too short: ${delay4.inMilliseconds}ms");
+      expect(delay4.inMilliseconds <= 4400, isTrue,
+          reason: "Fourth attempt delay too long: ${delay4.inMilliseconds}ms");
 
-      // Fifth and sixth attempts should also be capped at 32 seconds ±10%
-      final int approxDelay5Seconds = delay5.inMilliseconds ~/ 1000;
-      expect(approxDelay5Seconds >= 28, isTrue,
-          reason: "Fifth attempt delay too short: ${delay5.inSeconds}s");
-      expect(approxDelay5Seconds <= 35, isTrue,
-          reason: "Fifth attempt delay too long: ${delay5.inSeconds}s");
+      // Fifth attempt: 1 * 2^3 = 8 seconds ±10%
+      expect(delay5.inMilliseconds >= 7200, isTrue,
+          reason: "Fifth attempt delay too short: ${delay5.inMilliseconds}ms");
+      expect(delay5.inMilliseconds <= 8800, isTrue,
+          reason: "Fifth attempt delay too long: ${delay5.inMilliseconds}ms");
+
+      expect(delay8.inMilliseconds >= 28800, isTrue, // 32s * 0.9 = 28.8s
+          reason: "Eighth attempt delay too short: ${delay8.inMilliseconds}ms");
+      expect(delay8.inMilliseconds <= 35200, isTrue, // 32s * 1.1 = 35.2s
+          reason: "Eighth attempt delay too long: ${delay8.inMilliseconds}ms");
     });
   });
 }
