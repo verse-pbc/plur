@@ -91,13 +91,19 @@ class Uploader {
     return null;
   }
 
-  /// Shows UI to allow the user to pick multiple files, and returns the paths.
-  static Future<List<String>> pickFiles(BuildContext context) async {
+  /// Shows UI to allow the user to pick one or more files and returns the paths.
+  static Future<List<String>> pickFiles(
+    BuildContext context, {
+    FileType type = FileType.any,
+    bool allowMultiple = true,
+  }) async {
     List<String> resultFiles = [];
 
     if (PlatformUtil.isPC() || PlatformUtil.isWeb()) {
-      FilePickerResult? result =
-          await FilePicker.platform.pickFiles(allowMultiple: true);
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: type,
+        allowMultiple: allowMultiple,
+      );
 
       if (result != null) {
         for (var file in result.files) {
@@ -120,9 +126,14 @@ class Uploader {
       return resultFiles;
     }
 
-    var assets = await AssetPicker.pickAssets(
+    final assetRequestType =
+        type == FileType.image ? RequestType.image : RequestType.common;
+    final assets = await AssetPicker.pickAssets(
       context,
-      pickerConfig: const AssetPickerConfig(maxAssets: 20),
+      pickerConfig: AssetPickerConfig(
+        maxAssets: allowMultiple ? 20 : 1,
+        requestType: assetRequestType,
+      ),
       useRootNavigator: false,
     );
 
