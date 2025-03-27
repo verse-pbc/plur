@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253744100535",
+    "project_id": "plur-623b0",
+    "storage_bucket": "plur-623b0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253744100535:android:8aa513f9b9c1fc521ec932",
+        "android_client_info": {
+          "package_name": "app.verse.prototype.plur"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOo-fesVd35J_9m87qxEdGw9HX5Rjm_7Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
