@@ -141,6 +141,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "We will try to delete you infomation. When you login with this Key again, you will lose your data."),
         "Description": MessageLookupByLibrary.simpleMessage("Description"),
         "Detail": MessageLookupByLibrary.simpleMessage("Detail"),
+        "Development": MessageLookupByLibrary.simpleMessage("Development"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Dirtywords"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "Donate": MessageLookupByLibrary.simpleMessage("Donate"),

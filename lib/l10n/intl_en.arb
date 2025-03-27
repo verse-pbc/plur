@@ -332,6 +332,7 @@
     "Description": "Description",
     "Save": "Save",
     "All_media_public": "All media is publicly accessible to anyone with the URL.",
+    "Development": "Development",
     "Closed_group": "Closed group",
     "Open_group": "Open group",
     "Group_member": "{number} Member",
