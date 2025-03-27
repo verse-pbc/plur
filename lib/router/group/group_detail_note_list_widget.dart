@@ -14,6 +14,7 @@ import '../../consts/base_consts.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/theme_util.dart';
+import '../../util/time_util.dart';
 import '../../provider/relay_provider.dart';
 
 class GroupDetailNoteListWidget extends StatefulWidget {
@@ -117,20 +118,21 @@ class _GroupDetailNoteListWidgetState
       _unsubscribe();
     }
 
+    final currentTime = currentUnixTimestamp();
     final filters = [
       {
         // Listen for group notes
         // Use #h tag to match how notes are created
         "kinds": [EventKind.GROUP_NOTE],
         "#h": [widget.groupIdentifier.groupId],
-        "since": DateTime.now().millisecondsSinceEpoch
+        "since": currentTime
       },
       {
         // Listen for group note replies
         // Use #h tag to match how notes are created
         "kinds": [EventKind.GROUP_NOTE_REPLY],
         "#h": [widget.groupIdentifier.groupId],
-        "since": DateTime.now().millisecondsSinceEpoch
+        "since": currentTime
       }
     ];
 
@@ -155,11 +157,6 @@ class _GroupDetailNoteListWidgetState
         groupDetailProvider!.onNewEvent(e);
       }
     }, null);
-  }
-
-  /// Handles events created by the current user.
-  void handleDirectEvent(Event event) {
-    groupDetailProvider?.handleDirectEvent(event);
   }
 
   Future<void> refresh() async {
