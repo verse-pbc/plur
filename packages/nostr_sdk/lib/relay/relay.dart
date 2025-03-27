@@ -90,9 +90,7 @@ abstract class Relay {
   static const int maxDelaySeconds = 32;
 
   /// The base delay in seconds before attempting to reconnect after an error
-  /// We set this to 0 while testing to reconnect immediately.
-  @visibleForTesting
-  int reconnectBaseDelay = 1;
+  final int _reconnectBaseDelay = 1;
 
   /// Reset reconnect attempt counter
   void resetReconnectAttempts() {
@@ -114,7 +112,7 @@ abstract class Relay {
     // backoff from the third attempt onward.
     final int adjustedAttempt = reconnectAttempts - 2;
     final double backoffFactor = (1 << adjustedAttempt).toDouble();
-    final int delaySeconds = (reconnectBaseDelay * backoffFactor).round();
+    final int delaySeconds = (_reconnectBaseDelay * backoffFactor).round();
     final int cappedDelaySeconds =
         delaySeconds > maxDelaySeconds ? maxDelaySeconds : delaySeconds;
 
