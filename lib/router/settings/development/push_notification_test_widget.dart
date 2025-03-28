@@ -450,7 +450,7 @@ class _PushNotificationTestWidgetState
             ),
             const SizedBox(height: 16),
 
-            // Nostr Registration Card
+            // Relay Registration Card
             Card(
               color: Colors.transparent,
               child: Padding(
