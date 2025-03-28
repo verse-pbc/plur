@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/util/push_notification_tester.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:nostrmo/main.dart';
 
 /// A test widget to help with testing push notifications
 class PushNotificationTestWidget extends StatefulWidget {
@@ -24,6 +25,9 @@ class _PushNotificationTestWidgetState
       TextEditingController(text: 'Test Notification');
   final TextEditingController _bodyController =
       TextEditingController(text: 'This is a test notification');
+  final TextEditingController _relayUrlController = TextEditingController(
+    text: 'wss://communities.nos.social',
+  );
 
   @override
   void initState() {
@@ -137,6 +141,76 @@ class _PushNotificationTestWidgetState
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Local notification triggered')),
       );
+    }
+  }
+
+  Future<void> _registerWithRelay() async {
+    if (_token == null || nostr == null) return;
+
+    setState(() => _isLoading = true);
+    try {
+      final result = await NotificationUtil.registerTokenWithRelay(
+        token: _token!,
+        nostr: nostr!,
+        relayUrl: _relayUrlController.text,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result
+                ? 'Token registered successfully'
+                : 'Failed to register token'),
+            backgroundColor: result ? Colors.green : Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error registering token: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _deregisterWithRelay() async {
+    if (_token == null || nostr == null) return;
+
+    setState(() => _isLoading = true);
+    try {
+      final result = await NotificationUtil.deregisterTokenWithRelay(
+        token: _token!,
+        nostr: nostr!,
+        relayUrl: _relayUrlController.text,
+      );
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(result
+                ? 'Token deregistered successfully'
+                : 'Failed to deregister token'),
+            backgroundColor: result ? Colors.green : Colors.red,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error deregistering token: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      setState(() => _isLoading = false);
     }
   }
 
@@ -374,6 +448,103 @@ class _PushNotificationTestWidgetState
                 ),
               ),
             ),
+            const SizedBox(height: 16),
+
+            // Nostr Registration Card
+            Card(
+              color: Colors.transparent,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Icon(Icons.key),
+                        SizedBox(width: 8),
+                        Text(
+                          'Relay Registration',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    TextField(
+                      controller: _relayUrlController,
+                      decoration: const InputDecoration(
+                        labelText: 'Relay URL',
+                        border: OutlineInputBorder(),
+                        hintText: 'wss://relay.nos.social',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed:
+                                _isLoading || _token == null || nostr == null
+                                    ? null
+                                    : _registerWithRelay,
+                            icon: _isLoading
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.upload),
+                            label: const Text('Register Token'),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed:
+                                _isLoading || _token == null || nostr == null
+                                    ? null
+                                    : _deregisterWithRelay,
+                            icon: _isLoading
+                                ? const SizedBox(
+                                    width: 20,
+                                    height: 20,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Icon(Icons.delete),
+                            label: const Text('Deregister Token'),
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (_token == null)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'Please get a token first',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                    if (nostr == null)
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'Please login first',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -384,6 +555,7 @@ class _PushNotificationTestWidgetState
   void dispose() {
     _titleController.dispose();
     _bodyController.dispose();
+    _relayUrlController.dispose();
     super.dispose();
   }
 }
