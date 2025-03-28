@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/generated/l10n.dart';
+import 'package:nostrmo/component/primary_button_widget.dart';
 
 class CreateCommunityWidget extends StatefulWidget {
   final void Function(String) onCreateCommunity;
@@ -16,8 +17,6 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Column(
       children: [
         const Text(
@@ -41,25 +40,12 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           },
         ),
         const SizedBox(height: 20),
-        InkWell(
+        PrimaryButtonWidget(
+          text: S.of(context).Confirm,
           onTap: _communityNameController.text.isNotEmpty
               ? () => widget.onCreateCommunity(_communityNameController.text)
               : null,
-          highlightColor: theme.primaryColor.withOpacity(0.2),
-          child: Container(
-            color: _communityNameController.text.isNotEmpty
-                ? theme.primaryColor
-                : theme.disabledColor,
-            height: 40,
-            alignment: Alignment.center,
-            child: Text(
-              S.of(context).Confirm,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          enabled: _communityNameController.text.isNotEmpty,
         ),
       ],
     );
