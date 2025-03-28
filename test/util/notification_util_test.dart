@@ -34,8 +34,9 @@ void main() {
       );
       event.sign(TestData.aliceSecretKey);
 
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenAnswer((_) async => event);
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenAnswer((_) async => event);
 
       final result = await NotificationUtil.registerTokenWithRelay(
         token: testToken,
@@ -44,18 +45,18 @@ void main() {
       );
       expect(result, true);
 
-      final eventCaptor =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured
-              .single as Event;
+      final eventCaptor = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).captured.single as Event;
       expect(eventCaptor.kind, 3079);
       expect(eventCaptor.content, testToken);
       expect(eventCaptor.pubkey, TestData.alicePubkey);
     });
 
     test('registerTokenWithRelay failure', () async {
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenAnswer((_) async => null);
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenAnswer((_) async => null);
 
       final result = await NotificationUtil.registerTokenWithRelay(
         token: testToken,
@@ -64,18 +65,18 @@ void main() {
       );
       expect(result, false);
 
-      final eventCaptor =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured
-              .single as Event;
+      final eventCaptor = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).captured.single as Event;
       expect(eventCaptor.kind, 3079);
       expect(eventCaptor.content, testToken);
       expect(eventCaptor.pubkey, TestData.alicePubkey);
     });
 
     test('registerTokenWithRelay throws exception', () async {
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenThrow(Exception('Test error'));
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenThrow(Exception('Test error'));
 
       final result = await NotificationUtil.registerTokenWithRelay(
         token: testToken,
@@ -84,10 +85,9 @@ void main() {
       );
       expect(result, false);
 
-      final eventCaptor =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured
-              .single as Event;
+      final eventCaptor = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).captured.single as Event;
       expect(eventCaptor.kind, 3079);
       expect(eventCaptor.content, testToken);
       expect(eventCaptor.pubkey, TestData.alicePubkey);
@@ -109,8 +109,9 @@ void main() {
       );
       event.sign(TestData.aliceSecretKey);
 
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenAnswer((_) async => event);
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenAnswer((_) async => event);
 
       final result = await NotificationUtil.deregisterTokenWithRelay(
         token: testToken,
@@ -119,18 +120,18 @@ void main() {
       );
       expect(result, true);
 
-      final eventCaptor =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured
-              .single as Event;
+      final eventCaptor = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).captured.single as Event;
       expect(eventCaptor.kind, 3080);
       expect(eventCaptor.content, testToken);
       expect(eventCaptor.pubkey, TestData.alicePubkey);
     });
 
     test('deregisterTokenWithRelay failure', () async {
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenAnswer((_) async => null);
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenAnswer((_) async => null);
 
       final result = await NotificationUtil.deregisterTokenWithRelay(
         token: testToken,
@@ -139,18 +140,18 @@ void main() {
       );
       expect(result, false);
 
-      final eventCaptor =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured
-              .single as Event;
+      final eventCaptor = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).captured.single as Event;
       expect(eventCaptor.kind, 3080);
       expect(eventCaptor.content, testToken);
       expect(eventCaptor.pubkey, TestData.alicePubkey);
     });
 
     test('deregisterTokenWithRelay throws exception', () async {
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenThrow(Exception('Test error'));
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenThrow(Exception('Test error'));
 
       final result = await NotificationUtil.deregisterTokenWithRelay(
         token: testToken,
@@ -159,10 +160,9 @@ void main() {
       );
       expect(result, false);
 
-      final eventCaptor =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured
-              .single as Event;
+      final eventCaptor = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).captured.single as Event;
       expect(eventCaptor.kind, 3080);
       expect(eventCaptor.content, testToken);
       expect(eventCaptor.pubkey, TestData.alicePubkey);
@@ -198,8 +198,9 @@ void main() {
       );
       deregisterEvent.sign(TestData.aliceSecretKey);
 
-      when(mockNostr.sendEvent(any, tempRelays: [testRelayUrl]))
-          .thenAnswer((realInvocation) async {
+      when(mockNostr.sendEvent(any,
+          tempRelays: [testRelayUrl],
+          targetRelays: [testRelayUrl])).thenAnswer((realInvocation) async {
         final event = realInvocation.positionalArguments[0] as Event;
         return event.kind == 3079 ? registerEvent : deregisterEvent;
       });
@@ -217,9 +218,8 @@ void main() {
       );
 
       // Verify expiration timestamps
-      final events =
-          verify(mockNostr.sendEvent(captureAny, tempRelays: [testRelayUrl]))
-              .captured;
+      final events = verify(mockNostr.sendEvent(captureAny,
+          tempRelays: [testRelayUrl], targetRelays: [testRelayUrl])).captured;
       for (final event in events) {
         final expirationTag =
             (event as Event).tags.firstWhere((tag) => tag[0] == 'expiration');

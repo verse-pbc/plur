@@ -584,8 +584,16 @@ class RelayPool {
     return subscription.id;
   }
 
-  /// send message to relay
-  /// there are tempRelays, it also send to tempRelays too.
+  /// Sends the given `message` to some relays.
+  ///
+  /// [message] The message to send to the relays.
+  /// [tempRelays] Optional list of relays to publish this event to regardless
+  /// of the user's relay set. If you set this you may also want to set
+  /// `targetRelays` to the same value.
+  /// [targetRelays] Optional list that, if provided, will limit the publishing
+  /// of the event to the intersection of `targetRelays` and the user's relay
+  /// set. If this argument is empty or ommitted the event will be published to
+  /// all the relays in the user's relay set in addition to the `tempRelays`.
   bool send(List<dynamic> message,
       {List<String>? tempRelays, List<String>? targetRelays}) {
     bool hadSubmitSend = false;
