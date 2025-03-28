@@ -219,6 +219,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Image_service": MessageLookupByLibrary.simpleMessage("Image service"),
         "Image_service_path":
             MessageLookupByLibrary.simpleMessage("Image service path"),
+        "Image_upload_failed":
+            MessageLookupByLibrary.simpleMessage("Image upload failed"),
         "Import_notes": MessageLookupByLibrary.simpleMessage("Import notes"),
         "Input": MessageLookupByLibrary.simpleMessage("Input"),
         "Input_Comment": MessageLookupByLibrary.simpleMessage("Input Comment"),
