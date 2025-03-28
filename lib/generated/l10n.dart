@@ -3370,6 +3370,16 @@ class S {
     );
   }
 
+  /// `Image upload failed`
+  String get Image_upload_failed {
+    return Intl.message(
+      'Image upload failed',
+      name: 'Image_upload_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `All media is publicly accessible to anyone with the URL.`
   String get All_media_public {
     return Intl.message(

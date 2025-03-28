@@ -331,6 +331,7 @@
     "Enter_Community_Description": "Enter a description of your community",
     "Description": "Description",
     "Save": "Save",
+    "Image_upload_failed": "Image upload failed",
     "All_media_public": "All media is publicly accessible to anyone with the URL.",
     "Development": "Development",
     "Closed_group": "Closed group",
