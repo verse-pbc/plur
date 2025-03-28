@@ -238,7 +238,8 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
       if (!mounted) return;
 
       if (remoteUrl == null) {
-        throw S.of(context).Image_upload_failed;
+        final errorMessage = S.of(context).Image_upload_failed;
+        throw Exception(errorMessage);
       }
       setState(() => _pictureUrl = remoteUrl);
       _checkForChanges();
@@ -298,15 +299,15 @@ class _NavigationRow extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
-                color: Colors.white,
+              style: TextStyle(
+                color: themeData.customColors.primaryForegroundColor,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
-            const Icon(
+            Icon(
               Icons.chevron_right,
-              color: Colors.white54,
+              color: themeData.customColors.secondaryForegroundColor,
               size: 24,
             ),
           ],
