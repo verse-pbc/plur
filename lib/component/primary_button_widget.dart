@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
+/// Button used for primary actions throughout the app.
 class PrimaryButtonWidget extends StatelessWidget {
   final String text;
   final VoidCallback? onTap;
