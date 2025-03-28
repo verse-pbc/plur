@@ -80,10 +80,6 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
     final themeData = Theme.of(context);
     final localization = S.of(context);
 
-    final groupId = context.read<GroupIdentifier>();
-    final groupProvider = Provider.of<GroupProvider>(context);
-    final metadata = groupProvider.getMetadata(groupId);
-
     const double cornerRadius = 8;
     const borderRadius = BorderRadius.all(Radius.circular(cornerRadius));
     final inputDecoration = InputDecoration(
@@ -102,7 +98,8 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
         borderSide: BorderSide(
             color: themeData.customColors.secondaryForegroundColor, width: 2),
       ),
-      labelStyle: const TextStyle(color: Colors.white),
+      labelStyle:
+          TextStyle(color: themeData.customColors.primaryForegroundColor),
     );
 
     return Scaffold(
@@ -131,15 +128,17 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                 ),
               ),
             )
-          else if (_hasChanges)
+          else
             TextButton(
-              onPressed: (_hasChanges && !_isSaving) ? _save : null,
+              onPressed: _hasChanges ? _save : null,
               style: const ButtonStyle(),
               child: Text(
                 localization.Save,
                 style: TextStyle(
-                  color: themeData.textTheme.bodyMedium!.color,
-                  fontSize: 16,
+                  color: _hasChanges
+                      ? themeData.customColors.accentColor
+                      : Colors.grey,
+                  fontSize: 18,
                 ),
               ),
             ),
@@ -149,7 +148,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 26),
             Stack(
               alignment: Alignment.center,
               children: [
@@ -162,7 +161,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
               onPressed: _updateImage,
               style: TextButton.styleFrom(
                 textStyle: const TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 16.0,
                   fontWeight: FontWeight.w500,
                 ),
                 foregroundColor: themeData.customColors.accentColor,
@@ -209,6 +208,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                   _NavigationRow(
                     title: localization.Members,
                     onTap: () {
+                      final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
                           context, RouterPath.GROUP_MEMBERS, groupId);
                     },
@@ -235,6 +235,11 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
 
       setState(() => _isUploading = true);
       final remoteUrl = await Uploader.upload(firstFile);
+      if (!mounted) return;
+
+      if (remoteUrl == null) {
+        throw S.of(context).Image_upload_failed;
+      }
       setState(() => _pictureUrl = remoteUrl);
       _checkForChanges();
     } catch (e) {
