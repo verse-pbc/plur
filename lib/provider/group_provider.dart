@@ -228,9 +228,11 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     return updated;
   }
 
-  void udpateMetadata(
-      GroupIdentifier groupIdentifier, GroupMetadata groupMetadata) async {
-    var relays = [groupIdentifier.host];
+  Future<void> updateMetadata(
+    GroupIdentifier groupIdentifier,
+    GroupMetadata groupMetadata,
+  ) async {
+    final relays = [groupIdentifier.host];
 
     var tags = [];
     tags.add(["h", groupIdentifier.groupId]);
@@ -244,12 +246,15 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       tags.add(["about", groupMetadata.about!]);
     }
 
-    var e = Event(nostr!.publicKey, EventKind.GROUP_EDIT_METADATA, tags, "");
-    var result =
+    final e = Event(nostr!.publicKey, EventKind.GROUP_EDIT_METADATA, tags, "");
+    final result =
         await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
     if (result != null) {
       handleEvent(
-          groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
+        groupMetadatas,
+        groupIdentifier,
+        GroupMetadata.loadFromEvent(e),
+      );
     }
   }
 }

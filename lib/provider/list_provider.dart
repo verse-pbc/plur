@@ -555,7 +555,7 @@ class ListProvider extends ChangeNotifier {
       0,
       name: groupName,
     );
-    groupProvider.udpateMetadata(group, groupMetadata);
+    groupProvider.updateMetadata(group, groupMetadata);
   }
 
   String createInviteLink(GroupIdentifier group, String inviteCode,
