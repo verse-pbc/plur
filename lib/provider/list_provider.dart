@@ -542,10 +542,7 @@ class ListProvider extends ChangeNotifier {
 
       // Generate an invite code
       final inviteCode = StringCodeGenerator.generateInviteCode();
-      _createInvite(newGroup, inviteCode);
-
-      // Construct the invite link
-      inviteLink = 'plur://join-community?group-id=$groupId&code=$inviteCode';
+      inviteLink = createInviteLink(newGroup, inviteCode);
     }
 
     cancelFunc.call();
@@ -561,7 +558,7 @@ class ListProvider extends ChangeNotifier {
     groupProvider.updateMetadata(group, groupMetadata);
   }
 
-  void _createInvite(GroupIdentifier group, String inviteCode,
+  String createInviteLink(GroupIdentifier group, String inviteCode,
       {List<String>? roles}) {
     final tags = [
       ["h", group.groupId],
@@ -584,6 +581,9 @@ class ListProvider extends ChangeNotifier {
 
     nostr!.sendEvent(inviteEvent,
         tempRelays: [group.host], targetRelays: [group.host]);
+
+    // Return the formatted invite link
+    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
   }
 
   void clear() {
