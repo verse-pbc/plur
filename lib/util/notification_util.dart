@@ -281,7 +281,8 @@ class NotificationUtil {
         token,
       );
 
-      final result = await nostr.sendEvent(event, tempRelays: [relayUrl]);
+      final result = await nostr
+          .sendEvent(event, tempRelays: [relayUrl], targetRelays: [relayUrl]);
       return result != null;
     } catch (e) {
       log('Error registering FCM token with relay: $e');
@@ -312,7 +313,8 @@ class NotificationUtil {
         token,
       );
 
-      final result = await nostr.sendEvent(event, tempRelays: [relayUrl]);
+      final result = await nostr
+          .sendEvent(event, tempRelays: [relayUrl], targetRelays: [relayUrl]);
       return result != null;
     } catch (e) {
       log('Error deregistering FCM token with relay: $e');
