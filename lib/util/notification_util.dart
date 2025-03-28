@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:nostr_sdk/nostr.dart';
+import 'package:nostr_sdk/event.dart';
 
 /// Utility class for handling notifications
 /// Plur may receive remote notifications from Firebase Cloud Messaging.
@@ -255,5 +257,66 @@ class NotificationUtil {
   static void _handleBackgroundNotificationClick(RemoteMessage message) {
     log("Notification clicked with data: ${message.data}");
     // Navigate to appropriate screen based on message data
+  }
+
+  /// Register an FCM token with the relay by sending a kind 3079 event
+  /// Returns true if registration was submitted for publishing successfully,
+  /// false otherwise.
+  static Future<bool> registerTokenWithRelay({
+    required String token,
+    required Nostr nostr,
+    required String relayUrl,
+  }) async {
+    try {
+      // Calculate expiration timestamp (7 days from now)
+      final expirationTimestamp =
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
+
+      final event = Event(
+        nostr.publicKey,
+        3079,
+        [
+          ['expiration', expirationTimestamp.toString()]
+        ],
+        token,
+      );
+
+      final result = await nostr.sendEvent(event, tempRelays: [relayUrl]);
+      return result != null;
+    } catch (e) {
+      log('Error registering FCM token with relay: $e');
+      return false;
+    }
+  }
+
+  /// Deregister an FCM token with the relay by sending a kind 3080 event
+  /// Returns true if deregistration was submitted for publish successfully,
+  /// false otherwise
+  static Future<bool> deregisterTokenWithRelay({
+    required String token,
+    required Nostr nostr,
+    required String relayUrl,
+  }) async {
+    try {
+      // Calculate expiration timestamp (7 days from now)
+      final expirationTimestamp =
+          (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
+
+      // Create and send the deregistration event
+      final event = Event(
+        nostr.publicKey,
+        3080,
+        [
+          ['expiration', expirationTimestamp.toString()]
+        ],
+        token,
+      );
+
+      final result = await nostr.sendEvent(event, tempRelays: [relayUrl]);
+      return result != null;
+    } catch (e) {
+      log('Error deregistering FCM token with relay: $e');
+      return false;
+    }
   }
 }
