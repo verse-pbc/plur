@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 
 ### Internal Changes
+- Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
 
 ## [0.0.4]
 
