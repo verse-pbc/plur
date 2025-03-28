@@ -26,7 +26,6 @@ class RelayBase extends Relay {
       final wsUrl = Uri.parse(url);
       log("Connect begin: $url");
       _wsChannel = WebSocketChannel.connect(wsUrl);
-      // await _wsChannel!.ready;
       log("Connect complete: $url");
       _wsChannel!.stream.listen((message) {
         if (onMessage != null) {
