@@ -295,7 +295,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       picture: pictureController.text,
       about: aboutController.text,
     );
-    groupProvider.udpateMetadata(groupIdentifier!, groupMetadata);
+    groupProvider.updateMetadata(groupIdentifier!, groupMetadata);
 
     if (oldGroupMetadata != null) {
       bool updateStatus = false;
