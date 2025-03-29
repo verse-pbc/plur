@@ -41,7 +41,7 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
     List<Map<String, dynamic>> filters = [];
     for (var pubkey in _needUpdatePubKeys) {
       var filter =
-          Filter(kinds: [EventKind.BADGE_DEFINITION], authors: [pubkey]);
+          Filter(kinds: [EventKind.badgeDefinition], authors: [pubkey]);
       filters.add(filter.toJson());
     }
     var subscriptId = StringUtil.rndNameStr(16);

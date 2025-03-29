@@ -707,7 +707,7 @@ mixin EditorMixin {
       if (openPrivateDM) {
         // Private dm message
         var rumorEvent = Event(
-            nostr!.publicKey, EventKind.PRIVATE_DIRECT_MESSAGE, allTags, result,
+            nostr!.publicKey, EventKind.privateDirectMessage, allTags, result,
             createdAt: getCreatedAt());
         // this is the event send to sender, should return after send and set into giftWrapProvider and dmProvider
         event = await GiftWrapUtil.getGiftWrapEvent(
@@ -733,7 +733,7 @@ mixin EditorMixin {
         }
         result = encryptedResult;
         event = Event(
-            nostr!.publicKey, EventKind.DIRECT_MESSAGE, allTags, result,
+            nostr!.publicKey, EventKind.directMessage, allTags, result,
             createdAt: getCreatedAt());
       }
     } else if (groupIdentifier != null) {
@@ -753,13 +753,13 @@ mixin EditorMixin {
       // get poll tag from PollInputComponent
       var pollTags = pollInputController.getTags();
       allTags.addAll(pollTags);
-      event = Event(nostr!.publicKey, EventKind.POLL, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.poll, allTags, result,
           createdAt: getCreatedAt());
     } else if (inputZapGoal) {
       // zap goal event
       var extralTags = zapGoalInputController.getTags();
       allTags.addAll(extralTags);
-      event = Event(nostr!.publicKey, EventKind.ZAP_GOALS, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.zapGoals, allTags, result,
           createdAt: getCreatedAt());
     } else if (isLongForm()) {
       // long form
@@ -783,15 +783,15 @@ mixin EditorMixin {
       allTags.add(["d", id]);
       allTags.add([
         "a",
-        "${EventKind.LONG_FORM}:${nostr!.publicKey}:$id",
+        "${EventKind.longForm}:${nostr!.publicKey}:$id",
         oneWriteRelay
       ]);
 
-      event = Event(nostr!.publicKey, EventKind.LONG_FORM, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.longForm, allTags, result,
           createdAt: getCreatedAt());
     } else {
       // text note
-      event = Event(nostr!.publicKey, EventKind.TEXT_NOTE, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.textNote, allTags, result,
           createdAt: getCreatedAt());
     }
 

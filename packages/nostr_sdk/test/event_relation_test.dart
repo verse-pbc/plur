@@ -144,7 +144,7 @@ void main() {
     test('processes description tag for zap event', () {
       var testEvent = Event.create(
         pubkey: TestData.alicePubkey,
-        kind: EventKind.ZAP,
+        kind: EventKind.zap,
         tags: [
           ['description', '{"content":"inner zap content","other":"value"}']
         ],

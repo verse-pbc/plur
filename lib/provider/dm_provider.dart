@@ -91,7 +91,7 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     var keyIndex = settingsProvider.privateKeyIndex!;
     var events = await EventDB.list(
         keyIndex,
-        [EventKind.DIRECT_MESSAGE, EventKind.PRIVATE_DIRECT_MESSAGE],
+        [EventKind.directMessage, EventKind.privateDirectMessage],
         0,
         10000000);
     if (events.isNotEmpty) {
@@ -199,11 +199,11 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
       {Nostr? targetNostr, bool initQuery = false, bool queryAll = false}) {
     targetNostr ??= nostr;
     var filter0 = Filter(
-      kinds: [EventKind.DIRECT_MESSAGE],
+      kinds: [EventKind.directMessage],
       authors: [targetNostr!.publicKey],
     );
     var filter1 = Filter(
-      kinds: [EventKind.DIRECT_MESSAGE],
+      kinds: [EventKind.directMessage],
       p: [targetNostr.publicKey],
     );
 

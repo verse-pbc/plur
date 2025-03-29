@@ -30,7 +30,7 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
     if (eids.isNotEmpty) {
       // load
       Map<String, dynamic> filter = {};
-      filter["kinds"] = [EventKind.COMMUNITY_APPROVED];
+      filter["kinds"] = [EventKind.communityApproved];
       List<String> ids = [];
       ids.addAll(eids);
       filter["#e"] = ids;
