@@ -19,6 +19,7 @@ on:
 jobs:
 
   lint:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-linting') }}
     name: Generate Lint Reports
     runs-on: ubuntu-latest
     strategy:
@@ -63,6 +64,7 @@ jobs:
           overwrite: true
 
   examine-lint-changes:
+    if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip-linting') }}
     name: Examine Lint Changes
     runs-on: ubuntu-latest
     needs: lint

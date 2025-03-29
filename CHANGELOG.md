@@ -109,3 +109,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where video content was crashing the app. [#174](https://github.com/verse-pbc/issues/issues/174)
 - Simplified imports of nostr_sdk. [#88](https://github.com/verse-pbc/issues/issues/88)
 - Fixed an issue causing tests to fail. [#223](https://github.com/verse-pbc/issues/issues/223)
+- Added a bypass for the linting jobs in CI. [#300](https://github.com/verse-pbc/issues/issues/300)
