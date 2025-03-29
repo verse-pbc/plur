@@ -96,7 +96,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
       key: sourceEventKey,
       traceMode: false,
     );
-    if (sourceEvent!.kind == EventKind.ZAP) {
+    if (sourceEvent!.kind == EventKind.zap) {
       mainEventWidget = EventBitcoinIconWidget.wrapper(mainEventWidget);
     }
 
@@ -205,14 +205,14 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     // find reply data
     AId? aId;
     if (eventRelation.aId != null &&
-        eventRelation.aId!.kind == EventKind.LONG_FORM) {
+        eventRelation.aId!.kind == EventKind.longForm) {
       aId = eventRelation.aId;
     }
 
     List<int> replyKinds = [...EventKind.supportedEvents]
-      ..remove(EventKind.REPOST)
-      ..remove(EventKind.LONG_FORM)
-      ..add(EventKind.ZAP);
+      ..remove(EventKind.repost)
+      ..remove(EventKind.longForm)
+      ..add(EventKind.zap);
 
     // query sub events
     var parentIds = [sourceEvent!.id];

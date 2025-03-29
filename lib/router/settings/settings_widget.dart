@@ -640,7 +640,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
 
         // use a blank metadata to update it
         var blankMetadata = Metadata();
-        var updateEvent = Event(nostr!.publicKey, EventKind.METADATA, [],
+        var updateEvent = Event(nostr!.publicKey, EventKind.metadata, [],
             jsonEncode(blankMetadata));
         nostr!.sendEvent(updateEvent);
 
@@ -651,9 +651,9 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         var filter = Filter(authors: [
           nostr!.publicKey
         ], kinds: [
-          EventKind.TEXT_NOTE,
-          EventKind.REPOST,
-          EventKind.GENERIC_REPOST,
+          EventKind.textNote,
+          EventKind.repost,
+          EventKind.genericRepost,
         ]);
         nostr!.query([filter.toJson()], onDeletedEventReceive);
       } catch (e) {

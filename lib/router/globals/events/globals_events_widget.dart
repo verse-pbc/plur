@@ -94,7 +94,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
       }
     }
 
-    var filter = Filter(ids: ids, kinds: [EventKind.TEXT_NOTE]);
+    var filter = Filter(ids: ids, kinds: [EventKind.textNote]);
     nostr!.subscribe([filter.toJson()], (event) {
       if (eventBox.isEmpty()) {
         laterTimeMS = 200;

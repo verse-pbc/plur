@@ -151,7 +151,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   /// from the network.
   void query(GroupIdentifier groupIdentifier) {
     final groupId = groupIdentifier.groupId;
-    var metadataJsonMap = genFilter(groupId, EventKind.GROUP_METADATA);
+    var metadataJsonMap = genFilter(groupId, EventKind.groupMetadata);
     var adminsJsonMap = genFilter(groupId, EventKind.groupAdmins);
     var membersJsonMap = genFilter(groupId, EventKind.groupMembers);
     final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
@@ -168,7 +168,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
 
   void onEvent(GroupIdentifier groupIdentifier, Event e) {
     bool updated = false;
-    if (e.kind == EventKind.GROUP_METADATA) {
+    if (e.kind == EventKind.groupMetadata) {
       updated = handleEvent(
           groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     } else if (e.kind == EventKind.groupAdmins) {
@@ -177,7 +177,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     } else if (e.kind == EventKind.groupMembers) {
       updated = handleEvent(
           groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
-    } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {
+    } else if (e.kind == EventKind.groupEditMetadata) {
       updated = handleEvent(
           groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     }
@@ -232,7 +232,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       tags.add(["about", groupMetadata.about!]);
     }
 
-    var e = Event(nostr!.publicKey, EventKind.GROUP_EDIT_METADATA, tags, "");
+    var e = Event(nostr!.publicKey, EventKind.groupEditMetadata, tags, "");
     var result =
         await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
     if (result != null) {

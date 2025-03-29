@@ -81,7 +81,7 @@ class BlossomUploader {
     tags.add(["size", "$fileSize"]);
     tags.add(["x", payload]);
     var nip98Event = Event(
-        nostr.publicKey, EventKind.BLOSSOM_HTTP_AUTH, tags, "Upload $fileName");
+        nostr.publicKey, EventKind.blossomHttpAuth, tags, "Upload $fileName");
     nostr.signEvent(nip98Event);
     headers["Authorization"] =
         "Nostr ${base64Url.encode(utf8.encode(jsonEncode(nip98Event.toJson())))}";
