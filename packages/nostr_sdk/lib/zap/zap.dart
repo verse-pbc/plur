@@ -104,7 +104,7 @@ class Zap {
       tags.add(["poll_option", pollOption!]);
     }
     Event? event =
-        Event(targetNostr.publicKey, EventKind.ZAP_REQUEST, tags, eventContent);
+        Event(targetNostr.publicKey, EventKind.zapRequest, tags, eventContent);
     event = await targetNostr.nostrSigner.signEvent(event);
     if (event == null) {
       return null;

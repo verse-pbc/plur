@@ -817,7 +817,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           }
 
           if (StringUtil.isNotBlank(naddr.author) &&
-              naddr.kind == EventKind.METADATA) {
+              naddr.kind == EventKind.metadata) {
             // inline
             bufferToList(buffer, currentList, images);
             currentList.add(WidgetSpan(
@@ -846,7 +846,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             counterAddLines(fakeEventCounter);
 
             return otherStr;
-          } else if (naddr.kind == EventKind.LIVE_EVENT) {
+          } else if (naddr.kind == EventKind.liveEvent) {
             bufferToList(buffer, currentList, images, removeLastSpan: true);
             var w = ContentLinkPreWidget(
               link: "https://zap.stream/$key",

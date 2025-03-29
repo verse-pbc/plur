@@ -81,7 +81,7 @@ class NIP96Uploader {
       if (StringUtil.isNotBlank(payload)) {
         tags.add(["payload", payload]);
       }
-      var nip98Event = Event(nostr.publicKey, EventKind.HTTP_AUTH, tags, "");
+      var nip98Event = Event(nostr.publicKey, EventKind.httpAuth, tags, "");
 
       await nostr.signEvent(nip98Event);
 

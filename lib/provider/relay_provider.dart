@@ -164,7 +164,7 @@ class RelayProvider extends ChangeNotifier {
 
     loadRelayAddrs(contactListProvider.content);
     listProvider.load(nostr.publicKey,
-        [EventKind.BOOKMARKS_LIST, EventKind.EMOJIS_LIST, EventKind.GROUP_LIST],
+        [EventKind.bookmarksList, EventKind.emojisList, EventKind.groupList],
         targetNostr: nostr, initQuery: true);
     badgeProvider.reload(targetNostr: nostr, initQuery: true);
 

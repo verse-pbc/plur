@@ -43,7 +43,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
 
     pubkey = widget.event.pubkey;
     // if this is the zap event, change the pubkey from the zap tag info
-    if (widget.event.kind == EventKind.ZAP) {
+    if (widget.event.kind == EventKind.zap) {
       for (var tag in widget.event.tags) {
         if (tag[0] == "description" && widget.event.tags.length > 1) {
           var description = tag[1];

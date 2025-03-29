@@ -218,7 +218,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       fetchLocalContactsId = StringUtil.rndNameStr(16);
       localContactBox = EventMemBox(sortAfterAdd: false);
       var filter =
-          Filter(authors: [widget.pubkey], kinds: [EventKind.CONTACT_LIST]);
+          Filter(authors: [widget.pubkey], kinds: [EventKind.contactList]);
       nostr!.query([filter.toJson()], (event) {
         localContactBox!.add(event);
       }, id: fetchLocalContactsId);
@@ -269,7 +269,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       var filter = Filter(
           authors: [widget.pubkey],
           limit: 1,
-          kinds: [EventKind.RELAY_LIST_METADATA]);
+          kinds: [EventKind.relayListMetadata]);
       nostr!.query([filter.toJson()], (event) {
         if (((relaysEvent != null &&
                     event.createdAt > relaysEvent!.createdAt) ||
@@ -317,7 +317,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       followedMap = {};
       // pull zap event
       Map<String, dynamic> filter = {};
-      filter["kinds"] = [EventKind.CONTACT_LIST];
+      filter["kinds"] = [EventKind.contactList];
       filter["#p"] = [widget.pubkey];
       followedSubscribeId = StringUtil.rndNameStr(12);
       nostr!.query([filter], (e) {
@@ -353,7 +353,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     if (zapEventBox == null) {
       zapEventBox = EventMemBox(sortAfterAdd: false);
       // pull zap event
-      var filter = Filter(kinds: [EventKind.ZAP], p: [widget.pubkey]);
+      var filter = Filter(kinds: [EventKind.zap], p: [widget.pubkey]);
       zapSubscribeId = StringUtil.rndNameStr(12);
 
       nostr!.query([filter.toJson()], onZapEvent, id: zapSubscribeId);
@@ -368,7 +368,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
   }
 
   onZapEvent(Event event) {
-    if (event.kind == EventKind.ZAP && zapEventBox!.add(event)) {
+    if (event.kind == EventKind.zap && zapEventBox!.add(event)) {
       setState(() {
         zapNum = zapNum! + ZapInfoUtil.getNumFromZapEvent(event);
       });
