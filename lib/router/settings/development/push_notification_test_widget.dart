@@ -179,40 +179,74 @@ class _PushNotificationTestWidgetState
     }
   }
 
-  Future<void> _deregisterWithRelay() async {
-    if (_token == null || nostr == null) return;
+Future<void> _sendTokenEventToRelay({
+  required bool isRegistering,
+}) async {
+  if (_token == null || nostr == null) return;
 
-    setState(() => _isLoading = true);
-    try {
-      final result = await NotificationUtil.deregisterTokenWithRelay(
-        token: _token!,
-        nostr: nostr!,
-        relayUrl: _relayUrlController.text,
+  // Validate relay URL
+  final url = _relayUrlController.text.trim();
+  if (url.isEmpty || (!url.startsWith('wss://') && !url.startsWith('ws://'))) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Invalid relay URL format. Must start with ws:// or wss://'),
+          backgroundColor: Colors.red,
+        ),
       );
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(result
-                ? 'Token deregistered successfully'
-                : 'Failed to deregister token'),
-            backgroundColor: result ? Colors.green : Colors.red,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error deregistering token: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } finally {
-      setState(() => _isLoading = false);
     }
+    return;
   }
+
+  setState(() => _isLoading = true);
+  try {
+    final result = isRegistering
+        ? await NotificationUtil.registerTokenWithRelay(
+            token: _token!,
+            nostr: nostr!,
+            relayUrl: url,
+          )
+        : await NotificationUtil.deregisterTokenWithRelay(
+            token: _token!,
+            nostr: nostr!,
+            relayUrl: url,
+          );
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(result
+              ? isRegistering
+                  ? 'Token registered successfully'
+                  : 'Token deregistered successfully'
+              : isRegistering
+                  ? 'Failed to register token'
+                  : 'Failed to deregister token'),
+          backgroundColor: result ? Colors.green : Colors.red,
+        ),
+      );
+    }
+  } catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error ${isRegistering ? 'registering' : 'deregistering'} token: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  } finally {
+    setState(() => _isLoading = false);
+  }
+}
+
+Future<void> _registerWithRelay() async {
+  _sendTokenEventToRelay(isRegistering: true);
+}
+
+Future<void> _deregisterWithRelay() async {
+  _sendTokenEventToRelay(isRegistering: false);
+}
 
   @override
   Widget build(BuildContext context) {
