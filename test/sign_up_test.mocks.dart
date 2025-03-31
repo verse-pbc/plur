@@ -440,7 +440,7 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
   @override
   _i8.User? getUser(String? pubkey) => (super.noSuchMethod(
         Invocation.method(
-          #getMetadata,
+          #getUser,
           [pubkey],
         ),
         returnValueForMissingStub: null,
