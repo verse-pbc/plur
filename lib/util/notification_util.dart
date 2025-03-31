@@ -267,27 +267,12 @@ class NotificationUtil {
     required Nostr nostr,
     required String relayUrl,
   }) async {
-    try {
-      // Calculate expiration timestamp (7 days from now)
-      final expirationTimestamp =
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
-
-      final event = Event(
-        nostr.publicKey,
-        3079,
-        [
-          ['expiration', expirationTimestamp.toString()]
-        ],
-        token,
-      );
-
-      final result = await nostr
-          .sendEvent(event, tempRelays: [relayUrl], targetRelays: [relayUrl]);
-      return result != null;
-    } catch (e) {
-      log('Error registering FCM token with relay: $e');
-      return false;
-    }
+    return _sendTokenEventToRelay(
+      token: token,
+      nostr: nostr,
+      relayUrl: relayUrl,
+      eventKind: 3079,
+    );
   }
 
   /// Deregister an FCM token with the relay by sending a kind 3080 event
@@ -298,15 +283,27 @@ class NotificationUtil {
     required Nostr nostr,
     required String relayUrl,
   }) async {
-    try {
-      // Calculate expiration timestamp (7 days from now)
-      final expirationTimestamp =
-          (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
+    return _sendTokenEventToRelay(
+      token: token,
+      nostr: nostr,
+      relayUrl: relayUrl,
+      eventKind: 3080,
+    );
+  }
 
-      // Create and send the deregistration event
+  /// Internal method to send token events to relay
+  static Future<bool> _sendTokenEventToRelay({
+    required String token,
+    required Nostr nostr,
+    required String relayUrl,
+    required int eventKind,
+  }) async {
+    try {
+      final expirationTimestamp = _registrationExpirationTimestamp();
+
       final event = Event(
         nostr.publicKey,
-        3080,
+        eventKind,
         [
           ['expiration', expirationTimestamp.toString()]
         ],
@@ -317,8 +314,14 @@ class NotificationUtil {
           .sendEvent(event, tempRelays: [relayUrl], targetRelays: [relayUrl]);
       return result != null;
     } catch (e) {
-      log('Error deregistering FCM token with relay: $e');
+      log('Error sending token event to relay: $e');
       return false;
     }
+  }
+
+  /// Returns the date that token registration events should expire as a unix
+  /// timestamp.
+  static int _registrationExpirationTimestamp() {
+    return (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
   }
 }
