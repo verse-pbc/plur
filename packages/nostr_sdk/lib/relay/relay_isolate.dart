@@ -120,7 +120,7 @@ class RelayIsolate extends Relay {
           }
           _relayConnectComplete(true);
         } else if (message == RelayIsolateMsgs.disconnected) {
-          onError("Websocket error $url", reconnect: true);
+          onError("Websocket error $url", shouldReconnect: true);
           _relayConnectComplete(false);
         }
       } else if (message is List && onMessage != null) {

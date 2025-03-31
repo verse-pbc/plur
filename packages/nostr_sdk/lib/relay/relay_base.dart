@@ -34,9 +34,10 @@ class RelayBase extends Relay {
         }
       }, onError: (error) async {
         log("Websocket error $url: $error");
-        onError("Websocket error $url", reconnect: true);
+        onError("Websocket error $url", shouldReconnect: true);
       }, onDone: () {
-        onError("Websocket stream closed by remote: $url", reconnect: true);
+        onError("Websocket stream closed by remote: $url",
+            shouldReconnect: true);
       });
       relayStatus.connected = ClientConneccted.CONNECTED;
       if (relayStatusCallback != null) {
@@ -44,7 +45,7 @@ class RelayBase extends Relay {
       }
       return true;
     } catch (e) {
-      onError(e.toString(), reconnect: true);
+      onError(e.toString(), shouldReconnect: true);
     }
     return false;
   }
@@ -59,7 +60,7 @@ class RelayBase extends Relay {
         _wsChannel!.sink.add(encoded);
         return true;
       } catch (e) {
-        onError(e.toString(), reconnect: true);
+        onError(e.toString(), shouldReconnect: true);
       }
     }
     return false;
