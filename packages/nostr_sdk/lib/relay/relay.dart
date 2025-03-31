@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' show min;
 import 'package:meta/meta.dart';
 
 import '../subscription.dart';
@@ -78,7 +79,7 @@ abstract class Relay {
   /// Whether we are waiting to reconnect to this relay (due to exponential
   /// backoff from a previous error)
   @visibleForTesting
-  bool waitingReconnect = false;
+  bool isWaitingToReconnect = false;
 
   /// The number of times we've attempted to reconnect to this relay since the
   /// last successful connection.
@@ -87,7 +88,7 @@ abstract class Relay {
 
   /// The maximum time we will wait before attempting to reconnect to
   /// this relay.
-  static const int maxDelaySeconds = 32;
+  static const int _maxDelaySeconds = 32;
 
   /// The base delay in seconds before attempting to reconnect after an error
   final int _reconnectBaseDelay = 1;
@@ -110,11 +111,10 @@ abstract class Relay {
     // Exponential backoff: baseDelay * 2^(attempt-2)
     // We subtract 2 from the attempt count since we're starting exponential
     // backoff from the third attempt onward.
-    final int adjustedAttempt = reconnectAttempts - 2;
-    final double backoffFactor = (1 << adjustedAttempt).toDouble();
-    final int delaySeconds = (_reconnectBaseDelay * backoffFactor).round();
-    final int cappedDelaySeconds =
-        delaySeconds > maxDelaySeconds ? maxDelaySeconds : delaySeconds;
+    final adjustedAttempt = reconnectAttempts - 2;
+    final backoffFactor = (1 << adjustedAttempt).toDouble();
+    final delaySeconds = (_reconnectBaseDelay * backoffFactor).round();
+    final cappedDelaySeconds = min(delaySeconds, _maxDelaySeconds);
 
     // Add jitter (±10% variation) to prevent reconnection storms
     final random =
@@ -125,7 +125,7 @@ abstract class Relay {
         milliseconds: (cappedDelaySeconds * 1000 * jitterFactor).round());
   }
 
-  void onError(String errMsg, {bool reconnect = true}) {
+  void onError(String errMsg, {bool shouldReconnect = true}) {
     log("relay error: $errMsg");
     relayStatus.onError();
     relayStatus.connected = ClientConneccted.UN_CONNECT;
@@ -134,9 +134,9 @@ abstract class Relay {
     }
     disconnect();
 
-    if (reconnect && !waitingReconnect) {
+    if (shouldReconnect && !isWaitingToReconnect) {
       reconnectAttempts++;
-      waitingReconnect = true;
+      isWaitingToReconnect = true;
 
       final delay = calculateReconnectDelay();
 
@@ -147,7 +147,7 @@ abstract class Relay {
       }
 
       Future.delayed(delay, () {
-        waitingReconnect = false;
+        isWaitingToReconnect = false;
         connect().then((success) {
           if (success) {
             resetReconnectAttempts();

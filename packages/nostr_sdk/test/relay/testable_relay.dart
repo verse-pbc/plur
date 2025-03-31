@@ -24,7 +24,7 @@ class TestableRelay extends Relay {
     _shouldConnectSucceed = value;
   }
 
-  Duration calculateReconnectDelayForAttempt(int attemptNumber) {
+  Duration reconnectDelayForAttempt(int attemptNumber) {
     final oldAttempts = reconnectAttempts;
     reconnectAttempts = attemptNumber;
     final result = calculateReconnectDelay();

@@ -14,45 +14,45 @@ void main() {
 
     test('onError sets the waiting reconnect flag with reconnect=true', () {
       // Act
-      relay.onError('Test error', reconnect: true);
+      relay.onError('Test error', shouldReconnect: true);
 
       // Assert
-      expect(relay.waitingReconnect, isTrue);
+      expect(relay.isWaitingToReconnect, isTrue);
     });
 
     test('onError does not set the waiting reconnect flag with reconnect=false',
         () {
       // Act
-      relay.onError('Test error', reconnect: false);
+      relay.onError('Test error', shouldReconnect: false);
 
       // Assert
-      expect(relay.waitingReconnect, isFalse);
+      expect(relay.isWaitingToReconnect, isFalse);
     });
 
     test('reconnect attempts counter increases with each error', () async {
       // Simulate 3 consecutive errors
-      relay.onError('Test error 1', reconnect: true);
+      relay.onError('Test error 1', shouldReconnect: true);
       expect(relay.reconnectAttempts, equals(1));
 
       // Reset waiting flag to simulate a new error after the reconnect timer
-      relay.waitingReconnect = false;
+      relay.isWaitingToReconnect = false;
 
-      relay.onError('Test error 2', reconnect: true);
+      relay.onError('Test error 2', shouldReconnect: true);
       expect(relay.reconnectAttempts, equals(2));
 
       // Reset waiting flag to simulate a new error after the reconnect timer
-      relay.waitingReconnect = false;
+      relay.isWaitingToReconnect = false;
 
-      relay.onError('Test error 3', reconnect: true);
+      relay.onError('Test error 3', shouldReconnect: true);
       expect(relay.reconnectAttempts, equals(3));
     });
 
     test('reconnect attempts counter resets after successful connection',
         () async {
       // Simulate errors
-      relay.onError('Test error 1', reconnect: true);
+      relay.onError('Test error 1', shouldReconnect: true);
       relay.onError('Test error 2',
-          reconnect: false); // This shouldn't increase the counter
+          shouldReconnect: false); // This shouldn't increase the counter
       expect(relay.reconnectAttempts, equals(1));
 
       // Simulate successful connection
@@ -66,19 +66,19 @@ void main() {
         'reconnection delay follows immediate, short, then exponential pattern up to max',
         () {
       // First attempt should reconnect immediately (0 delay)
-      final delay1 = relay.calculateReconnectDelayForAttempt(1);
+      final delay1 = relay.reconnectDelayForAttempt(1);
       expect(delay1, equals(Duration.zero));
 
       // Second attempt should wait 1 second
-      final delay2 = relay.calculateReconnectDelayForAttempt(2);
+      final delay2 = relay.reconnectDelayForAttempt(2);
       expect(delay2, equals(const Duration(seconds: 1)));
 
       // Third attempt should start exponential backoff
-      final delay3 = relay.calculateReconnectDelayForAttempt(3);
-      final delay4 = relay.calculateReconnectDelayForAttempt(4);
-      final delay5 = relay.calculateReconnectDelayForAttempt(5);
+      final delay3 = relay.reconnectDelayForAttempt(3);
+      final delay4 = relay.reconnectDelayForAttempt(4);
+      final delay5 = relay.reconnectDelayForAttempt(5);
       // Test that higher attempts are properly capped at 32 seconds
-      final delay8 = relay.calculateReconnectDelayForAttempt(8);
+      final delay8 = relay.reconnectDelayForAttempt(8);
 
       // Check specific delays (accounting for ±10% jitter)
       // Third attempt: 1 * 2^1 = 2 seconds ±10%
