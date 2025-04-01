@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../consts/nip05status.dart';
-import '../provider/metadata_provider.dart';
+import '../provider/user_provider.dart';
 
 class Nip05ValidWidget extends StatefulWidget {
   String pubkey;
@@ -22,7 +22,7 @@ class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
     var mainColor = themeData.primaryColor;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
 
-    return Selector<MetadataProvider, int>(
+    return Selector<UserProvider, int>(
         builder: (context, nip05Status, child) {
       var iconData = Icons.check_circle;
       if (nip05Status == Nip05Status.NIP05_NOT_FOUND ||
