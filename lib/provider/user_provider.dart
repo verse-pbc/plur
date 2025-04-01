@@ -6,64 +6,63 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/nip05status.dart';
 import 'package:nostrmo/data/event_db.dart';
 
-import '../data/metadata.dart';
-import '../data/metadata_db.dart';
+import '../data/user.dart';
+import '../data/user_db.dart';
 import '../main.dart';
 
-class MetadataProvider extends ChangeNotifier with LaterFunction {
+class UserProvider extends ChangeNotifier with LaterFunction {
   final Map<String, RelayListMetadata> _relayListMetadataCache = {};
 
-  final Map<String, Metadata> _metadataCache = {};
+  final Map<String, User> _userCache = {};
 
   final Map<String, int> _handingPubkeys = {};
 
   final Map<String, ContactList> _contactListMap = {};
 
-  static MetadataProvider? _metadataProvider;
+  static UserProvider? _userProvider;
 
-  static Future<MetadataProvider> getInstance() async {
-    if (_metadataProvider == null) {
-      _metadataProvider = MetadataProvider();
+  static Future<UserProvider> getInstance() async {
+    if (_userProvider == null) {
+      _userProvider = UserProvider();
 
-      var list = await MetadataDB.all();
+      var list = await UserDB.all();
       for (var md in list) {
         if (md.valid == Nip05Status.NIP05_NOT_VALID) {
           md.valid = null;
         }
-        _metadataProvider!._metadataCache[md.pubkey!] = md;
+        _userProvider!._userCache[md.pubkey!] = md;
       }
 
       var events = await EventDB.list(Base.defaultDataIndex,
           [EventKind.RELAY_LIST_METADATA, EventKind.CONTACT_LIST], 0, 1000000);
-      _metadataProvider!._contactListMap.clear();
+      _userProvider!._contactListMap.clear();
       for (var e in events) {
         if (e.kind == EventKind.RELAY_LIST_METADATA) {
           var relayListMetadata = RelayListMetadata.fromEvent(e);
-          _metadataProvider!._relayListMetadataCache[relayListMetadata.pubkey] =
+          _userProvider!._relayListMetadataCache[relayListMetadata.pubkey] =
               relayListMetadata;
         } else if (e.kind == EventKind.CONTACT_LIST) {
           var contactList = ContactList.fromJson(e.tags, e.createdAt);
-          _metadataProvider!._contactListMap[e.pubkey] = contactList;
+          _userProvider!._contactListMap[e.pubkey] = contactList;
         }
       }
 
       // lazyTimeMS begin bigger and request less
-      _metadataProvider!.laterTimeMS = 2000;
+      _userProvider!.laterTimeMS = 2000;
     }
 
-    return _metadataProvider!;
+    return _userProvider!;
   }
 
-  List<Metadata> findUser(String str, {int? limit = 5}) {
-    List<Metadata> list = [];
+  List<User> findUser(String str, {int? limit = 5}) {
+    List<User> list = [];
     if (StringUtil.isNotBlank(str)) {
-      var values = _metadataCache.values;
-      for (var metadata in values) {
-        if ((metadata.displayName != null &&
-                metadata.displayName!.contains(str)) ||
-            (metadata.name != null && metadata.name!.contains(str)) ||
-            (metadata.nip05 != null && metadata.nip05!.contains(str))) {
-          list.add(metadata);
+      var values = _userCache.values;
+      for (final user in values) {
+        if ((user.displayName != null && user.displayName!.contains(str)) ||
+            (user.name != null && user.name!.contains(str)) ||
+            (user.nip05 != null && user.nip05!.contains(str))) {
+          list.add(user);
 
           if (limit != null && list.length >= limit) {
             break;
@@ -93,10 +92,10 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
     later(_laterCallback);
   }
 
-  Metadata? getMetadata(String pubkey) {
-    var metadata = _metadataCache[pubkey];
-    if (metadata != null) {
-      return metadata;
+  User? getUser(String pubkey) {
+    final user = _userCache[pubkey];
+    if (user != null) {
+      return user;
     }
 
     if (!_needUpdatePubKeys.contains(pubkey) &&
@@ -109,12 +108,12 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
   }
 
   int getNip05Status(String pubkey) {
-    var metadata = getMetadata(pubkey);
+    var user = getUser(pubkey);
 
     if (PlatformUtil.isWeb()) {
       // web can't valid NIP05 due to cors
-      if (metadata != null) {
-        if (metadata.nip05 != null) {
+      if (user != null) {
+        if (user.nip05 != null) {
           return Nip05Status.NIP05_VALID;
         }
 
@@ -124,25 +123,25 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
       return Nip05Status.NIP05_NOT_FOUND;
     }
 
-    if (metadata == null) {
+    if (user == null) {
       return Nip05Status.METADATA_NOT_FOUND;
-    } else if (StringUtil.isNotBlank(metadata.nip05)) {
-      if (metadata.valid == null) {
-        Nip05Validator.valid(metadata.nip05!, pubkey).then((valid) async {
+    } else if (StringUtil.isNotBlank(user.nip05)) {
+      if (user.valid == null) {
+        Nip05Validator.valid(user.nip05!, pubkey).then((valid) async {
           if (valid != null) {
             if (valid) {
-              metadata.valid = Nip05Status.NIP05_VALID;
-              await MetadataDB.update(metadata);
+              user.valid = Nip05Status.NIP05_VALID;
+              await UserDB.update(user);
             } else {
               // only update cache, next open app vill valid again
-              metadata.valid = Nip05Status.NIP05_NOT_VALID;
+              user.valid = Nip05Status.NIP05_NOT_VALID;
             }
             notifyListeners();
           }
         });
 
         return Nip05Status.NIP05_NOT_VALID;
-      } else if (metadata.valid! == Nip05Status.NIP05_VALID) {
+      } else if (user.valid! == Nip05Status.NIP05_VALID) {
         return Nip05Status.NIP05_VALID;
       }
 
@@ -164,23 +163,23 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
         _handingPubkeys.remove(event.pubkey);
 
         var jsonObj = jsonDecode(event.content);
-        var md = Metadata.fromJson(jsonObj);
-        md.pubkey = event.pubkey;
-        md.updated_at = event.createdAt;
+        var user = User.fromJson(jsonObj);
+        user.pubkey = event.pubkey;
+        user.updatedAt = event.createdAt;
 
         // check cache
-        var oldMetadata = _metadataCache[md.pubkey];
-        if (oldMetadata == null) {
+        final oldUser = _userCache[user.pubkey];
+        if (oldUser == null) {
           // db
-          MetadataDB.insert(md);
+          UserDB.insert(user);
           // cache
-          _metadataCache[md.pubkey!] = md;
+          _userCache[user.pubkey!] = user;
           // refresh
-        } else if (oldMetadata.updated_at! < md.updated_at!) {
+        } else if (oldUser.updatedAt! < user.updatedAt!) {
           // db
-          MetadataDB.update(md);
+          UserDB.update(user);
           // cache
-          _metadataCache[md.pubkey!] = md;
+          _userCache[user.pubkey!] = user;
           // refresh
         }
       } else if (event.kind == EventKind.RELAY_LIST_METADATA) {
@@ -287,8 +286,8 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
   }
 
   void clear() {
-    _metadataCache.clear();
-    MetadataDB.deleteAll();
+    _userCache.clear();
+    UserDB.deleteAll();
   }
 
   ContactList? getContactList(String pubkey) {
@@ -311,7 +310,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
 
   List<String> getExtralRelays(String pubkey, bool isWrite) {
     List<String> tempRelays = [];
-    var relayListMetadata = metadataProvider.getRelayListMetadata(pubkey);
+    var relayListMetadata = userProvider.getRelayListMetadata(pubkey);
     if (relayListMetadata != null) {
       late List<String> relays;
       if (isWrite) {
