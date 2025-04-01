@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/user/simple_metadata_widget.dart';
+import 'package:nostrmo/component/user/simple_user_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
@@ -138,7 +138,7 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
                       RouterUtil.router(
                           context, RouterPath.USER, contact.publicKey);
                     },
-                    child: SimpleMetadataWidget(
+                    child: SimpleUserWidget(
                       pubkey: contact.publicKey,
                     ),
                   ),
