@@ -4,8 +4,8 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../data/metadata.dart';
-import '../../provider/metadata_provider.dart';
+import '../../data/user.dart';
+import '../../provider/user_provider.dart';
 import '../user/simple_name_widget.dart';
 
 class ReactionEventMetadataWidget extends StatefulWidget {
@@ -26,16 +26,16 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
 
   @override
   Widget build(BuildContext context) {
-    return Selector<MetadataProvider, Metadata?>(
-        builder: (context, metadata, child) {
+    return Selector<UserProvider, User?>(
+        builder: (context, user, child) {
       List<Widget> list = [];
 
-      var name = SimpleNameWidget.getSimpleName(widget.pubkey, metadata);
+      var name = SimpleNameWidget.getSimpleName(widget.pubkey, user);
 
       list.add(UserPicWidget(
         pubkey: widget.pubkey,
         width: IMAGE_WIDTH,
-        metadata: metadata,
+        user: user,
       ));
 
       list.add(Container(
@@ -58,7 +58,7 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
         ),
       );
     }, selector: (_, provider) {
-      return provider.getMetadata(widget.pubkey);
+      return provider.getUser(widget.pubkey);
     });
   }
 }
