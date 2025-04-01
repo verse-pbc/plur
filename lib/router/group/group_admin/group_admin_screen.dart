@@ -213,6 +213,15 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                           context, RouterPath.GROUP_MEMBERS, groupId);
                     },
                   ),
+                  _NavigationRow(
+                    // TODO: Localize this
+                    title: "Community Guidelines",
+                    onTap: () {
+                      final groupId = context.read<GroupIdentifier>();
+                      RouterUtil.router(
+                          context, RouterPath.communityGuidelines, groupId);
+                    },
+                  ),
                 ],
               ),
             ),

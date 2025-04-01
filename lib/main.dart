@@ -60,6 +60,7 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'router/group/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
@@ -463,6 +464,9 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
       RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
+      RouterPath.communityGuidelines: (context) {
+        return const CommunityGuidelinesScreen();
+      },
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };
