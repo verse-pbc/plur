@@ -21,7 +21,7 @@ import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/dm_provider.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 import 'dm_detail_item_widget.dart';
 
@@ -64,7 +64,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
       detail = newDetail;
     }
 
-    var nameComponnet = Selector<MetadataProvider, User?>(
+    var nameComponnet = Selector<UserProvider, User?>(
       builder: (context, user, child) {
         return NameWidget(
           pubkey: detail!.dmSession.pubkey,

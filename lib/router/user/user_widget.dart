@@ -15,7 +15,7 @@ import '../../component/user/user_metadata_widget.dart';
 import '../../consts/base_consts.dart';
 import '../../data/user.dart';
 import '../../main.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
@@ -116,12 +116,12 @@ class _UserWidgetState extends CustState<UserWidget>
 
     final themeData = Theme.of(context);
 
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
       shouldRebuild: (previous, next) {
         return previous != next;
       },
       selector: (context, metadataProvider) {
-        return metadataProvider.getUser(pubkey!);
+        return userProvider.getUser(pubkey!);
       },
       builder: (context, user, child) {
         Color? appbarBackgroundColor = Colors.transparent;
@@ -254,7 +254,7 @@ class _UserWidgetState extends CustState<UserWidget>
   }
 
   void updateUserdata() {
-    metadataProvider.update(pubkey!);
+    userProvider.update(pubkey!);
   }
 
   void onEvent(event) {
@@ -326,7 +326,7 @@ class _UserWidgetState extends CustState<UserWidget>
       // this is init query
       // try to query from user's write relay.
       List<String>? tempRelays =
-          metadataProvider.getExtralRelays(pubkey!, true);
+          userProvider.getExtralRelays(pubkey!, true);
       // the init page set to very small, due to open user page very often
       filter.limit = 10;
       nostr!.query([filter.toJson()], onEventFunc,

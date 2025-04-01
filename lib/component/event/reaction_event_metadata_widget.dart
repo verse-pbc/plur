@@ -5,7 +5,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/user.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../user/simple_name_widget.dart';
 
 class ReactionEventMetadataWidget extends StatefulWidget {
@@ -26,7 +26,7 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
 
   @override
   Widget build(BuildContext context) {
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
         builder: (context, user, child) {
       List<Widget> list = [];
 

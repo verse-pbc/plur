@@ -370,7 +370,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     List<EventZapInfo> list = [];
     String relayAddr = "";
     var relayListMetadata =
-        metadataProvider.getRelayListMetadata(widget.pubkey);
+        userProvider.getRelayListMetadata(widget.pubkey);
     if (relayListMetadata != null &&
         relayListMetadata.writeAbleRelays.isNotEmpty) {
       relayAddr = relayListMetadata.writeAbleRelays.first;

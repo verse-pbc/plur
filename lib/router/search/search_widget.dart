@@ -377,7 +377,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
 
     var text = controller.text;
     if (StringUtil.isNotBlank(text)) {
-      var list = metadataProvider.findUser(text, limit: searchMemLimit);
+      var list = userProvider.findUser(text, limit: searchMemLimit);
 
       setState(() {
         users = list;

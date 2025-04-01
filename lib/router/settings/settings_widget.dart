@@ -689,7 +689,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       if (index != null) {
         AccountManagerWidgetState.onLogoutTap(index,
             routerBack: true, context: context);
-        metadataProvider.clear();
+        userProvider.clear();
       } else {
         nostr = null;
       }
