@@ -12,7 +12,7 @@ import '../../../consts/base.dart';
 import '../../../consts/router_path.dart';
 import '../../../data/user.dart';
 import '../../../main.dart';
-import '../../../provider/metadata_provider.dart';
+import '../../../provider/user_provider.dart';
 import '../../../util/dio_util.dart';
 import '../../../util/router_util.dart';
 import '../../../util/table_mode_util.dart';
@@ -51,7 +51,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
         return Container(
           color: themeData.cardColor,
           padding: const EdgeInsets.only(bottom: Base.basePadding),
-          child: Selector<MetadataProvider, User?>(
+          child: Selector<UserProvider, User?>(
             builder: (context, user, child) {
               return GestureDetector(
                 onTap: () {

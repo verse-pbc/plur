@@ -97,7 +97,7 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
 
     if (StringUtil.isNotBlank(pubkey)) {
       String relay = "";
-      var relayListMetadata = metadataProvider.getRelayListMetadata(pubkey!);
+      var relayListMetadata = userProvider.getRelayListMetadata(pubkey!);
       if (relayListMetadata != null &&
           relayListMetadata.writeAbleRelays.isNotEmpty) {
         relay = relayListMetadata.writeAbleRelays.first;

@@ -5,7 +5,7 @@ import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/data/user.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../image_widget.dart';
@@ -42,7 +42,7 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
       return buildWidget(themeData, widget.user!);
     }
 
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
         builder: (context, user, child) {
       if (user == null) {
         return Container(

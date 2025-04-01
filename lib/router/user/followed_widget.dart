@@ -8,7 +8,7 @@ import '../../consts/base.dart';
 import '../../consts/router_path.dart';
 import '../../data/user.dart';
 import '../../generated/l10n.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 
 import '../../util/table_mode_util.dart';
@@ -54,7 +54,7 @@ class _FollowedWidgetState extends State<FollowedWidget> {
 
         return Container(
           margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
-          child: Selector<MetadataProvider, User?>(
+          child: Selector<UserProvider, User?>(
             builder: (context, user, child) {
               return GestureDetector(
                 onTap: () {

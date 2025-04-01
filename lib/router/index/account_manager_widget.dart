@@ -8,7 +8,7 @@ import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/user.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -291,7 +291,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
     }
     final localization = S.of(context);
 
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
         builder: (context, user, child) {
       Color currentColor = Colors.green;
       List<Widget> list = [];

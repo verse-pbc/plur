@@ -810,7 +810,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   : null;
           if (StringUtil.isBlank(eventRelayAddr) && widget.event != null) {
             var ownerReadRelays =
-                metadataProvider.getExtralRelays(widget.event!.pubkey, false);
+                userProvider.getExtralRelays(widget.event!.pubkey, false);
             if (ownerReadRelays.isNotEmpty) {
               eventRelayAddr = ownerReadRelays.first;
             }

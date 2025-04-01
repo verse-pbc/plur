@@ -14,7 +14,7 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/util/store_util.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +93,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     list.add(RelayInfoItemWidget(
       title: localization.Owner,
-      child: Selector<MetadataProvider, User?>(
+      child: Selector<UserProvider, User?>(
         builder: (context, user, child) {
           List<Widget> list = [];
 

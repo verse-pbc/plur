@@ -7,14 +7,14 @@ import 'package:mockito/mockito.dart';
 import 'package:nostr_sdk/relay/relay_info_util.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/router/signup/signup_widget.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_test.mocks.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-@GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<MetadataProvider>()])
+@GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<UserProvider>()])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -57,7 +57,7 @@ void main() {
 
     await initializeProviders(isTesting: true);
 
-    metadataProvider = MockMetadataProvider();
+    userProvider = MockUserProvider();
 
     await relayLocalDB?.close();
     relayLocalDB = null;

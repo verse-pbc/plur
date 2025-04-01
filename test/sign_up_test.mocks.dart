@@ -13,7 +13,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:nostr_sdk/nostr_sdk.dart' as _i9;
 import 'package:nostrmo/data/user.dart' as _i8;
-import 'package:nostrmo/provider/metadata_provider.dart' as _i7;
+import 'package:nostrmo/provider/user_provider.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -370,10 +370,10 @@ class MockClient extends _i1.Mock implements _i2.Client {
       );
 }
 
-/// A class which mocks [MetadataProvider].
+/// A class which mocks [UserProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
+class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),

@@ -10,7 +10,7 @@ import '../data/user.dart';
 import '../data/user_db.dart';
 import '../main.dart';
 
-class MetadataProvider extends ChangeNotifier with LaterFunction {
+class UserProvider extends ChangeNotifier with LaterFunction {
   final Map<String, RelayListMetadata> _relayListMetadataCache = {};
 
   final Map<String, User> _userCache = {};
@@ -19,39 +19,39 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
 
   final Map<String, ContactList> _contactListMap = {};
 
-  static MetadataProvider? _metadataProvider;
+  static UserProvider? _userProvider;
 
-  static Future<MetadataProvider> getInstance() async {
-    if (_metadataProvider == null) {
-      _metadataProvider = MetadataProvider();
+  static Future<UserProvider> getInstance() async {
+    if (_userProvider == null) {
+      _userProvider = UserProvider();
 
       var list = await UserDB.all();
       for (var md in list) {
         if (md.valid == Nip05Status.NIP05_NOT_VALID) {
           md.valid = null;
         }
-        _metadataProvider!._userCache[md.pubkey!] = md;
+        _userProvider!._userCache[md.pubkey!] = md;
       }
 
       var events = await EventDB.list(Base.defaultDataIndex,
           [EventKind.RELAY_LIST_METADATA, EventKind.CONTACT_LIST], 0, 1000000);
-      _metadataProvider!._contactListMap.clear();
+      _userProvider!._contactListMap.clear();
       for (var e in events) {
         if (e.kind == EventKind.RELAY_LIST_METADATA) {
           var relayListMetadata = RelayListMetadata.fromEvent(e);
-          _metadataProvider!._relayListMetadataCache[relayListMetadata.pubkey] =
+          _userProvider!._relayListMetadataCache[relayListMetadata.pubkey] =
               relayListMetadata;
         } else if (e.kind == EventKind.CONTACT_LIST) {
           var contactList = ContactList.fromJson(e.tags, e.createdAt);
-          _metadataProvider!._contactListMap[e.pubkey] = contactList;
+          _userProvider!._contactListMap[e.pubkey] = contactList;
         }
       }
 
       // lazyTimeMS begin bigger and request less
-      _metadataProvider!.laterTimeMS = 2000;
+      _userProvider!.laterTimeMS = 2000;
     }
 
-    return _metadataProvider!;
+    return _userProvider!;
   }
 
   List<User> findUser(String str, {int? limit = 5}) {
@@ -310,7 +310,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
 
   List<String> getExtralRelays(String pubkey, bool isWrite) {
     List<String> tempRelays = [];
-    var relayListMetadata = metadataProvider.getRelayListMetadata(pubkey);
+    var relayListMetadata = userProvider.getRelayListMetadata(pubkey);
     if (relayListMetadata != null) {
       late List<String> relays;
       if (isWrite) {

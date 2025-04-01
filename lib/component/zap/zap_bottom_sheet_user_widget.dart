@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../data/user.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../user/user_pic_widget.dart';
 
 class ZapBottomSheetUserWidget extends StatefulWidget {
@@ -36,7 +36,7 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
     final themeData = Theme.of(context);
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
 
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
       builder: (context, user, child) {
         Widget userNameWidget = Container(
           width: widget.configMaxWidth ? 100 : null,

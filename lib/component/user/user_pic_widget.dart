@@ -6,7 +6,7 @@ import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/user.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../image_widget.dart';
 
 /// A stateful widget to display user's profile picture
@@ -40,9 +40,9 @@ class _UserPicWidgetState extends State<UserPicWidget> {
       return buildWidget(widget.user);
     }
 
-    // Using Selector to watch changes in MetadataProvider and rebuild widget
+    // Using Selector to watch changes in UserProvider and rebuild widget
     // accordingly.
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
       builder: (context, user, child) {
         return buildWidget(user);
       },
