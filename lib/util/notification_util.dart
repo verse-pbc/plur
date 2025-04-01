@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:nostr_sdk/nostr.dart';
+import 'package:nostr_sdk/event.dart';
 
 /// Utility class for handling notifications
 /// Plur may receive remote notifications from Firebase Cloud Messaging.
@@ -255,5 +257,71 @@ class NotificationUtil {
   static void _handleBackgroundNotificationClick(RemoteMessage message) {
     log("Notification clicked with data: ${message.data}");
     // Navigate to appropriate screen based on message data
+  }
+
+  /// Register an FCM token with the relay by sending a kind 3079 event
+  /// Returns true if registration was submitted for publishing successfully,
+  /// false otherwise.
+  static Future<bool> registerTokenWithRelay({
+    required String token,
+    required Nostr nostr,
+    required String relayUrl,
+  }) async {
+    return _sendTokenEventToRelay(
+      token: token,
+      nostr: nostr,
+      relayUrl: relayUrl,
+      eventKind: 3079,
+    );
+  }
+
+  /// Deregister an FCM token with the relay by sending a kind 3080 event
+  /// Returns true if deregistration was submitted for publish successfully,
+  /// false otherwise
+  static Future<bool> deregisterTokenWithRelay({
+    required String token,
+    required Nostr nostr,
+    required String relayUrl,
+  }) async {
+    return _sendTokenEventToRelay(
+      token: token,
+      nostr: nostr,
+      relayUrl: relayUrl,
+      eventKind: 3080,
+    );
+  }
+
+  /// Internal method to send token events to relay
+  static Future<bool> _sendTokenEventToRelay({
+    required String token,
+    required Nostr nostr,
+    required String relayUrl,
+    required int eventKind,
+  }) async {
+    try {
+      final expirationTimestamp = _registrationExpirationTimestamp();
+
+      final event = Event(
+        nostr.publicKey,
+        eventKind,
+        [
+          ['expiration', expirationTimestamp.toString()]
+        ],
+        token,
+      );
+
+      final result = await nostr
+          .sendEvent(event, tempRelays: [relayUrl], targetRelays: [relayUrl]);
+      return result != null;
+    } catch (e) {
+      log('Error sending token event to relay: $e');
+      return false;
+    }
+  }
+
+  /// Returns the date that token registration events should expire as a unix
+  /// timestamp.
+  static int _registrationExpirationTimestamp() {
+    return (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
   }
 }
