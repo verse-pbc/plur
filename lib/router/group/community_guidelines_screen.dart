@@ -37,7 +37,7 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
       RouterUtil.back(context);
       return Container();
     }
-    final groupIdentifier = arg;
+    final id = arg;
     return Scaffold(
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
@@ -51,54 +51,52 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
           ),
         ),
       ),
-      body: Consumer(
-        builder: (context, ref, _) {
-          final communityGuidelines =
-              ref.watch(communityGuidelinesProvider(groupIdentifier));
-          return communityGuidelines.when(
-            data: (value) {
-              _descriptionController.text = value ?? "";
-              return SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(height: 26),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: TextFormField(
-                        controller: _descriptionController,
-                        decoration: InputDecoration(
-                          labelText: localization.Description,
-                          hintText: localization.Enter_Community_Description,
-                          alignLabelWithHint: true,
-                          border: OutlineInputBorder(
-                            borderRadius: borderRadius,
-                            borderSide: borderSide,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: borderRadius,
-                            borderSide: borderSide,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: borderRadius,
-                            borderSide: borderSide,
-                          ),
-                          labelStyle: TextStyle(color: primaryForegroundColor),
+      body: Consumer(builder: (context, ref, _) {
+        final groupMetadata = ref.watch(groupMetadataProvider(id));
+        return groupMetadata.when(
+          data: (value) {
+            _descriptionController.text = value?.communityGuidelines ?? "";
+            return SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(height: 26),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: TextFormField(
+                      controller: _descriptionController,
+                      decoration: InputDecoration(
+                        labelText: localization.Description,
+                        hintText: localization.Enter_Community_Description,
+                        alignLabelWithHint: true,
+                        border: OutlineInputBorder(
+                          borderRadius: borderRadius,
+                          borderSide: borderSide,
                         ),
-                        maxLines: null,
-                        keyboardType: TextInputType.multiline,
-                        textAlignVertical: TextAlignVertical.top,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: borderRadius,
+                          borderSide: borderSide,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: borderRadius,
+                          borderSide: borderSide,
+                        ),
+                        labelStyle: TextStyle(color: primaryForegroundColor),
                       ),
+                      maxLines: null,
+                      minLines: 5,
+                      keyboardType: TextInputType.multiline,
+                      textAlignVertical: TextAlignVertical.top,
                     ),
-                  ],
-                ),
-              );
-            },
-            error: (error, stackTrace) => Center(child: ErrorWidget(error)),
-            loading: () => const Center(child: CircularProgressIndicator()),
-          );
-        },
-      ),
+                  ),
+                ],
+              ),
+            );
+          },
+          error: (error, stackTrace) => Center(child: ErrorWidget(error)),
+          loading: () => const Center(child: CircularProgressIndicator()),
+        );
+      }),
     );
   }
 }
