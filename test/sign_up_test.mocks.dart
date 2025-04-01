@@ -12,8 +12,8 @@ import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:nostr_sdk/nostr_sdk.dart' as _i9;
-import 'package:nostrmo/data/metadata.dart' as _i8;
-import 'package:nostrmo/provider/metadata_provider.dart' as _i7;
+import 'package:nostrmo/data/user.dart' as _i8;
+import 'package:nostrmo/provider/user_provider.dart' as _i7;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -370,10 +370,10 @@ class MockClient extends _i1.Mock implements _i2.Client {
       );
 }
 
-/// A class which mocks [MetadataProvider].
+/// A class which mocks [UserProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
+class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
@@ -414,7 +414,7 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
       );
 
   @override
-  List<_i8.Metadata> findUser(
+  List<_i8.User> findUser(
     String? str, {
     int? limit = 5,
   }) =>
@@ -424,9 +424,9 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
           [str],
           {#limit: limit},
         ),
-        returnValue: <_i8.Metadata>[],
-        returnValueForMissingStub: <_i8.Metadata>[],
-      ) as List<_i8.Metadata>);
+        returnValue: <_i8.User>[],
+        returnValueForMissingStub: <_i8.User>[],
+      ) as List<_i8.User>);
 
   @override
   void update(String? pubkey) => super.noSuchMethod(
@@ -438,13 +438,13 @@ class MockMetadataProvider extends _i1.Mock implements _i7.MetadataProvider {
       );
 
   @override
-  _i8.Metadata? getMetadata(String? pubkey) => (super.noSuchMethod(
+  _i8.User? getUser(String? pubkey) => (super.noSuchMethod(
         Invocation.method(
-          #getMetadata,
+          #getUser,
           [pubkey],
         ),
         returnValueForMissingStub: null,
-      ) as _i8.Metadata?);
+      ) as _i8.User?);
 
   @override
   int getNip05Status(String? pubkey) => (super.noSuchMethod(

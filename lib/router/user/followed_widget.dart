@@ -3,12 +3,12 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
-import '../../component/user/metadata_widget.dart';
+import '../../component/user/user_metadata_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../generated/l10n.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 
 import '../../util/table_mode_util.dart';
@@ -54,22 +54,22 @@ class _FollowedWidgetState extends State<FollowedWidget> {
 
         return Container(
           margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
-          child: Selector<MetadataProvider, Metadata?>(
-            builder: (context, metadata, child) {
+          child: Selector<UserProvider, User?>(
+            builder: (context, user, child) {
               return GestureDetector(
                 onTap: () {
                   RouterUtil.router(context, RouterPath.USER, pubkey);
                 },
                 behavior: HitTestBehavior.translucent,
-                child: MetadataWidget(
+                child: UserMetadataWidget(
                   pubkey: pubkey,
-                  metadata: metadata,
+                  user: user,
                   jumpable: true,
                 ),
               );
             },
             selector: (_, provider) {
-              return provider.getMetadata(pubkey);
+              return provider.getUser(pubkey);
             },
           ),
         );
