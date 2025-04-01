@@ -8,7 +8,7 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/dm_provider.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
@@ -36,7 +36,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
 
   @override
   Widget build(BuildContext context) {
-    var main = Selector<MetadataProvider, User?>(
+    var main = Selector<UserProvider, User?>(
       builder: (context, user, child) {
         final themeData = Theme.of(context);
         var mainColor = themeData.primaryColor;

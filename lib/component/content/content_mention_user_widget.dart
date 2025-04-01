@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../consts/router_path.dart';
 import '../../data/user.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 import 'content_str_link_widget.dart';
 
@@ -22,7 +22,7 @@ class ContentMentionUserWidget extends StatefulWidget {
 class _ContentMentionUserWidgetState extends State<ContentMentionUserWidget> {
   @override
   Widget build(BuildContext context) {
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
       builder: (context, user, child) {
         String name =
             SimpleNameWidget.getSimpleName(widget.pubkey, user);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/data/user.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../component/user/simple_name_widget.dart';
@@ -33,7 +33,7 @@ class _EditorNotifyItemWidgetState extends State<EditorNotifyItemWidget> {
     var textColor = themeData.appBarTheme.titleTextStyle!.color;
 
     List<Widget> list = [];
-    list.add(Selector<MetadataProvider, User?>(
+    list.add(Selector<UserProvider, User?>(
         builder: (context, user, child) {
       String name =
           SimpleNameWidget.getSimpleName(widget.item.pubkey, user);

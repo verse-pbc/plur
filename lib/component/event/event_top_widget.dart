@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../data/user.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../nip05_valid_widget.dart';
 
 class EventTopWidget extends StatefulWidget {
@@ -56,12 +56,12 @@ class _EventTopWidgetState extends State<EventTopWidget> {
       }
     }
 
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
       shouldRebuild: (previous, next) {
         return previous != next;
       },
-      selector: (context, metadataProvider) {
-        return metadataProvider.getUser(pubkey!);
+      selector: (context, userProvider) {
+        return userProvider.getUser(pubkey!);
       },
       builder: (context, user, child) {
         final themeData = Theme.of(context);

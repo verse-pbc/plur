@@ -10,7 +10,7 @@ import '../../consts/router_path.dart';
 import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 import '../../util/zap_action.dart';
 import '../content/content_str_link_widget.dart';
@@ -37,7 +37,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
       builder: (context, user, child) {
         final themeData = Theme.of(context);
         Color cardColor = themeData.cardColor;
@@ -64,7 +64,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
                     onTap: () async {
                       await RouterUtil.router(
                           context, RouterPath.PROFILE_EDITOR, user);
-                      metadataProvider.update(nostr!.publicKey);
+                      userProvider.update(nostr!.publicKey);
                     },
                   ),
                 )

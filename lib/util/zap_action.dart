@@ -44,7 +44,7 @@ class ZapAction {
       BuildContext context, int sats, String pubkey,
       {String? eventId, String? pollOption, String? comment}) async {
     final localization = S.of(context);
-    final user = metadataProvider.getUser(pubkey);
+    final user = userProvider.getUser(pubkey);
     if (user == null) {
       BotToast.showText(text: localization.Metadata_can_not_be_found);
       return null;

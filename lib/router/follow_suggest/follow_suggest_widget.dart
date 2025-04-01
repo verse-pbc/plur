@@ -174,7 +174,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
   }
 
   void onEvent(Event e) {
-    metadataProvider.onEvent(e);
+    userProvider.onEvent(e);
   }
 
   int getRandomInt(int min, int max) {

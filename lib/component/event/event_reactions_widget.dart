@@ -616,7 +616,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
     relayAddrs ??= [];
     relayAddrs
-        .addAll(metadataProvider.getExtralRelays(widget.event.pubkey, false));
+        .addAll(userProvider.getExtralRelays(widget.event.pubkey, false));
 
     if (myLikeEvents == null || myLikeEvents!.isEmpty) {
       // like

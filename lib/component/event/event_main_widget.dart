@@ -20,7 +20,7 @@ import '../../consts/router_path.dart';
 import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/router_util.dart';
 import '../confirm_dialog.dart';
@@ -836,7 +836,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     for (var zapInfo in eventRelation.zapInfos) {
       userWidgetList.add(Container(
         margin: const EdgeInsets.only(left: Base.basePaddingHalf),
-        child: Selector<MetadataProvider, User?>(
+        child: Selector<UserProvider, User?>(
           builder: (context, user, child) {
             return GestureDetector(
               onTap: () {
@@ -894,7 +894,7 @@ class _EventReplyingComponent extends State<EventReplyingComponent> {
       onTap: () {
         RouterUtil.router(context, RouterPath.USER, widget.pubkey);
       },
-      child: Selector<MetadataProvider, User?>(
+      child: Selector<UserProvider, User?>(
         builder: (context, user, child) {
           final themeData = Theme.of(context);
           var hintColor = themeData.hintColor;

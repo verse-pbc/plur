@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/data/user.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class SimpleNameWidget extends StatefulWidget {
@@ -52,7 +52,7 @@ class _SimpleNameWidgetState extends State<SimpleNameWidget> {
       return buildWidget(widget.user);
     }
 
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
         builder: (context, user, child) {
       return buildWidget(user);
     }, selector: (_, provider) {

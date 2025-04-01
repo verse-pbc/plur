@@ -8,7 +8,7 @@ import '../../consts/base.dart';
 import '../../data/user.dart';
 import '../../main.dart';
 import '../../provider/group_provider.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 import 'search_mention_widget.dart';
 
@@ -59,11 +59,11 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     });
 
     // Load metadata for each member
-    final metadataProvider = Provider.of<MetadataProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     for (int i = 0; i < memberPubkeys.length; i++) {
       final pubkey = memberPubkeys[i];
 
-      User? initialUser = metadataProvider.getUser(pubkey);
+      User? initialUser = userProvider.getUser(pubkey);
       if (initialUser != null) {
         _allUsers[i] = initialUser;
       }
@@ -122,8 +122,8 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     if (text == null || text.isEmpty) {
       _users = _allUsers.whereType<User>().toList();
     } else {
-      final metadataProvider = Provider.of<MetadataProvider>(context, listen: false);
-      _users = metadataProvider.findUser(text, limit: searchMemLimit);
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      _users = userProvider.findUser(text, limit: searchMemLimit);
     }
 
     setState(() {});

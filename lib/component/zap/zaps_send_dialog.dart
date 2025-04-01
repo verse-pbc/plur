@@ -4,7 +4,7 @@ import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/data/user.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
@@ -159,7 +159,7 @@ class ZapsSendDialogItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    return Selector<MetadataProvider, User?>(
+    return Selector<UserProvider, User?>(
         builder: (context, user, child) {
       var userPicComp = UserPicWidget(pubkey: pubkey, width: height);
 

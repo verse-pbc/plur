@@ -15,7 +15,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../consts/base.dart';
 import '../generated/l10n.dart';
-import '../provider/metadata_provider.dart';
+import '../provider/user_provider.dart';
 import '../util/router_util.dart';
 import '../util/store_util.dart';
 import '../util/theme_util.dart';
@@ -56,7 +56,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
 
     List<Widget> list = [];
     var nip19Pubkey = Nip19.encodePubKey(widget.pubkey);
-    Widget topWidget = Selector<MetadataProvider, User?>(
+    Widget topWidget = Selector<UserProvider, User?>(
       builder: (context, user, child) {
         Widget userImageWidget = UserPicWidget(
           pubkey: widget.pubkey,

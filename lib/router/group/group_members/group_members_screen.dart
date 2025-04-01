@@ -3,7 +3,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import '../../../component/appbar_back_btn_widget.dart';
 import '../../../generated/l10n.dart';
 import '../../../component/appbar_bottom_border.dart';
@@ -28,7 +28,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
     final themeData = Theme.of(context);
     var bodyLargeFontSize = themeData.textTheme.bodyLarge!.fontSize;
     final localization = S.of(context);
-    final metadataProvider = Provider.of<MetadataProvider>(context);
+    final userProvider = Provider.of<UserProvider>(context);
 
     var arg = RouterUtil.routerArgs(context);
     if (arg == null || arg is! GroupIdentifier) {
@@ -46,7 +46,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
     if (groupMembers != null && groupMembers.members != null) {
       // Create a list of member data to sort
       var membersList = groupMembers.members!.map((pubkey) {
-        final user = metadataProvider.getUser(pubkey);
+        final user = userProvider.getUser(pubkey);
         final isAdmin = groupAdmins?.containsUser(pubkey) ?? false;
         return (pubkey: pubkey, user: user, isAdmin: isAdmin);
       }).toList();
