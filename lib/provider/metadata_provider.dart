@@ -165,7 +165,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
         var jsonObj = jsonDecode(event.content);
         var user = User.fromJson(jsonObj);
         user.pubkey = event.pubkey;
-        user.updated_at = event.createdAt;
+        user.updatedAt = event.createdAt;
 
         // check cache
         final oldUser = _userCache[user.pubkey];
@@ -175,7 +175,7 @@ class MetadataProvider extends ChangeNotifier with LaterFunction {
           // cache
           _userCache[user.pubkey!] = user;
           // refresh
-        } else if (oldUser.updated_at! < user.updated_at!) {
+        } else if (oldUser.updatedAt! < user.updatedAt!) {
           // db
           UserDB.update(user);
           // cache
