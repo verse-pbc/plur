@@ -214,8 +214,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                     },
                   ),
                   _NavigationRow(
-                    // TODO: Localize this
-                    title: "Community Guidelines",
+                    title: localization.Community_Guidelines,
                     onTap: () {
                       final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
