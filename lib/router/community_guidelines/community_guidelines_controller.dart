@@ -6,7 +6,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import '../../data/group_metadata_repository.dart';
 
 class CommunityGuidelinesController
-    extends FamilyAsyncNotifier<String, GroupIdentifier> {
+    extends AutoDisposeFamilyAsyncNotifier<String, GroupIdentifier> {
   Future<String> _fetchCommunityGuidelines(GroupIdentifier id) async {
     final repository = ref.watch(groupMetadataRepositoryProvider);
     final groupMetadata = await repository.fetchGroupMetadata(id);
@@ -18,9 +18,6 @@ class CommunityGuidelinesController
     return _fetchCommunityGuidelines(arg);
   }
 
-  Future<void> save() async {
-    state = const AsyncValue<String>.loading();
-  }
 }
 
 final communityGuidelinesControllerProvider = AsyncNotifierProvider.autoDispose
