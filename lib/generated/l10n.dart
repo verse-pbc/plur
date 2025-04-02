@@ -80,6 +80,16 @@ class S {
     );
   }
 
+  /// `Community Guidelines`
+  String get Community_Guidelines {
+    return Intl.message(
+      'Community Guidelines',
+      name: 'Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Open`
   String get open {
     return Intl.message(

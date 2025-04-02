@@ -50,8 +50,7 @@ class _CommunityGuidelinesScreenState
         leading: const AppbarBackBtnWidget(),
         bottom: const AppBarBottomBorder(),
         title: Text(
-          // TODO: Localize this
-          "Community Guidelines",
+          localization.Community_Guidelines,
           style: TextStyle(
             fontSize: bodyLargeFontSize,
             fontWeight: FontWeight.bold,

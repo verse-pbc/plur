@@ -94,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
+        "Community_Guidelines":
+            MessageLookupByLibrary.simpleMessage("Community Guidelines"),
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
