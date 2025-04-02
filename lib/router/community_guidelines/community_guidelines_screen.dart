@@ -9,6 +9,8 @@ import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
 import 'community_guidelines_controller.dart';
 
+/// A screen that displays and allows editing of the community guidelines for a
+/// group.
 class CommunityGuidelinesScreen extends ConsumerStatefulWidget {
   const CommunityGuidelinesScreen({super.key});
 
@@ -20,6 +22,7 @@ class CommunityGuidelinesScreen extends ConsumerStatefulWidget {
 
 class _CommunityGuidelinesScreenState
     extends ConsumerState<CommunityGuidelinesScreen> {
+  /// Holds the state of the text input.
   final _descriptionController = TextEditingController();
 
   @override
