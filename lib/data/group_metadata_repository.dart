@@ -20,7 +20,6 @@ class GroupMetadataRepository {
   /// - Returns: A `Future` that resolves to the `GroupMetadata` of the
   /// specified group.
   Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id) async {
-    await Future.delayed(const Duration(seconds: 2));
     final host = id.host;
     final groupId = id.groupId;
     var filter = Filter(
@@ -40,7 +39,8 @@ class GroupMetadataRepository {
     final events = await nostr!.queryEvents(
       filters,
       tempRelays: [host],
-      relayTypes: [RelayType.local],
+      targetRelays: [host],
+      relayTypes: RelayType.tempAndLocal,
       sendAfterAuth: true,
     );
     final event = events.firstOrNull;
