@@ -8,6 +8,7 @@ class GroupMetadataRepository {
   static const _communityGuidelinesMarker = "# Community Guidelines";
 
   Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id) async {
+    await Future.delayed(const Duration(seconds: 2));
     final host = id.host;
     final groupId = id.groupId;
     var filter = Filter(
