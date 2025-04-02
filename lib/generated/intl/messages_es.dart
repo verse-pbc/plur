@@ -70,6 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Cierre de mensajes privados"),
         "Close_at": MessageLookupByLibrary.simpleMessage("Detener en"),
         "Communities": MessageLookupByLibrary.simpleMessage("Comunidades"),
+        "Community_Guidelines":
+            MessageLookupByLibrary.simpleMessage("Reglas de la comunidad"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirmación"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contactos"),
         "Content": MessageLookupByLibrary.simpleMessage("Contenido"),
