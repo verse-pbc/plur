@@ -5,10 +5,10 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/appbar_bottom_border.dart';
-import '../../data/group_metadata_repository.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
 import '../../util/theme_util.dart';
+import 'community_guidelines_controller.dart';
 
 class CommunityGuidelinesScreen extends StatefulWidget {
   const CommunityGuidelinesScreen({super.key});
@@ -52,10 +52,10 @@ class _CommunityGuidelinesScreenState extends State<CommunityGuidelinesScreen> {
         ),
       ),
       body: Consumer(builder: (context, ref, _) {
-        final groupMetadata = ref.watch(groupMetadataProvider(id));
-        return groupMetadata.when(
+        final controller = ref.watch(communityGuidelinesControllerProvider(id));
+        return controller.when(
           data: (value) {
-            _descriptionController.text = value?.communityGuidelines ?? "";
+            _descriptionController.text = value;
             return SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
