@@ -29,6 +29,7 @@ class _CommunityGuidelinesScreenState
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
+    final accentColor = customColors.accentColor;
     final primaryForegroundColor = customColors.primaryForegroundColor;
     final secondaryForegroundColor = customColors.secondaryForegroundColor;
     const double cornerRadius = 8;
@@ -43,6 +44,7 @@ class _CommunityGuidelinesScreenState
     }
     final id = arg;
     final controller = ref.watch(communityGuidelinesControllerProvider(id));
+    final isSaveDisabled = controller.isLoading || controller.hasError;
     return Scaffold(
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
@@ -57,12 +59,14 @@ class _CommunityGuidelinesScreenState
         ),
         actions: [
           TextButton(
-            onPressed: () => _save(id),
-            style: const ButtonStyle(),
+            onPressed: isSaveDisabled ? null : () => _save(id),
+            style: TextButton.styleFrom(
+              foregroundColor: accentColor,
+              disabledForegroundColor: accentColor.withOpacity(0.4),
+            ),
             child: Text(
               localization.Save,
-              style: TextStyle(
-                color: themeData.customColors.accentColor,
+              style: const TextStyle(
                 fontSize: 18,
               ),
             ),
