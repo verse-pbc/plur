@@ -57,11 +57,7 @@ class _CommunityGuidelinesScreenState
         ),
         actions: [
           TextButton(
-            onPressed: () {
-              ref
-                  .read(communityGuidelinesControllerProvider(id).notifier)
-                  .save(_descriptionController.text);
-            },
+            onPressed: () => _save(id),
             style: const ButtonStyle(),
             child: Text(
               localization.Save,
@@ -117,5 +113,12 @@ class _CommunityGuidelinesScreenState
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
     );
+  }
+
+  /// Saves current input.
+  void _save(GroupIdentifier id) {
+    final provider = communityGuidelinesControllerProvider(id);
+    final controller = ref.read(provider.notifier);
+    controller.save(_descriptionController.text);
   }
 }
