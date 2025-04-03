@@ -7,7 +7,7 @@ import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/contact_list_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/provider/metadata_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -150,7 +150,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
         ),
       );
     } else {
-      var provider = Provider.of<MetadataProvider>(context);
+      var provider = Provider.of<UserProvider>(context);
       contactList = provider.getContactList(pubkey!);
 
       List<Widget> list = [];
@@ -291,7 +291,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
         RouterUtil.router(context, RouterPath.USER_CONTACT_LIST, cl);
       }
     } else {
-      var contactList = metadataProvider.getContactList(pubkey!);
+      var contactList = userProvider.getContactList(pubkey!);
       if (contactList != null) {
         RouterUtil.router(context, RouterPath.USER_CONTACT_LIST, contactList);
       }
