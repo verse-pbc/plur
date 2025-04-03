@@ -3359,6 +3359,46 @@ class S {
       args: [number],
     );
   }
+
+  /// `Are you over 16 years old?`
+  String get Age_verification_question {
+    return Intl.message(
+      'Are you over 16 years old?',
+      name: 'Age_verification_question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For legal reasons, we need to make sure you're over this age to use Plur.`
+  String get Age_verification_message {
+    return Intl.message(
+      'For legal reasons, we need to make sure you\'re over this age to use Plur.',
+      name: 'Age_verification_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get No {
+    return Intl.message(
+      'No',
+      name: 'No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get Yes {
+    return Intl.message(
+      'Yes',
+      name: 'Yes',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
