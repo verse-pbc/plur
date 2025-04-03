@@ -128,40 +128,52 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
 
     var main = Scaffold(
       backgroundColor: widget.backgroundColor.withOpacity(0.5),
-      body: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: <Widget>[
-            EasyImageViewPager(
-                easyImageProvider: widget.imageProvider,
-                pageController: _pageController,
-                doubleTapZoomable: widget.doubleTapZoomable,
-                onScaleChanged: (scale) {
-                  setState(() {
-                    _dismissDirection = scale <= 1.0
-                        ? DismissDirection.down
-                        : DismissDirection.none;
-                  });
-                }),
-            Positioned(
-                top: 5,
-                right: 5,
-                child: IconButton(
-                  icon: const Icon(Icons.close),
-                  color: widget.closeButtonColor,
-                  tooltip: localization.close,
-                  onPressed: close,
-                )),
-            Positioned(
-                bottom: 5,
-                left: 5,
-                child: IconButton(
-                  icon: const Icon(Icons.download),
-                  color: widget.closeButtonColor,
-                  tooltip: localization.Download,
-                  onPressed: saveImage,
-                )),
-          ]),
+      body: GestureDetector(
+        onTap: close,
+        child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: <Widget>[
+              EasyImageViewPager(
+                  easyImageProvider: widget.imageProvider,
+                  pageController: _pageController,
+                  doubleTapZoomable: widget.doubleTapZoomable,
+                  onScaleChanged: (scale) {
+                    setState(() {
+                      _dismissDirection = scale <= 1.0
+                          ? DismissDirection.down
+                          : DismissDirection.none;
+                    });
+                  }),
+              SafeArea(
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        color: widget.closeButtonColor,
+                        tooltip: localization.close,
+                        onPressed: close,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      left: 5,
+                      child: IconButton(
+                        icon: const Icon(Icons.download),
+                        color: widget.closeButtonColor,
+                        tooltip: localization.Download,
+                        onPressed: saveImage,
+                      ),
+                    ),
+                  ]
+                ),
+              ),
+
+            ]),
+      ),
     );
 
     final popScopeAwareDialog = WillPopScope(
