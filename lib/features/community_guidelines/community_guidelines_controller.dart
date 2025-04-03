@@ -8,6 +8,10 @@ import '../../data/group_metadata_repository.dart';
 /// A controller class that manages the community guidelines for a group.
 class CommunityGuidelinesController
     extends AutoDisposeFamilyAsyncNotifier<String, GroupIdentifier> {
+  /// Instance of [GroupMetadata] stored when the controller is instanced for
+  /// later use.
+  GroupMetadata? _cachedGroupMetadata;
+
   /// Fetches the community guidelines for a given group identifier.
   ///
   /// This function retrieves the group metadata from the repository and
@@ -23,8 +27,9 @@ class CommunityGuidelinesController
     final repository = ref.watch(groupMetadataRepositoryProvider);
     final groupMetadata = await repository.fetchGroupMetadata(id);
     if (groupMetadata == null) {
-      throw StateError("Couldn't retrieve Group Metadata");
+      throw StateError("Couldn't fetch Group Metadata");
     }
+    _cachedGroupMetadata = groupMetadata;
     return groupMetadata.communityGuidelines ?? "";
   }
 
@@ -45,25 +50,27 @@ class CommunityGuidelinesController
   /// - Returns: A `Future` that resolves to `true` if the guidelines were
   /// successfully saved, otherwise `false`.
   Future<bool> save(String communityGuidelines) async {
-    final GroupIdentifier id = arg;
-    if (state.hasValue && state.value == communityGuidelines) {
-      return true;
-    }
-    final repository = ref.watch(groupMetadataRepositoryProvider);
-    state = const AsyncValue<String>.loading();
-    var metadata = await repository.fetchGroupMetadata(id);
+    final GroupIdentifier id = arg; 
+    var metadata = _cachedGroupMetadata;
+    assert(metadata != null, "Didn't have a cached group metadata instance");
     if (metadata == null) {
-      state = AsyncValue<String>.data(state.value ?? "");
       return false;
     }
+    if (communityGuidelines == metadata.communityGuidelines) {
+      return true;
+    }
+    state = const AsyncValue<String>.loading();
+    final repository = ref.watch(groupMetadataRepositoryProvider);
     metadata.communityGuidelines = communityGuidelines;
     final result = await repository.setGroupMetadata(metadata, id.host);
     if (result) {
+      // Add a delay before fetching metadata again so relays have time to
+      // process the edited metadata.
+      await Future.delayed(const Duration(seconds: 1));
+      // Fetch metadata again so that the local relay can update its contents.
       _fetchCommunityGuidelines(id);
-      state = AsyncValue<String>.data(communityGuidelines);
-    } else {
-      state = AsyncValue<String>.data(state.value ?? "");
     }
+    state = AsyncValue<String>.data(communityGuidelines);
     return result;
   }
 }

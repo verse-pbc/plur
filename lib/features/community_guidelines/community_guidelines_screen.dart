@@ -86,7 +86,7 @@ class _CommunityGuidelinesScreenState
                     controller: _descriptionController,
                     decoration: InputDecoration(
                       labelText: localization.Description,
-                      hintText: localization.Enter_Community_Description,
+                      hintText: localization.Enter_Community_Guidelines,
                       alignLabelWithHint: true,
                       border: OutlineInputBorder(
                         borderRadius: borderRadius,
@@ -119,9 +119,36 @@ class _CommunityGuidelinesScreenState
   }
 
   /// Saves current input.
-  void _save(GroupIdentifier id) {
+  void _save(GroupIdentifier id) async {
+    final localization = S.of(context);
     final provider = communityGuidelinesControllerProvider(id);
     final controller = ref.read(provider.notifier);
-    controller.save(_descriptionController.text);
+    final result = await controller.save(_descriptionController.text);
+    if (!mounted) return;
+    if (result) {
+      RouterUtil.back(context);
+    } else {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => AlertDialog.adaptive(
+          title: Text(localization.Error),
+          content: Text(localization.Save_failed),
+          actions: [
+            TextButton(
+              child: Text(localization.Retry),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _save(id);
+              },
+            ),
+            TextButton(
+              child: Text(localization.Cancel),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
