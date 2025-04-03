@@ -34,6 +34,9 @@ class RouterPath {
   /// The route path for the Settings screen.
   static const String SETTINGS = "/settings";
 
+  /// The route path for the Community Guidelines screen.
+  static const String communityGuidelines = "/communityGuidelines";
+
   static const String QRSCANNER = "/qrScanner";
   static const String WEBUTILS = "/webUtils";
   static const String RELAY_INFO = "/relayInfo";
@@ -46,6 +49,7 @@ class RouterPath {
   static const String FOLLOW_SET_DETAIL = "/followSetDetail";
   static const String FOLLOW_SET_FEED = "/followSetFeed";
   static const String NWC_SETTING = "/nwcSetting";
+  static const String GROUP_ADMIN = "/groupAdmin";
   static const String GROUP_LIST = "/groupList";
   static const String GROUP_DETAIL = "/groupDetail";
   static const String GROUP_EDIT = "/groupEdit";

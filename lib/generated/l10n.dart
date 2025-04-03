@@ -70,11 +70,41 @@ class S {
     );
   }
 
+  /// `Error`
+  String get Error {
+    return Intl.message(
+      'Error',
+      name: 'Error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get Communities {
     return Intl.message(
       'Communities',
       name: 'Communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Guidelines`
+  String get Community_Guidelines {
+    return Intl.message(
+      'Community Guidelines',
+      name: 'Community_Guidelines',
       desc: '',
       args: [],
     );
@@ -3295,6 +3325,106 @@ class S {
     return Intl.message(
       'Admin',
       name: 'Admin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Admin Panel`
+  String get Admin_Panel {
+    return Intl.message(
+      'Admin Panel',
+      name: 'Admin_Panel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Update Image`
+  String get Update_Image {
+    return Intl.message(
+      'Update Image',
+      name: 'Update_Image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Name`
+  String get Community_Name {
+    return Intl.message(
+      'Community Name',
+      name: 'Community_Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a name for your community`
+  String get Enter_Community_Name {
+    return Intl.message(
+      'Enter a name for your community',
+      name: 'Enter_Community_Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a description of your community`
+  String get Enter_Community_Description {
+    return Intl.message(
+      'Enter a description of your community',
+      name: 'Enter_Community_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the guidelines of your community`
+  String get Enter_Community_Guidelines {
+    return Intl.message(
+      'Enter the guidelines of your community',
+      name: 'Enter_Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Description`
+  String get Description {
+    return Intl.message(
+      'Description',
+      name: 'Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get Save {
+    return Intl.message(
+      'Save',
+      name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while trying to save your data.`
+  String get Save_failed {
+    return Intl.message(
+      'An error occurred while trying to save your data.',
+      name: 'Save_failed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image upload failed`
+  String get Image_upload_failed {
+    return Intl.message(
+      'Image upload failed',
+      name: 'Image_upload_failed',
       desc: '',
       args: [],
     );

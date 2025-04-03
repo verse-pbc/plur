@@ -28,6 +28,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/mention_me_new_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/nwc_provider.dart';
+import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
@@ -59,6 +60,7 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
@@ -462,6 +464,9 @@ class _MyApp extends State<MyApp> {
       RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
       RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
       RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
+      RouterPath.communityGuidelines: (context) {
+        return const CommunityGuidelinesScreen();
+      },
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };
@@ -579,6 +584,23 @@ class _MyApp extends State<MyApp> {
           darkTheme: defaultDarkTheme,
           initialRoute: RouterPath.INDEX,
           routes: routes,
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case RouterPath.GROUP_ADMIN:
+                final groupId = settings.arguments as GroupIdentifier?;
+                if (groupId == null) {
+                  return null;
+                }
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: groupId,
+                    child: const GroupAdminScreen(),
+                  ),
+                );
+              default:
+                return null;
+            }
+          },
         ),
       ),
     );
