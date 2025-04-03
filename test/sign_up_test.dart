@@ -87,17 +87,12 @@ void main() {
 
   testWidgets('Age verification denial shows dialog and returns to login',
       (WidgetTester tester) async {
-    // Launch the app with the onboarding widget
-    await tester.pumpWidget(MaterialApp(
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        S.delegate
-      ],
-      supportedLocales: S.delegate.supportedLocales,
-      locale: const Locale('en'),
-      home: const Scaffold(body: OnboardingWidget()),
-    ));
+    // Launch the app
+    await tester.pumpWidget(const MyApp());
+    await tester.pumpAndSettle();
+
+    // find the Sign Up button and tap it
+    await tester.tap(find.byKey(const Key('signup_button')));
     await tester.pumpAndSettle();
 
     // Verify we're on the age verification step
@@ -108,7 +103,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify the dialog appears
-    expect(find.text('Age Requirement'), findsOneWidget);
+    expect(find.text('Go back to School'), findsOneWidget);
     expect(
       find.byKey(const Key('age_requirement_message')),
       findsOneWidget,
@@ -118,7 +113,7 @@ void main() {
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
 
-    // Verify we're navigated back to login screen (dialog is dismissed)
+    // Verify we're back at login screen
     expect(find.byType(LoginSignupWidget), findsOneWidget);
   });
 }
