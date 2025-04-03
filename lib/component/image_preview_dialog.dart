@@ -243,6 +243,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
       if (!isPc) {
         var result =
             await ImageGallerySaver.saveImage(imageAsBytes, quality: 100);
+        if (!mounted) return;
         if (result != null && result is Map && result["isSuccess"]) {
           BotToast.showText(text: S.of(context).Image_save_success);
         }
@@ -252,6 +253,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
           bytes: imageAsBytes,
           ext: ".png",
         );
+        if (!mounted) return;
         BotToast.showText(
           text: "${S.of(context).Image_save_success} $result",
           crossPage: true,
