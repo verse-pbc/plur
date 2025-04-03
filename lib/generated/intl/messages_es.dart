@@ -121,6 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Eliminar cuenta"),
         "Delete_Account_Tips": MessageLookupByLibrary.simpleMessage(
             "Estamos tratando de eliminar la información de tu cuenta. Si sigues usando esta clave para iniciar sesión la próxima vez, perderás tu información."),
+        "Description": MessageLookupByLibrary.simpleMessage("Descripción"),
         "Detail": MessageLookupByLibrary.simpleMessage("Detalles"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Filtrar palabras"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Apodo"),
@@ -129,6 +130,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "Emoji": MessageLookupByLibrary.simpleMessage("Expresión"),
         "Empty_text_may_be_ban_by_relays": MessageLookupByLibrary.simpleMessage(
             "El vacío de entrada puede ser prohibido por el relé."),
+        "Enter_Community_Guidelines": MessageLookupByLibrary.simpleMessage(
+            "Ingresa las guías de tu comunidad"),
+        "Error": MessageLookupByLibrary.simpleMessage("Error"),
         "Event_Sign_Check": MessageLookupByLibrary.simpleMessage(
             "Verificación de la firma del evento"),
         "Face": MessageLookupByLibrary.simpleMessage("Reconocimiento facial"),
@@ -305,6 +309,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "Eliminar marcadores públicos"),
         "Replying": MessageLookupByLibrary.simpleMessage("Respuesta en curso"),
         "Request": MessageLookupByLibrary.simpleMessage("Solicitud"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Reintentar"),
+        "Save": MessageLookupByLibrary.simpleMessage("Guardar"),
+        "Save_failed": MessageLookupByLibrary.simpleMessage(
+            "Ocurrió un error al guardar los datos."),
         "Search": MessageLookupByLibrary.simpleMessage("Buscar"),
         "Search_User_from_cache": MessageLookupByLibrary.simpleMessage(
             "Encontrar usuarios de la caché"),
