@@ -53,6 +53,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Address can\'t be null."),
         "Admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "Admins": MessageLookupByLibrary.simpleMessage("Admins"),
+        "Age_verification_message": MessageLookupByLibrary.simpleMessage(
+            "For legal reasons, we need to make sure you\'re over this age to use Plur."),
+        "Age_verification_question":
+            MessageLookupByLibrary.simpleMessage("Are you over 16 years old?"),
         "All_media_public": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
         "Any": MessageLookupByLibrary.simpleMessage("Any"),
@@ -278,6 +282,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
+        "No": MessageLookupByLibrary.simpleMessage("No"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "Nostromo_developers_will_never_require_a_key_from_you":
             MessageLookupByLibrary.simpleMessage(
@@ -464,6 +469,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Write a message"),
         "Wrong_Private_Key_format":
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
+        "Yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
         "Your_Groups": MessageLookupByLibrary.simpleMessage("Your Groups"),
