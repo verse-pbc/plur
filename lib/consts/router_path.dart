@@ -46,6 +46,7 @@ class RouterPath {
   static const String FOLLOW_SET_DETAIL = "/followSetDetail";
   static const String FOLLOW_SET_FEED = "/followSetFeed";
   static const String NWC_SETTING = "/nwcSetting";
+  static const String GROUP_ADMIN = "/groupAdmin";
   static const String GROUP_LIST = "/groupList";
   static const String GROUP_DETAIL = "/groupDetail";
   static const String GROUP_EDIT = "/groupEdit";

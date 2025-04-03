@@ -112,7 +112,7 @@ class WotProvider extends ChangeNotifier {
       _pubkeys[pubkey] = 1;
 
       // The pubkeys your friend had followed. (Trust !)
-      var contactList = metadataProvider.getContactList(pubkey);
+      var contactList = userProvider.getContactList(pubkey);
       if (contactList != null) {
         var contacts = contactList.list();
         for (var contact in contacts) {
@@ -120,7 +120,7 @@ class WotProvider extends ChangeNotifier {
 
           // your friend's friend's contactList. (Half Trust, don't pull if not exist!)
           var ffContactList =
-              metadataProvider.getContactList(contact.publicKey);
+              userProvider.getContactList(contact.publicKey);
           if (ffContactList != null) {
             var ffContacts = ffContactList.list();
             for (var ffcontact in ffContacts) {
@@ -137,7 +137,7 @@ class WotProvider extends ChangeNotifier {
       if (nostr != null) {
         var tempPubkeys = notFoundContactListPubkeys.keys;
         for (var pubkey in tempPubkeys) {
-          metadataProvider.update(pubkey);
+          userProvider.update(pubkey);
         }
       }
     }
