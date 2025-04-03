@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where we would lose connection to the relay, resulting in content failing to load. [#260](https://github.com/verse-pbc/issues/issues/260)
 - Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
+- Added Onboarding Age Verification screen before signup. [#283](https://github.com/verse-pbc/issues/issues/283)
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
