@@ -8,7 +8,8 @@ import 'package:nostr_sdk/relay/relay_info_util.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/metadata_provider.dart';
-import 'package:nostrmo/router/signup/signup_widget.dart';
+import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_test.mocks.dart';
@@ -63,30 +64,30 @@ void main() {
     relayLocalDB = null;
   });
 
-  testWidgets('Sign Up button creates account', (WidgetTester tester) async {
-    // launch the app
+  testWidgets('Sign Up flow with age verification',
+      (WidgetTester tester) async {
+    // Launch the app
     await tester.pumpWidget(const MyApp());
-
     await tester.pumpAndSettle();
 
     // find the Sign Up button and tap it
     await tester.tap(find.byKey(const Key('signup_button')));
     await tester.pumpAndSettle();
 
-    // find the required checkbox and turn it on
-    await tester.tap(find.byKey(const Key('acknowledgement_checkbox')));
-    await tester.pumpAndSettle();
+    // Verify we're on the age verification step
+    expect(find.byKey(const Key('age_verification_title')), findsOneWidget);
 
-    // find the Copy & Continue button and tap it
-    await tester.tap(find.byKey(const Key('done_button')));
+    // Accept age verification
+    await tester.tap(find.text('Yes'));
     await tester.pumpAndSettle();
 
     // verify that the NoCommunitiesWidget is shown
     expect(find.byType(NoCommunitiesWidget), findsOneWidget);
   });
 
-  testWidgets('Checkbox enables button', (WidgetTester tester) async {
-    // launch the app
+  testWidgets('Age verification denial shows dialog and returns to login',
+      (WidgetTester tester) async {
+    // Launch the app with the onboarding widget
     await tester.pumpWidget(MaterialApp(
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
@@ -95,24 +96,29 @@ void main() {
       ],
       supportedLocales: S.delegate.supportedLocales,
       locale: const Locale('en'),
-      home: const Scaffold(body: SignupWidget()),
+      home: const Scaffold(body: OnboardingWidget()),
     ));
     await tester.pumpAndSettle();
 
-    // test that the initial state of the button is disabled
-    expect(
-      tester.widget<FilledButton>(find.byKey(const Key('done_button'))).enabled,
-      isFalse,
-    );
+    // Verify we're on the age verification step
+    expect(find.byKey(const Key('age_verification_title')), findsOneWidget);
 
-    // find the required checkbox and turn it on
-    await tester.tap(find.byKey(const Key('acknowledgement_checkbox')));
+    // Deny age verification
+    await tester.tap(find.text('No'));
     await tester.pumpAndSettle();
 
-    // test that the button is now enabled
+    // Verify the dialog appears
+    expect(find.text('Age Requirement'), findsOneWidget);
     expect(
-      tester.widget<FilledButton>(find.byKey(const Key('done_button'))).enabled,
-      isTrue,
+      find.byKey(const Key('age_requirement_message')),
+      findsOneWidget,
     );
+
+    // Tap OK on the dialog
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    // Verify we're navigated back to login screen (dialog is dismissed)
+    expect(find.byType(LoginSignupWidget), findsOneWidget);
   });
 }
