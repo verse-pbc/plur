@@ -97,6 +97,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to discard unsaved changes?"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
         "Content_warning":
@@ -143,6 +145,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Detail": MessageLookupByLibrary.simpleMessage("Detail"),
         "Development": MessageLookupByLibrary.simpleMessage("Development"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Dirtywords"),
+        "Discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "Donate": MessageLookupByLibrary.simpleMessage("Donate"),
         "Dont_Compress":
