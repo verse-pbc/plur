@@ -21,6 +21,7 @@ import '../image_widget.dart';
 import '../image_preview_dialog.dart';
 import '../zap/zap_bottom_sheet_widget.dart';
 import 'follow_btn_widget.dart';
+import '../../util/theme_util.dart';
 
 class UserTopWidget extends StatefulWidget {
   static double getPcBannerHeight(double maxHeight) {
@@ -202,7 +203,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     topList.add(Container(
       width: maxWidth,
       height: bannerHeight,
-      color: hintColor.withOpacity(0.5),
+      color: themeData.customColors.navBgColor,
       child: bannerImage,
     ));
     topList.add(SizedBox(
