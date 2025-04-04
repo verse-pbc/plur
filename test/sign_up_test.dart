@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nostr_sdk/relay/relay_info_util.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
-import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_test.mocks.dart';
@@ -87,7 +84,8 @@ void main() {
 
   testWidgets('Age verification denial shows dialog and returns to login',
       (WidgetTester tester) async {
-    // Launch the app
+    // Launch the app and ensure nostr is null to show login screen
+    nostr = null;
     await tester.pumpWidget(const MyApp());
     await tester.pumpAndSettle();
 
