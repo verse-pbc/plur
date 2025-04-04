@@ -128,47 +128,56 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
 
     var main = Scaffold(
       backgroundColor: widget.backgroundColor.withOpacity(0.5),
-      body: Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.center,
-          children: <Widget>[
-            EasyImageViewPager(
-                easyImageProvider: widget.imageProvider,
-                pageController: _pageController,
-                doubleTapZoomable: widget.doubleTapZoomable,
-                onScaleChanged: (scale) {
-                  setState(() {
-                    _dismissDirection = scale <= 1.0
-                        ? DismissDirection.down
-                        : DismissDirection.none;
-                  });
-                }),
-            Positioned(
-                top: 5,
-                right: 5,
-                child: IconButton(
-                  icon: const Icon(Icons.close),
-                  color: widget.closeButtonColor,
-                  tooltip: localization.close,
-                  onPressed: close,
-                )),
-            Positioned(
-                bottom: 5,
-                left: 5,
-                child: IconButton(
-                  icon: const Icon(Icons.download),
-                  color: widget.closeButtonColor,
-                  tooltip: localization.Download,
-                  onPressed: saveImage,
-                )),
-          ]),
+      body: GestureDetector(
+        onTap: _close,
+        child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.center,
+            children: <Widget>[
+              EasyImageViewPager(
+                  easyImageProvider: widget.imageProvider,
+                  pageController: _pageController,
+                  doubleTapZoomable: widget.doubleTapZoomable,
+                  onScaleChanged: (scale) {
+                    setState(() {
+                      _dismissDirection = scale <= 1.0
+                          ? DismissDirection.down
+                          : DismissDirection.none;
+                    });
+                  }),
+              SafeArea(
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 5,
+                      right: 5,
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        color: widget.closeButtonColor,
+                        tooltip: localization.close,
+                        onPressed: _close,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      left: 5,
+                      child: IconButton(
+                        icon: const Icon(Icons.download),
+                        color: widget.closeButtonColor,
+                        tooltip: localization.Download,
+                        onPressed: saveImage,
+                      ),
+                    ),
+                  ]
+                ),
+              ),
+
+            ]),
+      ),
     );
 
-    final popScopeAwareDialog = WillPopScope(
-      onWillPop: () async {
-        _handleDismissal();
-        return true;
-      },
+    final popScopeAwareDialog = PopScope(
+      onPopInvokedWithResult: (_, __) => _handleDismissal(),
       key: _popScopeKey,
       child: KeyboardListener(
         focusNode: _focusNode,
@@ -180,7 +189,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
           } else if (ke.logicalKey.keyLabel == 'Arrow Right') {
             _pageController.nextPage(duration: duration, curve: Curves.ease);
           } else if (ke.logicalKey.keyLabel == 'Arrow Down') {
-            close();
+            _close();
           }
         },
         child: main,
@@ -194,11 +203,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
           confirmDismiss: (dir) async {
             return true;
           },
-          onDismissed: (_) {
-            Navigator.of(context).pop();
-
-            _handleDismissal();
-          },
+          onDismissed: (_) => _close(),
           key: const Key('dismissible_easy_image_viewer_dialog'),
           child: popScopeAwareDialog);
     } else {
@@ -210,8 +215,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
     if (Platform.isIOS) {
       _doSaveImage();
     } else if (Platform.isAndroid) {
-      PermissionStatus permission = await Permission.storage.request();
-      // if (permission == PermissionStatus.granted) {
+      await Permission.storage.request();
       try {
         _doSaveImage();
       } catch (e) {
@@ -231,6 +235,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
       if (!isPc) {
         var result =
             await ImageGallerySaver.saveImage(imageAsBytes, quality: 100);
+        if (!mounted) return;
         if (result != null && result is Map && result["isSuccess"]) {
           BotToast.showText(text: S.of(context).Image_save_success);
         }
@@ -240,6 +245,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
           bytes: imageAsBytes,
           ext: ".png",
         );
+        if (!mounted) return;
         BotToast.showText(
           text: "${S.of(context).Image_save_success} $result",
           crossPage: true,
@@ -255,16 +261,9 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
     if (widget.onViewerDismissed != null) {
       widget.onViewerDismissed!(_pageController.page?.round() ?? 0);
     }
-
-    // if (widget.immersive) {
-    //   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    // }
-    if (_internalPageChangeListener != null) {
-      _pageController.removeListener(_internalPageChangeListener!);
-    }
   }
 
-  void close() {
+  void _close() {
     Navigator.of(context).pop();
     _handleDismissal();
   }
