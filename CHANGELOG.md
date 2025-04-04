@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 - Made it easier to dismiss fullscreen images. [#286](https://github.com/verse-pbc/issues/issues/286)
+- Fix inconsistent navbar background color. [#305](https://github.com/verse-pbc/issues/issues/305)
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
