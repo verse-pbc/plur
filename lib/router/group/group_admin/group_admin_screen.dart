@@ -104,15 +104,29 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const AppbarBackBtnWidget(),
+        leading: TextButton(
+          onPressed: _cancel,
+          child: Text(
+            localization.Cancel,
+            style: TextStyle(
+              color: themeData.customColors.accentColor,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+            ),
+            overflow: TextOverflow.visible,
+            maxLines: 1,
+            softWrap: false,
+          ),
+        ),
         title: Text(
-          localization.Admin_Panel,
+          localization.Edit,
           style: TextStyle(
             color: themeData.customColors.primaryForegroundColor,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         actions: [
           if (_isSaving)
             Padding(
@@ -247,6 +261,45 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
       BotToast.showText(text: e.toString());
     } finally {
       setState(() => _isUploading = false);
+    }
+  }
+
+  void _cancel() async {
+    final themeData = Theme.of(context);
+    final localization = S.of(context);
+    if (_hasChanges) {
+      final shouldDiscard = await showDialog<bool>(
+        context: context,
+        builder: (context) => Theme(
+          data: themeData,
+          child: AlertDialog(
+            backgroundColor: themeData.colorScheme.surface,
+            content: Text(
+              localization.Confirm_Discard,
+              style: TextStyle(
+                color: themeData.colorScheme.onSurface,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(localization.Cancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(localization.Discard),
+              ),
+            ],
+          ),
+        ),
+      );
+      if (!mounted) return;
+
+      if (shouldDiscard == true) {
+        Navigator.pop(context, false);
+      }
+    } else {
+      Navigator.pop(context, false);
     }
   }
 
