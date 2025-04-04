@@ -70,6 +70,26 @@ class S {
     );
   }
 
+  /// `Discard`
+  String get Discard {
+    return Intl.message(
+      'Discard',
+      name: 'Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to discard unsaved changes?`
+  String get Confirm_Discard {
+    return Intl.message(
+      'Are you sure you want to discard unsaved changes?',
+      name: 'Confirm_Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get Communities {
     return Intl.message(
