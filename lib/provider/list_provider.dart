@@ -509,11 +509,14 @@ class ListProvider extends ChangeNotifier {
 
   Future<(String?, GroupIdentifier?)> createGroupAndGenerateInvite(
       String groupName) async {
+    print("createGroupAndGenerateInvite starting for group: $groupName");
     final cancelFunc = BotToast.showLoading();
     const host = RelayProvider.defaultGroupsRelayAddress;
+    print("Using host: $host");
 
     // Generate a random string for the group ID
     final groupId = StringCodeGenerator.generateGroupId();
+    print("Generated group ID: $groupId");
 
     // Create the event for creating a group.
     // We only support private closed group for now.
@@ -525,37 +528,86 @@ class ListProvider extends ChangeNotifier {
       ],
       "",
     );
+    print("Created group creation event: ${createGroupEvent.id}");
 
+    print("Sending event to relay...");
     final resultEvent = await nostr!
         .sendEvent(createGroupEvent, tempRelays: [host], targetRelays: [host]);
+    print("Result from group creation: ${resultEvent?.id ?? 'null'}");
 
     String? inviteLink;
     GroupIdentifier? newGroup;
     // Event was successfully sent
     if (resultEvent != null) {
       newGroup = GroupIdentifier(host, groupId);
+      print("New group identifier created: $newGroup");
 
       //  Add the group to the list
+      print("Before adding to _groupIdentifiers. Current count: ${_groupIdentifiers.length}");
       _groupIdentifiers.add(newGroup);
+      print("After adding to _groupIdentifiers. New count: ${_groupIdentifiers.length}");
+      
+      print("Creating group metadata for name: $groupName");
       _editMetadata(newGroup, groupName);
+      
+      print("Updating groups list event");
       _updateGroups();
 
       // Generate an invite code
       final inviteCode = StringCodeGenerator.generateInviteCode();
+      print("Generated invite code: $inviteCode");
       inviteLink = createInviteLink(newGroup, inviteCode);
+      print("Created invite link: $inviteLink");
+      
+      // Double check that the group was added
+      if (_groupIdentifiers.contains(newGroup)) {
+        print("Confirmed group is in the list");
+      } else {
+        print("ERROR: Group was not added to the list!");
+      }
+      
+      // Manually verify the group is in groupIdentifiers
+      print("Group identifiers list content verification:");
+      for (var group in _groupIdentifiers) {
+        print(" - $group");
+      }
+    } else {
+      print("ERROR: Group creation failed - resultEvent is null");
     }
 
+    // Force a notify listeners to ensure UI updates
+    notifyListeners();
+    
     cancelFunc.call();
     return (inviteLink, newGroup);
   }
 
   void _editMetadata(GroupIdentifier group, String groupName) {
+    print("_editMetadata called for group: $group with name: $groupName");
+    
+    // Create metadata with name and default values
     GroupMetadata groupMetadata = GroupMetadata(
       group.groupId,
       0,
       name: groupName,
+      // Add a picture if none was provided
+      picture: "https://placehold.co/400x400/4267B2/FFF?text=${groupName.substring(0, 1).toUpperCase()}",
+      // Add a default about text
+      about: "A new group called $groupName",
+      // Default to private, closed group
+      public: false,
+      open: false,
     );
-    groupProvider.updateMetadata(group, groupMetadata);
+    
+    print("Created metadata: ${groupMetadata.toString()}");
+    print("Calling groupProvider.updateMetadata");
+    
+    try {
+      groupProvider.updateMetadata(group, groupMetadata);
+      print("Successfully called updateMetadata");
+    } catch (e) {
+      print("Error in updateMetadata: $e");
+    }
   }
 
   String createInviteLink(GroupIdentifier group, String inviteCode,

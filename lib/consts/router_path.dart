@@ -52,6 +52,7 @@ class RouterPath {
   static const String GROUP_EDIT = "/groupEdit";
   static const String GROUP_MEMBERS = "/groupMembers";
   static const String GROUP_INFO = "/groupInfo";
+  static const String INVITE_TO_GROUP = "/inviteToGroup";
   static const String pushNotificationTest = "/pushNotificationTest";
 
   static String getThreadDetailPath() {
