@@ -27,32 +27,25 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
         Icon(
           Icons.groups_rounded,
           size: 48,
-          // Ensure icon is visible in both themes
-          color: themeData.brightness == Brightness.dark
-              ? Colors.white
-              : themeData.primaryColor,
+          // Use the theme's icon color
+          color: themeData.primaryColor,
         ),
         const SizedBox(height: 16),
         Text(
           "Create your community",
-          style: TextStyle(
+          style: themeData.textTheme.headlineMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ) ?? TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
-            // Force appropriate text color based on brightness
-            color: themeData.brightness == Brightness.dark
-                ? Colors.white
-                : themeData.colorScheme.onSurface,
+            color: themeData.colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         Text(
           "Connect with others in your own shared space",
-          style: TextStyle(
-            fontSize: 16,
-            // Force appropriate subdued text color based on brightness
-            color: themeData.brightness == Brightness.dark
-                ? Colors.white70
-                : themeData.colorScheme.onSurface.withAlpha(179), // ~0.7 opacity
+          style: themeData.textTheme.bodyMedium?.copyWith(
+            color: themeData.colorScheme.onSurface.withOpacity(0.7),
           ),
           textAlign: TextAlign.center,
         ),
@@ -66,13 +59,8 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
             children: [
               Text(
                 "Community Name",
-                style: TextStyle(
+                style: themeData.textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  // Force appropriate label text color
-                  color: themeData.brightness == Brightness.dark
-                      ? Colors.white
-                      : themeData.colorScheme.onSurface,
                 ),
               ),
               const SizedBox(height: 8),
@@ -81,55 +69,32 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                 decoration: InputDecoration(
                   hintText: "Enter a memorable name",
                   hintStyle: TextStyle(
-                    color: themeData.colorScheme.onSurface.withAlpha(153), // 0.6 opacity
+                    color: themeData.hintColor,
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      // Force appropriate border color
-                      color: themeData.brightness == Brightness.dark
-                          ? Colors.white30
-                          : themeData.colorScheme.outline,
-                    ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                      // Force appropriate border color
-                      color: themeData.brightness == Brightness.dark
-                          ? Colors.white30
-                          : themeData.colorScheme.outline,
+                      color: themeData.colorScheme.outline,
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
                       width: 2,
-                      // Force appropriate focus color
-                      color: themeData.brightness == Brightness.dark
-                          ? Colors.white
-                          : themeData.primaryColor,
+                      color: themeData.primaryColor,
                     ),
                   ),
                   filled: true,
-                  // Use correct input color based on theme
-                  // Force specific dark/light colors for text field background
-                  fillColor: themeData.brightness == Brightness.dark
-                      ? const Color(0xFF2C2C2C) // Darker gray for input field in dark mode
-                      : Colors.white,
+                  fillColor: themeData.cardColor,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 14,
                   ),
                 ),
-                style: TextStyle(
-                  fontSize: 16,
-                  // Force high contrast text for input
-                  color: themeData.brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black87,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: themeData.textTheme.bodyLarge,
                 onChanged: (text) {
                   setState(() {});
                 },
@@ -139,13 +104,9 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
               const SizedBox(height: 8),
               Text(
                 "Choose a name that represents your community's purpose",
-                style: TextStyle(
-                  fontSize: 14,
+                style: themeData.textTheme.bodySmall?.copyWith(
                   fontStyle: FontStyle.italic,
-                  // Force appropriate hint text color
-                  color: themeData.brightness == Brightness.dark
-                      ? Colors.white60
-                      : themeData.colorScheme.onSurface.withAlpha(153), // ~0.6 opacity
+                  color: themeData.hintColor,
                 ),
               ),
             ],
@@ -160,10 +121,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           child: _isLoading
               ? Center(
                   child: CircularProgressIndicator(
-                    // Use white loader for dark mode, primary color for light mode
-                    color: themeData.brightness == Brightness.dark
-                        ? Colors.white
-                        : themeData.primaryColor,
+                    color: themeData.primaryColor,
                   ),
                 )
               : ElevatedButton(
@@ -171,19 +129,10 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                       ? () => _handleCreateCommunity()
                       : null,
                   style: ElevatedButton.styleFrom(
-                    // Force consistent button colors that look good in both themes
-                    backgroundColor: themeData.brightness == Brightness.dark
-                        ? Colors.white  // White button in dark mode
-                        : themeData.primaryColor,
-                    foregroundColor: themeData.brightness == Brightness.dark
-                        ? Colors.black87  // Dark text on white button
-                        : Colors.white,
-                    disabledBackgroundColor: themeData.brightness == Brightness.dark
-                        ? Colors.white.withAlpha(127)  // Semi-transparent white
-                        : themeData.primaryColor.withAlpha(127),
-                    disabledForegroundColor: themeData.brightness == Brightness.dark
-                        ? Colors.black54  // Semi-transparent black
-                        : Colors.white.withAlpha(127),
+                    backgroundColor: themeData.primaryColor,
+                    foregroundColor: Colors.white,
+                    disabledBackgroundColor: themeData.primaryColor.withOpacity(0.5),
+                    disabledForegroundColor: Colors.white.withOpacity(0.5),
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
