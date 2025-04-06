@@ -103,164 +103,327 @@ mixin EditorMixin {
     var themeData = Theme.of(getContext());
     var cardColor = themeData.cardColor;
     var mainColor = themeData.primaryColor;
+    var secondaryColor = themeData.colorScheme.secondary;
     var groupIdentifier = getGroupIdentifier();
 
-    List<Widget> inputBtnList = [];
-    if (isDM() && groupIdentifier == null) {
-      inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: changePrivateDM,
-        icon: Icon(Icons.enhanced_encryption,
-            color: openPrivateDM ? mainColor : null),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: openPrivateDM
-            ? localization.Close_Private_DM
-            : localization.Open_Private_DM,
-      ));
-    }
-    inputBtnList.add(quill.QuillToolbarIconButton(
-      onPressed: pickImage,
-      icon: const Icon(Icons.image),
-      isSelected: false,
-      iconTheme: null,
-      tooltip: localization.Image_or_Video,
-    ));
-    if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: takeAPhoto,
-        icon: const Icon(Icons.camera),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Take_photo,
-      ));
-      inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: tackAVideo,
-        icon: const Icon(Icons.video_call),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Take_video,
-      ));
-    }
-    if (!isLongForm()) {
-      inputBtnList.addAll([
-        quill.QuillToolbarIconButton(
-          onPressed: customEmojiSelect,
-          icon: const Icon(Icons.add_reaction_outlined),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Custom_Emoji,
-        ),
-        quill.QuillToolbarIconButton(
-          onPressed: emojiBeginToSelect,
-          icon: const Icon(Icons.tag_faces),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Emoji,
-        ),
-      ]);
-    }
-    inputBtnList.addAll([
-      quill.QuillToolbarIconButton(
-        onPressed: _inputMentionUser,
-        icon: const Icon(Icons.alternate_email_sharp),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Mention_User,
-      ),
-      quill.QuillToolbarIconButton(
-        onPressed: _inputMentionEvent,
-        icon: const Icon(Icons.format_quote),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Quote,
-      ),
-    ]);
-
-    inputBtnList.add(quill.QuillToolbarIconButton(
-      onPressed: _inputTag,
-      icon: const Icon(Icons.tag),
-      isSelected: false,
-      iconTheme: null,
-      tooltip: localization.Hashtag,
-    ));
-
-    inputBtnList.add(quill.QuillToolbarIconButton(
-      onPressed: _inputLnbc,
-      icon: const Icon(Icons.bolt),
-      isSelected: false,
-      iconTheme: null,
-      tooltip: localization.Lightning_Invoice,
-    ));
-
-    if (!isDM()) {
-      inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: openZapSplitTap,
-        icon: ZapSplitIconWidget(
-          themeData.textTheme.bodyLarge!.fontSize!,
-          color: openZapSplit ? mainColor : null,
-        ),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Split_and_Transfer_Zap,
-      ));
-
-      inputBtnList.add(
-        quill.QuillToolbarIconButton(
-          onPressed: _addWarning,
-          icon: Icon(Icons.warning, color: showWarning ? Colors.red : null),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Sensitive_Content,
-        ),
-      );
-      if (!isLongForm()) {
-        inputBtnList.add(quill.QuillToolbarIconButton(
-          onPressed: _addTitle,
-          icon: Icon(Icons.title, color: showTitle ? mainColor : null),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Subject,
-        ));
-      }
-
-      if (groupIdentifier == null && !isLongForm()) {
-        inputBtnList.add(quill.QuillToolbarIconButton(
-          onPressed: selectedTime,
-          icon: Icon(Icons.timer_outlined,
-              color: publishAt != null ? mainColor : null),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Delay_Send,
-        ));
-      }
-    }
-    if (!isDM() &&
-        getTags().isEmpty &&
-        getTagsAddedWhenSend().isEmpty &&
-        groupIdentifier == null &&
-        !isLongForm()) {
-      // isn't dm and reply and longForm
-
-      inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: _inputPoll,
-        icon: Icon(Icons.poll, color: inputPoll ? mainColor : null),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Poll,
-      ));
-      inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: _inputGoal,
-        icon: Icon(Icons.trending_up, color: inputZapGoal ? mainColor : null),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Zap_Goals,
-      ));
-    }
-
-    inputBtnList.add(
+    // Primary actions that should be most visible/accessible
+    List<Widget> primaryBtns = [];
+    
+    // Add media buttons (image, camera, video)
+    primaryBtns.add(
       Container(
-        width: Base.basePadding,
-      ),
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: themeData.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: IconButton(
+          onPressed: pickImage,
+          icon: const Icon(Icons.photo_library_outlined, size: 24),
+          tooltip: localization.Image_or_Video,
+          color: mainColor,
+        ),
+      )
+    );
+    
+    if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
+      primaryBtns.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: themeData.scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: IconButton(
+            onPressed: takeAPhoto,
+            icon: const Icon(Icons.camera_alt_outlined, size: 24),
+            tooltip: localization.Take_photo,
+            color: mainColor,
+          ),
+        )
+      );
+      
+      primaryBtns.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: themeData.scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: IconButton(
+            onPressed: tackAVideo,
+            icon: const Icon(Icons.videocam_outlined, size: 24),
+            tooltip: localization.Take_video,
+            color: mainColor,
+          ),
+        )
+      );
+    }
+    
+    // Add emoji buttons
+    if (!isLongForm()) {
+      primaryBtns.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: themeData.scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: IconButton(
+            onPressed: emojiBeginToSelect,
+            icon: Icon(
+              Icons.emoji_emotions_outlined,
+              size: 24,
+              color: emojiShow ? secondaryColor : mainColor,
+            ),
+            tooltip: localization.Emoji,
+          ),
+        )
+      );
+      
+      primaryBtns.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 4),
+          decoration: BoxDecoration(
+            color: themeData.scaffoldBackgroundColor,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: IconButton(
+            onPressed: customEmojiSelect,
+            icon: Icon(
+              Icons.add_reaction_outlined,
+              size: 24,
+              color: customEmojiShow ? secondaryColor : mainColor,
+            ),
+            tooltip: localization.Custom_Emoji,
+          ),
+        )
+      );
+    }
+    
+    // Add mention and tag buttons
+    primaryBtns.add(
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: themeData.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: IconButton(
+          onPressed: _inputMentionUser,
+          icon: const Icon(Icons.alternate_email, size: 24),
+          tooltip: localization.Mention_User,
+          color: mainColor,
+        ),
+      )
+    );
+    
+    primaryBtns.add(
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: themeData.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: IconButton(
+          onPressed: _inputTag,
+          icon: const Icon(Icons.tag, size: 24),
+          tooltip: localization.Hashtag,
+          color: mainColor,
+        ),
+      )
+    );
+    
+    // Secondary options menu button
+    Widget moreOptionsButton = PopupMenuButton<String>(
+      icon: Icon(Icons.more_horiz, color: mainColor),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      onSelected: (String value) {
+        switch (value) {
+          case 'quote':
+            _inputMentionEvent();
+            break;
+          case 'lightning':
+            _inputLnbc();
+            break;
+          case 'zap_split':
+            openZapSplitTap();
+            break;
+          case 'warning':
+            _addWarning();
+            break;
+          case 'title':
+            _addTitle();
+            break;
+          case 'schedule':
+            selectedTime();
+            break;
+          case 'poll':
+            _inputPoll();
+            break;
+          case 'goal':
+            _inputGoal();
+            break;
+          case 'private_dm':
+            changePrivateDM();
+            break;
+        }
+      },
+      itemBuilder: (BuildContext context) {
+        List<PopupMenuEntry<String>> items = [];
+        
+        // Quote and Lightning options for everyone
+        items.add(
+          PopupMenuItem<String>(
+            value: 'quote',
+            child: Row(
+              children: [
+                Icon(Icons.format_quote, color: mainColor),
+                const SizedBox(width: 10),
+                Text(localization.Quote),
+              ],
+            ),
+          )
+        );
+        
+        items.add(
+          PopupMenuItem<String>(
+            value: 'lightning',
+            child: Row(
+              children: [
+                Icon(Icons.bolt, color: mainColor),
+                const SizedBox(width: 10),
+                Text(localization.Lightning_Invoice),
+              ],
+            ),
+          )
+        );
+        
+        // Private DM option only for DMs
+        if (isDM() && groupIdentifier == null) {
+          items.add(
+            PopupMenuItem<String>(
+              value: 'private_dm',
+              child: Row(
+                children: [
+                  Icon(Icons.enhanced_encryption, 
+                    color: openPrivateDM ? secondaryColor : mainColor),
+                  const SizedBox(width: 10),
+                  Text(openPrivateDM ? localization.Close_Private_DM : localization.Open_Private_DM),
+                ],
+              ),
+            )
+          );
+        }
+        
+        // Options for non-DM posts
+        if (!isDM()) {
+          items.add(
+            PopupMenuItem<String>(
+              value: 'zap_split',
+              child: Row(
+                children: [
+                  ZapSplitIconWidget(
+                    themeData.textTheme.bodyLarge!.fontSize!,
+                    color: openZapSplit ? secondaryColor : mainColor,
+                  ),
+                  const SizedBox(width: 10),
+                  Text(localization.Split_and_Transfer_Zap),
+                ],
+              ),
+            )
+          );
+          
+          items.add(
+            PopupMenuItem<String>(
+              value: 'warning',
+              child: Row(
+                children: [
+                  Icon(Icons.warning, color: showWarning ? Colors.red : mainColor),
+                  const SizedBox(width: 10),
+                  Text(localization.Sensitive_Content),
+                ],
+              ),
+            )
+          );
+          
+          if (!isLongForm()) {
+            items.add(
+              PopupMenuItem<String>(
+                value: 'title',
+                child: Row(
+                  children: [
+                    Icon(Icons.title, color: showTitle ? secondaryColor : mainColor),
+                    const SizedBox(width: 10),
+                    Text(localization.Subject),
+                  ],
+                ),
+              )
+            );
+          }
+          
+          if (groupIdentifier == null && !isLongForm()) {
+            items.add(
+              PopupMenuItem<String>(
+                value: 'schedule',
+                child: Row(
+                  children: [
+                    Icon(Icons.timer_outlined, color: publishAt != null ? secondaryColor : mainColor),
+                    const SizedBox(width: 10),
+                    Text(localization.Delay_Send),
+                  ],
+                ),
+              )
+            );
+          }
+        }
+        
+        // Poll and Goal options for regular posts
+        if (!isDM() &&
+            getTags().isEmpty &&
+            getTagsAddedWhenSend().isEmpty &&
+            groupIdentifier == null &&
+            !isLongForm()) {
+          items.add(
+            PopupMenuItem<String>(
+              value: 'poll',
+              child: Row(
+                children: [
+                  Icon(Icons.poll, color: inputPoll ? secondaryColor : mainColor),
+                  const SizedBox(width: 10),
+                  Text(localization.Poll),
+                ],
+              ),
+            )
+          );
+          
+          items.add(
+            PopupMenuItem<String>(
+              value: 'goal',
+              child: Row(
+                children: [
+                  Icon(Icons.trending_up, color: inputZapGoal ? secondaryColor : mainColor),
+                  const SizedBox(width: 10),
+                  Text(localization.Zap_Goals),
+                ],
+              ),
+            )
+          );
+        }
+        
+        return items;
+      },
+    );
+    
+    primaryBtns.add(
+      Container(
+        margin: const EdgeInsets.symmetric(horizontal: 4),
+        decoration: BoxDecoration(
+          color: themeData.scaffoldBackgroundColor,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: moreOptionsButton,
+      )
     );
 
     return Container(
@@ -279,17 +442,14 @@ mixin EditorMixin {
               ]
             : null,
       ),
-      child: GestureDetector(
-        onHorizontalDragUpdate: (detail) {
-          btnScrollController
-              .jumpTo(btnScrollController.offset - detail.delta.dx);
-        },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
         child: SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           controller: btnScrollController,
           child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: inputBtnList,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: primaryBtns,
           ),
         ),
       ),

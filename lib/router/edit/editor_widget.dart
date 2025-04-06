@@ -15,6 +15,7 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:tuple/tuple.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
@@ -255,32 +256,86 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       }
     }
 
+    // Notifications chips (mentions)
     if ((notifyItems != null && notifyItems!.isNotEmpty) ||
         (editorNotifyItems.isNotEmpty)) {
       List<Widget> tagPsWidgets = [];
-      tagPsWidgets.add(Text("${localization.Notify}:"));
+      tagPsWidgets.add(
+        Container(
+          margin: const EdgeInsets.only(right: 8),
+          padding: const EdgeInsets.symmetric(vertical: 2),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.notifications_active,
+                size: 16,
+                color: themeData.primaryColor,
+              ),
+              const SizedBox(width: 4),
+              Text(
+                "${localization.Notify}:",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: themeData.primaryColor,
+                ),
+              ),
+            ],
+          ),
+        )
+      );
+      
+      // Add notify items with improved visual appearance
       for (var item in notifyItems!) {
-        tagPsWidgets.add(EditorNotifyItemWidget(item: item));
+        tagPsWidgets.add(
+          Container(
+            margin: const EdgeInsets.only(right: 4, bottom: 4),
+            child: EditorNotifyItemWidget(item: item),
+          )
+        );
       }
+      
       for (var editorNotifyItem in editorNotifyItems) {
         var exist = notifyItems!.any((element) {
           return element.pubkey == editorNotifyItem.pubkey;
         });
         if (!exist) {
-          tagPsWidgets.add(EditorNotifyItemWidget(item: editorNotifyItem));
+          tagPsWidgets.add(
+            Container(
+              margin: const EdgeInsets.only(right: 4, bottom: 4),
+              child: EditorNotifyItemWidget(item: editorNotifyItem),
+            )
+          );
         }
       }
-      list.add(Container(
-        padding: const EdgeInsets.only(left: Base.basePadding, right: Base.basePadding),
-        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
-        width: double.maxFinite,
-        child: Wrap(
-          spacing: Base.basePaddingHalf,
-          runSpacing: Base.basePaddingHalf,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: tagPsWidgets,
-        ),
-      ));
+      
+      list.add(
+        Container(
+          padding: const EdgeInsets.only(
+            left: Base.basePadding, 
+            right: Base.basePadding,
+            top: 8,
+            bottom: 8,
+          ),
+          margin: const EdgeInsets.only(bottom: 8),
+          width: double.maxFinite,
+          decoration: BoxDecoration(
+            color: themeData.colorScheme.background.withAlpha(128),
+            border: Border(
+              bottom: BorderSide(
+                color: themeData.dividerColor.withAlpha(77),
+                width: 1,
+              ),
+            ),
+          ),
+          child: Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: tagPsWidgets,
+          ),
+        )
+      );
     }
 
     if (showTitle) {
@@ -332,20 +387,45 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           CustomEmojiEmbedBuilder(),
         ],
         scrollable: true,
-        autoFocus: false,
+        autoFocus: true,
         expands: false,
-        // padding: EdgeInsets.zero,
+        readOnly: false,
+        showCursor: true,
+        customStyles: DefaultStyles(
+          paragraph: DefaultTextBlockStyle(
+            themeData.textTheme.bodyLarge!,
+            const Tuple2(16, 0),
+            const Tuple2(0, 0),
+            null,
+          ),
+          placeHolder: DefaultTextBlockStyle(
+            TextStyle(
+              color: themeData.hintColor.withAlpha(153),
+              fontSize: 18.0,
+              height: 1.3,
+            ),
+            const Tuple2(16, 0),
+            const Tuple2(0, 0),
+            null,
+          ),
+        ),
         padding: const EdgeInsets.only(
           left: Base.basePadding,
           right: Base.basePadding,
+          top: 8,
         ),
       ),
       scrollController: ScrollController(),
       focusNode: focusNode,
     );
+    
     List<Widget> editorList = [];
     var editorInputWidget = Container(
       margin: const EdgeInsets.only(bottom: Base.basePadding),
+      decoration: BoxDecoration(
+        color: themeData.scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: quillWidget,
     );
     editorList.add(editorInputWidget);
@@ -390,10 +470,39 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     ));
 
     if (_hasMedia) {
-      list.add(InfoMessageWidget(
-        message: localization.All_media_public,
-        icon: Icons.info,
-      ));
+      list.add(
+        Container(
+          margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          decoration: BoxDecoration(
+            color: themeData.primaryColor.withAlpha(26),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: themeData.primaryColor.withAlpha(77),
+              width: 1,
+            ),
+          ),
+          child: Row(
+            children: [
+              Icon(
+                Icons.info_outline,
+                size: 18,
+                color: themeData.primaryColor,
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  localization.All_media_public,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                    color: textColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
     }
 
     list.add(buildEditorBtns());
@@ -409,18 +518,42 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         backgroundColor: cardColor,
         bottom: const AppBarBottomBorder(),
         leading: const AppbarBackBtnWidget(),
+        title: Text(
+          widget.isLongForm 
+              ? localization.Long_Form 
+              : widget.groupIdentifier != null 
+                  ? localization.New_Post_in_Group 
+                  : localization.New_Post,
+          style: TextStyle(
+            color: textColor,
+            fontSize: fontSize,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           TextButton(
             onPressed: documentSave,
-            style: const ButtonStyle(),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(themeData.primaryColor),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+              ),
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16),
+              ),
+            ),
             child: Text(
               localization.Send,
               style: TextStyle(
-                color: textColor,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
                 fontSize: fontSize,
               ),
             ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: Container(
