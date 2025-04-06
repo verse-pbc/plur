@@ -11,6 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Completely redesigned onboarding flow with 4-step process:
+  - Age verification (16+ requirement)
+  - Nickname input with validation (3+ characters, profanity filter)
+  - Optional email entry with format validation
+  - Private key generation and secure storage
+- New landing page with clear paths for new and existing users
+- Improved login flow with dedicated form for existing users
+- Enhanced login options with explicit support for nsecBunker URLs and nsec.app accounts
+- Improved login form messaging to better explain login options and warn about read-only limitations
+- Progress indicators showing current step in onboarding
+- Back navigation between onboarding steps
 - Fixed issue where new notes toast was not getting displayed in groups. [#250](https://github.com/verse-pbc/issues/issues/250)
 - Fixed an issue where we would lose connection to the relay, resulting in content failing to load. [#260](https://github.com/verse-pbc/issues/issues/260)
 - Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
