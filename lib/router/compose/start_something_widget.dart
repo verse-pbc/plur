@@ -3,6 +3,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/edit/editor_widget.dart';
+import 'package:nostrmo/router/compose/event_composer_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 
 class StartSomethingWidget extends StatefulWidget {
@@ -40,7 +41,25 @@ class _StartSomethingWidgetState extends State<StartSomethingWidget> {
       emoji: '📅',
       description: 'Plan an event',
       eventKind: 30311, // Event kind
-      isEnabled: false, // Disable for initial release
+      isEnabled: true, // Enable for testing
+    ),
+    PostIntent(
+      label: 'Question',
+      icon: Icons.help_outline,
+      emoji: '❓',
+      description: 'Ask the group something',
+      eventKind: EventKind.POLL, // Poll kind
+      customTags: [["t", "question"]],
+      isEnabled: true, // Enable for testing
+    ),
+    PostIntent(
+      label: 'Doc/Agenda',
+      icon: Icons.description_outlined,
+      emoji: '📝',
+      description: 'Create a document or agenda',
+      eventKind: EventKind.LONG_FORM,
+      customTags: [["t", "document"]],
+      isEnabled: true, // Enable for testing
     ),
     PostIntent(
       label: 'Audio Room',
@@ -49,7 +68,7 @@ class _StartSomethingWidgetState extends State<StartSomethingWidget> {
       description: 'Open an audio room',
       eventKind: 30023, // Audio room kind
       customTags: [["t", "audio-room"]],
-      isEnabled: false, // Disable for initial release
+      isEnabled: false, // To be implemented later
     ),
     PostIntent(
       label: 'Livestream',
@@ -58,16 +77,7 @@ class _StartSomethingWidgetState extends State<StartSomethingWidget> {
       description: 'Start a livestream',
       eventKind: 30023, // Livestream kind
       customTags: [["t", "livestream"]],
-      isEnabled: false, // Disable for initial release
-    ),
-    PostIntent(
-      label: 'Question',
-      icon: Icons.help_outline,
-      emoji: '❓',
-      description: 'Ask the group something',
-      eventKind: 30023, // Question kind
-      customTags: [["t", "question"]],
-      isEnabled: false, // Disable for initial release
+      isEnabled: false, // To be implemented later
     ),
     PostIntent(
       label: 'Ask/Offer',
@@ -75,16 +85,7 @@ class _StartSomethingWidgetState extends State<StartSomethingWidget> {
       emoji: '🎁',
       description: 'Ask for help or make an offer',
       eventKind: 31990, // Ask/Offer kind
-      isEnabled: false, // Disable for initial release
-    ),
-    PostIntent(
-      label: 'Doc/Agenda',
-      icon: Icons.description_outlined,
-      emoji: '📝',
-      description: 'Create a document or agenda',
-      eventKind: EventKind.TEXT_NOTE,
-      customTags: [["t", "document"]],
-      isEnabled: false, // Disable for initial release
+      isEnabled: false, // To be implemented later
     ),
   ];
 
@@ -192,9 +193,37 @@ class _StartSomethingWidgetState extends State<StartSomethingWidget> {
   }
 
   void _handleContentTypeSelected(BuildContext context, PostIntent contentType) {
-    // For now, we'll just use the existing editor for all content types
-    // In the future, route to specific editors based on contentType
-    
+    // Determine which specialized composer to open based on the content type
+    switch (contentType.label) {
+      case 'Event':
+        _openEventComposer(context, contentType);
+        break;
+      case 'Thread':
+        _openThreadComposer(context, contentType);
+        break;
+      case 'Audio Room':
+        _openAudioRoomComposer(context, contentType);
+        break;
+      case 'Question':
+        _openQuestionComposer(context, contentType);
+        break;
+      case 'Ask/Offer':
+        _openAskOfferComposer(context, contentType);
+        break;
+      case 'Livestream':
+        _openLivestreamComposer(context, contentType);
+        break;
+      case 'Doc/Agenda':
+        _openDocComposer(context, contentType);
+        break;
+      case 'Update':
+      default:
+        _openDefaultEditor(context, contentType);
+        break;
+    }
+  }
+  
+  void _openDefaultEditor(BuildContext context, PostIntent contentType) {
     List<dynamic> tags = [];
     
     // Add custom tags if they exist
@@ -202,19 +231,145 @@ class _StartSomethingWidgetState extends State<StartSomethingWidget> {
       tags.addAll(contentType.customTags!);
     }
     
-    // Add e tag if this is a thread
-    if (contentType.hasETag) {
-      // For thread, we would normally add an e tag for the parent post
-      // In this example, we're just mocking it
-      // tags.add(["e", parentEventId]);
-    }
-    
-    // Open the appropriate editor based on the content type
+    // Open the standard editor
     EditorWidget.open(
       context,
       tags: tags,
       tagsAddedWhenSend: [],
-      tagPs: [], 
+      tagPs: [],
+      // Set appropriate title based on content type
+      customTitle: contentType.label,
+    );
+  }
+  
+  void _openThreadComposer(BuildContext context, PostIntent contentType) {
+    List<dynamic> tags = [];
+    
+    if (contentType.customTags != null) {
+      tags.addAll(contentType.customTags!);
+    }
+    
+    // For threads, we'd typically add an e-tag for the parent
+    // In a real implementation, we might want to show a UI to select which post to reply to
+    // For now, we'll just open the composer with thread-specific configuration
+    
+    EditorWidget.open(
+      context,
+      tags: tags,
+      tagsAddedWhenSend: [],
+      tagPs: [],
+      customTitle: contentType.label,
+      isThread: true,
+    );
+  }
+  
+  void _openEventComposer(BuildContext context, PostIntent contentType) {
+    // Navigate to the specialized event composer
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EventComposerWidget(
+          eventKind: contentType.eventKind,
+          customTags: contentType.customTags,
+        ),
+      ),
+    );
+  }
+  
+  void _openAudioRoomComposer(BuildContext context, PostIntent contentType) {
+    // For now, use the default editor but with the appropriate tags
+    // In the future, create a specialized audio room composer
+    List<dynamic> tags = [];
+    
+    if (contentType.customTags != null) {
+      tags.addAll(contentType.customTags!);
+    }
+    
+    // Add audio room specific tags
+    tags.add(["t", "audio-room"]);
+    
+    EditorWidget.open(
+      context,
+      tags: tags,
+      tagsAddedWhenSend: [],
+      tagPs: [],
+      customTitle: S.of(context).Create_Audio_Room,
+    );
+  }
+  
+  void _openQuestionComposer(BuildContext context, PostIntent contentType) {
+    // Open poll input for questions
+    List<dynamic> tags = [];
+    
+    if (contentType.customTags != null) {
+      tags.addAll(contentType.customTags!);
+    }
+    
+    EditorWidget.open(
+      context,
+      tags: tags,
+      tagsAddedWhenSend: [],
+      tagPs: [],
+      isPoll: true,
+      customTitle: S.of(context).Create_Poll,
+    );
+  }
+  
+  void _openAskOfferComposer(BuildContext context, PostIntent contentType) {
+    // For now, use the default editor with appropriate tags
+    List<dynamic> tags = [];
+    
+    if (contentType.customTags != null) {
+      tags.addAll(contentType.customTags!);
+    }
+    
+    tags.add(["t", "ask-offer"]);
+    
+    EditorWidget.open(
+      context,
+      tags: tags,
+      tagsAddedWhenSend: [],
+      tagPs: [],
+      customTitle: contentType.label,
+    );
+  }
+  
+  void _openLivestreamComposer(BuildContext context, PostIntent contentType) {
+    // For now, use the default editor with appropriate tags
+    List<dynamic> tags = [];
+    
+    if (contentType.customTags != null) {
+      tags.addAll(contentType.customTags!);
+    }
+    
+    tags.add(["t", "livestream"]);
+    
+    EditorWidget.open(
+      context,
+      tags: tags,
+      tagsAddedWhenSend: [],
+      tagPs: [],
+      customTitle: S.of(context).Create_Livestream,
+    );
+  }
+  
+  void _openDocComposer(BuildContext context, PostIntent contentType) {
+    // For docs, use the long-form editor
+    List<dynamic> tags = [];
+    
+    if (contentType.customTags != null) {
+      tags.addAll(contentType.customTags!);
+    }
+    
+    tags.add(["t", "document"]);
+    
+    EditorWidget.open(
+      context,
+      tags: tags,
+      tagsAddedWhenSend: [],
+      tagPs: [],
+      isLongForm: true,
+      customTitle: S.of(context).Create_Document,
     );
   }
 }

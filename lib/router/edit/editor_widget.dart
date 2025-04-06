@@ -41,6 +41,8 @@ class EditorWidget extends StatefulWidget {
   final bool isLongForm;
   final bool isPoll;
   final bool isZapGoal;
+  final bool isThread;
+  final String? customTitle;
 
   const EditorWidget({
     super.key,
@@ -54,6 +56,8 @@ class EditorWidget extends StatefulWidget {
     this.isLongForm = false,
     this.isPoll = false,
     this.isZapGoal = false,
+    this.isThread = false,
+    this.customTitle,
   });
 
   static Future<Event?> open(
@@ -68,6 +72,8 @@ class EditorWidget extends StatefulWidget {
     bool isLongForm = false,
     bool isPoll = false,
     bool isZapGoal = false,
+    bool isThread = false,
+    String? customTitle,
   }) {
     tags ??= [];
     tagsAddedWhenSend ??= [];
@@ -84,6 +90,8 @@ class EditorWidget extends StatefulWidget {
       isLongForm: isLongForm,
       isPoll: isPoll,
       isZapGoal: isZapGoal,
+      isThread: isThread,
+      customTitle: customTitle,
     );
 
     return RouterUtil.push(context, MaterialPageRoute(builder: (context) {
@@ -409,18 +417,39 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         backgroundColor: cardColor,
         bottom: const AppBarBottomBorder(),
         leading: const AppbarBackBtnWidget(),
+        title: Text(
+          _getAppBarTitle(localization),
+          style: TextStyle(
+            color: textColor,
+            fontWeight: FontWeight.bold,
+            fontSize: fontSize,
+          ),
+        ),
+        centerTitle: true,
         actions: [
           TextButton(
             onPressed: documentSave,
-            style: const ButtonStyle(),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(themeData.colorScheme.primary),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+              ),
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16),
+              ),
+            ),
             child: Text(
               localization.Send,
               style: TextStyle(
-                color: textColor,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
                 fontSize: fontSize,
               ),
             ),
           ),
+          const SizedBox(width: 8),
         ],
       ),
       body: Container(
@@ -530,5 +559,27 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
   void dispose() {
     editorController.removeListener(_editorControllerListener);
     super.dispose();
+  }
+  
+  String _getAppBarTitle(S localization) {
+    // Use custom title if available
+    if (widget.customTitle != null) {
+      return widget.customTitle!;
+    }
+    
+    // Otherwise, determine title based on editor configuration
+    if (widget.isLongForm) {
+      return localization.Long_Form;
+    } else if (widget.isPoll) {
+      return localization.Create_Poll;
+    } else if (widget.isZapGoal) {
+      return localization.Zap_Goals;
+    } else if (widget.isThread) {
+      return localization.Thread;
+    } else if (widget.groupIdentifier != null) {
+      return localization.New_Post_in_Group;
+    } else {
+      return localization.New_Post;
+    }
   }
 }
