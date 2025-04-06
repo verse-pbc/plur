@@ -318,7 +318,12 @@ Future<void> main() async {
 
   // Hides the splash and runs the app.
   void startApp() {
-    FlutterNativeSplash.remove();
+    try {
+      FlutterNativeSplash.remove();
+    } catch (e) {
+      log("Error removing splash screen: $e");
+    }
+    
     runApp(
       const riverpod.ProviderScope(
         child: MyApp(),
