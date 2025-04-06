@@ -68,6 +68,9 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                 controller: _communityNameController,
                 decoration: InputDecoration(
                   hintText: "Enter a memorable name",
+                  hintStyle: TextStyle(
+                    color: themeData.colorScheme.onSurface.withAlpha(153), // 0.6 opacity
+                  ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
@@ -88,7 +91,9 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                     ),
                   ),
                   filled: true,
-                  fillColor: themeData.cardColor,
+                  fillColor: themeData.brightness == Brightness.dark 
+                      ? themeData.colorScheme.surface 
+                      : themeData.cardColor,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 14,
@@ -97,6 +102,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                 style: TextStyle(
                   fontSize: 16,
                   color: themeData.colorScheme.onSurface,
+                  fontWeight: FontWeight.w500,
                 ),
                 onChanged: (text) {
                   setState(() {});
