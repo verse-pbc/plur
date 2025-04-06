@@ -60,6 +60,9 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                   margin: const EdgeInsets.symmetric(vertical: 40),
                   child: Card(
                     elevation: 8,
+                    color: themeData.brightness == Brightness.dark 
+                        ? themeData.colorScheme.surface 
+                        : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
