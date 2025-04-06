@@ -150,8 +150,11 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
       _isCreatingCommunity = true;
     });
     
-    // Show the dialog and reset the loading state when the dialog is closed
-    CreateCommunityDialog.show(context).then((_) {
+    // Show the dialog
+    CreateCommunityDialog.show(context);
+    
+    // Reset loading state after a brief delay
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
         setState(() {
           _isCreatingCommunity = false;
