@@ -17,17 +17,32 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     final themeData = Theme.of(context);
     final localization = S.of(context);
     
-    return Center(
-      child: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.all(30.0),
-          child: Card(
-            elevation: 4,
-            // Use theme-appropriate colors
-            color: themeData.dialogBackgroundColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+    // Get app brightness
+    final brightness = themeData.brightness;
+    
+    // Override theme to ensure dark mode appearance
+    return Theme(
+      data: brightness == Brightness.dark 
+          ? themeData // Already dark mode
+          : ThemeData.dark().copyWith( // Force dark mode
+              primaryColor: themeData.primaryColor,
+              colorScheme: ThemeData.dark().colorScheme.copyWith(
+                primary: themeData.primaryColor,
+              ),
             ),
+      child: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            margin: const EdgeInsets.all(30.0),
+            child: Card(
+              elevation: 4,
+              // Use dark theme card color
+              color: brightness == Brightness.dark
+                  ? themeData.cardColor 
+                  : const Color(0xFF333333),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
               child: Column(
@@ -109,8 +124,12 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                             icon: const Icon(Icons.add_circle_outline),
                             label: Text(localization.Create_Group),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: themeData.primaryColor,
-                              foregroundColor: Colors.white,
+                              backgroundColor: brightness == Brightness.dark 
+                                  ? Colors.white  // White button in dark mode
+                                  : themeData.primaryColor,
+                              foregroundColor: brightness == Brightness.dark 
+                                  ? Colors.black  // Black text on white button in dark mode
+                                  : Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                               ),
