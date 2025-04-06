@@ -11,16 +11,30 @@ class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
 
   static Future<void> show(BuildContext context) async {
-    final theme = Theme.of(context);
+    // Force the dialog to use the same brightness as the main app
+    final Brightness appBrightness = Theme.of(context).brightness;
+    
+    // Create a theme that explicitly matches the app's brightness
+    final ThemeData forcedTheme = ThemeData(
+      brightness: appBrightness,
+      // Use primaryColor from the app
+      primaryColor: Theme.of(context).primaryColor,
+      // Copy other key colors from the app theme
+      colorScheme: Theme.of(context).colorScheme,
+      // Make sure text is visible on dark backgrounds
+      textTheme: appBrightness == Brightness.dark 
+          ? ThemeData.dark().textTheme 
+          : ThemeData.light().textTheme,
+    );
     
     await showDialog<void>(
       context: context,
       useRootNavigator: false,
       barrierDismissible: false, // Prevent accidental dismissal during loading
       builder: (dialogContext) {
-        // Ensure the dialog uses the same theme as the app
+        // Force the dialog to use the correct brightness theme
         return Theme(
-          data: theme,
+          data: forcedTheme,
           child: const CreateCommunityDialog(),
         );
       },
@@ -43,10 +57,16 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
     final size = MediaQuery.of(context).size;
     final maxWidth = size.width > 600 ? 500.0 : size.width * 0.9;
     
+    // Get the exact brightness mode from theme
+    final isDarkMode = themeData.brightness == Brightness.dark;
+    
     return PopScope(
       canPop: !_isCreating, // Prevent back button during creation
       child: Scaffold(
-        backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
+        // Force appropriate background color based on theme brightness
+        backgroundColor: isDarkMode 
+            ? Colors.black.withOpacity(0.9) 
+            : ThemeUtil.getDialogCoverColor(themeData),
         resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
@@ -54,7 +74,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
             GestureDetector(
               onTap: _isCreating ? null : () => RouterUtil.back(context),
               child: Container(
-                color: Colors.black54,
+                // Use appropriate background for dialog backdrop
+                color: isDarkMode ? Colors.black54 : Colors.black38,
               ),
             ),
             
@@ -66,8 +87,10 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                   margin: const EdgeInsets.symmetric(vertical: 40),
                   child: Card(
                     elevation: 8,
-                    // Use theme-appropriate colors
-                    color: themeData.dialogBackgroundColor,
+                    // Force appropriate background color
+                    color: isDarkMode 
+                        ? const Color(0xFF1E1E1E) // Dark gray for dark mode
+                        : Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
@@ -118,9 +141,13 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
             // Full-screen loading overlay (optional, for very long operations)
             if (_isCreating && !_showInviteCommunity)
               Container(
-                color: Colors.black.withAlpha(100),
-                child: const Center(
-                  child: CircularProgressIndicator(),
+                // Force dark overlay regardless of theme for loading screen
+                color: Colors.black.withAlpha(150),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    // White progress indicator in dark mode, primary color in light mode
+                    color: isDarkMode ? Colors.white : themeData.primaryColor,
+                  ),
                 ),
               ),
           ],
