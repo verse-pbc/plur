@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/consts/colors.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -10,16 +11,29 @@ import 'package:provider/provider.dart';
 class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
 
-  static Future<void> show(BuildContext context) async {
-    // Use the app's existing theme directly without creating a new one
-    await showDialog<void>(
-      context: context,
-      useRootNavigator: true, // Use root navigator to get the app's theme
-      barrierDismissible: false, // Prevent accidental dismissal during loading
-      builder: (dialogContext) {
-        return const CreateCommunityDialog();
-      },
+  // This dialog MUST be properly themed to match the app
+  static OverlayEntry? _overlayEntry;
+
+  static void show(BuildContext context) {
+    if (_overlayEntry != null) {
+      // Avoid creating multiple overlays
+      return;
+    }
+
+    // Create an overlay entry that will be directly inserted into the app's main context
+    _overlayEntry = OverlayEntry(
+      builder: (context) => const CreateCommunityDialog(),
     );
+
+    // Insert the overlay into the app
+    Overlay.of(context).insert(_overlayEntry!);
+  }
+
+  static void hide() {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+    }
   }
 
   @override
@@ -37,18 +51,28 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
     final themeData = Theme.of(context);
     final size = MediaQuery.of(context).size;
     final maxWidth = size.width > 600 ? 500.0 : size.width * 0.9;
+    final brightness = themeData.brightness;
     
-    return PopScope(
-      canPop: !_isCreating, // Prevent back button during creation
+    return Theme(
+      // Force dark theme
+      data: ThemeData.dark().copyWith(
+        colorScheme: brightness == Brightness.dark
+            ? themeData.colorScheme
+            : ThemeData.dark().colorScheme,
+        cardColor: brightness == Brightness.dark
+            ? themeData.cardColor
+            : const Color(0xFF333333),
+        primaryColor: themeData.primaryColor,
+      ),
       child: Scaffold(
-        // Use standard dialog background
-        backgroundColor: Colors.black54,
+        // Use dark overlay
+        backgroundColor: Colors.black87,
         resizeToAvoidBottomInset: true,
         body: Stack(
           children: [
             // Background dismiss area (only when not creating)
             GestureDetector(
-              onTap: _isCreating ? null : () => RouterUtil.back(context),
+              onTap: _isCreating ? null : () => CreateCommunityDialog.hide(),
               child: Container(
                 color: Colors.transparent,
               ),
@@ -79,7 +103,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                               child: IconButton(
                                 icon: const Icon(Icons.close),
                                 onPressed: () {
-                                  RouterUtil.back(context);
+                                  CreateCommunityDialog.hide();
                                 },
                                 tooltip: 'Close',
                                 iconSize: 24,
