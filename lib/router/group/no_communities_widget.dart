@@ -16,14 +16,11 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final localization = S.of(context);
-    
-    // Get app brightness
     final brightness = themeData.brightness;
     
-    // Override theme to ensure dark mode appearance
     return Theme(
       data: brightness == Brightness.dark 
-          ? themeData // Already dark mode
+          ? themeData // Keep current theme if dark
           : ThemeData.dark().copyWith( // Force dark mode
               primaryColor: themeData.primaryColor,
               colorScheme: ThemeData.dark().colorScheme.copyWith(
@@ -36,10 +33,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
             margin: const EdgeInsets.all(30.0),
             child: Card(
               elevation: 4,
-              // Use dark theme card color
-              color: brightness == Brightness.dark
-                  ? themeData.cardColor 
-                  : const Color(0xFF333333),
+              color: const Color(0xFF333333),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -49,111 +43,108 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                  // Title section
-                  Text(
-                    localization.Communities,
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      color: themeData.primaryColor,
+                    // Title section
+                    Text(
+                      localization.Communities,
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 24.0,
+                        fontWeight: FontWeight.bold,
+                        color: themeData.primaryColor,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 24),
-                  
-                  // Image section
-                  Container(
-                    width: 180,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: themeData.primaryColor.withAlpha(25),
-                    ),
-                    child: Center(
-                      child: ColorFiltered(
-                        colorFilter: ColorFilter.mode(
-                          themeData.primaryColor,
-                          BlendMode.srcIn,
-                        ),
-                        child: Image.asset(
-                          "assets/imgs/welcome_groups.png",
-                          width: 120,
-                          height: 120,
+                    const SizedBox(height: 24),
+                    
+                    // Image section
+                    Container(
+                      width: 180,
+                      height: 180,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: themeData.primaryColor.withAlpha(25),
+                      ),
+                      child: Center(
+                        child: ColorFiltered(
+                          colorFilter: ColorFilter.mode(
+                            themeData.primaryColor,
+                            BlendMode.srcIn,
+                          ),
+                          child: Image.asset(
+                            "assets/imgs/welcome_groups.png",
+                            width: 120,
+                            height: 120,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 24),
-                  
-                  // Create community section
-                  Text(
-                    'Start or join a community',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.bold,
-                      color: themeData.colorScheme.onSurface,
+                    const SizedBox(height: 24),
+                    
+                    // Create community section
+                    Text(
+                      'Start or join a community',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Connect with others by creating your own community or joining an existing one with an invite link.',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 16.0,
-                      color: themeData.colorScheme.onSurface.withAlpha(204), // ~0.8 opacity
+                    const SizedBox(height: 12),
+                    Text(
+                      'Connect with others by creating your own community or joining an existing one with an invite link.',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 16.0,
+                        color: Colors.white.withOpacity(0.7),
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32),
-                  
-                  // Action button
-                  SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: _isCreatingCommunity
-                        ? Center(
-                            child: CircularProgressIndicator(
-                              color: themeData.primaryColor,
-                            ),
-                          )
-                        : ElevatedButton.icon(
-                            onPressed: _handleCreateCommunity,
-                            icon: const Icon(Icons.add_circle_outline),
-                            label: Text(localization.Create_Group),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: brightness == Brightness.dark 
-                                  ? Colors.white  // White button in dark mode
-                                  : themeData.primaryColor,
-                              foregroundColor: brightness == Brightness.dark 
-                                  ? Colors.black  // Black text on white button in dark mode
-                                  : Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                    const SizedBox(height: 32),
+                    
+                    // Action button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: _isCreatingCommunity
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: themeData.primaryColor,
                               ),
-                              textStyle: const TextStyle(
-                                fontSize: 16, 
-                                fontWeight: FontWeight.bold,
+                            )
+                          : ElevatedButton.icon(
+                              onPressed: _handleCreateCommunity,
+                              icon: const Icon(Icons.add_circle_outline),
+                              label: Text(localization.Create_Group),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                textStyle: const TextStyle(
+                                  fontSize: 16, 
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
-                          ),
-                  ),
-                  const SizedBox(height: 16),
-                  
-                  // Hint text
-                  Text(
-                    'Have an invite link? Tap on it to join a community.',
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 14.0,
-                      fontStyle: FontStyle.italic,
-                      color: themeData.colorScheme.onSurface.withAlpha(153), // ~0.6 opacity
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
+                    const SizedBox(height: 16),
+                    
+                    // Hint text
+                    Text(
+                      'Have an invite link? Tap on it to join a community.',
+                      style: TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 14.0,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white.withOpacity(0.6),
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
