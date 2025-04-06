@@ -27,6 +27,7 @@ import '../group/communities_widget.dart';
 import '../group/create_community_dialog.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
+import '../compose/start_something_widget.dart';
 import 'index_app_bar.dart';
 import 'index_drawer_content.dart';
 import 'index_tab_item_widget.dart';
@@ -379,6 +380,19 @@ class _IndexWidgetState extends CustState<IndexWidget>
             smallMode: false,
           ),
         ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // Navigate to the "Start Something" screen
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const StartSomethingWidget()),
+            );
+          },
+          backgroundColor: themeData.primaryColor,
+          icon: const Icon(Icons.add),
+          label: Text(localization.Start_Something),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       );
     }
   }

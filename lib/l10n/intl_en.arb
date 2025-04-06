@@ -351,5 +351,10 @@
           "type": "int"
         }
       }
-    }
+    },
+    "What_do_you_want_to_do": "What do you want to do?",
+    "Start_Something": "Start Something",
+    "New_Post": "New Post",
+    "New_Post_in_Group": "New Post in Group",
+    "Long_Form": "Long Form"
 }
