@@ -287,6 +287,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "NWC_TIP2": MessageLookupByLibrary.simpleMessage("NWC URL is like"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
+        "New_Post": MessageLookupByLibrary.simpleMessage("New Post"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "Nostromo_developers_will_never_require_a_key_from_you":
@@ -357,6 +358,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please select relays"),
         "Poll": MessageLookupByLibrary.simpleMessage("Poll"),
         "Popular_Users": MessageLookupByLibrary.simpleMessage("Popular Users"),
+        "Posting_to": MessageLookupByLibrary.simpleMessage("Posting to"),
         "Posts": MessageLookupByLibrary.simpleMessage("Posts"),
         "Posts_and_replies":
             MessageLookupByLibrary.simpleMessage("Posts & Replies"),
