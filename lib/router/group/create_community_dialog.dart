@@ -11,12 +11,18 @@ class CreateCommunityDialog extends StatefulWidget {
   const CreateCommunityDialog({super.key});
 
   static Future<void> show(BuildContext context) async {
+    final theme = Theme.of(context);
+    
     await showDialog<void>(
       context: context,
       useRootNavigator: false,
       barrierDismissible: false, // Prevent accidental dismissal during loading
-      builder: (_) {
-        return const CreateCommunityDialog();
+      builder: (dialogContext) {
+        // Ensure the dialog uses the same theme as the app
+        return Theme(
+          data: theme,
+          child: const CreateCommunityDialog(),
+        );
       },
     );
   }
@@ -60,9 +66,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                   margin: const EdgeInsets.symmetric(vertical: 40),
                   child: Card(
                     elevation: 8,
-                    color: themeData.brightness == Brightness.dark 
-                        ? themeData.colorScheme.surface 
-                        : Colors.white,
+                    // Use theme-appropriate colors
+                    color: themeData.dialogBackgroundColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
