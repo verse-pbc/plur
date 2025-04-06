@@ -91,9 +91,9 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                     ),
                   ),
                   filled: true,
-                  fillColor: themeData.brightness == Brightness.dark 
-                      ? themeData.colorScheme.surface 
-                      : themeData.cardColor,
+                  fillColor: themeData.brightness == Brightness.dark
+                      ? themeData.colorScheme.surfaceContainerHighest ?? themeData.colorScheme.surface.withAlpha(240)
+                      : Colors.white,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 14,
@@ -101,7 +101,10 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                 ),
                 style: TextStyle(
                   fontSize: 16,
-                  color: themeData.colorScheme.onSurface,
+                  // Ensure high contrast for text input
+                  color: themeData.brightness == Brightness.dark
+                      ? Colors.white
+                      : Colors.black87,
                   fontWeight: FontWeight.w500,
                 ),
                 onChanged: (text) {

@@ -23,6 +23,9 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
           margin: const EdgeInsets.all(30.0),
           child: Card(
             elevation: 4,
+            color: themeData.brightness == Brightness.dark 
+                ? themeData.colorScheme.surface 
+                : Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
