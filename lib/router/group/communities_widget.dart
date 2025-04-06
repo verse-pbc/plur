@@ -29,8 +29,16 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
   @override
   Widget doBuild(BuildContext context) {
+    print("CommunitiesWidget building...");
+    
     final listProvider = Provider.of<ListProvider>(context);
     final groupIds = listProvider.groupIdentifiers;
+    print("CommunitiesWidget groupIdentifiers count: ${groupIds.length}");
+    
+    // Log each group identifier for debugging
+    for (int i = 0; i < groupIds.length; i++) {
+      print("Group $i: ${groupIds[i]}");
+    }
 
     return Scaffold(
       body: Container(
@@ -49,8 +57,10 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
                 itemCount: groupIds.length,
                 itemBuilder: (context, index) {
                   final groupIdentifier = groupIds[index];
+                  print("Building community widget for group: $groupIdentifier");
                   return InkWell(
                     onTap: () {
+                      print("Navigating to GROUP_DETAIL for: $groupIdentifier");
                       RouterUtil.router(
                           context, RouterPath.GROUP_DETAIL, groupIdentifier);
                     },
