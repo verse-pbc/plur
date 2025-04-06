@@ -17,10 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 - Made it easier to dismiss fullscreen images. [#286](https://github.com/verse-pbc/issues/issues/286)
 - Added Cancel button when adding accounts. [#254](https://github.com/verse-pbc/issues/issues/254)
+- Fixed web version splash screen and loading issues.
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
 - Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
+- Updated branding from NostrMo to Plur in user-facing elements while maintaining internal package compatibility.
+- Fixed web initialization scripts to properly handle Flutter web loading.
 
 ## [0.0.4]
 
