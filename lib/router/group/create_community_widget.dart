@@ -91,9 +91,13 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                     ),
                   ),
                   filled: true,
+                  // Use correct input color based on theme
                   fillColor: themeData.brightness == Brightness.dark
-                      ? themeData.colorScheme.surfaceContainerHighest ?? themeData.colorScheme.surface.withAlpha(240)
-                      : Colors.white,
+                      ? themeData.inputDecorationTheme.fillColor ?? 
+                        themeData.colorScheme.surfaceContainerHighest ?? 
+                        themeData.colorScheme.surface.withAlpha(240)
+                      : themeData.inputDecorationTheme.fillColor ?? 
+                        Colors.white,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 16,
                     vertical: 14,
@@ -103,8 +107,8 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                   fontSize: 16,
                   // Ensure high contrast for text input
                   color: themeData.brightness == Brightness.dark
-                      ? Colors.white
-                      : Colors.black87,
+                      ? themeData.textTheme.bodyLarge?.color ?? Colors.white
+                      : themeData.textTheme.bodyLarge?.color ?? Colors.black87,
                   fontWeight: FontWeight.w500,
                 ),
                 onChanged: (text) {
