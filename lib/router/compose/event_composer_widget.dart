@@ -38,6 +38,11 @@ class _EventComposerWidgetState extends CustState<EventComposerWidget> {
     _locationController.dispose();
     super.dispose();
   }
+  
+  @override
+  Future<void> onReady(BuildContext context) async {
+    // No initialization needed
+  }
 
   @override
   Widget doBuild(BuildContext context) {

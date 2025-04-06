@@ -388,7 +388,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
               MaterialPageRoute(builder: (context) => const StartSomethingWidget()),
             );
           },
-          backgroundColor: themeData.primaryColor,
+          backgroundColor: themeData.colorScheme.primary,
           icon: const Icon(Icons.add),
           label: Text(localization.Start_Something),
         ),

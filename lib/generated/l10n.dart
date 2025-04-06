@@ -3439,6 +3439,236 @@ class S {
       args: [number],
     );
   }
+
+  /// `What do you want to do?`
+  String get What_do_you_want_to_do {
+    return Intl.message(
+      'What do you want to do?',
+      name: 'What_do_you_want_to_do',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Something`
+  String get Start_Something {
+    return Intl.message(
+      'Start Something',
+      name: 'Start_Something',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Post`
+  String get New_Post {
+    return Intl.message(
+      'New Post',
+      name: 'New_Post',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Post in Group`
+  String get New_Post_in_Group {
+    return Intl.message(
+      'New Post in Group',
+      name: 'New_Post_in_Group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Long Form`
+  String get Long_Form {
+    return Intl.message(
+      'Long Form',
+      name: 'Long_Form',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thread`
+  String get Thread {
+    return Intl.message(
+      'Thread',
+      name: 'Thread',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Poll`
+  String get Create_Poll {
+    return Intl.message(
+      'Create Poll',
+      name: 'Create_Poll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Audio Room`
+  String get Create_Audio_Room {
+    return Intl.message(
+      'Create Audio Room',
+      name: 'Create_Audio_Room',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Livestream`
+  String get Create_Livestream {
+    return Intl.message(
+      'Create Livestream',
+      name: 'Create_Livestream',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Document`
+  String get Create_Document {
+    return Intl.message(
+      'Create Document',
+      name: 'Create_Document',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Event`
+  String get Create_Event {
+    return Intl.message(
+      'Create Event',
+      name: 'Create_Event',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Event Title`
+  String get Event_Title {
+    return Intl.message(
+      'Event Title',
+      name: 'Event_Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a title for your event`
+  String get Enter_Event_Title {
+    return Intl.message(
+      'Enter a title for your event',
+      name: 'Enter_Event_Title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a description of your event`
+  String get Enter_Event_Description {
+    return Intl.message(
+      'Enter a description of your event',
+      name: 'Enter_Event_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the location of your event`
+  String get Enter_Event_Location {
+    return Intl.message(
+      'Enter the location of your event',
+      name: 'Enter_Event_Location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get Location {
+    return Intl.message(
+      'Location',
+      name: 'Location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date and Time`
+  String get Date_and_Time {
+    return Intl.message(
+      'Date and Time',
+      name: 'Date_and_Time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date`
+  String get Date {
+    return Intl.message(
+      'Date',
+      name: 'Date',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Time`
+  String get Time {
+    return Intl.message(
+      'Time',
+      name: 'Time',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create`
+  String get Create {
+    return Intl.message(
+      'Create',
+      name: 'Create',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Advanced Options`
+  String get Advanced_Options {
+    return Intl.message(
+      'Advanced Options',
+      name: 'Advanced_Options',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your event will be published to your relays and visible to anyone following you.`
+  String get Event_Publish_Note {
+    return Intl.message(
+      'Your event will be published to your relays and visible to anyone following you.',
+      name: 'Event_Publish_Note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Event title is required`
+  String get Event_Title_Required {
+    return Intl.message(
+      'Event title is required',
+      name: 'Event_Title_Required',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

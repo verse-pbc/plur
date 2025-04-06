@@ -54,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "Admin_Panel": MessageLookupByLibrary.simpleMessage("Admin Panel"),
         "Admins": MessageLookupByLibrary.simpleMessage("Admins"),
+        "Advanced_Options":
+            MessageLookupByLibrary.simpleMessage("Advanced Options"),
         "All_media_public": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
         "Any": MessageLookupByLibrary.simpleMessage("Any"),
@@ -115,7 +117,16 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Copy current Url"),
         "Copy_init_Url": MessageLookupByLibrary.simpleMessage("Copy init Url"),
         "Copy_success": MessageLookupByLibrary.simpleMessage("Copy success!"),
+        "Create": MessageLookupByLibrary.simpleMessage("Create"),
+        "Create_Audio_Room":
+            MessageLookupByLibrary.simpleMessage("Create Audio Room"),
+        "Create_Document":
+            MessageLookupByLibrary.simpleMessage("Create Document"),
+        "Create_Event": MessageLookupByLibrary.simpleMessage("Create Event"),
         "Create_Group": MessageLookupByLibrary.simpleMessage("Create Group"),
+        "Create_Livestream":
+            MessageLookupByLibrary.simpleMessage("Create Livestream"),
+        "Create_Poll": MessageLookupByLibrary.simpleMessage("Create Poll"),
         "Creator": MessageLookupByLibrary.simpleMessage("Creator"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "Custom_Color": MessageLookupByLibrary.simpleMessage("Custom Color"),
@@ -128,6 +139,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Data_Length": MessageLookupByLibrary.simpleMessage("Data Length"),
         "Data_Sync_Mode":
             MessageLookupByLibrary.simpleMessage("Data Sync Mode"),
+        "Date": MessageLookupByLibrary.simpleMessage("Date"),
+        "Date_and_Time": MessageLookupByLibrary.simpleMessage("Date and Time"),
         "Default_Color": MessageLookupByLibrary.simpleMessage("Default Color"),
         "Default_Font_Family":
             MessageLookupByLibrary.simpleMessage("Default Font Family"),
@@ -157,8 +170,19 @@ class MessageLookup extends MessageLookupByLibrary {
             "Enter a description of your community"),
         "Enter_Community_Name": MessageLookupByLibrary.simpleMessage(
             "Enter a name for your community"),
+        "Enter_Event_Description": MessageLookupByLibrary.simpleMessage(
+            "Enter a description of your event"),
+        "Enter_Event_Location": MessageLookupByLibrary.simpleMessage(
+            "Enter the location of your event"),
+        "Enter_Event_Title": MessageLookupByLibrary.simpleMessage(
+            "Enter a title for your event"),
+        "Event_Publish_Note": MessageLookupByLibrary.simpleMessage(
+            "Your event will be published to your relays and visible to anyone following you."),
         "Event_Sign_Check":
             MessageLookupByLibrary.simpleMessage("Event Sign Check"),
+        "Event_Title": MessageLookupByLibrary.simpleMessage("Event Title"),
+        "Event_Title_Required":
+            MessageLookupByLibrary.simpleMessage("Event title is required"),
         "Face": MessageLookupByLibrary.simpleMessage("Face"),
         "Fast_Mode": MessageLookupByLibrary.simpleMessage("Fast Mode"),
         "File_Size": MessageLookupByLibrary.simpleMessage("File Size"),
@@ -256,12 +280,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "Lnurl_and_Lud16_can_t_found": MessageLookupByLibrary.simpleMessage(
             "Lnurl and Lud16 can\'t found."),
         "LocalRelay": MessageLookupByLibrary.simpleMessage("Local Relay"),
+        "Location": MessageLookupByLibrary.simpleMessage("Location"),
         "Login": MessageLookupByLibrary.simpleMessage("Login"),
         "Login_With_Android_Signer":
             MessageLookupByLibrary.simpleMessage("Login With Android Signer"),
         "Login_With_NIP07_Extension":
             MessageLookupByLibrary.simpleMessage("Login With NIP07 Extension"),
         "Login_fail": MessageLookupByLibrary.simpleMessage("Login fail"),
+        "Long_Form": MessageLookupByLibrary.simpleMessage("Long Form"),
         "Lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
         "Max_Sub_Notes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
         "Member": MessageLookupByLibrary.simpleMessage("Member"),
@@ -287,6 +313,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "NWC_TIP2": MessageLookupByLibrary.simpleMessage("NWC URL is like"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
+        "New_Post": MessageLookupByLibrary.simpleMessage("New Post"),
+        "New_Post_in_Group":
+            MessageLookupByLibrary.simpleMessage("New Post in Group"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "Nostromo_developers_will_never_require_a_key_from_you":
@@ -414,6 +443,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The support client will split and transfer zaps to the users you had added."),
         "Split_and_Transfer_Zap":
             MessageLookupByLibrary.simpleMessage("Split and Transfer Zap"),
+        "Start_Something":
+            MessageLookupByLibrary.simpleMessage("Start Something"),
         "Subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "Submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "Sync_Upload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
@@ -437,7 +468,9 @@ class MessageLookup extends MessageLookupByLibrary {
                 "This note contains sensitive content"),
         "This_operation_cannot_be_undo": MessageLookupByLibrary.simpleMessage(
             "This operation cannot be undo"),
+        "Thread": MessageLookupByLibrary.simpleMessage("Thread"),
         "Thread_Mode": MessageLookupByLibrary.simpleMessage("Thread Mode"),
+        "Time": MessageLookupByLibrary.simpleMessage("Time"),
         "Timeline": MessageLookupByLibrary.simpleMessage("Timeline"),
         "Topic": MessageLookupByLibrary.simpleMessage("Topic"),
         "Topics": MessageLookupByLibrary.simpleMessage("Topics"),
@@ -467,6 +500,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("WebRTC Permission"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Web Utils"),
         "Website": MessageLookupByLibrary.simpleMessage("Website"),
+        "What_do_you_want_to_do":
+            MessageLookupByLibrary.simpleMessage("What do you want to do?"),
         "What_s_happening":
             MessageLookupByLibrary.simpleMessage("What\'s happening?"),
         "Word_can_t_be_null":
