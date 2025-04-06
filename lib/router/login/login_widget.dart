@@ -43,6 +43,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   bool backAfterLogin = false;
 
+  // Added to track if we're showing the login form
+  bool _showingLoginForm = false;
+
   late S localization;
 
   @override
@@ -90,6 +93,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     final themeData = Theme.of(context);
     final dimmedColor = themeData.customColors.dimmedColor;
     final buttonTextColor = themeData.customColors.buttonTextColor;
+    final accentColor = themeData.customColors.accentColor;
+    final primaryForegroundColor = themeData.customColors.primaryForegroundColor;
 
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
@@ -106,139 +111,196 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     List<Widget> mainList = [];
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
-    mainList.add(Expanded(child: Container()));
+    // Top spacing
+    mainList.add(Expanded(flex: 1, child: Container()));
 
-    // Adds a logo image to `mainList` for branding.
+    // Logo
     mainList.add(Image.asset(
       "assets/imgs/landing/logo.png",
       width: 162,
       height: 82,
     ));
 
-    // Adds a title text "Communities" inside a `Container` with bottom margin.
+    // Title text "Communities"
     mainList.add(Container(
-      margin: const EdgeInsets.only(
-        bottom: 40,
-      ),
+      margin: const EdgeInsets.only(bottom: 20),
       child: Text(
         localization.Communities,
         style: TextStyle(
-          color: themeData.customColors.primaryForegroundColor,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
+          color: primaryForegroundColor,
+          fontSize: 28,
+          fontWeight: FontWeight.w700,
         ),
       ),
     ));
 
-    // Adds a tappable "Signup" button to `mainList`.
-    mainList.add(SizedBox(
-      width: double.infinity,
-      child: FilledButton(
-        key: const Key('signup_button'),
-        // Calls `_navigateToSignup` when tapped.
-        onPressed: _navigateToSignup,
-        style: FilledButton.styleFrom(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: themeData.customColors.accentColor,
+    // Welcome message
+    mainList.add(Container(
+      margin: const EdgeInsets.only(bottom: 50),
+      child: Text(
+        "Connect with communities and topics you care about.",
+        style: TextStyle(
+          color: primaryForegroundColor,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
         ),
-        child: Text(
-          localization.Signup,
-          style: TextStyle(
-            color: themeData.customColors.buttonTextColor,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        textAlign: TextAlign.center,
       ),
     ));
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
-    mainList.add(Expanded(child: Container()));
-
-    // Define a re-usable text field border to be used in enabled and focused
-    // states.
-    OutlineInputBorder textFieldBorder = OutlineInputBorder(
-      borderSide: BorderSide(color: dimmedColor),
-    );
-
-    // Adds a `TextField` to the `mainList`, allowing the user to input a
-    // private key securely.
-    mainList.add(TextField(
-      controller: _controller,
-      decoration: InputDecoration(
-        focusedBorder: textFieldBorder,
-        enabledBorder: textFieldBorder,
-        hintText: localization.Your_private_key,
-        hintStyle: TextStyle(color: dimmedColor, fontSize: 16),
-        contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 8),
-        // Adds an eye icon as a suffix to toggle password visibility
-        suffixIcon: GestureDetector(
-          onTap: () {
+    if (!_showingLoginForm) {
+      // Show main landing page with two options
+      
+      // Login button (opens login form)
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: OutlinedButton(
+          onPressed: () {
             setState(() {
-              _isTextObscured = !_isTextObscured;
+              _showingLoginForm = true;
             });
           },
-          child: Icon(
-            _isTextObscured ? Icons.visibility : Icons.visibility_off,
-            color: dimmedColor,
+          style: OutlinedButton.styleFrom(
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            side: BorderSide(color: dimmedColor, width: 2),
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          child: Text(
+            "Login with existing account",
+            style: TextStyle(
+              color: primaryForegroundColor,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      style: TextStyle(
-        color: dimmedColor,
-        fontSize: 16,
-        fontWeight: FontWeight.bold,
-      ),
-      obscureText: _isTextObscured,
-    ));
+      ));
 
-    // Adds a 10px tall space between the text field and the button.
-    mainList.add(const SizedBox(height: 10));
+      mainList.add(const SizedBox(height: 20));
 
-    // Adds a full-width "Login" button to `mainList`.
-    mainList.add(SizedBox(
-      width: double.infinity,
-      child: FilledButton(
-        // Calls the `_doLogin` function when enabled; otherwise, it remains
-        // disabled.
-        onPressed: _isLoginButtonEnabled ? _doLogin : null,
-        style: FilledButton.styleFrom(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: dimmedColor,
-          disabledBackgroundColor: dimmedColor.withOpacity(0.4),
-          foregroundColor: buttonTextColor,
-          disabledForegroundColor: buttonTextColor.withOpacity(0.4),
+      // Create new account button (signup)
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: FilledButton(
+          key: const Key('signup_button'),
+          onPressed: _navigateToSignup,
+          style: FilledButton.styleFrom(
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: accentColor,
+            foregroundColor: buttonTextColor,
+            padding: const EdgeInsets.symmetric(vertical: 16),
+          ),
+          child: Text(
+            "Create New Account",
+            style: TextStyle(
+              color: buttonTextColor,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
+      ));
+    } else {
+      // Show login form
+      
+      // Back button
+      mainList.add(Container(
+        alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.only(bottom: 20),
+        child: TextButton.icon(
+          onPressed: () {
+            setState(() {
+              _showingLoginForm = false;
+              _controller.clear();
+            });
+          },
+          icon: Icon(Icons.arrow_back, color: primaryForegroundColor),
+          label: Text(
+            "Back",
+            style: TextStyle(
+              color: primaryForegroundColor,
+              fontSize: 16,
+            ),
+          ),
+        ),
+      ));
+
+      // Login form title
+      mainList.add(Container(
+        alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.only(bottom: 10),
         child: Text(
-          localization.Login,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+          "Login with Existing Account",
+          style: TextStyle(
+            color: primaryForegroundColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w700,
           ),
         ),
-      ),
-    ));
+      ));
+      
+      // Login options explainer
+      mainList.add(Container(
+        alignment: Alignment.centerLeft,
+        margin: const EdgeInsets.only(bottom: 20),
+        child: Text(
+          "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
+          style: TextStyle(
+            color: dimmedColor,
+            fontSize: 14,
+          ),
+        ),
+      ));
 
-    if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
-      mainList.add(SizedBox(
+      // Private key input field
+      OutlineInputBorder textFieldBorder = OutlineInputBorder(
+        borderSide: BorderSide(color: dimmedColor),
+      );
+      
+      mainList.add(TextField(
+        controller: _controller,
+        decoration: InputDecoration(
+          focusedBorder: textFieldBorder,
+          enabledBorder: textFieldBorder,
+          hintText: "nsec... / bunker:// URL / user@domain",
+          hintStyle: TextStyle(color: dimmedColor, fontSize: 16),
+          contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+          // Adds an eye icon as a suffix to toggle password visibility
+          suffixIcon: GestureDetector(
+            onTap: () {
+              setState(() {
+                _isTextObscured = !_isTextObscured;
+              });
+            },
+            child: Icon(
+              _isTextObscured ? Icons.visibility : Icons.visibility_off,
+              color: dimmedColor,
+            ),
+          ),
+        ),
+        style: TextStyle(
+          color: dimmedColor,
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+        obscureText: _isTextObscured,
+      ));
+
+      // Login button
+      mainList.add(Container(
+        margin: const EdgeInsets.only(top: 20, bottom: 20),
         width: double.infinity,
         child: FilledButton(
-          onPressed: _loginByAndroidSigner,
+          onPressed: _isLoginButtonEnabled ? _doLogin : null,
           style: FilledButton.styleFrom(
-            shape:
-                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: themeData.customColors.dimmedColor,
-            disabledBackgroundColor:
-                themeData.customColors.dimmedColor.withOpacity(0.4),
-            foregroundColor: themeData.customColors.buttonTextColor,
-            disabledForegroundColor:
-                themeData.customColors.buttonTextColor.withOpacity(0.4),
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            backgroundColor: accentColor,
+            disabledBackgroundColor: accentColor.withOpacity(0.4),
+            foregroundColor: buttonTextColor,
+            disabledForegroundColor: buttonTextColor.withOpacity(0.4),
           ),
           child: Text(
-            localization.Login_With_Android_Signer,
+            "Login to Account",
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -246,57 +308,81 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           ),
         ),
       ));
-    } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
-      mainList.add(SizedBox(
-        width: double.infinity,
-        child: FilledButton(
-          onPressed: _loginWithWebSigner,
-          style: FilledButton.styleFrom(
-            shape:
-                const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: themeData.customColors.dimmedColor,
-            disabledBackgroundColor:
-                themeData.customColors.dimmedColor.withOpacity(0.4),
-            foregroundColor: themeData.customColors.buttonTextColor,
-            disabledForegroundColor:
-                themeData.customColors.buttonTextColor.withOpacity(0.4),
-          ),
-          child: Text(
-            localization.Login_With_NIP07_Extension,
-            style: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+
+      // External signer options
+      if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
+        mainList.add(Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          width: double.infinity,
+          child: OutlinedButton(
+            onPressed: _loginByAndroidSigner,
+            style: OutlinedButton.styleFrom(
+              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+              side: BorderSide(color: dimmedColor),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+            child: Text(
+              localization.Login_With_Android_Signer,
+              style: TextStyle(
+                color: primaryForegroundColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
-        ),
-      ));
+        ));
+      } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
+        mainList.add(Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          width: double.infinity,
+          child: OutlinedButton(
+            onPressed: _loginWithWebSigner,
+            style: OutlinedButton.styleFrom(
+              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+              side: BorderSide(color: dimmedColor),
+              padding: const EdgeInsets.symmetric(vertical: 12),
+            ),
+            child: Text(
+              localization.Login_With_NIP07_Extension,
+              style: TextStyle(
+                color: primaryForegroundColor,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+        ));
+      }
     }
 
-    // Adds an expandable section with a centered terms-of-service link to
-    // `mainList`.
-    mainList.add(Expanded(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        GestureDetector(
-          onTap: () {
-            WebViewWidget.open(context, Base.privacyLink);
-          },
-          child: StyledText(
-              text: localization.Accept_terms_of_service,
-              textAlign: TextAlign.center,
+    // Bottom spacing and terms
+    mainList.add(Expanded(flex: 1, child: Container()));
+    
+    // Terms of service
+    mainList.add(GestureDetector(
+      onTap: () {
+        WebViewWidget.open(context, Base.privacyLink);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: StyledText(
+          text: localization.Accept_terms_of_service,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: primaryForegroundColor,
+            fontSize: 15,
+          ),
+          tags: {
+            'accent': StyledTextTag(
               style: TextStyle(
-                color: themeData.customColors.primaryForegroundColor,
-                fontSize: 15,
+                decoration: TextDecoration.underline,
+                decorationColor: accentColor,
+                color: accentColor,
               ),
-              tags: {
-                'accent': StyledTextTag(
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor: themeData.customColors.accentColor,
-                      color: themeData.customColors.accentColor),
-                )
-              }),
-        )
-      ]),
+            ),
+          },
+        ),
+      ),
     ));
 
     return Scaffold(
@@ -326,7 +412,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                             fontSize: 16.0,
                             fontWeight: FontWeight.w500,
                           ),
-                          foregroundColor: themeData.customColors.accentColor,
+                          foregroundColor: accentColor,
                         ),
                         child: Text(localization.Cancel),
                       ),
@@ -361,6 +447,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     if (privateKey != null && privateKey is String) {
       _doPreLogin();
 
+      // Store the private key and generate Nostr instance
       settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
       nostr = await relayProvider.genNostrWithKey(privateKey);
 
@@ -368,9 +455,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         RouterUtil.back(context);
       }
 
+      // Update UI and mark as first login to properly download contact data
       settingsProvider.notifyListeners();
-      // Marks the login as the first one, so the contact data can be properly
-      // downloaded.
       firstLogin = true;
       indexProvider.setCurrentTap(0);
     }
@@ -408,15 +494,62 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         return;
       }
 
-      _doPreLogin();
+      // If we have a NIP-05 identifier, try to check if it has a bunker URL
+      if (pk.indexOf("@") > 0) {
+        // Try to find a bunker URL from NIP-05 metadata
+        try {
+          // First check if we can find a bunker URL in NIP-05 metadata
+          var cancelFunc = BotToast.showLoading();
+          try {
+            var metadata = await Nip05Validator.getJson(pk);
+            if (metadata != null && 
+                metadata["bunker"] != null && 
+                metadata["bunker"].toString().startsWith("bunker://")) {
+              // Found a bunker URL - use it instead!
+              String bunkerUrl = metadata["bunker"].toString();
+              
+              // Use the bunker URL for login
+              var info = NostrRemoteSignerInfo.parseBunkerUrl(bunkerUrl);
+              if (info != null) {
+                var bunkerLink = info.toString();
+                _doPreLogin();
+                nostr = await relayProvider.genNostrWithKey(bunkerLink);
+                if (nostr != null && nostr!.nostrSigner is NostrRemoteSigner) {
+                  bunkerLink = (nostr!.nostrSigner as NostrRemoteSigner).info.toString();
+                }
+                settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
+                
+                if (backAfterLogin && mounted) {
+                  RouterUtil.back(context);
+                }
+                
+                settingsProvider.notifyListeners();
+                firstLogin = true;
+                indexProvider.setCurrentTap(0);
+                return;
+              }
+            }
+          } catch (e) {
+            // Failed to get metadata, will fall back to read-only mode
+          } finally {
+            cancelFunc.call();
+          }
+        } catch (e) {
+          // Ignore any errors in this extra check
+        }
+        
+        // If we reach here, nsec.app or similar didn't provide a private key or bunker URL
+        if (!mounted) return;
+        StyledBotToast.show(context,
+            text: "Login failed: Read-only mode is not supported. Please use your nsec private key or a nsecBunker URL. For identities like user@nsec.app, make sure you have a bunker URL set in your NIP-05 metadata.");
+        return;
+      }
 
-      var npubKey = Nip19.encodePubKey(pubkey!);
-      settingsProvider.addAndChangePrivateKey(npubKey, updateUI: false);
-
-      var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
-      nostr = await relayProvider.genNostr(pubkeyOnlySigner);
+      // Don't allow read-only accounts
       if (!mounted) return;
-      StyledBotToast.show(context, text: localization.Readonly_login_tip);
+      StyledBotToast.show(context,
+          text: "Login failed: Read-only mode is not supported. Please use your nsec private key or a nsecBunker URL. For identities like user@nsec.app, make sure you have a bunker URL set in your NIP-05 metadata.");
+      return;
     } else if (NostrRemoteSignerInfo.isBunkerUrl(pk)) {
       var cancel = BotToast.showLoading();
       try {
