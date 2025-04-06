@@ -115,7 +115,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               InviteToCommunityDialog.show(
                 context: context,
                 groupIdentifier: groupIdentifier,
-                listProvider: listProvider,
               );
             },
           ),

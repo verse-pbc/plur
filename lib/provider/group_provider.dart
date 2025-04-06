@@ -232,29 +232,63 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     GroupIdentifier groupIdentifier,
     GroupMetadata groupMetadata,
   ) async {
+    print("GroupProvider.updateMetadata called for ${groupIdentifier.toString()}");
     final relays = [groupIdentifier.host];
+    print("Using relays: $relays");
 
     var tags = [];
     tags.add(["h", groupIdentifier.groupId]);
     if (StringUtil.isNotBlank(groupMetadata.name)) {
       tags.add(["name", groupMetadata.name!]);
+      print("Added name tag: ${groupMetadata.name}");
     }
     if (StringUtil.isNotBlank(groupMetadata.picture)) {
       tags.add(["picture", groupMetadata.picture!]);
+      print("Added picture tag: ${groupMetadata.picture}");
     }
     if (StringUtil.isNotBlank(groupMetadata.about)) {
       tags.add(["about", groupMetadata.about!]);
+      print("Added about tag: ${groupMetadata.about}");
+    }
+    
+    // Add public and open tags if provided
+    if (groupMetadata.public != null) {
+      tags.add(["public", groupMetadata.public.toString()]);
+      print("Added public tag: ${groupMetadata.public}");
+    }
+    if (groupMetadata.open != null) {
+      tags.add(["open", groupMetadata.open.toString()]);
+      print("Added open tag: ${groupMetadata.open}");
     }
 
+    print("Creating GROUP_EDIT_METADATA event");
     final e = Event(nostr!.publicKey, EventKind.GROUP_EDIT_METADATA, tags, "");
-    final result =
-        await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
-    if (result != null) {
-      handleEvent(
-        groupMetadatas,
-        groupIdentifier,
-        GroupMetadata.loadFromEvent(e),
-      );
+    print("Sending event to relays: $relays");
+    
+    try {
+      final result = await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
+      print("Send result: ${result?.id ?? 'null'}");
+      
+      // Important: Update local cache with the new metadata
+      final key = groupIdentifier.toString();
+      groupMetadatas[key] = groupMetadata;
+      print("Updated local cache with new metadata");
+      
+      // Process the event using the handler
+      if (result != null) {
+        print("Processing successful event");
+        handleEvent(
+          groupMetadatas,
+          groupIdentifier,
+          GroupMetadata.loadFromEvent(e)
+        );
+      }
+      
+      // Notify listeners to update UI
+      notifyListeners();
+      print("Notified listeners of metadata update");
+    } catch (error) {
+      print("Error sending metadata update: $error");
     }
   }
 }
