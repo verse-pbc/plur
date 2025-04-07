@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Added a combined chronological feed of all community posts with community indicators
+- Added toggle in header to switch between grid view and chronological feed view of communities
 - Fixed issue where new notes toast was not getting displayed in groups. [#250](https://github.com/verse-pbc/issues/issues/250)
 - Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
