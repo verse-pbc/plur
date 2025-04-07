@@ -351,5 +351,10 @@
           "type": "int"
         }
       }
-    }
+    },
+    "Find_Group": "Find Group",
+    "Discover_Groups": "Discover Groups",
+    "Search_for_public_groups": "Search for public groups",
+    "Members": "Members",
+    "Active": "Active"
 }
