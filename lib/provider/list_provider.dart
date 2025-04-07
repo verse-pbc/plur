@@ -357,8 +357,9 @@ class ListProvider extends ChangeNotifier {
         .where((result) => result.$2)
         .map((result) => result.$1)
         .toList();
-
-    _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    if (context != null && context.mounted) {
+      _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    }
     cancelFunc.call();
   }
 
