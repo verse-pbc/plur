@@ -10,23 +10,7 @@ class CommunitiesFeedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final listProvider = Provider.of<ListProvider>(context);
-    final groupFeedProvider = Provider.of<GroupFeedProvider>(context);
-    
-    // If no communities, show a message
-    if (listProvider.groupIdentifiers.isEmpty) {
-      return const Center(
-        child: Text("Join a community to see posts here"),
-      );
-    }
-
-    // Initialize feed if needed
-    if (groupFeedProvider.notesBox.isEmpty()) {
-      groupFeedProvider.subscribe();
-      groupFeedProvider.doQuery(null);
-    }
-
-    // Display all posts from all communities
+    // Provider is already initialized in the parent widget
     return const AllGroupPostsWidget();
   }
 }

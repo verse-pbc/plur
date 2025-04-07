@@ -19,9 +19,21 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   final ListProvider _listProvider;
   final String subscribeId = StringUtil.rndNameStr(16);
   bool _isSubscribed = false;
+  
+  /// Indicates whether the provider is currently loading initial events
+  bool isLoading = true;
 
   GroupFeedProvider(this._listProvider) {
     _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    
+    // Set a timeout to stop showing the loading indicator after 3 seconds
+    // even if no events are received
+    Future.delayed(const Duration(seconds: 3), () {
+      if (isLoading) {
+        isLoading = false;
+        notifyListeners();
+      }
+    });
   }
 
   void clear() {
@@ -125,7 +137,11 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         }
       }
 
-      if (noteAdded) {
+      // If we received events and we're still in loading state, set loading to false
+      if (isLoading) {
+        isLoading = false;
+        notifyListeners();
+      } else if (noteAdded) {
         notesBox.sort();
         notifyListeners();
       }

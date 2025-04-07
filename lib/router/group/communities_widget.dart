@@ -34,6 +34,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     with PendingEventsLaterFunction {
   final subscribeId = StringUtil.rndNameStr(16);
   CommunityViewMode _viewMode = CommunityViewMode.grid;
+  GroupFeedProvider? _feedProvider;
 
   Widget _buildViewToggle(ThemeData themeData) {
     return Container(
@@ -148,8 +149,14 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         );
         break;
       case CommunityViewMode.feed:
-        content = ChangeNotifierProvider(
-          create: (context) => GroupFeedProvider(listProvider),
+        // Create and initialize the provider only once
+        if (_feedProvider == null) {
+          _feedProvider = GroupFeedProvider(listProvider);
+          _feedProvider!.subscribe();
+          _feedProvider!.doQuery(null);
+        }
+        content = ChangeNotifierProvider.value(
+          value: _feedProvider!,
           child: const CommunitiesFeedWidget(),
         );
         break;

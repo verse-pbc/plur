@@ -35,12 +35,22 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     var events = eventBox.all();
 
     Widget content;
+    // Check if there are posts or if we're still loading 
     if (events.isEmpty) {
-      content = NoNotesWidget(
-        groupName: "your communities",
-        onRefresh: onRefresh,
-      );
+      // Show loading indicator instead of empty state initially
+      if (groupFeedProvider!.isLoading) {
+        content = const Center(
+          child: CircularProgressIndicator(),
+        );
+      } else {
+        // Only show empty state when we've confirmed there are no events
+        content = NoNotesWidget(
+          groupName: "your communities",
+          onRefresh: onRefresh,
+        );
+      }
     } else {
+      // We have events to show
       var main = RefreshIndicator(
         onRefresh: onRefresh,
         child: ListView.builder(
