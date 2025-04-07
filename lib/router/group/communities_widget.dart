@@ -78,7 +78,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(48),
+        preferredSize: const Size.fromHeight(56),
         child: Container(
           decoration: BoxDecoration(
             color: themeData.scaffoldBackgroundColor,
@@ -89,55 +89,131 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
               ),
             ),
           ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<CommunityViewMode>(
-                      value: _viewMode,
-                      onChanged: (CommunityViewMode? newValue) {
-                        if (newValue != null) {
-                          setState(() {
-                            _viewMode = newValue;
-                          });
-                        }
-                      },
-                      items: const [
-                        DropdownMenuItem(
-                          value: CommunityViewMode.grid,
-                          child: Text('Community Grid'),
-                        ),
-                        DropdownMenuItem(
-                          value: CommunityViewMode.feed,
-                          child: Text('All Community Posts'),
-                        ),
-                      ],
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Your Communities',
                       style: TextStyle(
-                        color: themeData.textTheme.bodyLarge!.color,
-                        fontWeight: FontWeight.w500,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: themeData.textTheme.titleLarge?.color,
                       ),
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        color: themeData.iconTheme.color,
-                      ),
-                      isExpanded: true,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.add),
+                      onPressed: showCreateCommunityDialog,
+                      tooltip: 'Create Community',
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: themeData.cardColor,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: themeData.dividerColor,
+                      width: 1,
                     ),
                   ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _viewMode = CommunityViewMode.grid;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: _viewMode == CommunityViewMode.grid
+                                  ? themeData.colorScheme.primary
+                                  : Colors.transparent,
+                              borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(16),
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Groups',
+                              style: TextStyle(
+                                color: _viewMode == CommunityViewMode.grid
+                                    ? themeData.colorScheme.onPrimary
+                                    : themeData.textTheme.bodyMedium?.color,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _viewMode = CommunityViewMode.feed;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: _viewMode == CommunityViewMode.feed
+                                  ? themeData.colorScheme.primary
+                                  : Colors.transparent,
+                              borderRadius: const BorderRadius.horizontal(
+                                right: Radius.circular(16),
+                              ),
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Feed',
+                              style: TextStyle(
+                                color: _viewMode == CommunityViewMode.feed
+                                    ? themeData.colorScheme.onPrimary
+                                    : themeData.textTheme.bodyMedium?.color,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: showCreateCommunityDialog,
-                  tooltip: 'Create Community',
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
       body: content,
+      floatingActionButton: FloatingActionButton(
+        mini: true,
+        onPressed: () {
+          setState(() {
+            _viewMode = _viewMode == CommunityViewMode.grid
+                ? CommunityViewMode.feed
+                : CommunityViewMode.grid;
+          });
+        },
+        tooltip: _viewMode == CommunityViewMode.grid
+            ? 'Switch to Feed View'
+            : 'Switch to Grid View',
+        child: Icon(
+          _viewMode == CommunityViewMode.grid
+              ? Icons.view_list
+              : Icons.grid_view,
+        ),
+      ),
     );
   }
 
