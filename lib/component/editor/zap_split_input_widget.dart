@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/zap_split_input_item_widget.dart';
-import 'package:nostrmo/component/user/metadata_top_widget.dart';
+import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/main.dart';
 
 import '../../consts/base.dart';
@@ -97,7 +97,7 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
 
     if (StringUtil.isNotBlank(pubkey)) {
       String relay = "";
-      var relayListMetadata = metadataProvider.getRelayListMetadata(pubkey!);
+      var relayListMetadata = userProvider.getRelayListMetadata(pubkey!);
       if (relayListMetadata != null &&
           relayListMetadata.writeAbleRelays.isNotEmpty) {
         relay = relayListMetadata.writeAbleRelays.first;
