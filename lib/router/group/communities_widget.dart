@@ -6,13 +6,20 @@ import 'package:provider/provider.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
+import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'dart:developer';
 
 import '../../component/shimmer/shimmer.dart';
 import 'communities_grid_widget.dart';
+import 'communities_feed_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
 import '../../util/theme_util.dart';
+
+enum CommunityViewMode {
+  grid,
+  feed
+}
 
 class CommunitiesWidget extends StatefulWidget {
   const CommunitiesWidget({super.key});
@@ -26,6 +33,7 @@ class CommunitiesWidget extends StatefulWidget {
 class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     with PendingEventsLaterFunction {
   final subscribeId = StringUtil.rndNameStr(16);
+  CommunityViewMode _viewMode = CommunityViewMode.grid;
 
   @override
   Widget doBuild(BuildContext context) {
@@ -42,17 +50,94 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       tileMode: TileMode.clamp,
     );
 
+    // If no communities, show empty state
+    if (groupIds.isEmpty) {
+      return const Scaffold(
+        body: Center(
+          child: NoCommunitiesWidget(),
+        ),
+      );
+    }
+
+    // Create appropriate content based on selected view mode
+    Widget content;
+    switch (_viewMode) {
+      case CommunityViewMode.grid:
+        content = Shimmer(
+          linearGradient: shimmerGradient,
+          child: CommunitiesGridWidget(groupIds: groupIds),
+        );
+        break;
+      case CommunityViewMode.feed:
+        content = ChangeNotifierProvider(
+          create: (context) => GroupFeedProvider(listProvider),
+          child: const CommunitiesFeedWidget(),
+        );
+        break;
+    }
+
     return Scaffold(
-      body: Container(
-        child: groupIds.isEmpty
-            ? const Center(
-                child: NoCommunitiesWidget(),
-              )
-            : Shimmer(
-                linearGradient: shimmerGradient,
-                child: CommunitiesGridWidget(groupIds: groupIds),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(48),
+        child: Container(
+          decoration: BoxDecoration(
+            color: themeData.scaffoldBackgroundColor,
+            border: Border(
+              bottom: BorderSide(
+                color: themeData.dividerColor.withOpacity(0.3),
+                width: 0.5,
               ),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<CommunityViewMode>(
+                      value: _viewMode,
+                      onChanged: (CommunityViewMode? newValue) {
+                        if (newValue != null) {
+                          setState(() {
+                            _viewMode = newValue;
+                          });
+                        }
+                      },
+                      items: const [
+                        DropdownMenuItem(
+                          value: CommunityViewMode.grid,
+                          child: Text('Community Grid'),
+                        ),
+                        DropdownMenuItem(
+                          value: CommunityViewMode.feed,
+                          child: Text('All Community Posts'),
+                        ),
+                      ],
+                      style: TextStyle(
+                        color: themeData.textTheme.bodyLarge!.color,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        color: themeData.iconTheme.color,
+                      ),
+                      isExpanded: true,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: showCreateCommunityDialog,
+                  tooltip: 'Create Community',
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
+      body: content,
     );
   }
 
