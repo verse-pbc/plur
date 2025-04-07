@@ -316,6 +316,28 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
+            if (backAfterLogin)
+              SafeArea(
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 4,
+                      left: 4,
+                      child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          foregroundColor: themeData.customColors.accentColor,
+                        ),
+                        child: Text(localization.Cancel),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             SizedBox(
               // A `SizedBox` that constrains the width of the content.
               width: mainWidth,
