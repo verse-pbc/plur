@@ -729,18 +729,28 @@ class ListProvider extends ChangeNotifier {
     }
     
     // Filter for public groups with metadata and members
+    // Let's try a more general approach since the public tag implementation might vary
     final filters = [
+      // Just query for all group metadata, we'll filter for public ones ourselves
       {
-        "kinds": [EventKind.GROUP_EDIT_STATUS, EventKind.GROUP_METADATA],
+        "kinds": [EventKind.GROUP_METADATA],
+        "limit": 500, // Increase limit to find more potential groups
+      },
+      // Also look for explicitly marked public groups 
+      {
+        "kinds": [EventKind.GROUP_EDIT_STATUS],
+        "#public": [""],
         "limit": 100,
       },
+      // Get member counts
       {
         "kinds": [EventKind.GROUP_MEMBERS],
-        "limit": 100,
+        "limit": 500,
       },
+      // Get activity information
       {
-        "kinds": [EventKind.GROUP_NOTE],
-        "limit": 50,
+        "kinds": [EventKind.GROUP_NOTE, EventKind.GROUP_CHAT_MESSAGE],
+        "limit": 100,
       }
     ];
     
@@ -790,17 +800,35 @@ class ListProvider extends ChangeNotifier {
                 final groupKey = '$relay:$groupId';
                 
                 // Also check if the metadata indicates this is a public group
-                bool isPublic = false;
+                // In the metadata, we'll be more lenient about what counts as "public"
+                // Either explicit public tag or missing private tag will be considered public
+                bool isPrivate = false;
+                bool hasExplicitPublicTag = false;
+                
                 for (var subTag in event.tags) {
-                  if (subTag is List && subTag.isNotEmpty && subTag[0] == 'public') {
-                    isPublic = true;
+                  if (subTag is List && subTag.isNotEmpty) {
+                    if (subTag[0] == 'public') {
+                      hasExplicitPublicTag = true;
+                    } else if (subTag[0] == 'private') {
+                      isPrivate = true;
+                    }
+                  }
+                }
+                
+                bool isPublic = hasExplicitPublicTag || !isPrivate;
+                
+                // Get group name for logging
+                String groupName = 'unnamed';
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.length > 1 && subTag[0] == 'name') {
+                    groupName = subTag[1];
                     break;
                   }
                 }
                 
-                log("GROUP_METADATA for group $groupId - public: $isPublic, name: ${event.tags.firstWhere((tag) => tag is List && tag.isNotEmpty && tag[0] == 'name', orElse: () => []).length > 1 ? event.tags.firstWhere((tag) => tag is List && tag.isNotEmpty && tag[0] == 'name')[1] : 'unnamed'}");
+                log("GROUP_METADATA for group $groupId - public: $isPublic (hasPublicTag: $hasExplicitPublicTag, isPrivate: $isPrivate), name: $groupName");
                 
-                // Only include public groups
+                // Include groups that are public or not explicitly private
                 if (isPublic) {
                   final metadata = GroupMetadata.loadFromEvent(event);
                   if (metadata != null) {
@@ -867,6 +895,39 @@ class ListProvider extends ChangeNotifier {
         }
       });
     }
+    
+    // Try to add groups even if we're missing some data
+    Future.delayed(const Duration(seconds: 5), () {
+      // Check if we have any metadata but are missing other data - add them with defaults
+      for (var entry in groupMetadataMap.entries) {
+        final key = entry.key;
+        // If we have metadata but no members or activity, create a default one
+        if (memberCountMap[key] == null || lastActiveMap[key] == null) {
+          final metadata = entry.value;
+          final parts = key.split(':');
+          if (parts.length == 2) {
+            final host = parts[0];
+            final groupId = parts[1];
+            
+            log("Adding group with incomplete data: ${metadata.name}");
+            // Default member count to 1 if missing
+            final memberCount = memberCountMap[key] ?? 1;
+            // Default last active to now if missing
+            final lastActive = lastActiveMap[key] ?? DateTime.now();
+            
+            publicGroups.add(PublicGroupInfo(
+              identifier: GroupIdentifier(host, groupId),
+              name: metadata.name ?? 'Unnamed Group',
+              about: metadata.about,
+              picture: metadata.picture,
+              memberCount: memberCount,
+              lastActive: lastActive,
+            ));
+            publicGroundsFound++;
+          }
+        }
+      }
+    });
     
     // Set a timeout to ensure we return results even if some relays don't respond
     Future.delayed(const Duration(seconds: 10), () {
