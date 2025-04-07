@@ -675,6 +675,179 @@ class ListProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+  
+  // A class to hold public group information
+  class PublicGroupInfo {
+    final GroupIdentifier identifier;
+    final String name;
+    final String? about;
+    final String? picture;
+    final int memberCount;
+    final DateTime lastActive;
+    
+    PublicGroupInfo({
+      required this.identifier,
+      required this.name,
+      this.about,
+      this.picture,
+      required this.memberCount,
+      required this.lastActive,
+    });
+  }
+  
+  // Function to query public groups from multiple relays
+  Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
+    List<PublicGroupInfo> publicGroups = [];
+    final completer = Completer<List<PublicGroupInfo>>();
+    
+    // Keep track of group metadata and member counts
+    final Map<String, GroupMetadata> groupMetadataMap = {};
+    final Map<String, int> memberCountMap = {};
+    final Map<String, DateTime> lastActiveMap = {};
+    
+    // Function to check if we have all the data for a group
+    void checkAndAddGroup(String key) {
+      final metadata = groupMetadataMap[key];
+      final memberCount = memberCountMap[key];
+      final lastActive = lastActiveMap[key];
+      
+      if (metadata != null && memberCount != null && lastActive != null) {
+        // Parse the group identifier from the key (host:groupId)
+        final parts = key.split(':');
+        if (parts.length == 2) {
+          final host = parts[0];
+          final groupId = parts[1];
+          
+          publicGroups.add(PublicGroupInfo(
+            identifier: GroupIdentifier(host, groupId),
+            name: metadata.name ?? 'Unnamed Group',
+            about: metadata.about,
+            picture: metadata.picture,
+            memberCount: memberCount,
+            lastActive: lastActive,
+          ));
+        }
+      }
+    }
+    
+    // Filter for public groups with metadata and members
+    final filters = [
+      {
+        "kinds": [EventKind.GROUP_EDIT_STATUS],
+        "#public": [""],
+      },
+      {
+        "kinds": [EventKind.GROUP_METADATA],
+        "limit": 50,
+      },
+      {
+        "kinds": [EventKind.GROUP_MEMBERS],
+        "limit": 50,
+      },
+      {
+        "kinds": [EventKind.GROUP_NOTE],
+        "limit": 50,
+      }
+    ];
+    
+    int pendingRelays = relays.length;
+    
+    // Get the data from each relay
+    for (final relay in relays) {
+      nostr!.query(
+        filters,
+        (Event event) {
+          if (event.kind == EventKind.GROUP_EDIT_STATUS) {
+            // Find the 'h' tag for group ID
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'h') {
+                final groupId = tag[1];
+                final key = '$relay:$groupId';
+                
+                // Check if this is a public group
+                bool isPublic = false;
+                for (var tag in event.tags) {
+                  if (tag is List && tag.length > 0 && tag[0] == 'public') {
+                    isPublic = true;
+                    break;
+                  }
+                }
+                
+                if (isPublic) {
+                  // Fetch metadata for this group
+                  groupProvider.query(GroupIdentifier(relay, groupId));
+                }
+              }
+            }
+          } else if (event.kind == EventKind.GROUP_METADATA) {
+            // Extract groupId from the 'd' tag
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'd') {
+                final groupId = tag[1];
+                final key = '$relay:$groupId';
+                
+                final metadata = GroupMetadata.loadFromEvent(event);
+                if (metadata != null) {
+                  groupMetadataMap[key] = metadata;
+                  checkAndAddGroup(key);
+                }
+              }
+            }
+          } else if (event.kind == EventKind.GROUP_MEMBERS) {
+            // Extract groupId from the 'd' tag
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'd') {
+                final groupId = tag[1];
+                final key = '$relay:$groupId';
+                
+                final members = GroupMembers.loadFromEvent(event);
+                if (members != null) {
+                  memberCountMap[key] = members.members?.length ?? 0;
+                  checkAndAddGroup(key);
+                }
+              }
+            }
+          } else if (event.kind == EventKind.GROUP_NOTE) {
+            // Extract groupId from the 'h' tag
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'h') {
+                final groupId = tag[1];
+                final key = '$relay:$groupId';
+                
+                // Update last active timestamp
+                final noteTime = DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
+                final currentLastActive = lastActiveMap[key];
+                
+                if (currentLastActive == null || noteTime.isAfter(currentLastActive)) {
+                  lastActiveMap[key] = noteTime;
+                  checkAndAddGroup(key);
+                }
+              }
+            }
+          }
+        },
+        tempRelays: [relay],
+        relayTypes: RelayType.ONLY_TEMP,
+        onComplete: () {
+          pendingRelays--;
+          if (pendingRelays <= 0) {
+            if (!completer.isCompleted) {
+              completer.complete(publicGroups);
+            }
+          }
+        },
+      );
+    }
+    
+    // Set a timeout to ensure we return results even if some relays don't respond
+    Future.delayed(const Duration(seconds: 10), () {
+      if (!completer.isCompleted) {
+        completer.complete(publicGroups);
+      }
+    });
+    
+    return completer.future;
+  }
 }
 
 /// Extracts group identifiers from event tags with specified prefix ("h" or "d").

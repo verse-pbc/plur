@@ -3439,6 +3439,46 @@ class S {
       args: [number],
     );
   }
+
+  /// `Find Group`
+  String get Find_Group {
+    return Intl.message(
+      'Find Group',
+      name: 'Find_Group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover Groups`
+  String get Discover_Groups {
+    return Intl.message(
+      'Discover Groups',
+      name: 'Discover_Groups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for public groups`
+  String get Search_for_public_groups {
+    return Intl.message(
+      'Search for public groups',
+      name: 'Search_for_public_groups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get Active {
+    return Intl.message(
+      'Active',
+      name: 'Active',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
