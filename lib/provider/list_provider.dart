@@ -82,7 +82,6 @@ class ListProvider extends ChangeNotifier {
       }
     } else if (event.kind == EventKind.groupList) {
       _groupIdentifiers.clear();
-
       for (var tag in event.tags) {
         if (tag is List && tag.length > 2) {
           var k = tag[0];
@@ -617,6 +616,7 @@ class ListProvider extends ChangeNotifier {
         }
       },
       tempRelays: [groupId.host],
+      targetRelays: [groupId.host],
       relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
@@ -640,9 +640,12 @@ class ListProvider extends ChangeNotifier {
     nostr!.query(
       filters,
       (Event event) {
-        _extractGroupIdentifiersFromTags(event, tagPrefix: "d").forEach(_addGroupIdentifier);
+        final ids = _extractGroupIdentifiersFromTags(event, tagPrefix: "d");
+        ids.forEach(_addGroupIdentifier);
+        notifyListeners();
       },
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
+      targetRelays: [RelayProvider.defaultGroupsRelayAddress],
       relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
