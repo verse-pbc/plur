@@ -16,7 +16,7 @@ class AgeVerificationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text(
-        'Go back to School',
+        'Plur is not for you yet',
         style: TextStyle(
           color: Theme.of(context).customColors.primaryForegroundColor,
           fontWeight: FontWeight.bold,
