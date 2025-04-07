@@ -14,15 +14,18 @@ class AgeVerificationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+
     return AlertDialog(
       title: Text(
         'Plur is not for you yet',
+        key: const Key('age_dialog_title'),
         style: TextStyle(
-          color: Theme.of(context).customColors.primaryForegroundColor,
+          color: themeData.customColors.primaryForegroundColor,
           fontWeight: FontWeight.bold,
         ),
       ),
-      backgroundColor: Theme.of(context).customColors.cardBgColor,
+      backgroundColor: themeData.customColors.cardBgColor,
       content: const Text(
         'You must be at least 16 years old to use Plur. '
         'Please come back when you\'re old enough!',

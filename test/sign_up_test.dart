@@ -101,7 +101,10 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify the dialog appears
-    expect(find.text('Go back to School'), findsOneWidget);
+    expect(
+      find.byKey(const Key('age_dialog_title')),
+      findsOneWidget
+    );
     expect(
       find.byKey(const Key('age_requirement_message')),
       findsOneWidget,
