@@ -36,10 +36,12 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
     try {
       final listProvider = Provider.of<ListProvider>(context, listen: false);
       
-      // Query from the default relay and other relays the user is connected to
+      // Query from the default relay and other known community relays
       final relays = [
         RelayProvider.defaultGroupsRelayAddress,
-        // Add other relays the user is connected to
+        'wss://relay.nostr.band',
+        'wss://nos.lol',
+        'wss://relay.damus.io'
       ];
       
       final groups = await listProvider.queryPublicGroups(relays);

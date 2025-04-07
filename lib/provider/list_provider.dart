@@ -715,16 +715,12 @@ class ListProvider extends ChangeNotifier {
     // Filter for public groups with metadata and members
     final filters = [
       {
-        "kinds": [EventKind.GROUP_EDIT_STATUS],
-        "#public": [""],
-      },
-      {
-        "kinds": [EventKind.GROUP_METADATA],
-        "limit": 50,
+        "kinds": [EventKind.GROUP_EDIT_STATUS, EventKind.GROUP_METADATA],
+        "limit": 100,
       },
       {
         "kinds": [EventKind.GROUP_MEMBERS],
-        "limit": 50,
+        "limit": 100,
       },
       {
         "kinds": [EventKind.GROUP_NOTE],
@@ -768,10 +764,22 @@ class ListProvider extends ChangeNotifier {
                 final groupId = tag[1];
                 final groupKey = '$relay:$groupId';
                 
-                final metadata = GroupMetadata.loadFromEvent(event);
-                if (metadata != null) {
-                  groupMetadataMap[groupKey] = metadata;
-                  checkAndAddGroup(groupKey);
+                // Also check if the metadata indicates this is a public group
+                bool isPublic = false;
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.isNotEmpty && subTag[0] == 'public') {
+                    isPublic = true;
+                    break;
+                  }
+                }
+                
+                // Only include public groups
+                if (isPublic) {
+                  final metadata = GroupMetadata.loadFromEvent(event);
+                  if (metadata != null) {
+                    groupMetadataMap[groupKey] = metadata;
+                    checkAndAddGroup(groupKey);
+                  }
                 }
               }
             }
