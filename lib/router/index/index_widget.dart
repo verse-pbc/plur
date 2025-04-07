@@ -68,77 +68,80 @@ class _IndexWidgetState extends CustState<IndexWidget>
   
   // Build the toggle switch for community view modes
   Widget _buildCommunityViewToggle(IndexProvider indexProvider, ThemeData themeData) {
-    return Container(
-      width: 180,
-      height: 32,
-      decoration: BoxDecoration(
-        color: themeData.cardColor,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: themeData.dividerColor,
-          width: 1,
+    return Center(
+      child: Container(
+        // Make container more compact
+        width: 120, // Reduced width
+        height: 28, // Reduced height
+        decoration: BoxDecoration(
+          color: themeData.cardColor,
+          borderRadius: BorderRadius.circular(14), // Adjusted for smaller height
+          border: Border.all(
+            color: themeData.dividerColor,
+            width: 0.5, // Thinner border
+          ),
         ),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                indexProvider.setCommunityViewMode(CommunityViewMode.grid);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: indexProvider.communityViewMode == CommunityViewMode.grid
-                      ? themeData.colorScheme.primary
-                      : Colors.transparent,
-                  borderRadius: const BorderRadius.horizontal(
-                    left: Radius.circular(16),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Groups',
-                  style: TextStyle(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  indexProvider.setCommunityViewMode(CommunityViewMode.grid);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
                     color: indexProvider.communityViewMode == CommunityViewMode.grid
-                        ? themeData.colorScheme.onPrimary
-                        : themeData.textTheme.bodyMedium?.color,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
+                        ? themeData.colorScheme.primary
+                        : Colors.transparent,
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(14), // Adjusted for smaller height
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Groups',
+                    style: TextStyle(
+                      color: indexProvider.communityViewMode == CommunityViewMode.grid
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.textTheme.bodyMedium?.color,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11, // Smaller font size
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                indexProvider.setCommunityViewMode(CommunityViewMode.feed);
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: indexProvider.communityViewMode == CommunityViewMode.feed
-                      ? themeData.colorScheme.primary
-                      : Colors.transparent,
-                  borderRadius: const BorderRadius.horizontal(
-                    right: Radius.circular(16),
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'Feed',
-                  style: TextStyle(
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  indexProvider.setCommunityViewMode(CommunityViewMode.feed);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
                     color: indexProvider.communityViewMode == CommunityViewMode.feed
-                        ? themeData.colorScheme.onPrimary
-                        : themeData.textTheme.bodyMedium?.color,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 13,
+                        ? themeData.colorScheme.primary
+                        : Colors.transparent,
+                    borderRadius: const BorderRadius.horizontal(
+                      right: Radius.circular(14), // Adjusted for smaller height
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Feed',
+                    style: TextStyle(
+                      color: indexProvider.communityViewMode == CommunityViewMode.feed
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.textTheme.bodyMedium?.color,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11, // Smaller font size
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
