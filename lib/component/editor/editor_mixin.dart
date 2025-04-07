@@ -613,7 +613,7 @@ mixin EditorMixin {
             result += "nostr:${Nip19.encodePubKey(value)} ";
 
             // add user's read relays
-            extralRelays.addAll(metadataProvider.getExtralRelays(value, false));
+            extralRelays.addAll(userProvider.getExtralRelays(value, false));
             continue;
           }
 
@@ -833,7 +833,7 @@ mixin EditorMixin {
         var k = tag[0];
         var p = tag[1];
         if (k == "p") {
-          list.addAll(metadataProvider.getExtralRelays(p, false));
+          list.addAll(userProvider.getExtralRelays(p, false));
         }
       }
     }
@@ -851,7 +851,7 @@ mixin EditorMixin {
         var k = tag[0];
         var p = tag[1];
         if (k == "p") {
-          list.addAll(metadataProvider.getExtralRelays(p, false));
+          list.addAll(userProvider.getExtralRelays(p, false));
         }
       }
     }

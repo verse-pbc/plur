@@ -19,7 +19,7 @@ class ZapBottomSheetWidget extends StatefulWidget {
     if (zapInfos.isEmpty) {
       String relayAddr = "";
       var relayListMetadata =
-          metadataProvider.getRelayListMetadata(event.pubkey);
+          userProvider.getRelayListMetadata(event.pubkey);
       if (relayListMetadata != null &&
           relayListMetadata.writeAbleRelays.isNotEmpty) {
         relayAddr = relayListMetadata.writeAbleRelays.first;

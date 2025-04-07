@@ -10,8 +10,8 @@ import 'relay.dart';
 import 'relay_isolate_worker.dart';
 import 'relay_status.dart';
 
-// The real relay, whick is run in other isolate.
-// It can move jsonDecode and event id check and sign check from main Isolate
+// The real relay, which is run in a separate isolate.
+// This keeps JSON decoding and event verification off the main isolate.
 class RelayIsolate extends Relay {
   bool eventSignCheck;
 
@@ -120,7 +120,7 @@ class RelayIsolate extends Relay {
           }
           _relayConnectComplete(true);
         } else if (message == RelayIsolateMsgs.disconnected) {
-          onError("Websocket error $url", reconnect: true);
+          onError("Websocket error $url", shouldReconnect: true);
           _relayConnectComplete(false);
         }
       } else if (message is List && onMessage != null) {
