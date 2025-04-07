@@ -18,7 +18,25 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Back button in top left
+        Align(
+          alignment: Alignment.topLeft,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              // Go back to the option selection screen
+              FocusScope.of(context).unfocus();
+              Navigator.of(context).maybePop();
+            },
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            splashRadius: 24,
+          ),
+        ),
+        const SizedBox(height: 10),
+        
         const Text(
           "Create your community",
           style: TextStyle(

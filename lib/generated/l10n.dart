@@ -3439,6 +3439,26 @@ class S {
       args: [number],
     );
   }
+
+  /// `Join`
+  String get Join {
+    return Intl.message(
+      'Join',
+      name: 'Join',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Paste from clipboard`
+  String get Paste {
+    return Intl.message(
+      'Paste from clipboard',
+      name: 'Paste',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

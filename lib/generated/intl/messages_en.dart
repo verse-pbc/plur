@@ -243,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Input parse error"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Input relay address."),
+        "Join": MessageLookupByLibrary.simpleMessage("Join"),
         "Join_Group": MessageLookupByLibrary.simpleMessage("Join Group"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "Light": MessageLookupByLibrary.simpleMessage("Light"),
@@ -317,6 +318,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "PLease_input_NWC_URL":
             MessageLookupByLibrary.simpleMessage("PLease input NWC URL"),
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
+        "Paste": MessageLookupByLibrary.simpleMessage("Paste from clipboard"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("Picture"),
         "Please_authenticate_to_turn_off_the_privacy_lock":

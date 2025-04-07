@@ -351,5 +351,7 @@
           "type": "int"
         }
       }
-    }
+    },
+    "Join": "Join",
+    "Paste": "Paste from clipboard"
 }
