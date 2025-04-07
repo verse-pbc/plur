@@ -35,6 +35,85 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
   final subscribeId = StringUtil.rndNameStr(16);
   CommunityViewMode _viewMode = CommunityViewMode.grid;
 
+  Widget _buildViewToggle(ThemeData themeData) {
+    return Container(
+      width: 180,
+      height: 32,
+      decoration: BoxDecoration(
+        color: themeData.cardColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: themeData.dividerColor,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _viewMode = CommunityViewMode.grid;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _viewMode == CommunityViewMode.grid
+                      ? themeData.colorScheme.primary
+                      : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(16),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Groups',
+                  style: TextStyle(
+                    color: _viewMode == CommunityViewMode.grid
+                        ? themeData.colorScheme.onPrimary
+                        : themeData.textTheme.bodyMedium?.color,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _viewMode = CommunityViewMode.feed;
+                });
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: _viewMode == CommunityViewMode.feed
+                      ? themeData.colorScheme.primary
+                      : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(16),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Feed',
+                  style: TextStyle(
+                    color: _viewMode == CommunityViewMode.feed
+                        ? themeData.colorScheme.onPrimary
+                        : themeData.textTheme.bodyMedium?.color,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget doBuild(BuildContext context) {
     final listProvider = Provider.of<ListProvider>(context);
@@ -76,134 +155,43 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         break;
     }
 
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(40),
-        child: Container(
-          decoration: BoxDecoration(
-            color: themeData.scaffoldBackgroundColor,
-            border: Border(
-              bottom: BorderSide(
-                color: themeData.dividerColor.withOpacity(0.3),
-                width: 0.5,
-              ),
-            ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
-          child: Container(
-            height: 32,
-            decoration: BoxDecoration(
-              color: themeData.cardColor,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: themeData.dividerColor,
-                width: 1,
-              ),
-            ),
-            child: Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _viewMode = CommunityViewMode.grid;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _viewMode == CommunityViewMode.grid
-                            ? themeData.colorScheme.primary
-                            : Colors.transparent,
-                        borderRadius: const BorderRadius.horizontal(
-                          left: Radius.circular(16),
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Groups',
-                        style: TextStyle(
-                          color: _viewMode == CommunityViewMode.grid
-                              ? themeData.colorScheme.onPrimary
-                              : themeData.textTheme.bodyMedium?.color,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _viewMode = CommunityViewMode.feed;
-                      });
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _viewMode == CommunityViewMode.feed
-                            ? themeData.colorScheme.primary
-                            : Colors.transparent,
-                        borderRadius: const BorderRadius.horizontal(
-                          right: Radius.circular(16),
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Feed',
-                        style: TextStyle(
-                          color: _viewMode == CommunityViewMode.feed
-                              ? themeData.colorScheme.onPrimary
-                              : themeData.textTheme.bodyMedium?.color,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+    // Create the app bar with toggle in center and add button on right
+    final appBar = AppBar(
+      automaticallyImplyLeading: false,
+      title: _buildViewToggle(themeData),
+      centerTitle: true,
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: showCreateCommunityDialog,
+          tooltip: 'Create Community',
         ),
-      ),
+      ],
+      backgroundColor: themeData.scaffoldBackgroundColor,
+      elevation: 0.5,
+    );
+
+    return Scaffold(
+      appBar: appBar,
       body: content,
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          // Create Community Button
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: FloatingActionButton(
-              heroTag: 'createCommunity',
-              mini: true,
-              onPressed: showCreateCommunityDialog,
-              tooltip: 'Create Community',
-              child: const Icon(Icons.add),
-            ),
-          ),
-          // View toggle button
-          FloatingActionButton(
-            heroTag: 'toggleView',
-            mini: true,
-            onPressed: () {
-              setState(() {
-                _viewMode = _viewMode == CommunityViewMode.grid
-                    ? CommunityViewMode.feed
-                    : CommunityViewMode.grid;
-              });
-            },
-            tooltip: _viewMode == CommunityViewMode.grid
-                ? 'Switch to Feed View'
-                : 'Switch to Grid View',
-            child: Icon(
-              _viewMode == CommunityViewMode.grid
-                  ? Icons.view_list
-                  : Icons.grid_view,
-            ),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'toggleView',
+        mini: true,
+        onPressed: () {
+          setState(() {
+            _viewMode = _viewMode == CommunityViewMode.grid
+                ? CommunityViewMode.feed
+                : CommunityViewMode.grid;
+          });
+        },
+        tooltip: _viewMode == CommunityViewMode.grid
+            ? 'Switch to Feed View'
+            : 'Switch to Grid View',
+        child: Icon(
+          _viewMode == CommunityViewMode.grid
+              ? Icons.view_list
+              : Icons.grid_view,
+        ),
       ),
     );
   }
