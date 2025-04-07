@@ -21,7 +21,6 @@ import '../image_widget.dart';
 import '../image_preview_dialog.dart';
 import '../zap/zap_bottom_sheet_widget.dart';
 import 'follow_btn_widget.dart';
-import '../../util/theme_util.dart';
 
 class UserTopWidget extends StatefulWidget {
   static double getPcBannerHeight(double maxHeight) {
@@ -84,7 +83,10 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     var maxWidth = mediaDataCache.size.width;
     var largeFontSize = themeData.textTheme.bodyLarge!.fontSize;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
+    final statusBarHeight = MediaQuery.of(context).padding.top;
+    final navHeight = statusBarHeight + 46; // status bar + nav bar height
     var bannerHeight = maxWidth / 3;
+
     if (TableModeUtil.isTableMode()) {
       bannerHeight =
           UserTopWidget.getPcBannerHeight(mediaDataCache.size.height);
@@ -202,12 +204,16 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     List<Widget> topList = [];
     topList.add(Container(
       width: maxWidth,
-      height: bannerHeight,
-      color: themeData.customColors.navBgColor,
+      height: bannerImage != null ? bannerHeight : 0,
+      margin: EdgeInsets.only(top: navHeight),
       child: bannerImage,
     ));
-    topList.add(SizedBox(
-      height: 50,
+
+    topList.add(Container(
+      height: bannerImage != null
+          ? 50
+          : IMAGE_WIDTH + IMAGE_BORDER * 2 + Base.basePadding * 2,
+      margin: EdgeInsets.only(top: bannerImage != null ? 0 : Base.basePadding),
       child: Row(
         children: topBtnList,
       ),
@@ -274,7 +280,9 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         ),
         Positioned(
           left: Base.basePadding,
-          top: bannerHeight - HALF_IMAGE_WIDTH,
+          top: bannerImage != null
+              ? bannerHeight + navHeight - HALF_IMAGE_WIDTH
+              : navHeight + Base.basePadding,
           child: Container(
             height: IMAGE_WIDTH + IMAGE_BORDER * 2,
             width: IMAGE_WIDTH + IMAGE_BORDER * 2,
@@ -453,7 +461,7 @@ class MetadataTextBtn extends StatelessWidget {
 
   Color? borderColor;
 
-  MetadataTextBtn({super.key, 
+  MetadataTextBtn({super.key,
     required this.text,
     required this.onTap,
     this.onLongPress,
@@ -509,7 +517,7 @@ class MetadataIconDataComp extends StatelessWidget {
 
   Widget? leftWidget;
 
-  MetadataIconDataComp({super.key, 
+  MetadataIconDataComp({super.key,
     required this.text,
     this.iconData,
     this.leftWidget,
