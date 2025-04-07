@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/data/metadata.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/util/theme_util.dart';
+
+import '../../../data/user.dart';
 import 'group_member_info_widget.dart';
 
 /// Displays a member of a group in a list.
 class GroupMemberItemWidget extends StatelessWidget {
   final GroupIdentifier groupIdentifier;
   final String pubkey;
-  final Metadata? metadata;
+  final User? user;
   final bool isAdmin;
   final double userPicWidth = 30;
 
@@ -20,7 +21,7 @@ class GroupMemberItemWidget extends StatelessWidget {
     super.key,
     required this.groupIdentifier,
     required this.pubkey,
-    required this.metadata,
+    required this.user,
     this.isAdmin = false,
   });
 
@@ -52,7 +53,7 @@ class GroupMemberItemWidget extends StatelessWidget {
                 Expanded(
                   child: GroupMemberInfoWidget(
                     pubkey: pubkey,
-                    metadata: metadata,
+                    user: user,
                     isAdmin: isAdmin,
                   ),
                 ),

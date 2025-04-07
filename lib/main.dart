@@ -28,6 +28,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/mention_me_new_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/nwc_provider.dart';
+import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/communities_widget.dart';
@@ -75,7 +76,7 @@ import 'provider/link_preview_data_provider.dart';
 import 'provider/list_provider.dart';
 import 'provider/list_set_provider.dart';
 import 'provider/mention_me_provider.dart';
-import 'provider/metadata_provider.dart';
+import 'provider/user_provider.dart';
 import 'provider/music_info_cache.dart';
 import 'provider/pc_router_fake_provider.dart';
 import 'provider/relay_provider.dart';
@@ -117,7 +118,7 @@ late SharedPreferences sharedPreferences;
 
 late SettingsProvider settingsProvider;
 
-late MetadataProvider metadataProvider;
+late UserProvider userProvider;
 
 late ContactListProvider contactListProvider;
 
@@ -210,10 +211,10 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   sharedPreferences = dataFutureResultList[1] as SharedPreferences;
 
   var settingTask = SettingsProvider.getInstance();
-  var metadataTask = MetadataProvider.getInstance();
-  var futureResultList = await Future.wait([settingTask, metadataTask]);
+  var userTask = UserProvider.getInstance();
+  var futureResultList = await Future.wait([settingTask, userTask]);
   settingsProvider = futureResultList[0] as SettingsProvider;
-  metadataProvider = futureResultList[1] as MetadataProvider;
+  userProvider = futureResultList[1] as UserProvider;
   contactListProvider = ContactListProvider.getInstance();
   followEventProvider = FollowEventProvider();
   followNewEventProvider = FollowNewEventProvider();
@@ -471,8 +472,8 @@ class _MyApp extends State<MyApp> {
         ListenableProvider<SettingsProvider>.value(
           value: settingsProvider,
         ),
-        ListenableProvider<MetadataProvider>.value(
-          value: metadataProvider,
+        ListenableProvider<UserProvider>.value(
+          value: userProvider,
         ),
         ListenableProvider<IndexProvider>.value(
           value: indexProvider,
@@ -579,6 +580,23 @@ class _MyApp extends State<MyApp> {
           darkTheme: defaultDarkTheme,
           initialRoute: RouterPath.INDEX,
           routes: routes,
+          onGenerateRoute: (settings) {
+            switch (settings.name) {
+              case RouterPath.GROUP_ADMIN:
+                final groupId = settings.arguments as GroupIdentifier?;
+                if (groupId == null) {
+                  return null;
+                }
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: groupId,
+                    child: const GroupAdminScreen(),
+                  ),
+                );
+              default:
+                return null;
+            }
+          },
         ),
       ),
     );

@@ -12,9 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Release Notes
 - Fixed issue where new notes toast was not getting displayed in groups. [#250](https://github.com/verse-pbc/issues/issues/250)
+- Fixed an issue where we would lose connection to the relay, resulting in content failing to load. [#260](https://github.com/verse-pbc/issues/issues/260)
+- Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
+- Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
+- Made it easier to dismiss fullscreen images. [#286](https://github.com/verse-pbc/issues/issues/286)
+- Added Cancel button when adding accounts. [#254](https://github.com/verse-pbc/issues/issues/254)
 - Start caching groups metadatas thus improving the loading times. [#261](https://github.com/verse-pbc/issues/issues/261)
 
+
 ### Internal Changes
+- Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
+- Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
 
 ## [0.0.4]
 
@@ -108,3 +116,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed an issue where video content was crashing the app. [#174](https://github.com/verse-pbc/issues/issues/174)
 - Simplified imports of nostr_sdk. [#88](https://github.com/verse-pbc/issues/issues/88)
 - Fixed an issue causing tests to fail. [#223](https://github.com/verse-pbc/issues/issues/223)
+- Added a bypass for the linting jobs in CI. [#300](https://github.com/verse-pbc/issues/issues/300)
