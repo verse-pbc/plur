@@ -65,6 +65,83 @@ class _IndexWidgetState extends CustState<IndexWidget>
   late TabController followTabController;
   late TabController globalsTabController;
   late TabController dmTabController;
+  
+  // Build the toggle switch for community view modes
+  Widget _buildCommunityViewToggle(IndexProvider indexProvider, ThemeData themeData) {
+    return Container(
+      width: 180,
+      height: 32,
+      decoration: BoxDecoration(
+        color: themeData.cardColor,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: themeData.dividerColor,
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                indexProvider.setCommunityViewMode(CommunityViewMode.grid);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: indexProvider.communityViewMode == CommunityViewMode.grid
+                      ? themeData.colorScheme.primary
+                      : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(16),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Groups',
+                  style: TextStyle(
+                    color: indexProvider.communityViewMode == CommunityViewMode.grid
+                        ? themeData.colorScheme.onPrimary
+                        : themeData.textTheme.bodyMedium?.color,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                indexProvider.setCommunityViewMode(CommunityViewMode.feed);
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: indexProvider.communityViewMode == CommunityViewMode.feed
+                      ? themeData.colorScheme.primary
+                      : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(16),
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Feed',
+                  style: TextStyle(
+                    color: indexProvider.communityViewMode == CommunityViewMode.feed
+                        ? themeData.colorScheme.onPrimary
+                        : themeData.textTheme.bodyMedium?.color,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 13,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -173,12 +250,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
     Widget? appBarCenter;
     Widget? appBarRight;
     if (indexProvider.currentTap == 0) {
-      appBarCenter = Center(
-        child: Text(
-          localization.Your_Groups,
-          style: titleTextStyle,
-        ),
-      );
+      // Build the toggle control for switching between grid and feed views
+      appBarCenter = _buildCommunityViewToggle(indexProvider, themeData);
+      
+      // Create community button 
       appBarRight = GestureDetector(
         onTap: () {
           CreateCommunityDialog.show(context);
