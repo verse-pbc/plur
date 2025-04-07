@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/util/router_util.dart';
 
 import '../../component/appbar4stack.dart';
@@ -34,7 +34,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
   TextEditingController lud16Controller = TextEditingController();
   TextEditingController lud06Controller = TextEditingController();
 
-  Metadata? metadata;
+  User? user;
 
   String _getText(String? str) {
     return str ?? "";
@@ -43,22 +43,22 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
   @override
   Widget doBuild(BuildContext context) {
     final localization = S.of(context);
-    if (metadata == null) {
+    if (user == null) {
       var arg = RouterUtil.routerArgs(context);
-      if (arg != null && arg is Metadata) {
-        metadata = arg;
+      if (arg != null && arg is User) {
+        user = arg;
       }
-      metadata ??= Metadata();
+      user ??= User();
 
-      displayNameController.text = _getText(metadata!.displayName);
-      nameController.text = _getText(metadata!.name);
-      aboutController.text = _getText(metadata!.about);
-      pictureController.text = _getText(metadata!.picture);
-      bannerController.text = _getText(metadata!.banner);
-      websiteController.text = _getText(metadata!.website);
-      nip05Controller.text = _getText(metadata!.nip05);
-      lud16Controller.text = _getText(metadata!.lud16);
-      lud06Controller.text = _getText(metadata!.lud06);
+      displayNameController.text = _getText(user!.displayName);
+      nameController.text = _getText(user!.name);
+      aboutController.text = _getText(user!.about);
+      pictureController.text = _getText(user!.picture);
+      bannerController.text = _getText(user!.banner);
+      websiteController.text = _getText(user!.website);
+      nip05Controller.text = _getText(user!.nip05);
+      lud16Controller.text = _getText(user!.lud16);
+      lud06Controller.text = _getText(user!.lud06);
     }
 
     final themeData = Theme.of(context);

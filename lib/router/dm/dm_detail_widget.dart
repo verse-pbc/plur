@@ -17,11 +17,11 @@ import '../../component/editor/tag_embed_builder.dart';
 import '../../component/editor/video_embed_builder.dart';
 import '../../component/user/name_widget.dart';
 import '../../consts/base.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/dm_provider.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../util/router_util.dart';
 import 'dm_detail_item_widget.dart';
 
@@ -64,15 +64,15 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
       detail = newDetail;
     }
 
-    var nameComponnet = Selector<MetadataProvider, Metadata?>(
-      builder: (context, metadata, child) {
+    var nameComponnet = Selector<UserProvider, User?>(
+      builder: (context, user, child) {
         return NameWidget(
           pubkey: detail!.dmSession.pubkey,
-          metadata: metadata,
+          user: user,
         );
       },
       selector: (_, provider) {
-        return provider.getMetadata(detail!.dmSession.pubkey);
+        return provider.getUser(detail!.dmSession.pubkey);
       },
     );
 

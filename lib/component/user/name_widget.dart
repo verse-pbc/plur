@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
-import 'package:nostrmo/data/metadata.dart';
+import 'package:nostrmo/data/user.dart';
 
 class NameWidget extends StatefulWidget {
   String pubkey;
 
-  Metadata? metadata;
+  User? user;
 
   bool showNip05;
 
@@ -23,7 +23,7 @@ class NameWidget extends StatefulWidget {
   NameWidget({
     super.key,
     required this.pubkey,
-    this.metadata,
+    this.user,
     this.showNip05 = true,
     this.fontSize,
     this.fontColor,
@@ -46,7 +46,7 @@ class _NameWidgetState extends State<NameWidget> {
     var textSize = themeData.textTheme.bodyMedium!.fontSize;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     Color hintColor = themeData.hintColor;
-    var metadata = widget.metadata;
+    var user = widget.user;
     String nip19Name = Nip19.encodeSimplePubKey(widget.pubkey);
     String displayName = "";
     String name = "";
@@ -54,14 +54,14 @@ class _NameWidgetState extends State<NameWidget> {
       hintColor = widget.fontColor!;
     }
 
-    if (metadata != null) {
-      if (StringUtil.isNotBlank(metadata.displayName)) {
-        displayName = metadata.displayName!;
-        if (StringUtil.isNotBlank(metadata.name)) {
-          name = metadata.name!;
+    if (user != null) {
+      if (StringUtil.isNotBlank(user.displayName)) {
+        displayName = user.displayName!;
+        if (StringUtil.isNotBlank(user.name)) {
+          name = user.name!;
         }
-      } else if (StringUtil.isNotBlank(metadata.name)) {
-        displayName = metadata.name!;
+      } else if (StringUtil.isNotBlank(user.name)) {
+        displayName = user.name!;
       }
     }
 
