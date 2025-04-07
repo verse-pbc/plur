@@ -44,14 +44,26 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
         'wss://relay.damus.io'
       ];
       
+      print("Finding public groups from relays: $relays");
       final groups = await listProvider.queryPublicGroups(relays);
+      print("Query complete. Found ${groups.length} public groups.");
+      
+      if (groups.isEmpty) {
+        print("WARNING: No public groups found. Check logs for details.");
+      } else {
+        for (var group in groups) {
+          print("Found group: ${group.name} with ${group.memberCount} members.");
+        }
+      }
       
       setState(() {
         _publicGroups = groups;
         _sortGroups();
         _isLoading = false;
       });
-    } catch (e) {
+    } catch (e, stackTrace) {
+      print("Error fetching public groups: $e");
+      print("Stack trace: $stackTrace");
       setState(() {
         _isLoading = false;
       });
@@ -236,6 +248,15 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
             style: TextStyle(
               fontSize: 16,
               color: Colors.grey.shade600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            'Possible reasons:\n• No public groups on the relays\n• Not connected to any relays\n• Relays not responding',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.grey.shade500,
             ),
           ),
           const SizedBox(height: 24),
