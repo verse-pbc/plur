@@ -11,11 +11,11 @@ import 'package:provider/provider.dart';
 import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
 import '../../component/event/event_list_widget.dart';
-import '../../component/user/metadata_widget.dart';
+import '../../component/user/user_metadata_widget.dart';
 import '../../consts/base_consts.dart';
-import '../../data/metadata.dart';
+import '../../data/user.dart';
 import '../../main.dart';
-import '../../provider/metadata_provider.dart';
+import '../../provider/user_provider.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
@@ -116,14 +116,14 @@ class _UserWidgetState extends CustState<UserWidget>
 
     final themeData = Theme.of(context);
 
-    return Selector<MetadataProvider, Metadata?>(
+    return Selector<UserProvider, User?>(
       shouldRebuild: (previous, next) {
         return previous != next;
       },
       selector: (context, metadataProvider) {
-        return metadataProvider.getMetadata(pubkey!);
+        return userProvider.getUser(pubkey!);
       },
-      builder: (context, metadata, child) {
+      builder: (context, user, child) {
         Color? appbarBackgroundColor = Colors.transparent;
         if (showAppbarBG) {
           appbarBackgroundColor = themeData.cardColor.withOpacity(0.6);
@@ -131,7 +131,7 @@ class _UserWidgetState extends CustState<UserWidget>
         Widget? appbarTitle;
         if (showTitle) {
           String displayName =
-              SimpleNameWidget.getSimpleName(pubkey!, metadata);
+              SimpleNameWidget.getSimpleName(pubkey!, user);
 
           appbarTitle = Container(
             alignment: Alignment.center,
@@ -157,9 +157,9 @@ class _UserWidgetState extends CustState<UserWidget>
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverToBoxAdapter(
-                child: MetadataWidget(
+                child: UserMetadataWidget(
                   pubkey: pubkey!,
-                  metadata: metadata,
+                  user: user,
                   showBadges: true,
                   userPicturePreview: true,
                 ),
@@ -254,7 +254,7 @@ class _UserWidgetState extends CustState<UserWidget>
   }
 
   void updateUserdata() {
-    metadataProvider.update(pubkey!);
+    userProvider.update(pubkey!);
   }
 
   void onEvent(event) {
@@ -326,7 +326,7 @@ class _UserWidgetState extends CustState<UserWidget>
       // this is init query
       // try to query from user's write relay.
       List<String>? tempRelays =
-          metadataProvider.getExtralRelays(pubkey!, true);
+          userProvider.getExtralRelays(pubkey!, true);
       // the init page set to very small, due to open user page very often
       filter.limit = 10;
       nostr!.query([filter.toJson()], onEventFunc,

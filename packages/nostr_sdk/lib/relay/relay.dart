@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'dart:math' show min;
+import 'package:meta/meta.dart';
 
 import '../subscription.dart';
 import 'client_connected.dart';
@@ -54,10 +56,9 @@ abstract class Relay {
   /// The method implement by different relays to do some real when it connecting.
   Future<bool> doConnect();
 
-  /// The medhod called after relay connect success.
+  /// The method called after relay connect success.
   Future onConnected() async {
     for (var message in pendingMessages) {
-      // TODO To check result? and how to handle if send fail?
       var result = send(message);
       if (!result) {
         log("message send fail onConnected");
@@ -75,9 +76,56 @@ abstract class Relay {
 
   Future<void> disconnect();
 
-  bool _waitingReconnect = false;
+  /// Whether we are waiting to reconnect to this relay (due to exponential
+  /// backoff from a previous error)
+  @visibleForTesting
+  bool isWaitingToReconnect = false;
 
-  void onError(String errMsg, {bool reconnect = false}) {
+  /// The number of times we've attempted to reconnect to this relay since the
+  /// last successful connection.
+  @visibleForTesting
+  int reconnectAttempts = 0;
+
+  /// The maximum time we will wait before attempting to reconnect to
+  /// this relay.
+  static const int _maxDelaySeconds = 32;
+
+  /// The base delay in seconds before attempting to reconnect after an error
+  final int _reconnectBaseDelay = 1;
+
+  /// Reset reconnect attempt counter
+  void resetReconnectAttempts() {
+    reconnectAttempts = 0;
+  }
+
+  /// Calculate delay using exponential backoff with jitter
+  @protected
+  Duration calculateReconnectDelay() {
+    // First attempt: reconnect immediately
+    if (reconnectAttempts <= 1) return Duration.zero;
+
+    // Second attempt: wait just 1 second
+    if (reconnectAttempts == 2) return const Duration(seconds: 1);
+
+    // For subsequent attempts, use exponential backoff
+    // Exponential backoff: baseDelay * 2^(attempt-2)
+    // We subtract 2 from the attempt count since we're starting exponential
+    // backoff from the third attempt onward.
+    final adjustedAttempt = reconnectAttempts - 2;
+    final backoffFactor = (1 << adjustedAttempt).toDouble();
+    final delaySeconds = (_reconnectBaseDelay * backoffFactor).round();
+    final cappedDelaySeconds = min(delaySeconds, _maxDelaySeconds);
+
+    // Add jitter (±10% variation) to prevent reconnection storms
+    final random =
+        (DateTime.now().microsecondsSinceEpoch % 1000) / 10000; // 0.0-0.1
+    final jitterFactor = 0.9 + random * 0.2; // 0.9-1.1
+
+    return Duration(
+        milliseconds: (cappedDelaySeconds * 1000 * jitterFactor).round());
+  }
+
+  void onError(String errMsg, {bool shouldReconnect = true}) {
     log("relay error: $errMsg");
     relayStatus.onError();
     relayStatus.connected = ClientConneccted.UN_CONNECT;
@@ -86,11 +134,25 @@ abstract class Relay {
     }
     disconnect();
 
-    if (reconnect && !_waitingReconnect) {
-      _waitingReconnect = true;
-      Future.delayed(const Duration(seconds: 30), () {
-        _waitingReconnect = false;
-        connect();
+    if (shouldReconnect && !isWaitingToReconnect) {
+      reconnectAttempts++;
+      isWaitingToReconnect = true;
+
+      final delay = calculateReconnectDelay();
+
+      if (delay.inMilliseconds == 0) {
+        log("Reconnecting immediately (attempt #$reconnectAttempts) for $url");
+      } else {
+        log("Scheduling reconnect attempt #$reconnectAttempts for $url in ${delay.inSeconds}s");
+      }
+
+      Future.delayed(delay, () {
+        isWaitingToReconnect = false;
+        connect().then((success) {
+          if (success) {
+            resetReconnectAttempts();
+          }
+        });
       });
     }
   }

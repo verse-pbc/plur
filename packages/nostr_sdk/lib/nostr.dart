@@ -97,6 +97,16 @@ class Nostr {
         tempRelays: tempRelays, targetRelays: targetRelays);
   }
 
+  /// Publishes the given Event to some relays.
+  ///
+  /// [event] The Event to publish.
+  /// [tempRelays] Optional list of relays to publish this event to regardless
+  /// of the user's relay set. If you set this you may also want to set
+  /// `targetRelays` to the same value.
+  /// [targetRelays] Optional list that, if provided, will limit the publishing
+  /// of the event to the intersection of `targetRelays` and the user's relay
+  /// set. If this argument is empty or ommitted the event will be published to
+  /// all the relays in the user's relay set in addition to the `tempRelays`.
   Future<Event?> sendEvent(Event event,
       {List<String>? tempRelays, List<String>? targetRelays}) async {
     await signEvent(event);
