@@ -679,6 +679,8 @@ class ListProvider extends ChangeNotifier {
   
   // Function to query public groups from multiple relays
   Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
+    log("Starting to query for public groups from relays: $relays");
+    
     List<PublicGroupInfo> publicGroups = [];
     final completer = Completer<List<PublicGroupInfo>>();
     
@@ -687,11 +689,20 @@ class ListProvider extends ChangeNotifier {
     final Map<String, int> memberCountMap = {};
     final Map<String, DateTime> lastActiveMap = {};
     
+    // For debugging
+    int editStatusEvents = 0;
+    int metadataEvents = 0;
+    int memberEvents = 0;
+    int noteEvents = 0;
+    int publicGroundsFound = 0;
+    
     // Function to check if we have all the data for a group
     void checkAndAddGroup(String key) {
       final metadata = groupMetadataMap[key];
       final memberCount = memberCountMap[key];
       final lastActive = lastActiveMap[key];
+      
+      log("Checking group $key - metadata: ${metadata != null}, members: ${memberCount != null}, activity: ${lastActive != null}");
       
       if (metadata != null && memberCount != null && lastActive != null) {
         // Parse the group identifier from the key (host:groupId)
@@ -699,6 +710,9 @@ class ListProvider extends ChangeNotifier {
         if (parts.length == 2) {
           final host = parts[0];
           final groupId = parts[1];
+          
+          log("Adding public group: ${metadata.name ?? 'Unnamed Group'} with $memberCount members from $host");
+          publicGroundsFound++;
           
           publicGroups.add(PublicGroupInfo(
             identifier: GroupIdentifier(host, groupId),
@@ -709,6 +723,8 @@ class ListProvider extends ChangeNotifier {
             lastActive: lastActive,
           ));
         }
+      } else {
+        log("Missing data for group $key - will not add yet");
       }
     }
     
@@ -735,7 +751,11 @@ class ListProvider extends ChangeNotifier {
       nostr!.query(
         filters,
         (Event event) {
+          // Keep track of event types for debugging
           if (event.kind == EventKind.GROUP_EDIT_STATUS) {
+            editStatusEvents++;
+            log("Received GROUP_EDIT_STATUS event: ${event.id.substring(0, 10)}...");
+            
             // Find the 'h' tag for group ID
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'h') {
@@ -751,6 +771,8 @@ class ListProvider extends ChangeNotifier {
                   }
                 }
                 
+                log("GROUP_EDIT_STATUS for group $groupId - public: $isPublic");
+                
                 if (isPublic) {
                   // Fetch metadata for this group
                   groupProvider.query(GroupIdentifier(relay, groupId));
@@ -758,6 +780,9 @@ class ListProvider extends ChangeNotifier {
               }
             }
           } else if (event.kind == EventKind.GROUP_METADATA) {
+            metadataEvents++;
+            log("Received GROUP_METADATA event: ${event.id.substring(0, 10)}...");
+            
             // Extract groupId from the 'd' tag
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'd') {
@@ -773,10 +798,13 @@ class ListProvider extends ChangeNotifier {
                   }
                 }
                 
+                log("GROUP_METADATA for group $groupId - public: $isPublic, name: ${event.tags.firstWhere((tag) => tag is List && tag.isNotEmpty && tag[0] == 'name', orElse: () => []).length > 1 ? event.tags.firstWhere((tag) => tag is List && tag.isNotEmpty && tag[0] == 'name')[1] : 'unnamed'}");
+                
                 // Only include public groups
                 if (isPublic) {
                   final metadata = GroupMetadata.loadFromEvent(event);
                   if (metadata != null) {
+                    log("Added metadata for $groupKey - name: ${metadata.name}");
                     groupMetadataMap[groupKey] = metadata;
                     checkAndAddGroup(groupKey);
                   }
@@ -784,6 +812,9 @@ class ListProvider extends ChangeNotifier {
               }
             }
           } else if (event.kind == EventKind.GROUP_MEMBERS) {
+            memberEvents++;
+            log("Received GROUP_MEMBERS event: ${event.id.substring(0, 10)}...");
+            
             // Extract groupId from the 'd' tag
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'd') {
@@ -792,12 +823,17 @@ class ListProvider extends ChangeNotifier {
                 
                 final members = GroupMembers.loadFromEvent(event);
                 if (members != null) {
-                  memberCountMap[groupKey] = members.members?.length ?? 0;
+                  final count = members.members?.length ?? 0;
+                  log("Added $count members for group $groupKey");
+                  memberCountMap[groupKey] = count;
                   checkAndAddGroup(groupKey);
                 }
               }
             }
           } else if (event.kind == EventKind.GROUP_NOTE) {
+            noteEvents++;
+            log("Received GROUP_NOTE event: ${event.id.substring(0, 10)}...");
+            
             // Extract groupId from the 'h' tag
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'h') {
@@ -809,6 +845,7 @@ class ListProvider extends ChangeNotifier {
                 final currentLastActive = lastActiveMap[groupKey];
                 
                 if (currentLastActive == null || noteTime.isAfter(currentLastActive)) {
+                  log("Updated last active time for group $groupKey to $noteTime");
                   lastActiveMap[groupKey] = noteTime;
                   checkAndAddGroup(groupKey);
                 }
@@ -834,6 +871,12 @@ class ListProvider extends ChangeNotifier {
     // Set a timeout to ensure we return results even if some relays don't respond
     Future.delayed(const Duration(seconds: 10), () {
       if (!completer.isCompleted) {
+        log("Completing search due to timeout - Stats: " +
+            "Edit Status Events: $editStatusEvents, " +
+            "Metadata Events: $metadataEvents, " +
+            "Member Events: $memberEvents, " +
+            "Note Events: $noteEvents, " +
+            "Public Groups Found: $publicGroundsFound");
         completer.complete(publicGroups);
       }
     });
