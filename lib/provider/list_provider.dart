@@ -679,15 +679,11 @@ class ListProvider extends ChangeNotifier {
   
   // Function to query public groups from multiple relays
   Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
-    log("Starting to query for public groups from relays: $relays");
+    log("🔍 SIMPLIFIED APPROACH: Starting to query for ALL group metadata from relays: $relays");
+    log("This approach treats all metadata events as public groups to maximize discovery");
     
     List<PublicGroupInfo> publicGroups = [];
     final completer = Completer<List<PublicGroupInfo>>();
-    
-    // Keep track of group metadata and member counts
-    final Map<String, GroupMetadata> groupMetadataMap = {};
-    final Map<String, int> memberCountMap = {};
-    final Map<String, DateTime> lastActiveMap = {};
     
     // For debugging
     int editStatusEvents = 0;
@@ -696,61 +692,14 @@ class ListProvider extends ChangeNotifier {
     int noteEvents = 0;
     int publicGroundsFound = 0;
     
-    // Function to check if we have all the data for a group
-    void checkAndAddGroup(String key) {
-      final metadata = groupMetadataMap[key];
-      final memberCount = memberCountMap[key];
-      final lastActive = lastActiveMap[key];
-      
-      log("Checking group $key - metadata: ${metadata != null}, members: ${memberCount != null}, activity: ${lastActive != null}");
-      
-      if (metadata != null && memberCount != null && lastActive != null) {
-        // Parse the group identifier from the key (host:groupId)
-        final parts = key.split(':');
-        if (parts.length == 2) {
-          final host = parts[0];
-          final groupId = parts[1];
-          
-          log("Adding public group: ${metadata.name ?? 'Unnamed Group'} with $memberCount members from $host");
-          publicGroundsFound++;
-          
-          publicGroups.add(PublicGroupInfo(
-            identifier: GroupIdentifier(host, groupId),
-            name: metadata.name ?? 'Unnamed Group',
-            about: metadata.about,
-            picture: metadata.picture,
-            memberCount: memberCount,
-            lastActive: lastActive,
-          ));
-        }
-      } else {
-        log("Missing data for group $key - will not add yet");
-      }
-    }
+    // We're now adding groups directly in the metadata event handler
     
-    // Filter for public groups with metadata and members
-    // Let's try a more general approach since the public tag implementation might vary
+    // Let's keep it as simple as possible - just fetch ALL groups metadata
+    // and filter them client-side
     final filters = [
-      // Just query for all group metadata, we'll filter for public ones ourselves
       {
         "kinds": [EventKind.GROUP_METADATA],
-        "limit": 500, // Increase limit to find more potential groups
-      },
-      // Also look for explicitly marked public groups 
-      {
-        "kinds": [EventKind.GROUP_EDIT_STATUS],
-        "#public": [""],
-        "limit": 100,
-      },
-      // Get member counts
-      {
-        "kinds": [EventKind.GROUP_MEMBERS],
         "limit": 500,
-      },
-      // Get activity information
-      {
-        "kinds": [EventKind.GROUP_NOTE, EventKind.GROUP_CHAT_MESSAGE],
-        "limit": 100,
       }
     ];
     
@@ -791,7 +740,6 @@ class ListProvider extends ChangeNotifier {
             }
           } else if (event.kind == EventKind.GROUP_METADATA) {
             metadataEvents++;
-            log("Received GROUP_METADATA event: ${event.id.substring(0, 10)}...");
             
             // Extract groupId from the 'd' tag
             for (var tag in event.tags) {
@@ -799,86 +747,50 @@ class ListProvider extends ChangeNotifier {
                 final groupId = tag[1];
                 final groupKey = '$relay:$groupId';
                 
-                // Also check if the metadata indicates this is a public group
-                // In the metadata, we'll be more lenient about what counts as "public"
-                // Either explicit public tag or missing private tag will be considered public
-                bool isPrivate = false;
-                bool hasExplicitPublicTag = false;
+                // Extract metadata from tags
+                String? groupName;
+                String? picture;
+                String? about;
                 
                 for (var subTag in event.tags) {
-                  if (subTag is List && subTag.isNotEmpty) {
-                    if (subTag[0] == 'public') {
-                      hasExplicitPublicTag = true;
-                    } else if (subTag[0] == 'private') {
-                      isPrivate = true;
+                  if (subTag is List && subTag.length > 1) {
+                    if (subTag[0] == 'name') {
+                      groupName = subTag[1];
+                    } else if (subTag[0] == 'picture') {
+                      picture = subTag[1];
+                    } else if (subTag[0] == 'about') {
+                      about = subTag[1];
                     }
                   }
                 }
                 
-                bool isPublic = hasExplicitPublicTag || !isPrivate;
+                // Treat all groups as public until we have a consistent standard
+                log("GROUP_METADATA for group $groupId - name: ${groupName ?? 'unnamed'}");
                 
-                // Get group name for logging
-                String groupName = 'unnamed';
-                for (var subTag in event.tags) {
-                  if (subTag is List && subTag.length > 1 && subTag[0] == 'name') {
-                    groupName = subTag[1];
-                    break;
-                  }
-                }
-                
-                log("GROUP_METADATA for group $groupId - public: $isPublic (hasPublicTag: $hasExplicitPublicTag, isPrivate: $isPrivate), name: $groupName");
-                
-                // Include groups that are public or not explicitly private
-                if (isPublic) {
-                  final metadata = GroupMetadata.loadFromEvent(event);
-                  if (metadata != null) {
-                    log("Added metadata for $groupKey - name: ${metadata.name}");
-                    groupMetadataMap[groupKey] = metadata;
-                    checkAndAddGroup(groupKey);
-                  }
+                // Add this group directly to the results
+                final parts = groupKey.split(':');
+                if (parts.length == 2) {
+                  final host = parts[0];
+                  
+                  publicGroups.add(PublicGroupInfo(
+                    identifier: GroupIdentifier(host, groupId),
+                    name: groupName ?? 'Unnamed Group',
+                    about: about,
+                    picture: picture,
+                    memberCount: 1, // Default member count
+                    lastActive: DateTime.now(), // Default to current time
+                  ));
+                  publicGroundsFound++;
+                  log("Added group $groupKey to results");
                 }
               }
             }
           } else if (event.kind == EventKind.GROUP_MEMBERS) {
             memberEvents++;
-            log("Received GROUP_MEMBERS event: ${event.id.substring(0, 10)}...");
-            
-            // Extract groupId from the 'd' tag
-            for (var tag in event.tags) {
-              if (tag is List && tag.length > 1 && tag[0] == 'd') {
-                final groupId = tag[1];
-                final groupKey = '$relay:$groupId';
-                
-                final members = GroupMembers.loadFromEvent(event);
-                if (members != null) {
-                  final count = members.members?.length ?? 0;
-                  log("Added $count members for group $groupKey");
-                  memberCountMap[groupKey] = count;
-                  checkAndAddGroup(groupKey);
-                }
-              }
-            }
+            // We're ignoring member events for now in our simplified approach
           } else if (event.kind == EventKind.GROUP_NOTE) {
             noteEvents++;
-            log("Received GROUP_NOTE event: ${event.id.substring(0, 10)}...");
-            
-            // Extract groupId from the 'h' tag
-            for (var tag in event.tags) {
-              if (tag is List && tag.length > 1 && tag[0] == 'h') {
-                final groupId = tag[1];
-                final groupKey = '$relay:$groupId';
-                
-                // Update last active timestamp
-                final noteTime = DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
-                final currentLastActive = lastActiveMap[groupKey];
-                
-                if (currentLastActive == null || noteTime.isAfter(currentLastActive)) {
-                  log("Updated last active time for group $groupKey to $noteTime");
-                  lastActiveMap[groupKey] = noteTime;
-                  checkAndAddGroup(groupKey);
-                }
-              }
-            }
+            // We're ignoring note events for now in our simplified approach
           }
         },
         tempRelays: [relay],
@@ -896,48 +808,22 @@ class ListProvider extends ChangeNotifier {
       });
     }
     
-    // Try to add groups even if we're missing some data
-    Future.delayed(const Duration(seconds: 5), () {
-      // Check if we have any metadata but are missing other data - add them with defaults
-      for (var entry in groupMetadataMap.entries) {
-        final key = entry.key;
-        // If we have metadata but no members or activity, create a default one
-        if (memberCountMap[key] == null || lastActiveMap[key] == null) {
-          final metadata = entry.value;
-          final parts = key.split(':');
-          if (parts.length == 2) {
-            final host = parts[0];
-            final groupId = parts[1];
-            
-            log("Adding group with incomplete data: ${metadata.name}");
-            // Default member count to 1 if missing
-            final memberCount = memberCountMap[key] ?? 1;
-            // Default last active to now if missing
-            final lastActive = lastActiveMap[key] ?? DateTime.now();
-            
-            publicGroups.add(PublicGroupInfo(
-              identifier: GroupIdentifier(host, groupId),
-              name: metadata.name ?? 'Unnamed Group',
-              about: metadata.about,
-              picture: metadata.picture,
-              memberCount: memberCount,
-              lastActive: lastActive,
-            ));
-            publicGroundsFound++;
-          }
-        }
-      }
-    });
+    // We're not using incomplete data handling anymore since we're 
+    // directly adding groups from metadata events
     
     // Set a timeout to ensure we return results even if some relays don't respond
     Future.delayed(const Duration(seconds: 10), () {
       if (!completer.isCompleted) {
-        log("Completing search due to timeout - Stats: " +
-            "Edit Status Events: $editStatusEvents, " +
+        log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " +
             "Metadata Events: $metadataEvents, " +
-            "Member Events: $memberEvents, " +
-            "Note Events: $noteEvents, " +
             "Public Groups Found: $publicGroundsFound");
+        
+        if (publicGroundsFound == 0) {
+          log("⚠️ NO GROUPS FOUND: This could indicate network issues or that the relays don't host any groups");
+        } else {
+          log("✅ SUCCESS: Found $publicGroundsFound groups from $metadataEvents metadata events");
+        }
+        
         completer.complete(publicGroups);
       }
     });
