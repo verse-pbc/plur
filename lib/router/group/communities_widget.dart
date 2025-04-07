@@ -78,7 +78,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(56),
+        preferredSize: const Size.fromHeight(40),
         child: Container(
           decoration: BoxDecoration(
             color: themeData.scaffoldBackgroundColor,
@@ -89,130 +89,121 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
               ),
             ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Your Communities',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: themeData.textTheme.titleLarge?.color,
-                      ),
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.add),
-                      onPressed: showCreateCommunityDialog,
-                      tooltip: 'Create Community',
-                    ),
-                  ],
-                ),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+          child: Container(
+            height: 32,
+            decoration: BoxDecoration(
+              color: themeData.cardColor,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: themeData.dividerColor,
+                width: 1,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: themeData.cardColor,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: themeData.dividerColor,
-                      width: 1,
-                    ),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _viewMode = CommunityViewMode.grid;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: _viewMode == CommunityViewMode.grid
-                                  ? themeData.colorScheme.primary
-                                  : Colors.transparent,
-                              borderRadius: const BorderRadius.horizontal(
-                                left: Radius.circular(16),
-                              ),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Groups',
-                              style: TextStyle(
-                                color: _viewMode == CommunityViewMode.grid
-                                    ? themeData.colorScheme.onPrimary
-                                    : themeData.textTheme.bodyMedium?.color,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _viewMode = CommunityViewMode.grid;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _viewMode == CommunityViewMode.grid
+                            ? themeData.colorScheme.primary
+                            : Colors.transparent,
+                        borderRadius: const BorderRadius.horizontal(
+                          left: Radius.circular(16),
                         ),
                       ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _viewMode = CommunityViewMode.feed;
-                            });
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: _viewMode == CommunityViewMode.feed
-                                  ? themeData.colorScheme.primary
-                                  : Colors.transparent,
-                              borderRadius: const BorderRadius.horizontal(
-                                right: Radius.circular(16),
-                              ),
-                            ),
-                            alignment: Alignment.center,
-                            child: Text(
-                              'Feed',
-                              style: TextStyle(
-                                color: _viewMode == CommunityViewMode.feed
-                                    ? themeData.colorScheme.onPrimary
-                                    : themeData.textTheme.bodyMedium?.color,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Groups',
+                        style: TextStyle(
+                          color: _viewMode == CommunityViewMode.grid
+                              ? themeData.colorScheme.onPrimary
+                              : themeData.textTheme.bodyMedium?.color,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _viewMode = CommunityViewMode.feed;
+                      });
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _viewMode == CommunityViewMode.feed
+                            ? themeData.colorScheme.primary
+                            : Colors.transparent,
+                        borderRadius: const BorderRadius.horizontal(
+                          right: Radius.circular(16),
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        'Feed',
+                        style: TextStyle(
+                          color: _viewMode == CommunityViewMode.feed
+                              ? themeData.colorScheme.onPrimary
+                              : themeData.textTheme.bodyMedium?.color,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
       body: content,
-      floatingActionButton: FloatingActionButton(
-        mini: true,
-        onPressed: () {
-          setState(() {
-            _viewMode = _viewMode == CommunityViewMode.grid
-                ? CommunityViewMode.feed
-                : CommunityViewMode.grid;
-          });
-        },
-        tooltip: _viewMode == CommunityViewMode.grid
-            ? 'Switch to Feed View'
-            : 'Switch to Grid View',
-        child: Icon(
-          _viewMode == CommunityViewMode.grid
-              ? Icons.view_list
-              : Icons.grid_view,
-        ),
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          // Create Community Button
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: FloatingActionButton(
+              heroTag: 'createCommunity',
+              mini: true,
+              onPressed: showCreateCommunityDialog,
+              tooltip: 'Create Community',
+              child: const Icon(Icons.add),
+            ),
+          ),
+          // View toggle button
+          FloatingActionButton(
+            heroTag: 'toggleView',
+            mini: true,
+            onPressed: () {
+              setState(() {
+                _viewMode = _viewMode == CommunityViewMode.grid
+                    ? CommunityViewMode.feed
+                    : CommunityViewMode.grid;
+              });
+            },
+            tooltip: _viewMode == CommunityViewMode.grid
+                ? 'Switch to Feed View'
+                : 'Switch to Grid View',
+            child: Icon(
+              _viewMode == CommunityViewMode.grid
+                  ? Icons.view_list
+                  : Icons.grid_view,
+            ),
+          ),
+        ],
       ),
     );
   }
