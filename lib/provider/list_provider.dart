@@ -10,6 +10,7 @@ import 'package:nostrmo/util/string_code_generator.dart';
 
 import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
+import '../data/public_group_info.dart';
 import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
@@ -676,25 +677,6 @@ class ListProvider extends ChangeNotifier {
     }
   }
   
-  // A class to hold public group information
-  class PublicGroupInfo {
-    final GroupIdentifier identifier;
-    final String name;
-    final String? about;
-    final String? picture;
-    final int memberCount;
-    final DateTime lastActive;
-    
-    PublicGroupInfo({
-      required this.identifier,
-      required this.name,
-      this.about,
-      this.picture,
-      required this.memberCount,
-      required this.lastActive,
-    });
-  }
-  
   // Function to query public groups from multiple relays
   Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
     List<PublicGroupInfo> publicGroups = [];
@@ -762,12 +744,12 @@ class ListProvider extends ChangeNotifier {
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'h') {
                 final groupId = tag[1];
-                final key = '$relay:$groupId';
+                final groupKey = '$relay:$groupId';
                 
                 // Check if this is a public group
                 bool isPublic = false;
-                for (var tag in event.tags) {
-                  if (tag is List && tag.length > 0 && tag[0] == 'public') {
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.isNotEmpty && subTag[0] == 'public') {
                     isPublic = true;
                     break;
                   }
@@ -784,12 +766,12 @@ class ListProvider extends ChangeNotifier {
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'd') {
                 final groupId = tag[1];
-                final key = '$relay:$groupId';
+                final groupKey = '$relay:$groupId';
                 
                 final metadata = GroupMetadata.loadFromEvent(event);
                 if (metadata != null) {
-                  groupMetadataMap[key] = metadata;
-                  checkAndAddGroup(key);
+                  groupMetadataMap[groupKey] = metadata;
+                  checkAndAddGroup(groupKey);
                 }
               }
             }
@@ -798,12 +780,12 @@ class ListProvider extends ChangeNotifier {
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'd') {
                 final groupId = tag[1];
-                final key = '$relay:$groupId';
+                final groupKey = '$relay:$groupId';
                 
                 final members = GroupMembers.loadFromEvent(event);
                 if (members != null) {
-                  memberCountMap[key] = members.members?.length ?? 0;
-                  checkAndAddGroup(key);
+                  memberCountMap[groupKey] = members.members?.length ?? 0;
+                  checkAndAddGroup(groupKey);
                 }
               }
             }
@@ -812,15 +794,15 @@ class ListProvider extends ChangeNotifier {
             for (var tag in event.tags) {
               if (tag is List && tag.length > 1 && tag[0] == 'h') {
                 final groupId = tag[1];
-                final key = '$relay:$groupId';
+                final groupKey = '$relay:$groupId';
                 
                 // Update last active timestamp
                 final noteTime = DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
-                final currentLastActive = lastActiveMap[key];
+                final currentLastActive = lastActiveMap[groupKey];
                 
                 if (currentLastActive == null || noteTime.isAfter(currentLastActive)) {
-                  lastActiveMap[key] = noteTime;
-                  checkAndAddGroup(key);
+                  lastActiveMap[groupKey] = noteTime;
+                  checkAndAddGroup(groupKey);
                 }
               }
             }
@@ -828,15 +810,17 @@ class ListProvider extends ChangeNotifier {
         },
         tempRelays: [relay],
         relayTypes: RelayType.ONLY_TEMP,
-        onComplete: () {
-          pendingRelays--;
-          if (pendingRelays <= 0) {
-            if (!completer.isCompleted) {
-              completer.complete(publicGroups);
-            }
-          }
-        },
       );
+      
+      // Simulate query completion after a delay (since onComplete callback is not available)
+      Future.delayed(Duration(seconds: 3), () {
+        pendingRelays--;
+        if (pendingRelays <= 0) {
+          if (!completer.isCompleted) {
+            completer.complete(publicGroups);
+          }
+        }
+      });
     }
     
     // Set a timeout to ensure we return results even if some relays don't respond

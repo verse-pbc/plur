@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/community_info_widget.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
-import 'package:nostrmo/component/shimmer/shimmer.dart';
+import 'package:nostrmo/data/public_group_info.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
@@ -21,7 +19,7 @@ class FindCommunityWidget extends StatefulWidget {
 
 class _FindCommunityWidgetState extends State<FindCommunityWidget> {
   bool _isLoading = true;
-  List<ListProvider.PublicGroupInfo> _publicGroups = [];
+  List<PublicGroupInfo> _publicGroups = [];
   String _sortBy = 'members'; // 'members' or 'activity'
   
   @override
@@ -209,14 +207,15 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
   Widget _buildLoadingState() {
     return Column(
       children: List.generate(3, (index) => 
-        Shimmer(
-          child: Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            height: 100,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade200,
-              borderRadius: BorderRadius.circular(8),
-            ),
+        Container(
+          margin: const EdgeInsets.only(bottom: 16),
+          height: 100,
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: const Center(
+            child: CircularProgressIndicator(),
           ),
         )
       ),
@@ -247,7 +246,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
     );
   }
   
-  Widget _buildGroupItem(ListProvider.PublicGroupInfo group) {
+  Widget _buildGroupItem(PublicGroupInfo group) {
     final dateFormat = DateFormat('MMM d, yyyy');
     
     return Card(
@@ -354,7 +353,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
                     foregroundColor: Colors.white,
                     minimumSize: const Size(100, 36),
                   ),
-                  child: Text(S.of(context).Join),
+                  child: Text(S.of(context).Join_Group),
                 ),
               ],
             ),
@@ -364,10 +363,8 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
     );
   }
   
-  void _joinGroup(ListProvider.PublicGroupInfo group) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    
-    // Generate fake join link to use with the existing join mechanism
+  void _joinGroup(PublicGroupInfo group) {
+    // Generate join link to use with the existing join mechanism
     final joinLink = 'plur://join-community?group-id=${group.identifier.groupId}';
     widget.onJoinCommunity(joinLink);
   }
