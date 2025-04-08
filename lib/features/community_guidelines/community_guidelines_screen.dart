@@ -30,6 +30,7 @@ class _CommunityGuidelinesScreenState
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
     final accentColor = customColors.accentColor;
+    final dimmedColor  = customColors.dimmedColor;
     final primaryForegroundColor = customColors.primaryForegroundColor;
     final secondaryForegroundColor = customColors.secondaryForegroundColor;
     const double cornerRadius = 8;
@@ -100,6 +101,7 @@ class _CommunityGuidelinesScreenState
                         borderRadius: borderRadius,
                         borderSide: borderSide,
                       ),
+                      hintStyle: TextStyle(color: dimmedColor),
                       labelStyle: TextStyle(color: primaryForegroundColor),
                     ),
                     maxLines: null,
