@@ -284,7 +284,9 @@ class _UserWidgetState extends CustState<UserWidget>
     if (StringUtil.isNotBlank(subscribeId)) {
       try {
         nostr!.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (e) {
+        log("unsubscribe error: $e");
+      }
     }
 
     closeLoading();
@@ -383,7 +385,9 @@ class _UserWidgetState extends CustState<UserWidget>
       try {
         cancelFunc!.call();
         cancelFunc = null;
-      } catch (e) {}
+      } catch (e) {
+        log("cancelFunc error: $e");
+      }
     }
   }
 
