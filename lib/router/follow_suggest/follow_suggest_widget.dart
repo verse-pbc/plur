@@ -146,7 +146,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
       for (var i = 0; i < pubkeys.length && i < 10; i++) {
         var pubkey = pubkeys[i];
         var filter = Filter(kinds: [
-          EventKind.METADATA,
+          EventKind.metadata,
         ], authors: [
           pubkey
         ]);
@@ -159,7 +159,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
       for (var i = 10; i < pubkeys.length && i < 20; i++) {
         var pubkey = pubkeys[i];
         var filter = Filter(kinds: [
-          EventKind.METADATA,
+          EventKind.metadata,
         ], authors: [
           pubkey
         ]);
