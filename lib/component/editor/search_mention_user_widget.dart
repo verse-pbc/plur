@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/nip05_valid_widget.dart';
@@ -33,6 +36,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
   List<User> _users = [];
   List<User?> _allUsers = [];
   bool _searchPerformed = false;
+  bool _isSearching = false;
 
   @override
   void initState() {
@@ -85,7 +89,23 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
   }
 
   Widget _resultBuild() {
-    if (_users.isEmpty) {
+    if (_isSearching) {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const CircularProgressIndicator(),
+          const SizedBox(height: 16),
+          Text(
+            "Searching relays...",
+            style: TextStyle(
+              color: Theme.of(context).hintColor,
+              fontSize: 16,
+            ),
+          ),
+        ],
+      );
+    } else if (_users.isEmpty) {
       // Check if we're showing empty results after a search, or just initial loading
       if (_searchPerformed) {
         return Center(
@@ -134,46 +154,183 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     );
   }
 
-  void _handleSearch(String? text) {
-    _users.clear();
-    
-    // Mark that a search has been performed
-    _searchPerformed = true;
+  void _handleSearch(String? text) async {
+    setState(() {
+      _users.clear();
+      _searchPerformed = true;
+      _isSearching = text != null && text.isNotEmpty;
+    });
 
     if (text == null || text.isEmpty) {
-      _users = _allUsers.whereType<User>().toList();
-    } else {
-      // First, try to get users from the provider's findUser method
-      final userProvider = Provider.of<UserProvider>(context, listen: false);
-      _users = userProvider.findUser(text, limit: searchMemLimit);
-      
-      // If that doesn't return enough results, do our own case-insensitive search
-      if (_users.length < 5) {
-        // Get all users from the cache
-        final allCachedUsers = userProvider.getAllUsers();
-        final lowerText = text.toLowerCase();
-        
-        for (final user in allCachedUsers) {
-          // Skip users already in the results
-          if (_users.any((u) => u.pubkey == user.pubkey)) {
-            continue;
-          }
-          
-          // Case-insensitive search on display name, name, or nip05
-          if ((user.displayName != null && user.displayName!.toLowerCase().contains(lowerText)) ||
-              (user.name != null && user.name!.toLowerCase().contains(lowerText)) ||
-              (user.nip05 != null && user.nip05!.toLowerCase().contains(lowerText))) {
-            _users.add(user);
-            
-            if (_users.length >= searchMemLimit) {
-              break;
-            }
-          }
-        }
-      }
+      setState(() {
+        _users = _allUsers.whereType<User>().toList();
+        _isSearching = false;
+      });
+      return;
     }
 
-    setState(() {});
+    // First, try to get users from the provider's findUser method (local cache)
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    var localUsers = userProvider.findUser(text, limit: searchMemLimit);
+    
+    // Do our own case-insensitive search on the local cache
+    final allCachedUsers = userProvider.getAllUsers();
+    final lowerText = text.toLowerCase();
+    
+    for (final user in allCachedUsers) {
+      // Skip users already in the results
+      if (localUsers.any((u) => u.pubkey == user.pubkey)) {
+        continue;
+      }
+      
+      // Case-insensitive search on display name, name, or nip05
+      if ((user.displayName != null && user.displayName!.toLowerCase().contains(lowerText)) ||
+          (user.name != null && user.name!.toLowerCase().contains(lowerText)) ||
+          (user.nip05 != null && user.nip05!.toLowerCase().contains(lowerText))) {
+        localUsers.add(user);
+      }
+    }
+    
+    // Update UI with local results first
+    setState(() {
+      _users = localUsers;
+    });
+    
+    // Then search the relays - first check if the input might be a nip05 address
+    if (text.contains('@')) {
+      // Possible NIP-05 format, let's search on relays
+      await _searchRelaysForNip05(text);
+    }
+    
+    // Search relays for users by name
+    await _searchRelaysForUsersByName(text);
+    
+    // Finally, mark that we're done searching
+    setState(() {
+      _isSearching = false;
+    });
+  }
+  
+  Future<void> _searchRelaysForNip05(String nip05Text) async {
+    // Check if it's potentially a NIP-05 identifier
+    if (!nip05Text.contains('@')) return;
+    
+    try {
+      // Query the relays for users with this nip05
+      final filter = Filter(
+        kinds: [EventKind.METADATA],
+        limit: 10,
+      );
+      
+      // We'll collect results here
+      List<Event> events = [];
+      
+      // Create a completer to wait for results
+      final completer = Completer<void>();
+      
+      // Set a timeout
+      Timer(const Duration(seconds: 5), () {
+        try {
+          completer.complete();
+        } catch (_) {
+          // Completer might already be completed
+        }
+      });
+      
+      // Search the relays
+      nostr!.query([filter.toJson()], (event) {
+        if (event.kind == EventKind.METADATA) {
+          try {
+            final content = jsonDecode(event.content);
+            final userNip05 = content['nip05'] as String?;
+            
+            if (userNip05 != null && userNip05.toLowerCase().contains(nip05Text.toLowerCase())) {
+              events.add(event);
+              
+              // Process the event to update user cache
+              final user = User.fromJson(content);
+              user.pubkey = event.pubkey;
+              user.updatedAt = event.createdAt;
+              
+              // Check if this user is already in results
+              if (!_users.any((u) => u.pubkey == user.pubkey)) {
+                setState(() {
+                  _users.add(user);
+                });
+              }
+            }
+          } catch (e) {
+            // Ignore errors parsing metadata
+          }
+        }
+      });
+      
+      // Wait for timeout
+      await completer.future;
+    } catch (e) {
+      // Ignore errors
+    }
+  }
+  
+  Future<void> _searchRelaysForUsersByName(String nameText) async {
+    try {
+      // Query the relays for users with matching names
+      final filter = Filter(
+        kinds: [EventKind.METADATA],
+        limit: 20,
+      );
+      
+      // We'll collect results here
+      List<Event> events = [];
+      
+      // Create a completer to wait for results
+      final completer = Completer<void>();
+      
+      // Set a timeout
+      Timer(const Duration(seconds: 5), () {
+        try {
+          completer.complete();
+        } catch (_) {
+          // Completer might already be completed
+        }
+      });
+      
+      // Search the relays
+      nostr!.query([filter.toJson()], (event) {
+        if (event.kind == EventKind.METADATA) {
+          try {
+            final content = jsonDecode(event.content);
+            final userName = content['name'] as String?;
+            final userDisplayName = content['display_name'] as String?;
+            
+            final lowerNameText = nameText.toLowerCase();
+            if ((userName != null && userName.toLowerCase().contains(lowerNameText)) ||
+                (userDisplayName != null && userDisplayName.toLowerCase().contains(lowerNameText))) {
+              events.add(event);
+              
+              // Process the event to update user cache
+              final user = User.fromJson(content);
+              user.pubkey = event.pubkey;
+              user.updatedAt = event.createdAt;
+              
+              // Check if this user is already in results
+              if (!_users.any((u) => u.pubkey == user.pubkey)) {
+                setState(() {
+                  _users.add(user);
+                });
+              }
+            }
+          } catch (e) {
+            // Ignore errors parsing metadata
+          }
+        }
+      });
+      
+      // Wait for timeout
+      await completer.future;
+    } catch (e) {
+      // Ignore errors
+    }
   }
 }
 
