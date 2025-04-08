@@ -44,10 +44,10 @@ import 'index_tab_item_widget.dart';
 /// * Music player integration
 class IndexWidget extends StatefulWidget {
   /// Maximum width for the navigation drawer in PC mode
-  static double PC_MAX_COLUMN_0 = 240;
+  static double pcMaxColumn0 = 240;
 
   /// Maximum width for the main content area in PC mode
-  static double PC_MAX_COLUMN_1 = 550;
+  static double pcMaxColumn1 = 550;
 
   /// Callback function to reload the application state
   final Function reload;
@@ -147,7 +147,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+    Provider.of<SettingsProvider>(context);
     if (nostr == null) {
       return const LoginSignupWidget();
     }
@@ -193,6 +193,26 @@ class _IndexWidgetState extends CustState<IndexWidget>
         dividerHeight: 0,
         tabs: [
           IndexTabItemWidget(
+            localization.DMs,
+            titleTextStyle,
+            omitText: "DM",
+          ),
+          IndexTabItemWidget(
+            localization.Request,
+            titleTextStyle,
+            omitText: "R",
+          ),
+        ],
+        controller: dmTabController,
+      );
+    } else if (indexProvider.currentTap == 2) {
+      appBarCenter = TabBar(
+        indicatorColor: indicatorColor,
+        indicatorWeight: 3,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
+        tabs: [
+          IndexTabItemWidget(
             localization.Notes,
             titleTextStyle,
             omitText: "N",
@@ -210,33 +230,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ],
         controller: globalsTabController,
       );
-    } else if (indexProvider.currentTap == 2) {
-      appBarCenter = Center(
-        child: Text(
-          localization.Search,
-          style: titleTextStyle,
-        ),
-      );
-    } else if (indexProvider.currentTap == 3) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.DMs,
-            titleTextStyle,
-            omitText: "DM",
-          ),
-          IndexTabItemWidget(
-            localization.Request,
-            titleTextStyle,
-            omitText: "R",
-          ),
-        ],
-        controller: dmTabController,
-      );
     }
 
     var mainCenterWidget = MediaQuery.removePadding(
@@ -247,10 +240,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
         index: indexProvider.currentTap,
         children: [
           const CommunitiesWidget(),
-          const SearchWidget(),
           DMWidget(
             tabController: dmTabController,
           ),
+          const SearchWidget(),
         ],
       )),
     );
@@ -294,11 +287,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
       var maxWidth = mediaDataCache.size.width;
       double column0Width = maxWidth * 2 / 5;
       double column1Width = maxWidth * 2 / 5;
-      if (column0Width > IndexWidget.PC_MAX_COLUMN_0) {
-        column0Width = IndexWidget.PC_MAX_COLUMN_0;
+      if (column0Width > IndexWidget.pcMaxColumn0) {
+        column0Width = IndexWidget.pcMaxColumn0;
       }
-      if (column1Width > IndexWidget.PC_MAX_COLUMN_1) {
-        column1Width = IndexWidget.PC_MAX_COLUMN_1;
+      if (column1Width > IndexWidget.pcMaxColumn1) {
+        column1Width = IndexWidget.pcMaxColumn1;
       }
 
       var mainScaffold = Scaffold(

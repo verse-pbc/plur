@@ -138,6 +138,28 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         smallMode: widget.smallMode,
       ));
     }
+    
+    // Add the DMs option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.chat_rounded,
+      name: localization.DMs,
+      color: indexProvider.currentTap == 1 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(1);
+      },
+      smallMode: widget.smallMode,
+    ));
+    
+    // Add the SEARCH option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.search_rounded,
+      name: localization.Search,
+      color: indexProvider.currentTap == 2 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(2);
+      },
+      smallMode: widget.smallMode,
+    ));
 
     // Add the SETTINGS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
