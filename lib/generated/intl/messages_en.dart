@@ -98,6 +98,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
+        "Community_Guidelines":
+            MessageLookupByLibrary.simpleMessage("Community Guidelines"),
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -159,8 +161,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Empty text may be ban by relays."),
         "Enter_Community_Description": MessageLookupByLibrary.simpleMessage(
             "Enter a description of your community"),
+        "Enter_Community_Guidelines": MessageLookupByLibrary.simpleMessage(
+            "Enter the guidelines of your community"),
         "Enter_Community_Name": MessageLookupByLibrary.simpleMessage(
             "Enter a name for your community"),
+        "Error": MessageLookupByLibrary.simpleMessage("Error"),
         "Event_Sign_Check":
             MessageLookupByLibrary.simpleMessage("Event Sign Check"),
         "Face": MessageLookupByLibrary.simpleMessage("Face"),
@@ -389,7 +394,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remove from public bookmark"),
         "Replying": MessageLookupByLibrary.simpleMessage("Replying"),
         "Request": MessageLookupByLibrary.simpleMessage("Request"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
+        "Save_failed": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while trying to save your data."),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "Search_User_from_cache":
             MessageLookupByLibrary.simpleMessage("Search User from cache"),
