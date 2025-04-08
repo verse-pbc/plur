@@ -120,6 +120,12 @@ class _CommunityGuidelinesScreenState
     );
   }
 
+  @override
+  void dispose() {
+    _descriptionController.dispose();
+    super.dispose();
+  }
+
   /// Saves current input.
   void _save(GroupIdentifier id) async {
     final localization = S.of(context);
