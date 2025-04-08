@@ -56,10 +56,10 @@ class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
       controller: _controller,
       itemBuilder: (BuildContext context, int index) {
         var event = events[index];
-        if (event.kind == EventKind.BADGE_AWARD) {
+        if (event.kind == EventKind.badgeAward) {
           return BadgeAwardWidget(event: event);
         } else {
-          if (event.kind == EventKind.ZAP) {
+          if (event.kind == EventKind.zap) {
             if (StringUtil.isBlank(event.content)) {
               var innerZapContent = EventRelation.getInnerZapContent(event);
               if (StringUtil.isBlank(innerZapContent)) {

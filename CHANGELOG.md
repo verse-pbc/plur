@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 - Made it easier to dismiss fullscreen images. [#286](https://github.com/verse-pbc/issues/issues/286)
 - Added Cancel button when adding accounts. [#254](https://github.com/verse-pbc/issues/issues/254)
+- Start caching groups metadatas thus improving the loading times. [#261](https://github.com/verse-pbc/issues/issues/261)
+
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)

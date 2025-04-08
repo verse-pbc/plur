@@ -91,7 +91,7 @@ class NWCProvider extends ChangeNotifier {
     final messageType = json[0];
     if (messageType == 'EVENT' && jsonLength > 2) {
       final event = Event.fromJson(json[2]);
-      if (event.kind == EventKind.NWC_RESPONSE_EVENT) {
+      if (event.kind == EventKind.nwcResponseEvent) {
         var encryptedContent = event.content;
         var sourceConent =
             NIP04.decrypt(encryptedContent, agreement!, _nwcInfo!.pubkey);
@@ -155,7 +155,7 @@ class NWCProvider extends ChangeNotifier {
     // gen event
     var payInvoiceEvent = Event(
       _nwcInfo!.senderPubkey(),
-      EventKind.NWC_REQUEST_EVENT,
+      EventKind.nwcRequestEvent,
       [
         ["p", _nwcInfo!.pubkey]
       ],
@@ -175,7 +175,7 @@ class NWCProvider extends ChangeNotifier {
       StringUtil.rndNameStr(14),
       {
         "#e": [payInvoiceEvent.id],
-        "kinds": [EventKind.NWC_RESPONSE_EVENT],
+        "kinds": [EventKind.nwcResponseEvent],
       }
     ]);
   }

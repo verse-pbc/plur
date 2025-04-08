@@ -59,18 +59,18 @@ class LinkRouterUtil {
 
       var naddr = NIP19Tlv.decodeNaddr(key);
       if (naddr != null) {
-        if (naddr.kind == EventKind.TEXT_NOTE &&
+        if (naddr.kind == EventKind.textNote &&
             StringUtil.isNotBlank(naddr.id)) {
           var relayAddr = (naddr.relays != null && naddr.relays!.isNotEmpty)
               ? naddr.relays![0]
               : null;
           EventIdRouterWidget.router(context, naddr.id,
               relayAddr: relayAddr);
-        } else if (naddr.kind == EventKind.LONG_FORM &&
+        } else if (naddr.kind == EventKind.longForm &&
             StringUtil.isNotBlank(naddr.id)) {
           // TODO load long form
         } else if (StringUtil.isNotBlank(naddr.author) &&
-            naddr.kind == EventKind.METADATA) {
+            naddr.kind == EventKind.metadata) {
           RouterUtil.router(context, RouterPath.USER, naddr.author);
         }
       }

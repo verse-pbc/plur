@@ -102,13 +102,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     List<Widget> subList = [];
-    List<String> addrs = [RelayLocal.URL, ...relayProvider.relayAddrs]
+    List<String> addrs = [RelayLocal.localUrl, ...relayProvider.relayAddrs]
       
       ;
     for (var relayAddr in addrs) {
       var relayStatus = relayProvider.relayStatusMap[relayAddr];
       if (relayStatus == null) {
-        if (relayAddr == RelayLocal.URL) {
+        if (relayAddr == RelayLocal.localUrl) {
           subList.add(SyncUploadItem(
               relayAddr, _relaySelected[relayAddr] == true, onItemTap));
         }
