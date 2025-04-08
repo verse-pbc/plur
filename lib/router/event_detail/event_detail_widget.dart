@@ -145,14 +145,14 @@ class _EventDetailWidgetState extends State<EventDetailWidget> {
             }
 
             var event = allEvent[index - 1];
-            if (event.kind == EventKind.ZAP) {
+            if (event.kind == EventKind.zap) {
               return ZapEventListWidget(event: event);
-            } else if (event.kind == EventKind.TEXT_NOTE) {
+            } else if (event.kind == EventKind.textNote) {
               return ReactionEventListWidget(event: event, text: localization.replied);
-            } else if (event.kind == EventKind.REPOST ||
-                event.kind == EventKind.GENERIC_REPOST) {
+            } else if (event.kind == EventKind.repost ||
+                event.kind == EventKind.genericRepost) {
               return ReactionEventListWidget(event: event, text: localization.boosted);
-            } else if (event.kind == EventKind.REACTION) {
+            } else if (event.kind == EventKind.reaction) {
               return ReactionEventListWidget(
                   event: event,
                   text: "${localization.liked} ${EventReactions.getLikeText(event)}");

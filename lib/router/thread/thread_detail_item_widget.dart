@@ -39,7 +39,7 @@ class _ThreadDetailItemWidgetState extends State<ThreadDetailItemWidget> {
       sourceEventKey: widget.sourceEventKey,
     );
 
-    if (widget.item.event.kind == EventKind.ZAP) {
+    if (widget.item.event.kind == EventKind.zap) {
       main = Stack(
         children: [
           main,

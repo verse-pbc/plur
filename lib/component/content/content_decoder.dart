@@ -300,7 +300,7 @@ class ContentDecoder {
             var naddr = NIP19Tlv.decodeNaddr(key);
             if (naddr != null) {
               if (StringUtil.isNotBlank(naddr.id) &&
-                  naddr.kind == EventKind.TEXT_NOTE) {
+                  naddr.kind == EventKind.textNote) {
                 // block
                 handledStr = _closeHandledStr(handledStr, inlines);
                 _closeInlines(inlines, list, textOnTap: textOnTap);
@@ -314,7 +314,7 @@ class ContentDecoder {
                 );
                 list.add(widget);
               } else if (StringUtil.isNotBlank(naddr.author) &&
-                  naddr.kind == EventKind.METADATA) {
+                  naddr.kind == EventKind.metadata) {
                 // inline
                 handledStr = _closeHandledStr(handledStr, inlines);
                 inlines.add(ContentMentionUserWidget(pubkey: naddr.author));
