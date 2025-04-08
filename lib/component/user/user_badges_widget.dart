@@ -95,7 +95,7 @@ class _UserBadgesWidgetState extends CustState<UserBadgesWidget>
   @override
   Future<void> onReady(BuildContext context) async {
     var filter =
-        Filter(authors: [widget.pubkey], kinds: [EventKind.BADGE_ACCEPT]);
+        Filter(authors: [widget.pubkey], kinds: [EventKind.badgeAccept]);
     nostr!.query([filter.toJson()], (event) {
       var result = eventMemBox.add(event);
       if (result) {

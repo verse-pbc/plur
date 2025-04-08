@@ -46,7 +46,7 @@ class GiftWrapUtil {
       return null;
     }
     var sealEvent = Event(
-        targetNostr.publicKey, EventKind.SEAL_EVENT_KIND, [], sealEventContent);
+        targetNostr.publicKey, EventKind.sealEventKind, [], sealEventContent);
     targetNostr.signEvent(sealEvent);
 
     var randomPrivateKey = generatePrivateKey();
@@ -56,7 +56,7 @@ class GiftWrapUtil {
         await NIP44V2.encrypt(jsonEncode(sealEvent.toJson()), randomKey);
     var giftWrapEvent = Event(
         randomPubkey,
-        EventKind.GIFT_WRAP,
+        EventKind.giftWrap,
         [
           ["p", receiverPublicKey]
         ],

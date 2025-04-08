@@ -164,16 +164,16 @@ class RelayProvider extends ChangeNotifier {
 
     loadRelayAddrs(contactListProvider.content);
     listProvider.load(nostr.publicKey,
-        [EventKind.BOOKMARKS_LIST, EventKind.EMOJIS_LIST, EventKind.GROUP_LIST],
+        [EventKind.bookmarksList, EventKind.emojisList, EventKind.groupList],
         targetNostr: nostr, initQuery: true);
     badgeProvider.reload(targetNostr: nostr, initQuery: true);
 
     // add local relay
     if (relayLocalDB != null &&
         settingsProvider.relayLocal != OpenStatus.CLOSE) {
-      relayStatusLocal = RelayStatus(RelayLocal.URL);
+      relayStatusLocal = RelayStatus(RelayLocal.localUrl);
       var relayLocal =
-          RelayLocal(RelayLocal.URL, relayStatusLocal!, relayLocalDB!)
+          RelayLocal(RelayLocal.localUrl, relayStatusLocal!, relayLocalDB!)
             ..relayStatusCallback = onRelayStatusChange;
       nostr.addRelay(relayLocal, init: true);
     }
@@ -190,9 +190,9 @@ class RelayProvider extends ChangeNotifier {
 
     for (var relayAddr in cacheRelayAddrs) {
       log("begin to init $relayAddr");
-      var custRelay = genRelay(relayAddr, relayType: RelayType.CACHE);
+      var custRelay = genRelay(relayAddr, relayType: RelayType.cache);
       try {
-        nostr.addRelay(custRelay, init: true, relayType: RelayType.CACHE);
+        nostr.addRelay(custRelay, init: true, relayType: RelayType.cache);
       } catch (e) {
         log("relay $relayAddr add to pool error ${e.toString()}");
       }
@@ -216,14 +216,14 @@ class RelayProvider extends ChangeNotifier {
   void addCacheRelay(String relayAddr) {
     if (!cacheRelayAddrs.contains(relayAddr)) {
       cacheRelayAddrs.add(relayAddr);
-      _doAddRelay(relayAddr, relayType: RelayType.CACHE);
+      _doAddRelay(relayAddr, relayType: RelayType.cache);
       saveCacheRelay();
       notifyListeners();
     }
   }
 
   void _doAddRelay(String relayAddr,
-      {bool init = false, int relayType = RelayType.NORMAL}) {
+      {bool init = false, int relayType = RelayType.normal}) {
     var custRelay = genRelay(relayAddr, relayType: relayType);
     log("begin to init $relayAddr");
     nostr!.addRelay(custRelay,
@@ -240,7 +240,7 @@ class RelayProvider extends ChangeNotifier {
     } else if (cacheRelayAddrs.contains(relayAddr)) {
       cacheRelayAddrs.remove(relayAddr);
       relayStatusMap.remove(relayAddr);
-      nostr!.removeRelay(relayAddr, relayType: RelayType.CACHE);
+      nostr!.removeRelay(relayAddr, relayType: RelayType.cache);
 
       saveCacheRelay();
       notifyListeners();
@@ -288,7 +288,7 @@ class RelayProvider extends ChangeNotifier {
     return relayStatuses;
   }
 
-  Relay genRelay(String relayAddr, {int relayType = RelayType.NORMAL}) {
+  Relay genRelay(String relayAddr, {int relayType = RelayType.normal}) {
     var relayStatus = relayStatusMap[relayAddr];
     if (relayStatus == null) {
       relayStatus = RelayStatus(relayAddr, relayType: relayType);
