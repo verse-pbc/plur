@@ -63,7 +63,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _handleExtraAndNotify(Event event) async {
-    if (event.kind == EventKind.EMOJIS_LIST) {
+    if (event.kind == EventKind.emojisList) {
       // This is a emoji list, try to handle some listSet
       for (var tag in event.tags) {
         if (tag is List && tag.length > 1) {
@@ -74,15 +74,14 @@ class ListProvider extends ChangeNotifier {
           }
         }
       }
-    } else if (event.kind == EventKind.BOOKMARKS_LIST) {
+    } else if (event.kind == EventKind.bookmarksList) {
       // due to bookmarks info will use many times, so it should parse when it was receive.
       var bm = await parseBookmarks();
       if (bm != null) {
         _bookmarks = bm;
       }
-    } else if (event.kind == EventKind.GROUP_LIST) {
+    } else if (event.kind == EventKind.groupList) {
       _groupIdentifiers.clear();
-
       for (var tag in event.tags) {
         if (tag is List && tag.length > 2) {
           var k = tag[0];
@@ -90,7 +89,7 @@ class ListProvider extends ChangeNotifier {
           var host = tag[2];
           if (k == "group") {
             var gi = GroupIdentifier(host, groupId);
-            _groupIdentifiers.add(gi);
+            _addGroupIdentifier(gi);
           }
         }
       }
@@ -104,7 +103,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   String get emojiKey {
-    return "${EventKind.EMOJIS_LIST}:${nostr!.publicKey}";
+    return "${EventKind.emojisList}:${nostr!.publicKey}";
   }
 
   List<MapEntry<String, List<CustomEmoji>>> emojis(
@@ -169,7 +168,7 @@ class ListProvider extends ChangeNotifier {
       }
       tags.add(["emoji", emoji.name, emoji.filepath]);
       var changedEvent =
-          Event(nostr!.publicKey, EventKind.EMOJIS_LIST, tags, "");
+          Event(nostr!.publicKey, EventKind.emojisList, tags, "");
       var result = await nostr!.sendEvent(changedEvent);
 
       if (result != null) {
@@ -188,7 +187,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   String get bookmarksKey {
-    return "${EventKind.BOOKMARKS_LIST}:${nostr!.publicKey}";
+    return "${EventKind.bookmarksList}:${nostr!.publicKey}";
   }
 
   Event? getBookmarksEvent() {
@@ -292,7 +291,7 @@ class ListProvider extends ChangeNotifier {
     }
 
     var event =
-        Event(nostr!.publicKey, EventKind.BOOKMARKS_LIST, tags, content!);
+        Event(nostr!.publicKey, EventKind.bookmarksList, tags, content!);
     var resultEvent = await nostr!.sendEvent(event);
     if (resultEvent != null) {
       _holder[bookmarksKey] = resultEvent;
@@ -358,8 +357,9 @@ class ListProvider extends ChangeNotifier {
         .where((result) => result.$2)
         .map((result) => result.$1)
         .toList();
-
-    _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    if (context != null && context.mounted) {
+      _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    }
     cancelFunc.call();
   }
 
@@ -400,14 +400,14 @@ class ListProvider extends ChangeNotifier {
 
     return Event(
       nostr!.publicKey,
-      EventKind.GROUP_JOIN,
+      EventKind.groupJoin,
       eventTags,
       "",
     );
   }
 
   Future<bool> _verifyMembership(JoinGroupParameters request) async {
-    final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
+    final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
     final filterMap = filter.toJson();
     filterMap["#d"] = [request.groupId];
 
@@ -417,7 +417,7 @@ class ListProvider extends ChangeNotifier {
       [filterMap],
       (Event event) => _checkTagsForMembership(event, completer),
       tempRelays: [request.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
 
@@ -432,7 +432,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _checkTagsForMembership(Event event, Completer<bool> completer) {
-    if (event.kind == EventKind.GROUP_MEMBERS) {
+    if (event.kind == EventKind.groupMembers) {
       for (var tag in event.tags) {
         if (tag is List && tag.length > 1) {
           if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
@@ -474,7 +474,7 @@ class ListProvider extends ChangeNotifier {
 
     final event = Event(
       nostr!.publicKey,
-      EventKind.GROUP_LEAVE,
+      EventKind.groupLeave,
       [
         ["h", gi.groupId]
       ],
@@ -498,7 +498,7 @@ class ListProvider extends ChangeNotifier {
 
     final updateGroupListEvent = Event(
       nostr!.publicKey,
-      EventKind.GROUP_LIST,
+      EventKind.groupList,
       tags,
       "",
     );
@@ -519,7 +519,7 @@ class ListProvider extends ChangeNotifier {
     // We only support private closed group for now.
     final createGroupEvent = Event(
       nostr!.publicKey,
-      EventKind.GROUP_CREATE_GROUP,
+      EventKind.groupCreateGroup,
       [
         ["h", groupId]
       ],
@@ -574,7 +574,7 @@ class ListProvider extends ChangeNotifier {
 
     final inviteEvent = Event(
       nostr!.publicKey,
-      EventKind.GROUP_CREATE_INVITE,
+      EventKind.groupCreateInvite,
       tags,
       "", // Empty content as per example
     );
@@ -595,29 +595,30 @@ class ListProvider extends ChangeNotifier {
 
   /// Add a group identifier to the list and fetch its metadata
   void _addGroupIdentifier(GroupIdentifier groupId) {
-    if (!_groupIdentifiers.contains(groupId)) {
-      _groupIdentifiers.add(groupId);
-      // Fetch metadata for just this new group
-      _queryGroupMetadata(groupId);
+    if (_groupIdentifiers.contains(groupId)) {
+      return;
     }
+    _groupIdentifiers.add(groupId);
+    _queryGroupMetadata(groupId);
   }
 
   /// Fetch metadata for a specific group
   void _queryGroupMetadata(GroupIdentifier groupId) async {
     // Create filter for group metadata
-    final filter = Filter(kinds: [EventKind.GROUP_METADATA], limit: 1);
+    final filter = Filter(kinds: [EventKind.groupMetadata], limit: 1);
     final filterMap = filter.toJson();
     filterMap["#d"] = [groupId.groupId];
 
     nostr!.query(
       [filterMap],
       (Event event) {
-        if (event.kind == EventKind.GROUP_METADATA) {
+        if (event.kind == EventKind.groupMetadata) {
           groupProvider.onEvent(groupId, event);
         }
       },
       tempRelays: [groupId.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      targetRelays: [groupId.host],
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
   }
@@ -627,12 +628,12 @@ class ListProvider extends ChangeNotifier {
     final filters = [
       {
         // Get groups where user is a member
-        "kinds": [EventKind.GROUP_MEMBERS],
+        "kinds": [EventKind.groupMembers],
         "#p": [nostr!.publicKey],
       },
       {
         // Get groups where user is an admin
-        "kinds": [EventKind.GROUP_ADMINS],
+        "kinds": [EventKind.groupAdmins],
         "#p": [nostr!.publicKey],
       }
     ];
@@ -640,10 +641,13 @@ class ListProvider extends ChangeNotifier {
     nostr!.query(
       filters,
       (Event event) {
-        _extractGroupIdentifiersFromTags(event, tagPrefix: "d").forEach(_addGroupIdentifier);
+        final ids = _extractGroupIdentifiersFromTags(event, tagPrefix: "d");
+        ids.forEach(_addGroupIdentifier);
+        notifyListeners();
       },
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: RelayType.ONLY_TEMP,
+      targetRelays: [RelayProvider.defaultGroupsRelayAddress],
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
   }
@@ -659,8 +663,8 @@ class ListProvider extends ChangeNotifier {
 
   /// Handles membership/admin events by adding new groups to _groupIdentifiers
   void handleAdminMembershipEvent(Event event) {
-    if (event.kind == EventKind.GROUP_MEMBERS ||
-        event.kind == EventKind.GROUP_ADMINS) {
+    if (event.kind == EventKind.groupMembers ||
+        event.kind == EventKind.groupAdmins) {
       _extractGroupIdentifiersFromTags(event, tagPrefix: "d")
           .forEach(_addGroupIdentifier);
       notifyListeners();
@@ -669,9 +673,12 @@ class ListProvider extends ChangeNotifier {
 
   /// Handles metadata update events by updating the group metadata in GroupProvider
   void handleEditMetadataEvent(Event event) {
-    if (event.kind == EventKind.GROUP_EDIT_METADATA) {
+    if (event.kind == EventKind.groupEditMetadata) {
       _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
-          .forEach((groupId) => groupProvider.onEvent(groupId, event));
+          .forEach((groupId) {
+            groupProvider.onEvent(groupId, event);
+            _queryGroupMetadata(groupId);
+          });
       notifyListeners();
     }
   }

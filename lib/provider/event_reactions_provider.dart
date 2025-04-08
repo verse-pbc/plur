@@ -124,11 +124,11 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
   }
 
   List<int> supportEventKinds = [
-    EventKind.TEXT_NOTE,
-    EventKind.REPOST,
-    EventKind.GENERIC_REPOST,
-    EventKind.REACTION,
-    EventKind.ZAP
+    EventKind.textNote,
+    EventKind.repost,
+    EventKind.genericRepost,
+    EventKind.reaction,
+    EventKind.zap
   ];
 
   Future<bool> _loadFromRelayLocal(String id) async {
@@ -139,7 +139,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
 
         var filter = Filter(e: [id], kinds: supportEventKinds);
         var events = await nostr!.queryEvents([filter.toJson()],
-            relayTypes: RelayType.CACHE_AND_LOCAL);
+            relayTypes: RelayType.cacheAndLocal);
         if (events.isNotEmpty) {
           onEvents(events);
           whenStop(laterFunc);
@@ -185,7 +185,7 @@ class EventReactionsProvider extends ChangeNotifier with WhenStopFunction {
       filters.add(filter.toJson());
     }
     _needHandleIds.clear();
-    nostr!.query(filters, onEvent, relayTypes: RelayType.ONLY_NORMAL);
+    nostr!.query(filters, onEvent, relayTypes: RelayType.onlyNormal);
   }
 
   void addEventAndHandle(Event event) {
