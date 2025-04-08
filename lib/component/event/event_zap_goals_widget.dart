@@ -12,11 +12,11 @@ import '../zap/zap_bottom_sheet_widget.dart';
 import 'event_quote_widget.dart';
 
 class EventZapGoalsWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  EventRelation eventRelation;
+  final EventRelation eventRelation;
 
-  EventZapGoalsWidget({super.key, 
+  const EventZapGoalsWidget({super.key,
     required this.event,
     required this.eventRelation,
   });

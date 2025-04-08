@@ -114,7 +114,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
 
   void goToIndex() {
     newUser = false;
-    settingsProvider.notifyListeners();
+    settingsProvider.notify();
   }
 
   @override

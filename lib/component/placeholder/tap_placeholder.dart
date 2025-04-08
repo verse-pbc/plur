@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../consts/base.dart';
 
 class TapPlaceholder extends StatelessWidget {
-  Color color;
+  final Color color;
 
-  double width;
+  final double width;
 
-  TapPlaceholder({super.key, required this.width, required this.color});
+  const TapPlaceholder({super.key, required this.width, required this.color});
 
   @override
   Widget build(BuildContext context) {

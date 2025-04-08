@@ -15,7 +15,7 @@ class RelayStatus {
       this.writeAccess = true,
       this.readAccess = true});
 
-  int connected = ClientConneccted.UN_CONNECT;
+  int connected = ClientConnected.disconnected;
 
   // bool noteAble = true;
   // bool dmAble = true;

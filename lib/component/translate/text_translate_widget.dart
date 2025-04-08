@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
-import 'package:google_mlkit_translation/src/on_device_translator.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/main.dart';
@@ -9,11 +8,11 @@ import 'package:nostrmo/main.dart';
 import '../cust_state.dart';
 
 class TextTranslateWidget extends StatefulWidget {
-  String text;
+  final String text;
 
-  Function? textOnTap;
+  final Function? textOnTap;
 
-  TextTranslateWidget(this.text, {super.key, this.textOnTap});
+  const TextTranslateWidget(this.text, {super.key, this.textOnTap});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,7 +23,7 @@ class TextTranslateWidget extends StatefulWidget {
 class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
   String? sourceText;
 
-  static const double MARGIN = 4;
+  static const double margin = 4;
 
   String? targetText;
 
@@ -57,7 +56,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
         list.add(
           WidgetSpan(
               child: Container(
-            margin: const EdgeInsets.only(left: MARGIN),
+            margin: const EdgeInsets.only(left: margin),
             child: Text(
               "<- ${targetLanguage!.bcpCode}",
               style: TextStyle(
@@ -77,8 +76,8 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
           },
           child: Container(
             margin: const EdgeInsets.only(
-              left: MARGIN,
-              right: MARGIN,
+              left: margin,
+              right: margin,
             ),
             height: iconWidgetWidth,
             width: iconWidgetWidth,
@@ -100,7 +99,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
         list.add(
           WidgetSpan(
               child: Container(
-            margin: const EdgeInsets.only(right: MARGIN),
+            margin: const EdgeInsets.only(right: margin),
             child: Text(
               "${sourceLanguage!.bcpCode} ->",
               style: TextStyle(
@@ -137,7 +136,7 @@ class _TextTranslateWidgetState extends CustState<TextTranslateWidget> {
       return;
     }
 
-    if (settingsProvider.openTranslate != OpenStatus.OPEN) {
+    if (settingsProvider.openTranslate != OpenStatus.open) {
       // is close
       if (targetText != null) {
         // set targetText to null

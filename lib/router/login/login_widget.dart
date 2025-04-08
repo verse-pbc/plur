@@ -357,7 +357,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   /// Navigates to the Signup screen.
   Future<void> _navigateToSignup() async {
-    final privateKey = await Navigator.of(context).pushNamed(RouterPath.SIGNUP);
+    final privateKey = await Navigator.of(context).pushNamed(RouterPath.signUp);
     if (privateKey != null && privateKey is String) {
       _doPreLogin();
 
@@ -368,7 +368,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         RouterUtil.back(context);
       }
 
-      settingsProvider.notifyListeners();
+      settingsProvider.notify();
       // Marks the login as the first one, so the contact data can be properly
       // downloaded.
       firstLogin = true;
@@ -462,7 +462,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       RouterUtil.back(context);
     }
 
-    settingsProvider.notifyListeners();
+    settingsProvider.notify();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
@@ -478,7 +478,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     _doPreLogin();
 
-    var key = "${AndroidNostrSigner.URI_PRE}:$pubkey";
+    var key = "${AndroidNostrSigner.uriPre}:$pubkey";
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
       key = "$key?package=${androidNostrSigner.getPackage()}";
     }
@@ -489,7 +489,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       RouterUtil.back(context);
     }
 
-    settingsProvider.notifyListeners();
+    settingsProvider.notify();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
@@ -505,7 +505,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     _doPreLogin();
 
-    var key = "${NIP07Signer.URI_PRE}:$pubkey";
+    var key = "${NIP07Signer.uriPre}:$pubkey";
     settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(signer);
 
@@ -513,7 +513,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       RouterUtil.back(context);
     }
 
-    settingsProvider.notifyListeners();
+    settingsProvider.notify();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }

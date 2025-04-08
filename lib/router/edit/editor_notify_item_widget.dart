@@ -15,9 +15,9 @@ class EditorNotifyItem {
 }
 
 class EditorNotifyItemWidget extends StatefulWidget {
-  EditorNotifyItem item;
+  final EditorNotifyItem item;
 
-  EditorNotifyItemWidget({super.key, required this.item});
+  const EditorNotifyItemWidget({super.key, required this.item});
 
   @override
   State<StatefulWidget> createState() {

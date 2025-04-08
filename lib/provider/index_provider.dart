@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../consts/index_taps.dart';
 
 class IndexProvider extends ChangeNotifier {
-  int _currentTap = IndexTaps.FOLLOW;
+  int _currentTap = IndexTaps.follow;
 
   int get currentTap => _currentTap;
 

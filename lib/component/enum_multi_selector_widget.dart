@@ -36,7 +36,7 @@ class EnumMultiSelectorWidget extends StatefulWidget {
 }
 
 class _EnumMultiSelectorWidgetState extends State<EnumMultiSelectorWidget> {
-  double BTN_WIDTH = 50;
+  double buttonWidth = 50;
 
   late List<EnumObj> values;
 
@@ -63,11 +63,11 @@ class _EnumMultiSelectorWidgetState extends State<EnumMultiSelectorWidget> {
               return RouterUtil.back(context, values);
             },
             child: Container(
-              width: BTN_WIDTH,
-              height: BTN_WIDTH,
+              width: buttonWidth,
+              height: buttonWidth,
               decoration: BoxDecoration(
                 color: mainColor,
-                borderRadius: BorderRadius.circular(BTN_WIDTH / 2),
+                borderRadius: BorderRadius.circular(buttonWidth / 2),
               ),
               child: Icon(
                 Icons.done,

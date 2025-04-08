@@ -5,13 +5,13 @@ import '../../consts/base.dart';
 import 'reaction_event_metadata_widget.dart';
 
 class ReactionEventItemWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  String text;
+  final String text;
 
-  int createdAt;
+  final int createdAt;
 
-  ReactionEventItemWidget({super.key, 
+  const ReactionEventItemWidget({super.key,
     required this.pubkey,
     required this.text,
     required this.createdAt,

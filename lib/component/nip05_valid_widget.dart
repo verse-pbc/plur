@@ -5,9 +5,9 @@ import '../consts/nip05status.dart';
 import '../provider/user_provider.dart';
 
 class Nip05ValidWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  Nip05ValidWidget({super.key, required this.pubkey});
+  const Nip05ValidWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
@@ -25,8 +25,8 @@ class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
     return Selector<UserProvider, int>(
         builder: (context, nip05Status, child) {
       var iconData = Icons.check_circle;
-      if (nip05Status == Nip05Status.NIP05_NOT_FOUND ||
-          nip05Status == Nip05Status.METADATA_NOT_FOUND) {
+      if (nip05Status == Nip05Status.nip05NotFound ||
+          nip05Status == Nip05Status.metadataNotFound) {
         // iconData = Icons.error;
         return const SizedBox(
           width: 0,
@@ -35,9 +35,9 @@ class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
       }
 
       Color iconColor = Colors.red;
-      if (nip05Status == Nip05Status.NIP05_NOT_VALID) {
+      if (nip05Status == Nip05Status.nip05Invalid) {
         iconColor = Colors.yellow;
-      } else if (nip05Status == Nip05Status.NIP05_VALID) {
+      } else if (nip05Status == Nip05Status.nip05Valid) {
         iconColor = mainColor;
       }
 

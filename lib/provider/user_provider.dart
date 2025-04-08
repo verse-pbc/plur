@@ -27,7 +27,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
 
       var list = await UserDB.all();
       for (var md in list) {
-        if (md.valid == Nip05Status.NIP05_NOT_VALID) {
+        if (md.valid == Nip05Status.nip05Invalid) {
           md.valid = null;
         }
         _userProvider!._userCache[md.pubkey!] = md;
@@ -114,41 +114,41 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       // web can't valid NIP05 due to cors
       if (user != null) {
         if (user.nip05 != null) {
-          return Nip05Status.NIP05_VALID;
+          return Nip05Status.nip05Valid;
         }
 
-        return Nip05Status.NIP05_NOT_VALID;
+        return Nip05Status.nip05Invalid;
       }
 
-      return Nip05Status.NIP05_NOT_FOUND;
+      return Nip05Status.nip05NotFound;
     }
 
     if (user == null) {
-      return Nip05Status.METADATA_NOT_FOUND;
+      return Nip05Status.metadataNotFound;
     } else if (StringUtil.isNotBlank(user.nip05)) {
       if (user.valid == null) {
         Nip05Validator.valid(user.nip05!, pubkey).then((valid) async {
           if (valid != null) {
             if (valid) {
-              user.valid = Nip05Status.NIP05_VALID;
+              user.valid = Nip05Status.nip05Valid;
               await UserDB.update(user);
             } else {
               // only update cache, next open app vill valid again
-              user.valid = Nip05Status.NIP05_NOT_VALID;
+              user.valid = Nip05Status.nip05Invalid;
             }
             notifyListeners();
           }
         });
 
-        return Nip05Status.NIP05_NOT_VALID;
-      } else if (user.valid! == Nip05Status.NIP05_VALID) {
-        return Nip05Status.NIP05_VALID;
+        return Nip05Status.nip05Invalid;
+      } else if (user.valid! == Nip05Status.nip05Valid) {
+        return Nip05Status.nip05Valid;
       }
 
-      return Nip05Status.NIP05_NOT_VALID;
+      return Nip05Status.nip05Invalid;
     }
 
-    return Nip05Status.NIP05_NOT_FOUND;
+    return Nip05Status.nip05NotFound;
   }
 
   final EventMemBox _pendingEvents = EventMemBox(sortAfterAdd: false);

@@ -5,9 +5,9 @@ import 'follow_posts_widget.dart';
 import 'follow_widget.dart';
 
 class FollowIndexWidget extends StatefulWidget {
-  TabController tabController;
+  final TabController tabController;
 
-  FollowIndexWidget({super.key, required this.tabController});
+  const FollowIndexWidget({super.key, required this.tabController});
 
   @override
   State<StatefulWidget> createState() {

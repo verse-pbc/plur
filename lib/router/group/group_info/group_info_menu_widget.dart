@@ -64,7 +64,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
   void _navigateToMenuItem(BuildContext context, GroupInfoMenuItem item) {
     switch (item) {
       case GroupInfoMenuItem.members:
-        RouterUtil.router(context, RouterPath.GROUP_MEMBERS, groupId);
+        RouterUtil.router(context, RouterPath.groupMembers, groupId);
     }
   }
 
