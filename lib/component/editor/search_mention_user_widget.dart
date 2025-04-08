@@ -32,6 +32,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 
   List<User> _users = [];
   List<User?> _allUsers = [];
+  bool _searchPerformed = false;
 
   @override
   void initState() {
@@ -85,9 +86,26 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 
   Widget _resultBuild() {
     if (_users.isEmpty) {
-     return const Center(
-       child: CircularProgressIndicator(),
-     );
+      // Check if we're showing empty results after a search, or just initial loading
+      if (_searchPerformed) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+              "No users found. Try a different search term.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Theme.of(context).hintColor,
+                fontSize: 16,
+              ),
+            ),
+          ),
+        );
+      } else {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      }
     }
 
     final userWidgetList = _users.map(
@@ -118,12 +136,41 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 
   void _handleSearch(String? text) {
     _users.clear();
+    
+    // Mark that a search has been performed
+    _searchPerformed = true;
 
     if (text == null || text.isEmpty) {
       _users = _allUsers.whereType<User>().toList();
     } else {
+      // First, try to get users from the provider's findUser method
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       _users = userProvider.findUser(text, limit: searchMemLimit);
+      
+      // If that doesn't return enough results, do our own case-insensitive search
+      if (_users.length < 5) {
+        // Get all users from the cache
+        final allCachedUsers = userProvider.getAllUsers();
+        final lowerText = text.toLowerCase();
+        
+        for (final user in allCachedUsers) {
+          // Skip users already in the results
+          if (_users.any((u) => u.pubkey == user.pubkey)) {
+            continue;
+          }
+          
+          // Case-insensitive search on display name, name, or nip05
+          if ((user.displayName != null && user.displayName!.toLowerCase().contains(lowerText)) ||
+              (user.name != null && user.name!.toLowerCase().contains(lowerText)) ||
+              (user.nip05 != null && user.nip05!.toLowerCase().contains(lowerText))) {
+            _users.add(user);
+            
+            if (_users.length >= searchMemLimit) {
+              break;
+            }
+          }
+        }
+      }
     }
 
     setState(() {});

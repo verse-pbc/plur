@@ -72,6 +72,13 @@ class UserProvider extends ChangeNotifier with LaterFunction {
     }
     return list;
   }
+  
+  /// Returns all cached users.
+  /// 
+  /// This is useful for custom search implementations.
+  List<User> getAllUsers() {
+    return _userCache.values.toList();
+  }
 
   void _laterCallback() {
     if (_needUpdatePubKeys.isNotEmpty) {
