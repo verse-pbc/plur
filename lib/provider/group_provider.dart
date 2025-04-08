@@ -162,9 +162,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     nostr!.query(
       filters,
       (e) => onEvent(groupIdentifier, e),
-      tempRelays: [groupIdentifier.host],
       relayTypes: RelayType.tempAndLocal,
-      sendAfterAuth: true,
     );
   }
 
@@ -236,7 +234,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       tags.add(["about", groupMetadata.about!]);
     }
 
-    final e = Event(nostr!.publicKey, EventKind.groupEditMetadata, tags, "");
+    var e = Event(nostr!.publicKey, EventKind.groupEditMetadata, tags, "");
     final result =
         await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
     if (result != null) {
