@@ -356,5 +356,9 @@
           "type": "int"
         }
       }
-    }
+    },
+    "Age_verification_question": "Are you over 16 years old?",
+    "Age_verification_message": "For legal reasons, we need to make sure you're over this age to use Plur.",
+    "No": "No",
+    "Yes": "Yes"
 }
