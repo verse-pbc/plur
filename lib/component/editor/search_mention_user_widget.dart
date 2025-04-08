@@ -206,12 +206,13 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
   }
   
   Future<void> _searchRelaysForUsers(String searchText) async {
-    // First check if it's a direct NIP-05 format (someone@domain.com)
+    // First check if it's a direct NIP-05 format (name@domain)
     if (searchText.contains('@') && !searchText.contains(' ')) {
-      await _tryExactNip05Lookup(searchText);
+      // This is likely a NIP-05 identifier - prioritize this search
+      await _searchByExactNip05(searchText);
     }
     
-    // Run parallel searches for NIP-05 and usernames
+    // Run parallel searches for other matching strategies
     await Future.wait([
       _searchRelaysWithMetadataFilter(searchText),
       // If the search text has a word that looks like a name (3+ chars without special chars)
@@ -220,24 +221,62 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     ]);
   }
   
-  Future<void> _tryExactNip05Lookup(String nip05Text) async {
-    // This looks like a NIP-05 address, let's try a direct lookup first
+  Future<void> _searchByExactNip05(String nip05Identifier) async {
+    // This is a specialized search specifically for NIP-05 identifiers
     try {
-      // Extract the parts
-      final parts = nip05Text.split('@');
+      // Extract the parts from the NIP-05 identifier
+      final parts = nip05Identifier.split('@');
       if (parts.length != 2) return;
       
-      final name = parts[0];
-      final domain = parts[1];
+      // Create a specialized filter just to find this exact NIP-05
+      final filter = Filter(
+        kinds: [EventKind.METADATA],
+        limit: 20,
+      );
       
-      // This would construct the URL for direct NIP-05 lookup
-      // final url = 'https://$domain/.well-known/nostr.json?name=$name';
+      // Create a completer to wait for results
+      final completer = Completer<void>();
       
-      // This is just a stub - the actual lookup should be implemented
-      // Since this requires HTTP requests which we can't do directly in this context,
-      // we'll rely on a full relay query instead
+      // Set a timeout
+      Timer(const Duration(seconds: 8), () {
+        try {
+          completer.complete();
+        } catch (_) {
+          // Completer might already be completed
+        }
+      });
+      
+      // Query relays for this exact NIP-05
+      nostr!.query([filter.toJson()], (event) {
+        if (event.kind == EventKind.METADATA) {
+          try {
+            final content = jsonDecode(event.content);
+            final userNip05 = content['nip05'] as String?;
+            
+            // Do case-insensitive exact matching
+            if (userNip05 != null && 
+                userNip05.toLowerCase() == nip05Identifier.toLowerCase()) {
+              // We found an exact match!
+              final user = User.fromJson(content);
+              user.pubkey = event.pubkey;
+              user.updatedAt = event.createdAt;
+              
+              // Add it if not already in results
+              if (!_users.any((u) => u.pubkey == user.pubkey)) {
+                setState(() {
+                  _users.add(user);
+                });
+              }
+            }
+          } catch (e) {
+            // Ignore errors parsing metadata
+          }
+        }
+      });
+      
+      await completer.future;
     } catch (e) {
-      // Ignore errors in direct lookup, we'll fall back to relay search
+      // Ignore errors
     }
   }
   
@@ -261,6 +300,20 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
         }
       });
       
+      // Prepare for NIP-05 search if applicable
+      bool isNip05Search = searchText.contains('@');
+      String nip05Name = '';
+      String nip05Domain = '';
+      
+      // If it looks like a NIP-05 identifier, extract parts for better matching
+      if (isNip05Search && !searchText.contains(' ')) {
+        final parts = searchText.split('@');
+        if (parts.length == 2) {
+          nip05Name = parts[0].toLowerCase();
+          nip05Domain = parts[1].toLowerCase();
+        }
+      }
+      
       // Search the relays
       nostr!.query([filter.toJson()], (event) {
         if (event.kind == EventKind.METADATA) {
@@ -276,12 +329,37 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
             // Lowercase search text for case-insensitive matching
             final lowerSearchText = searchText.toLowerCase();
             
-            // Check if any field contains our search text
-            if (userName.contains(lowerSearchText) || 
-                userDisplayName.contains(lowerSearchText) || 
-                userNip05.contains(lowerSearchText) ||
-                userAbout.contains(lowerSearchText)) {
-              
+            bool isMatch = false;
+            
+            // NIP-05 specific matching (if applicable)
+            if (isNip05Search && userNip05.isNotEmpty) {
+              // For NIP-05 searches, we need specialized matching logic
+              if (nip05Name.isNotEmpty && nip05Domain.isNotEmpty) {
+                // Check for exact NIP-05 match (highest priority)
+                if (userNip05 == lowerSearchText) {
+                  isMatch = true;
+                } 
+                // Check if domain matches and name contains/matches the search name
+                else if (userNip05.endsWith('@$nip05Domain') && 
+                         userNip05.contains(nip05Name)) {
+                  isMatch = true;
+                }
+                // If only the domain matches, it's a lower priority match but still relevant
+                else if (userNip05.endsWith('@$nip05Domain')) {
+                  isMatch = true;
+                }
+              }
+            }
+            
+            // Standard text matching for all fields
+            if (!isMatch) {
+              isMatch = userName.contains(lowerSearchText) || 
+                      userDisplayName.contains(lowerSearchText) || 
+                      userNip05.contains(lowerSearchText) ||
+                      userAbout.contains(lowerSearchText);
+            }
+            
+            if (isMatch) {
               // Process the event to update user cache
               final user = User.fromJson(content);
               user.pubkey = event.pubkey;
