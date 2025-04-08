@@ -83,7 +83,7 @@ class _EventListWidgetState extends State<EventListWidget> {
       ),
     );
 
-    if (widget.event.kind == EventKind.ZAP) {
+    if (widget.event.kind == EventKind.zap) {
       main = EventBitcoinIconWidget.wrapper(main);
     }
 
@@ -110,7 +110,7 @@ class _EventListWidgetState extends State<EventListWidget> {
   }
 
   void jumpToThread() {
-    if (widget.event.kind == EventKind.REPOST) {
+    if (widget.event.kind == EventKind.repost) {
       // try to find target event
       if (widget.event.content.contains("\"pubkey\"")) {
         try {
