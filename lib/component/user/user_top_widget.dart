@@ -32,18 +32,14 @@ class UserTopWidget extends StatefulWidget {
     return height;
   }
 
-  String pubkey;
-
-  User? user;
-
+  final String pubkey;
+  final User? user;
   // is local user
-  bool isLocal;
+  final bool isLocal;
+  final bool jumpable;
+  final bool userPicturePreview;
 
-  bool jumpable;
-
-  bool userPicturePreview;
-
-  UserTopWidget({
+  const UserTopWidget({
     super.key,
     required this.pubkey,
     this.user,
@@ -59,11 +55,9 @@ class UserTopWidget extends StatefulWidget {
 }
 
 class _UserTopWidgetState extends State<UserTopWidget> {
-  static const double IMAGE_BORDER = 4;
-
-  static const double IMAGE_WIDTH = 80;
-
-  static const double HALF_IMAGE_WIDTH = 40;
+  static const double imageBorder = 4;
+  static const double imageWidth = 80;
+  static const double halfImageWidth = 40;
 
   late String nip19PubKey;
 
@@ -107,8 +101,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     }
 
     Widget? bannerImage;
-    if (widget.user != null &&
-        StringUtil.isNotBlank(widget.user!.banner)) {
+    if (widget.user != null && StringUtil.isNotBlank(widget.user!.banner)) {
       bannerImage = ImageWidget(
         imageUrl: widget.user!.banner!,
         width: maxWidth,
@@ -212,7 +205,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     topList.add(Container(
       height: bannerImage != null
           ? 50
-          : IMAGE_WIDTH + IMAGE_BORDER * 2 + Base.basePadding * 2,
+          : imageWidth + imageBorder * 2 + Base.basePadding * 2,
       margin: EdgeInsets.only(top: bannerImage != null ? 0 : Base.basePadding),
       child: Row(
         children: topBtnList,
@@ -257,7 +250,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
 
     Widget userImageWidget = UserPicWidget(
       pubkey: widget.pubkey,
-      width: IMAGE_WIDTH,
+      width: imageWidth,
       user: widget.user,
     );
     if (widget.userPicturePreview) {
@@ -281,16 +274,15 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         Positioned(
           left: Base.basePadding,
           top: bannerImage != null
-              ? bannerHeight + navHeight - HALF_IMAGE_WIDTH
+              ? bannerHeight + navHeight - halfImageWidth
               : navHeight + Base.basePadding,
           child: Container(
-            height: IMAGE_WIDTH + IMAGE_BORDER * 2,
-            width: IMAGE_WIDTH + IMAGE_BORDER * 2,
+            height: imageWidth + imageBorder * 2,
+            width: imageWidth + imageBorder * 2,
             decoration: BoxDecoration(
-              borderRadius:
-                  BorderRadius.circular(HALF_IMAGE_WIDTH + IMAGE_BORDER),
+              borderRadius: BorderRadius.circular(halfImageWidth + imageBorder),
               border: Border.all(
-                width: IMAGE_BORDER,
+                width: imageBorder,
                 color: scaffoldBackgroundColor,
               ),
             ),
@@ -309,8 +301,9 @@ class _UserTopWidgetState extends State<UserTopWidget> {
   }
 
   copyPubKey() {
+    final message = S.of(context).key_has_been_copy;
     Clipboard.setData(ClipboardData(text: nip19PubKey)).then((_) {
-      BotToast.showText(text: S.of(context).key_has_been_copy);
+      BotToast.showText(text: message);
     });
   }
 
@@ -324,7 +317,9 @@ class _UserTopWidgetState extends State<UserTopWidget> {
   }
 
   Future<void> handleScanner() async {
+    if (!mounted) return;
     var result = await RouterUtil.router(context, RouterPath.QRSCANNER);
+    if (!mounted) return;
     if (StringUtil.isNotBlank(result)) {
       if (Nip19.isPubkey(result)) {
         var pubkey = Nip19.decode(result);
@@ -344,26 +339,28 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         }
       } else if (NIP19Tlv.isNrelay(result)) {
         var nrelay = NIP19Tlv.decodeNrelay(result);
-        if (nrelay != null) {
-          var result = await ConfirmDialog.show(
+        if (nrelay != null && mounted) {
+          var dialogResult = await ConfirmDialog.show(
               context, S.of(context).Add_this_relay_to_local);
-          if (result == true) {
+          if (dialogResult == true && mounted) {
             relayProvider.addRelay(nrelay.addr);
           }
         }
       } else if (result.indexOf("http") == 0) {
+        if (!mounted) return;
         WebViewWidget.open(context, result);
       } else {
-        Clipboard.setData(ClipboardData(text: result)).then((_) {
-          BotToast.showText(text: S.of(context).Copy_success);
-        });
+        if (!mounted) return;
+        final message = S.of(context).Copy_success;
+        await Clipboard.setData(ClipboardData(text: result));
+        if (!mounted) return;
+        BotToast.showText(text: message);
       }
     }
   }
 
   void userPicturePreview() {
-    if (widget.user != null &&
-        StringUtil.isNotBlank(widget.user!.picture)) {
+    if (widget.user != null && StringUtil.isNotBlank(widget.user!.picture)) {
       List<ImageProvider> imageProviders = [];
       imageProviders.add(CachedNetworkImageProvider(widget.user!.picture!));
 
@@ -378,8 +375,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
   void openZapDialog() {
     List<EventZapInfo> list = [];
     String relayAddr = "";
-    var relayListMetadata =
-        userProvider.getRelayListMetadata(widget.pubkey);
+    var relayListMetadata = userProvider.getRelayListMetadata(widget.pubkey);
     if (relayListMetadata != null &&
         relayListMetadata.writeAbleRelays.isNotEmpty) {
       relayAddr = relayListMetadata.writeAbleRelays.first;
@@ -397,13 +393,16 @@ class _UserTopWidgetState extends State<UserTopWidget> {
 }
 
 class MetadataIconBtn extends StatelessWidget {
-  void Function()? onTap;
+  final void Function()? onTap;
+  final void Function()? onLongPress;
+  final IconData iconData;
 
-  void Function()? onLongPress;
-
-  IconData iconData;
-
-  MetadataIconBtn({super.key, required this.iconData, this.onTap, this.onLongPress});
+  const MetadataIconBtn({
+    super.key,
+    required this.iconData,
+    this.onTap,
+    this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -453,15 +452,13 @@ class MetadataIconBtn extends StatelessWidget {
 }
 
 class MetadataTextBtn extends StatelessWidget {
-  void Function() onTap;
+  final Function() onTap;
+  final Function()? onLongPress;
+  final String text;
+  final Color? borderColor;
 
-  void Function()? onLongPress;
-
-  String text;
-
-  Color? borderColor;
-
-  MetadataTextBtn({super.key,
+  const MetadataTextBtn({
+    super.key,
     required this.text,
     required this.onTap,
     this.onLongPress,
@@ -505,21 +502,17 @@ class MetadataTextBtn extends StatelessWidget {
 }
 
 class MetadataIconDataComp extends StatelessWidget {
-  String text;
+  final String text;
+  final IconData? iconData;
+  final Color? iconColor;
+  final bool textBG;
+  final Function? onTap;
+  final Widget? leftWidget;
 
-  IconData? iconData;
-
-  Color? iconColor;
-
-  bool textBG;
-
-  Function? onTap;
-
-  Widget? leftWidget;
-
-  MetadataIconDataComp({super.key,
+  const MetadataIconDataComp({
+    super.key,
     required this.text,
-    this.iconData,
+    this.iconData = Icons.circle,
     this.leftWidget,
     this.iconColor,
     this.textBG = false,
@@ -533,8 +526,6 @@ class MetadataIconDataComp extends StatelessWidget {
     if (cardColor == Colors.white) {
       cardColor = Colors.grey[300];
     }
-
-    iconData ??= Icons.circle;
 
     return Container(
       padding: const EdgeInsets.only(
