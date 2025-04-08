@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/component/appbar_bottom_border.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
-import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
 import 'package:nostrmo/router/group/communities_grid_widget.dart';
-import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
 /// Widget that provides a tabbed interface for communities:
@@ -40,7 +38,6 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget>
 
   @override
   Widget doBuild(BuildContext context) {
-    final l10n = S.of(context);
     final themeData = Theme.of(context);
 
     return Scaffold(
@@ -51,19 +48,11 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget>
             color: themeData.appBarTheme.backgroundColor,
             child: Column(
               children: [
-                // We don't need another title here since it's shown in the main app bar
+                // Minimal app bar - no title or buttons needed since they're in the main app bar
                 AppBar(
-                  // No title to avoid repetition
-                  centerTitle: true,
-                  elevation: 0,
                   automaticallyImplyLeading: false,
-                  actions: [
-                    IconButton(
-                      icon: const Icon(Icons.add_circle_outline),
-                      tooltip: l10n.Create_Group,
-                      onPressed: _showCreateCommunityDialog,
-                    ),
-                  ],
+                  elevation: 0,
+                  toolbarHeight: 8, // Minimal height
                 ),
                 // Tab bar
                 TabBar(
@@ -103,7 +92,4 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget>
     );
   }
 
-  void _showCreateCommunityDialog() {
-    CreateCommunityDialog.show(context);
-  }
 }
