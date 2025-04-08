@@ -73,7 +73,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
 
                     // Create community section
                     Text(
-                      'Start or join a community',
+                      localization.Start_or_join_a_community,
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -83,7 +83,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Connect with others by creating your own community or joining an existing one with an invite link.',
+                      localization.Connect_with_others,
                       style: TextStyle(
                         fontSize: 16.0,
                         color: themeData.customColors.primaryForegroundColor,
@@ -112,7 +112,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
 
                     // Hint text
                     Text(
-                      'Have an invite link? Tap on it to join a community.',
+                      localization.Have_invite_link,
                       style: TextStyle(
                         fontSize: 14.0,
                         fontStyle: FontStyle.italic,

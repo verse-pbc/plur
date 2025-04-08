@@ -27,21 +27,21 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Create your community",
-              style: TextStyle(
+            Text(
+              localization.Create_your_community,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 20),
-            const Text("Name your community"),
+            Text(localization.Name_your_community),
             const SizedBox(height: 10),
             TextField(
               controller: _communityNameController,
-              decoration: const InputDecoration(
-                hintText: "community name",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                hintText: localization.community_name,
+                border: const OutlineInputBorder(),
               ),
               onChanged: (text) {
                 setState(() {});
