@@ -68,7 +68,7 @@ class CommunityGuidelinesController
       // process the edited metadata.
       await Future.delayed(const Duration(seconds: 1));
       // Fetch metadata again so that the local relay can update its contents.
-      _fetchCommunityGuidelines(id);
+      await _fetchCommunityGuidelines(id);
     }
     state = AsyncValue<String>.data(communityGuidelines);
     return result;
