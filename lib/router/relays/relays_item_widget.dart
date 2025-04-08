@@ -13,15 +13,15 @@ import '../../consts/client_connected.dart';
 import '../../generated/l10n.dart';
 
 class RelaysItemWidget extends StatefulWidget {
-  String addr;
+  final String addr;
 
-  RelayStatus relayStatus;
+  final RelayStatus relayStatus;
 
-  bool editable;
+  final bool editable;
 
-  String rwText;
+  final String rwText;
 
-  RelaysItemWidget({
+  const RelaysItemWidget({
     super.key,
     required this.addr,
     required this.relayStatus,
@@ -39,12 +39,13 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
+    final localization = S.of(context);
     var smallFontSize = themeData.textTheme.bodySmall!.fontSize;
     var cardColor = themeData.cardColor;
     Color borderLeftColor = Colors.green;
-    if (widget.relayStatus.connected == ClientConneccted.UN_CONNECT) {
+    if (widget.relayStatus.connected == ClientConnected.disconnected) {
       borderLeftColor = Colors.red;
-    } else if (widget.relayStatus.connected == ClientConneccted.CONNECTING) {
+    } else if (widget.relayStatus.connected == ClientConnected.connecting) {
       borderLeftColor = Colors.yellow;
     }
 
@@ -97,7 +98,7 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
         onTap: () {
           var text = NIP19Tlv.encodeNrelay(Nrelay(widget.addr));
           Clipboard.setData(ClipboardData(text: text)).then((_) {
-            BotToast.showText(text: S.of(context).Copy_success);
+            BotToast.showText(text: localization.Copy_success);
           });
         },
         child: Container(
@@ -125,7 +126,7 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
         var relay = nostr!.getRelay(widget.addr);
         relay ??= nostr!.getTempRelay(widget.addr);
         if (relay != null && relay.info != null) {
-          RouterUtil.router(context, RouterPath.RELAY_INFO, relay);
+          RouterUtil.router(context, RouterPath.relayInfo, relay);
         }
       },
       child: Container(
@@ -173,13 +174,13 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
 }
 
 class RelaysItemNumWidget extends StatelessWidget {
-  Color? iconColor;
+  final Color? iconColor;
 
-  IconData iconData;
+  final IconData iconData;
 
-  int num;
+  final int num;
 
-  RelaysItemNumWidget({
+  const RelaysItemNumWidget({
     super.key,
     this.iconColor,
     required this.iconData,

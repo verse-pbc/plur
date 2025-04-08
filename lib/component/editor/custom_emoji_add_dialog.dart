@@ -198,6 +198,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
       cancel.call();
     }
 
+    if (!mounted) return;
     RouterUtil.back(context, CustomEmoji(name: text, filepath: filepath));
   }
 }

@@ -12,9 +12,9 @@ class TagInfoWidget extends StatefulWidget {
 
   final double height;
 
-  bool jumpable;
+  final bool jumpable;
 
-  TagInfoWidget({
+  const TagInfoWidget({
     super.key,
     required this.tag,
     this.height = 80,
@@ -82,7 +82,7 @@ class _TagInfoWidgetState extends State<TagInfoWidget> {
     if (widget.jumpable) {
       return GestureDetector(
         onTap: () {
-          RouterUtil.router(context, RouterPath.TAG_DETAIL, widget.tag);
+          RouterUtil.router(context, RouterPath.tagDetail, widget.tag);
         },
         behavior: HitTestBehavior.translucent,
         child: main,

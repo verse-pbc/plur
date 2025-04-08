@@ -136,7 +136,7 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
                     behavior: HitTestBehavior.translucent,
                     onTap: () {
                       RouterUtil.router(
-                          context, RouterPath.USER, contact.publicKey);
+                          context, RouterPath.user, contact.publicKey);
                     },
                     child: SimpleUserWidget(
                       pubkey: contact.publicKey,

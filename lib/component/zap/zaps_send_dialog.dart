@@ -16,13 +16,13 @@ import '../../util/zap_action.dart';
 import '../user/user_top_widget.dart';
 
 class ZapsSendDialog extends StatefulWidget {
-  Map<String, int> pubkeyZapNumbers;
+  final Map<String, int> pubkeyZapNumbers;
 
-  List<EventZapInfo> zapInfos;
+  final List<EventZapInfo> zapInfos;
 
-  String? comment;
+  final String? comment;
 
-  ZapsSendDialog({
+  const ZapsSendDialog({
     super.key, 
     required this.zapInfos,
     required this.pubkeyZapNumbers,
@@ -137,23 +137,23 @@ class _ZapsSendDialog extends CustState<ZapsSendDialog> {
 }
 
 class ZapsSendDialogItem extends StatelessWidget {
-  double height = 50;
+  final double height = 50;
 
-  double rightHeight = 40;
+  final double rightHeight = 40;
 
-  double rightWidth = 80;
+  final double rightWidth = 80;
 
-  String pubkey;
+  final String pubkey;
 
-  int zapNumber;
+  final int zapNumber;
 
-  String? invoiceCode;
+  final String? invoiceCode;
 
-  bool? sent;
+  final bool? sent;
 
-  Function(String, String, int) sendZapFunction;
+  final Function(String, String, int) sendZapFunction;
 
-  ZapsSendDialogItem(this.pubkey, this.zapNumber, this.sendZapFunction,
+  const ZapsSendDialogItem(this.pubkey, this.zapNumber, this.sendZapFunction,
       {super.key, this.invoiceCode, this.sent});
 
   @override

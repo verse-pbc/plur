@@ -108,7 +108,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
           );
         },
         itemCount: box.length() + 1,
@@ -182,7 +182,7 @@ class _TagDetailWidgetState extends CustState<TagDetailWidget>
 
     try {
       nostr!.unsubscribe(subscribeId);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   onDeleteCallback(Event event) {

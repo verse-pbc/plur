@@ -110,8 +110,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
 
   Future<void> addAccount() async {
     RouterUtil.back(context);
-    await RouterUtil.router(context, RouterPath.LOGIN, true);
-    settingsProvider.notifyListeners();
+    await RouterUtil.router(context, RouterPath.login, true);
+    settingsProvider.notify();
   }
 
   bool addAccountCheck(BuildContext p1, String privateKey) {
@@ -157,7 +157,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
         } finally {
           cancelFunc.call();
         }
-        settingsProvider.notifyListeners();
+        settingsProvider.notify();
 
         if (!mounted) return;
         RouterUtil.back(context);
@@ -183,7 +183,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
       }
     }
 
-    settingsProvider.notifyListeners();
+    settingsProvider.notify();
     if (routerBack && context != null && context.mounted) {
       RouterUtil.back(context);
     }

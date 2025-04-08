@@ -20,7 +20,7 @@ class RelayBase extends Relay {
     }
 
     try {
-      relayStatus.connected = ClientConneccted.CONNECTING;
+      relayStatus.connected = ClientConnected.connecting;
       getRelayInfo(url);
 
       final wsUrl = Uri.parse(url);
@@ -39,7 +39,7 @@ class RelayBase extends Relay {
         onError("Websocket stream closed by remote: $url",
             shouldReconnect: true);
       });
-      relayStatus.connected = ClientConneccted.CONNECTED;
+      relayStatus.connected = ClientConnected.connected;
       if (relayStatusCallback != null) {
         relayStatusCallback!();
       }
@@ -54,7 +54,7 @@ class RelayBase extends Relay {
   bool send(List<dynamic> message, {bool? forceSend}) {
     if (forceSend == true ||
         (_wsChannel != null &&
-            relayStatus.connected == ClientConneccted.CONNECTED)) {
+            relayStatus.connected == ClientConnected.connected)) {
       try {
         final encoded = jsonEncode(message);
         _wsChannel!.sink.add(encoded);
@@ -69,7 +69,7 @@ class RelayBase extends Relay {
   @override
   Future<void> disconnect() async {
     try {
-      relayStatus.connected = ClientConneccted.UN_CONNECT;
+      relayStatus.connected = ClientConnected.disconnected;
       if (_wsChannel != null) {
         await _wsChannel!.sink.close();
       }

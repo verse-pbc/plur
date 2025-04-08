@@ -115,7 +115,7 @@ class FollowEventProvider extends ChangeNotifier
       for (var subscribeId in _subscribeIds) {
         try {
           targetNostr.unsubscribe(subscribeId);
-        } catch (e) {}
+        } catch (_) {}
       }
       _subscribeIds.clear();
     }

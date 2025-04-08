@@ -210,7 +210,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                     onTap: () {
                       final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
-                          context, RouterPath.GROUP_MEMBERS, groupId);
+                          context, RouterPath.groupMembers, groupId);
                     },
                   ),
                 ],

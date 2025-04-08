@@ -28,7 +28,7 @@ class CommunitiesGridWidget extends StatelessWidget {
         return InkWell(
           onTap: () {
             RouterUtil.router(
-                context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                context, RouterPath.groupDetail, groupIdentifier);
           },
           child: CommunityWidget(groupIdentifier),
         );

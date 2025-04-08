@@ -1,5 +1,4 @@
-import 'package:flutter/src/painting/text_style.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostrmo/component/content/content_custom_emoji_widget.dart';
 import 'package:nostrmo/component/editor/cust_embed_types.dart';
@@ -17,5 +16,5 @@ class CustomEmojiEmbedBuilder extends EmbedBuilder {
   }
 
   @override
-  String get key => CustEmbedTypes.custom_emoji;
+  String get key => CustEmbedTypes.customEmoji;
 }
