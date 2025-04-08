@@ -36,33 +36,54 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
     try {
       final listProvider = Provider.of<ListProvider>(context, listen: false);
       
-      // Query from the default relay and other known community relays
-      final relays = [
-        RelayProvider.defaultGroupsRelayAddress,
+      // Try our own default relay first, then fallback to other well-known relays
+      final defaultRelay = RelayProvider.defaultGroupsRelayAddress;
+      
+      // Start with just the default relay for faster results
+      print("📡 STAGE 1: Querying default relay: $defaultRelay");
+      final groups1 = await listProvider.queryPublicGroups([defaultRelay]);
+      
+      if (groups1.isNotEmpty) {
+        print("✅ SUCCESS: Found ${groups1.length} groups on default relay");
+        setState(() {
+          _publicGroups = groups1;
+          _sortGroups();
+          _isLoading = false;
+        });
+        return; // If we found groups, exit early
+      }
+      
+      // If no groups found, try well-known relays
+      print("📡 STAGE 2: No groups found on default relay, trying well-known relays");
+      final wellKnownRelays = [
         'wss://relay.nostr.band',
         'wss://nos.lol',
-        'wss://relay.damus.io'
+        'wss://relay.damus.io',
+        'wss://relay.nostr.wirednet.jp',
+        'wss://purplepag.es',
+        'wss://eden.nostr.land',
+        'wss://nostr.ethsig.xyz'
       ];
       
-      print("Finding public groups from relays: $relays");
-      final groups = await listProvider.queryPublicGroups(relays);
-      print("Query complete. Found ${groups.length} public groups.");
+      final groups2 = await listProvider.queryPublicGroups(wellKnownRelays);
       
-      if (groups.isEmpty) {
-        print("WARNING: No public groups found. Check logs for details.");
+      // Show diagnostic information for both attempts
+      if (groups1.isEmpty && groups2.isEmpty) {
+        print("⚠️ WARNING: No public groups found on any relay. Check logs for details.");
       } else {
-        for (var group in groups) {
-          print("Found group: ${group.name} with ${group.memberCount} members.");
+        print("✅ SUCCESS: Found ${groups2.length} groups on well-known relays");
+        for (var group in groups2) {
+          print("  > Group: ${group.name} (${group.identifier.host})");
         }
       }
       
       setState(() {
-        _publicGroups = groups;
+        _publicGroups = groups2;
         _sortGroups();
         _isLoading = false;
       });
     } catch (e, stackTrace) {
-      print("Error fetching public groups: $e");
+      print("❌ ERROR: Failed fetching public groups: $e");
       print("Stack trace: $stackTrace");
       setState(() {
         _isLoading = false;
@@ -252,17 +273,45 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Possible reasons:\n• No public groups on the relays\n• Not connected to any relays\n• Relays not responding',
+            'Possible reasons:\n• No public groups on the relays\n• Not connected to any relays\n• Relays not responding\n• Group metadata uses a different format',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 14,
               color: Colors.grey.shade500,
             ),
           ),
+          const SizedBox(height: 8),
+          Text(
+            'We searched both the default relay and several well-known relays',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey.shade500,
+              fontStyle: FontStyle.italic,
+            ),
+          ),
           const SizedBox(height: 24),
-          PrimaryButtonWidget(
-            text: 'Refresh',
-            onTap: _fetchPublicGroups,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              PrimaryButtonWidget(
+                text: 'Retry',
+                onTap: _fetchPublicGroups,
+              ),
+              const SizedBox(width: 16),
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Go back to the community options
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('Back'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey.shade200,
+                  foregroundColor: Colors.black87,
+                ),
+              ),
+            ],
           ),
         ],
       ),
