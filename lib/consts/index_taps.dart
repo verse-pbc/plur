@@ -1,6 +1,6 @@
 class IndexTaps {
-  static const int FOLLOW = 0;
-  static const int DM = 1;
-  static const int SEARCH = 2;
-  static const int NOTICE = 3;
+  static const int follow = 0;
+  static const int dm = 1;
+  static const int search = 2;
+  static const int notice = 3;
 }

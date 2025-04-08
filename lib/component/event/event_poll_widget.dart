@@ -216,6 +216,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
     if (numStr != null) {
       var num = int.tryParse(numStr);
       if (num != null) {
+        if (!mounted) return;
         ZapAction.handleZap(
           context,
           num,

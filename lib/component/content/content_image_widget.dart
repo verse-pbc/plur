@@ -55,7 +55,7 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
     Widget? main;
     Widget? placeholder;
     // needn't get from provider
-    if (settingsProvider.openBlurhashImage != OpenStatus.CLOSE &&
+    if (settingsProvider.openBlurhashImage != OpenStatus.close &&
         (widget.fileMetadata != null &&
             StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) &&
         !PlatformUtil.isWeb()) {
@@ -68,7 +68,7 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
       },
       child: Center(
         child: ImageWidget(
-          imageUrl: widget.imageUrl,
+          url: widget.imageUrl,
           fit: widget.imageBoxFix,
           width: widget.width,
           height: widget.height,

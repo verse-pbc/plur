@@ -73,7 +73,7 @@ class _GroupDetailNoteListWidgetState
             return EventListWidget(
               event: event,
               showVideo:
-                  settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+                  settingsProvider.videoPreviewInList != OpenStatus.close,
             );
           },
           itemCount: events.length,

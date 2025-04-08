@@ -63,7 +63,6 @@ class _ZapGoalInputWidgetState extends State<ZapGoalInputWidget> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    final themeData = Theme.of(context);
     List<Widget> list = [];
 
     Widget inputWidget = TextField(

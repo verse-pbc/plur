@@ -190,7 +190,7 @@ class _UserWidgetState extends CustState<UserWidget>
                 return EventListWidget(
                   event: event,
                   showVideo:
-                      settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+                      settingsProvider.videoPreviewInList != OpenStatus.close,
                 );
               },
               itemCount: box.length(),
@@ -276,7 +276,7 @@ class _UserWidgetState extends CustState<UserWidget>
     if (StringUtil.isNotBlank(subscribeId)) {
       try {
         nostr!.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (_) {}
     }
 
     closeLoading();
@@ -375,7 +375,7 @@ class _UserWidgetState extends CustState<UserWidget>
       try {
         cancelFunc!.call();
         cancelFunc = null;
-      } catch (e) {}
+      } catch (_) {}
     }
   }
 

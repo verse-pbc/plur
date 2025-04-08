@@ -8,13 +8,13 @@ import '../follow_set_follow_bottom_sheet.dart';
 import 'user_top_widget.dart';
 
 class FollowBtnWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  Color? borderColor;
+  final Color? borderColor;
 
-  Color? followedBorderColor;
+  final Color? followedBorderColor;
 
-  FollowBtnWidget({
+  const FollowBtnWidget({
     super.key,
     required this.pubkey,
     this.borderColor,

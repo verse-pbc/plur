@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:provider/provider.dart';
 
 import '../../consts/base_consts.dart';
 import '../../main.dart';
-import '../../provider/settings_provider.dart';
 import '../cust_state.dart';
 
 class LineTranslateWidget extends StatefulWidget {
-  List<dynamic> inlines;
+  final List<dynamic> inlines;
 
-  Function? textOnTap;
+  final Function? textOnTap;
 
-  LineTranslateWidget(this.inlines, {super.key, this.textOnTap});
+  const LineTranslateWidget(this.inlines, {super.key, this.textOnTap});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +25,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
 
   String sourceText = "";
 
-  static const double MARGIN = 4;
+  static const double margin = 4;
 
   TranslateLanguage? sourceLanguage;
 
@@ -37,7 +35,6 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
 
   @override
   Widget doBuild(BuildContext context) {
-    final settingsProvider = Provider.of<SettingsProvider>(context);
     final themeData = Theme.of(context);
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
@@ -94,8 +91,8 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
           },
           child: Container(
             margin: const EdgeInsets.only(
-              left: MARGIN,
-              right: MARGIN,
+              left: margin,
+              right: margin,
             ),
             height: iconWidgetWidth,
             width: iconWidgetWidth,
@@ -151,7 +148,7 @@ class _LineTranslateWidgetState extends CustState<LineTranslateWidget> {
       return;
     }
 
-    if (settingsProvider.openTranslate != OpenStatus.OPEN) {
+    if (settingsProvider.openTranslate != OpenStatus.open) {
       // is close
       if (targetTextMap.isNotEmpty) {
         // set targetTextMap to null

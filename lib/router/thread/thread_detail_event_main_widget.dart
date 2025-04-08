@@ -139,7 +139,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
               str: localization.Show_more_replies,
               onTap: () {
                 RouterUtil.router(
-                    context, RouterPath.THREAD_TRACE, widget.item.event);
+                    context, RouterPath.threadTrace, widget.item.event);
               },
             ),
           ),

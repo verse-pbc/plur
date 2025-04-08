@@ -7,9 +7,9 @@ import '../util/router_util.dart';
 class TagWidget extends StatelessWidget {
   final String tag;
 
-  bool jumpable;
+  final bool jumpable;
 
-  TagWidget({super.key, 
+  const TagWidget({super.key,
     required this.tag,
     this.jumpable = true,
   });
@@ -44,7 +44,7 @@ class TagWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.TAG_DETAIL, tag);
+        RouterUtil.router(context, RouterPath.tagDetail, tag);
       },
       child: main,
     );

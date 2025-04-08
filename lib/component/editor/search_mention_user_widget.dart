@@ -131,7 +131,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
 }
 
 class SearchMentionUserItemWidget extends StatelessWidget {
-  static const double IMAGE_WIDTH = 36;
+  static const double imageWidth = 36;
 
   final User user;
   final double width;
@@ -170,7 +170,7 @@ class SearchMentionUserItemWidget extends StatelessWidget {
         children: [
           UserPicWidget(
             pubkey: user.pubkey!,
-            width: IMAGE_WIDTH,
+            width: imageWidth,
             user: user,
           ),
           Expanded(

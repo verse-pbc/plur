@@ -7,11 +7,11 @@ import '../../main.dart';
 import '../user/user_top_widget.dart';
 
 class MetadataTopPlaceholderWidget extends StatelessWidget {
-  static const double IMAGE_BORDER = 4;
+  static const double imageBorder = 4;
 
-  static const double IMAGE_WIDTH = 80;
+  static const double imageWidth = 80;
 
-  static const double HALF_IMAGE_WIDTH = 40;
+  static const double halfImageWidth = 40;
 
   const MetadataTopPlaceholderWidget({super.key});
 
@@ -90,11 +90,11 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
 
     Widget userImageWidget = Container(
       alignment: Alignment.center,
-      height: IMAGE_WIDTH,
-      width: IMAGE_WIDTH,
+      height: imageWidth,
+      width: imageWidth,
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(HALF_IMAGE_WIDTH),
+        borderRadius: BorderRadius.circular(halfImageWidth),
         color: hintColor,
       ),
     );
@@ -108,15 +108,15 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
         ),
         Positioned(
           left: Base.basePadding,
-          top: bannerHeight - HALF_IMAGE_WIDTH,
+          top: bannerHeight - halfImageWidth,
           child: Container(
-            height: IMAGE_WIDTH + IMAGE_BORDER * 2,
-            width: IMAGE_WIDTH + IMAGE_BORDER * 2,
+            height: imageWidth + imageBorder * 2,
+            width: imageWidth + imageBorder * 2,
             decoration: BoxDecoration(
               borderRadius:
-                  BorderRadius.circular(HALF_IMAGE_WIDTH + IMAGE_BORDER),
+                  BorderRadius.circular(halfImageWidth + imageBorder),
               border: Border.all(
-                width: IMAGE_BORDER,
+                width: imageBorder,
                 color: scaffoldBackgroundColor,
               ),
             ),

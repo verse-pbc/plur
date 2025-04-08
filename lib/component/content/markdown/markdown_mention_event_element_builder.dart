@@ -5,7 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event/event_quote_widget.dart';
 
 class MarkdownMentionEventElementBuilder implements MarkdownElementBuilder {
-  static const String TAG = "mentionEvent";
+  static const String tag = "mentionEvent";
 
   @override
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {

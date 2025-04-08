@@ -40,7 +40,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget> {
           left: Base.basePadding,
           right: Base.basePadding,
         ),
-        child: ImageWidget(imageUrl: widget.badgeDefinition.image!),
+        child: ImageWidget(url: widget.badgeDefinition.image!),
       ));
     }
 
@@ -77,7 +77,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget> {
             GestureDetector(
               onTap: () {
                 RouterUtil.router(
-                    context, RouterPath.USER, widget.badgeDefinition.pubkey);
+                    context, RouterPath.user, widget.badgeDefinition.pubkey);
               },
               behavior: HitTestBehavior.translucent,
               child: Row(

@@ -7,8 +7,6 @@ import '../data/event_db.dart';
 import '../main.dart';
 
 class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
-  static DMProvider? _dmProvider;
-
   final List<DMSessionDetail> _knownList = [];
 
   final List<DMSessionDetail> _unknownList = [];

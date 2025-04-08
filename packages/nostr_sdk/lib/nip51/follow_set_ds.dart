@@ -1,3 +1,3 @@
 class FollowSetDs {
-  static const String PRIVATE_FOLLOW = "private_follow";
+  static const String privateFollow = "private_follow";
 }

@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/component/placeholder/metadata_placeholder.dart';
 
 class MetadataListPlaceholder extends StatelessWidget {
-  Function? onRefresh;
+  final Function? onRefresh;
 
-  MetadataListPlaceholder({super.key, this.onRefresh});
-
-  final ScrollController _controller = ScrollController();
+  const MetadataListPlaceholder({super.key, this.onRefresh});
 
   @override
   Widget build(BuildContext context) {

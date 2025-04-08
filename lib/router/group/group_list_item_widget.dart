@@ -108,11 +108,11 @@ class _GroupListItemWidgetState extends State<GroupListItemWidget> {
   }
 
   void editGroupMetadata() {
-    RouterUtil.router(context, RouterPath.GROUP_EDIT, widget.groupIdentifier);
+    RouterUtil.router(context, RouterPath.groupEdit, widget.groupIdentifier);
   }
 
   void editGroupMembers() {
     RouterUtil.router(
-        context, RouterPath.GROUP_MEMBERS, widget.groupIdentifier);
+        context, RouterPath.groupMembers, widget.groupIdentifier);
   }
 }

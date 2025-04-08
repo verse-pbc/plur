@@ -32,18 +32,18 @@ class UserTopWidget extends StatefulWidget {
     return height;
   }
 
-  String pubkey;
+  final String pubkey;
 
-  User? user;
+  final User? user;
 
   // is local user
-  bool isLocal;
+  final bool isLocal;
 
-  bool jumpable;
+  final bool jumpable;
 
-  bool userPicturePreview;
+  final bool userPicturePreview;
 
-  UserTopWidget({
+  const UserTopWidget({
     super.key,
     required this.pubkey,
     this.user,
@@ -59,11 +59,11 @@ class UserTopWidget extends StatefulWidget {
 }
 
 class _UserTopWidgetState extends State<UserTopWidget> {
-  static const double IMAGE_BORDER = 4;
+  static const double imageBorder = 4;
 
-  static const double IMAGE_WIDTH = 80;
+  static const double imageWidth = 80;
 
-  static const double HALF_IMAGE_WIDTH = 40;
+  static const double halfImageWidth = 40;
 
   late String nip19PubKey;
 
@@ -107,7 +107,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     if (widget.user != null &&
         StringUtil.isNotBlank(widget.user!.banner)) {
       bannerImage = ImageWidget(
-        imageUrl: widget.user!.banner!,
+        url: widget.user!.banner!,
         width: maxWidth,
         height: bannerHeight,
         fit: BoxFit.cover,
@@ -250,7 +250,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
 
     Widget userImageWidget = UserPicWidget(
       pubkey: widget.pubkey,
-      width: IMAGE_WIDTH,
+      width: imageWidth,
       user: widget.user,
     );
     if (widget.userPicturePreview) {
@@ -273,15 +273,15 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         ),
         Positioned(
           left: Base.basePadding,
-          top: bannerHeight - HALF_IMAGE_WIDTH,
+          top: bannerHeight - halfImageWidth,
           child: Container(
-            height: IMAGE_WIDTH + IMAGE_BORDER * 2,
-            width: IMAGE_WIDTH + IMAGE_BORDER * 2,
+            height: imageWidth + imageBorder * 2,
+            width: imageWidth + imageBorder * 2,
             decoration: BoxDecoration(
               borderRadius:
-                  BorderRadius.circular(HALF_IMAGE_WIDTH + IMAGE_BORDER),
+                  BorderRadius.circular(halfImageWidth + imageBorder),
               border: Border.all(
-                width: IMAGE_BORDER,
+                width: imageBorder,
                 color: scaffoldBackgroundColor,
               ),
             ),
@@ -301,37 +301,39 @@ class _UserTopWidgetState extends State<UserTopWidget> {
 
   copyPubKey() {
     Clipboard.setData(ClipboardData(text: nip19PubKey)).then((_) {
+      if (!mounted) return;
       BotToast.showText(text: S.of(context).key_has_been_copy);
     });
   }
 
   void jumpToUserRouter() {
-    RouterUtil.router(context, RouterPath.USER, widget.pubkey);
+    RouterUtil.router(context, RouterPath.user, widget.pubkey);
   }
 
   void openDMSession() {
     var detail = dmProvider.findOrNewADetail(widget.pubkey);
-    RouterUtil.router(context, RouterPath.DM_DETAIL, detail);
+    RouterUtil.router(context, RouterPath.dmDetail, detail);
   }
 
   Future<void> handleScanner() async {
-    var result = await RouterUtil.router(context, RouterPath.QRSCANNER);
+    var result = await RouterUtil.router(context, RouterPath.qrScanner);
+    if (!mounted) return;
     if (StringUtil.isNotBlank(result)) {
       if (Nip19.isPubkey(result)) {
         var pubkey = Nip19.decode(result);
-        RouterUtil.router(context, RouterPath.USER, pubkey);
+        RouterUtil.router(context, RouterPath.user, pubkey);
       } else if (NIP19Tlv.isNprofile(result)) {
         var nprofile = NIP19Tlv.decodeNprofile(result);
         if (nprofile != null) {
-          RouterUtil.router(context, RouterPath.USER, nprofile.pubkey);
+          RouterUtil.router(context, RouterPath.user, nprofile.pubkey);
         }
       } else if (Nip19.isNoteId(result)) {
         var noteId = Nip19.decode(result);
-        RouterUtil.router(context, RouterPath.EVENT_DETAIL, noteId);
+        RouterUtil.router(context, RouterPath.eventDetail, noteId);
       } else if (NIP19Tlv.isNevent(result)) {
         var nevent = NIP19Tlv.decodeNevent(result);
         if (nevent != null) {
-          RouterUtil.router(context, RouterPath.EVENT_DETAIL, nevent.id);
+          RouterUtil.router(context, RouterPath.eventDetail, nevent.id);
         }
       } else if (NIP19Tlv.isNrelay(result)) {
         var nrelay = NIP19Tlv.decodeNrelay(result);
@@ -346,6 +348,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         WebViewWidget.open(context, result);
       } else {
         Clipboard.setData(ClipboardData(text: result)).then((_) {
+          if (!mounted) return;
           BotToast.showText(text: S.of(context).Copy_success);
         });
       }
@@ -388,13 +391,13 @@ class _UserTopWidgetState extends State<UserTopWidget> {
 }
 
 class MetadataIconBtn extends StatelessWidget {
-  void Function()? onTap;
+  final void Function()? onTap;
 
-  void Function()? onLongPress;
+  final void Function()? onLongPress;
 
-  IconData iconData;
+  final IconData iconData;
 
-  MetadataIconBtn({super.key, required this.iconData, this.onTap, this.onLongPress});
+  const MetadataIconBtn({super.key, required this.iconData, this.onTap, this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
@@ -444,15 +447,15 @@ class MetadataIconBtn extends StatelessWidget {
 }
 
 class MetadataTextBtn extends StatelessWidget {
-  void Function() onTap;
+  final void Function() onTap;
 
-  void Function()? onLongPress;
+  final void Function()? onLongPress;
 
-  String text;
+  final String text;
 
-  Color? borderColor;
+  final Color? borderColor;
 
-  MetadataTextBtn({super.key, 
+  const MetadataTextBtn({super.key,
     required this.text,
     required this.onTap,
     this.onLongPress,
@@ -496,19 +499,19 @@ class MetadataTextBtn extends StatelessWidget {
 }
 
 class MetadataIconDataComp extends StatelessWidget {
-  String text;
+  final String text;
 
-  IconData? iconData;
+  final IconData? iconData;
 
-  Color? iconColor;
+  final Color? iconColor;
 
-  bool textBG;
+  final bool textBG;
 
-  Function? onTap;
+  final Function? onTap;
 
-  Widget? leftWidget;
+  final Widget? leftWidget;
 
-  MetadataIconDataComp({super.key, 
+  const MetadataIconDataComp({super.key,
     required this.text,
     this.iconData,
     this.leftWidget,
@@ -524,8 +527,6 @@ class MetadataIconDataComp extends StatelessWidget {
     if (cardColor == Colors.white) {
       cardColor = Colors.grey[300];
     }
-
-    iconData ??= Icons.circle;
 
     return Container(
       padding: const EdgeInsets.only(
@@ -548,7 +549,7 @@ class MetadataIconDataComp extends StatelessWidget {
               ),
               child: leftWidget ??
                   Icon(
-                    iconData,
+                    iconData ?? Icons.circle,
                     color: iconColor,
                     size: 16,
                   ),

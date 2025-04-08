@@ -69,7 +69,7 @@ class InvitePeopleWidget extends StatelessWidget {
                   RouterUtil.back(context);
                   GroupDetailWidget.showTooltipOnGroupCreation = true;
                   RouterUtil.router(
-                      context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                      context, RouterPath.groupDetail, groupIdentifier);
                 },
                 highlightColor: theme.primaryColor.withOpacity(0.2),
                 child: Container(

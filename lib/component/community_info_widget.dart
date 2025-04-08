@@ -30,7 +30,7 @@ class _CommunityInfoWidgetState extends State<CommunityInfoWidget> {
     Widget? imageWidget;
     if (StringUtil.isNotBlank(widget.info.image)) {
       imageWidget = ImageWidget(
-        imageUrl: widget.info.image!,
+        url: widget.info.image!,
         width: imageWidth,
         height: imageWidth,
         fit: BoxFit.cover,
