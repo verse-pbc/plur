@@ -12,6 +12,7 @@ import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:posthog_flutter/posthog_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -260,6 +261,30 @@ Future<void> main() async {
     MediaKit.ensureInitialized();
   } catch (e) {
     log("MediaKit init error $e");
+  }
+
+  // Initialize PostHog for analytics
+  try {
+    // PostHog doesn't have an init method in this version
+    // We'll just set up a basic context for now
+    await Posthog().setContext({
+      'app': {
+        'name': 'Plur',
+        'version': '1.0.0',
+      }
+    });
+    
+    // Capture app start event
+    await Posthog().capture(
+      eventName: 'AppStarted',
+      properties: {
+        'environment': 'development',
+      },
+    );
+    
+    log("PostHog initialized successfully");
+  } catch (e) {
+    log("PostHog initialization error: $e");
   }
 
   await Firebase.initializeApp(
