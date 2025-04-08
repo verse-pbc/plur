@@ -33,7 +33,7 @@ class BadgeProvider extends ChangeNotifier {
       return;
     }
 
-    var filter = Filter(authors: [pubkey], kinds: [EventKind.BADGE_ACCEPT]);
+    var filter = Filter(authors: [pubkey], kinds: [EventKind.badgeAccept]);
     if (initQuery) {
       targetNostr!.addInitQuery([filter.toJson()], onEvent);
     } else {
