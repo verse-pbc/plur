@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Made it easier to dismiss fullscreen images. [#286](https://github.com/verse-pbc/issues/issues/286)
 - Added Cancel button when adding accounts. [#254](https://github.com/verse-pbc/issues/issues/254)
 - Added ability to find and join public communities on connected relays.
+- Added a combined feed view that shows posts from all joined communities in one place.
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
