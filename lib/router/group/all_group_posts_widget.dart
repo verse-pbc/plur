@@ -51,10 +51,12 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget>
             color: themeData.appBarTheme.backgroundColor,
             child: Column(
               children: [
+                // We don't need another title here since it's shown in the main app bar
                 AppBar(
-                  title: Text(l10n.Communities),
+                  // No title to avoid repetition
                   centerTitle: true,
                   elevation: 0,
+                  automaticallyImplyLeading: false,
                   actions: [
                     IconButton(
                       icon: const Icon(Icons.add_circle_outline),
@@ -69,9 +71,15 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget>
                   indicatorColor: themeData.primaryColor,
                   labelColor: themeData.customColors.primaryForegroundColor,
                   unselectedLabelColor: themeData.textTheme.bodyMedium?.color?.withAlpha(179), // 70% opacity
-                  tabs: [
-                    Tab(text: l10n.Communities),
-                    Tab(text: "${l10n.Communities} Feed"),
+                  tabs: const [
+                    Tab(
+                      icon: Icon(Icons.grid_view),
+                      text: "Grid View",
+                    ),
+                    Tab(
+                      icon: Icon(Icons.view_agenda),
+                      text: "Feed View",
+                    ),
                   ],
                 ),
                 const AppBarBottomBorder(),
