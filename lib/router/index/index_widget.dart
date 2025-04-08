@@ -6,14 +6,18 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/editor/search_mention_user_widget.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
+import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../generated/l10n.dart';
@@ -205,6 +209,12 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ],
         controller: dmTabController,
       );
+      appBarRight = GestureDetector(
+        onTap: () {
+          _showSearchUserForDM(context);
+        },
+        child: const Icon(Icons.chat_rounded),
+      );
     } else if (indexProvider.currentTap == 2) {
       appBarCenter = TabBar(
         indicatorColor: indicatorColor,
@@ -374,6 +384,26 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ),
       );
     }
+  }
+
+  void _showSearchUserForDM(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text("Select User")),
+          body: const SearchMentionUserWidget(),
+        ),
+      ),
+    ).then((pubkey) {
+      if (pubkey != null && pubkey is String) {
+        // Use the DMProvider to create a new session or find an existing one
+        final dmProvider = Provider.of<DMProvider>(context, listen: false);
+        final dmDetail = dmProvider.findOrNewADetail(pubkey);
+        
+        // Navigate to the DM detail screen with the selected user
+        RouterUtil.router(context, RouterPath.DM_DETAIL, dmDetail);
+      }
+    });
   }
 
   void doAuth() {
