@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/create_community_dialog.dart';
+import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/component/primary_button_widget.dart';
 
 class NoCommunitiesWidget extends StatefulWidget {
   const NoCommunitiesWidget({super.key});
@@ -16,24 +18,14 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final localization = S.of(context);
-    final brightness = themeData.brightness;
-    
-    return Theme(
-      data: brightness == Brightness.dark 
-          ? themeData // Keep current theme if dark
-          : ThemeData.dark().copyWith( // Force dark mode
-              primaryColor: themeData.primaryColor,
-              colorScheme: ThemeData.dark().colorScheme.copyWith(
-                primary: themeData.primaryColor,
-              ),
-            ),
-      child: Center(
+
+    return Center(
         child: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.all(30.0),
             child: Card(
               elevation: 4,
-              color: const Color(0xFF333333),
+              color: themeData.customColors.cardBgColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -47,27 +39,26 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     Text(
                       localization.Communities,
                       style: TextStyle(
-                        fontFamily: 'Roboto',
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
-                        color: themeData.primaryColor,
+                        color: themeData.customColors.primaryForegroundColor,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Image section
                     Container(
                       width: 180,
                       height: 180,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: themeData.primaryColor.withAlpha(25),
+                        color: themeData.customColors.dimmedColor.withOpacity(0.5),
                       ),
                       child: Center(
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(
-                            themeData.primaryColor,
+                            themeData.customColors.dimmedColor,
                             BlendMode.srcIn,
                           ),
                           child: Image.asset(
@@ -79,15 +70,14 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Create community section
                     Text(
                       'Start or join a community',
                       style: TextStyle(
-                        fontFamily: 'Roboto',
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: themeData.customColors.primaryForegroundColor,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -95,14 +85,13 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     Text(
                       'Connect with others by creating your own community or joining an existing one with an invite link.',
                       style: TextStyle(
-                        fontFamily: 'Roboto',
                         fontSize: 16.0,
-                        color: Colors.white.withOpacity(0.7),
+                        color: themeData.customColors.primaryForegroundColor,
                       ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 32),
-                    
+
                     // Action button
                     SizedBox(
                       width: double.infinity,
@@ -110,36 +99,24 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       child: _isCreatingCommunity
                           ? Center(
                               child: CircularProgressIndicator(
-                                color: themeData.primaryColor,
+                                color: themeData.customColors.accentColor,
                               ),
                             )
-                          : ElevatedButton.icon(
-                              onPressed: _handleCreateCommunity,
-                              icon: const Icon(Icons.add_circle_outline),
-                              label: Text(localization.Create_Group),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                textStyle: const TextStyle(
-                                  fontSize: 16, 
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                          : PrimaryButtonWidget(
+                              text: localization.Create_Group,
+                              borderRadius: 8,
+                              onTap: _createCommunity,
                             ),
                     ),
                     const SizedBox(height: 16),
-                    
+
                     // Hint text
                     Text(
                       'Have an invite link? Tap on it to join a community.',
                       style: TextStyle(
-                        fontFamily: 'Roboto',
                         fontSize: 14.0,
                         fontStyle: FontStyle.italic,
-                        color: Colors.white.withOpacity(0.6),
+                        color: themeData.customColors.dimmedColor,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -148,21 +125,20 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
               ),
             ),
           ),
-        ),
       ),
     );
   }
 
-  void _handleCreateCommunity() {
+  void _createCommunity() {
     if (_isCreatingCommunity) return;
-    
+
     setState(() {
       _isCreatingCommunity = true;
     });
-    
+
     // Show the dialog
     CreateCommunityDialog.show(context);
-    
+
     // Reset loading state after a brief delay
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
