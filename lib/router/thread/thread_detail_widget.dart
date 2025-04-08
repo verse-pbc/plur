@@ -96,7 +96,7 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
     rootId = eventRelation.rootId;
     rootEventRelayAddr = eventRelation.rootRelayAddr;
     if (eventRelation.aId != null &&
-        eventRelation.aId!.kind == EventKind.LONG_FORM) {
+        eventRelation.aId!.kind == EventKind.longForm) {
       aId = eventRelation.aId;
     }
     if (rootId == null) {
@@ -356,10 +356,10 @@ class _ThreadDetailWidgetState extends CustState<ThreadDetailWidget>
       //   nostr!.query([filter.toJson()], onRootEvent);
       // }
 
-      List<int> replyKinds = [...EventKind.SUPPORTED_EVENTS]
-        ..remove(EventKind.REPOST)
-        ..remove(EventKind.LONG_FORM)
-        ..add(EventKind.ZAP);
+      List<int> replyKinds = [...EventKind.supportedEvents]
+        ..remove(EventKind.repost)
+        ..remove(EventKind.longForm)
+        ..add(EventKind.zap);
 
       // query sub events
       var filter = Filter(e: [rootId!], kinds: replyKinds);

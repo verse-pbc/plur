@@ -302,7 +302,7 @@ class _UserWidgetState extends CustState<UserWidget>
 
     // load event from relay
     var filter = Filter(
-      kinds: EventKind.SUPPORTED_EVENTS,
+      kinds: EventKind.supportedEvents,
       until: until,
       authors: [pubkey!],
       limit: queryLimit,
