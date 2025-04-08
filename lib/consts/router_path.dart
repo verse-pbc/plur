@@ -34,6 +34,9 @@ class RouterPath {
   /// The route path for the Settings screen.
   static const String SETTINGS = "/settings";
 
+  /// The route path for the Community Guidelines screen.
+  static const String communityGuidelines = "/communityGuidelines";
+
   static const String QRSCANNER = "/qrScanner";
   static const String WEBUTILS = "/webUtils";
   static const String RELAY_INFO = "/relayInfo";
