@@ -151,6 +151,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   /// from the network.
   void query(GroupIdentifier groupIdentifier) {
     final groupId = groupIdentifier.groupId;
+    final host = groupIdentifier.host;
     var metadataJsonMap = genFilter(groupId, EventKind.groupMetadata);
     var adminsJsonMap = genFilter(groupId, EventKind.groupAdmins);
     var membersJsonMap = genFilter(groupId, EventKind.groupMembers);
@@ -162,7 +163,10 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     nostr!.query(
       filters,
       (e) => onEvent(groupIdentifier, e),
+      tempRelays: [host],
+      targetRelays: [host],
       relayTypes: RelayType.tempAndLocal,
+      sendAfterAuth: true,
     );
   }
 
