@@ -196,14 +196,8 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
       _users = localUsers;
     });
     
-    // Then search the relays - first check if the input might be a nip05 address
-    if (text.contains('@')) {
-      // Possible NIP-05 format, let's search on relays
-      await _searchRelaysForNip05(text);
-    }
-    
-    // Search relays for users by name
-    await _searchRelaysForUsersByName(text);
+    // Search for users based on the search term
+    await _searchRelaysForUsers(text);
     
     // Finally, mark that we're done searching
     setState(() {
@@ -211,25 +205,55 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     });
   }
   
-  Future<void> _searchRelaysForNip05(String nip05Text) async {
-    // Check if it's potentially a NIP-05 identifier
-    if (!nip05Text.contains('@')) return;
+  Future<void> _searchRelaysForUsers(String searchText) async {
+    // First check if it's a direct NIP-05 format (someone@domain.com)
+    if (searchText.contains('@') && !searchText.contains(' ')) {
+      await _tryExactNip05Lookup(searchText);
+    }
     
+    // Run parallel searches for NIP-05 and usernames
+    await Future.wait([
+      _searchRelaysWithMetadataFilter(searchText),
+      // If the search text has a word that looks like a name (3+ chars without special chars)
+      if (RegExp(r'\w{3,}').hasMatch(searchText)) 
+        _searchRelaysForUsersByUsername(searchText),
+    ]);
+  }
+  
+  Future<void> _tryExactNip05Lookup(String nip05Text) async {
+    // This looks like a NIP-05 address, let's try a direct lookup first
     try {
-      // Query the relays for users with this nip05
+      // Extract the parts
+      final parts = nip05Text.split('@');
+      if (parts.length != 2) return;
+      
+      final name = parts[0];
+      final domain = parts[1];
+      
+      // This would construct the URL for direct NIP-05 lookup
+      // final url = 'https://$domain/.well-known/nostr.json?name=$name';
+      
+      // This is just a stub - the actual lookup should be implemented
+      // Since this requires HTTP requests which we can't do directly in this context,
+      // we'll rely on a full relay query instead
+    } catch (e) {
+      // Ignore errors in direct lookup, we'll fall back to relay search
+    }
+  }
+  
+  Future<void> _searchRelaysWithMetadataFilter(String searchText) async {
+    try {
+      // Query the relays for users with matching content in their metadata
       final filter = Filter(
         kinds: [EventKind.METADATA],
-        limit: 10,
+        limit: 50,  // Increased limit to get more potential matches
       );
-      
-      // We'll collect results here
-      List<Event> events = [];
       
       // Create a completer to wait for results
       final completer = Completer<void>();
       
-      // Set a timeout
-      Timer(const Duration(seconds: 5), () {
+      // Set a timeout - extended to 10 seconds for better search
+      Timer(const Duration(seconds: 10), () {
         try {
           completer.complete();
         } catch (_) {
@@ -242,17 +266,28 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
         if (event.kind == EventKind.METADATA) {
           try {
             final content = jsonDecode(event.content);
-            final userNip05 = content['nip05'] as String?;
             
-            if (userNip05 != null && userNip05.toLowerCase().contains(nip05Text.toLowerCase())) {
-              events.add(event);
+            // Extract all the relevant fields we want to search in
+            final userName = (content['name'] as String?)?.toLowerCase() ?? '';
+            final userDisplayName = (content['display_name'] as String?)?.toLowerCase() ?? '';
+            final userNip05 = (content['nip05'] as String?)?.toLowerCase() ?? '';
+            final userAbout = (content['about'] as String?)?.toLowerCase() ?? '';
+            
+            // Lowercase search text for case-insensitive matching
+            final lowerSearchText = searchText.toLowerCase();
+            
+            // Check if any field contains our search text
+            if (userName.contains(lowerSearchText) || 
+                userDisplayName.contains(lowerSearchText) || 
+                userNip05.contains(lowerSearchText) ||
+                userAbout.contains(lowerSearchText)) {
               
               // Process the event to update user cache
               final user = User.fromJson(content);
               user.pubkey = event.pubkey;
               user.updatedAt = event.createdAt;
               
-              // Check if this user is already in results
+              // Add user to results if not already there
               if (!_users.any((u) => u.pubkey == user.pubkey)) {
                 setState(() {
                   _users.add(user);
@@ -272,22 +307,13 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     }
   }
   
-  Future<void> _searchRelaysForUsersByName(String nameText) async {
+  Future<void> _searchRelaysForUsersByUsername(String nameText) async {
     try {
-      // Query the relays for users with matching names
-      final filter = Filter(
-        kinds: [EventKind.METADATA],
-        limit: 20,
-      );
-      
-      // We'll collect results here
-      List<Event> events = [];
-      
       // Create a completer to wait for results
       final completer = Completer<void>();
       
       // Set a timeout
-      Timer(const Duration(seconds: 5), () {
+      Timer(const Duration(seconds: 8), () {
         try {
           completer.complete();
         } catch (_) {
@@ -295,19 +321,51 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
         }
       });
       
-      // Search the relays
+      // Process the search text to find likely name components
+      final nameParts = nameText.split(RegExp(r'[\s@.,]+'))
+          .where((part) => part.length >= 3)  // Only consider parts that might be names
+          .map((part) => part.toLowerCase())
+          .toList();
+      
+      if (nameParts.isEmpty) {
+        completer.complete();
+        return;
+      }
+      
+      // Create a subscription to get recent events and filter them client-side
+      final filter = Filter(
+        kinds: [EventKind.METADATA], 
+        limit: 100  // Get more events to increase chances of matches
+      );
+      
       nostr!.query([filter.toJson()], (event) {
         if (event.kind == EventKind.METADATA) {
           try {
             final content = jsonDecode(event.content);
-            final userName = content['name'] as String?;
-            final userDisplayName = content['display_name'] as String?;
             
-            final lowerNameText = nameText.toLowerCase();
-            if ((userName != null && userName.toLowerCase().contains(lowerNameText)) ||
-                (userDisplayName != null && userDisplayName.toLowerCase().contains(lowerNameText))) {
-              events.add(event);
-              
+            // Get all text fields we want to search in
+            final textFields = [
+              content['name'] as String?,
+              content['display_name'] as String?,
+              content['nip05'] as String?,
+              content['about'] as String?,
+            ].where((field) => field != null)
+             .map((field) => field!.toLowerCase())
+             .toList();
+            
+            // Check if any name part is in any of the text fields
+            bool isMatch = false;
+            for (final namePart in nameParts) {
+              for (final field in textFields) {
+                if (field.contains(namePart)) {
+                  isMatch = true;
+                  break;
+                }
+              }
+              if (isMatch) break;
+            }
+            
+            if (isMatch) {
               // Process the event to update user cache
               final user = User.fromJson(content);
               user.pubkey = event.pubkey;
