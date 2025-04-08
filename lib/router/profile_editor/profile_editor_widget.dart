@@ -284,7 +284,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     }
 
     var updateEvent = Event(
-        nostr!.publicKey, EventKind.METADATA, tags, jsonEncode(metadataMap));
+        nostr!.publicKey, EventKind.metadata, tags, jsonEncode(metadataMap));
     nostr!.sendEvent(updateEvent);
 
     RouterUtil.back(context);
@@ -295,7 +295,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
   @override
   Future<void> onReady(BuildContext context) async {
     var filter = Filter(
-        kinds: [EventKind.METADATA], authors: [nostr!.publicKey], limit: 1);
+        kinds: [EventKind.metadata], authors: [nostr!.publicKey], limit: 1);
     nostr!.query([filter.toJson()], (event) {
       if (profileEvent == null) {
         profileEvent = event;

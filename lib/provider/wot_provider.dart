@@ -71,15 +71,15 @@ class WotProvider extends ChangeNotifier {
       var filter = Filter(authors: [
         pubkey
       ], kinds: [
-        EventKind.TEXT_NOTE,
-        EventKind.DIRECT_MESSAGE,
-        EventKind.REPOST,
-        EventKind.REACTION,
-        EventKind.GENERIC_REPOST,
-        EventKind.FOLLOW_SETS,
+        EventKind.textNote,
+        EventKind.directMessage,
+        EventKind.repost,
+        EventKind.reaction,
+        EventKind.genericRepost,
+        EventKind.followSets,
       ]);
       var events = await nostr!.queryEvents([filter.toJson()],
-          relayTypes: RelayType.CACHE_AND_LOCAL);
+          relayTypes: RelayType.cacheAndLocal);
 
       if (events.isNotEmpty) {
         for (var event in events) {

@@ -57,7 +57,7 @@ class NIP95Uploader {
 
     var pubkey = nostr.publicKey;
     var event =
-        Event(pubkey, EventKind.STORAGE_SHARED_FILE, tags, base64Content);
+        Event(pubkey, EventKind.storageSharedFile, tags, base64Content);
 
     return nostr.sendEvent(event);
   }
