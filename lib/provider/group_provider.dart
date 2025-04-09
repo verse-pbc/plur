@@ -220,32 +220,42 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     return updated;
   }
 
+  /// Saves group metadata in associated relay.
   Future<void> updateMetadata(
     GroupIdentifier groupIdentifier,
     GroupMetadata groupMetadata,
   ) async {
-    final relays = [groupIdentifier.host];
-
     var tags = [];
+    final name = groupMetadata.name;
+    final picture = groupMetadata.picture;
+    final about = groupMetadata.about;
     tags.add(["h", groupIdentifier.groupId]);
-    if (StringUtil.isNotBlank(groupMetadata.name)) {
-      tags.add(["name", groupMetadata.name!]);
+    if (name != null && name != "") {
+      tags.add(["name", name]);
     }
-    if (StringUtil.isNotBlank(groupMetadata.picture)) {
-      tags.add(["picture", groupMetadata.picture!]);
+    if (picture != null && picture != "") {
+      tags.add(["picture", picture]);
     }
-    if (StringUtil.isNotBlank(groupMetadata.about)) {
-      tags.add(["about", groupMetadata.about!]);
+    if (about != null && about != "") {
+      tags.add(["about", about]);
     }
-
-    var e = Event(nostr!.publicKey, EventKind.groupEditMetadata, tags, "");
-    final result =
-        await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
+    final event = Event(
+      nostr!.publicKey,
+      EventKind.groupEditMetadata,
+      tags,
+      ""
+    );
+    final relays = [groupIdentifier.host];
+    final result = await nostr!.sendEvent(
+      event,
+      tempRelays: relays,
+      targetRelays: relays
+    );
     if (result != null) {
       handleEvent(
         groupMetadatas,
         groupIdentifier,
-        GroupMetadata.loadFromEvent(e),
+        GroupMetadata.loadFromEvent(event),
       );
     }
   }
