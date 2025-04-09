@@ -1,9 +1,9 @@
 class Nip05Status {
-  static const int METADATA_NOT_FOUND = -2;
+  static const int metadataNotFound = -2;
 
-  static const int NIP05_NOT_FOUND = -1;
+  static const int nip05NotFound = -1;
 
-  static const int NIP05_NOT_VALID = 1;
+  static const int nip05Invalid = 1;
 
-  static const int NIP05_VALID = 2;
+  static const int nip05Valid = 2;
 }

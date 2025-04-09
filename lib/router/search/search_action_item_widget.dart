@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../consts/base.dart';
 
 class SearchActionItemWidget extends StatelessWidget {
-  String title;
+  final String title;
 
-  Function onTap;
+  final Function onTap;
 
-  SearchActionItemWidget({super.key, 
+  const SearchActionItemWidget({super.key,
     required this.title,
     required this.onTap,
   });

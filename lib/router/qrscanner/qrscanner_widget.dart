@@ -48,6 +48,7 @@ class _QRScannerWidgetState extends State<QRScannerWidget> {
     controller.scannedDataStream.listen((scanData) {
       if (!scanComplete) {
         scanComplete = true;
+        if (!mounted) return;
         RouterUtil.back(context, scanData.code);
       }
     });

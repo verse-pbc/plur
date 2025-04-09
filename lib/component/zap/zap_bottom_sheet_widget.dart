@@ -42,13 +42,13 @@ class ZapBottomSheetWidget extends StatefulWidget {
     );
   }
 
-  String? eventId;
+  final String? eventId;
 
-  List<EventZapInfo> zapInfos;
+  final List<EventZapInfo> zapInfos;
 
-  BuildContext parentContext;
+  final BuildContext parentContext;
 
-  ZapBottomSheetWidget(
+  const ZapBottomSheetWidget(
     this.parentContext,
     this.zapInfos, {super.key, 
     this.eventId,

@@ -24,5 +24,5 @@ class MentionUserEmbedBuilder extends EmbedBuilder {
   }
 
   @override
-  String get key => CustEmbedTypes.mention_user;
+  String get key => CustEmbedTypes.mentionUser;
 }

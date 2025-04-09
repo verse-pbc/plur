@@ -185,7 +185,7 @@ class _UserWidgetState extends CustState<UserWidget>
                 return EventListWidget(
                   event: event,
                   showVideo:
-                      settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+                      settingsProvider.videoPreviewInList != OpenStatus.close,
                 );
               },
               itemCount: box.length(),

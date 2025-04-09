@@ -33,8 +33,6 @@ class MentionMeProvider extends ChangeNotifier
     return _initTime;
   }
 
-  final List<String> _subscribeIds = [];
-
   List<int> queryEventKinds() {
     return [
       EventKind.textNote,
@@ -60,7 +58,7 @@ class MentionMeProvider extends ChangeNotifier
     if (subscribeId != null) {
       try {
         targetNostr.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (_) {}
     }
 
     subscribeId = _doQueryFunc(targetNostr, filter, initQuery: initQuery);

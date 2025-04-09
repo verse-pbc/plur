@@ -11,10 +11,10 @@ class PicEmbedBuilder extends EmbedBuilder {
   Widget build(BuildContext context, QuillController controller, Embed node,
       bool readOnly, bool inline, TextStyle textStyle) {
     var imageUrl = node.value.data as String;
-    if (imageUrl.indexOf("http") == 0 || imageUrl.indexOf(BASE64.PREFIX) == 0) {
+    if (imageUrl.indexOf("http") == 0 || imageUrl.indexOf(BASE64.prefix) == 0) {
       // netword image
       return ImageWidget(
-        imageUrl: imageUrl,
+        url: imageUrl,
         fit: BoxFit.cover,
         placeholder: (context, url) => const CircularProgressIndicator(),
       );

@@ -7,16 +7,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
 class StoreUtil {
-  String? _basePath;
-
   static StoreUtil? _storeUtil;
 
   static Future<StoreUtil> getInstance() async {
-    if (_storeUtil == null) {
-      _storeUtil = StoreUtil();
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      _storeUtil!._basePath = appDocDir.path;
-    }
+    _storeUtil ??= StoreUtil();
     return _storeUtil!;
   }
 

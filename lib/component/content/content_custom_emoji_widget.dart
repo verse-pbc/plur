@@ -16,7 +16,7 @@ class ContentCustomEmojiWidget extends StatelessWidget {
       return Container(
         constraints: const BoxConstraints(maxWidth: 80, maxHeight: 80),
         child: ImageWidget(
-          imageUrl: imagePath,
+          url: imagePath,
         ),
       );
     } else {

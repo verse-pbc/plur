@@ -15,7 +15,7 @@ class ContentTagWidget extends StatelessWidget {
       str: tag,
       onTap: () {
         var plainTag = tag.replaceFirst("#", "");
-        RouterUtil.router(context, RouterPath.TAG_DETAIL, plainTag);
+        RouterUtil.router(context, RouterPath.tagDetail, plainTag);
       },
     );
   }

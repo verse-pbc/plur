@@ -6,9 +6,9 @@ import 'package:nostrmo/provider/notice_provider.dart';
 import '../../consts/base.dart';
 
 class NoticeListItemWidget extends StatelessWidget {
-  NoticeData notice;
+  final NoticeData notice;
 
-  NoticeListItemWidget({super.key, required this.notice});
+  const NoticeListItemWidget({super.key, required this.notice});
 
   @override
   Widget build(BuildContext context) {

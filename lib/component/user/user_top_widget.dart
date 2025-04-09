@@ -103,7 +103,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     Widget? bannerImage;
     if (widget.user != null && StringUtil.isNotBlank(widget.user!.banner)) {
       bannerImage = ImageWidget(
-        imageUrl: widget.user!.banner!,
+        url: widget.user!.banner!,
         width: maxWidth,
         height: bannerHeight,
         fit: BoxFit.cover,
@@ -308,34 +308,34 @@ class _UserTopWidgetState extends State<UserTopWidget> {
   }
 
   void jumpToUserRouter() {
-    RouterUtil.router(context, RouterPath.USER, widget.pubkey);
+    RouterUtil.router(context, RouterPath.user, widget.pubkey);
   }
 
   void openDMSession() {
     var detail = dmProvider.findOrNewADetail(widget.pubkey);
-    RouterUtil.router(context, RouterPath.DM_DETAIL, detail);
+    RouterUtil.router(context, RouterPath.dmDetail, detail);
   }
 
   Future<void> handleScanner() async {
     if (!mounted) return;
-    var result = await RouterUtil.router(context, RouterPath.QRSCANNER);
+    var result = await RouterUtil.router(context, RouterPath.qrScanner);
     if (!mounted) return;
     if (StringUtil.isNotBlank(result)) {
       if (Nip19.isPubkey(result)) {
         var pubkey = Nip19.decode(result);
-        RouterUtil.router(context, RouterPath.USER, pubkey);
+        RouterUtil.router(context, RouterPath.user, pubkey);
       } else if (NIP19Tlv.isNprofile(result)) {
         var nprofile = NIP19Tlv.decodeNprofile(result);
         if (nprofile != null) {
-          RouterUtil.router(context, RouterPath.USER, nprofile.pubkey);
+          RouterUtil.router(context, RouterPath.user, nprofile.pubkey);
         }
       } else if (Nip19.isNoteId(result)) {
         var noteId = Nip19.decode(result);
-        RouterUtil.router(context, RouterPath.EVENT_DETAIL, noteId);
+        RouterUtil.router(context, RouterPath.eventDetail, noteId);
       } else if (NIP19Tlv.isNevent(result)) {
         var nevent = NIP19Tlv.decodeNevent(result);
         if (nevent != null) {
-          RouterUtil.router(context, RouterPath.EVENT_DETAIL, nevent.id);
+          RouterUtil.router(context, RouterPath.eventDetail, nevent.id);
         }
       } else if (NIP19Tlv.isNrelay(result)) {
         var nrelay = NIP19Tlv.decodeNrelay(result);
@@ -548,7 +548,7 @@ class MetadataIconDataComp extends StatelessWidget {
               ),
               child: leftWidget ??
                   Icon(
-                    iconData,
+                    iconData ?? Icons.circle,
                     color: iconColor,
                     size: 16,
                   ),

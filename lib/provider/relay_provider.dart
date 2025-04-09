@@ -86,7 +86,7 @@ class RelayProvider extends ChangeNotifier {
     int connectedNum = 0;
     var it = relayStatusMap.values;
     for (var status in it) {
-      if (status.connected == ClientConneccted.CONNECTED) {
+      if (status.connected == ClientConnected.connected) {
         connectedNum++;
       }
     }
@@ -120,7 +120,7 @@ class RelayProvider extends ChangeNotifier {
       nostrSigner = NostrRemoteSigner(
           settingsProvider.relayMode != null
               ? settingsProvider.relayMode!
-              : RelayMode.FAST_MODE,
+              : RelayMode.fastMode,
           info);
       await (nostrSigner as NostrRemoteSigner)
           .connect(sendConnectRequest: !hasConnected);
@@ -170,7 +170,7 @@ class RelayProvider extends ChangeNotifier {
 
     // add local relay
     if (relayLocalDB != null &&
-        settingsProvider.relayLocal != OpenStatus.CLOSE) {
+        settingsProvider.relayLocal != OpenStatus.close) {
       relayStatusLocal = RelayStatus(RelayLocal.localUrl);
       var relayLocal =
           RelayLocal(RelayLocal.localUrl, relayStatusLocal!, relayLocalDB!)
@@ -308,7 +308,7 @@ class RelayProvider extends ChangeNotifier {
         relayStatus,
       )..relayStatusCallback = onRelayStatusChange;
     } else {
-      if (settingsProvider.relayMode == RelayMode.BASE_MODE) {
+      if (settingsProvider.relayMode == RelayMode.baseMode) {
         return RelayBase(
           relayAddr,
           relayStatus,
@@ -317,7 +317,7 @@ class RelayProvider extends ChangeNotifier {
         return RelayIsolate(
           relayAddr,
           relayStatus,
-          eventSignCheck: settingsProvider.eventSignCheck == OpenStatus.OPEN,
+          eventSignCheck: settingsProvider.eventSignCheck == OpenStatus.open,
           relayNetwork: settingsProvider.network,
         )..relayStatusCallback = onRelayStatusChange;
       }

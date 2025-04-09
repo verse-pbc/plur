@@ -6,7 +6,7 @@ import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
 
 class DB {
-  static const _VERSION = 1;
+  static const _version = 1;
 
   static const _dbName = "nostrmo.db";
 
@@ -22,13 +22,13 @@ class DB {
 
     try {
       _database =
-          await openDatabase(path, version: _VERSION, onCreate: _onCreate);
+          await openDatabase(path, version: _version, onCreate: _onCreate);
     } catch (e) {
       if (Platform.isLinux) {
         // maybe it need install sqlite first, but this command need run by root.
         await run('sudo apt-get -y install libsqlite3-0 libsqlite3-dev');
         _database =
-            await openDatabase(path, version: _VERSION, onCreate: _onCreate);
+            await openDatabase(path, version: _version, onCreate: _onCreate);
       }
     }
   }

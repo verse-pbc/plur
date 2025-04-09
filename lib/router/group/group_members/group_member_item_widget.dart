@@ -31,7 +31,7 @@ class GroupMemberItemWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.USER, pubkey);
+        RouterUtil.router(context, RouterPath.user, pubkey);
       },
       child: Column(
         children: [

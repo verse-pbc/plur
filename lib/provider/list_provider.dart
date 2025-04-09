@@ -330,7 +330,7 @@ class ListProvider extends ChangeNotifier {
     if (isGroupMember(request)) {
       BotToast.showText(text: "You're already a member of this group.");
       if (context != null) {
-        RouterUtil.router(context, RouterPath.GROUP_DETAIL,
+        RouterUtil.router(context, RouterPath.groupDetail,
             GroupIdentifier(request.host, request.groupId));
       }
       return;
@@ -457,7 +457,7 @@ class ListProvider extends ChangeNotifier {
 
       if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
         RouterUtil.router(
-            context, RouterPath.GROUP_DETAIL, successfullyJoinedGroupIds[0]);
+            context, RouterPath.groupDetail, successfullyJoinedGroupIds[0]);
       }
     } else {
       BotToast.showText(

@@ -10,7 +10,7 @@ class MarkdownNrelayInlineSyntax extends md.InlineSyntax {
   bool onMatch(md.InlineParser parser, Match match) {
     // var text = match.input.substring(match.start, match.end);
     var text = match[0]!;
-    final element = md.Element.text(MarkdownNrelayElementBuilder.TAG, text);
+    final element = md.Element.text(MarkdownNrelayElementBuilder.tag, text);
     parser.addNode(element);
 
     return true;

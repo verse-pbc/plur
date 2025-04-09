@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PointWidget extends StatelessWidget {
-  double marginTop;
+  final double marginTop;
 
-  double marginRight;
+  final double marginRight;
 
-  double width;
+  final double width;
 
-  Color? color;
+  final Color? color;
 
-  PointWidget({super.key, 
+  const PointWidget({super.key,
     this.marginRight = 0,
     this.marginTop = 0,
     this.width = 10,
