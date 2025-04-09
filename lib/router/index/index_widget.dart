@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
+import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
@@ -145,6 +146,9 @@ class _IndexWidgetState extends CustState<IndexWidget>
   Widget doBuild(BuildContext context) {
     mediaDataCache.update(context);
     final localization = S.of(context);
+
+    // Note: This is critical. Rebuild this widget when settings change.
+    Provider.of<SettingsProvider>(context);
 
     if (nostr == null) {
       return const LoginSignupWidget();
