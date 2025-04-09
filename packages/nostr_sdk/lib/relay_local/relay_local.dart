@@ -52,6 +52,9 @@ class RelayLocal extends Relay with RelayLocalMixin {
 
   @override
   Future<bool> doConnect() async {
+    // Allow requests that need authentication to be processed by the local
+    // relay as well.
+    relayStatus.authed = true;
     return true;
   }
 
