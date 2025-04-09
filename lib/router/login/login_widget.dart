@@ -5,6 +5,7 @@ import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_text/styled_text.dart';
+import 'package:provider/provider.dart';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
@@ -14,6 +15,9 @@ import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
 import '../../util/theme_util.dart';
+import '../../provider/settings_provider.dart';
+import '../../provider/relay_provider.dart';
+import '../../provider/index_provider.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
@@ -85,7 +89,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   @override
   Widget build(BuildContext context) {
     localization = S.of(context);
-    
+
     // Save some colors for later
     final themeData = Theme.of(context);
     final dimmedColor = themeData.customColors.dimmedColor;
@@ -138,7 +142,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: FilledButton(
         key: const Key('signup_button'),
         // Calls `_navigateToSignup` when tapped.
-        onPressed: _navigateToSignup,
+        onPressed: _navigateToOnboarding,
         style: FilledButton.styleFrom(
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: themeData.customColors.accentColor,
@@ -355,24 +359,35 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     );
   }
 
-  /// Navigates to the Signup screen.
-  Future<void> _navigateToSignup() async {
-    final privateKey = await Navigator.of(context).pushNamed(RouterPath.signUp);
-    if (privateKey != null && privateKey is String) {
-      _doPreLogin();
+  /// Navigates to the Onboarding screen.
+  Future<void> _navigateToOnboarding() async {
+    final completed =
+        await Navigator.of(context).pushNamed(RouterPath.onboarding);
+    if (completed == true) {
+      final privateKey = generatePrivateKey();
+      await _completeSignup(privateKey);
+    }
+  }
 
-      settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
-      nostr = await relayProvider.genNostrWithKey(privateKey);
+  Future<void> _completeSignup(String privateKey) async {
+    final settingsProvider =
+        Provider.of<SettingsProvider>(context, listen: false);
+    final relayProvider = Provider.of<RelayProvider>(context, listen: false);
+    final indexProvider = Provider.of<IndexProvider>(context, listen: false);
 
-      if (backAfterLogin && mounted) {
-        RouterUtil.back(context);
-      }
+    // Clear previously selected account data if any
+    _doPreLogin();
 
-      settingsProvider.notify();
-      // Marks the login as the first one, so the contact data can be properly
-      // downloaded.
-      firstLogin = true;
-      indexProvider.setCurrentTap(0);
+    // Set up the private key and nostr client
+    settingsProvider.addAndChangePrivateKey(privateKey, updateUI: true);
+    nostr = await relayProvider.genNostrWithKey(privateKey);
+
+    // Set first login flag and navigate
+    firstLogin = true;
+    // Set home tab and navigate to index
+    if (mounted) {
+      indexProvider.setCurrentTap(0); // Set the home tab
+      RouterUtil.router(context, RouterPath.index); // Navigate to home page
     }
   }
 
@@ -411,7 +426,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       _doPreLogin();
 
       var npubKey = Nip19.encodePubKey(pubkey!);
-      settingsProvider.addAndChangePrivateKey(npubKey, updateUI: false);
+      settingsProvider.addAndChangePrivateKey(npubKey, updateUI: true);
 
       var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
       nostr = await relayProvider.genNostr(pubkeyOnlySigner);
@@ -434,7 +449,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           bunkerLink =
               (nostr!.nostrSigner as NostrRemoteSigner).info.toString();
         }
-        settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
+        settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: true);
       } finally {
         cancel.call();
       }
@@ -454,7 +469,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       _doPreLogin();
 
-      settingsProvider.addAndChangePrivateKey(pk, updateUI: false);
+      settingsProvider.addAndChangePrivateKey(pk, updateUI: true);
       nostr = await relayProvider.genNostrWithKey(pk);
     }
 
@@ -462,7 +477,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       RouterUtil.back(context);
     }
 
-    settingsProvider.notify();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
@@ -482,14 +496,13 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
       key = "$key?package=${androidNostrSigner.getPackage()}";
     }
-    settingsProvider.addAndChangePrivateKey(key, updateUI: false);
+    settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
 
-    settingsProvider.notify();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
@@ -506,14 +519,13 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     _doPreLogin();
 
     var key = "${NIP07Signer.uriPre}:$pubkey";
-    settingsProvider.addAndChangePrivateKey(key, updateUI: false);
+    settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(signer);
 
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
 
-    settingsProvider.notify();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
   }
