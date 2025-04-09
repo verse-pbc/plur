@@ -70,11 +70,41 @@ class S {
     );
   }
 
+  /// `Error`
+  String get Error {
+    return Intl.message(
+      'Error',
+      name: 'Error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get Communities {
     return Intl.message(
       'Communities',
       name: 'Communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Guidelines`
+  String get Community_Guidelines {
+    return Intl.message(
+      'Community Guidelines',
+      name: 'Community_Guidelines',
       desc: '',
       args: [],
     );
@@ -3350,6 +3380,16 @@ class S {
     );
   }
 
+  /// `Enter the guidelines of your community`
+  String get Enter_Community_Guidelines {
+    return Intl.message(
+      'Enter the guidelines of your community',
+      name: 'Enter_Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Description`
   String get Description {
     return Intl.message(
@@ -3365,6 +3405,16 @@ class S {
     return Intl.message(
       'Save',
       name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while trying to save your data.`
+  String get Save_failed {
+    return Intl.message(
+      'An error occurred while trying to save your data.',
+      name: 'Save_failed',
       desc: '',
       args: [],
     );
@@ -3437,6 +3487,46 @@ class S {
       name: 'Group_members',
       desc: '',
       args: [number],
+    );
+  }
+
+  /// `Are you over 16 years old?`
+  String get Age_verification_question {
+    return Intl.message(
+      'Are you over 16 years old?',
+      name: 'Age_verification_question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For legal reasons, we need to make sure you're over this age to use Plur.`
+  String get Age_verification_message {
+    return Intl.message(
+      'For legal reasons, we need to make sure you\'re over this age to use Plur.',
+      name: 'Age_verification_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get No {
+    return Intl.message(
+      'No',
+      name: 'No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get Yes {
+    return Intl.message(
+      'Yes',
+      name: 'Yes',
+      desc: '',
+      args: [],
     );
   }
 }

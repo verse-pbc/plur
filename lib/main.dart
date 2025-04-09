@@ -34,7 +34,7 @@ import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
-import 'package:nostrmo/router/signup/signup_widget.dart';
+import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
@@ -59,6 +59,7 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
@@ -421,7 +422,7 @@ class _MyApp extends State<MyApp> {
     routes = {
       RouterPath.index: (context) => IndexWidget(reload: reload),
       RouterPath.login: (context) => const LoginSignupWidget(),
-      RouterPath.signUp: (context) => const SignupWidget(),
+      RouterPath.onboarding: (context) => const OnboardingWidget(),
       RouterPath.donate: (context) => const DonateWidget(),
       RouterPath.user: (context) => const UserWidget(),
       RouterPath.userContactList: (context) => const UserContactListWidget(),
@@ -444,8 +445,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.qrScanner: (context) => const QRScannerWidget(),
       RouterPath.webUtils: (context) => const WebUtilsWidget(),
       RouterPath.relayInfo: (context) => const RelayInfoWidget(),
-      RouterPath.followedTagsList: (context) =>
-          const FollowedTagsListWidget(),
+      RouterPath.followedTagsList: (context) => const FollowedTagsListWidget(),
       RouterPath.communityDetail: (context) => const CommunityDetailWidget(),
       RouterPath.followedCommunities: (context) =>
           const FollowedCommunitiesWidget(),
@@ -460,6 +460,8 @@ class _MyApp extends State<MyApp> {
       RouterPath.groupEdit: (context) => const GroupEditWidget(),
       RouterPath.groupMembers: (context) => const GroupMembersWidget(),
       RouterPath.groupInfo: (context) => const GroupInfoWidget(),
+      RouterPath.communityGuidelines: (context) =>
+          const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };
