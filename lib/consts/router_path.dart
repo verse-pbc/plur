@@ -9,8 +9,8 @@ class RouterPath {
   /// The route path for the Login screen.
   static const String LOGIN = "/login";
 
-  /// The route path for the Signup screen.
-  static const String SIGNUP = "/signup";
+  /// The route path for the Onboarding screen.
+  static const String onboarding = "/onboarding";
 
   static const String EDITOR = "/editor";
   static const String DONATE = "/donate";
@@ -33,6 +33,9 @@ class RouterPath {
 
   /// The route path for the Settings screen.
   static const String SETTINGS = "/settings";
+
+  /// The route path for the Community Guidelines screen.
+  static const String communityGuidelines = "/communityGuidelines";
 
   static const String QRSCANNER = "/qrScanner";
   static const String WEBUTILS = "/webUtils";

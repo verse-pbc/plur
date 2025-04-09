@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/main.dart';
 import 'dart:developer';
 
-import 'community_widget.dart';
+import '../../component/shimmer/shimmer.dart';
+import 'communities_grid_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
+import '../../util/theme_util.dart';
 
 class CommunitiesWidget extends StatefulWidget {
   const CommunitiesWidget({super.key});
@@ -31,6 +31,16 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
   Widget doBuild(BuildContext context) {
     final listProvider = Provider.of<ListProvider>(context);
     final groupIds = listProvider.groupIdentifiers;
+    final themeData = Theme.of(context);
+    final appBgColor = themeData.customColors.appBgColor;
+    final separatorColor = themeData.customColors.separatorColor;
+    final shimmerGradient = LinearGradient(
+      colors: [separatorColor, appBgColor, separatorColor],
+      stops: const [0.1, 0.3, 0.4],
+      begin: const Alignment(-1.0, -0.3),
+      end: const Alignment(1.0, 0.3),
+      tileMode: TileMode.clamp,
+    );
 
     return Scaffold(
       body: Container(
@@ -38,25 +48,10 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
             ? const Center(
                 child: NoCommunitiesWidget(),
               )
-            : GridView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 52),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 0.0,
-                  mainAxisSpacing: 32.0,
-                  childAspectRatio: 1,
-                ),
-                itemCount: groupIds.length,
-                itemBuilder: (context, index) {
-                  final groupIdentifier = groupIds[index];
-                  return InkWell(
-                    onTap: () {
-                      RouterUtil.router(
-                          context, RouterPath.GROUP_DETAIL, groupIdentifier);
-                    },
-                    child: CommunityWidget(groupIdentifier),
-                  );
-                }),
+            : Shimmer(
+                linearGradient: shimmerGradient,
+                child: CommunitiesGridWidget(groupIds: groupIds),
+              ),
       ),
     );
   }
@@ -80,24 +75,24 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     final filters = [
       {
         // Listen for communities where user is a member
-        "kinds": [EventKind.GROUP_MEMBERS],
+        "kinds": [EventKind.groupMembers],
         "#p": [nostr!.publicKey],
         "since": since,
       },
       {
         // Listen for communities where user is an admin
-        "kinds": [EventKind.GROUP_ADMINS],
+        "kinds": [EventKind.groupAdmins],
         "#p": [nostr!.publicKey],
         "since": since,
       },
       {
         // Listen for community deletions
-        "kinds": [EventKind.GROUP_DELETE_GROUP],
+        "kinds": [EventKind.groupDeleteGroup],
         "since": since,
       },
       {
         // Listen for community metadata edits
-        "kinds": [EventKind.GROUP_EDIT_METADATA],
+        "kinds": [EventKind.groupEditMetadata],
         "since": since,
       }
     ];
@@ -107,7 +102,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
         filters,
         _handleSubscriptionEvent,
         id: subscribeId,
-        relayTypes: [RelayType.TEMP],
+        relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );
@@ -121,11 +116,11 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
       final listProvider = Provider.of<ListProvider>(context, listen: false);
 
       switch (event.kind) {
-        case EventKind.GROUP_DELETE_GROUP:
+        case EventKind.groupDeleteGroup:
           listProvider.handleGroupDeleteEvent(event);
-        case EventKind.GROUP_MEMBERS || EventKind.GROUP_ADMINS:
+        case EventKind.groupMembers || EventKind.groupAdmins:
           listProvider.handleAdminMembershipEvent(event);
-        case EventKind.GROUP_EDIT_METADATA:
+        case EventKind.groupEditMetadata:
           listProvider.handleEditMetadataEvent(event);
       }
     }, null);
