@@ -222,7 +222,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           if (tagName == "a") {
             // this note is add to community
             var aid = AId.fromString(tagValue);
-            if (aid != null && aid.kind == EventKind.COMMUNITY_DEFINITION) {
+            if (aid != null && aid.kind == EventKind.communityDefinition) {
               list.add(Container(
                 padding: const EdgeInsets.only(
                   left: Base.basePadding,

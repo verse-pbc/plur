@@ -84,14 +84,14 @@ class EventReactions implements FindEventInterface {
     if (eventIdMap[id] == null) {
       eventIdMap[id] = 1;
 
-      if (event.kind == EventKind.TEXT_NOTE) {
+      if (event.kind == EventKind.textNote) {
         replyNum++;
         replies.add(event);
-      } else if (event.kind == EventKind.REPOST ||
-          event.kind == EventKind.GENERIC_REPOST) {
+      } else if (event.kind == EventKind.repost ||
+          event.kind == EventKind.genericRepost) {
         repostNum++;
         reposts.add(event);
-      } else if (event.kind == EventKind.REACTION) {
+      } else if (event.kind == EventKind.reaction) {
         var likeText = getLikeText(event);
 
         var num = likeNumMap[likeText];
@@ -106,7 +106,7 @@ class EventReactions implements FindEventInterface {
           myLikeEvents ??= [];
           myLikeEvents!.add(event);
         }
-      } else if (event.kind == EventKind.ZAP) {
+      } else if (event.kind == EventKind.zap) {
         zapNum += ZapInfoUtil.getNumFromZapEvent(event);
         zaps.add(event);
 

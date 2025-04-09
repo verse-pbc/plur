@@ -46,7 +46,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
         var dmSession = widget.detail.dmSession;
 
         var content = dmSession.newestEvent!.content;
-        if (dmSession.newestEvent!.kind == EventKind.DIRECT_MESSAGE &&
+        if (dmSession.newestEvent!.kind == EventKind.directMessage &&
             StringUtil.isBlank(plainContent)) {
           handleEncryptedText(dmSession.newestEvent!, dmSession.pubkey);
         }
