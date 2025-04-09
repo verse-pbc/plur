@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/group_identifier_provider.dart';
+import '../../data/group_identifier_repository.dart';
 
 /// A controller class that manages the group of communities.
 class CommunitiesController extends StreamNotifier<GroupIdentifiers> {
