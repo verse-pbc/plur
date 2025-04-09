@@ -33,9 +33,9 @@ import 'settings_group_item_widget.dart';
 import 'settings_group_title_widget.dart';
 
 class SettingsWidget extends StatefulWidget {
-  Function indexReload;
+  final Function indexReload;
 
-  SettingsWidget({
+  const SettingsWidget({
     super.key,
     required this.indexReload,
   });
@@ -58,9 +58,6 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     final themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     var settingsProvider = Provider.of<SettingsProvider>(context);
-    var valueFontSize = themeData.textTheme.bodyMedium!.fontSize;
-
-    var mainColor = themeData.primaryColor;
     var hintColor = themeData.hintColor;
     var cardColor = themeData.cardColor;
 
@@ -99,15 +96,15 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       ));
     }
 
-    String nwcValue = getOpenList(OpenStatus.OPEN).name;
+    String nwcValue = getOpenList(OpenStatus.open).name;
     if (StringUtil.isBlank(settingsProvider.nwcUrl)) {
-      nwcValue = getOpenList(OpenStatus.CLOSE).name;
+      nwcValue = getOpenList(OpenStatus.close).name;
     }
     list.add(SettingsGroupItemWidget(
       name: "NWC ${localization.Settings}",
       value: nwcValue,
       onTap: () {
-        RouterUtil.router(context, RouterPath.NWC_SETTING);
+        RouterUtil.router(context, RouterPath.nwcSetting);
       },
     ));
     list.add(SettingsGroupItemWidget(
@@ -133,8 +130,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       value: getImageService(settingsProvider.imageService).name,
       onTap: _pickImageService,
     ));
-    if ((settingsProvider.imageService == ImageServices.NIP_96 ||
-            settingsProvider.imageService == ImageServices.BLOSSOM) &&
+    if ((settingsProvider.imageService == ImageServices.nip96 ||
+            settingsProvider.imageService == ImageServices.blossom) &&
         StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
       list.add(SettingsGroupItemWidget(
         name: localization.Image_service_path,
@@ -175,7 +172,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         value: getOpenTranslate(settingsProvider.openTranslate).name,
         onTap: pickOpenTranslate,
       ));
-      if (settingsProvider.openTranslate == OpenStatus.OPEN) {
+      if (settingsProvider.openTranslate == OpenStatus.open) {
         list.add(SettingsGroupItemWidget(
           name: localization.Translate_Source_Language,
           value: settingsProvider.translateSourceArgs,
@@ -240,7 +237,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         value: getRelayMode(settingsProvider.relayMode).name,
         onTap: pickRelayModes,
       ));
-      if (settingsProvider.relayMode != RelayMode.BASE_MODE) {
+      if (settingsProvider.relayMode != RelayMode.baseMode) {
         list.add(SettingsGroupItemWidget(
           name: localization.Event_Sign_Check,
           value: getOpenListDefault(settingsProvider.eventSignCheck).name,
@@ -301,8 +298,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void initOpenList(S s) {
     if (openList == null) {
       openList = [];
-      openList!.add(EnumObj(OpenStatus.OPEN, localization.open));
-      openList!.add(EnumObj(OpenStatus.CLOSE, localization.close));
+      openList!.add(EnumObj(OpenStatus.open, localization.open));
+      openList!.add(EnumObj(OpenStatus.close, localization.close));
     }
   }
 
@@ -407,7 +404,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   List<EnumObj>? lockOpenList;
 
   EnumObj getLockOpenList(int lockOpen) {
-    if (lockOpen == OpenStatus.OPEN) {
+    if (lockOpen == OpenStatus.open) {
       return openList![0];
     }
     return openList![1];
@@ -431,14 +428,14 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         await EnumSelectorWidget.show(context, newLockOpenList);
     if (!mounted) return;
     if (resultEnumObj != null) {
-      if (resultEnumObj.value == OpenStatus.CLOSE) {
+      if (resultEnumObj.value == OpenStatus.close) {
         bool didAuthenticate = await AuthUtil.authenticate(context,
             localization.Please_authenticate_to_turn_off_the_privacy_lock);
         if (didAuthenticate) {
           settingsProvider.lockOpen = resultEnumObj.value;
         }
         settingsProvider.lockOpen = resultEnumObj.value;
-      } else if (resultEnumObj.value == OpenStatus.OPEN) {
+      } else if (resultEnumObj.value == OpenStatus.open) {
         bool didAuthenticate = await AuthUtil.authenticate(context,
             localization.Please_authenticate_to_turn_on_the_privacy_lock);
         if (didAuthenticate) {
@@ -546,19 +543,19 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (imageServiceList == null) {
       imageServiceList = [];
       imageServiceList!
-          .add(EnumObj(ImageServices.NOSTR_BUILD, ImageServices.NOSTR_BUILD));
+          .add(EnumObj(ImageServices.nostrBuild, ImageServices.nostrBuild));
       imageServiceList!.add(
-          EnumObj(ImageServices.POMF2_LAIN_LA, ImageServices.POMF2_LAIN_LA));
+          EnumObj(ImageServices.pomf2LainLa, ImageServices.pomf2LainLa));
       imageServiceList!
-          .add(EnumObj(ImageServices.NOSTO_RE, ImageServices.NOSTO_RE));
+          .add(EnumObj(ImageServices.nostore, ImageServices.nostore));
       imageServiceList!
-          .add(EnumObj(ImageServices.VOID_CAT, ImageServices.VOID_CAT));
+          .add(EnumObj(ImageServices.voidCat, ImageServices.voidCat));
       imageServiceList!
-          .add(EnumObj(ImageServices.NIP_95, ImageServices.NIP_95));
+          .add(EnumObj(ImageServices.nip95, ImageServices.nip95));
       imageServiceList!
-          .add(EnumObj(ImageServices.NIP_96, ImageServices.NIP_96));
+          .add(EnumObj(ImageServices.nip96, ImageServices.nip96));
       imageServiceList!
-          .add(EnumObj(ImageServices.BLOSSOM, ImageServices.BLOSSOM));
+          .add(EnumObj(ImageServices.blossom, ImageServices.blossom));
     }
   }
 
@@ -575,19 +572,19 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     EnumObj? resultEnumObj =
         await EnumSelectorWidget.show(context, imageServiceList!);
     if (resultEnumObj != null && mounted) {
-      if (resultEnumObj.value == ImageServices.NIP_96) {
+      if (resultEnumObj.value == ImageServices.nip96) {
         var addr = await TextInputDialog.show(context,
             "${localization.Please_input} NIP-96 ${localization.Image_service_path}");
         if (StringUtil.isNotBlank(addr)) {
-          settingsProvider.imageService = ImageServices.NIP_96;
+          settingsProvider.imageService = ImageServices.nip96;
           settingsProvider.imageServiceAddr = addr;
         }
         return;
-      } else if (resultEnumObj.value == ImageServices.BLOSSOM) {
+      } else if (resultEnumObj.value == ImageServices.blossom) {
         var addr = await TextInputDialog.show(context,
             "${localization.Please_input} Blossom ${localization.Image_service_path}");
         if (StringUtil.isNotBlank(addr)) {
-          settingsProvider.imageService = ImageServices.BLOSSOM;
+          settingsProvider.imageService = ImageServices.blossom;
           settingsProvider.imageServiceAddr = addr;
         }
         return;
@@ -768,7 +765,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     translateSourceArgs =
         translateSourceArgs ?? settingsProvider.translateSourceArgs;
 
-    if (openTranslate == OpenStatus.OPEN &&
+    if (openTranslate == OpenStatus.open &&
         StringUtil.isNotBlank(translateTarget) &&
         StringUtil.isNotBlank(translateSourceArgs)) {
       List<String> bcpCodes = translateSourceArgs!.split(",");
@@ -815,8 +812,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     final localization = S.of(context);
     if (relayModes == null) {
       relayModes = [];
-      relayModes!.add(EnumObj(RelayMode.FAST_MODE, localization.Fast_Mode));
-      relayModes!.add(EnumObj(RelayMode.BASE_MODE, localization.Base_Mode));
+      relayModes!.add(EnumObj(RelayMode.fastMode, localization.Fast_Mode));
+      relayModes!.add(EnumObj(RelayMode.baseMode, localization.Base_Mode));
     }
     return relayModes!;
   }
@@ -861,8 +858,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (threadModes == null) {
       final localization = S.of(context);
       threadModes = [];
-      threadModes!.add(EnumObj(ThreadMode.FULL_MODE, localization.Full_Mode));
-      threadModes!.add(EnumObj(ThreadMode.TRACE_MODE, localization.Trace_Mode));
+      threadModes!.add(EnumObj(ThreadMode.fullMode, localization.Full_Mode));
+      threadModes!.add(EnumObj(ThreadMode.traceMode, localization.Trace_Mode));
     }
 
     return threadModes!;
@@ -950,7 +947,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (resultEnumObj != null) {
       settingsProvider.wotFilter = resultEnumObj.value;
 
-      if (settingsProvider.wotFilter == OpenStatus.OPEN) {
+      if (settingsProvider.wotFilter == OpenStatus.open) {
         var pubkey = nostr!.publicKey;
         wotProvider.init(pubkey);
       } else {

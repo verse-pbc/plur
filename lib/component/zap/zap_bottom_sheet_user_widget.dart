@@ -8,11 +8,11 @@ import '../../provider/user_provider.dart';
 import '../user/user_pic_widget.dart';
 
 class ZapBottomSheetUserWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  bool configMaxWidth;
+  final bool configMaxWidth;
 
-  ZapBottomSheetUserWidget(
+  const ZapBottomSheetUserWidget(
     this.pubkey, {
       super.key,
     this.configMaxWidth = false,
@@ -25,11 +25,11 @@ class ZapBottomSheetUserWidget extends StatefulWidget {
 }
 
 class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
-  static const double IMAGE_BORDER = 3;
+  static const double imageBorder = 3;
 
-  static const double IMAGE_WIDTH = 60;
+  static const double imageWidth = 60;
 
-  static const double HALF_IMAGE_WIDTH = 30;
+  static const double halfImageWidth = 30;
 
   @override
   Widget build(BuildContext context) {
@@ -55,19 +55,19 @@ class _ZapBottomSheetUserWidgetState extends State<ZapBottomSheetUserWidget> {
         );
 
         Widget userImageWidget = Container(
-          height: IMAGE_WIDTH + IMAGE_BORDER * 2,
-          width: IMAGE_WIDTH + IMAGE_BORDER * 2,
+          height: imageWidth + imageBorder * 2,
+          width: imageWidth + imageBorder * 2,
           decoration: BoxDecoration(
             borderRadius:
-                BorderRadius.circular(HALF_IMAGE_WIDTH + IMAGE_BORDER),
+                BorderRadius.circular(halfImageWidth + imageBorder),
             border: Border.all(
-              width: IMAGE_BORDER,
+              width: imageBorder,
               color: scaffoldBackgroundColor,
             ),
           ),
           child: UserPicWidget(
             pubkey: widget.pubkey,
-            width: IMAGE_WIDTH,
+            width: imageWidth,
             user: user,
           ),
         );

@@ -15,7 +15,7 @@ class MentionMeNewProvider extends ChangeNotifier
     if (subscribeId != null) {
       try {
         nostr!.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (_) {}
     }
 
     _localSince =

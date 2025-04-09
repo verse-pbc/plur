@@ -387,7 +387,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Set home tab and navigate to index
     if (mounted) {
       indexProvider.setCurrentTap(0); // Set the home tab
-      RouterUtil.router(context, RouterPath.INDEX); // Navigate to home page
+      RouterUtil.router(context, RouterPath.index); // Navigate to home page
     }
   }
 
@@ -492,7 +492,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     _doPreLogin();
 
-    var key = "${AndroidNostrSigner.URI_PRE}:$pubkey";
+    var key = "${AndroidNostrSigner.uriPre}:$pubkey";
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
       key = "$key?package=${androidNostrSigner.getPackage()}";
     }
@@ -518,7 +518,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     _doPreLogin();
 
-    var key = "${NIP07Signer.URI_PRE}:$pubkey";
+    var key = "${NIP07Signer.uriPre}:$pubkey";
     settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(signer);
 

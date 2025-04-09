@@ -41,7 +41,7 @@ class _ContactListWidgetState extends State<ContactListWidget> {
               return GestureDetector(
                 onTap: () {
                   RouterUtil.router(
-                      context, RouterPath.USER, contact.publicKey);
+                      context, RouterPath.user, contact.publicKey);
                 },
                 behavior: HitTestBehavior.translucent,
                 child: UserMetadataWidget(

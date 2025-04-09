@@ -23,7 +23,7 @@ class BadgeWidget extends StatelessWidget {
     Widget? imageWidget;
     if (StringUtil.isNotBlank(imagePath)) {
       imageWidget = ImageWidget(
-        imageUrl: imagePath!,
+        url: imagePath!,
         width: imageWidth,
         height: imageWidth,
         fit: BoxFit.cover,

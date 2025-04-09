@@ -70,7 +70,7 @@ class _MentionMeWidgetState extends KeepAliveCustState<MentionMeWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
           );
         }
       },

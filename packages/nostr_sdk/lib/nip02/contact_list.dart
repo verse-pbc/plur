@@ -7,7 +7,7 @@ class ContactList {
 
   late Map<String, int> _followedCommunitys;
 
-  late int createdAt;
+  late int _createdAt;
 
   ContactList({
     Map<String, Contact>? contacts,
@@ -22,9 +22,7 @@ class ContactList {
     _contacts = contacts;
     _followedTags = followedTags;
     _followedCommunitys = followedCommunitys;
-
-    createdAt ??= DateTime.now().millisecondsSinceEpoch ~/ 1000;
-    this.createdAt = createdAt;
+    _createdAt = createdAt ?? DateTime.now().millisecondsSinceEpoch ~/ 1000;
   }
 
   static void getContactInfoFromTags(
@@ -52,7 +50,7 @@ class ContactList {
           final contact =
               Contact(publicKey: tag[1], url: url, petname: petname);
           contacts[contact.publicKey] = contact;
-        } catch (e) {}
+        } catch (_) {}
       } else if (t == "t" && length > 1) {
         var tagName = tag[1];
         followedTags[tagName] = 1;
@@ -73,7 +71,7 @@ class ContactList {
   }
 
   ContactList._(this._contacts, this._followedTags, this._followedCommunitys,
-      this.createdAt);
+      this._createdAt);
 
   List<dynamic> toJson() {
     List<dynamic> result = [];
@@ -88,6 +86,8 @@ class ContactList {
     }
     return result;
   }
+
+  int get createdAt => _createdAt;
 
   void add(Contact contact) {
     _contacts[contact.publicKey] = contact;

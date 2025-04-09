@@ -97,7 +97,7 @@ class RelayPool {
     List<Relay> list = [];
     final it = _relays.values;
     for (final relay in it) {
-      if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
+      if (relay.relayStatus.connected == ClientConnected.connected) {
         list.add(relay);
       }
     }
@@ -133,7 +133,7 @@ class RelayPool {
   bool relayDoQuery(Relay relay, Subscription subscription, bool sendAfterAuth,
       {bool runBeforeConnected = false}) {
     if ((!runBeforeConnected &&
-            relay.relayStatus.connected != ClientConneccted.CONNECTED) ||
+            relay.relayStatus.connected != ClientConnected.connected) ||
         !relay.relayStatus.readAccess) {
       return false;
     }
@@ -147,7 +147,7 @@ class RelayPool {
         relay.pendingAuthedMessages.add(message);
         return true;
       } else {
-        if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
+        if (relay.relayStatus.connected == ClientConnected.connected) {
           return relay.send(message);
         } else {
           relay.pendingMessages.add(message);
@@ -169,7 +169,7 @@ class RelayPool {
       relayLocal!.broadcastToLocal(event);
     }
     for (var relay in _cacheRelays.values) {
-      if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
+      if (relay.relayStatus.connected == ClientConnected.connected) {
         relay.send(["EVENT", event]);
       }
     }
@@ -412,7 +412,7 @@ class RelayPool {
       {bool allowPending = false}) {
     // Skip if relay is not connected or readable
     if ((!allowPending &&
-            relay.relayStatus.connected != ClientConneccted.CONNECTED) ||
+            relay.relayStatus.connected != ClientConnected.connected) ||
         !relay.relayStatus.readAccess) {
       return false;
     }
@@ -430,7 +430,7 @@ class RelayPool {
       }
 
       // Send immediately if connected, otherwise queue
-      if (relay.relayStatus.connected == ClientConneccted.CONNECTED) {
+      if (relay.relayStatus.connected == ClientConnected.connected) {
         return relay.send(message);
       } else {
         relay.pendingMessages.add(message);
@@ -627,7 +627,7 @@ class RelayPool {
     if (tempRelays != null) {
       for (var tempRelayAddr in tempRelays) {
         var tempRelay = checkAndGenTempRelay(tempRelayAddr);
-        if (tempRelay.relayStatus.connected == ClientConneccted.CONNECTED) {
+        if (tempRelay.relayStatus.connected == ClientConnected.connected) {
           tempRelay.send(message);
           hadSubmitSend = true;
         } else {
@@ -700,7 +700,7 @@ class RelayPool {
 
   bool readable() {
     for (var relay in _relays.values) {
-      if (relay.relayStatus.connected == ClientConneccted.CONNECTED &&
+      if (relay.relayStatus.connected == ClientConnected.connected &&
           relay.relayStatus.readAccess) {
         return true;
       }
@@ -711,7 +711,7 @@ class RelayPool {
 
   bool writable() {
     for (var relay in _relays.values) {
-      if (relay.relayStatus.connected == ClientConneccted.CONNECTED &&
+      if (relay.relayStatus.connected == ClientConnected.connected &&
           relay.relayStatus.writeAccess) {
         return true;
       }

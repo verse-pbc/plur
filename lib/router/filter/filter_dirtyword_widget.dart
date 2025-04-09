@@ -73,9 +73,9 @@ class _FilterDirtywordWidgetState extends State<FilterDirtywordWidget> {
 }
 
 class FilterDirtywordItemWidget extends StatefulWidget {
-  String word;
+  final String word;
 
-  FilterDirtywordItemWidget({super.key, required this.word});
+  const FilterDirtywordItemWidget({super.key, required this.word});
 
   @override
   State<StatefulWidget> createState() {
@@ -89,7 +89,6 @@ class _FilterDirtywordItemWidgetState extends State<FilterDirtywordItemWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
     var mainColor = themeData.primaryColor;
     var fontColor = themeData.appBarTheme.titleTextStyle!.color;
 

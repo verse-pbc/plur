@@ -36,7 +36,6 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     var relayStatusLocal = relayProvider.relayStatusLocal;
     var relayStatusMap = relayProvider.relayStatusMap;
     final themeData = Theme.of(context);
-    var color = themeData.textTheme.bodyLarge!.color;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
 
     List<Widget> list = [];
@@ -174,7 +173,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
         actions: [
           GestureDetector(
             onTap: () {
-              RouterUtil.router(context, RouterPath.RELAYHUB);
+              RouterUtil.router(context, RouterPath.relayhub);
             },
             child: Container(
               padding: const EdgeInsets.only(right: Base.basePadding),
