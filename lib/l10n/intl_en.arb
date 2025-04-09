@@ -1,6 +1,8 @@
 {
     "Confirm": "Confirm",
     "Cancel": "Cancel",
+    "Discard": "Discard",
+    "Confirm_Discard": "Are you sure you want to discard unsaved changes?",
     "Error": "Error",
     "Retry": "Retry",
     "Communities": "Communities",
