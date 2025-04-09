@@ -1,6 +1,4 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:logging/logging.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -94,7 +92,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
 
   void _updateMember(GroupIdentifier groupIdentifier) {
     var membersJsonMap =
-        genFilter(groupIdentifier.groupId, EventKind.GROUP_MEMBERS);
+        genFilter(groupIdentifier.groupId, EventKind.groupMembers);
 
     nostr!.query(
       [membersJsonMap],
@@ -102,7 +100,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
         onEvent(groupIdentifier, e);
       },
       tempRelays: [groupIdentifier.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
     );
   }
 
@@ -153,43 +151,37 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   /// from the network.
   void query(GroupIdentifier groupIdentifier) {
     final groupId = groupIdentifier.groupId;
-    var metadataJsonMap = genFilter(groupId, EventKind.GROUP_METADATA);
-    var adminsJsonMap = genFilter(groupId, EventKind.GROUP_ADMINS);
-    var membersJsonMap = genFilter(groupId, EventKind.GROUP_MEMBERS);
+    final host = groupIdentifier.host;
+    var metadataJsonMap = genFilter(groupId, EventKind.groupMetadata);
+    var adminsJsonMap = genFilter(groupId, EventKind.groupAdmins);
+    var membersJsonMap = genFilter(groupId, EventKind.groupMembers);
     final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
-
     if (nostr == null) {
       Sentry.captureMessage("nostr is null", level: SentryLevel.error);
       return;
     }
-
-    log(
-      "Querying group $groupId...\n\n${filters.toString()}",
-      level: Level.FINE.value,
-      name: 'GroupProvider',
-    );
-
     nostr!.query(
       filters,
       (e) => onEvent(groupIdentifier, e),
-      tempRelays: [groupIdentifier.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      tempRelays: [host],
+      targetRelays: [host],
+      relayTypes: RelayType.tempAndLocal,
       sendAfterAuth: true,
     );
   }
 
   void onEvent(GroupIdentifier groupIdentifier, Event e) {
     bool updated = false;
-    if (e.kind == EventKind.GROUP_METADATA) {
+    if (e.kind == EventKind.groupMetadata) {
       updated = handleEvent(
           groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
-    } else if (e.kind == EventKind.GROUP_ADMINS) {
+    } else if (e.kind == EventKind.groupAdmins) {
       updated = handleEvent(
           groupAdmins, groupIdentifier, GroupAdmins.loadFromEvent(e));
-    } else if (e.kind == EventKind.GROUP_MEMBERS) {
+    } else if (e.kind == EventKind.groupMembers) {
       updated = handleEvent(
           groupMembers, groupIdentifier, GroupMembers.loadFromEvent(e));
-    } else if (e.kind == EventKind.GROUP_EDIT_METADATA) {
+    } else if (e.kind == EventKind.groupEditMetadata) {
       updated = handleEvent(
           groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
     }
@@ -246,7 +238,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       tags.add(["about", groupMetadata.about!]);
     }
 
-    final e = Event(nostr!.publicKey, EventKind.GROUP_EDIT_METADATA, tags, "");
+    var e = Event(nostr!.publicKey, EventKind.groupEditMetadata, tags, "");
     final result =
         await nostr!.sendEvent(e, tempRelays: relays, targetRelays: relays);
     if (result != null) {

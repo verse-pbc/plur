@@ -62,7 +62,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     }
 
     var content = widget.event.content;
-    if (widget.event.kind == EventKind.DIRECT_MESSAGE &&
+    if (widget.event.kind == EventKind.directMessage &&
         StringUtil.isBlank(plainContent)) {
       handleEncryptedText(widget.event, widget.sessionPubkey);
     }
@@ -80,7 +80,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
       ),
     );
     Widget enhancedIcon = Container();
-    if (widget.event.kind == EventKind.PRIVATE_DIRECT_MESSAGE) {
+    if (widget.event.kind == EventKind.privateDirectMessage) {
       enhancedIcon = Container(
         margin: const EdgeInsets.only(
           left: Base.basePaddingHalf,

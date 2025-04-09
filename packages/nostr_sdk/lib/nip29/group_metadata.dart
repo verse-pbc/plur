@@ -8,6 +8,9 @@ class GroupMetadata extends GroupObject {
   String? picture;
 
   String? about;
+  
+  /// Optional: A text containing the community guidelines for this group.
+  String? communityGuidelines;
 
   bool? public;
 
@@ -19,6 +22,7 @@ class GroupMetadata extends GroupObject {
     this.name,
     this.picture,
     this.about,
+    this.communityGuidelines,
     this.public,
     this.open,
   }) : super(groupId, createdAt);
@@ -28,6 +32,7 @@ class GroupMetadata extends GroupObject {
     String? name;
     String? picture;
     String? about;
+    String? communityGuidelines;
     bool? public;
     bool? open;
     int createdAt = event.createdAt;
@@ -71,6 +76,7 @@ class GroupMetadata extends GroupObject {
       name: name,
       picture: picture,
       about: about,
+      communityGuidelines: communityGuidelines,
       public: public,
       open: open,
     );
