@@ -110,7 +110,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
 
           return EventListWidget(
             event: event,
-            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
             showCommunity: false,
           );
         },
@@ -174,7 +174,7 @@ class _CommunityDetailWidgetState extends CustState<CommunityDetailWidget>
 
     try {
       nostr!.unsubscribe(subscribeId);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   onDeleteCallback(Event event) {

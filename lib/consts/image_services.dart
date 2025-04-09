@@ -1,11 +1,11 @@
 class ImageServices {
-  static const NIP_95 = "NIP-95";
-  static const NIP_96 = "NIP-96";
-  static const BLOSSOM = "Blossom";
-  static const NOSTR_BUILD = "nostr.build";
-  static const NOSTRIMG_COM = "nostrimg.com";
-  static const POMF2_LAIN_LA = "pomf2.lain.la";
-  static const VOID_CAT = "void.cat";
-  static const NOSTRFILES_DEV = "nostrfiles.dev";
-  static const NOSTO_RE = "nosto.re";
+  static const nip95 = "NIP-95";
+  static const nip96 = "NIP-96";
+  static const blossom = "Blossom";
+  static const nostrBuild = "nostr.build";
+  static const nostrImgCom = "nostrimg.com";
+  static const pomf2LainLa = "pomf2.lain.la";
+  static const voidCat = "void.cat";
+  static const nostrFilesDev = "nostrfiles.dev";
+  static const nostore = "nosto.re";
 }

@@ -8,17 +8,17 @@ import 'user_top_widget.dart';
 import 'user_badges_widget.dart';
 
 class UserMetadataWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  User? user;
+  final User? user;
 
-  bool jumpable;
+  final bool jumpable;
 
-  bool showBadges;
+  final bool showBadges;
 
-  bool userPicturePreview;
+  final bool userPicturePreview;
 
-  UserMetadataWidget({super.key,
+  const UserMetadataWidget({super.key,
     required this.pubkey,
     this.user,
     this.jumpable = false,

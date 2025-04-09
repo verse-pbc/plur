@@ -42,7 +42,7 @@ class _DMKnownListWidgetState extends State<DMKnownListWidget> {
           }
 
           if (index == 0 && flag > 0) {
-            if (settingsProvider.hideRelayNotices != OpenStatus.CLOSE) {
+            if (settingsProvider.hideRelayNotices != OpenStatus.close) {
               return Container();
             } else {
               return DMNoticeItemWidget(

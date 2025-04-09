@@ -9,9 +9,9 @@ import '../generated/l10n.dart';
 import '../router/index/index_drawer_content.dart';
 
 class FollowSetFollowBottomSheet extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  FollowSetFollowBottomSheet(this.pubkey, {super.key});
+  const FollowSetFollowBottomSheet(this.pubkey, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -141,17 +141,17 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
 }
 
 class FollowSetFollowItemWidget extends StatefulWidget {
-  FollowSet followSet;
+  final FollowSet followSet;
 
-  bool privateValue;
+  final bool privateValue;
 
-  Function(FollowSet, bool?) onPrivateChange;
+  final Function(FollowSet, bool?) onPrivateChange;
 
-  bool publicValue;
+  final bool publicValue;
 
-  Function(FollowSet, bool?) onPublicChange;
+  final Function(FollowSet, bool?) onPublicChange;
 
-  FollowSetFollowItemWidget(
+  const FollowSetFollowItemWidget(
     this.followSet,
     this.privateValue,
     this.onPrivateChange,

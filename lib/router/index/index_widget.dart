@@ -44,10 +44,10 @@ import 'index_tab_item_widget.dart';
 /// * Music player integration
 class IndexWidget extends StatefulWidget {
   /// Maximum width for the navigation drawer in PC mode
-  static double PC_MAX_COLUMN_0 = 240;
+  static double pcMaxColumn0 = 240;
 
   /// Maximum width for the main content area in PC mode
-  static double PC_MAX_COLUMN_1 = 550;
+  static double pcMaxColumn1 = 550;
 
   /// Callback function to reload the application state
   final Function reload;
@@ -133,7 +133,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   /// Handles initial authentication if lock is enabled
   @override
   Future<void> onReady(BuildContext context) async {
-    if (settingsProvider.lockOpen == OpenStatus.OPEN && !unlock) {
+    if (settingsProvider.lockOpen == OpenStatus.open && !unlock) {
       doAuth();
     } else {
       setState(() {
@@ -147,7 +147,9 @@ class _IndexWidgetState extends CustState<IndexWidget>
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+    // Note: This is critical. Rebuild this widget when settings change.
+    Provider.of<SettingsProvider>(context);
+
     if (nostr == null) {
       return const LoginSignupWidget();
     }
@@ -294,11 +296,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
       var maxWidth = mediaDataCache.size.width;
       double column0Width = maxWidth * 2 / 5;
       double column1Width = maxWidth * 2 / 5;
-      if (column0Width > IndexWidget.PC_MAX_COLUMN_0) {
-        column0Width = IndexWidget.PC_MAX_COLUMN_0;
+      if (column0Width > IndexWidget.pcMaxColumn0) {
+        column0Width = IndexWidget.pcMaxColumn0;
       }
-      if (column1Width > IndexWidget.PC_MAX_COLUMN_1) {
-        column1Width = IndexWidget.PC_MAX_COLUMN_1;
+      if (column1Width > IndexWidget.pcMaxColumn1) {
+        column1Width = IndexWidget.pcMaxColumn1;
       }
 
       var mainScaffold = Scaffold(

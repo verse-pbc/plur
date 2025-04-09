@@ -4,64 +4,64 @@ import 'package:nostrmo/main.dart';
 /// Defines the named routes used in the application.
 class RouterPath {
   /// The root path of the application.
-  static const String INDEX = "/";
+  static const String index = "/";
 
   /// The route path for the Login screen.
-  static const String LOGIN = "/login";
+  static const String login = "/login";
 
   /// The route path for the Onboarding screen.
   static const String onboarding = "/onboarding";
 
-  static const String EDITOR = "/editor";
-  static const String DONATE = "/donate";
-  static const String NOTICES = "/notices";
-  static const String KEY_BACKUP = "/keyBackup";
-  static const String RELAYHUB = "/relayhub";
-  static const String RELAYS = "/relays";
-  static const String FILTER = "/filter";
-  static const String USER = "/user";
-  static const String PROFILE_EDITOR = "/profileEditor";
-  static const String USER_CONTACT_LIST = "/userContactList";
-  static const String USER_HISTORY_CONTACT_LIST = "/userHistoryContactList";
-  static const String USER_ZAP_LIST = "/userZapList";
-  static const String USER_RELAYS = "/userRelays";
-  static const String DM_DETAIL = "/dmDetail";
-  static const String THREAD_DETAIL = "/threadDetail";
-  static const String THREAD_TRACE = "/threadTrace";
-  static const String EVENT_DETAIL = "/eventDetail";
-  static const String TAG_DETAIL = "/tagDetail";
+  static const String editor = "/editor";
+  static const String donate = "/donate";
+  static const String notices = "/notices";
+  static const String keyBackup = "/keyBackup";
+  static const String relayhub = "/relayhub";
+  static const String relays = "/relays";
+  static const String filter = "/filter";
+  static const String user = "/user";
+  static const String profileEditor = "/profileEditor";
+  static const String userContactList = "/userContactList";
+  static const String userHistoryContactList = "/userHistoryContactList";
+  static const String userZapList = "/userZapList";
+  static const String userRelays = "/userRelays";
+  static const String dmDetail = "/dmDetail";
+  static const String threadDetail = "/threadDetail";
+  static const String threadTrace = "/threadTrace";
+  static const String eventDetail = "/eventDetail";
+  static const String tagDetail = "/tagDetail";
 
   /// The route path for the Settings screen.
-  static const String SETTINGS = "/settings";
+  static const String settings = "/settings";
 
   /// The route path for the Community Guidelines screen.
   static const String communityGuidelines = "/communityGuidelines";
 
-  static const String QRSCANNER = "/qrScanner";
-  static const String WEBUTILS = "/webUtils";
-  static const String RELAY_INFO = "/relayInfo";
-  static const String FOLLOWED_TAGS_LIST = "/followedTagsList";
-  static const String COMMUNITY_DETAIL = "/communityDetail";
-  static const String FOLLOWED_COMMUNITIES = "/followedCommunities";
-  static const String FOLLOWED = "/followed";
-  static const String BOOKMARK = "/bookmark";
-  static const String FOLLOW_SET_LIST = "/followSetList";
-  static const String FOLLOW_SET_DETAIL = "/followSetDetail";
-  static const String FOLLOW_SET_FEED = "/followSetFeed";
-  static const String NWC_SETTING = "/nwcSetting";
-  static const String GROUP_ADMIN = "/groupAdmin";
-  static const String GROUP_LIST = "/groupList";
-  static const String GROUP_DETAIL = "/groupDetail";
-  static const String GROUP_EDIT = "/groupEdit";
-  static const String GROUP_MEMBERS = "/groupMembers";
-  static const String GROUP_INFO = "/groupInfo";
+  static const String qrScanner = "/qrScanner";
+  static const String webUtils = "/webUtils";
+  static const String relayInfo = "/relayInfo";
+  static const String followedTagsList = "/followedTagsList";
+  static const String communityDetail = "/communityDetail";
+  static const String followedCommunities = "/followedCommunities";
+  static const String followed = "/followed";
+  static const String bookmark = "/bookmark";
+  static const String followSetList = "/followSetList";
+  static const String followSetDetail = "/followSetDetail";
+  static const String followSetFeed = "/followSetFeed";
+  static const String nwcSetting = "/nwcSetting";
+  static const String groupAdmin = "/groupAdmin";
+  static const String groupList = "/groupList";
+  static const String groupDetail = "/groupDetail";
+  static const String groupEdit = "/groupEdit";
+  static const String groupMembers = "/groupMembers";
+  static const String groupInfo = "/groupInfo";
   static const String pushNotificationTest = "/pushNotificationTest";
 
   static String getThreadDetailPath() {
-    if (settingsProvider.threadMode == ThreadMode.FULL_MODE) {
-      return THREAD_DETAIL;
+    if (settingsProvider.threadMode == ThreadMode.fullMode) {
+      return threadDetail;
     }
 
-    return THREAD_TRACE;
+    return threadTrace;
   }
 }

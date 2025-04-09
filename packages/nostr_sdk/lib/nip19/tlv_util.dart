@@ -39,8 +39,8 @@ class TLVData {
 }
 
 class TLVType {
-  static const int Default = 0;
-  static const int Relay = 1;
-  static const int Author = 2;
-  static const int Kind = 3;
+  static const int defaultType = 0; // "default" is a reserved word
+  static const int relay = 1;
+  static const int author = 2;
+  static const int kind = 3;
 }

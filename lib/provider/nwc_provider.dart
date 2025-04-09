@@ -40,7 +40,7 @@ class NWCProvider extends ChangeNotifier {
           _relay!.disconnect();
           _relay!.dispose();
           _relay = null;
-        } catch (e) {}
+        } catch (_) {}
       }
 
       // doConnect
@@ -57,7 +57,7 @@ class NWCProvider extends ChangeNotifier {
         _relay!.disconnect();
         _relay!.dispose();
         _relay = null;
-      } catch (e) {}
+      } catch (_) {}
     }
   }
 
@@ -78,7 +78,7 @@ class NWCProvider extends ChangeNotifier {
 
   bool isConnected() {
     if (_nwcInfo != null && _relay != null) {
-      if (_relay!.relayStatus.connected == ClientConneccted.CONNECTED) {
+      if (_relay!.relayStatus.connected == ClientConnected.connected) {
         return true;
       }
     }

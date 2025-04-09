@@ -6,7 +6,6 @@ import 'package:nostr_sdk/nip29/group_metadata.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../../component/appbar_back_btn_widget.dart';
 import '../../../component/group/group_avatar_widget.dart';
 import '../../../consts/router_path.dart';
 import '../../../generated/l10n.dart';
@@ -224,7 +223,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                     onTap: () {
                       final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
-                          context, RouterPath.GROUP_MEMBERS, groupId);
+                          context, RouterPath.groupMembers, groupId);
                     },
                   ),
                   _NavigationRow(

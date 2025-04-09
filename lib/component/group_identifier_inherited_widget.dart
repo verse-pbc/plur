@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
 class GroupIdentifierInheritedWidget extends InheritedWidget {
-  GroupIdentifier groupIdentifier;
+  final GroupIdentifier groupIdentifier;
 
-  GroupAdmins? groupAdmins;
+  final GroupAdmins? groupAdmins;
 
-  GroupIdentifierInheritedWidget({
+  const GroupIdentifierInheritedWidget({
     super.key,
     required super.child,
     required this.groupIdentifier,

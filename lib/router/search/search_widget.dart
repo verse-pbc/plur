@@ -124,7 +124,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
 
             return GestureDetector(
               onTap: () {
-                RouterUtil.router(context, RouterPath.USER, user.pubkey);
+                RouterUtil.router(context, RouterPath.user, user.pubkey);
               },
               child: UserTopWidget(
                 pubkey: user.pubkey!,
@@ -144,7 +144,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
             return EventListWidget(
               event: event,
               showVideo:
-                  settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+                  settingsProvider.videoPreviewInList != OpenStatus.close,
             );
           },
           itemCount: events.length,
@@ -160,7 +160,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
             return EventListWidget(
               event: event,
               showVideo:
-                  settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+                  settingsProvider.videoPreviewInList != OpenStatus.close,
             );
           },
           itemCount: itemLength,
@@ -343,7 +343,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
         pubkey = Nip19.decode(text);
       }
 
-      RouterUtil.router(context, RouterPath.USER, pubkey);
+      RouterUtil.router(context, RouterPath.user, pubkey);
     }
   }
 
@@ -356,7 +356,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
         noteId = Nip19.decode(text);
       }
 
-      RouterUtil.router(context, RouterPath.EVENT_DETAIL, noteId);
+      RouterUtil.router(context, RouterPath.eventDetail, noteId);
     }
   }
 
@@ -364,7 +364,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
     hideKeyBoard();
     var text = controller.text;
     if (StringUtil.isNotBlank(text)) {
-      RouterUtil.router(context, RouterPath.TAG_DETAIL, text);
+      RouterUtil.router(context, RouterPath.tagDetail, text);
     }
   }
 

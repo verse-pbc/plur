@@ -51,7 +51,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
           var event = list[index];
           return EventListWidget(
             event: event,
-            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
           );
         },
         itemCount: list.length,
@@ -112,7 +112,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
   void unsubscribe() {
     try {
       nostr!.unsubscribe(subscribeId);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   @override
