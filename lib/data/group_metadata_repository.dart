@@ -43,7 +43,11 @@ class GroupMetadataRepository {
       relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
-    assert(events?.length == 1, "Didn't receive group metadata for $groupId");
+    if (events?.length != 1) {
+      log("Didn't receive group metadata for $groupId",
+          level: Level.WARNING.value, name: _logName);
+      return null;
+    }
     final event = events?.firstOrNull;
     if (event == null) {
       return null;
