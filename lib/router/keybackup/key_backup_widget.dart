@@ -207,8 +207,9 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
       return;
     }
 
+    final localization = S.of(context);
     Clipboard.setData(ClipboardData(text: key!)).then((_) {
-      BotToast.showText(text: S.of(context).key_has_been_copy);
+      BotToast.showText(text: localization.key_has_been_copy);
     });
   }
 }

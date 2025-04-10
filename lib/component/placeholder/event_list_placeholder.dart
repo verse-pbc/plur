@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'event_placeholder.dart';
 
 class EventListPlaceholder extends StatelessWidget {
-  Function? onRefresh;
+  final Function? onRefresh;
 
-  EventListPlaceholder({super.key, this.onRefresh});
+  const EventListPlaceholder({super.key, this.onRefresh});
 
   @override
   Widget build(BuildContext context) {

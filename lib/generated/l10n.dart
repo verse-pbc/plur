@@ -70,11 +70,61 @@ class S {
     );
   }
 
+  /// `Discard`
+  String get Discard {
+    return Intl.message(
+      'Discard',
+      name: 'Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to discard unsaved changes?`
+  String get Confirm_Discard {
+    return Intl.message(
+      'Are you sure you want to discard unsaved changes?',
+      name: 'Confirm_Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get Error {
+    return Intl.message(
+      'Error',
+      name: 'Error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get Communities {
     return Intl.message(
       'Communities',
       name: 'Communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Guidelines`
+  String get Community_Guidelines {
+    return Intl.message(
+      'Community Guidelines',
+      name: 'Community_Guidelines',
       desc: '',
       args: [],
     );
@@ -3350,6 +3400,16 @@ class S {
     );
   }
 
+  /// `Enter the guidelines of your community`
+  String get Enter_Community_Guidelines {
+    return Intl.message(
+      'Enter the guidelines of your community',
+      name: 'Enter_Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Description`
   String get Description {
     return Intl.message(
@@ -3365,6 +3425,16 @@ class S {
     return Intl.message(
       'Save',
       name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while trying to save your data.`
+  String get Save_failed {
+    return Intl.message(
+      'An error occurred while trying to save your data.',
+      name: 'Save_failed',
       desc: '',
       args: [],
     );
@@ -3437,6 +3507,106 @@ class S {
       name: 'Group_members',
       desc: '',
       args: [number],
+    );
+  }
+
+  /// `Are you over 16 years old?`
+  String get Age_verification_question {
+    return Intl.message(
+      'Are you over 16 years old?',
+      name: 'Age_verification_question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For legal reasons, we need to make sure you're over this age to use Plur.`
+  String get Age_verification_message {
+    return Intl.message(
+      'For legal reasons, we need to make sure you\'re over this age to use Plur.',
+      name: 'Age_verification_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get No {
+    return Intl.message(
+      'No',
+      name: 'No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get Yes {
+    return Intl.message(
+      'Yes',
+      name: 'Yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your community`
+  String get Create_your_community {
+    return Intl.message(
+      'Create your community',
+      name: 'Create_your_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `community name`
+  String get community_name {
+    return Intl.message(
+      'community name',
+      name: 'community_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name your community`
+  String get Name_your_community {
+    return Intl.message(
+      'Name your community',
+      name: 'Name_your_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start or join a community`
+  String get Start_or_join_a_community {
+    return Intl.message(
+      'Start or join a community',
+      name: 'Start_or_join_a_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect with others by creating your own community or joining an existing one with an invite link.`
+  String get Connect_with_others {
+    return Intl.message(
+      'Connect with others by creating your own community or joining an existing one with an invite link.',
+      name: 'Connect_with_others',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have an invite link? Tap on it to join a community.`
+  String get Have_invite_link {
+    return Intl.message(
+      'Have an invite link? Tap on it to join a community.',
+      name: 'Have_invite_link',
+      desc: '',
+      args: [],
     );
   }
 }

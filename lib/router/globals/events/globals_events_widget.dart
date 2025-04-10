@@ -51,7 +51,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
           var event = list[index];
           return EventListWidget(
             event: event,
-            showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+            showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
           );
         },
         itemCount: list.length,
@@ -94,7 +94,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
       }
     }
 
-    var filter = Filter(ids: ids, kinds: [EventKind.TEXT_NOTE]);
+    var filter = Filter(ids: ids, kinds: [EventKind.textNote]);
     nostr!.subscribe([filter.toJson()], (event) {
       if (eventBox.isEmpty()) {
         laterTimeMS = 200;
@@ -112,7 +112,7 @@ class _GlobalsEventsWidgetState extends KeepAliveCustState<GlobalsEventsWidget>
   void unsubscribe() {
     try {
       nostr!.unsubscribe(subscribeId);
-    } catch (e) {}
+    } catch (_) {}
   }
 
   @override

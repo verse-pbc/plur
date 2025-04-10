@@ -10,11 +10,11 @@ import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
 class LightningQrcodeDialog extends StatefulWidget {
-  String? title;
+  final String? title;
 
-  String text;
+  final String text;
 
-  LightningQrcodeDialog({
+  const LightningQrcodeDialog({
     super.key,
     this.title,
     required this.text,
@@ -41,8 +41,7 @@ class LightningQrcodeDialog extends StatefulWidget {
 }
 
 class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
-  static const double IMAGE_WIDTH = 40;
-  static const double QR_WIDTH = 200;
+  static const double qrWidth = 200;
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +65,9 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
         left: Base.basePaddingHalf,
         right: Base.basePaddingHalf,
       ),
-      child: PrettyQr(
-        data: widget.text,
-        size: QR_WIDTH,
-      ),
+          child: PrettyQrView.data(
+            data: widget.text,
+          ),
     ));
     list.add(GestureDetector(
       onTap: () {
@@ -96,7 +94,7 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
     ));
 
     var main = Container(
-      width: QR_WIDTH + 200,
+      width: qrWidth + 200,
       padding: const EdgeInsets.only(
         top: 20,
         bottom: 20,
@@ -140,6 +138,7 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
 
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
+      if (!mounted) return;
       BotToast.showText(text: S.of(context).Copy_success);
     });
   }

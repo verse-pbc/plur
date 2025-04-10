@@ -27,21 +27,21 @@ class UserProvider extends ChangeNotifier with LaterFunction {
 
       var list = await UserDB.all();
       for (var md in list) {
-        if (md.valid == Nip05Status.NIP05_NOT_VALID) {
+        if (md.valid == Nip05Status.nip05Invalid) {
           md.valid = null;
         }
         _userProvider!._userCache[md.pubkey!] = md;
       }
 
       var events = await EventDB.list(Base.defaultDataIndex,
-          [EventKind.RELAY_LIST_METADATA, EventKind.CONTACT_LIST], 0, 1000000);
+          [EventKind.relayListMetadata, EventKind.contactList], 0, 1000000);
       _userProvider!._contactListMap.clear();
       for (var e in events) {
-        if (e.kind == EventKind.RELAY_LIST_METADATA) {
+        if (e.kind == EventKind.relayListMetadata) {
           var relayListMetadata = RelayListMetadata.fromEvent(e);
           _userProvider!._relayListMetadataCache[relayListMetadata.pubkey] =
               relayListMetadata;
-        } else if (e.kind == EventKind.CONTACT_LIST) {
+        } else if (e.kind == EventKind.contactList) {
           var contactList = ContactList.fromJson(e.tags, e.createdAt);
           _userProvider!._contactListMap[e.pubkey] = contactList;
         }
@@ -114,48 +114,48 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       // web can't valid NIP05 due to cors
       if (user != null) {
         if (user.nip05 != null) {
-          return Nip05Status.NIP05_VALID;
+          return Nip05Status.nip05Valid;
         }
 
-        return Nip05Status.NIP05_NOT_VALID;
+        return Nip05Status.nip05Invalid;
       }
 
-      return Nip05Status.NIP05_NOT_FOUND;
+      return Nip05Status.nip05NotFound;
     }
 
     if (user == null) {
-      return Nip05Status.METADATA_NOT_FOUND;
+      return Nip05Status.metadataNotFound;
     } else if (StringUtil.isNotBlank(user.nip05)) {
       if (user.valid == null) {
         Nip05Validator.valid(user.nip05!, pubkey).then((valid) async {
           if (valid != null) {
             if (valid) {
-              user.valid = Nip05Status.NIP05_VALID;
+              user.valid = Nip05Status.nip05Valid;
               await UserDB.update(user);
             } else {
               // only update cache, next open app vill valid again
-              user.valid = Nip05Status.NIP05_NOT_VALID;
+              user.valid = Nip05Status.nip05Invalid;
             }
             notifyListeners();
           }
         });
 
-        return Nip05Status.NIP05_NOT_VALID;
-      } else if (user.valid! == Nip05Status.NIP05_VALID) {
-        return Nip05Status.NIP05_VALID;
+        return Nip05Status.nip05Invalid;
+      } else if (user.valid! == Nip05Status.nip05Valid) {
+        return Nip05Status.nip05Valid;
       }
 
-      return Nip05Status.NIP05_NOT_VALID;
+      return Nip05Status.nip05Invalid;
     }
 
-    return Nip05Status.NIP05_NOT_FOUND;
+    return Nip05Status.nip05NotFound;
   }
 
   final EventMemBox _pendingEvents = EventMemBox(sortAfterAdd: false);
 
   void _handlePendingEvents() {
     for (var event in _pendingEvents.all()) {
-      if (event.kind == EventKind.METADATA) {
+      if (event.kind == EventKind.metadata) {
         if (StringUtil.isBlank(event.content)) {
           continue;
         }
@@ -182,7 +182,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
           _userCache[user.pubkey!] = user;
           // refresh
         }
-      } else if (event.kind == EventKind.RELAY_LIST_METADATA) {
+      } else if (event.kind == EventKind.relayListMetadata) {
         // this is relayInfoMetadata, only set to cache, not update UI
         var oldRelayListMetadata = _relayListMetadataCache[event.pubkey];
         if (oldRelayListMetadata == null) {
@@ -195,13 +195,13 @@ class UserProvider extends ChangeNotifier with LaterFunction {
               "delete from event where key_index = ? and kind = ? and pubkey = ?",
               [
                 Base.defaultDataIndex,
-                EventKind.RELAY_LIST_METADATA,
+                EventKind.relayListMetadata,
                 event.pubkey
               ]);
           EventDB.insert(Base.defaultDataIndex, event);
           _eventToRelayListCache(event);
         }
-      } else if (event.kind == EventKind.CONTACT_LIST) {
+      } else if (event.kind == EventKind.contactList) {
         var oldContactList = _contactListMap[event.pubkey];
         if (oldContactList == null) {
           // insert
@@ -211,7 +211,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
           // update, remote old event and insert new event
           EventDB.execute(
               "delete from event where key_index = ? and kind = ? and pubkey = ?",
-              [Base.defaultDataIndex, EventKind.CONTACT_LIST, event.pubkey]);
+              [Base.defaultDataIndex, EventKind.contactList, event.pubkey]);
           EventDB.insert(Base.defaultDataIndex, event);
           _eventToContactList(event);
         }
@@ -243,7 +243,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       {
         var filter = Filter(
           kinds: [
-            EventKind.METADATA,
+            EventKind.metadata,
           ],
           authors: [pubkey],
           limit: 1,
@@ -253,7 +253,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       {
         var filter = Filter(
           kinds: [
-            EventKind.RELAY_LIST_METADATA,
+            EventKind.relayListMetadata,
           ],
           authors: [pubkey],
           limit: 1,
@@ -263,7 +263,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       {
         var filter = Filter(
           kinds: [
-            EventKind.CONTACT_LIST,
+            EventKind.contactList,
           ],
           authors: [pubkey],
           limit: 1,

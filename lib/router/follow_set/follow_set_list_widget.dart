@@ -40,7 +40,7 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
           margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
           child: GestureDetector(
             onTap: () {
-              RouterUtil.router(context, RouterPath.FOLLOW_SET_FEED, followSet);
+              RouterUtil.router(context, RouterPath.followSetFeed, followSet);
             },
             child: FollowSetListItem(followSet, () {
               setState(() {});
@@ -104,17 +104,15 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
 }
 
 class FollowSetListItem extends StatelessWidget {
-  late S localization;
+  final FollowSet followSet;
 
-  FollowSet followSet;
+  final Function listUIUpdate;
 
-  Function listUIUpdate;
-
-  FollowSetListItem(this.followSet, this.listUIUpdate, {super.key});
+  const FollowSetListItem(this.followSet, this.listUIUpdate, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    localization = S.of(context);
+    final localization = S.of(context);
     final themeData = Theme.of(context);
 
     return Container(
@@ -131,7 +129,7 @@ class FollowSetListItem extends StatelessWidget {
           GestureDetector(
             onTap: () {
               RouterUtil.router(
-                  context, RouterPath.FOLLOW_SET_DETAIL, followSet);
+                  context, RouterPath.followSetDetail, followSet);
             },
             child: Container(
               margin: const EdgeInsets.only(right: Base.basePadding),
@@ -218,7 +216,7 @@ class FollowSetListItem extends StatelessWidget {
     if (value == "editTitle") {
       titleEdit(context);
     } else if (value == "edit") {
-      RouterUtil.router(context, RouterPath.FOLLOW_SET_DETAIL, followSet);
+      RouterUtil.router(context, RouterPath.followSetDetail, followSet);
     } else if (value == "delete") {
       doDelete();
     }

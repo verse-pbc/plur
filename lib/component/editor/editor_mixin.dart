@@ -404,7 +404,7 @@ mixin EditorMixin {
       final length = editorController.selection.extentOffset - index;
 
       editorController.replaceText(index, length,
-          quill.CustomBlockEmbed(CustEmbedTypes.mention_event, value), null);
+          quill.CustomBlockEmbed(CustEmbedTypes.mentionEvent, value), null);
 
       editorController.moveCursorToPosition(index + 1);
     }
@@ -437,7 +437,7 @@ mixin EditorMixin {
       final length = editorController.selection.extentOffset - index;
 
       editorController.replaceText(index, length,
-          quill.CustomBlockEmbed(CustEmbedTypes.mention_user, value), null);
+          quill.CustomBlockEmbed(CustEmbedTypes.mentionUser, value), null);
 
       editorController.moveCursorToPosition(index + 1);
     }
@@ -542,6 +542,7 @@ mixin EditorMixin {
           }
           if (StringUtil.isNotBlank(value) && value is String) {
             if (value.indexOf("http") != 0) {
+              final localization = S.of(context);
               // this is a local image, update it first
               var imagePath = await Uploader.upload(
                 value,
@@ -578,7 +579,7 @@ mixin EditorMixin {
 
                 value = imagePath;
               } else {
-                BotToast.showText(text: S.of(context).Upload_fail);
+                BotToast.showText(text: localization.Upload_fail);
                 return null;
               }
             }
@@ -600,7 +601,7 @@ mixin EditorMixin {
 
           value = m["tag"];
           if (StringUtil.isNotBlank(value)) {
-            result = handleInlineValue(result, "#" + value);
+            result = handleInlineValue(result, '#$value');
             tags.add(["t", value]);
             continue;
           }
@@ -707,7 +708,7 @@ mixin EditorMixin {
       if (openPrivateDM) {
         // Private dm message
         var rumorEvent = Event(
-            nostr!.publicKey, EventKind.PRIVATE_DIRECT_MESSAGE, allTags, result,
+            nostr!.publicKey, EventKind.privateDirectMessage, allTags, result,
             createdAt: getCreatedAt());
         // this is the event send to sender, should return after send and set into giftWrapProvider and dmProvider
         event = await GiftWrapUtil.getGiftWrapEvent(
@@ -733,11 +734,11 @@ mixin EditorMixin {
         }
         result = encryptedResult;
         event = Event(
-            nostr!.publicKey, EventKind.DIRECT_MESSAGE, allTags, result,
+            nostr!.publicKey, EventKind.directMessage, allTags, result,
             createdAt: getCreatedAt());
       }
     } else if (groupIdentifier != null) {
-      final eventKind = getGroupEventKind() ?? EventKind.GROUP_NOTE;
+      final eventKind = getGroupEventKind() ?? EventKind.groupNote;
       // group event
       event = Event(
           nostr!.publicKey,
@@ -753,13 +754,13 @@ mixin EditorMixin {
       // get poll tag from PollInputComponent
       var pollTags = pollInputController.getTags();
       allTags.addAll(pollTags);
-      event = Event(nostr!.publicKey, EventKind.POLL, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.poll, allTags, result,
           createdAt: getCreatedAt());
     } else if (inputZapGoal) {
       // zap goal event
       var extralTags = zapGoalInputController.getTags();
       allTags.addAll(extralTags);
-      event = Event(nostr!.publicKey, EventKind.ZAP_GOALS, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.zapGoals, allTags, result,
           createdAt: getCreatedAt());
     } else if (isLongForm()) {
       // long form
@@ -783,15 +784,15 @@ mixin EditorMixin {
       allTags.add(["d", id]);
       allTags.add([
         "a",
-        "${EventKind.LONG_FORM}:${nostr!.publicKey}:$id",
+        "${EventKind.longForm}:${nostr!.publicKey}:$id",
         oneWriteRelay
       ]);
 
-      event = Event(nostr!.publicKey, EventKind.LONG_FORM, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.longForm, allTags, result,
           createdAt: getCreatedAt());
     } else {
       // text note
-      event = Event(nostr!.publicKey, EventKind.TEXT_NOTE, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.textNote, allTags, result,
           createdAt: getCreatedAt());
     }
 
@@ -953,7 +954,7 @@ mixin EditorMixin {
     editorController.replaceText(
         index,
         length,
-        quill.Embeddable(CustEmbedTypes.custom_emoji, emoji),
+        quill.Embeddable(CustEmbedTypes.customEmoji, emoji),
         TextSelection.collapsed(offset: index + 2),
         ignoreFocus: true);
     updateUI();
@@ -1071,7 +1072,7 @@ mixin EditorMixin {
           height: emojiBtnWidth,
           alignment: Alignment.center,
           child: ImageWidget(
-            imageUrl: emoji.filepath!,
+            url: emoji.filepath!,
           ),
         ),
       ));
@@ -1177,7 +1178,7 @@ mixin EditorMixin {
     } else {
       main = GestureDetector(
         onTap: pickAndUploadLongFormImage,
-        child: ImageWidget(imageUrl: longFormImage!),
+        child: ImageWidget(url: longFormImage!),
       );
     }
 

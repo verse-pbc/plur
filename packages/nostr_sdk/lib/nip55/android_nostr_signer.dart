@@ -15,18 +15,18 @@ import '../utils/string_util.dart';
 /// Android Local Nostr Signer
 ///
 /// Notice:
-/// havn't implement get_relays method.
+/// haven't implement get_relays method.
 /// many methods call content_resolve_query first and than start_activity_for_result.
 /// many methods return signature field maybe later will change to result field, so client should get signature field first and try result field if signature field not exist.
 /// methods calling should be one-by-one, if they call together it will call some call in signer can't get the calling package name.
 ///
 class AndroidNostrSigner implements NostrSigner {
-  static const String URI_PRE = "nostrsigner";
+  static const String uriPre = "nostrsigner";
 
-  static const String ACTION_VIEW = "android.intent.action.VIEW";
+  static const String actionView = "android.intent.action.VIEW";
 
   static bool isAndroidNostrSignerKey(String key) {
-    if (key.startsWith(URI_PRE)) {
+    if (key.startsWith(uriPre)) {
       return true;
     }
     return false;
@@ -60,7 +60,7 @@ class AndroidNostrSigner implements NostrSigner {
 
   final _lock = Lock(reentrant: true);
 
-  Duration TIMEOUT = const Duration(seconds: 300);
+  Duration timeout = const Duration(seconds: 300);
 
   String? _pubkey;
 
@@ -74,7 +74,7 @@ class AndroidNostrSigner implements NostrSigner {
 
   AndroidPluginIntent _genIntent() {
     var intent = AndroidPluginIntent();
-    intent.setAction(ACTION_VIEW);
+    intent.setAction(actionView);
     if (StringUtil.isNotBlank(_package)) {
       intent.setPackage(_package!);
     }
@@ -95,7 +95,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       var intent = _genIntent();
-      intent.setData("$URI_PRE:$ciphertext");
+      intent.setData("$uriPre:$ciphertext");
 
       intent.putExtra("type", "nip04_decrypt");
       intent.putExtra("current_user", _npub);
@@ -115,7 +115,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       return null;
-    }, timeout: TIMEOUT);
+    }, timeout: timeout);
   }
 
   @override
@@ -131,7 +131,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       var intent = _genIntent();
-      intent.setData("$URI_PRE:$plaintext");
+      intent.setData("$uriPre:$plaintext");
 
       intent.putExtra("type", "nip04_encrypt");
       intent.putExtra("current_user", _npub);
@@ -151,7 +151,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       return null;
-    }, timeout: TIMEOUT);
+    }, timeout: timeout);
   }
 
   @override
@@ -169,7 +169,7 @@ class AndroidNostrSigner implements NostrSigner {
     permissions.add({'type': 'get_public_key'});
 
     var intent = _genIntent();
-    intent.setData("$URI_PRE:");
+    intent.setData("$uriPre:");
 
     intent.putExtra("type", "get_public_key");
     intent.putExtra("permissions", jsonEncode(permissions));
@@ -196,7 +196,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       return null;
-    }, timeout: TIMEOUT);
+    }, timeout: timeout);
   }
 
   @override
@@ -218,13 +218,13 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       var intent = _genIntent();
-      intent.setData("$URI_PRE:$ciphertext");
+      intent.setData("$uriPre:$ciphertext");
 
       intent.putExtra("type", "nip44_decrypt");
       intent.putExtra("current_user", _npub);
       intent.putExtra("pubKey", pubkey);
 
-      var result = await AndroidPlugin.startForResult(intent).timeout(TIMEOUT);
+      var result = await AndroidPlugin.startForResult(intent).timeout(timeout);
       if (result != null) {
         var signature = result.data.getExtra("signature");
         if (signature != null && signature is String) {
@@ -238,7 +238,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       return null;
-    }, timeout: TIMEOUT);
+    }, timeout: timeout);
   }
 
   @override
@@ -254,7 +254,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       var intent = _genIntent();
-      intent.setData("$URI_PRE:$plaintext");
+      intent.setData("$uriPre:$plaintext");
 
       intent.putExtra("type", "nip44_encrypt");
       intent.putExtra("current_user", _npub);
@@ -274,7 +274,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       return null;
-    }, timeout: TIMEOUT);
+    }, timeout: timeout);
   }
 
   @override
@@ -294,7 +294,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       var intent = _genIntent();
-      intent.setData("$URI_PRE:$eventJson");
+      intent.setData("$uriPre:$eventJson");
 
       intent.putExtra("type", "sign_event");
       intent.putExtra("current_user", _npub);
@@ -316,7 +316,7 @@ class AndroidNostrSigner implements NostrSigner {
       }
 
       return null;
-    }, timeout: TIMEOUT);
+    }, timeout: timeout);
   }
 
   Future<List<Object?>?> _getValuesFromCursor(

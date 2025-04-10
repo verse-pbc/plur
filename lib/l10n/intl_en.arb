@@ -1,7 +1,12 @@
 {
     "Confirm": "Confirm",
     "Cancel": "Cancel",
+    "Discard": "Discard",
+    "Confirm_Discard": "Are you sure you want to discard unsaved changes?",
+    "Error": "Error",
+    "Retry": "Retry",
     "Communities": "Communities",
+    "Community_Guidelines": "Community Guidelines",
     "open": "Open",
     "close": "Close",
     "Show": "Show",
@@ -329,8 +334,10 @@
     "Community_Name": "Community Name",
     "Enter_Community_Name": "Enter a name for your community",
     "Enter_Community_Description": "Enter a description of your community",
+    "Enter_Community_Guidelines": "Enter the guidelines of your community",
     "Description": "Description",
     "Save": "Save",
+    "Save_failed": "An error occurred while trying to save your data.",
     "Image_upload_failed": "Image upload failed",
     "All_media_public": "All media is publicly accessible to anyone with the URL.",
     "Development": "Development",
@@ -351,5 +358,15 @@
           "type": "int"
         }
       }
-    }
+    },
+    "Age_verification_question": "Are you over 16 years old?",
+    "Age_verification_message": "For legal reasons, we need to make sure you're over this age to use Plur.",
+    "No": "No",
+    "Yes": "Yes",
+    "Create_your_community": "Create your community",
+    "community_name": "community name",
+    "Name_your_community": "Name your community",
+    "Start_or_join_a_community": "Start or join a community",
+    "Connect_with_others": "Connect with others by creating your own community or joining an existing one with an invite link.",
+    "Have_invite_link": "Have an invite link? Tap on it to join a community."
 }

@@ -31,7 +31,7 @@ class _ContentMentionUserWidgetState extends State<ContentMentionUserWidget> {
           str: "@$name",
           showUnderline: false,
           onTap: () {
-            RouterUtil.router(context, RouterPath.USER, widget.pubkey);
+            RouterUtil.router(context, RouterPath.user, widget.pubkey);
           },
         );
       },

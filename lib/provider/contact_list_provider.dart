@@ -81,11 +81,11 @@ class ContactListProvider extends ChangeNotifier {
     targetNostr ??= nostr;
     subscriptId = StringUtil.rndNameStr(16);
     var filter = Filter(
-        kinds: [EventKind.CONTACT_LIST],
+        kinds: [EventKind.contactList],
         limit: 1,
         authors: [targetNostr!.publicKey]);
     var filter1 = Filter(
-        kinds: [EventKind.FOLLOW_SETS],
+        kinds: [EventKind.followSets],
         limit: 100,
         authors: [targetNostr.publicKey]);
     targetNostr.addInitQuery([
@@ -95,7 +95,7 @@ class ContactListProvider extends ChangeNotifier {
   }
 
   void _onEvent(Event e) async {
-    if (e.kind == EventKind.CONTACT_LIST) {
+    if (e.kind == EventKind.contactList) {
       if (_event == null || e.createdAt > _event!.createdAt) {
         _event = e;
         _contactList = ContactList.fromJson(e.tags, _event!.createdAt);
@@ -104,7 +104,7 @@ class ContactListProvider extends ChangeNotifier {
 
         relayProvider.relayUpdateByContactListEvent(e);
       }
-    } else if (e.kind == EventKind.FOLLOW_SETS) {
+    } else if (e.kind == EventKind.followSets) {
       var dTag = FollowSet.getDTag(e);
       if (dTag != null) {
         var oldFollowSet = _followSetMap[dTag];
@@ -303,13 +303,13 @@ class ContactListProvider extends ChangeNotifier {
     followSetEventMap.remove(dTag);
 
     var filter =
-        Filter(authors: [nostr!.publicKey], kinds: [EventKind.FOLLOW_SETS]);
+        Filter(authors: [nostr!.publicKey], kinds: [EventKind.followSets]);
     var filterMap = filter.toJson();
     filterMap["#d"] = [dTag];
 
     Map<String, int> deleted = {};
     nostr!.query([filterMap], (event) {
-      if (event.kind == EventKind.FOLLOW_SETS) {
+      if (event.kind == EventKind.followSets) {
         if (deleted[event.id] == null) {
           deleted[event.id] = 1;
           nostr!.deleteEvent(event.id);

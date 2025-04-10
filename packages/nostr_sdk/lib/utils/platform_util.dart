@@ -10,12 +10,13 @@ class PlatformUtil {
   static bool _isTable = false;
 
   static Future<void> init(BuildContext context) async {
+    final size = MediaQuery.of(context).size;
+
     if (deviceInfo == null) {
       var deviceInfoPlus = DeviceInfoPlugin();
       deviceInfo = await deviceInfoPlus.deviceInfo;
     }
 
-    var size = MediaQuery.of(context).size;
     if (!isWeb() &&
         Platform.isIOS &&
         deviceInfo != null &&

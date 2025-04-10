@@ -15,10 +15,10 @@ import '../../provider/user_provider.dart';
 import '../nip05_valid_widget.dart';
 
 class EventTopWidget extends StatefulWidget {
-  Event event;
-  String? pagePubkey;
+  final Event event;
+  final String? pagePubkey;
 
-  EventTopWidget({super.key, 
+  const EventTopWidget({super.key,
     required this.event,
     this.pagePubkey,
   });
@@ -30,9 +30,7 @@ class EventTopWidget extends StatefulWidget {
 }
 
 class _EventTopWidgetState extends State<EventTopWidget> {
-  static const double IMAGE_WIDTH = 34;
-
-  static const double HALF_IMAGE_WIDTH = 17;
+  static const double imageWidth = 34;
 
   String? pubkey;
 
@@ -43,7 +41,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
 
     pubkey = widget.event.pubkey;
     // if this is the zap event, change the pubkey from the zap tag info
-    if (widget.event.kind == EventKind.ZAP) {
+    if (widget.event.kind == EventKind.zap) {
       for (var tag in widget.event.tags) {
         if (tag[0] == "description" && widget.event.tags.length > 1) {
           var description = tag[1];
@@ -86,7 +84,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
               jumpWrap(Container(
                 margin: const EdgeInsets.only(top: 4),
                 child: UserPicWidget(
-                  width: IMAGE_WIDTH,
+                  width: imageWidth,
                   pubkey: pubkey!,
                   user: user,
                 ),
@@ -157,7 +155,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
           return;
         }
 
-        RouterUtil.router(context, RouterPath.USER, pubkey);
+        RouterUtil.router(context, RouterPath.user, pubkey);
       },
       child: c,
     );

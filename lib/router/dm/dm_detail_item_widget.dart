@@ -13,13 +13,13 @@ import '../../provider/settings_provider.dart';
 import 'dm_plaintext_handle.dart';
 
 class DMDetailItemWidget extends StatefulWidget {
-  String sessionPubkey;
+  final String sessionPubkey;
 
-  Event event;
+  final Event event;
 
-  bool isLocal;
+  final bool isLocal;
 
-  DMDetailItemWidget({
+  const DMDetailItemWidget({
     super.key, 
     required this.sessionPubkey,
     required this.event,
@@ -62,7 +62,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     }
 
     var content = widget.event.content;
-    if (widget.event.kind == EventKind.DIRECT_MESSAGE &&
+    if (widget.event.kind == EventKind.directMessage &&
         StringUtil.isBlank(plainContent)) {
       handleEncryptedText(widget.event, widget.sessionPubkey);
     }
@@ -80,7 +80,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
       ),
     );
     Widget enhancedIcon = Container();
-    if (widget.event.kind == EventKind.PRIVATE_DIRECT_MESSAGE) {
+    if (widget.event.kind == EventKind.privateDirectMessage) {
       enhancedIcon = Container(
         margin: const EdgeInsets.only(
           left: Base.basePaddingHalf,
@@ -125,7 +125,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               left: Base.basePaddingHalf + 1,
             ),
             // constraints:
-            //     BoxConstraints(maxWidth: (maxWidth - IMAGE_WIDTH) * 0.85),
+            //     BoxConstraints(maxWidth: (maxWidth - imageWidth) * 0.85),
             decoration: BoxDecoration(
               // color: Colors.red,
               color: mainColor.withOpacity(0.3),
@@ -142,7 +142,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                   content: content,
                   event: widget.event,
                   showLinkPreview:
-                      settingsProvider.linkPreview == OpenStatus.OPEN,
+                      settingsProvider.linkPreview == OpenStatus.open,
                   smallest: true,
                 ),
               ],
@@ -155,7 +155,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     // if (!widget.isLocal) {
     userHeadWidget = GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.USER, widget.event.pubkey);
+        RouterUtil.router(context, RouterPath.user, widget.event.pubkey);
       },
       child: userHeadWidget,
     );

@@ -22,9 +22,9 @@ import '../../main.dart';
 import '../dm/dm_detail_item_widget.dart';
 
 class GroupDetailChatWidget extends StatefulWidget {
-  GroupIdentifier groupIdentifier;
+  final GroupIdentifier groupIdentifier;
 
-  GroupDetailChatWidget(this.groupIdentifier, {super.key});
+  const GroupDetailChatWidget(this.groupIdentifier, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -102,6 +102,7 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
         children: [
           Expanded(
             child: quill.QuillEditor(
+              controller: editorController,
               configurations: quill.QuillEditorConfigurations(
                 placeholder: localization.What_s_happening,
                 embedBuilders: [
@@ -120,7 +121,7 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
                   left: Base.basePadding,
                   right: Base.basePadding,
                 ),
-                maxHeight: 300, controller: editorController,
+                maxHeight: 300,
               ),
               scrollController: ScrollController(),
               focusNode: focusNode,
@@ -161,6 +162,7 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
     try {
       var event = await doDocumentSave();
       if (event == null) {
+        if (!mounted) return;
         BotToast.showText(text: S.of(context).Send_fail);
         return;
       }
@@ -226,6 +228,6 @@ class _GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidg
 
   @override
   int? getGroupEventKind() {
-    return EventKind.GROUP_CHAT_MESSAGE;
+    return EventKind.groupChatMessage;
   }
 }

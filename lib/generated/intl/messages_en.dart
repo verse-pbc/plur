@@ -54,6 +54,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "Admin_Panel": MessageLookupByLibrary.simpleMessage("Admin Panel"),
         "Admins": MessageLookupByLibrary.simpleMessage("Admins"),
+        "Age_verification_message": MessageLookupByLibrary.simpleMessage(
+            "For legal reasons, we need to make sure you\'re over this age to use Plur."),
+        "Age_verification_question":
+            MessageLookupByLibrary.simpleMessage("Are you over 16 years old?"),
         "All_media_public": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
         "Any": MessageLookupByLibrary.simpleMessage("Any"),
@@ -94,9 +98,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
+        "Community_Guidelines":
+            MessageLookupByLibrary.simpleMessage("Community Guidelines"),
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
+            "Connect with others by creating your own community or joining an existing one with an invite link."),
+        "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to discard unsaved changes?"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
         "Content_warning":
@@ -116,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Copy_init_Url": MessageLookupByLibrary.simpleMessage("Copy init Url"),
         "Copy_success": MessageLookupByLibrary.simpleMessage("Copy success!"),
         "Create_Group": MessageLookupByLibrary.simpleMessage("Create Group"),
+        "Create_your_community":
+            MessageLookupByLibrary.simpleMessage("Create your community"),
         "Creator": MessageLookupByLibrary.simpleMessage("Creator"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "Custom_Color": MessageLookupByLibrary.simpleMessage("Custom Color"),
@@ -143,6 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Detail": MessageLookupByLibrary.simpleMessage("Detail"),
         "Development": MessageLookupByLibrary.simpleMessage("Development"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Dirtywords"),
+        "Discard": MessageLookupByLibrary.simpleMessage("Discard"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "Donate": MessageLookupByLibrary.simpleMessage("Donate"),
         "Dont_Compress":
@@ -155,8 +168,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "Empty text may be ban by relays."),
         "Enter_Community_Description": MessageLookupByLibrary.simpleMessage(
             "Enter a description of your community"),
+        "Enter_Community_Guidelines": MessageLookupByLibrary.simpleMessage(
+            "Enter the guidelines of your community"),
         "Enter_Community_Name": MessageLookupByLibrary.simpleMessage(
             "Enter a name for your community"),
+        "Error": MessageLookupByLibrary.simpleMessage("Error"),
         "Event_Sign_Check":
             MessageLookupByLibrary.simpleMessage("Event Sign Check"),
         "Face": MessageLookupByLibrary.simpleMessage("Face"),
@@ -201,6 +217,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Group_members": m1,
         "Groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Hashtag"),
+        "Have_invite_link": MessageLookupByLibrary.simpleMessage(
+            "Have an invite link? Tap on it to join a community."),
         "Hide": MessageLookupByLibrary.simpleMessage("Hide"),
         "Hide_Relay_Notices":
             MessageLookupByLibrary.simpleMessage("Hide Relay Notices"),
@@ -286,8 +304,11 @@ class MessageLookup extends MessageLookupByLibrary {
             "NWC is Nostr Wallet Connect, with NWC Setting you zap within the app."),
         "NWC_TIP2": MessageLookupByLibrary.simpleMessage("NWC URL is like"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
+        "Name_your_community":
+            MessageLookupByLibrary.simpleMessage("Name your community"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
+        "No": MessageLookupByLibrary.simpleMessage("No"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "Nostromo_developers_will_never_require_a_key_from_you":
             MessageLookupByLibrary.simpleMessage(
@@ -384,7 +405,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remove from public bookmark"),
         "Replying": MessageLookupByLibrary.simpleMessage("Replying"),
         "Request": MessageLookupByLibrary.simpleMessage("Request"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
+        "Save_failed": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while trying to save your data."),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "Search_User_from_cache":
             MessageLookupByLibrary.simpleMessage("Search User from cache"),
@@ -414,6 +438,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The support client will split and transfer zaps to the users you had added."),
         "Split_and_Transfer_Zap":
             MessageLookupByLibrary.simpleMessage("Split and Transfer Zap"),
+        "Start_or_join_a_community":
+            MessageLookupByLibrary.simpleMessage("Start or join a community"),
         "Subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "Submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "Sync_Upload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
@@ -476,6 +502,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Write a message"),
         "Wrong_Private_Key_format":
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
+        "Yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
         "Your_Groups": MessageLookupByLibrary.simpleMessage("Your Groups"),
@@ -494,6 +521,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "boosted": MessageLookupByLibrary.simpleMessage("boosted"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
+        "community_name":
+            MessageLookupByLibrary.simpleMessage("community name"),
         "group": MessageLookupByLibrary.simpleMessage("group"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":

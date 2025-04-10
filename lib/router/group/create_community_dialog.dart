@@ -28,6 +28,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   bool _showInviteCommunity = false;
   String? _communityInviteLink;
   GroupIdentifier? _groupIdentifier;
+  bool _isCreating = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,47 +48,53 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
               color: Colors.black54,
             ),
           ),
-          SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: cardColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            RouterUtil.back(context);
-                          },
-                        ),
+
+          Center(
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: cardColor,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        icon: const Icon(Icons.close),
+                        onPressed: () {
+                          RouterUtil.back(context);
+                        },
                       ),
-                      if (!_showInviteCommunity)
-                        CreateCommunityWidget(
-                            onCreateCommunity: _onCreateCommunity),
-                      if (_showInviteCommunity)
-                        InvitePeopleWidget(
-                          shareableLink: _communityInviteLink ?? '',
-                          groupIdentifier: _groupIdentifier!,
-                          showCreatePostButton: true,
-                        ),
-                    ],
-                  ),
+                    ),
+                    if (!_showInviteCommunity)
+                      CreateCommunityWidget(
+                          onCreateCommunity: _onCreateCommunity),
+                    if (_showInviteCommunity)
+                      InvitePeopleWidget(
+                        shareableLink: _communityInviteLink ?? '',
+                        groupIdentifier: _groupIdentifier!,
+                        showCreatePostButton: true,
+                      ),
+                  ],
                 ),
               ),
             ),
           ),
+
+          // Full-screen loading overlay (optional, for very long operations)
+          if (_isCreating && !_showInviteCommunity)
+            Container(
+              color: Colors.black.withOpacity(0.3),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: themeData.primaryColor,
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -95,13 +102,25 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
 
   void _onCreateCommunity(String communityName) async {
     final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupDetails =
-        await listProvider.createGroupAndGenerateInvite(communityName);
 
-    setState(() {
-      _communityInviteLink = groupDetails.$1;
-      _groupIdentifier = groupDetails.$2;
-      _showInviteCommunity = true;
-    });
+    try {
+      final groupDetails =
+          await listProvider.createGroupAndGenerateInvite(communityName);
+
+      if (mounted) {
+        setState(() {
+          _communityInviteLink = groupDetails.$1;
+          _groupIdentifier = groupDetails.$2;
+          _showInviteCommunity = true;
+          _isCreating = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isCreating = false;
+        });
+      }
+    }
   }
 }

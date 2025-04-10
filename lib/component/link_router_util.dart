@@ -21,13 +21,13 @@ class LinkRouterUtil {
         key = key.substring(0, npubLength);
       }
       key = Nip19.decode(key);
-      RouterUtil.router(context, RouterPath.USER, key);
+      RouterUtil.router(context, RouterPath.user, key);
     } else if (Nip19.isNoteId(key)) {
       if (key.length > noteIdLength) {
         key = key.substring(0, noteIdLength);
       }
       key = Nip19.decode(key);
-      RouterUtil.router(context, RouterPath.THREAD_TRACE, key);
+      RouterUtil.router(context, RouterPath.threadTrace, key);
     } else if (NIP19Tlv.isNprofile(key)) {
       var index = Nip19.checkBech32End(key);
       if (index != null) {
@@ -36,7 +36,7 @@ class LinkRouterUtil {
 
       var nprofile = NIP19Tlv.decodeNprofile(key);
       if (nprofile != null) {
-        RouterUtil.router(context, RouterPath.USER, nprofile.pubkey);
+        RouterUtil.router(context, RouterPath.user, nprofile.pubkey);
       }
     } else if (NIP19Tlv.isNevent(key)) {
       var index = Nip19.checkBech32End(key);
@@ -59,19 +59,19 @@ class LinkRouterUtil {
 
       var naddr = NIP19Tlv.decodeNaddr(key);
       if (naddr != null) {
-        if (naddr.kind == EventKind.TEXT_NOTE &&
+        if (naddr.kind == EventKind.textNote &&
             StringUtil.isNotBlank(naddr.id)) {
           var relayAddr = (naddr.relays != null && naddr.relays!.isNotEmpty)
               ? naddr.relays![0]
               : null;
           EventIdRouterWidget.router(context, naddr.id,
               relayAddr: relayAddr);
-        } else if (naddr.kind == EventKind.LONG_FORM &&
+        } else if (naddr.kind == EventKind.longForm &&
             StringUtil.isNotBlank(naddr.id)) {
           // TODO load long form
         } else if (StringUtil.isNotBlank(naddr.author) &&
-            naddr.kind == EventKind.METADATA) {
-          RouterUtil.router(context, RouterPath.USER, naddr.author);
+            naddr.kind == EventKind.metadata) {
+          RouterUtil.router(context, RouterPath.user, naddr.author);
         }
       }
     }

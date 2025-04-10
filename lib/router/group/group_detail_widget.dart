@@ -168,7 +168,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     EditorWidget.open(
       context,
       groupIdentifier: _groupIdentifier,
-      groupEventKind: EventKind.GROUP_NOTE,
+      groupEventKind: EventKind.groupNote,
       tagsAddedWhenSend: tags,
     ).then((event) {
       if (event != null && _groupDetailProvider.isGroupNote(event)) {
@@ -190,6 +190,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   }
 
   void _showGroupInfo() {
-    RouterUtil.router(context, RouterPath.GROUP_INFO, _groupIdentifier);
+    RouterUtil.router(context, RouterPath.groupInfo, _groupIdentifier);
   }
 }

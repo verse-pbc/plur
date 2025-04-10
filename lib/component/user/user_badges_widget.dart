@@ -10,9 +10,9 @@ import '../badge_detail_dialog.dart';
 import '../cust_state.dart';
 
 class UserBadgesWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  UserBadgesWidget({super.key, required this.pubkey});
+  const UserBadgesWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {
@@ -95,7 +95,7 @@ class _UserBadgesWidgetState extends CustState<UserBadgesWidget>
   @override
   Future<void> onReady(BuildContext context) async {
     var filter =
-        Filter(authors: [widget.pubkey], kinds: [EventKind.BADGE_ACCEPT]);
+        Filter(authors: [widget.pubkey], kinds: [EventKind.badgeAccept]);
     nostr!.query([filter.toJson()], (event) {
       var result = eventMemBox.add(event);
       if (result) {

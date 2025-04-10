@@ -43,8 +43,8 @@ class QrcodeDialog extends StatefulWidget {
 }
 
 class _QrcodeDialog extends State<QrcodeDialog> {
-  static const double IMAGE_WIDTH = 40;
-  static const double QR_WIDTH = 200;
+  static const double imageWidth = 40;
+  static const double qrWidth = 200;
 
   ScreenshotController screenshotController = ScreenshotController();
 
@@ -60,7 +60,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
       builder: (context, user, child) {
         Widget userImageWidget = UserPicWidget(
           pubkey: widget.pubkey,
-          width: IMAGE_WIDTH,
+          width: imageWidth,
           user: user,
         );
 
@@ -70,7 +70,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         );
 
         return Container(
-          width: QR_WIDTH,
+          width: qrWidth,
           margin: const EdgeInsets.only(
             left: Base.basePaddingHalf,
             right: Base.basePaddingHalf,
@@ -82,7 +82,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
               Container(
                 margin: const EdgeInsets.only(left: Base.basePaddingHalf),
                 child: SizedBox(
-                  width: QR_WIDTH - IMAGE_WIDTH - Base.basePaddingHalf,
+                  width: qrWidth - imageWidth - Base.basePaddingHalf,
                   child: userNameWidget,
                 ),
               ),
@@ -102,11 +102,14 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         left: Base.basePaddingHalf,
         right: Base.basePaddingHalf,
       ),
-      child: PrettyQr(
+      child: PrettyQrView.data(
         data: nip19Pubkey,
-        size: QR_WIDTH,
-        elementColor: themeData.textTheme.bodyMedium!.color ?? Colors.black,
-        image: const AssetImage("assets/imgs/logo/logo512.png"),
+        decoration: PrettyQrDecoration(
+          background: themeData.textTheme.bodyMedium!.color ?? Colors.black,
+          image: const PrettyQrDecorationImage(
+            image: AssetImage("assets/imgs/logo/logo512.png"),
+          ),
+        ),
       ),
     ));
     list.add(GestureDetector(
@@ -114,7 +117,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         _doCopy(nip19Pubkey);
       },
       child: Container(
-        width: QR_WIDTH + Base.basePaddingHalf * 2,
+        width: qrWidth + Base.basePaddingHalf * 2,
         padding: const EdgeInsets.all(Base.basePaddingHalf),
         decoration: BoxDecoration(
           color: hintColor.withOpacity(0.5),
@@ -184,8 +187,9 @@ class _QrcodeDialog extends State<QrcodeDialog> {
   }
 
   void _doCopy(String text) {
+    final localization = S.of(context);
     Clipboard.setData(ClipboardData(text: text)).then((_) {
-      BotToast.showText(text: S.of(context).key_has_been_copy);
+      BotToast.showText(text: localization.key_has_been_copy);
     });
   }
 

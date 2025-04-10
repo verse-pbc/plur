@@ -7,9 +7,9 @@ import 'package:nostrmo/util/number_format_util.dart';
 import 'package:nostrmo/util/router_util.dart';
 
 class EventTopZapsWidget extends StatefulWidget {
-  List<Event> zapEvents;
+  final List<Event> zapEvents;
 
-  EventTopZapsWidget(this.zapEvents, {super.key});
+  const EventTopZapsWidget(this.zapEvents, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -18,11 +18,11 @@ class EventTopZapsWidget extends StatefulWidget {
 }
 
 class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
-  double TOP_HEADER_IMAGE_WIDTH = 34;
+  double topHeaderImageWidth = 34;
 
-  double HEADER_IMAGE_WIDTH = 22;
+  double headerImageWidth = 22;
 
-  int SHOW_LIMIT = 5;
+  int showLimit = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +51,11 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
     ));
     topList.add(GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.USER, zapInfos[0].pubkey);
+        RouterUtil.router(context, RouterPath.user, zapInfos[0].pubkey);
       },
       child: UserPicWidget(
         pubkey: zapInfos[0].pubkey,
-        width: TOP_HEADER_IMAGE_WIDTH,
+        width: topHeaderImageWidth,
       ),
     ));
     list.add(Row(
@@ -77,13 +77,13 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
     ));
 
     var zapInfosLength = zapInfos.length;
-    if (zapInfosLength < SHOW_LIMIT) {
+    if (zapInfosLength < showLimit) {
       for (var i = 1; i < zapInfosLength; i++) {
-        list.add(buildUserPic(zapInfos[i].pubkey, HEADER_IMAGE_WIDTH));
+        list.add(buildUserPic(zapInfos[i].pubkey, headerImageWidth));
       }
     } else {
-      for (var i = 1; i < SHOW_LIMIT; i++) {
-        list.add(buildUserPic(zapInfos[i].pubkey, HEADER_IMAGE_WIDTH));
+      for (var i = 1; i < showLimit; i++) {
+        list.add(buildUserPic(zapInfos[i].pubkey, headerImageWidth));
       }
     }
 
@@ -98,7 +98,7 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
       margin: const EdgeInsets.only(right: Base.basePaddingHalf),
       child: GestureDetector(
         onTap: () {
-          RouterUtil.router(context, RouterPath.USER, pubkey);
+          RouterUtil.router(context, RouterPath.user, pubkey);
         },
         child: UserPicWidget(
           pubkey: pubkey,
