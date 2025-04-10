@@ -11,13 +11,13 @@ import 'package:provider/provider.dart';
 import '../image_widget.dart';
 
 class SimpleUserWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  User? user;
+  final User? user;
 
-  bool showFollow;
+  final bool showFollow;
 
-  SimpleUserWidget({
+  const SimpleUserWidget({
     super.key,
     required this.pubkey,
     this.user,
@@ -31,9 +31,9 @@ class SimpleUserWidget extends StatefulWidget {
 }
 
 class _SimpleUserWidgetState extends State<SimpleUserWidget> {
-  static const double IMAGE_WIDTH = 50;
+  static const double imageWidth = 50;
 
-  static const double HEIGHT = 64;
+  static const double height = 64;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
         builder: (context, user, child) {
       if (user == null) {
         return Container(
-          height: HEIGHT,
+          height: height,
           color: themeData.hintColor,
         );
       }
@@ -63,9 +63,9 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
     Widget? bannerImage;
     if (StringUtil.isNotBlank(user.banner)) {
       bannerImage = ImageWidget(
-        imageUrl: user.banner!,
+        url: user.banner!,
         width: double.maxFinite,
-        height: HEIGHT,
+        height: height,
         fit: BoxFit.fitWidth,
       );
     } else {
@@ -78,7 +78,7 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
       ),
       child: UserPicWidget(
         pubkey: widget.pubkey,
-        width: IMAGE_WIDTH,
+        width: imageWidth,
         user: user,
       ),
     );
@@ -86,7 +86,7 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
     List<Widget> list = [
       bannerImage,
       Container(
-        height: HEIGHT,
+        height: height,
         color: cardColor.withOpacity(0.4),
       ),
       Container(
@@ -114,7 +114,7 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
     }
 
     return SizedBox(
-      height: HEIGHT,
+      height: height,
       child: Stack(
         alignment: Alignment.center,
         children: list,

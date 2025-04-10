@@ -190,6 +190,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
   }
 
   void _showGroupInfo() {
-    RouterUtil.router(context, RouterPath.GROUP_INFO, _groupIdentifier);
+    RouterUtil.router(context, RouterPath.groupInfo, _groupIdentifier);
   }
 }

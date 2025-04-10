@@ -10,9 +10,9 @@ import '../badge_detail_dialog.dart';
 import '../cust_state.dart';
 
 class UserBadgesWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  UserBadgesWidget({super.key, required this.pubkey});
+  const UserBadgesWidget({super.key, required this.pubkey});
 
   @override
   State<StatefulWidget> createState() {

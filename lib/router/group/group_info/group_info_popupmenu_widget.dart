@@ -43,9 +43,9 @@ class GroupInfoPopupMenuWidget extends StatelessWidget {
       onSelected: (value) {
         switch (value) {
           case "admin":
-            RouterUtil.router(context, RouterPath.GROUP_ADMIN, groupId);
+            RouterUtil.router(context, RouterPath.groupAdmin, groupId);
           case "edit":
-            RouterUtil.router(context, RouterPath.GROUP_EDIT, groupId);
+            RouterUtil.router(context, RouterPath.groupEdit, groupId);
 
         }
       },

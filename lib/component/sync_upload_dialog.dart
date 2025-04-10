@@ -13,9 +13,9 @@ import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
 class SyncUploadDialog extends StatefulWidget {
-  List<Event> events;
+  final List<Event> events;
 
-  SyncUploadDialog({super.key, required this.events});
+  const SyncUploadDialog({super.key, required this.events});
 
   static Future<void> show(BuildContext context, List<Event> events) async {
     await showDialog(
@@ -47,7 +47,6 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
 
     var relayProvider = Provider.of<RelayProvider>(context);
 
@@ -235,7 +234,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
             try {
               count++;
               relay.send(message);
-            } catch (e) {}
+            } catch (_) {}
           }
         }
         // log("note ${index} send to ${count} relays");
@@ -254,13 +253,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
 }
 
 class SyncUploadItem extends StatefulWidget {
-  String addr;
+  final String addr;
 
-  bool check;
+  final bool check;
 
-  Function(String, bool) onTap;
+  final Function(String, bool) onTap;
 
-  SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
+  const SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
 
   @override
   State<StatefulWidget> createState() {

@@ -4,9 +4,9 @@ import 'dm_known_list_widget.dart';
 import 'dm_unknown_list_widget.dart';
 
 class DMWidget extends StatefulWidget {
-  TabController tabController;
+  final TabController tabController;
 
-  DMWidget({super.key, required this.tabController});
+  const DMWidget({super.key, required this.tabController});
 
   @override
   State<StatefulWidget> createState() {

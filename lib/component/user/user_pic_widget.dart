@@ -67,12 +67,12 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     if (user != null) {
       // Checking if profile picture preview is enabled and metadata contains a
       // picture.
-      bool showPreview = provider.profilePicturePreview != OpenStatus.CLOSE;
+      bool showPreview = provider.profilePicturePreview != OpenStatus.close;
       bool hasMetadataPic = StringUtil.isNotBlank(user.picture);
 
       if (showPreview && hasMetadataPic) {
         imageWidget = ImageWidget(
-          imageUrl: user.picture!,
+          url: user.picture!,
           width: widget.width - imageBorder * 2,
           height: widget.width - imageBorder * 2,
           fit: BoxFit.cover,

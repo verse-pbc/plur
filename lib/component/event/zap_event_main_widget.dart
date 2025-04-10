@@ -6,9 +6,9 @@ import '../../util/number_format_util.dart';
 import 'reaction_event_item_widget.dart';
 
 class ZapEventMainWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  ZapEventMainWidget({super.key, required this.event});
+  const ZapEventMainWidget({super.key, required this.event});
 
   @override
   State<StatefulWidget> createState() {

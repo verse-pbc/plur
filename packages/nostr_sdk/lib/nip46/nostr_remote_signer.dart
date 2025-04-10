@@ -106,7 +106,7 @@ class NostrRemoteSigner extends NostrSigner {
   Future<Relay> _connectToRelay(String relayAddr) async {
     RelayStatus relayStatus = RelayStatus(relayAddr);
     Relay? relay;
-    if (relayMode == RelayMode.BASE_MODE) {
+    if (relayMode == RelayMode.baseMode) {
       relay = RelayBase(
         relayAddr,
         relayStatus,
@@ -120,7 +120,7 @@ class NostrRemoteSigner extends NostrSigner {
     relay.onMessage = onMessage;
     addPendingQueryMsg(relay);
     relay.relayStatusCallback = () {
-      if (relayStatus.connected == ClientConneccted.UN_CONNECT) {
+      if (relayStatus.connected == ClientConnected.disconnected) {
         if (relay!.pendingMessages.isEmpty) {
           addPendingQueryMsg(relay);
         }

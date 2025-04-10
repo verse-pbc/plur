@@ -35,7 +35,7 @@ class RelayInfoWidget extends StatefulWidget {
 class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
   bool isMyRelay = false;
 
-  double IMAGE_WIDTH = 45;
+  double imageWidth = 45;
 
   int? dataLength;
 
@@ -101,14 +101,14 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
             alignment: Alignment.center,
             child: UserPicWidget(
               pubkey: relayInfo.pubkey,
-              width: IMAGE_WIDTH,
+              width: imageWidth,
               user: user,
             ),
           ));
 
           return GestureDetector(
             onTap: () {
-              RouterUtil.router(context, RouterPath.USER, relayInfo.pubkey);
+              RouterUtil.router(context, RouterPath.user, relayInfo.pubkey);
             },
             child: Row(
               children: list,
@@ -258,6 +258,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
   }
 
   void backMyNotes() async {
+    final localization = S.of(context);
     var eventDatas = await relayLocalDB!.queryEventByPubkey(nostr!.publicKey);
     var jsonStr = jsonEncode(eventDatas);
     var result = await FileSaver.instance.saveFile(
@@ -266,7 +267,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       ext: ".json",
     );
 
-    BotToast.showText(text: "${S.of(context).File_save_success}: $result");
+    BotToast.showText(text: "${localization.File_save_success}: $result");
   }
 
   Future<void> importNotes() async {
@@ -291,6 +292,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
         }
       }
 
+      if (!mounted) return;
       SyncUploadDialog.show(context, events);
     }
   }
@@ -336,11 +338,11 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 }
 
 class RelayInfoItemWidget extends StatelessWidget {
-  String title;
+  final String title;
 
-  Widget child;
+  final Widget child;
 
-  RelayInfoItemWidget({super.key, 
+  const RelayInfoItemWidget({super.key,
     required this.title,
     required this.child,
   });
@@ -383,9 +385,9 @@ class RelayInfoItemWidget extends StatelessWidget {
 }
 
 class NipWidget extends StatelessWidget {
-  dynamic nip;
+  final dynamic nip;
 
-  NipWidget({super.key, required this.nip});
+  const NipWidget({super.key, required this.nip});
 
   @override
   Widget build(BuildContext context) {

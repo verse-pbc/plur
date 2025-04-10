@@ -215,11 +215,11 @@ class SettingsProvider extends ChangeNotifier {
 
   int get linkPreview => _settingData!.linkPreview != null
       ? _settingData!.linkPreview!
-      : OpenStatus.OPEN;
+      : OpenStatus.open;
 
   int get videoPreviewInList => _settingData!.videoPreviewInList != null
       ? _settingData!.videoPreviewInList!
-      : OpenStatus.OPEN;
+      : OpenStatus.open;
 
   String? get network => _settingData!.network;
 
@@ -292,7 +292,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   int? get broadcaseWhenBoost =>
-      _settingData!.broadcaseWhenBoost ?? OpenStatus.OPEN;
+      _settingData!.broadcaseWhenBoost ?? OpenStatus.open;
 
   double get fontSize =>
       _settingData!.fontSize ??
@@ -309,7 +309,7 @@ class SettingsProvider extends ChangeNotifier {
   /// _settingData!.tableMode.
   ///
   /// For more info, see: https://github.com/verse-pbc/issues/issues/245
-  int? get tableMode => OpenStatus.CLOSE;
+  int? get tableMode => OpenStatus.close;
 
   int? get autoOpenSensitive => _settingData!.autoOpenSensitive;
 
@@ -554,6 +554,12 @@ class SettingsProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  // Note: This is not a preferred pattern but was added to satisfy the
+  // Dart linter temporarily.
+  void notify() {
+    notifyListeners();
+  }
 }
 
 class SettingData {
@@ -656,7 +662,7 @@ class SettingData {
   SettingData({
     this.privateKeyIndex,
     this.privateKeyMap,
-    this.lockOpen = OpenStatus.CLOSE,
+    this.lockOpen = OpenStatus.close,
     this.defaultIndex,
     this.defaultTab,
     this.linkPreview,
@@ -670,7 +676,7 @@ class SettingData {
     this.i18n,
     this.i18nCC,
     this.imgCompress = 50,
-    this.themeStyle = ThemeStyle.AUTO,
+    this.themeStyle = ThemeStyle.auto,
     this.themeColor,
     this.mainFontColor,
     this.hintFontColor,
@@ -682,7 +688,7 @@ class SettingData {
     this.translateSourceArgs,
     this.broadcaseWhenBoost,
     this.fontSize,
-    this.webviewAppbarOpen = OpenStatus.OPEN,
+    this.webviewAppbarOpen = OpenStatus.open,
     this.tableMode,
     this.autoOpenSensitive,
     this.relayLocal,
@@ -705,7 +711,7 @@ class SettingData {
     if (json['lockOpen'] != null) {
       lockOpen = json['lockOpen'];
     } else {
-      lockOpen = OpenStatus.CLOSE;
+      lockOpen = OpenStatus.close;
     }
     defaultIndex = json['defaultIndex'];
     defaultTab = json['defaultTab'];
@@ -727,7 +733,7 @@ class SettingData {
     if (json['themeStyle'] != null) {
       themeStyle = json['themeStyle'];
     } else {
-      themeStyle = ThemeStyle.AUTO;
+      themeStyle = ThemeStyle.auto;
     }
     themeColor = json['themeColor'];
     mainFontColor = json['mainFontColor'];
@@ -740,7 +746,7 @@ class SettingData {
     translateSourceArgs = json['translateSourceArgs'];
     broadcaseWhenBoost = json['broadcaseWhenBoost'];
     fontSize = json['fontSize'];
-    webviewAppbarOpen = json['webviewAppbarOpen'] ?? OpenStatus.OPEN;
+    webviewAppbarOpen = json['webviewAppbarOpen'] ?? OpenStatus.open;
     tableMode = json['tableMode'];
     autoOpenSensitive = json['autoOpenSensitive'];
     relayLocal = json['relayLocal'];

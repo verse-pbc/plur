@@ -36,7 +36,7 @@ class WavlakeTrackMusicInfoBuilder extends MusicInfoBuilder {
             "https://wavlake.com/_next/image?url=${Uri.encodeQueryComponent(imageUrl)}&w=256&q=75",
             sourceUrl: content);
       }
-    } catch (e) {}
+    } catch (_) {}
 
     String? source = await DioUtil.getStr(content);
     if (StringUtil.isBlank(source)) {

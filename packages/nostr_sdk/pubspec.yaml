@@ -24,6 +24,12 @@ dependencies:
   synchronized: ^3.3.0+3
   web_socket_channel: ^3.0.0
   flutter_socks_proxy: ^0.0.3
+  pointycastle: ^3.9.1
+  convert: ^3.1.1
+  crypto: any
+  clock: any
+  cookie_jar: any
+  http_parser: any
   sqflite: ^2.3.3+2
   sqflite_common_ffi: ^2.3.3+1
   sqflite_common: ^2.5.4+4
@@ -40,12 +46,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.0
-  pointycastle: any
-  convert: any
-  crypto: any
-  cookie_jar: any
-  clock: any
-  http_parser: any
   mockito: ^5.4.4
   build_runner: ^2.4.8
 

@@ -70,11 +70,61 @@ class S {
     );
   }
 
+  /// `Discard`
+  String get Discard {
+    return Intl.message(
+      'Discard',
+      name: 'Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to discard unsaved changes?`
+  String get Confirm_Discard {
+    return Intl.message(
+      'Are you sure you want to discard unsaved changes?',
+      name: 'Confirm_Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get Error {
+    return Intl.message(
+      'Error',
+      name: 'Error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get Communities {
     return Intl.message(
       'Communities',
       name: 'Communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Guidelines`
+  String get Community_Guidelines {
+    return Intl.message(
+      'Community Guidelines',
+      name: 'Community_Guidelines',
       desc: '',
       args: [],
     );
@@ -3350,6 +3400,16 @@ class S {
     );
   }
 
+  /// `Enter the guidelines of your community`
+  String get Enter_Community_Guidelines {
+    return Intl.message(
+      'Enter the guidelines of your community',
+      name: 'Enter_Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Description`
   String get Description {
     return Intl.message(
@@ -3365,6 +3425,16 @@ class S {
     return Intl.message(
       'Save',
       name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while trying to save your data.`
+  String get Save_failed {
+    return Intl.message(
+      'An error occurred while trying to save your data.',
+      name: 'Save_failed',
       desc: '',
       args: [],
     );

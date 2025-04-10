@@ -1,6 +1,6 @@
 class OpenStatus {
-  static const OPEN = 1;
-  static const CLOSE = -1;
+  static const open = 1;
+  static const close = -1;
 }
 
 class EnumObj {

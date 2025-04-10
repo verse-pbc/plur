@@ -128,7 +128,7 @@ abstract class Relay {
   void onError(String errMsg, {bool shouldReconnect = true}) {
     log("relay error: $errMsg");
     relayStatus.onError();
-    relayStatus.connected = ClientConneccted.UN_CONNECT;
+    relayStatus.connected = ClientConnected.disconnected;
     if (relayStatusCallback != null) {
       relayStatusCallback!();
     }
