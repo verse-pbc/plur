@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
 - Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
+- Added PostHog analytics SDK with minimal initialization.
 
 ## [0.0.4]
 
