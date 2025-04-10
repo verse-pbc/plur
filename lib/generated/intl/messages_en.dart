@@ -103,6 +103,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
+            "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to discard unsaved changes?"),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
@@ -124,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Copy_init_Url": MessageLookupByLibrary.simpleMessage("Copy init Url"),
         "Copy_success": MessageLookupByLibrary.simpleMessage("Copy success!"),
         "Create_Group": MessageLookupByLibrary.simpleMessage("Create Group"),
+        "Create_your_community":
+            MessageLookupByLibrary.simpleMessage("Create your community"),
         "Creator": MessageLookupByLibrary.simpleMessage("Creator"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "Custom_Color": MessageLookupByLibrary.simpleMessage("Custom Color"),
@@ -213,6 +217,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Group_members": m1,
         "Groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Hashtag"),
+        "Have_invite_link": MessageLookupByLibrary.simpleMessage(
+            "Have an invite link? Tap on it to join a community."),
         "Hide": MessageLookupByLibrary.simpleMessage("Hide"),
         "Hide_Relay_Notices":
             MessageLookupByLibrary.simpleMessage("Hide Relay Notices"),
@@ -298,6 +304,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "NWC is Nostr Wallet Connect, with NWC Setting you zap within the app."),
         "NWC_TIP2": MessageLookupByLibrary.simpleMessage("NWC URL is like"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
+        "Name_your_community":
+            MessageLookupByLibrary.simpleMessage("Name your community"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
         "No": MessageLookupByLibrary.simpleMessage("No"),
@@ -430,6 +438,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The support client will split and transfer zaps to the users you had added."),
         "Split_and_Transfer_Zap":
             MessageLookupByLibrary.simpleMessage("Split and Transfer Zap"),
+        "Start_or_join_a_community":
+            MessageLookupByLibrary.simpleMessage("Start or join a community"),
         "Subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "Submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "Sync_Upload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
@@ -511,6 +521,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "boosted": MessageLookupByLibrary.simpleMessage("boosted"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
+        "community_name":
+            MessageLookupByLibrary.simpleMessage("community name"),
         "group": MessageLookupByLibrary.simpleMessage("group"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":
