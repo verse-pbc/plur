@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -13,6 +14,7 @@ class CommunityController
   /// - Returns: A `Future` that resolves to the group metadata.
   Future<GroupMetadata?> _fetchGroupMetadata(GroupIdentifier id) {
     final repository = ref.watch(groupMetadataRepositoryProvider);
+    log("_fetchGroupMetadata", name: "CommunityController");
     return repository.fetchGroupMetadata(id, cached: true);
   }
 
