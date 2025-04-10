@@ -210,7 +210,6 @@ class GroupIdentifierRepository {
         }
     }
     _groupIdentifiers.add(updated);
-    log("Emitted new list", name: _logName);
   }
 
   /// Extracts group identifiers from event tags with specified prefix ("h" or

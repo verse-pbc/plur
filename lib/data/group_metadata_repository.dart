@@ -158,3 +158,10 @@ final groupMetadataProvider = FutureProvider.autoDispose
   final repository = ref.watch(groupMetadataRepositoryProvider);
   return repository.fetchGroupMetadata(id);
 });
+
+/// A provider that fetches group metadata from cache and handles its disposal.
+final cachedGroupMetadataProvider = FutureProvider.autoDispose
+    .family<GroupMetadata?, GroupIdentifier>((ref, id) {
+  final repository = ref.watch(groupMetadataRepositoryProvider);
+  return repository.fetchGroupMetadata(id, cached: true);
+});
