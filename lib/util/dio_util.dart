@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
@@ -13,12 +14,12 @@ class DioUtil {
     if (_dio == null) {
       _dio = Dio();
       if (_dio!.httpClientAdapter is IOHttpClientAdapter) {
-        (_dio!.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate =
-            (client) {
+        (_dio!.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+          final client = HttpClient();
           client.badCertificateCallback = (cert, host, port) {
             return true;
           };
-          return null;
+          return client;
         };
       }
 

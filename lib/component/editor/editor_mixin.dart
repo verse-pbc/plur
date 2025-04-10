@@ -404,7 +404,7 @@ mixin EditorMixin {
       final length = editorController.selection.extentOffset - index;
 
       editorController.replaceText(index, length,
-          quill.CustomBlockEmbed(CustEmbedTypes.mention_event, value), null);
+          quill.CustomBlockEmbed(CustEmbedTypes.mentionEvent, value), null);
 
       editorController.moveCursorToPosition(index + 1);
     }
@@ -437,7 +437,7 @@ mixin EditorMixin {
       final length = editorController.selection.extentOffset - index;
 
       editorController.replaceText(index, length,
-          quill.CustomBlockEmbed(CustEmbedTypes.mention_user, value), null);
+          quill.CustomBlockEmbed(CustEmbedTypes.mentionUser, value), null);
 
       editorController.moveCursorToPosition(index + 1);
     }
@@ -953,7 +953,7 @@ mixin EditorMixin {
     editorController.replaceText(
         index,
         length,
-        quill.Embeddable(CustEmbedTypes.custom_emoji, emoji),
+        quill.Embeddable(CustEmbedTypes.customEmoji, emoji),
         TextSelection.collapsed(offset: index + 2),
         ignoreFocus: true);
     updateUI();

@@ -5,7 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_relay_widget.dart';
 
 class MarkdownNrelayElementBuilder implements MarkdownElementBuilder {
-  static const String TAG = "relay";
+  static const String tag = "relay";
 
   @override
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {
