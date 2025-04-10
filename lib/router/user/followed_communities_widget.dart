@@ -102,7 +102,7 @@ class _FollowedCommunitiesWidgetState extends State<FollowedCommunitiesWidget> {
 
         return GestureDetector(
           onTap: () {
-            RouterUtil.router(context, RouterPath.COMMUNITY_DETAIL, id);
+            RouterUtil.router(context, RouterPath.communityDetail, id);
           },
           child: item,
         );

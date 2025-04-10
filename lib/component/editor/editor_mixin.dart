@@ -404,7 +404,7 @@ mixin EditorMixin {
       final length = editorController.selection.extentOffset - index;
 
       editorController.replaceText(index, length,
-          quill.CustomBlockEmbed(CustEmbedTypes.mention_event, value), null);
+          quill.CustomBlockEmbed(CustEmbedTypes.mentionEvent, value), null);
 
       editorController.moveCursorToPosition(index + 1);
     }
@@ -437,7 +437,7 @@ mixin EditorMixin {
       final length = editorController.selection.extentOffset - index;
 
       editorController.replaceText(index, length,
-          quill.CustomBlockEmbed(CustEmbedTypes.mention_user, value), null);
+          quill.CustomBlockEmbed(CustEmbedTypes.mentionUser, value), null);
 
       editorController.moveCursorToPosition(index + 1);
     }
@@ -542,6 +542,7 @@ mixin EditorMixin {
           }
           if (StringUtil.isNotBlank(value) && value is String) {
             if (value.indexOf("http") != 0) {
+              final localization = S.of(context);
               // this is a local image, update it first
               var imagePath = await Uploader.upload(
                 value,
@@ -578,7 +579,7 @@ mixin EditorMixin {
 
                 value = imagePath;
               } else {
-                BotToast.showText(text: S.of(context).Upload_fail);
+                BotToast.showText(text: localization.Upload_fail);
                 return null;
               }
             }
@@ -600,7 +601,7 @@ mixin EditorMixin {
 
           value = m["tag"];
           if (StringUtil.isNotBlank(value)) {
-            result = handleInlineValue(result, "#" + value);
+            result = handleInlineValue(result, '#$value');
             tags.add(["t", value]);
             continue;
           }
@@ -953,7 +954,7 @@ mixin EditorMixin {
     editorController.replaceText(
         index,
         length,
-        quill.Embeddable(CustEmbedTypes.custom_emoji, emoji),
+        quill.Embeddable(CustEmbedTypes.customEmoji, emoji),
         TextSelection.collapsed(offset: index + 2),
         ignoreFocus: true);
     updateUI();
@@ -1071,7 +1072,7 @@ mixin EditorMixin {
           height: emojiBtnWidth,
           alignment: Alignment.center,
           child: ImageWidget(
-            imageUrl: emoji.filepath!,
+            url: emoji.filepath!,
           ),
         ),
       ));
@@ -1177,7 +1178,7 @@ mixin EditorMixin {
     } else {
       main = GestureDetector(
         onTap: pickAndUploadLongFormImage,
-        child: ImageWidget(imageUrl: longFormImage!),
+        child: ImageWidget(url: longFormImage!),
       );
     }
 

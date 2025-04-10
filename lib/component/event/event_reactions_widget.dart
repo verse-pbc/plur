@@ -443,7 +443,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       var text = Nip19.encodeNoteId(widget.event.id);
       _doCopy(text);
     } else if (value == "detail") {
-      RouterUtil.router(context, RouterPath.EVENT_DETAIL, widget.event);
+      RouterUtil.router(context, RouterPath.eventDetail, widget.event);
     } else if (value == "share") {
       onShareTap();
     } else if (value == "addToPrivateBookmark") {
@@ -597,12 +597,12 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         eventReactionsProvider.addRepost(widget.event.id);
       }
 
-      if (settingsProvider.broadcaseWhenBoost == OpenStatus.OPEN) {
+      if (settingsProvider.broadcaseWhenBoost == OpenStatus.open) {
         nostr!.broadcase(widget.event);
       }
     } else if (value == "quote") {
       await EditorWidget.open(context, initEmbeds: [
-        quill.CustomBlockEmbed(CustEmbedTypes.mention_event, widget.event.id)
+        quill.CustomBlockEmbed(CustEmbedTypes.mentionEvent, widget.event.id)
       ]);
     }
   }

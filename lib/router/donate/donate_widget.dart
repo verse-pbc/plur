@@ -61,14 +61,14 @@ class _DonateWidgetState extends CustState<DonateWidget> {
           _DonateButtonWidget(
             name: "X1",
             onTap: () {
-              buy(CoffeeIds.COFFEE1);
+              buy(CoffeeIds.coffee1);
             },
             price: price1,
           ),
           _DonateButtonWidget(
             name: "X2",
             onTap: () {
-              buy(CoffeeIds.COFFEE2);
+              buy(CoffeeIds.coffee2);
             },
             price: price2,
           ),
@@ -82,14 +82,14 @@ class _DonateWidgetState extends CustState<DonateWidget> {
         _DonateButtonWidget(
           name: "X5",
           onTap: () {
-            buy(CoffeeIds.COFFEE5);
+            buy(CoffeeIds.coffee5);
           },
           price: price5,
         ),
         _DonateButtonWidget(
           name: "X10",
           onTap: () {
-            buy(CoffeeIds.COFFEE2);
+            buy(CoffeeIds.coffee2);
           },
           price: price10,
         ),
@@ -135,24 +135,24 @@ class _DonateWidgetState extends CustState<DonateWidget> {
 
   Future<void> updateIAPItems() async {
     var list = await FlutterInappPurchase.instance.getProducts([
-      CoffeeIds.COFFEE1,
-      CoffeeIds.COFFEE2,
-      CoffeeIds.COFFEE5,
-      CoffeeIds.COFFEE10
+      CoffeeIds.coffee1,
+      CoffeeIds.coffee2,
+      CoffeeIds.coffee5,
+      CoffeeIds.coffee10
     ]);
 
     for (var item in list) {
       if (StringUtil.isNotBlank(item.price) &&
-          item.productId == CoffeeIds.COFFEE1) {
+          item.productId == CoffeeIds.coffee1) {
         price1 = item.localizedPrice!;
       } else if (StringUtil.isNotBlank(item.price) &&
-          item.productId == CoffeeIds.COFFEE2) {
+          item.productId == CoffeeIds.coffee2) {
         price2 = item.localizedPrice!;
       } else if (StringUtil.isNotBlank(item.price) &&
-          item.productId == CoffeeIds.COFFEE5) {
+          item.productId == CoffeeIds.coffee5) {
         price5 = item.localizedPrice!;
       } else if (StringUtil.isNotBlank(item.price) &&
-          item.productId == CoffeeIds.COFFEE10) {
+          item.productId == CoffeeIds.coffee10) {
         price10 = item.localizedPrice!;
       }
     }
@@ -170,13 +170,13 @@ class _DonateWidgetState extends CustState<DonateWidget> {
 }
 
 class _DonateButtonWidget extends StatelessWidget {
-  String name;
+  final String name;
 
-  Function onTap;
+  final Function onTap;
 
-  String price;
+  final String price;
 
-  _DonateButtonWidget({
+  const _DonateButtonWidget({
     required this.name,
     required this.onTap,
     required this.price,

@@ -35,7 +35,7 @@ import '../content/markdown/markdown_naddr_inline_syntax.dart';
 import '../content/markdown/markdown_nevent_inline_syntax.dart';
 import '../content/markdown/markdown_nprofile_inline_syntax.dart';
 import '../content/markdown/markdown_nrelay_element_builder.dart';
-import '../content/markdown/markdown_nrelay_inline_syntax copy.dart';
+import '../content/markdown/markdown_nrelay_inline_syntax.dart';
 import '../zap/zap_split_icon_widget.dart';
 import 'event_poll_widget.dart';
 import '../webview_widget.dart';
@@ -137,10 +137,10 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     }
 
     bool imagePreview = settingsProvider.imagePreview == null ||
-        settingsProvider.imagePreview == OpenStatus.OPEN;
+        settingsProvider.imagePreview == OpenStatus.open;
     bool videoPreview = widget.showVideo;
     if (settingsProvider.videoPreview != null) {
-      videoPreview = settingsProvider.videoPreview == OpenStatus.OPEN;
+      videoPreview = settingsProvider.videoPreview == OpenStatus.open;
     }
 
     final themeData = Theme.of(context);
@@ -170,7 +170,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       }
     }
 
-    if (settingsProvider.autoOpenSensitive == OpenStatus.OPEN) {
+    if (settingsProvider.autoOpenSensitive == OpenStatus.open) {
       showWarning = true;
     }
 
@@ -442,7 +442,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           if (StringUtil.isNotBlank(url)) {
             if (widget.event.kind == EventKind.videoHorizontal ||
                 widget.event.kind == EventKind.videoVertical) {
-              if (settingsProvider.videoPreview == OpenStatus.OPEN &&
+              if (settingsProvider.videoPreview == OpenStatus.open &&
                   widget.showVideo) {
                 list.add(ContentVideoWidget(url: url!));
               } else {
@@ -463,8 +463,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 if (fileType == "image") {
                   list.add(ContentImageWidget(imageUrl: url));
                 } else if (fileType == "video") {
-                  if (settingsProvider.videoPreview != OpenStatus.OPEN &&
-                      (settingsProvider.videoPreviewInList == OpenStatus.OPEN ||
+                  if (settingsProvider.videoPreview != OpenStatus.open &&
+                      (settingsProvider.videoPreviewInList == OpenStatus.open ||
                           widget.showVideo)) {
                     list.add(ContentVideoWidget(url: url));
                   } else {
@@ -559,7 +559,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           GestureDetector(
             onTap: () {
               RouterUtil.router(
-                  context, RouterPath.COMMUNITY_DETAIL, eventRelation.aId);
+                  context, RouterPath.communityDetail, eventRelation.aId);
             },
             child: Text(
               eventRelation.aId!.title,
@@ -629,7 +629,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         textOnTap: widget.textOnTap,
         showImage: imagePreview,
         showVideo: videoPreview,
-        showLinkPreview: settingsProvider.linkPreview == OpenStatus.OPEN,
+        showLinkPreview: settingsProvider.linkPreview == OpenStatus.open,
         imageListMode: widget.imageListMode,
         eventRelation: eventRelation,
       ),
@@ -665,11 +665,11 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       data: content,
       selectable: true,
       builders: {
-        MarkdownMentionUserElementBuilder.TAG:
+        MarkdownMentionUserElementBuilder.tag:
             MarkdownMentionUserElementBuilder(),
-        MarkdownMentionEventElementBuilder.TAG:
+        MarkdownMentionEventElementBuilder.tag:
             MarkdownMentionEventElementBuilder(),
-        MarkdownNrelayElementBuilder.TAG: MarkdownNrelayElementBuilder(),
+        MarkdownNrelayElementBuilder.tag: MarkdownNrelayElementBuilder(),
       },
       blockSyntaxes: const [],
       inlineSyntaxes: [
@@ -681,7 +681,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         MarkdownNrelayInlineSyntax(),
       ],
       imageBuilder: (Uri uri, String? title, String? alt) {
-        if (settingsProvider.imagePreview == OpenStatus.CLOSE) {
+        if (settingsProvider.imagePreview == OpenStatus.close) {
           return ContentLinkWidget(
             link: uri.toString(),
             title: title,
@@ -706,27 +706,27 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               // jump user page
               var pubkey = Nip19.decode(link);
               if (StringUtil.isNotBlank(pubkey)) {
-                RouterUtil.router(context, RouterPath.USER, pubkey);
+                RouterUtil.router(context, RouterPath.user, pubkey);
               }
             } else if (NIP19Tlv.isNprofile(link)) {
               var nprofile = NIP19Tlv.decodeNprofile(link);
               if (nprofile != null) {
-                RouterUtil.router(context, RouterPath.USER, nprofile.pubkey);
+                RouterUtil.router(context, RouterPath.user, nprofile.pubkey);
               }
             } else if (Nip19.isNoteId(link)) {
               var noteId = Nip19.decode(link);
               if (StringUtil.isNotBlank(noteId)) {
-                RouterUtil.router(context, RouterPath.EVENT_DETAIL, noteId);
+                RouterUtil.router(context, RouterPath.eventDetail, noteId);
               }
             } else if (NIP19Tlv.isNevent(link)) {
               var nevent = NIP19Tlv.decodeNevent(link);
               if (nevent != null) {
-                RouterUtil.router(context, RouterPath.EVENT_DETAIL, nevent.id);
+                RouterUtil.router(context, RouterPath.eventDetail, nevent.id);
               }
             } else if (NIP19Tlv.isNaddr(link)) {
               var naddr = NIP19Tlv.decodeNaddr(link);
               if (naddr != null) {
-                RouterUtil.router(context, RouterPath.EVENT_DETAIL, naddr.id);
+                RouterUtil.router(context, RouterPath.eventDetail, naddr.id);
               }
             } else if (NIP19Tlv.isNrelay(link)) {
               var nrelay = NIP19Tlv.decodeNrelay(link);
@@ -800,8 +800,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     var content = widget.event.content;
     var type = eventRelation.type;
 
-    if (!content.startsWith(BASE64.PREFIX)) {
-      content = BASE64.PNG_PREFIX + content;
+    if (!content.startsWith(BASE64.prefix)) {
+      content = BASE64.pngPrefix + content;
     }
 
     if (type != null && type.startsWith("image")) {
@@ -840,7 +840,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           builder: (context, user, child) {
             return GestureDetector(
               onTap: () {
-                RouterUtil.router(context, RouterPath.USER, zapInfo.pubkey);
+                RouterUtil.router(context, RouterPath.user, zapInfo.pubkey);
               },
               child: Container(
                 width: imageWidgetWidth,
@@ -892,7 +892,7 @@ class _EventReplyingComponent extends State<EventReplyingComponent> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.USER, widget.pubkey);
+        RouterUtil.router(context, RouterPath.user, widget.pubkey);
       },
       child: Selector<UserProvider, User?>(
         builder: (context, user, child) {

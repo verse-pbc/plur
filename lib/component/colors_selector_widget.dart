@@ -20,8 +20,8 @@ class ColorSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
-    for (var i = 0; i < ColorList.ALL_COLOR.length; i++) {
-      var c = ColorList.ALL_COLOR[i];
+    for (var i = 0; i < ColorList.allColor.length; i++) {
+      var c = ColorList.allColor[i];
       widgets.add(SliverToBoxAdapter(
         child: ColorSelectorItemWidget(
           color: c,

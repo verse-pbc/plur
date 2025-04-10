@@ -6,7 +6,6 @@ import 'package:nostr_sdk/nip29/group_metadata.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../../component/appbar_back_btn_widget.dart';
 import '../../../component/group/group_avatar_widget.dart';
 import '../../../consts/router_path.dart';
 import '../../../generated/l10n.dart';
@@ -104,15 +103,29 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const AppbarBackBtnWidget(),
+        leading: TextButton(
+          onPressed: _cancel,
+          child: Text(
+            localization.Cancel,
+            style: TextStyle(
+              color: themeData.customColors.accentColor,
+              fontSize: 16.0,
+              fontWeight: FontWeight.w500,
+            ),
+            overflow: TextOverflow.visible,
+            maxLines: 1,
+            softWrap: false,
+          ),
+        ),
         title: Text(
-          localization.Admin_Panel,
+          localization.Edit,
           style: TextStyle(
             color: themeData.customColors.primaryForegroundColor,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         actions: [
           if (_isSaving)
             Padding(
@@ -210,7 +223,15 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                     onTap: () {
                       final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
-                          context, RouterPath.GROUP_MEMBERS, groupId);
+                          context, RouterPath.groupMembers, groupId);
+                    },
+                  ),
+                  _NavigationRow(
+                    title: localization.Community_Guidelines,
+                    onTap: () {
+                      final groupId = context.read<GroupIdentifier>();
+                      RouterUtil.router(
+                          context, RouterPath.communityGuidelines, groupId);
                     },
                   ),
                 ],
@@ -247,6 +268,45 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
       BotToast.showText(text: e.toString());
     } finally {
       setState(() => _isUploading = false);
+    }
+  }
+
+  void _cancel() async {
+    final themeData = Theme.of(context);
+    final localization = S.of(context);
+    if (_hasChanges) {
+      final shouldDiscard = await showDialog<bool>(
+        context: context,
+        builder: (context) => Theme(
+          data: themeData,
+          child: AlertDialog(
+            backgroundColor: themeData.colorScheme.surface,
+            content: Text(
+              localization.Confirm_Discard,
+              style: TextStyle(
+                color: themeData.colorScheme.onSurface,
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(localization.Cancel),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(localization.Discard),
+              ),
+            ],
+          ),
+        ),
+      );
+      if (!mounted) return;
+
+      if (shouldDiscard == true) {
+        Navigator.pop(context, false);
+      }
+    } else {
+      Navigator.pop(context, false);
     }
   }
 

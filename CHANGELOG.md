@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+
+### Internal Changes
+
+## [0.0.5]
+
+### Release Notes
 - Fixed issue where new notes toast was not getting displayed in groups. [#250](https://github.com/verse-pbc/issues/issues/250)
 - Fixed an issue where we would lose connection to the relay, resulting in content failing to load. [#260](https://github.com/verse-pbc/issues/issues/260)
 - Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
@@ -20,10 +26,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Start caching groups metadatas thus improving the loading times. [#261](https://github.com/verse-pbc/issues/issues/261)
 - Added Onboarding Age Verification screen before signup. [#283](https://github.com/verse-pbc/issues/issues/283)
 - Improved empty state for communities with prominent "Create Group" button.
+- Added Community Guidelines to groups. [#264](https://github.com/verse-pbc/issues/issues/264)
+- Fix inconsistent navbar background color. [#305](https://github.com/verse-pbc/issues/issues/305)
+- Admin Panel: Added confirmation dialog when dismissing with unsaved changes. [#299](https://github.com/verse-pbc/issues/issues/299)
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
 - Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
+- Fixed all remaining lint issues. [#308](https://github.com/verse-pbc/issues/issues/308)
+- Reverted deletion of Examine Lint Changes workflow job.
 
 ## [0.0.4]
 

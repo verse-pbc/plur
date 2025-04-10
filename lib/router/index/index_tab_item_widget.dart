@@ -6,13 +6,13 @@ import 'package:widget_size/widget_size.dart';
 import 'index_app_bar.dart';
 
 class IndexTabItemWidget extends StatefulWidget {
-  String text;
+  final String text;
 
-  String? omitText;
+  final String? omitText;
 
-  TextStyle textStyle;
+  final TextStyle textStyle;
 
-  IndexTabItemWidget(
+  const IndexTabItemWidget(
     this.text,
     this.textStyle, {
       super.key,

@@ -21,17 +21,17 @@ class SimpleNameWidget extends StatefulWidget {
     return name!;
   }
 
-  String pubkey;
+  final String pubkey;
 
-  User? user;
+  final User? user;
 
-  TextStyle? textStyle;
+  final TextStyle? textStyle;
 
-  int? maxLines;
+  final int? maxLines;
 
-  TextOverflow? textOverflow;
+  final TextOverflow? textOverflow;
 
-  SimpleNameWidget({super.key, 
+  const SimpleNameWidget({super.key,
     required this.pubkey,
     this.user,
     this.textStyle,

@@ -11,7 +11,7 @@ class MarkdownNprofileInlineSyntax extends md.InlineSyntax {
     // var text = match.input.substring(match.start, match.end);
     var text = match[0]!;
     final element =
-        md.Element.text(MarkdownMentionUserElementBuilder.TAG, text);
+        md.Element.text(MarkdownMentionUserElementBuilder.tag, text);
     parser.addNode(element);
 
     return true;

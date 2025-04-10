@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'index_drawer_content.dart';
 
 class IndexPcDrawerWrapper extends StatefulWidget {
-  double fixWidth;
+  final double fixWidth;
 
-  IndexPcDrawerWrapper({
+  const IndexPcDrawerWrapper({
     super.key,
     required this.fixWidth,
   });
@@ -17,7 +17,7 @@ class IndexPcDrawerWrapper extends StatefulWidget {
 }
 
 class _IndexPcDrawerWrapper extends State<IndexPcDrawerWrapper> {
-  static const double SMALL_WIDTH = 80;
+  static const double smallWidth = 80;
 
   bool? smallMode;
 
@@ -37,7 +37,7 @@ class _IndexPcDrawerWrapper extends State<IndexPcDrawerWrapper> {
       smallMode = false;
     }
     if (currentMode) {
-      width = SMALL_WIDTH;
+      width = smallWidth;
     }
 
     return IndexPcDrawerWrapperCallback(
@@ -69,9 +69,9 @@ class _IndexPcDrawerWrapper extends State<IndexPcDrawerWrapper> {
 }
 
 class IndexPcDrawerWrapperCallback extends InheritedWidget {
-  Function toggle;
+  final Function toggle;
 
-  IndexPcDrawerWrapperCallback({super.key, required this.toggle, required super.child});
+  const IndexPcDrawerWrapperCallback({super.key, required this.toggle, required super.child});
 
   static IndexPcDrawerWrapperCallback? of(BuildContext context) {
     return context

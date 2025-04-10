@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class ZapSplitIconWidget extends StatelessWidget {
-  double fontSize;
+  final double fontSize;
 
-  Color? color;
+  final Color? color;
 
-  ZapSplitIconWidget(this.fontSize, {super.key, this.color = Colors.orange});
+  const ZapSplitIconWidget(this.fontSize, {super.key, this.color = Colors.orange});
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    color ??= themeData.iconTheme.color;
+    final theColor = color ?? themeData.iconTheme.color;
 
     List<Widget> list = [];
     list.add(Positioned(
@@ -18,7 +18,7 @@ class ZapSplitIconWidget extends StatelessWidget {
       child: Icon(
         Icons.bolt,
         size: fontSize + 2,
-        color: color,
+        color: theColor,
       ),
     ));
     list.add(Positioned(
@@ -29,7 +29,7 @@ class ZapSplitIconWidget extends StatelessWidget {
         style: TextStyle(
           fontSize: fontSize - 2,
           fontWeight: FontWeight.bold,
-          color: color,
+          color: theColor,
         ),
       ),
     ));

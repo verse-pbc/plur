@@ -7,13 +7,13 @@ import '../../util/router_util.dart';
 import 'reaction_event_item_widget.dart';
 
 class ReactionEventListWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  bool jumpable;
+  final bool jumpable;
 
-  String text;
+  final String text;
 
-  ReactionEventListWidget({super.key, 
+  const ReactionEventListWidget({super.key,
     required this.event,
     this.jumpable = true,
     required this.text,

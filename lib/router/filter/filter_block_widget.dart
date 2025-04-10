@@ -35,9 +35,9 @@ class _FilterBlockWidgetState extends State<FilterBlockWidget> {
 }
 
 class FilterBlockItemWidget extends StatelessWidget {
-  String pubkey;
+  final String pubkey;
 
-  FilterBlockItemWidget({super.key, required this.pubkey});
+  const FilterBlockItemWidget({super.key, required this.pubkey});
 
   @override
   Widget build(BuildContext context) {
