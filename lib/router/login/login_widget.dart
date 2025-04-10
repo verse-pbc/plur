@@ -212,9 +212,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         style: FilledButton.styleFrom(
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           backgroundColor: dimmedColor,
-          disabledBackgroundColor: dimmedColor.withOpacity(0.4),
+          disabledBackgroundColor: dimmedColor.withAlpha(102),
           foregroundColor: buttonTextColor,
-          disabledForegroundColor: buttonTextColor.withOpacity(0.4),
+          disabledForegroundColor: buttonTextColor.withAlpha(102),
         ),
         child: Text(
           localization.Login,
@@ -236,10 +236,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             backgroundColor: themeData.customColors.dimmedColor,
             disabledBackgroundColor:
-                themeData.customColors.dimmedColor.withOpacity(0.4),
+                themeData.customColors.dimmedColor.withAlpha(102),
             foregroundColor: themeData.customColors.buttonTextColor,
             disabledForegroundColor:
-                themeData.customColors.buttonTextColor.withOpacity(0.4),
+                themeData.customColors.buttonTextColor.withAlpha(102),
           ),
           child: Text(
             localization.Login_With_Android_Signer,
@@ -260,10 +260,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             backgroundColor: themeData.customColors.dimmedColor,
             disabledBackgroundColor:
-                themeData.customColors.dimmedColor.withOpacity(0.4),
+                themeData.customColors.dimmedColor.withAlpha(102),
             foregroundColor: themeData.customColors.buttonTextColor,
             disabledForegroundColor:
-                themeData.customColors.buttonTextColor.withOpacity(0.4),
+                themeData.customColors.buttonTextColor.withAlpha(102),
           ),
           child: Text(
             localization.Login_With_NIP07_Extension,

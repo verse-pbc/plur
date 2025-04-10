@@ -62,7 +62,7 @@ class _MusicWidgetState extends State<MusicWidget> {
       imageWidget = Container(
         width: imageHeight,
         height: imageHeight,
-        color: themeData.hintColor.withOpacity(0.5),
+        color: themeData.hintColor.withAlpha(128),
       );
     }
 

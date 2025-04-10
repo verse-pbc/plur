@@ -124,7 +124,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
               onTap: () {
                 _onConfirm(user.pubkey!);
               },
-              highlightColor: mainColor.withOpacity(0.2),
+              highlightColor: mainColor.withAlpha(51),
               child: Container(
                 color: mainColor,
                 height: 40,

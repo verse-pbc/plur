@@ -658,7 +658,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [light],
       scaffoldBackgroundColor: light.appBgColor,
       primaryColor: light.accentColor,
-      focusColor: light.secondaryForegroundColor.withOpacity(0.1),
+      focusColor: light.secondaryForegroundColor.withAlpha(26),
       appBarTheme: _appBarTheme(
         bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -696,7 +696,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [CustomColors.dark],
       scaffoldBackgroundColor: dark.appBgColor,
       primaryColor: dark.accentColor,
-      focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
+      focusColor: dark.secondaryForegroundColor.withAlpha(26),
       appBarTheme: _appBarTheme(
         bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -706,7 +706,7 @@ class _MyApp extends State<MyApp> {
       cardColor: dark.cardBgColor,
       textTheme: textTheme,
       hintColor: dark.dimmedColor,
-      shadowColor: Colors.white.withOpacity(0.3),
+      shadowColor: Colors.white.withAlpha(76),
       tabBarTheme: _tabBarTheme(),
       canvasColor: dark.feedBgColor,
       iconTheme: _iconTheme(dark.primaryForegroundColor),
