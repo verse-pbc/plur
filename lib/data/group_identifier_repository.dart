@@ -9,6 +9,7 @@ import 'package:rxdart/rxdart.dart';
 import '../main.dart';
 import '../provider/relay_provider.dart';
 import '../util/time_util.dart';
+import 'group_metadata_repository.dart';
 
 /// List of [GroupIdentifier] objects.
 typedef GroupIdentifiers = List<GroupIdentifier>;
@@ -128,7 +129,7 @@ class GroupIdentifierRepository {
     return groupIdentifiersInRelays;
   }
 
-  void _subscribeToNewUpdatesOnGroupIdentifiers() {
+  void _subscribeToNewUpdates(GroupMetadataRepository groupMetadataRepository) {
     // Get current timestamp to only receive events from now onwards.
     final since = currentUnixTimestamp();
     final filters = [
@@ -158,37 +159,49 @@ class GroupIdentifierRepository {
     final subscribeId = StringUtil.rndNameStr(16);
     nostr!.subscribe(
       filters,
-      _handleSubscriptionEvent,
+      (event) async {
+        log(
+          "Received event\n${event.toJson()}",
+          level: Level.FINE.value,
+          name: _logName,
+        );
+        final current = _groupIdentifiers.value;
+        final updated = GroupIdentifiers.from(current);
+        switch (event.kind) {
+          case EventKind.groupDeleteGroup:
+            final parsed = _extractGroupIdentifiersFromTags(
+              event,
+              tagPrefix: "h",
+            );
+            updated.removeWhere((e) => parsed.contains(e));
+          case EventKind.groupMembers || EventKind.groupAdmins:
+            final parsed = _extractGroupIdentifiersFromTags(
+              event,
+              tagPrefix: "d",
+            );
+            for (var groupIdentifier in parsed) {
+              if (updated.contains(groupIdentifier)) continue;
+              updated.add(groupIdentifier);
+            }
+          case EventKind.groupEditMetadata:
+            final parsed = _extractGroupIdentifiersFromTags(
+              event,
+              tagPrefix: "h",
+            );
+            for (var groupIdentifier in parsed) {
+              await groupMetadataRepository.fetchGroupMetadata(groupIdentifier);
+              log("Fetched group metadata", name: _logName);
+            }
+        }
+        _groupIdentifiers.add(updated);
+        log("Emitted new list", name: _logName);
+      },
       id: subscribeId,
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
       targetRelays: [RelayProvider.defaultGroupsRelayAddress],
       relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
-  }
-
-  void _handleSubscriptionEvent(Event event) {
-    log(
-      "Received event.\n${event.toJson()}",
-      level: Level.FINE.value,
-      name: _logName,
-    );
-    final current = _groupIdentifiers.value;
-    final updated = GroupIdentifiers.from(current);
-    switch (event.kind) {
-      case EventKind.groupDeleteGroup:
-        final parsed = _extractGroupIdentifiersFromTags(event, tagPrefix: "h");
-        updated.removeWhere((e) => parsed.contains(e));
-      case EventKind.groupMembers || EventKind.groupAdmins:
-        final parsed = _extractGroupIdentifiersFromTags(event, tagPrefix: "d");
-        for (var groupIdentifier in parsed) {
-          if (updated.contains(groupIdentifier)) continue;
-          updated.add(groupIdentifier);
-        }
-      case EventKind.groupEditMetadata:
-        final parsed = _extractGroupIdentifiersFromTags(event, tagPrefix: "h");
-    }
-    _groupIdentifiers.add(updated);
   }
 
   /// Extracts group identifiers from event tags with specified prefix ("h" or
@@ -208,9 +221,10 @@ class GroupIdentifierRepository {
 final groupIdentifierRepositoryProvider =
     Provider<GroupIdentifierRepository>((ref) {
   final repository = GroupIdentifierRepository();
+  final groupMetadataRepository = ref.watch(groupMetadataRepositoryProvider);
   Future.microtask(() async {
     await repository._fetchInitialListOfGroupIdentifiers();
-    repository._subscribeToNewUpdatesOnGroupIdentifiers();
+    repository._subscribeToNewUpdates(groupMetadataRepository);
   });
   ref.onDispose(() => repository.dispose());
   return repository;

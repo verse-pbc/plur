@@ -21,9 +21,11 @@ class GroupMetadataRepository {
   ///
   /// - Parameters:
   ///   - id: The identifier of the group for which metadata is to be fetched.
+  ///   - cached: Whether to retrieve metadata from cache. Defaults to false.
   /// - Returns: A `Future` that resolves to the `GroupMetadata` of the
   /// specified group.
-  Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id) async {
+  Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id,
+      {bool cached = false}) async {
     assert(nostr != null, "nostr instance is null");
     final host = id.host;
     final groupId = id.groupId;
@@ -43,7 +45,7 @@ class GroupMetadataRepository {
       filters,
       tempRelays: [host],
       targetRelays: [host],
-      relayTypes: RelayType.onlyTemp,
+      relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
       sendAfterAuth: true,
     );
     assert(events?.length == 1, "Didn't receive group metadata for $groupId");
