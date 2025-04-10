@@ -128,7 +128,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
             //     BoxConstraints(maxWidth: (maxWidth - imageWidth) * 0.85),
             decoration: BoxDecoration(
               // color: Colors.red,
-              color: mainColor.withOpacity(0.3),
+              color: mainColor.withAlpha(76),
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
             // child: SelectableText(content),

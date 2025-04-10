@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 class ThemeUtil {
   static Color getDialogCoverColor(ThemeData themeData) {
     return (themeData.textTheme.bodyMedium!.color ?? Colors.black)
-        .withOpacity(0.2);
+        .withAlpha(51);
   }
 }
 
