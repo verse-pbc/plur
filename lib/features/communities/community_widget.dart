@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../component/shimmer/shimmer_loading.dart';
-import 'community_controller.dart';
+import '../../data/group_metadata_repository.dart';
 import 'community_title_widget.dart';
 import 'community_image_widget.dart';
 
@@ -23,7 +23,8 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
   Widget build(BuildContext context) {
     final groupIdentifier = widget.groupIdentifier;
     final groupId = widget.groupIdentifier.groupId;
-    final controller = ref.watch(communityControllerProvider(groupIdentifier));
+    ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
+    final controller = ref.watch(cachedGroupMetadataProvider(groupIdentifier));
     const imageSize = CommunityImageWidget.imageSize;
     return controller.when(
       data: (value) {
