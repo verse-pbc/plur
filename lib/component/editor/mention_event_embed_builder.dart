@@ -15,5 +15,5 @@ class MentionEventEmbedBuilder extends EmbedBuilder {
   }
 
   @override
-  String get key => CustEmbedTypes.mention_event;
+  String get key => CustEmbedTypes.mentionEvent;
 }

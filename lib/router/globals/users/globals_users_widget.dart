@@ -55,7 +55,7 @@ class _GlobalsUsersWidgetState extends KeepAliveCustState<GlobalsUsersWidget> {
             builder: (context, user, child) {
               return GestureDetector(
                 onTap: () {
-                  RouterUtil.router(context, RouterPath.USER, pubkey);
+                  RouterUtil.router(context, RouterPath.user, pubkey);
                 },
                 behavior: HitTestBehavior.translucent,
                 child: UserMetadataWidget(

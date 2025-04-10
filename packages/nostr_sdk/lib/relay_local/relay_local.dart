@@ -19,7 +19,8 @@ class RelayLocal extends Relay with RelayLocalMixin {
   /// Constructs a [RelayLocal] with the specified URL, relay status, and local
   /// database. A reusable URL can be found at [localUrl].
   RelayLocal(super.url, super.relayStatus, this.relayLocalDB) {
-    super.relayStatus.connected = ClientConneccted.CONNECTED;
+    super.relayStatus.connected = ClientConnected.connected;
+
     info = RelayInfo(
       "Local Relay",
       "This is a local relay. It will cache some event.",
@@ -51,6 +52,9 @@ class RelayLocal extends Relay with RelayLocalMixin {
 
   @override
   Future<bool> doConnect() async {
+    // Allow requests that need authentication to be processed by the local
+    // relay as well.
+    relayStatus.authed = true;
     return true;
   }
 

@@ -5,9 +5,9 @@ import '../main.dart';
 
 class TableModeUtil {
   static bool isTableMode() {
-    if (settingsProvider.tableMode == OpenStatus.OPEN) {
+    if (settingsProvider.tableMode == OpenStatus.open) {
       return true;
-    } else if (settingsProvider.tableMode == OpenStatus.CLOSE) {
+    } else if (settingsProvider.tableMode == OpenStatus.close) {
       return false;
     }
     return PlatformUtil.isTableModeWithoutSetting();

@@ -127,6 +127,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
         children: [
           Expanded(
             child: quill.QuillEditor(
+              controller: editorController,
               configurations: quill.QuillEditorConfigurations(
                 placeholder: localization.What_s_happening,
                 embedBuilders: [
@@ -145,7 +146,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
                   left: Base.basePadding,
                   right: Base.basePadding,
                 ),
-                maxHeight: 300, controller: editorController,
+                maxHeight: 300,
               ),
               scrollController: ScrollController(),
               focusNode: focusNode,
@@ -244,6 +245,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
     try {
       var event = await doDocumentSave();
       if (event == null) {
+        if (!mounted) return;
         BotToast.showText(text: S.of(context).Send_fail);
         return;
       }

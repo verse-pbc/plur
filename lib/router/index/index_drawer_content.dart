@@ -78,7 +78,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         ),
         child: GestureDetector(
           onTap: () {
-            RouterUtil.router(context, RouterPath.USER, pubkey);
+            RouterUtil.router(context, RouterPath.user, pubkey);
           },
           child: UserPicWidget(pubkey: pubkey, width: 50),
         ),
@@ -144,7 +144,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       iconData: Icons.settings_rounded,
       name: localization.Settings,
       onTap: () {
-        RouterUtil.router(context, RouterPath.SETTINGS);
+        RouterUtil.router(context, RouterPath.settings);
       },
       smallMode: widget.smallMode,
     ));
@@ -241,7 +241,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
   /// Navigates to the profile edit screen.
   void _jumpToProfileEdit() {
     final user = userProvider.getUser(nostr!.publicKey);
-    RouterUtil.router(context, RouterPath.PROFILE_EDITOR, user);
+    RouterUtil.router(context, RouterPath.profileEditor, user);
   }
 
   /// Displays the account manager modal bottom sheet.

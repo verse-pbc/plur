@@ -10,11 +10,11 @@ import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
 class NIP07Dialog extends StatefulWidget {
-  String method;
+  final String method;
 
-  String? content;
+  final String? content;
 
-  NIP07Dialog({super.key, 
+  const NIP07Dialog({super.key,
     required this.method,
     this.content,
   });
@@ -73,9 +73,9 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     String methodDesc = localization.NIP07_getPublicKey;
     if (widget.method == NIP07Methods.getRelays) {
       methodDesc = localization.NIP07_getRelays;
-    } else if (widget.method == NIP07Methods.nip04_encrypt) {
+    } else if (widget.method == NIP07Methods.nip04Encrypt) {
       methodDesc = localization.NIP07_encrypt;
-    } else if (widget.method == NIP07Methods.nip04_decrypt) {
+    } else if (widget.method == NIP07Methods.nip04Decrypt) {
       methodDesc = localization.NIP07_decrypt;
     } else if (widget.method == NIP07Methods.signEvent) {
       methodDesc = localization.NIP07_signEvent;
@@ -86,7 +86,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
           var kindDesc = KindDescriptions.getDes(eventKind);
           methodDesc += ": $kindDesc";
         }
-      } catch (e) {}
+      } catch (_) {}
     } else if (widget.method == NIP07Methods.lightning) {
       methodDesc = localization.NIP07_lightning;
     }

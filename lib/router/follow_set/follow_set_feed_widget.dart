@@ -108,7 +108,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
         var event = events[index];
         return EventListWidget(
           event: event,
-          showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+          showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
         );
       },
       itemCount: events.length + 1,
@@ -235,7 +235,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     if (StringUtil.isNotBlank(subscribeId)) {
       try {
         nostr!.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (_) {}
     }
   }
 
