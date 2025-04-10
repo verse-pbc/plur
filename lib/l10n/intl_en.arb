@@ -362,5 +362,11 @@
     "Age_verification_question": "Are you over 16 years old?",
     "Age_verification_message": "For legal reasons, we need to make sure you're over this age to use Plur.",
     "No": "No",
-    "Yes": "Yes"
+    "Yes": "Yes",
+    "Create_your_community": "Create your community",
+    "community_name": "community name",
+    "Name_your_community": "Name your community",
+    "Start_or_join_a_community": "Start or join a community",
+    "Connect_with_others": "Connect with others by creating your own community or joining an existing one with an invite link.",
+    "Have_invite_link": "Have an invite link? Tap on it to join a community."
 }
