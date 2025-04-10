@@ -8,7 +8,7 @@ class GroupMetadata extends GroupObject {
   String? picture;
 
   String? about;
-  
+
   /// Optional: A text containing the community guidelines for this group.
   String? communityGuidelines;
 
@@ -59,6 +59,8 @@ class GroupMetadata extends GroupObject {
             picture = value;
           } else if (key == "about") {
             about = value;
+          } else if (key == "guidelines") {
+            communityGuidelines = value;
           } else if (key == "h") {
             groupId = value;
           }
