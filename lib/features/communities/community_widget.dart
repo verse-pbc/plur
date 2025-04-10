@@ -7,14 +7,22 @@ import 'community_controller.dart';
 import 'community_title_widget.dart';
 import 'community_image_widget.dart';
 
-class CommunityWidget extends ConsumerWidget {
+class CommunityWidget extends ConsumerStatefulWidget {
   final GroupIdentifier groupIdentifier;
 
   const CommunityWidget(this.groupIdentifier, {super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final groupId = groupIdentifier.groupId;
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _CommunityWidgetState();
+  }
+}
+
+class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
+  @override
+  Widget build(BuildContext context) {
+    final groupIdentifier = widget.groupIdentifier;
+    final groupId = widget.groupIdentifier.groupId;
     final controller = ref.watch(communityControllerProvider(groupIdentifier));
     const imageSize = CommunityImageWidget.imageSize;
     return controller.when(

@@ -159,49 +159,58 @@ class GroupIdentifierRepository {
     final subscribeId = StringUtil.rndNameStr(16);
     nostr!.subscribe(
       filters,
-      (event) async {
-        log(
-          "Received event\n${event.toJson()}",
-          level: Level.FINE.value,
-          name: _logName,
-        );
-        final current = _groupIdentifiers.value;
-        final updated = GroupIdentifiers.from(current);
-        switch (event.kind) {
-          case EventKind.groupDeleteGroup:
-            final parsed = _extractGroupIdentifiersFromTags(
-              event,
-              tagPrefix: "h",
-            );
-            updated.removeWhere((e) => parsed.contains(e));
-          case EventKind.groupMembers || EventKind.groupAdmins:
-            final parsed = _extractGroupIdentifiersFromTags(
-              event,
-              tagPrefix: "d",
-            );
-            for (var groupIdentifier in parsed) {
-              if (updated.contains(groupIdentifier)) continue;
-              updated.add(groupIdentifier);
-            }
-          case EventKind.groupEditMetadata:
-            final parsed = _extractGroupIdentifiersFromTags(
-              event,
-              tagPrefix: "h",
-            );
-            for (var groupIdentifier in parsed) {
-              await groupMetadataRepository.fetchGroupMetadata(groupIdentifier);
-              log("Fetched group metadata", name: _logName);
-            }
-        }
-        _groupIdentifiers.add(updated);
-        log("Emitted new list", name: _logName);
-      },
+      (event) => Future.microtask(
+        () => _handleSubscriptionEvent(
+          event,
+          groupMetadataRepository,
+        ),
+      ),
       id: subscribeId,
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
       targetRelays: [RelayProvider.defaultGroupsRelayAddress],
       relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
+  }
+
+  void _handleSubscriptionEvent(
+    Event event,
+    GroupMetadataRepository groupMetadataRepository,
+  ) async {
+    log(
+      "Received event\n${event.toJson()}",
+      level: Level.FINE.value,
+      name: _logName,
+    );
+    final current = _groupIdentifiers.value;
+    final updated = GroupIdentifiers.from(current);
+    switch (event.kind) {
+      case EventKind.groupDeleteGroup:
+        final parsed = _extractGroupIdentifiersFromTags(
+          event,
+          tagPrefix: "h",
+        );
+        updated.removeWhere((e) => parsed.contains(e));
+      case EventKind.groupMembers || EventKind.groupAdmins:
+        final parsed = _extractGroupIdentifiersFromTags(
+          event,
+          tagPrefix: "d",
+        );
+        for (var groupIdentifier in parsed) {
+          if (updated.contains(groupIdentifier)) continue;
+          updated.add(groupIdentifier);
+        }
+      case EventKind.groupEditMetadata:
+        final parsed = _extractGroupIdentifiersFromTags(
+          event,
+          tagPrefix: "h",
+        );
+        for (var groupIdentifier in parsed) {
+          await groupMetadataRepository.fetchGroupMetadata(groupIdentifier);
+        }
+    }
+    _groupIdentifiers.add(updated);
+    log("Emitted new list", name: _logName);
   }
 
   /// Extracts group identifiers from event tags with specified prefix ("h" or
