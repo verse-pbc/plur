@@ -83,9 +83,9 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
         ),
         const SizedBox(height: 20),
         
-        Text(
+        const Text(
           "Paste a community invitation link",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
           ),
         ),
@@ -96,7 +96,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
           width: double.infinity,
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.1),
+            color: Colors.grey.withAlpha(25), // Equivalent to opacity 0.1
             borderRadius: BorderRadius.circular(4),
           ),
           child: const Text(
