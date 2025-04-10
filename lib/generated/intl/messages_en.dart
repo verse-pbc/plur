@@ -111,6 +111,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
         "Content_warning":
             MessageLookupByLibrary.simpleMessage("Content warning"),
+        "Continue": MessageLookupByLibrary.simpleMessage("Continue"),
         "Copy": MessageLookupByLibrary.simpleMessage("Copy"),
         "Copy_Hex_Key": MessageLookupByLibrary.simpleMessage("Copy Hex Key"),
         "Copy_Key": MessageLookupByLibrary.simpleMessage("Copy Key"),
@@ -535,6 +536,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "The network will take effect the next time the app is launched"),
         "not_found": MessageLookupByLibrary.simpleMessage("not found"),
         "notes_updated": MessageLookupByLibrary.simpleMessage("notes updated"),
+        "onboarding_name_input_hint":
+            MessageLookupByLibrary.simpleMessage("Your name or nickname"),
+        "onboarding_name_input_title":
+            MessageLookupByLibrary.simpleMessage("What should we call you?"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "or": MessageLookupByLibrary.simpleMessage("or"),
         "poll_option_info":
