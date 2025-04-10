@@ -7,6 +7,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/provider/list_provider.dart';
+import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:provider/provider.dart';
 
@@ -240,23 +241,47 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
 
         final listProvider = Provider.of<ListProvider>(context, listen: false);
         
-        // Join the group using the existing method
-        listProvider.joinGroup(
-          JoinGroupParameters(
-            'wss://communities.nos.social', // Default relay
-            groupId,
-            code: code,
+        // Show loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Joining community..."),
+            duration: Duration(seconds: 1),
           ),
-          context: context,
         );
         
-        // Close the dialog
-        RouterUtil.back(context);
+        // Join the group using the existing method
+        try {
+          listProvider.joinGroup(
+            JoinGroupParameters(
+              RelayProvider.defaultGroupsRelayAddress, // Get relay URL from configuration
+              groupId,
+              code: code,
+            ),
+            context: context,
+          );
+          
+          // Close the dialog
+          RouterUtil.back(context);
+        } catch (joinError) {
+          if (joinError.toString().contains('network')) {
+            _showError("Network error. Please check your connection and try again.");
+          } else if (joinError.toString().contains('permission')) {
+            _showError("You don't have permission to join this community.");
+          } else if (joinError.toString().contains('exist')) {
+            _showError("This community no longer exists.");
+          } else {
+            _showError("Failed to join community: ${joinError.toString()}");
+          }
+        }
       } else {
         _showError("Invalid community link format. Please check and try again.");
       }
     } catch (e) {
-      _showError("Could not process the community link. Please check and try again.");
+      if (e is FormatException) {
+        _showError("The link format is invalid. Please ensure you've copied the entire invitation link.");
+      } else {
+        _showError("Could not process the community link. Please check and try again.");
+      }
     }
   }
   
