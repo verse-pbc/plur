@@ -7,9 +7,6 @@ import '../main.dart';
 
 /// A repository class that handles fetching and setting group metadata.
 class GroupMetadataRepository {
-  /// Token that divides community guidelines in `about`.
-  static const _communityGuidelinesMarker = "# Community Guidelines";
-
   /// Name used when logging.
   static const _logName = "GroupMetadataRepository";
 
@@ -58,28 +55,7 @@ class GroupMetadataRepository {
     );
     var metadata = GroupMetadata.loadFromEvent(event);
     assert(metadata != null, "Couldn't parse group metadata for $groupId");
-    if (metadata == null) {
-      return null;
-    }
-    final about = metadata.about;
-    if (about == null) {
-      return metadata;
-    }
-    const marker = _communityGuidelinesMarker;
-    final index = about.indexOf(marker);
-    if (index == -1) {
-      return metadata;
-    }
-    return GroupMetadata(
-      metadata.groupId,
-      metadata.createdAt,
-      name: metadata.name,
-      picture: metadata.picture,
-      about: about.substring(0, index).trim(),
-      communityGuidelines: about.substring(index + marker.length).trim(),
-      public: metadata.public,
-      open: metadata.open,
-    );
+    return metadata;
   }
 
   /// Sets the metadata for a group.
@@ -108,15 +84,11 @@ class GroupMetadataRepository {
     if (picture != null && picture != "") {
       tags.add(["picture", picture]);
     }
-    const marker = _communityGuidelinesMarker;
     if (about != null && about != "") {
-      if (communityGuidelines != null && communityGuidelines != "") {
-        tags.add(["about", "$about\n\n$marker\n\n$communityGuidelines"]);
-      } else {
-        tags.add(["about", about]);
-      }
-    } else if (communityGuidelines != null && communityGuidelines != "") {
-      tags.add(["about", "$marker\n\n$communityGuidelines"]);
+      tags.add(["about", about]);
+    }
+    if (communityGuidelines != null && communityGuidelines != "") {
+      tags.add(["guidelines", communityGuidelines]);
     }
     final event = Event(
       nostr!.publicKey,
