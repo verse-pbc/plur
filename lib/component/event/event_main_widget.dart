@@ -35,7 +35,7 @@ import '../content/markdown/markdown_naddr_inline_syntax.dart';
 import '../content/markdown/markdown_nevent_inline_syntax.dart';
 import '../content/markdown/markdown_nprofile_inline_syntax.dart';
 import '../content/markdown/markdown_nrelay_element_builder.dart';
-import '../content/markdown/markdown_nrelay_inline_syntax copy.dart';
+import '../content/markdown/markdown_nrelay_inline_syntax.dart';
 import '../zap/zap_split_icon_widget.dart';
 import 'event_poll_widget.dart';
 import '../webview_widget.dart';
@@ -665,11 +665,11 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       data: content,
       selectable: true,
       builders: {
-        MarkdownMentionUserElementBuilder.TAG:
+        MarkdownMentionUserElementBuilder.tag:
             MarkdownMentionUserElementBuilder(),
-        MarkdownMentionEventElementBuilder.TAG:
+        MarkdownMentionEventElementBuilder.tag:
             MarkdownMentionEventElementBuilder(),
-        MarkdownNrelayElementBuilder.TAG: MarkdownNrelayElementBuilder(),
+        MarkdownNrelayElementBuilder.tag: MarkdownNrelayElementBuilder(),
       },
       blockSyntaxes: const [],
       inlineSyntaxes: [

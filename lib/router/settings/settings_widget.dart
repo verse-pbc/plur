@@ -240,7 +240,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         value: getRelayMode(settingsProvider.relayMode).name,
         onTap: pickRelayModes,
       ));
-      if (settingsProvider.relayMode != RelayMode.baseMode) {
+      if (settingsProvider.relayMode != RelayMode.BASE_MODE) {
         list.add(SettingsGroupItemWidget(
           name: localization.Event_Sign_Check,
           value: getOpenListDefault(settingsProvider.eventSignCheck).name,
@@ -815,8 +815,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     final localization = S.of(context);
     if (relayModes == null) {
       relayModes = [];
-      relayModes!.add(EnumObj(RelayMode.fastMode, localization.Fast_Mode));
-      relayModes!.add(EnumObj(RelayMode.baseMode, localization.Base_Mode));
+      relayModes!.add(EnumObj(RelayMode.FAST_MODE, localization.Fast_Mode));
+      relayModes!.add(EnumObj(RelayMode.BASE_MODE, localization.Base_Mode));
     }
     return relayModes!;
   }

@@ -602,7 +602,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       }
     } else if (value == "quote") {
       await EditorWidget.open(context, initEmbeds: [
-        quill.CustomBlockEmbed(CustEmbedTypes.mention_event, widget.event.id)
+        quill.CustomBlockEmbed(CustEmbedTypes.mentionEvent, widget.event.id)
       ]);
     }
   }
