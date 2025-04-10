@@ -317,7 +317,7 @@ class IndexDrawerItemWidget extends StatelessWidget {
       // Compact mode: Only the icon is displayed with minimal padding.
       mainWidget = Container(
         decoration: BoxDecoration(
-          color: color != null ? Colors.white.withOpacity(0.1) : null,
+          color: color != null ? Colors.white.withAlpha(26) : null,
           borderRadius: BorderRadius.circular(14),
         ),
         padding: const EdgeInsets.all(8),

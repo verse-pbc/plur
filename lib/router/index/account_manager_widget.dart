@@ -92,7 +92,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
       child: TextButton(
         onPressed: addAccount,
         style: TextButton.styleFrom(
-          side: BorderSide(width: 1, color: hintColor.withOpacity(0.4)),
+          side: BorderSide(width: 1, color: hintColor.withAlpha(102)),
         ),
         child: Text(
           localization.Add_Account,

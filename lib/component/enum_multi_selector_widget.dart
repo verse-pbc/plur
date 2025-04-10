@@ -97,7 +97,7 @@ class _EnumMultiSelectorWidgetState extends State<EnumMultiSelectorWidget> {
       enumObj: enumObj,
       isLast: isLast,
       onTap: onTap,
-      color: exist ? Colors.blue.withOpacity(0.2) : null,
+      color: exist ? Colors.blue.withAlpha(51) : null,
     );
   }
 

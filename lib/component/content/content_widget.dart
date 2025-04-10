@@ -199,7 +199,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     largetFontSize = themeData.textTheme.bodyLarge!.fontSize!;
     iconWidgetWidth = largetFontSize + 4;
     hintColor = themeData.hintColor;
-    codeBackgroundColor = hintColor!.withOpacity(0.25);
+    codeBackgroundColor = hintColor!.withAlpha(64);
     var settingsProvider = Provider.of<SettingsProvider>(context);
     mdh1Style = TextStyle(
       fontSize: largetFontSize + 1,
@@ -283,7 +283,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: Base.basePadding),
                   height: 30,
-                  color: themeData.cardColor.withOpacity(0.85),
+                  color: themeData.cardColor.withAlpha(217),
                   child: Text(
                     localization.Show_more,
                     style: TextStyle(

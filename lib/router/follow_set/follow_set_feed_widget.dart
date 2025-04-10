@@ -41,7 +41,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     bindLoadMoreScroll(_controller);
     _controller.addListener(() {
       if (_controller.offset > 50 && mainColor != null) {
-        appBarBG = mainColor!.withOpacity(0.2);
+        appBarBG = mainColor!.withAlpha(51);
         setState(() {});
       } else {
         appBarBG = null;
