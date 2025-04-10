@@ -369,4 +369,7 @@
     "Start_or_join_a_community": "Start or join a community",
     "Connect_with_others": "Connect with others by creating your own community or joining an existing one with an invite link.",
     "Have_invite_link": "Have an invite link? Tap on it to join a community."
+    "onboarding_name_input_title": "What should we call you?",
+    "onboarding_name_input_hint": "Your name or nickname",
+    "Continue": "Continue"
 }
