@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/router/group/create_community_dialog.dart';
-import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/main.dart';
-import 'dart:developer';
+import 'package:nostrmo/router/group/no_communities_widget.dart';
 
 import '../../component/shimmer/shimmer.dart';
-import '../../router/group/communities_grid_widget.dart';
-import '../../util/time_util.dart';
 import '../../util/theme_util.dart';
 import 'communities_controller.dart';
+import 'communities_grid_widget.dart';
 
 class CommunitiesScreen extends ConsumerStatefulWidget {
   const CommunitiesScreen({super.key});
