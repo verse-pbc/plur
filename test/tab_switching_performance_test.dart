@@ -41,8 +41,8 @@ void main() {
       await tester.pumpWidget(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider<IndexProvider>.value(value: indexProvider),
-            ChangeNotifierProvider<ListProvider>.value(value: mockListProvider),
+            ChangeNotifierProvider<IndexProvider>(create: (_) => indexProvider),
+            ChangeNotifierProvider<ListProvider>(create: (_) => mockListProvider),
           ],
           child: MaterialApp(
             home: Material(
@@ -87,9 +87,9 @@ void main() {
         ProviderScope(
           child: MultiProvider(
             providers: [
-              ChangeNotifierProvider<ListProvider>.value(value: mockListProvider),
-              ChangeNotifierProvider<GroupFeedProvider>.value(value: mockGroupFeedProvider),
-              ChangeNotifierProvider<IndexProvider>.value(value: indexProvider),
+              ChangeNotifierProvider<ListProvider>(create: (_) => mockListProvider),
+              ChangeNotifierProvider<GroupFeedProvider>(create: (_) => mockGroupFeedProvider),
+              ChangeNotifierProvider<IndexProvider>(create: (_) => indexProvider),
             ],
             child: const MaterialApp(
               home: CommunitiesScreen(),

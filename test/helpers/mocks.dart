@@ -1,4 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:mockito/mockito.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/provider/group_provider.dart';
+import 'package:nostrmo/provider/index_provider.dart';
+import 'package:nostrmo/provider/list_provider.dart';
+import 'package:nostrmo/provider/group_feed_provider.dart';
+
+// Mock classes for testing
+class MockClient extends Mock implements http.Client {}
+class MockListProvider extends Mock implements ListProvider {}
+class MockGroupProvider extends Mock implements GroupProvider {}
+class MockIndexProvider extends Mock implements IndexProvider {}
+class MockNostr extends Mock implements Nostr {}
+class MockGroupFeedProvider extends Mock implements GroupFeedProvider {}
 
 /// A mock implementation of NoCommunitiesWidget for testing
 class MockNoCommunitiesWidget extends StatelessWidget {
