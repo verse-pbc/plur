@@ -185,9 +185,12 @@ class GroupInfoMenuWidget extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              // TODO: Implement leave group functionality
+              // Leave the group
+              listProvider.leaveGroup(groupId);
               Navigator.of(context).pop();
               Navigator.of(context).pop(); // Return to previous screen
+              // Navigate to group list
+              RouterUtil.router(context, RouterPath.groupList);
             },
             child: Text(
               localization.Leave,

@@ -211,8 +211,9 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     
     actions.add(
       IconButton(
-        icon: const Icon(Icons.group_remove_outlined),
-        onPressed: _leaveGroup,
+        icon: const Icon(Icons.search),
+        tooltip: 'Search',
+        onPressed: _showSearch,
       ),
     );
     
@@ -273,12 +274,25 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     _groupDetailProvider.deleteEvent(e);
   }
 
+  // Keeping the method for potential future use, but it's no longer accessed from the UI
   void _leaveGroup() {
     final id = _groupIdentifier;
     if (id != null) {
       listProvider.leaveGroup(id);
     }
     RouterUtil.back(context);
+  }
+  
+  void _showSearch() {
+    // TODO: Implement search functionality for the group
+    // This will be implemented in a future PR
+    // For now, show a simple toast message
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Search functionality coming soon!'),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   void _showGroupInfo() {
