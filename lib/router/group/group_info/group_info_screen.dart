@@ -16,6 +16,7 @@ import 'group_info_popupmenu_widget.dart';
 import '../../../consts/base.dart';
 import '../../../data/user.dart';
 import '../group_members/member_card_dialog.dart';
+import '../group_media_grid_widget.dart';
 
 import '../../../main.dart';
 
@@ -242,8 +243,8 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                   ),
                 ),
                 
-                // Media tab
-                _buildEmptyTabContent(context, localization.Media),
+                // Media tab - Instagram-style grid
+                GroupMediaGridWidget(groupId: groupId),
                 
                 // Links tab
                 _buildEmptyTabContent(context, localization.Links),
