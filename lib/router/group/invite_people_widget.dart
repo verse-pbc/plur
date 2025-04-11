@@ -13,8 +13,15 @@ import 'package:nostrmo/component/appbar_bottom_border.dart';
 
 /// Widget for inviting people to a group
 class InvitePeopleWidget extends StatefulWidget {
+  final String? shareableLink;
+  final GroupIdentifier? groupIdentifier;
+  final bool showCreatePostButton;
+
   const InvitePeopleWidget({
     super.key,
+    this.shareableLink,
+    this.groupIdentifier,
+    this.showCreatePostButton = false,
   });
 
   @override
@@ -31,22 +38,29 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
     super.initState();
     inviteCode = StringCodeGenerator.generateInviteCode();
     
-    // We'll generate the link in didChangeDependencies when we have context
+    // Use the provided shareableLink if available
+    if (widget.shareableLink != null && widget.shareableLink!.isNotEmpty) {
+      inviteLink = widget.shareableLink!;
+      isLoading = false;
+    }
   }
   
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     
-    final arg = RouterUtil.routerArgs(context);
-    if (arg != null && arg is GroupIdentifier) {
-      final listProvider = Provider.of<ListProvider>(context, listen: false);
-      inviteLink = listProvider.createInviteLink(arg, inviteCode);
-      
-      if (isLoading) {
-        setState(() {
-          isLoading = false;
-        });
+    // If we don't have a shareableLink, try to get it from the route arguments or widget.groupIdentifier
+    if (widget.shareableLink == null || widget.shareableLink!.isEmpty) {
+      final arg = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
+      if (arg != null && arg is GroupIdentifier) {
+        final listProvider = Provider.of<ListProvider>(context, listen: false);
+        inviteLink = listProvider.createInviteLink(arg, inviteCode);
+        
+        if (isLoading) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     }
   }
@@ -57,13 +71,13 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
     final customColors = themeData.customColors;
     final localization = S.of(context);
     
-    final arg = RouterUtil.routerArgs(context);
-    if (arg == null || arg is! GroupIdentifier) {
+    final groupId = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
+    if (groupId == null || groupId is! GroupIdentifier) {
       RouterUtil.back(context);
       return Container();
     }
     
-    // GroupIdentifier is available as arg
+    // GroupIdentifier is available
 
     return Scaffold(
       appBar: AppBar(
@@ -136,6 +150,32 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                       color: customColors.secondaryForegroundColor,
                     ),
                   ),
+                  
+                  // Add Create Post button if requested
+                  if (widget.showCreatePostButton) ...[
+                    const SizedBox(height: 40),
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          RouterUtil.back(context);
+                          RouterUtil.router(context, RouterPath.groupDetail, groupId);
+                        },
+                        highlightColor: themeData.primaryColor.withOpacity(0.2),
+                        child: Container(
+                          color: themeData.primaryColor,
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Create your first post',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: customColors.buttonTextColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),
