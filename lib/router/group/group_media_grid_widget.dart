@@ -6,6 +6,7 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 
 import '../../component/image_preview_dialog.dart';
 import '../../component/blurhash_image_component/blurhash_image_widget.dart';
+import '../../component/content/content_image_widget.dart';
 import '../../provider/group_media_provider.dart';
 import '../../util/theme_util.dart';
 import '../../generated/l10n.dart';
@@ -149,14 +150,12 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
     // Get the first metadata entry (typically there's only one per event)
     final metadata = metadataList.first;
     String? imageUrl;
-    String? blurhash;
     
     // According to NIP-92, we should prioritize in this order:
     // 1. thumb - smaller representation of the resource
     // 2. image - another representation (may be original or processed)
     // 3. url - the main resource URL
     imageUrl = metadata.thumb ?? metadata.image ?? metadata.url;
-    blurhash = metadata.blurhash;
     
     // Make sure we have a URL (should always be the case since url is required in NIP-92)
     if (imageUrl.isEmpty) {
@@ -178,59 +177,28 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
     print('Event ${event.id.substring(0, 8)} mime type: $mimeType');
     print('Using media URL: $imageUrl');
     
-    // Build the grid tile with the image
-    return InkWell(
+    // Use the same ContentImageWidget that's used elsewhere in the app
+    // for consistent image loading and rendering
+    return GestureDetector(
       onTap: () {
         _openImagePreview(context, event, imageUrl!);
       },
-      child: Hero(
-        tag: 'media_${event.id}',
-        child: CachedNetworkImage(
-          imageUrl: imageUrl,
-          fit: BoxFit.cover,
-          placeholder: (context, url) => 
-            blurhash != null
-              ? _buildBlurhashPlaceholder(context, blurhash)
-              : _buildLoadingPlaceholder(context),
-          errorWidget: (context, url, error) {
-            print('Error loading image $url: $error');
-            return _buildPlaceholder(context, event);
-          },
+      child: ClipRect(
+        child: SizedBox.expand(
+          child: Hero(
+            tag: 'media_${event.id}',
+            child: ContentImageWidget(
+              imageUrl: imageUrl,
+              fileMetadata: metadata,
+              imageBoxFix: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );
   }
   
-  /// Build a placeholder using blurhash
-  Widget _buildBlurhashPlaceholder(BuildContext context, String blurhash) {
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-    
-    // Create a fake FileMetadata just for the blurhash
-    try {
-      final fakeMetadata = FileMetadata(
-        "placeholder-url", 
-        "image/jpeg",
-        blurhash: blurhash,
-      );
-      
-      // Use the genBlurhashImageWidget function from the imported module
-      final blurhashWidget = genBlurhashImageWidget(
-        fakeMetadata, 
-        customColors.navBgColor, 
-        BoxFit.cover
-      );
-      
-      if (blurhashWidget != null) {
-        return blurhashWidget;
-      }
-    } catch (e) {
-      // Fallback if blurhash processing fails
-      print('Error creating blurhash: $e');
-    }
-    
-    return _buildLoadingPlaceholder(context);
-  }
+  // Removed blurhash placeholder method as it's handled by ContentImageWidget
   
   /// Build a loading placeholder for images
   Widget _buildLoadingPlaceholder(BuildContext context) {
@@ -270,9 +238,9 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
   
   /// Open the image preview dialog
   void _openImagePreview(BuildContext context, Event event, String imageUrl) {
-    // Create a SingleImageProvider with the image URL
+    // Create a CachedNetworkImageProvider for better performance
     final imageProvider = SingleImageProvider(
-      Image.network(imageUrl).image,
+      CachedNetworkImageProvider(imageUrl),
     );
     
     // Show the image preview dialog with the created provider
@@ -280,6 +248,7 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
       context,
       imageProvider,
       doubleTapZoomable: true,
+      swipeDismissible: true,
     );
   }
 }
