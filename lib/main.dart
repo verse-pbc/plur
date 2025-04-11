@@ -14,6 +14,7 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:flutter/services.dart' show rootBundle;
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
@@ -263,6 +264,13 @@ Future<void> main() async {
   } catch (e) {
     log("MediaKit init error $e");
   }
+
+  // Load SF Pro Rounded fonts manually
+  final FontLoader sfProRounded = FontLoader('SF Pro Display');
+  await sfProRounded.addFont(rootBundle.load('assets/fonts/SF-Pro-Rounded-Regular.otf'));
+  await sfProRounded.addFont(rootBundle.load('assets/fonts/SF-Pro-Rounded-Medium.otf'));
+  await sfProRounded.addFont(rootBundle.load('assets/fonts/SF-Pro-Rounded-Bold.otf'));
+  await sfProRounded.load();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -778,52 +786,52 @@ class _MyApp extends State<MyApp> {
   }) =>
       TextTheme(
         bodyLarge: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize + 2,
           color: foregroundColor,
         ),
         bodyMedium: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize,
           color: foregroundColor,
         ),
         bodySmall: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize - 2,
           color: foregroundColor,
         ),
         titleLarge: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize + 4,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         titleMedium: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize + 2,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         titleSmall: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         labelLarge: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
         labelMedium: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize - 1,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
         labelSmall: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Display',
           fontSize: baseFontSize - 2,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
@@ -835,7 +843,7 @@ TextStyle _titleTextStyle({
   required Color foregroundColor,
 }) =>
     TextStyle(
-      fontFamily: 'SFProRounded',
+      fontFamily: 'SF Pro Display',
       color: foregroundColor,
       fontWeight: FontWeight.bold,
     );
