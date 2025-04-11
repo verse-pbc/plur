@@ -279,9 +279,8 @@ Future<void> main() async {
       log("MediaKit init error $e");
     }
 
-    // Let's skip manual font loading for now as it might be causing startup delay
-    // Font will be loaded through Google Fonts or system defaults
-    log("Using standard font loading from pubspec.yaml");
+    // Using standard font loading through pubspec.yaml
+    log("Using SFProRounded font defined in pubspec.yaml");
 
     log("Initializing Firebase...");
     await Firebase.initializeApp(
@@ -821,52 +820,52 @@ class _MyApp extends State<MyApp> {
   }) =>
       TextTheme(
         bodyLarge: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize + 2,
           color: foregroundColor,
         ),
         bodyMedium: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize,
           color: foregroundColor,
         ),
         bodySmall: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize - 2,
           color: foregroundColor,
         ),
         titleLarge: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize + 4,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         titleMedium: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize + 2,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         titleSmall: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         labelLarge: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
         labelMedium: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize - 1,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
         labelSmall: TextStyle(
-          fontFamily: 'SF Pro Display',
+          fontFamily: 'SFProRounded',
           fontSize: baseFontSize - 2,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
@@ -878,7 +877,7 @@ TextStyle _titleTextStyle({
   required Color foregroundColor,
 }) =>
     TextStyle(
-      fontFamily: 'SF Pro Display',
+      fontFamily: 'SFProRounded',
       color: foregroundColor,
       fontWeight: FontWeight.bold,
     );
