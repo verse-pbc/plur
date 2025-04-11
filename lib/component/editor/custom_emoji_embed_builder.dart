@@ -17,5 +17,5 @@ class CustomEmojiEmbedBuilder extends EmbedBuilder {
   }
 
   @override
-  String get key => CustEmbedTypes.custom_emoji;
+  String get key => CustEmbedTypes.customEmoji;
 }

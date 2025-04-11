@@ -53,7 +53,7 @@ class FollowEventProvider extends ChangeNotifier
   }
 
   List<int> queryEventKinds() {
-    return EventKind.SUPPORTED_EVENTS;
+    return EventKind.supportedEvents;
   }
 
   void doQuery(
@@ -115,7 +115,7 @@ class FollowEventProvider extends ChangeNotifier
       for (var subscribeId in _subscribeIds) {
         try {
           targetNostr.unsubscribe(subscribeId);
-        } catch (e) {}
+        } catch (_) {}
       }
       _subscribeIds.clear();
     }

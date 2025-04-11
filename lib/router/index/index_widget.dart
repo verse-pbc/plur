@@ -6,25 +6,32 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/editor/search_mention_user_widget.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
+import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
+import '../../features/communities/communities_screen.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
 import '../../provider/settings_provider.dart';
+import '../../provider/list_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
-import '../group/communities_widget.dart';
+import '../group/all_group_posts_widget.dart';
 import '../group/create_community_dialog.dart';
+import '../../provider/group_feed_provider.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
 import 'index_app_bar.dart';
@@ -44,10 +51,10 @@ import 'index_tab_item_widget.dart';
 /// * Music player integration
 class IndexWidget extends StatefulWidget {
   /// Maximum width for the navigation drawer in PC mode
-  static double PC_MAX_COLUMN_0 = 240;
+  static double pcMaxColumn0 = 240;
 
   /// Maximum width for the main content area in PC mode
-  static double PC_MAX_COLUMN_1 = 550;
+  static double pcMaxColumn1 = 550;
 
   /// Callback function to reload the application state
   final Function reload;
@@ -65,6 +72,86 @@ class _IndexWidgetState extends CustState<IndexWidget>
   late TabController followTabController;
   late TabController globalsTabController;
   late TabController dmTabController;
+  
+  // Build the toggle switch for community view modes
+  Widget _buildCommunityViewToggle(IndexProvider indexProvider, ThemeData themeData) {
+    return Center(
+      child: Container(
+        // Make container more compact
+        width: 120, // Reduced width
+        height: 28, // Reduced height
+        decoration: BoxDecoration(
+          color: themeData.cardColor,
+          borderRadius: BorderRadius.circular(14), // Adjusted for smaller height
+          border: Border.all(
+            color: themeData.dividerColor,
+            width: 0.5, // Thinner border
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  indexProvider.setCommunityViewMode(CommunityViewMode.grid);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: indexProvider.communityViewMode == CommunityViewMode.grid
+                        ? themeData.colorScheme.primary
+                        : Colors.transparent,
+                    borderRadius: const BorderRadius.horizontal(
+                      left: Radius.circular(14), // Adjusted for smaller height
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Groups',
+                    style: TextStyle(
+                      color: indexProvider.communityViewMode == CommunityViewMode.grid
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.textTheme.bodyMedium?.color,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11, // Smaller font size
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  indexProvider.setCommunityViewMode(CommunityViewMode.feed);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: indexProvider.communityViewMode == CommunityViewMode.feed
+                        ? themeData.colorScheme.primary
+                        : Colors.transparent,
+                    borderRadius: const BorderRadius.horizontal(
+                      right: Radius.circular(14), // Adjusted for smaller height
+                    ),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Feed',
+                    style: TextStyle(
+                      color: indexProvider.communityViewMode == CommunityViewMode.feed
+                          ? themeData.colorScheme.onPrimary
+                          : themeData.textTheme.bodyMedium?.color,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11, // Smaller font size
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -133,7 +220,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   /// Handles initial authentication if lock is enabled
   @override
   Future<void> onReady(BuildContext context) async {
-    if (settingsProvider.lockOpen == OpenStatus.OPEN && !unlock) {
+    if (settingsProvider.lockOpen == OpenStatus.open && !unlock) {
       doAuth();
     } else {
       setState(() {
@@ -147,7 +234,8 @@ class _IndexWidgetState extends CustState<IndexWidget>
     mediaDataCache.update(context);
     final localization = S.of(context);
 
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+    // Note: This is critical. Rebuild this widget when settings change.
+    Provider.of<SettingsProvider>(context);
     if (nostr == null) {
       return const LoginSignupWidget();
     }
@@ -173,12 +261,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
     Widget? appBarCenter;
     Widget? appBarRight;
     if (indexProvider.currentTap == 0) {
-      appBarCenter = Center(
-        child: Text(
-          localization.Your_Groups,
-          style: titleTextStyle,
-        ),
-      );
+      // Build the toggle control for switching between grid and feed views
+      appBarCenter = _buildCommunityViewToggle(indexProvider, themeData);
+      
+      // Create community button 
       appBarRight = GestureDetector(
         onTap: () {
           CreateCommunityDialog.show(context);
@@ -186,6 +272,32 @@ class _IndexWidgetState extends CustState<IndexWidget>
         child: const Icon(Icons.group_add),
       );
     } else if (indexProvider.currentTap == 1) {
+      appBarCenter = TabBar(
+        indicatorColor: indicatorColor,
+        indicatorWeight: 3,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
+        tabs: [
+          IndexTabItemWidget(
+            localization.DMs,
+            titleTextStyle,
+            omitText: "DM",
+          ),
+          IndexTabItemWidget(
+            localization.Request,
+            titleTextStyle,
+            omitText: "R",
+          ),
+        ],
+        controller: dmTabController,
+      );
+      appBarRight = GestureDetector(
+        onTap: () {
+          _showSearchUserForDM(context);
+        },
+        child: const Icon(Icons.chat_rounded),
+      );
+    } else if (indexProvider.currentTap == 2) {
       appBarCenter = TabBar(
         indicatorColor: indicatorColor,
         indicatorWeight: 3,
@@ -210,33 +322,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ],
         controller: globalsTabController,
       );
-    } else if (indexProvider.currentTap == 2) {
-      appBarCenter = Center(
-        child: Text(
-          localization.Search,
-          style: titleTextStyle,
-        ),
-      );
-    } else if (indexProvider.currentTap == 3) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.DMs,
-            titleTextStyle,
-            omitText: "DM",
-          ),
-          IndexTabItemWidget(
-            localization.Request,
-            titleTextStyle,
-            omitText: "R",
-          ),
-        ],
-        controller: dmTabController,
-      );
     }
 
     var mainCenterWidget = MediaQuery.removePadding(
@@ -246,11 +331,16 @@ class _IndexWidgetState extends CustState<IndexWidget>
           child: IndexedStack(
         index: indexProvider.currentTap,
         children: [
-          const CommunitiesWidget(),
-          const SearchWidget(),
+          const CommunitiesScreen(),
+          // Provide GroupFeedProvider for the AllGroupPostsWidget
+          ChangeNotifierProvider(
+            create: (context) => GroupFeedProvider(Provider.of<ListProvider>(context, listen: false)),
+            child: const AllGroupPostsWidget(),
+          ),
           DMWidget(
             tabController: dmTabController,
           ),
+          const SearchWidget(),
         ],
       )),
     );
@@ -294,11 +384,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
       var maxWidth = mediaDataCache.size.width;
       double column0Width = maxWidth * 2 / 5;
       double column1Width = maxWidth * 2 / 5;
-      if (column0Width > IndexWidget.PC_MAX_COLUMN_0) {
-        column0Width = IndexWidget.PC_MAX_COLUMN_0;
+      if (column0Width > IndexWidget.pcMaxColumn0) {
+        column0Width = IndexWidget.pcMaxColumn0;
       }
-      if (column1Width > IndexWidget.PC_MAX_COLUMN_1) {
-        column1Width = IndexWidget.PC_MAX_COLUMN_1;
+      if (column1Width > IndexWidget.pcMaxColumn1) {
+        column1Width = IndexWidget.pcMaxColumn1;
       }
 
       var mainScaffold = Scaffold(
@@ -381,6 +471,26 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ),
       );
     }
+  }
+
+  void _showSearchUserForDM(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text("Select User")),
+          body: const SearchMentionUserWidget(),
+        ),
+      ),
+    ).then((pubkey) {
+      if (pubkey != null && pubkey is String) {
+        // Use the DMProvider to create a new session or find an existing one
+        final dmProvider = Provider.of<DMProvider>(context, listen: false);
+        final dmDetail = dmProvider.findOrNewADetail(pubkey);
+        
+        // Navigate to the DM detail screen with the selected user
+        RouterUtil.router(context, RouterPath.dmDetail, dmDetail);
+      }
+    });
   }
 
   void doAuth() {

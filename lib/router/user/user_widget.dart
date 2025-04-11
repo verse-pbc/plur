@@ -20,6 +20,7 @@ import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
 import 'user_statistics_widget.dart';
+import '../../util/theme_util.dart';
 
 class UserWidget extends StatefulWidget {
   const UserWidget({super.key});
@@ -124,14 +125,9 @@ class _UserWidgetState extends CustState<UserWidget>
         return userProvider.getUser(pubkey!);
       },
       builder: (context, user, child) {
-        Color? appbarBackgroundColor = Colors.transparent;
-        if (showAppbarBG) {
-          appbarBackgroundColor = themeData.cardColor.withOpacity(0.6);
-        }
         Widget? appbarTitle;
         if (showTitle) {
-          String displayName =
-              SimpleNameWidget.getSimpleName(pubkey!, user);
+          String displayName = SimpleNameWidget.getSimpleName(pubkey!, user);
 
           appbarTitle = Container(
             alignment: Alignment.center,
@@ -147,7 +143,6 @@ class _UserWidgetState extends CustState<UserWidget>
           );
         }
         var appBar = Appbar4Stack(
-          backgroundColor: appbarBackgroundColor,
           title: appbarTitle,
         );
 
@@ -190,7 +185,7 @@ class _UserWidgetState extends CustState<UserWidget>
                 return EventListWidget(
                   event: event,
                   showVideo:
-                      settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+                      settingsProvider.videoPreviewInList != OpenStatus.close,
                 );
               },
               itemCount: box.length(),
@@ -198,13 +193,26 @@ class _UserWidgetState extends CustState<UserWidget>
           ),
         );
 
+      // Fixed app bar at the top of the screen
         List<Widget> mainList = [
           main,
           Positioned(
-            top: paddingTop,
-            child: SizedBox(
-              width: maxWidth,
-              child: appBar,
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.only(top: paddingTop),
+              decoration: BoxDecoration(
+                color: themeData.customColors.navBgColor,
+                border: Border(
+                  bottom:
+                      BorderSide(color: themeData.customColors.separatorColor),
+                ),
+              ),
+              child: SizedBox(
+                height: Appbar4Stack.height,
+                child: appBar,
+              ),
             ),
           ),
         ];
@@ -276,7 +284,9 @@ class _UserWidgetState extends CustState<UserWidget>
     if (StringUtil.isNotBlank(subscribeId)) {
       try {
         nostr!.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (e) {
+        log("unsubscribe error: $e");
+      }
     }
 
     closeLoading();
@@ -302,7 +312,7 @@ class _UserWidgetState extends CustState<UserWidget>
 
     // load event from relay
     var filter = Filter(
-      kinds: EventKind.SUPPORTED_EVENTS,
+      kinds: EventKind.supportedEvents,
       until: until,
       authors: [pubkey!],
       limit: queryLimit,
@@ -375,7 +385,9 @@ class _UserWidgetState extends CustState<UserWidget>
       try {
         cancelFunc!.call();
         cancelFunc = null;
-      } catch (e) {}
+      } catch (e) {
+        log("cancelFunc error: $e");
+      }
     }
   }
 

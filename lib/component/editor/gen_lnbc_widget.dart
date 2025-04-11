@@ -63,7 +63,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
                     str: localization.Add_now,
                     onTap: () async {
                       await RouterUtil.router(
-                          context, RouterPath.PROFILE_EDITOR, user);
+                          context, RouterPath.profileEditor, user);
                       userProvider.update(nostr!.publicKey);
                     },
                   ),
@@ -124,7 +124,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
               onTap: () {
                 _onConfirm(user.pubkey!);
               },
-              highlightColor: mainColor.withOpacity(0.2),
+              highlightColor: mainColor.withAlpha(51),
               child: Container(
                 color: mainColor,
                 height: 40,
@@ -173,6 +173,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
     log("comment $comment");
     var lnbcStr =
         await ZapAction.genInvoiceCode(context, num, pubkey, comment: comment);
+    if (!mounted) return;
     if (StringUtil.isNotBlank(lnbcStr)) {
       RouterUtil.back(context, lnbcStr);
     }

@@ -7,10 +7,10 @@ import 'nip07_signer_method.dart'
     if (dart.library.js) 'nip07_signer_method_web.dart';
 
 class NIP07Signer extends NostrSigner {
-  static String URI_PRE = "websigner";
+  static String uriPre = "websigner";
 
   static bool isWebNostrSignerKey(String key) {
-    if (key.startsWith(URI_PRE)) {
+    if (key.startsWith(uriPre)) {
       return true;
     }
     return false;

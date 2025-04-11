@@ -45,7 +45,7 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
     });
     if (widget.url.indexOf("http") == 0) {
       player.open(Media(widget.url), play: autoPlay);
-    } else if (widget.url.startsWith(BASE64.PREFIX)) {
+    } else if (widget.url.startsWith(BASE64.prefix)) {
       StoreUtil.saveBS2TempFileByMd5("mp4", BASE64.toData(widget.url))
           .then((tempFileName) {
         player.open(Media("file:///$tempFileName"), play: autoPlay);

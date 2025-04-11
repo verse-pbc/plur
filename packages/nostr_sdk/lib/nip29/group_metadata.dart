@@ -9,6 +9,9 @@ class GroupMetadata extends GroupObject {
 
   String? about;
 
+  /// Optional: A text containing the community guidelines for this group.
+  String? communityGuidelines;
+
   bool? public;
 
   bool? open;
@@ -19,6 +22,7 @@ class GroupMetadata extends GroupObject {
     this.name,
     this.picture,
     this.about,
+    this.communityGuidelines,
     this.public,
     this.open,
   }) : super(groupId, createdAt);
@@ -28,6 +32,7 @@ class GroupMetadata extends GroupObject {
     String? name;
     String? picture;
     String? about;
+    String? communityGuidelines;
     bool? public;
     bool? open;
     int createdAt = event.createdAt;
@@ -54,6 +59,8 @@ class GroupMetadata extends GroupObject {
             picture = value;
           } else if (key == "about") {
             about = value;
+          } else if (key == "guidelines") {
+            communityGuidelines = value;
           } else if (key == "h") {
             groupId = value;
           }
@@ -71,6 +78,7 @@ class GroupMetadata extends GroupObject {
       name: name,
       picture: picture,
       about: about,
+      communityGuidelines: communityGuidelines,
       public: public,
       open: open,
     );

@@ -31,11 +31,11 @@ import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
-import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
+import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
-import 'package:nostrmo/router/signup/signup_widget.dart';
+import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
@@ -60,6 +60,8 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'features/communities/communities_screen.dart';
+import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
@@ -310,7 +312,7 @@ Future<void> main() async {
   if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
     nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
 
-    if (nostr != null && settingsProvider.wotFilter == OpenStatus.OPEN) {
+    if (nostr != null && settingsProvider.wotFilter == OpenStatus.open) {
       var pubkey = nostr!.publicKey;
       wotProvider.init(pubkey);
     }
@@ -318,7 +320,12 @@ Future<void> main() async {
 
   // Hides the splash and runs the app.
   void startApp() {
-    FlutterNativeSplash.remove();
+    try {
+      FlutterNativeSplash.remove();
+    } catch (e) {
+      log("Error removing splash screen: $e");
+    }
+    
     runApp(
       const riverpod.ProviderScope(
         child: MyApp(),
@@ -412,9 +419,9 @@ class _MyApp extends State<MyApp> {
     var darkTheme = getDarkTheme();
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
-    if (settingsProvider.themeStyle == ThemeStyle.LIGHT) {
+    if (settingsProvider.themeStyle == ThemeStyle.light) {
       defaultTheme = lightTheme;
-    } else if (settingsProvider.themeStyle == ThemeStyle.DARK) {
+    } else if (settingsProvider.themeStyle == ThemeStyle.dark) {
       defaultTheme = darkTheme;
     } else {
       defaultTheme = lightTheme;
@@ -422,47 +429,48 @@ class _MyApp extends State<MyApp> {
     }
 
     routes = {
-      RouterPath.INDEX: (context) => IndexWidget(reload: reload),
-      RouterPath.LOGIN: (context) => const LoginSignupWidget(),
-      RouterPath.SIGNUP: (context) => const SignupWidget(),
-      RouterPath.DONATE: (context) => const DonateWidget(),
-      RouterPath.USER: (context) => const UserWidget(),
-      RouterPath.USER_CONTACT_LIST: (context) => const UserContactListWidget(),
-      RouterPath.USER_HISTORY_CONTACT_LIST: (context) =>
+      RouterPath.index: (context) => IndexWidget(reload: reload),
+      RouterPath.login: (context) => const LoginSignupWidget(),
+      RouterPath.onboarding: (context) => const OnboardingWidget(),
+      RouterPath.donate: (context) => const DonateWidget(),
+      RouterPath.user: (context) => const UserWidget(),
+      RouterPath.userContactList: (context) => const UserContactListWidget(),
+      RouterPath.userHistoryContactList: (context) =>
           const UserHistoryContactListWidget(),
-      RouterPath.USER_ZAP_LIST: (context) => const UserZapListWidget(),
-      RouterPath.USER_RELAYS: (context) => const UserRelayWidget(),
-      RouterPath.DM_DETAIL: (context) => const DMDetailWidget(),
-      RouterPath.THREAD_DETAIL: (context) => const ThreadDetailWidget(),
-      RouterPath.THREAD_TRACE: (context) => const ThreadTraceWidget(),
-      RouterPath.EVENT_DETAIL: (context) => const EventDetailWidget(),
-      RouterPath.TAG_DETAIL: (context) => const TagDetailWidget(),
-      RouterPath.NOTICES: (context) => const NoticeWidget(),
-      RouterPath.KEY_BACKUP: (context) => const KeyBackupWidget(),
-      RouterPath.RELAYHUB: (context) => const RelayhubWidget(),
-      RouterPath.RELAYS: (context) => const RelaysWidget(),
-      RouterPath.FILTER: (context) => const FilterWidget(),
-      RouterPath.PROFILE_EDITOR: (context) => const ProfileEditorWidget(),
-      RouterPath.SETTINGS: (context) => SettingsWidget(indexReload: reload),
-      RouterPath.QRSCANNER: (context) => const QRScannerWidget(),
-      RouterPath.WEBUTILS: (context) => const WebUtilsWidget(),
-      RouterPath.RELAY_INFO: (context) => const RelayInfoWidget(),
-      RouterPath.FOLLOWED_TAGS_LIST: (context) =>
+      RouterPath.userZapList: (context) => const UserZapListWidget(),
+      RouterPath.userRelays: (context) => const UserRelayWidget(),
+      RouterPath.dmDetail: (context) => const DMDetailWidget(),
+      RouterPath.threadDetail: (context) => const ThreadDetailWidget(),
+      RouterPath.threadTrace: (context) => const ThreadTraceWidget(),
+      RouterPath.eventDetail: (context) => const EventDetailWidget(),
+      RouterPath.tagDetail: (context) => const TagDetailWidget(),
+      RouterPath.notices: (context) => const NoticeWidget(),
+      RouterPath.keyBackup: (context) => const KeyBackupWidget(),
+      RouterPath.relayhub: (context) => const RelayhubWidget(),
+      RouterPath.relays: (context) => const RelaysWidget(),
+      RouterPath.filter: (context) => const FilterWidget(),
+      RouterPath.profileEditor: (context) => const ProfileEditorWidget(),
+      RouterPath.settings: (context) => SettingsWidget(indexReload: reload),
+      RouterPath.qrScanner: (context) => const QRScannerWidget(),
+      RouterPath.webUtils: (context) => const WebUtilsWidget(),
+      RouterPath.relayInfo: (context) => const RelayInfoWidget(),
+      RouterPath.followedTagsList: (context) =>
           const FollowedTagsListWidget(),
-      RouterPath.COMMUNITY_DETAIL: (context) => const CommunityDetailWidget(),
-      RouterPath.FOLLOWED_COMMUNITIES: (context) =>
+      RouterPath.communityDetail: (context) => const CommunityDetailWidget(),
+      RouterPath.followedCommunities: (context) =>
           const FollowedCommunitiesWidget(),
-      RouterPath.FOLLOWED: (context) => const FollowedWidget(),
-      RouterPath.BOOKMARK: (context) => const BookmarkWidget(),
-      RouterPath.FOLLOW_SET_LIST: (context) => const FollowSetListWidget(),
-      RouterPath.FOLLOW_SET_DETAIL: (context) => const FollowSetDetailWidget(),
-      RouterPath.FOLLOW_SET_FEED: (context) => const FollowSetFeedWidget(),
-      RouterPath.NWC_SETTING: (context) => const NwcSettingWidget(),
-      RouterPath.GROUP_LIST: (context) => const CommunitiesWidget(),
-      RouterPath.GROUP_DETAIL: (context) => const GroupDetailWidget(),
-      RouterPath.GROUP_EDIT: (context) => const GroupEditWidget(),
-      RouterPath.GROUP_MEMBERS: (context) => const GroupMembersWidget(),
-      RouterPath.GROUP_INFO: (context) => const GroupInfoWidget(),
+      RouterPath.followed: (context) => const FollowedWidget(),
+      RouterPath.bookmark: (context) => const BookmarkWidget(),
+      RouterPath.followSetList: (context) => const FollowSetListWidget(),
+      RouterPath.followSetDetail: (context) => const FollowSetDetailWidget(),
+      RouterPath.followSetFeed: (context) => const FollowSetFeedWidget(),
+      RouterPath.nwcSetting: (context) => const NwcSettingWidget(),
+      RouterPath.groupList: (context) => const CommunitiesScreen(),
+      RouterPath.groupDetail: (context) => const GroupDetailWidget(),
+      RouterPath.groupEdit: (context) => const GroupEditWidget(),
+      RouterPath.groupMembers: (context) => const GroupMembersWidget(),
+      RouterPath.groupInfo: (context) => const GroupInfoWidget(),
+      RouterPath.communityGuidelines: (context) => const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };
@@ -578,24 +586,59 @@ class _MyApp extends State<MyApp> {
           supportedLocales: S.delegate.supportedLocales,
           theme: defaultTheme,
           darkTheme: defaultDarkTheme,
-          initialRoute: RouterPath.INDEX,
+          initialRoute: RouterPath.index,
           routes: routes,
           onGenerateRoute: (settings) {
+            print("Generating route for: ${settings.name} with args: ${settings.arguments}");
             switch (settings.name) {
-              case RouterPath.GROUP_ADMIN:
+              case RouterPath.groupAdmin:
                 final groupId = settings.arguments as GroupIdentifier?;
                 if (groupId == null) {
+                  print("GROUP_ADMIN: groupId is null, returning null route");
                   return null;
                 }
+                print("GROUP_ADMIN: Creating route with groupId: $groupId");
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: groupId,
                     child: const GroupAdminScreen(),
                   ),
                 );
+              case RouterPath.groupInfo:
+                // Handle direct navigation without arguments
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesScreen(),
+                  );
+                }
+                
+                final groupId = settings.arguments as GroupIdentifier;
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: groupId,
+                    child: const GroupInfoWidget(),
+                  ),
+                );
+              case RouterPath.groupDetail:
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesScreen(),
+                  );
+                }
+                
+                // Handle GroupIdentifier for this route as well
+                final groupId = settings.arguments as GroupIdentifier;
+                
+                return null; // Let the usual route handle it
               default:
                 return null;
             }
+          },
+          onUnknownRoute: (settings) {
+            // Fallback to index page
+            return MaterialPageRoute(
+              builder: (context) => IndexWidget(reload: reload),
+            );
           },
         ),
       ),
@@ -659,7 +702,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [light],
       scaffoldBackgroundColor: light.appBgColor,
       primaryColor: light.accentColor,
-      focusColor: light.secondaryForegroundColor.withOpacity(0.1),
+      focusColor: light.secondaryForegroundColor.withAlpha(26),
       appBarTheme: _appBarTheme(
         bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -697,7 +740,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [CustomColors.dark],
       scaffoldBackgroundColor: dark.appBgColor,
       primaryColor: dark.accentColor,
-      focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
+      focusColor: dark.secondaryForegroundColor.withAlpha(26),
       appBarTheme: _appBarTheme(
         bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -707,7 +750,7 @@ class _MyApp extends State<MyApp> {
       cardColor: dark.cardBgColor,
       textTheme: textTheme,
       hintColor: dark.dimmedColor,
-      shadowColor: Colors.white.withOpacity(0.3),
+      shadowColor: Colors.white.withAlpha(76),
       tabBarTheme: _tabBarTheme(),
       canvasColor: dark.feedBgColor,
       iconTheme: _iconTheme(dark.primaryForegroundColor),

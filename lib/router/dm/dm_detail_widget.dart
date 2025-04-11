@@ -116,7 +116,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
         color: cardColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withAlpha(51),
             offset: const Offset(0, -5),
             blurRadius: 10,
             spreadRadius: 0,
@@ -127,6 +127,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
         children: [
           Expanded(
             child: quill.QuillEditor(
+              controller: editorController,
               configurations: quill.QuillEditorConfigurations(
                 placeholder: localization.What_s_happening,
                 embedBuilders: [
@@ -145,7 +146,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
                   left: Base.basePadding,
                   right: Base.basePadding,
                 ),
-                maxHeight: 300, controller: editorController,
+                maxHeight: 300,
               ),
               scrollController: ScrollController(),
               focusNode: focusNode,
@@ -229,7 +230,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
   void handleDefaultPrivateDMSetting(Event? e) {
     if (!_handledDefaultPrivateDM &&
         e != null &&
-        e.kind == EventKind.PRIVATE_DIRECT_MESSAGE) {
+        e.kind == EventKind.privateDirectMessage) {
       openPrivateDM = true;
       WidgetsBinding.instance.addPostFrameCallback((_) {
         updateUI();
@@ -244,12 +245,13 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
     try {
       var event = await doDocumentSave();
       if (event == null) {
+        if (!mounted) return;
         BotToast.showText(text: S.of(context).Send_fail);
         return;
       }
-      if (event.kind == EventKind.DIRECT_MESSAGE) {
+      if (event.kind == EventKind.directMessage) {
         dmProvider.addEventAndUpdateReadedTime(detail!, event);
-      } else if (event.kind == EventKind.GIFT_WRAP) {
+      } else if (event.kind == EventKind.giftWrap) {
         giftWrapProvider.onEvent(event);
       }
 
