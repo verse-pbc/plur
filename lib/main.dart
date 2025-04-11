@@ -15,8 +15,9 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:flutter/services.dart' show rootBundle, ByteData;
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/styled_bot_toast.dart';
+import 'package:nostrmo/util/error_logger.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
@@ -52,10 +53,14 @@ import 'package:nostrmo/router/web_utils/web_utils_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:window_manager/window_manager.dart';
+
+// Conditionally import Sentry only on supported platforms
+// This prevents compile-time errors on iOS/macOS
+import 'dart:async';
+import 'sentry_import_helper.dart' if (dart.library.io) 'sentry_import_helper_stub.dart';
 
 import 'component/content/trie_text_matcher/trie_text_matcher.dart';
 import 'consts/base.dart';
@@ -269,6 +274,10 @@ Future<void> initializeProviders({bool isTesting = false}) async {
 
 Future<void> main() async {
   try {
+    // Initialize our comprehensive error logger
+    ErrorLogger.init();
+    log("Error logger initialized");
+    
     log("Starting application initialization");
     WidgetsFlutterBinding.ensureInitialized();
     log("Flutter binding initialized");
@@ -276,8 +285,8 @@ Future<void> main() async {
     try {
       MediaKit.ensureInitialized();
       log("MediaKit initialized");
-    } catch (e) {
-      log("MediaKit init error $e");
+    } catch (e, stack) {
+      ErrorLogger.logError("MediaKit initialization failed", e, stack);
     }
 
     // Using Google Fonts for font loading
@@ -629,7 +638,93 @@ class _MyApp extends State<MyApp> {
         theme: defaultTheme,
         child: MaterialApp(
           navigatorKey: MyApp.navigatorKey,
-          builder: BotToastInit(),
+          builder: (context, child) {
+            try {
+              // Wrap in a try-catch to ensure app continues even if BotToast fails
+              final botToastChild = BotToastInit()(context, child);
+              
+              // Clean up any existing BotToast cancel functions to prevent memory leaks
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                try {
+                  StyledBotToast.cleanUp();
+                } catch (e) {
+                  debugPrint("Error cleaning up toast: $e");
+                }
+              });
+              
+              // Wrap app in global error boundary
+              return ErrorBoundary(
+                errorBuilder: (error, stackTrace) {
+                  // Custom error view
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: const Text('Error Encountered'),
+                      backgroundColor: Colors.red[700],
+                    ),
+                    body: Container(
+                      padding: const EdgeInsets.all(16.0),
+                      child: ListView(
+                        children: [
+                          const Text(
+                            'An unexpected error occurred',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            error.toString(),
+                            style: const TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 8),
+                          if (stackTrace != null)
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                stackTrace.toString(),
+                                style: const TextStyle(
+                                  fontFamily: 'monospace',
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                RouterPath.index,
+                                (route) => false,
+                              );
+                            },
+                            child: const Text('Return to Home'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                child: botToastChild,
+              );
+            } catch (e, stack) {
+              // If BotToast initialization fails, continue without it
+              log(
+                'Error initializing BotToast: $e',
+                name: 'AppBuilder',
+                error: e,
+                stackTrace: stack,
+              );
+              
+              // Return the child wrapped in error boundary - ensure child is non-null
+              return ErrorBoundary(
+                child: child ?? const SizedBox(),
+              );
+            }
+          },
           navigatorObservers: [
             BotToastNavigatorObserver(),
             webViewProvider.webviewNavigatorObserver,
