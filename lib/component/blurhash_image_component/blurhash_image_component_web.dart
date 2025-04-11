@@ -24,7 +24,7 @@ Widget? genBlurhashImageWidget(
     try {
       return _buildWebBlurHashImage(fileMetadata, color, imageBoxFix);
     } catch (e) {
-      print("Web BlurHash error: $e");
+      // print("Web BlurHash error: $e");
     }
   }
   
@@ -54,7 +54,7 @@ Widget? _buildWebBlurHashImage(FileMetadata fileMetadata, Color color, BoxFit im
       return _processWebBlurhash(fileMetadata.blurhash!, width, height, aspectRatio, color, imageBoxFix);
     }
   } catch (e) {
-    print("Error processing web blurhash: $e");
+    // print("Error processing web blurhash: $e");
   }
   
   // Fallback if blurhash decoding fails
@@ -88,7 +88,7 @@ Widget _processWebBlurhash(String blurhash, int width, int height, double aspect
       }
     }
   } catch (e) {
-    print("Error creating web blurhash: $e");
+    // print("Error creating web blurhash: $e");
   }
   
   // If we reach here, something went wrong - return a fallback placeholder
@@ -130,7 +130,7 @@ dynamic _createWebBlurhashBytes(String blurhash, int width, int height) {
       return pngBytes;
             }
   } catch (e) {
-    print("Error in web blurhash processing: $e");
+    // print("Error in web blurhash processing: $e");
   }
   return null;
 }

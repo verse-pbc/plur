@@ -67,11 +67,11 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     Future.microtask(() {
       // Check if we already have data before re-initializing
       if (provider.notesBox.isEmpty()) {
-        print("Initializing feed provider - subscribing and querying");
+        // print("Initializing feed provider - subscribing and querying");
         provider.subscribe();
         provider.doQuery(null);
       } else {
-        print("Feed provider already has data - skipping initialization");
+        // print("Feed provider already has data - skipping initialization");
       }
       
       // Always mark as initialized
