@@ -402,7 +402,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         final dmDetail = dmProvider.findOrNewADetail(pubkey);
         
         // Navigate to the DM detail screen with the selected user
-        RouterUtil.router(context, RouterPath.DM_DETAIL, dmDetail);
+        RouterUtil.router(context, RouterPath.dmDetail, dmDetail);
       }
     });
   }
