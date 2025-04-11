@@ -748,15 +748,15 @@ class _MyApp extends State<MyApp> {
           initialRoute: RouterPath.index,
           routes: routes,
           onGenerateRoute: (settings) {
-            print("Generating route for: ${settings.name} with args: ${settings.arguments}");
+            // print("Generating route for: ${settings.name} with args: ${settings.arguments}");
             switch (settings.name) {
               case RouterPath.groupAdmin:
                 final groupId = settings.arguments as GroupIdentifier?;
                 if (groupId == null) {
-                  print("GROUP_ADMIN: groupId is null, returning null route");
+                  // print("GROUP_ADMIN: groupId is null, returning null route");
                   return null;
                 }
-                print("GROUP_ADMIN: Creating route with groupId: $groupId");
+                // print("GROUP_ADMIN: Creating route with groupId: $groupId");
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: groupId,

@@ -96,21 +96,21 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   
   void doQuery(int? until) {
     // Log initialization
-    print("GroupFeedProvider.doQuery called with until=$until");
+    // print("GroupFeedProvider.doQuery called with until=$until");
     
     // Don't allow rapid duplicate queries
     final now = DateTime.now();
     if (_lastQueryTime != null) {
       final diffMs = now.difference(_lastQueryTime!).inMilliseconds;
       if (diffMs < _queryThrottleMs) {
-        log("Query throttled, last query was $diffMs ms ago");
+        // log("Query throttled, last query was $diffMs ms ago");
         return;
       }
     }
     _lastQueryTime = now;
     
     final groupIds = _listProvider.groupIdentifiers;
-    print("Querying for ${groupIds.length} groups: ${groupIds.map((g) => g.groupId).join(', ')}");
+    // print("Querying for ${groupIds.length} groups: ${groupIds.map((g) => g.groupId).join(', ')}");
     
     if (groupIds.isEmpty) {
       // If no groups, set loading to false to update the UI
@@ -123,7 +123,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     
     // Restore cached events if we have any
     if (notesBox.isEmpty() && _staticEventCache.isNotEmpty) {
-      log("Restoring ${_staticEventCache.length} events from cache");
+      // log("Restoring ${_staticEventCache.length} events from cache");
       for (var event in _staticEventCache.values) {
         notesBox.add(event);
       }
@@ -150,7 +150,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     }).toList();
 
     // Log query
-    print("Querying default relay with ${filters.length} filters");
+    // print("Querying default relay with ${filters.length} filters");
     
     // Query the default relay for all groups to get initial results quickly
     try {
@@ -162,14 +162,14 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         sendAfterAuth: true,
       );
     } catch (e) {
-      print("Error querying default relay: $e");
+      // print("Error querying default relay: $e");
     }
     
     // Batch queries to group-specific relays to reduce network overhead
     // Use a delay to allow the UI to respond first with the default relay results
     Future.delayed(const Duration(milliseconds: 100), () {
       for (final groupId in groupIds) {
-        print("Querying specific relay ${groupId.host} for group ${groupId.groupId}");
+        // print("Querying specific relay ${groupId.host} for group ${groupId.groupId}");
         
         final specificFilter = Filter(
           until: until ?? _initTime,
@@ -190,7 +190,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
             sendAfterAuth: true,
           );
         } catch (e) {
-          print("Error querying relay ${groupId.host}: $e");
+          // print("Error querying relay ${groupId.host}: $e");
         }
       }
       
@@ -208,7 +208,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   void onEvent(Event event) {
     // Log event received
     if (isLoading) {
-      print("GroupFeedProvider received event while loading: ${event.id} type=${event.kind}");
+      // print("GroupFeedProvider received event while loading: ${event.id} type=${event.kind}");
     }
     
     later(event, (list) {
@@ -228,7 +228,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       }
 
       if (eventCount > 0) {
-        print("Processed $eventCount events, added $noteAdded new events. Current total: ${notesBox.length()}");
+        // print("Processed $eventCount events, added $noteAdded new events. Current total: ${notesBox.length()}");
       }
 
       // If we received events and we're still in loading state, set loading to false
@@ -260,7 +260,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   }
 
   void refresh() {
-    print("GroupFeedProvider.refresh() called");
+    // print("GroupFeedProvider.refresh() called");
     
     // Set loading state first
     isLoading = true;
@@ -329,7 +329,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         sendAfterAuth: true,
       );
     } catch (e) {
-      log("Error in subscription to default relay: $e");
+      // log("Error in subscription to default relay: $e");
     }
     
     // Subscribe to each group's specific relay
@@ -351,16 +351,16 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
           sendAfterAuth: true,
         );
       } catch (e) {
-        log("Error in subscription to group relay ${groupId.host}: $e");
+        // log("Error in subscription to group relay ${groupId.host}: $e");
       }
     }
   }
 
   void _handleSubscriptionEvent(Event event) {
-    print("Subscription received event: ${event.id} kind=${event.kind}");
+    // print("Subscription received event: ${event.id} kind=${event.kind}");
     
     later(event, (list) {
-      print("Processing ${list.length} events from subscription");
+      // print("Processing ${list.length} events from subscription");
       for (final e in list) {
         onNewEvent(e);
       }
@@ -384,7 +384,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       
       _isSubscribed = false;
     } catch (e) {
-      log("Error unsubscribing: $e");
+      // log("Error unsubscribing: $e");
     }
   }
 }
