@@ -4,224 +4,263 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/util/time_util.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
 
-/// Provider that handles fetching and managing events from multiple joined communities
-class GroupFeedProvider extends ChangeNotifier {
-  final EventMemBox notesBox = EventMemBox();
-  final EventMemBox newNotesBox = EventMemBox();
+/// Provider that fetches and manages posts from all groups a user belongs to.
+class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
+  late int _initTime;
   
-  final String _subscribeId = StringUtil.rndNameStr(16);
+  /// Holds the latest posts from all groups
+  EventMemBox notesBox = EventMemBox(sortAfterAdd: false);
+  
+  /// Holds new posts that have been received but not yet shown in the main feed
+  EventMemBox newNotesBox = EventMemBox(sortAfterAdd: false);
+
+  final ListProvider _listProvider;
+  final String subscribeId = StringUtil.rndNameStr(16);
   bool _isSubscribed = false;
   
-  // Used to store group identifiers to track which communities' posts to fetch
-  final Set<GroupIdentifier> _groupIdentifiers = {};
-  
-  // For testing
-  Set<GroupIdentifier> get groupIdentifiers => _groupIdentifiers;
-  
-  // For testing purposes
-  ListProvider? _testListProvider;
-  
-  // Getter for list provider (allows for testing)
-  ListProvider get _listProvider => _testListProvider ?? listProvider;
-  
-  // For testing
-  void setListProvider(ListProvider provider) {
-    _testListProvider = provider;
+  /// Indicates whether the provider is currently loading initial events
+  bool isLoading = true;
+
+  GroupFeedProvider(this._listProvider) {
+    _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    
+    // Set a timeout to stop showing the loading indicator after 3 seconds
+    // even if no events are received
+    Future.delayed(const Duration(seconds: 3), () {
+      if (isLoading) {
+        isLoading = false;
+        notifyListeners();
+      }
+    });
   }
-  
-  // Initial load
-  void refresh() {
-    // Clear existing data
-    notesBox.clear();
+
+  void clear() {
+    clearData();
+  }
+
+  void clearData() {
     newNotesBox.clear();
-    
-    // Get groups from list provider
-    _groupIdentifiers.clear();
-    _groupIdentifiers.addAll(_listProvider.groupIdentifiers);
-    
-    // If we have groups, query for events
-    if (_groupIdentifiers.isNotEmpty) {
-      _doInitialQuery();
-      _subscribe();
+    notesBox.clear();
+  }
+
+  @override
+  void dispose() {
+    _unsubscribe();
+    disposeLater();
+    super.dispose();
+  }
+
+  void onNewEvent(Event e) {
+    if (e.kind == EventKind.groupNote || e.kind == EventKind.groupNoteReply) {
+      if (!notesBox.contains(e.id)) {
+        if (newNotesBox.add(e)) {
+          if (e.createdAt > _initTime) {
+            _initTime = e.createdAt;
+          }
+          if (e.pubkey == nostr!.publicKey) {
+            mergeNewEvent();
+          } else {
+            notifyListeners();
+          }
+        }
+      }
     }
-    
+  }
+
+  void mergeNewEvent() {
+    final isEmpty = newNotesBox.isEmpty();
+    if (isEmpty) {
+      return;
+    }
+    notesBox.addBox(newNotesBox);
+    newNotesBox.clear();
+    notesBox.sort();
     notifyListeners();
   }
-  
-  void _doInitialQuery() {
-    if (_groupIdentifiers.isEmpty) {
-      log("No groups to query events for");
+
+  void doQuery(int? until) {
+    final groupIds = _listProvider.groupIdentifiers;
+    if (groupIds.isEmpty) {
       return;
     }
-    
-    log("Querying for events from ${_groupIdentifiers.length} groups");
-    
-    // Create filters to get GROUP_NOTE events from all joined communities
-    final List<Map<String, dynamic>> filters = [];
-    
-    // Group h-tags together to reduce the number of filters
-    final List<String> groupIds = _groupIdentifiers.map((gi) => gi.groupId).toList();
-    
-    // Create a filter for GROUP_NOTE events
-    filters.add({
-      "kinds": [EventKind.groupNote],
-      "#h": groupIds,
-      "limit": 50,
-    });
-    
-    // Create a filter for GROUP_NOTE_REPLY events
-    filters.add({
-      "kinds": [EventKind.groupNoteReply],
-      "#h": groupIds,
-      "limit": 50,
-    });
-    
+
+    final filters = groupIds.map((groupId) {
+      final filter = Filter(
+        until: until ?? _initTime,
+        kinds: [EventKind.groupNote, EventKind.groupNoteReply],
+      );
+      final jsonMap = filter.toJson();
+      jsonMap["#h"] = [groupId.groupId];
+      return jsonMap;
+    }).toList();
+
+    // Query the default relay for all groups
     nostr!.query(
       filters,
-      _onQueryEvent,
+      onEvent,
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: [RelayType.temp],
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
-  }
-  
-  // Used for pagination
-  void doQuery(int until) {
-    if (_groupIdentifiers.isEmpty) {
-      return;
+    
+    // Also query each group's specific relay
+    for (final groupId in groupIds) {
+      final specificFilter = Filter(
+        until: until ?? _initTime,
+        kinds: [EventKind.groupNote, EventKind.groupNoteReply],
+      );
+      final jsonMap = specificFilter.toJson();
+      jsonMap["#h"] = [groupId.groupId];
+      
+      // Query the specific relay for this group
+      nostr!.query(
+        [jsonMap],
+        onEvent,
+        tempRelays: [groupId.host],
+        relayTypes: RelayType.onlyTemp,
+        sendAfterAuth: true,
+      );
     }
-    
-    // Create filters for pagination (similar to initial query but with until param)
-    final List<Map<String, dynamic>> filters = [];
-    final List<String> groupIds = _groupIdentifiers.map((gi) => gi.groupId).toList();
-    
-    filters.add({
-      "kinds": [EventKind.groupNote],
-      "#h": groupIds,
-      "until": until,
-      "limit": 50,
-    });
-    
-    filters.add({
-      "kinds": [EventKind.groupNoteReply],
-      "#h": groupIds,
-      "until": until,
-      "limit": 50,
-    });
-    
-    nostr!.query(
-      filters,
-      _onQueryEvent,
-      tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: [RelayType.temp],
-      sendAfterAuth: true,
-    );
   }
-  
-  void _onQueryEvent(Event event) {
-    // Only add events that belong to our groups
-    if (isGroupEvent(event)) {
-      notesBox.add(event);
+
+  void onEvent(Event event) {
+    later(event, (list) {
+      bool noteAdded = false;
+
+      for (var e in list) {
+        if (isGroupNote(e)) {
+          if (notesBox.add(e)) {
+            noteAdded = true;
+          }
+        }
+      }
+
+      // If we received events and we're still in loading state, set loading to false
+      if (isLoading) {
+        isLoading = false;
+        notifyListeners();
+      } else if (noteAdded) {
+        notesBox.sort();
+        notifyListeners();
+      }
+    }, null);
+  }
+
+  bool isGroupNote(Event e) {
+    return e.kind == EventKind.groupNote || e.kind == EventKind.groupNoteReply;
+  }
+
+  void deleteEvent(Event e) {
+    var id = e.id;
+    if (isGroupNote(e)) {
+      newNotesBox.delete(id);
+      notesBox.delete(id);
+      notesBox.sort();
       notifyListeners();
     }
   }
-  
-  // Live subscription for new events
+
+  void refresh() {
+    clearData();
+    _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    doQuery(null);
+    _subscribe();
+  }
+
+  void subscribe() {
+    if (!_isSubscribed) {
+      _subscribe();
+      _isSubscribed = true;
+    }
+  }
+
   void _subscribe() {
-    // If already subscribed, unsubscribe first
-    if (_isSubscribed) {
+    if (StringUtil.isNotBlank(subscribeId)) {
       _unsubscribe();
     }
-    
-    if (_groupIdentifiers.isEmpty) {
+
+    final groupIds = _listProvider.groupIdentifiers;
+    if (groupIds.isEmpty) {
       return;
     }
+
+    final currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     
-    final currentTime = currentUnixTimestamp();
-    final List<String> groupIds = _groupIdentifiers.map((gi) => gi.groupId).toList();
-    
-    final filters = [
-      {
-        "kinds": [EventKind.groupNote],
-        "#h": groupIds,
-        "since": currentTime,
-      },
-      {
-        "kinds": [EventKind.groupNoteReply],
-        "#h": groupIds,
-        "since": currentTime,
-      }
-    ];
-    
+    // Create a filter for each group
+    final filters = groupIds.map((groupId) {
+      return {
+        "kinds": [EventKind.groupNote, EventKind.groupNoteReply],
+        "#h": [groupId.groupId],
+        "since": currentTime
+      };
+    }).toList();
+
+    // Subscribe to the default relay for all groups
     try {
       nostr!.subscribe(
         filters,
-        _handleNewEvent,
-        id: _subscribeId,
+        _handleSubscriptionEvent,
+        id: "${subscribeId}_default",
         relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );
-      _isSubscribed = true;
     } catch (e) {
-      log("Error in subscription: $e");
+      log("Error in subscription to default relay: $e");
     }
-  }
-  
-  void _unsubscribe() {
-    if (_isSubscribed) {
+    
+    // Subscribe to each group's specific relay
+    for (int i = 0; i < groupIds.length; i++) {
+      final groupId = groupIds[i];
       try {
-        nostr!.unsubscribe(_subscribeId);
-        _isSubscribed = false;
+        final filter = {
+          "kinds": [EventKind.groupNote, EventKind.groupNoteReply],
+          "#h": [groupId.groupId],
+          "since": currentTime
+        };
+        
+        nostr!.subscribe(
+          [filter],
+          _handleSubscriptionEvent,
+          id: "${subscribeId}_${i}",
+          relayTypes: [RelayType.temp],
+          tempRelays: [groupId.host],
+          sendAfterAuth: true,
+        );
       } catch (e) {
-        log("Error unsubscribing: $e");
+        log("Error in subscription to group relay ${groupId.host}: $e");
       }
     }
   }
-  
-  void _handleNewEvent(Event event) {
-    // Add new events to the new notes box
-    if (isGroupEvent(event)) {
-      newNotesBox.add(event);
-      notifyListeners();
-    }
-  }
-  
-  // Merge new events into the main box when user refreshes
-  void mergeNewEvent() {
-    var events = newNotesBox.all();
-    for (var event in events) {
-      notesBox.add(event);
-    }
-    newNotesBox.clear();
-    notifyListeners();
-  }
-  
-  // Check if event belongs to one of our groups
-  bool isGroupEvent(Event event) {
-    if (event.kind != EventKind.groupNote && event.kind != EventKind.groupNoteReply) {
-      return false;
-    }
-    
-    // Look for the h tag to identify the group
-    for (var tag in event.tags) {
-      if (tag is List && tag.length > 1 && tag[0] == 'h') {
-        final groupId = tag[1];
-        // Check if this is one of our groups
-        return _groupIdentifiers.any((gi) => gi.groupId == groupId);
+
+  void _handleSubscriptionEvent(Event event) {
+    later(event, (list) {
+      for (final e in list) {
+        onNewEvent(e);
       }
-    }
-    
-    return false;
+    }, null);
   }
-  
-  // Cleanup
-  @override
-  void dispose() {
-    _unsubscribe();
-    super.dispose();
+
+  void _unsubscribe() {
+    try {
+      // Unsubscribe from default relay subscription
+      nostr!.unsubscribe("${subscribeId}_default");
+      
+      // Unsubscribe from individual group relay subscriptions
+      final groupIds = _listProvider.groupIdentifiers;
+      for (int i = 0; i < groupIds.length; i++) {
+        try {
+          nostr!.unsubscribe("${subscribeId}_${i}");
+        } catch (e) {
+          // Ignore errors for individual unsubscribes
+        }
+      }
+      
+      _isSubscribed = false;
+    } catch (e) {
+      log("Error unsubscribing: $e");
+    }
   }
 }
