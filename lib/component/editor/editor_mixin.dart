@@ -105,9 +105,16 @@ mixin EditorMixin {
     var mainColor = themeData.primaryColor;
     var groupIdentifier = getGroupIdentifier();
 
-    List<Widget> inputBtnList = [];
+    // Organize buttons into categories for better UX
+    List<Widget> mediaButtons = [];
+    List<Widget> emojiButtons = [];
+    List<Widget> mentionButtons = [];
+    List<Widget> formatButtons = [];
+    List<Widget> otherButtons = [];
+    
+    // DM encryption button
     if (isDM() && groupIdentifier == null) {
-      inputBtnList.add(quill.QuillToolbarIconButton(
+      otherButtons.add(quill.QuillToolbarIconButton(
         onPressed: changePrivateDM,
         icon: Icon(Icons.enhanced_encryption,
             color: openPrivateDM ? mainColor : null),
@@ -118,7 +125,9 @@ mixin EditorMixin {
             : localization.Open_Private_DM,
       ));
     }
-    inputBtnList.add(quill.QuillToolbarIconButton(
+    
+    // Media buttons
+    mediaButtons.add(quill.QuillToolbarIconButton(
       onPressed: pickImage,
       icon: const Icon(Icons.image),
       isSelected: false,
@@ -126,14 +135,14 @@ mixin EditorMixin {
       tooltip: localization.Image_or_Video,
     ));
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      inputBtnList.add(quill.QuillToolbarIconButton(
+      mediaButtons.add(quill.QuillToolbarIconButton(
         onPressed: takeAPhoto,
         icon: const Icon(Icons.camera),
         isSelected: false,
         iconTheme: null,
         tooltip: localization.Take_photo,
       ));
-      inputBtnList.add(quill.QuillToolbarIconButton(
+      mediaButtons.add(quill.QuillToolbarIconButton(
         onPressed: tackAVideo,
         icon: const Icon(Icons.video_call),
         isSelected: false,
@@ -141,42 +150,41 @@ mixin EditorMixin {
         tooltip: localization.Take_video,
       ));
     }
+    
+    // Emoji buttons
     if (!isLongForm()) {
-      inputBtnList.addAll([
-        quill.QuillToolbarIconButton(
-          onPressed: customEmojiSelect,
-          icon: const Icon(Icons.add_reaction_outlined),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Custom_Emoji,
-        ),
-        quill.QuillToolbarIconButton(
-          onPressed: emojiBeginToSelect,
-          icon: const Icon(Icons.tag_faces),
-          isSelected: false,
-          iconTheme: null,
-          tooltip: localization.Emoji,
-        ),
-      ]);
+      emojiButtons.add(quill.QuillToolbarIconButton(
+        onPressed: customEmojiSelect,
+        icon: const Icon(Icons.add_reaction_outlined),
+        isSelected: false,
+        iconTheme: null,
+        tooltip: localization.Custom_Emoji,
+      ));
+      emojiButtons.add(quill.QuillToolbarIconButton(
+        onPressed: emojiBeginToSelect,
+        icon: const Icon(Icons.tag_faces),
+        isSelected: false,
+        iconTheme: null,
+        tooltip: localization.Emoji,
+      ));
     }
-    inputBtnList.addAll([
-      quill.QuillToolbarIconButton(
-        onPressed: _inputMentionUser,
-        icon: const Icon(Icons.alternate_email_sharp),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Mention_User,
-      ),
-      quill.QuillToolbarIconButton(
-        onPressed: _inputMentionEvent,
-        icon: const Icon(Icons.format_quote),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.Quote,
-      ),
-    ]);
-
-    inputBtnList.add(quill.QuillToolbarIconButton(
+    
+    // Mention buttons
+    mentionButtons.add(quill.QuillToolbarIconButton(
+      onPressed: _inputMentionUser,
+      icon: const Icon(Icons.alternate_email_sharp),
+      isSelected: false,
+      iconTheme: null,
+      tooltip: localization.Mention_User,
+    ));
+    mentionButtons.add(quill.QuillToolbarIconButton(
+      onPressed: _inputMentionEvent,
+      icon: const Icon(Icons.format_quote),
+      isSelected: false,
+      iconTheme: null,
+      tooltip: localization.Quote,
+    ));
+    mentionButtons.add(quill.QuillToolbarIconButton(
       onPressed: _inputTag,
       icon: const Icon(Icons.tag),
       isSelected: false,
@@ -184,7 +192,8 @@ mixin EditorMixin {
       tooltip: localization.Hashtag,
     ));
 
-    inputBtnList.add(quill.QuillToolbarIconButton(
+    // Format buttons
+    formatButtons.add(quill.QuillToolbarIconButton(
       onPressed: _inputLnbc,
       icon: const Icon(Icons.bolt),
       isSelected: false,
@@ -193,7 +202,7 @@ mixin EditorMixin {
     ));
 
     if (!isDM()) {
-      inputBtnList.add(quill.QuillToolbarIconButton(
+      formatButtons.add(quill.QuillToolbarIconButton(
         onPressed: openZapSplitTap,
         icon: ZapSplitIconWidget(
           themeData.textTheme.bodyLarge!.fontSize!,
@@ -204,7 +213,7 @@ mixin EditorMixin {
         tooltip: localization.Split_and_Transfer_Zap,
       ));
 
-      inputBtnList.add(
+      formatButtons.add(
         quill.QuillToolbarIconButton(
           onPressed: _addWarning,
           icon: Icon(Icons.warning, color: showWarning ? Colors.red : null),
@@ -214,7 +223,7 @@ mixin EditorMixin {
         ),
       );
       if (!isLongForm()) {
-        inputBtnList.add(quill.QuillToolbarIconButton(
+        formatButtons.add(quill.QuillToolbarIconButton(
           onPressed: _addTitle,
           icon: Icon(Icons.title, color: showTitle ? mainColor : null),
           isSelected: false,
@@ -224,7 +233,7 @@ mixin EditorMixin {
       }
 
       if (groupIdentifier == null && !isLongForm()) {
-        inputBtnList.add(quill.QuillToolbarIconButton(
+        otherButtons.add(quill.QuillToolbarIconButton(
           onPressed: selectedTime,
           icon: Icon(Icons.timer_outlined,
               color: publishAt != null ? mainColor : null),
@@ -234,21 +243,22 @@ mixin EditorMixin {
         ));
       }
     }
+    
+    // Advanced format buttons
     if (!isDM() &&
         getTags().isEmpty &&
         getTagsAddedWhenSend().isEmpty &&
         groupIdentifier == null &&
         !isLongForm()) {
       // isn't dm and reply and longForm
-
-      inputBtnList.add(quill.QuillToolbarIconButton(
+      otherButtons.add(quill.QuillToolbarIconButton(
         onPressed: _inputPoll,
         icon: Icon(Icons.poll, color: inputPoll ? mainColor : null),
         isSelected: false,
         iconTheme: null,
         tooltip: localization.Poll,
       ));
-      inputBtnList.add(quill.QuillToolbarIconButton(
+      otherButtons.add(quill.QuillToolbarIconButton(
         onPressed: _inputGoal,
         icon: Icon(Icons.trending_up, color: inputZapGoal ? mainColor : null),
         isSelected: false,
@@ -257,6 +267,49 @@ mixin EditorMixin {
       ));
     }
 
+    // Add section dividers - create a function to build a divider
+    Widget buildDivider() {
+      return Container(
+        height: 24,
+        width: 1,
+        margin: const EdgeInsets.symmetric(horizontal: 8),
+        color: themeData.dividerColor.withOpacity(0.5),
+      );
+    }
+
+    // Combine all button groups with dividers between them
+    List<Widget> inputBtnList = [];
+    
+    // Add media buttons with divider
+    if (mediaButtons.isNotEmpty) {
+      inputBtnList.addAll(mediaButtons);
+      inputBtnList.add(buildDivider());
+    }
+    
+    // Add emoji buttons with divider
+    if (emojiButtons.isNotEmpty) {
+      inputBtnList.addAll(emojiButtons);
+      inputBtnList.add(buildDivider());
+    }
+    
+    // Add mention buttons with divider
+    if (mentionButtons.isNotEmpty) {
+      inputBtnList.addAll(mentionButtons);
+      inputBtnList.add(buildDivider());
+    }
+    
+    // Add format buttons with divider
+    if (formatButtons.isNotEmpty) {
+      inputBtnList.addAll(formatButtons);
+      inputBtnList.add(buildDivider());
+    }
+    
+    // Add other buttons
+    if (otherButtons.isNotEmpty) {
+      inputBtnList.addAll(otherButtons);
+    }
+
+    // Add padding at the end
     inputBtnList.add(
       Container(
         width: Base.basePadding,
