@@ -138,99 +138,115 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
       body: SafeArea(
         child: isLoading 
           ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    localization.Invite_people_to_join,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: customColors.primaryForegroundColor,
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                // Use LayoutBuilder to get the available constraints
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
+                      minWidth: constraints.maxWidth,
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Container(
-                    width: double.infinity, // Ensure container has width
-                    constraints: const BoxConstraints(minHeight: 56), // Ensure minimum height
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    decoration: BoxDecoration(
-                      color: customColors.feedBgColor,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            inviteLink.isNotEmpty ? inviteLink : localization.Loading,
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min, // Important: Use mainAxisSize.min
+                        children: [
+                          Text(
+                            localization.Invite_people_to_join,
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                               color: customColors.primaryForegroundColor,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
                           ),
-                        ),
-                        const SizedBox(width: 8), // Add spacing
-                        IconButton(
-                          icon: Icon(
-                            Icons.copy,
-                            color: customColors.accentColor,
-                          ),
-                          onPressed: inviteLink.isNotEmpty ? () {
-                            Clipboard.setData(ClipboardData(text: inviteLink));
-                            BotToast.showText(
-                              text: localization.Copy_success,
-                            );
-                          } : null, // Disable if no link
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Text(
-                    localization.Share_invite_description,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: customColors.secondaryForegroundColor,
-                    ),
-                  ),
-                  
-                  // Add Create Post button if requested
-                  if (widget.showCreatePostButton) ...[
-                    const SizedBox(height: 40),
-                    Center(
-                      child: SizedBox(
-                        width: double.infinity, // Ensure the widget has a defined width
-                        child: ElevatedButton(
-                          onPressed: () {
-                            RouterUtil.back(context);
-                            RouterUtil.router(context, RouterPath.groupDetail, groupId);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: themeData.primaryColor,
-                            foregroundColor: customColors.buttonTextColor,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
+                          const SizedBox(height: 20),
+                          Container(
+                            width: double.infinity, // Ensure container has width
+                            constraints: const BoxConstraints(minHeight: 56), // Ensure minimum height
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            decoration: BoxDecoration(
+                              color: customColors.feedBgColor,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                          ),
-                          child: Text(
-                            'Create your first post',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    inviteLink.isNotEmpty ? inviteLink : localization.Loading,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: customColors.primaryForegroundColor,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 2,
+                                  ),
+                                ),
+                                const SizedBox(width: 8), // Add spacing
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.copy,
+                                    color: customColors.accentColor,
+                                  ),
+                                  onPressed: inviteLink.isNotEmpty ? () {
+                                    Clipboard.setData(ClipboardData(text: inviteLink));
+                                    BotToast.showText(
+                                      text: localization.Copy_success,
+                                    );
+                                  } : null, // Disable if no link
+                                ),
+                              ],
                             ),
                           ),
-                        ),
+                          const SizedBox(height: 40),
+                          Text(
+                            localization.Share_invite_description,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: customColors.secondaryForegroundColor,
+                            ),
+                          ),
+                          
+                          // Add Create Post button if requested
+                          if (widget.showCreatePostButton) ...[
+                            const SizedBox(height: 40),
+                            Center(
+                              child: SizedBox(
+                                width: double.infinity, // Ensure the widget has a defined width
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    RouterUtil.back(context);
+                                    RouterUtil.router(context, RouterPath.groupDetail, groupId);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: themeData.primaryColor,
+                                    foregroundColor: customColors.buttonTextColor,
+                                    padding: const EdgeInsets.symmetric(vertical: 12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Create your first post',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                          // Add bottom padding
+                          const SizedBox(height: 20),
+                        ],
                       ),
                     ),
-                  ],
-                ],
-              ),
+                  ),
+                );
+              },
             ),
       ),
     );
