@@ -28,6 +28,7 @@ import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
+import '../group/all_group_posts_widget.dart';
 import '../group/create_community_dialog.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
@@ -180,7 +181,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     if (indexProvider.currentTap == 0) {
       appBarCenter = Center(
         child: Text(
-          localization.Your_Groups,
+          localization.Communities,
           style: titleTextStyle,
         ),
       );
@@ -251,6 +252,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         index: indexProvider.currentTap,
         children: [
           const CommunitiesScreen(),
+          const AllGroupPostsWidget(),
           DMWidget(
             tabController: dmTabController,
           ),
