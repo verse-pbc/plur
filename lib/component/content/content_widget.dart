@@ -548,7 +548,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               height: contentImageListHeight,
               width: contentImageListHeight,
               fileMetadata: getFileMetadata(image),
-              // imageBoxFix: BoxFit.fitWidth,
+              imageBoxFix: BoxFit.cover,
             ),
           ),
         ));
@@ -608,12 +608,48 @@ class _ContentWidgetState extends State<ContentWidget> {
             bufferToList(buffer, currentList, images, removeLastSpan: true);
             currentList.add(WidgetSpan(child: imagePlaceholder));
           } else {
-            // show image in content
+            // Get file metadata for the image - similar to DMDetailItemWidget approach
+            final fileMetadata = getFileMetadata(str);
+            
+            // Calculate dimensions based on metadata if available
+            double? width;
+            double? height;
+            
+            // Use dimensions from metadata if available, like DMDetailItemWidget does
+            if (fileMetadata != null && StringUtil.isNotBlank(fileMetadata.dim)) {
+              final dimensions = fileMetadata.dim;
+              final parts = dimensions!.split('x');
+              if (parts.length == 2) {
+                try {
+                  final originalWidth = int.parse(parts[0]);
+                  final originalHeight = int.parse(parts[1]);
+                  
+                  // Calculate aspect ratio
+                  final aspectRatio = originalWidth / originalHeight;
+                  
+                  // Set reasonable dimensions with proper aspect ratio
+                  width = 300; // Default max width
+                  height = width / aspectRatio;
+                  
+                  // Cap height if it gets too tall
+                  if (height > 400) {
+                    height = 400;
+                    width = height * aspectRatio;
+                  }
+                } catch (e) {
+                  // Parsing error, use defaults (null will use default in ContentImageWidget)
+                }
+              }
+            }
+            
+            // Show image in content with improved dimensions
             var imageWidget = ContentImageWidget(
               imageUrl: str,
               imageList: images,
               imageIndex: images.length - 1,
-              fileMetadata: getFileMetadata(str),
+              fileMetadata: fileMetadata,
+              width: width,
+              height: height,
             );
 
             bufferToList(buffer, currentList, images, removeLastSpan: true);
@@ -1295,9 +1331,65 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
   }
 
-  getFileMetadata(String image) {
-    if (widget.eventRelation != null) {
-      return widget.eventRelation!.fileMetadatas[image];
+  // Enhanced FileMetadata method that works like the DMDetailItemWidget implementation
+  getFileMetadata(String imageUrl) {
+    // First check if we already have metadata from eventRelation
+    if (widget.eventRelation != null && 
+        widget.eventRelation!.fileMetadatas.containsKey(imageUrl)) {
+      return widget.eventRelation!.fileMetadatas[imageUrl];
     }
+    
+    // If no metadata exists via eventRelation, try to extract it directly from the event
+    // This is the crucial part that makes it work like the group chat implementation
+    if (widget.event != null) {
+      String? blurhash;
+      String? dimensions;
+      
+      // Look for imeta tags with metadata about this image
+      for (final tag in widget.event!.tags) {
+        if (tag.isNotEmpty && tag[0] == "imeta" && tag.length > 1) {
+          // Check if this imeta tag is for our image
+          bool isForThisImage = false;
+          
+          // Parse the imeta tag data to see if it's for this URL
+          for (int i = 1; i < tag.length; i++) {
+            String item = tag[i];
+            if (item.startsWith("url ")) {
+              final url = item.substring(4).trim();
+              if (url == imageUrl) {
+                isForThisImage = true;
+              }
+            }
+          }
+          
+          // If this imeta tag is for our image, extract metadata
+          if (isForThisImage) {
+            for (int i = 1; i < tag.length; i++) {
+              String item = tag[i];
+              if (item.startsWith("blurhash ")) {
+                blurhash = item.substring(9).trim();
+              } else if (item.startsWith("dim ")) {
+                dimensions = item.substring(4).trim();
+              }
+            }
+            
+            // Create a FileMetadata object if we found useful data
+            if (blurhash != null || dimensions != null) {
+              return FileMetadata(
+                imageUrl,
+                "image/jpeg", // Assume JPEG as default type
+                blurhash: blurhash,
+                dim: dimensions,
+              );
+            }
+            
+            break; // Found the right imeta tag, no need to keep looking
+          }
+        }
+      }
+    }
+    
+    // Return null if no metadata found
+    return null;
   }
 }
