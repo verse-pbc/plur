@@ -1,5 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -114,12 +115,36 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Top spacing
     mainList.add(Expanded(flex: 1, child: Container()));
 
-    // Logo
-    mainList.add(Image.asset(
-      "assets/imgs/landing/logo.png",
-      width: 162,
-      height: 82,
-    ));
+    // Logo with fallback
+    mainList.add(
+      SizedBox(
+        width: 162,
+        height: 82,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Image.asset(
+              "assets/imgs/landing/logo.png",
+              width: 162,
+              height: 82,
+              errorBuilder: (context, error, stackTrace) {
+                // Fallback text if image fails to load
+                return Center(
+                  child: Text(
+                    "PLUR",
+                    style: TextStyle(
+                      color: accentColor,
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
 
     // Title text "Communities"
     mainList.add(Container(
@@ -443,22 +468,39 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   /// Navigates to the Signup screen.
   Future<void> _navigateToSignup() async {
-    final privateKey = await Navigator.of(context).pushNamed(RouterPath.onboarding);
-    if (privateKey != null && privateKey is String) {
-      _doPreLogin();
+    final userData = await Navigator.of(context).pushNamed(RouterPath.onboarding);
+    if (userData != null && userData is Map<String, String>) {
+      final privateKey = userData['privateKey'];
+      final userName = userData['userName'];
+      
+      if (privateKey != null && privateKey.isNotEmpty) {
+        _doPreLogin();
 
-      // Store the private key and generate Nostr instance
-      settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
-      nostr = await relayProvider.genNostrWithKey(privateKey);
+        // Store the private key and generate Nostr instance
+        settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
+        nostr = await relayProvider.genNostrWithKey(privateKey);
+        
+        // Set the user's name/nickname in metadata if provided
+        if (userName != null && userName.isNotEmpty && nostr != null) {
+          try {
+            // We'll update the user metadata after login through the userProvider
+            // This just stores the name for now
+            userProvider.userName = userName;
+          } catch (e) {
+            // Silently handle any errors
+            debugPrint("Error storing initial username: $e");
+          }
+        }
 
-      if (backAfterLogin && mounted) {
-        RouterUtil.back(context);
+        if (backAfterLogin && mounted) {
+          RouterUtil.back(context);
+        }
+
+        // Update UI and mark as first login to properly download contact data
+        settingsProvider.notifyListeners();
+        firstLogin = true;
+        indexProvider.setCurrentTap(0);
       }
-
-      // Update UI and mark as first login to properly download contact data
-      settingsProvider.notifyListeners();
-      firstLogin = true;
-      indexProvider.setCurrentTap(0);
     }
   }
 

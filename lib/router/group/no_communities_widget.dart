@@ -67,6 +67,13 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                             "assets/imgs/welcome_groups.png",
                             width: 120,
                             height: 120,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(
+                                Icons.group,
+                                size: 120,
+                                color: themeData.customColors.dimmedColor,
+                              );
+                            },
                           ),
                         ),
                       ),

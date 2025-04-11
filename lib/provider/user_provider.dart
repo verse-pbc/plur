@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/nip05status.dart';
@@ -18,6 +19,54 @@ class UserProvider extends ChangeNotifier with LaterFunction {
   final Map<String, int> _handingPubkeys = {};
 
   final Map<String, ContactList> _contactListMap = {};
+  
+  // Used to store the initial username during signup
+  String? _initialUserName;
+  
+  /// Sets the initial username for a new user account
+  set userName(String name) {
+    _initialUserName = name;
+    
+    // If we have nostr already, update the metadata
+    if (nostr != null) {
+      try {
+        // Create metadata with the username
+        var metadata = <String, dynamic>{
+          'name': name,
+          'display_name': name,
+        };
+        
+        // Create and publish the metadata event
+        var content = jsonEncode(metadata);
+        // Use Event.create for named parameters
+        var event = Event.create(
+          pubkey: nostr!.publicKey,
+          kind: EventKind.metadata,
+          content: content,
+          tags: [],
+          createdAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
+        );
+        nostr!.sendEvent(event);
+        
+        // Also update the local cache
+        if (nostr!.publicKey.isNotEmpty) {
+          final user = _userCache[nostr!.publicKey] ?? User();
+          user.pubkey = nostr!.publicKey;
+          user.name = name;
+          user.displayName = name;
+          user.updatedAt = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+          _userCache[nostr!.publicKey] = user;
+          
+          // Save to database
+          UserDB.update(user);
+          
+          notifyListeners();
+        }
+      } catch (e) {
+        debugPrint("Error updating metadata: $e");
+      }
+    }
+  }
 
   static UserProvider? _userProvider;
 
