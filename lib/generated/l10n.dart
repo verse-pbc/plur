@@ -680,10 +680,10 @@ class S {
     );
   }
 
-  /// `Send`
+  /// `Publish`
   String get Send {
     return Intl.message(
-      'Send',
+      'Publish',
       name: 'Send',
       desc: '',
       args: [],
@@ -1990,10 +1990,10 @@ class S {
     );
   }
 
-  /// `Send fail`
+  /// `Publish failed`
   String get Send_fail {
     return Intl.message(
-      'Send fail',
+      'Publish failed',
       name: 'Send_fail',
       desc: '',
       args: [],
