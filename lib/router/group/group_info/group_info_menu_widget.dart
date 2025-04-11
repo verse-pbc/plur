@@ -131,6 +131,13 @@ class GroupInfoMenuWidget extends StatelessWidget {
     switch (item) {
       case GroupInfoMenuItem.members:
         RouterUtil.router(context, RouterPath.groupMembers, groupId);
+        break;
+      case GroupInfoMenuItem.settings:
+        // TODO: Implement settings
+        break;
+      case GroupInfoMenuItem.leave:
+        _showLeaveConfirmation(context);
+        break;
     }
   }
 

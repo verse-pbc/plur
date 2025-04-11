@@ -94,36 +94,43 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                       color: customColors.primaryForegroundColor,
                     ),
                   ),
-                ),
-              ),
-              IconButton(
-                icon: const Icon(Icons.copy),
-                onPressed: () {
-                  Clipboard.setData(ClipboardData(text: shareableLink));
-                  BotToast.showText(
-                    text: 'Link copied to clipboard',
-                  );
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 40),
-          if (showCreatePostButton)
-            Center(
-              child: InkWell(
-                onTap: () {
-                  RouterUtil.back(context);
-                  GroupDetailWidget.showTooltipOnGroupCreation = true;
-                  RouterUtil.router(
-                      context, RouterPath.groupDetail, groupIdentifier);
-                },
-                highlightColor: theme.primaryColor.withAlpha(51),
-                child: Container(
-                  color: theme.primaryColor,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Create your first post',
+                  const SizedBox(height: 20),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: customColors.feedBgColor,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            inviteLink,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: customColors.primaryForegroundColor,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.copy,
+                            color: customColors.accentColor,
+                          ),
+                          onPressed: () {
+                            Clipboard.setData(ClipboardData(text: inviteLink));
+                            BotToast.showText(
+                              text: localization.Copy_success,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  Text(
+                    localization.Share_invite_description,
                     style: TextStyle(
                       fontSize: 14,
                       color: customColors.secondaryForegroundColor,

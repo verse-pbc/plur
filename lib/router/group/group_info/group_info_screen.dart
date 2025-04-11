@@ -165,7 +165,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                                       icon: Icons.person_add_outlined,
                                       label: localization.Invite,
                                       onTap: () {
-                                        RouterUtil.router(context, RouterPath.INVITE_TO_GROUP, groupId);
+                                        RouterUtil.router(context, RouterPath.inviteToGroup, groupId);
                                       },
                                     ),
                                     const SizedBox(width: 8),
@@ -184,7 +184,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                                         icon: Icons.edit_outlined,
                                         label: localization.Edit,
                                         onTap: () {
-                                          RouterUtil.router(context, RouterPath.GROUP_EDIT, groupId);
+                                          RouterUtil.router(context, RouterPath.groupEdit, groupId);
                                         },
                                       ),
                                     ],
@@ -218,7 +218,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        RouterUtil.router(context, RouterPath.GROUP_MEMBERS, groupId);
+                                        RouterUtil.router(context, RouterPath.groupMembers, groupId);
                                       },
                                       child: Text(
                                         "See All",
