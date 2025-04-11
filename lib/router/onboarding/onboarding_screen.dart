@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import '../../util/theme_util.dart';
+import '../../consts/plur_colors.dart';
 import 'age_verification_step.dart';
 import 'age_verification_dialog_widget.dart';
 import 'name_input_step_widget.dart';
@@ -43,26 +44,86 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final appBgColor = themeData.customColors.appBgColor;
-
     return Scaffold(
-      backgroundColor: appBgColor,
+      backgroundColor: PlurColors.appBackground,
       body: SafeArea(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: Base.maxScreenWidth),
-            child: PageView(
-              controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              children: _steps,
+        child: Stack(
+          children: [
+            // Background gradient
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    PlurColors.primaryPurple.withOpacity(0.2),
+                    PlurColors.appBackground,
+                  ],
+                ),
+              ),
             ),
-          ),
+            
+            // Logo at the top
+            Positioned(
+              top: 24,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Text(
+                  'plur',
+                  style: GoogleFonts.nunito(
+                    textStyle: const TextStyle(
+                      color: PlurColors.highlightText,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            
+            // Main content
+            Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: Base.maxScreenWidth),
+                child: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  onPageChanged: (int page) {
+                    setState(() {
+                      _currentPage = page;
+                    });
+                  },
+                  children: _steps,
+                ),
+              ),
+            ),
+            
+            // Page indicator
+            Positioned(
+              bottom: 24,
+              left: 0,
+              right: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  _steps.length,
+                  (index) => Container(
+                    width: 8,
+                    height: 8,
+                    margin: const EdgeInsets.symmetric(horizontal: 4),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentPage == index
+                          ? PlurColors.primaryPurple
+                          : PlurColors.secondaryText.withOpacity(0.5),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
@@ -198,23 +199,33 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       // Login button (opens login form)
       mainList.add(SizedBox(
         width: double.infinity,
-        child: OutlinedButton(
-          onPressed: () {
+        child: GestureDetector(
+          onTap: () {
             setState(() {
               _showingLoginForm = true;
             });
           },
-          style: OutlinedButton.styleFrom(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            side: BorderSide(color: dimmedColor, width: 2),
+          child: Container(
             padding: const EdgeInsets.symmetric(vertical: 16),
-          ),
-          child: Text(
-            "Login with existing account",
-            style: TextStyle(
-              color: primaryForegroundColor,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: primaryForegroundColor.withOpacity(0.3),
+                width: 2,
+              ),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "Login with existing account",
+              style: GoogleFonts.nunito(
+                textStyle: TextStyle(
+                  color: primaryForegroundColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ),
           ),
         ),
@@ -225,21 +236,33 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       // Create new account button (signup)
       mainList.add(SizedBox(
         width: double.infinity,
-        child: FilledButton(
-          key: const Key('signup_button'),
-          onPressed: _navigateToSignup,
-          style: FilledButton.styleFrom(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: accentColor,
-            foregroundColor: buttonTextColor,
+        child: GestureDetector(
+          onTap: _navigateToSignup,
+          child: Container(
+            key: const Key('signup_button'),
             padding: const EdgeInsets.symmetric(vertical: 16),
-          ),
-          child: Text(
-            "Create New Account",
-            style: TextStyle(
-              color: buttonTextColor,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
+            decoration: BoxDecoration(
+              color: accentColor,
+              borderRadius: BorderRadius.circular(12),
+              boxShadow: [
+                BoxShadow(
+                  color: accentColor.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "Create New Account",
+              style: GoogleFonts.nunito(
+                textStyle: TextStyle(
+                  color: buttonTextColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+              ),
             ),
           ),
         ),
@@ -495,33 +518,45 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       if (privateKey != null && privateKey.isNotEmpty) {
         _doPreLogin();
 
-        // Store the private key and generate Nostr instance
-        settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
-        nostr = await relayProvider.genNostrWithKey(privateKey);
+        // Show loading indicator
+        var cancelLoading = BotToast.showLoading();
         
-        // Set the user's name/nickname in metadata if provided
-        if (userName != null && userName.isNotEmpty && nostr != null) {
-          try {
-            // We'll update the user metadata after login through the userProvider
-            // This just stores the name for now
-            userProvider.userName = userName;
-          } catch (e) {
-            // Silently handle any errors
-            debugPrint("Error storing initial username: $e");
+        try {
+          // Store the private key and generate Nostr instance
+          settingsProvider.addAndChangePrivateKey(privateKey, updateUI: false);
+          nostr = await relayProvider.genNostrWithKey(privateKey);
+          
+          // Set the user's name/nickname in metadata if provided
+          if (userName != null && userName.isNotEmpty && nostr != null) {
+            try {
+              // We'll update the user metadata after login through the userProvider
+              // This just stores the name for now
+              userProvider.userName = userName;
+            } catch (e) {
+              // Silently handle any errors
+              debugPrint("Error storing initial username: $e");
+            }
           }
-        }
 
-        if (backAfterLogin && mounted) {
-          RouterUtil.back(context);
-        }
+          if (backAfterLogin && mounted) {
+            RouterUtil.back(context);
+          }
 
-        // Update UI and mark as first login to properly download contact data
-        settingsProvider.notifyListeners();
-        firstLogin = true;
-        indexProvider.setCurrentTap(0);
-        
-        // Auto join testing group for dev/local builds
-        _joinTestGroupIfDev();
+          // Update UI and mark as first login to properly download contact data
+          settingsProvider.notifyListeners();
+          firstLogin = true;
+          indexProvider.setCurrentTap(0);
+          
+          // Auto join testing group for dev/local builds
+          _joinTestGroupIfDev();
+        } catch (e, stackTrace) {
+          // Show error message
+          StyledBotToast.show(context, text: "Account creation failed: ${e.toString()}");
+          await Sentry.captureException(e, stackTrace: stackTrace);
+        } finally {
+          // Hide loading indicator
+          cancelLoading.call();
+        }
       }
     }
   }
