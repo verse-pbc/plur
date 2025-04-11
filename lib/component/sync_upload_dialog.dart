@@ -140,7 +140,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
           onTap: () {
             beginToUpload();
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,
@@ -286,10 +286,10 @@ class _SyncUploadItem extends State<SyncUploadItem> {
           bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: widget.check ? mainColor.withOpacity(0.2) : null,
+          color: widget.check ? mainColor.withAlpha(51) : null,
           border: Border.all(
             width: 1,
-            color: hintColor.withOpacity(0.5),
+            color: hintColor.withAlpha(128),
           ),
           borderRadius: BorderRadius.circular(Base.basePaddingHalf),
         ),

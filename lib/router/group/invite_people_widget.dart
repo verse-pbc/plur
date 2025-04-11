@@ -71,7 +71,7 @@ class InvitePeopleWidget extends StatelessWidget {
                   RouterUtil.router(
                       context, RouterPath.groupDetail, groupIdentifier);
                 },
-                highlightColor: theme.primaryColor.withOpacity(0.2),
+                highlightColor: theme.primaryColor.withAlpha(51),
                 child: Container(
                   color: theme.primaryColor,
                   height: 40,

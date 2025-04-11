@@ -105,7 +105,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
           onTap: _onConfirm,
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,
@@ -126,7 +126,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       margin: const EdgeInsets.only(top: Base.basePadding),
       padding: const EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
-        color: themeData.hintColor.withOpacity(0.4),
+        color: themeData.hintColor.withAlpha(102),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
