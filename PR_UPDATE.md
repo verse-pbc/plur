@@ -1,61 +1,47 @@
-# Combined Feed Feature PR Update
+# BotToast, Layout, and Test Group Joining Fixes
 
-This PR has been expanded to include a new combined feed feature that allows users to view posts from all their joined communities in a single, unified feed view.
+## Summary
+This PR addresses several critical issues causing blank screens and layout errors. It improves error handling, fixes layout constraints, and makes the Test Users Group joining optional for new users.
 
-## New Features
+## Changes
 
-1. **Tabbed Communities Interface**
-   - Grid View: Shows communities in a grid layout (original view)
-   - Feed View: New combined feed showing posts from all communities
+### BotToast Error Handling
+- Fixed `LateInitializationError: Local 'cancelFunc' has not been initialized` errors
+- Added proper toast function tracking and cleanup to prevent memory leaks
+- Improved error recovery when toasts fail to display
+- Added periodic toast cleanup in SystemTimer
 
-2. **Combined Feed**
-   - Displays posts from all joined communities in chronological order
-   - Shows a count of the total number of communities
-   - Handles new posts with a notification system
-   - Responsive to communities being joined or left
+### Layout and Rendering Fixes
+- Fixed "Cannot hit test a render box with no size" errors in InvitePeopleWidget
+- Fixed MouseTracker assertion errors with safer async state management
+- Resolved unbounded height constraints with proper layout constraints
+- Used LayoutBuilder, SingleChildScrollView, and ConstrainedBox for proper sizing
+- Added _isDisposed flag for safer widget lifecycle management
 
-3. **Improved UI**
-   - Streamlined navigation with clear tab labels and icons
-   - Reduced redundancy in UI text and buttons
-   - Consistent visual design with the rest of the application
+### UI Improvements
+- Enhanced "Join Plur Test Users Group" dialog with Plur design system colors
+- Improved button layout and responsiveness in dialogs
+- Used proper localization instead of hardcoded text
 
-## Technical Implementation
+### User Experience Enhancements
+- Made Test Users Group joining optional instead of automatic
+- Improved error recovery throughout the app
+- Enhanced state management to prevent updates during critical phases
 
-1. **New Components**
-   - GroupFeedProvider: Manages fetching and merging posts from multiple communities
-   - AllGroupPostsWidget: Implements the tabbed interface
-   - CommunitiesFeedWidget: Container for the combined feed
-   - GroupEventListWidget: Displays the list of community posts
-   - CommunityTitleWidget: Displays the feed title with community count
+### Sentry and BlurHash Changes
+- Added helper files for better Sentry error reporting compatibility on iOS/macOS
+- Fixed BlurHash issues on iOS by providing empty implementations when needed
+- Improved error logging and recovery to improve app stability
 
-2. **Testing**
-   - Added unit tests for the GroupFeedProvider
-   - Tests cover initialization, event identification, and event merging
-
-3. **Documentation**
-   - Added detailed documentation in `/doc/features/combined_feed.md`
-   - Updated CHANGELOG.md to include the new feature
-
-## UI Improvements
-
-1. Reduced redundancy by:
-   - Changing "Your Groups" to simply "Communities" in the main app bar
-   - Using "Grid View" and "Feed View" instead of repeating "Communities"
-   - Removing the duplicate "Create Group" button
-
-2. Added clearer visual indicators:
-   - Grid and feed icons in tabs for easier identification
-   - Community count badge in the feed title
+## Testing
+- Verified that the app no longer shows blank screens when errors occur
+- Confirmed that new users aren't automatically joined to test groups
+- Tested that the UI properly renders on different screen sizes without layout errors
+- Confirmed proper localization is working for all text elements
 
 ## Screenshots
+*Before: Join Test Users dialog with incorrect color scheme*
+[See attached screenshots in PR]
 
-(Screenshots would be included in the actual PR)
-
-## Next Steps
-
-The combined feed feature is now complete and ready for review. Future enhancements could include:
-- Sorting and filtering options
-- Community-specific indicators on posts
-- Read/unread status tracking
-
-This feature builds upon the public community discovery feature by providing users with an easier way to stay updated with all their communities.
+*After: Join Test Users dialog with Plur color scheme*
+[See attached screenshots in PR]
