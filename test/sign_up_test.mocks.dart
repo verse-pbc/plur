@@ -429,6 +429,16 @@ class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
       ) as List<_i8.User>);
 
   @override
+  List<_i8.User> getAllUsers() => (super.noSuchMethod(
+        Invocation.method(
+          #getAllUsers,
+          [],
+        ),
+        returnValue: <_i8.User>[],
+        returnValueForMissingStub: <_i8.User>[],
+      ) as List<_i8.User>);
+
+  @override
   void update(String? pubkey) => super.noSuchMethod(
         Invocation.method(
           #update,
