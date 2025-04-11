@@ -133,6 +133,18 @@ class _GroupDetailNoteListWidgetState
         "kinds": [EventKind.groupNoteReply],
         "#h": [widget.groupIdentifier.groupId],
         "since": currentTime
+      },
+      {
+        // Listen for group chat messages (NIP-29)
+        "kinds": [EventKind.groupChatMessage],
+        "#h": [widget.groupIdentifier.groupId],
+        "since": currentTime
+      },
+      {
+        // Listen for group chat replies (NIP-29)
+        "kinds": [EventKind.groupChatReply],
+        "#h": [widget.groupIdentifier.groupId],
+        "since": currentTime
       }
     ];
 
