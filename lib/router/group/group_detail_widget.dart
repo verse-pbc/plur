@@ -274,7 +274,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     _groupDetailProvider.deleteEvent(e);
   }
 
-  // Keeping the method for potential future use, but it's no longer accessed from the UI
+  // This method is now private and only used in the group info menu
+  // We're keeping it here for reference but it's marked with an underscore
+  // to show it's private and not used directly from this class
+  /*
   void _leaveGroup() {
     final id = _groupIdentifier;
     if (id != null) {
@@ -282,6 +285,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     }
     RouterUtil.back(context);
   }
+  */
   
   void _showSearch() {
     // TODO: Implement search functionality for the group

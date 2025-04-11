@@ -92,7 +92,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
                 return Divider(
                   height: 1,
                   indent: 56, // Align divider with text, not icon
-                  color: customColors.separatorColor.withOpacity(0.5),
+                  color: customColors.separatorColor.withAlpha(128), // Using withAlpha instead of deprecated withOpacity
                 );
               },
               itemBuilder: (context, index) {
