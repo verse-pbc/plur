@@ -62,7 +62,7 @@ class MetadataTopPlaceholderWidget extends StatelessWidget {
     topList.add(Container(
       width: maxWidth,
       height: bannerHeight,
-      color: hintColor.withAlpha(128),
+      color: hintColor.withOpacity(0.5),
     ));
     topList.add(SizedBox(
       height: 50,

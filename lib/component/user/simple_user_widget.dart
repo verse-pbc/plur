@@ -87,7 +87,7 @@ class _SimpleUserWidgetState extends State<SimpleUserWidget> {
       bannerImage,
       Container(
         height: height,
-        color: cardColor.withAlpha(102),
+        color: cardColor.withOpacity(0.4),
       ),
       Container(
         padding: const EdgeInsets.only(left: Base.basePadding),

@@ -70,7 +70,7 @@ class EnumSelectorWidget extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: Colors.black.withAlpha(51),
+      backgroundColor: Colors.black.withOpacity(0.2),
       body: FocusScope(
         // autofocus: true,
         child: GestureDetector(

@@ -114,7 +114,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
                 left: 28,
                 child: Container(
                   width: 2,
-                  color: themeData.hintColor.withAlpha(64),
+                  color: themeData.hintColor.withOpacity(0.25),
                 ),
               ),
               Column(

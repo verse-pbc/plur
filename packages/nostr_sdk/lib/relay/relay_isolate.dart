@@ -13,9 +13,6 @@ import 'relay_status.dart';
 // The real relay, which is run in a separate isolate.
 // This keeps JSON decoding and event verification off the main isolate.
 class RelayIsolate extends Relay {
-  static const _logName = "RelayIsolate";
-  static const _loggingEnabled = false;
-
   bool eventSignCheck;
 
   String? relayNetwork;
@@ -100,13 +97,11 @@ class RelayIsolate extends Relay {
         (mainToSubSendPort != null &&
             relayStatus.connected == ClientConnected.connected)) {
       final encoded = jsonEncode(message);
-      if (_loggingEnabled) {
-        log(
-          "Sending message to $url...\n\n$encoded",
-          level: Level.FINEST.value,
-          name: _logName,
-        );
-      }
+      log(
+        "Sending message to $url...\n\n$encoded",
+        level: Level.FINEST.value,
+        name: "RelayIsolate",
+      );
       mainToSubSendPort!.send(encoded);
       return true;
     }
@@ -130,13 +125,11 @@ class RelayIsolate extends Relay {
         }
       } else if (message is List && onMessage != null) {
         if (message.isNotEmpty && message[0] == "EVENT") {
-          if (_loggingEnabled) {
-            log(
-              "Received message from $url.\n\n${message.toString()}",
-              level: Level.FINEST.value,
-              name: _logName,
-            );
-          }
+          log(
+            "Received message from $url.\n\n${message.toString()}",
+            level: Level.FINEST.value,
+            name: "RelayIsolate",
+          );
         } 
         onMessage!(this, message);
       } else if (message is SendPort) {

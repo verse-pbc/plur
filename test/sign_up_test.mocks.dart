@@ -375,15 +375,6 @@ class MockClient extends _i1.Mock implements _i2.Client {
 /// See the documentation for Mockito's code generation for more information.
 class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
   @override
-  set userName(String? name) => super.noSuchMethod(
-        Invocation.setter(
-          #userName,
-          name,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
@@ -432,16 +423,6 @@ class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
           #findUser,
           [str],
           {#limit: limit},
-        ),
-        returnValue: <_i8.User>[],
-        returnValueForMissingStub: <_i8.User>[],
-      ) as List<_i8.User>);
-
-  @override
-  List<_i8.User> getAllUsers() => (super.noSuchMethod(
-        Invocation.method(
-          #getAllUsers,
-          [],
         ),
         returnValue: <_i8.User>[],
         returnValueForMissingStub: <_i8.User>[],

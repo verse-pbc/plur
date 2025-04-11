@@ -161,7 +161,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
           onTap: () {
             _onConfirm();
           },
-          highlightColor: mainColor.withAlpha(51),
+          highlightColor: mainColor.withOpacity(0.2),
           child: Container(
             color: mainColor,
             height: 50,
@@ -245,7 +245,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
         height: width,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: mainColor.withAlpha(51),
+          color: mainColor.withOpacity(0.2),
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
             color: borderColor,

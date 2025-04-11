@@ -20,7 +20,7 @@ class MainBtnWidget extends StatelessWidget {
             onTap!();
           }
         },
-        highlightColor: mainColor.withAlpha(51),
+        highlightColor: mainColor.withOpacity(0.2),
         child: Container(
           color: mainColor,
           height: 40,

@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -12,7 +11,6 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/component/music/wavlake/wavlake_track_music_info_builder.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -201,7 +199,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     largetFontSize = themeData.textTheme.bodyLarge!.fontSize!;
     iconWidgetWidth = largetFontSize + 4;
     hintColor = themeData.hintColor;
-    codeBackgroundColor = hintColor!.withAlpha(64);
+    codeBackgroundColor = hintColor!.withOpacity(0.25);
     var settingsProvider = Provider.of<SettingsProvider>(context);
     mdh1Style = TextStyle(
       fontSize: largetFontSize + 1,
@@ -285,7 +283,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: Base.basePadding),
                   height: 30,
-                  color: themeData.cardColor.withAlpha(217),
+                  color: themeData.cardColor.withOpacity(0.85),
                   child: Text(
                     localization.Show_more,
                     style: TextStyle(
@@ -515,15 +513,10 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
     closeLine(buffer, currentList, allList, images);
 
-    // Very simple special handling for plain image URL posts
-    Map<String, dynamic> metadata = {};
-    if (widget.event != null && widget.showImage) {
-      metadata = _extractImageMetadata();
-    }
-    
-    // By default, show the normal text content
-    Widget textContent = SizedBox(
+    var main = SizedBox(
       width: !widget.smallest ? double.infinity : null,
+      // padding: EdgeInsets.only(bottom: 20),
+      // color: Colors.red,
       child: SelectableText.rich(
         TextSpan(
           children: allList,
@@ -535,23 +528,6 @@ class _ContentWidgetState extends State<ContentWidget> {
         },
       ),
     );
-    
-    // Special case: If the content is just an image URL, show the image instead of the URL text
-    if (widget.showImage && 
-        metadata.isNotEmpty && 
-        metadata['containsMedia'] == true && 
-        metadata['mediaUrl'] != null) {
-        
-      // Get a version of the content widget without the URL displayed
-      return ContentImageWidget(
-        imageUrl: metadata['mediaUrl'],
-        imageBoxFix: BoxFit.contain,
-      );
-    }
-    
-    // Regular handling for text or image list mode
-    var main = textContent;
-    
     if (widget.showImage &&
         widget.imageListMode &&
         (contentDecoderInfo != null && contentDecoderInfo!.imageNum > 1)) {
@@ -560,9 +536,6 @@ class _ContentWidgetState extends State<ContentWidget> {
       List<Widget> imageWidgetList = [];
       var index = 0;
       for (var image in images) {
-        // Get any file metadata from the event relation
-        final fileMetadata = getFileMetadata(image);
-        
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
             margin: const EdgeInsets.only(right: Base.basePaddingHalf),
@@ -574,8 +547,8 @@ class _ContentWidgetState extends State<ContentWidget> {
               imageIndex: index,
               height: contentImageListHeight,
               width: contentImageListHeight,
-              fileMetadata: fileMetadata,
-              imageBoxFix: BoxFit.cover,
+              fileMetadata: getFileMetadata(image),
+              // imageBoxFix: BoxFit.fitWidth,
             ),
           ),
         ));
@@ -619,43 +592,34 @@ class _ContentWidgetState extends State<ContentWidget> {
       // http style, get path style
       var pathType = PathTypeUtil.getPathType(str);
       if (pathType == "image") {
-        // Always add to images list for metadata extraction
         images.add(str);
-        
-        // Check if this is the only content - if so, don't show it as text
-        // This special case will prevent duplicate URLs in the feed
-        bool isOnlyContent = widget.content != null && widget.content!.trim() == str.trim();
-        
         if (!widget.showImage) {
-          // If we're not showing images, just show the link
           currentList.add(buildLinkSpan(str));
-        } else if (isOnlyContent) {
-          // If this URL is the entire post content, don't show it at all
-          // The image will be displayed separately below the text
-          // This fixes the "duplicate URL" issue in the screenshot
-          return null;
-        } else if (widget.imageListMode &&
-            (contentDecoderInfo != null &&
-                contentDecoderInfo!.imageNum > 1)) {
-          // Show placeholder in list mode
-          var imagePlaceholder = const Icon(
-            Icons.image,
-            size: 15,
-          );
-
-          bufferToList(buffer, currentList, images, removeLastSpan: true);
-          currentList.add(WidgetSpan(child: imagePlaceholder));
         } else {
-          // For normal mode with multiple content items, 
-          // just show a small placeholder instead of the raw URL
-          var imagePlaceholder = const Icon(
-            Icons.image,
-            size: 15,
-          );
+          if (widget.imageListMode &&
+              (contentDecoderInfo != null &&
+                  contentDecoderInfo!.imageNum > 1)) {
+            // this content decode in list, use list mode
+            var imagePlaceholder = const Icon(
+              Icons.image,
+              size: 15,
+            );
 
-          bufferToList(buffer, currentList, images, removeLastSpan: true);
-          currentList.add(WidgetSpan(child: imagePlaceholder));
-          counterAddLines(fakeImageCounter);
+            bufferToList(buffer, currentList, images, removeLastSpan: true);
+            currentList.add(WidgetSpan(child: imagePlaceholder));
+          } else {
+            // show image in content
+            var imageWidget = ContentImageWidget(
+              imageUrl: str,
+              imageList: images,
+              imageIndex: images.length - 1,
+              fileMetadata: getFileMetadata(str),
+            );
+
+            bufferToList(buffer, currentList, images, removeLastSpan: true);
+            currentList.add(WidgetSpan(child: imageWidget));
+            counterAddLines(fakeImageCounter);
+          }
         }
         return null;
       } else if (pathType == "video") {
@@ -1151,18 +1115,12 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   void _addTextToList(String text, List<InlineSpan> allList,
       {TextStyle? textStyle}) {
-    // Apply Plur styling from design
     if (currentTextStyle != null) {
       if (textStyle == null) {
         textStyle = currentTextStyle;
       } else {
         textStyle = currentTextStyle!.merge(textStyle);
       }
-    } else {
-      // If no style is set, use our Plur design style for content
-      textStyle = textStyle ?? GoogleFonts.nunito(
-        textStyle: PlurColors.contentStyle,
-      );
     }
 
     counter.write(text);
@@ -1337,38 +1295,9 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
   }
 
-  // We're now using ContentImageWidget directly
-  
-  /// Simply check if the content is just an image URL
-  Map<String, dynamic> _extractImageMetadata() {
-    if (widget.event == null || widget.content == null) {
-      return {};
-    }
-    
-    // Just check if the content is a plain image URL
-    final content = widget.content!.trim();
-    if (content.startsWith('http') && 
-        (content.endsWith('.jpg') || 
-         content.endsWith('.jpeg') || 
-         content.endsWith('.png') || 
-         content.endsWith('.gif') || 
-         content.endsWith('.bin'))) {
-      
-      return {
-        'containsMedia': true,
-        'mediaUrl': content,
-        'contentType': 'image',
-      };
-    }
-    
-    return {};
-  }
-  
-  /// Legacy method for backward compatibility
-  getFileMetadata(String imageUrl) {
+  getFileMetadata(String image) {
     if (widget.eventRelation != null) {
-      return widget.eventRelation!.fileMetadatas[imageUrl];
+      return widget.eventRelation!.fileMetadatas[image];
     }
-    return null;
   }
 }

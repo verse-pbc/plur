@@ -120,7 +120,7 @@ class _QrcodeDialog extends State<QrcodeDialog> {
         width: qrWidth + Base.basePaddingHalf * 2,
         padding: const EdgeInsets.all(Base.basePaddingHalf),
         decoration: BoxDecoration(
-          color: hintColor.withAlpha(128),
+          color: hintColor.withOpacity(0.5),
           borderRadius: BorderRadius.circular(10),
         ),
         child: SelectableText(

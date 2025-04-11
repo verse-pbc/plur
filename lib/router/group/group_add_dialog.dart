@@ -82,7 +82,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
           onTap: _onConfirm,
-          highlightColor: mainColor.withAlpha(51),
+          highlightColor: mainColor.withOpacity(0.2),
           child: Container(
             color: mainColor,
             height: 40,

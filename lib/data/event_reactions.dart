@@ -24,9 +24,6 @@ class EventReactions implements FindEventInterface {
   int zapNum = 0;
 
   List<Event> zaps = [];
-  
-  // Map to track zap types/amounts by key
-  Map<String, int> zapNumMap = {};
 
   Map<String, int> eventIdMap = {};
 
@@ -48,7 +45,6 @@ class EventReactions implements FindEventInterface {
       ..myLikeEvents = myLikeEvents
       ..zaps = zaps
       ..zapNum = zapNum
-      ..zapNumMap = zapNumMap
       ..eventIdMap = eventIdMap
       ..accessTime = accessTime
       ..dataTime = dataTime;
@@ -111,14 +107,8 @@ class EventReactions implements FindEventInterface {
           myLikeEvents!.add(event);
         }
       } else if (event.kind == EventKind.zap) {
-        int amount = ZapInfoUtil.getNumFromZapEvent(event);
-        zapNum += amount;
+        zapNum += ZapInfoUtil.getNumFromZapEvent(event);
         zaps.add(event);
-        
-        // Update the zapNumMap with the amount
-        String pubkey = ZapInfoUtil.parseSenderPubkey(event) ?? event.pubkey;
-        int currentAmount = zapNumMap[pubkey] ?? 0;
-        zapNumMap[pubkey] = currentAmount + amount;
 
         if (StringUtil.isNotBlank(event.content)) {
           replyNum++;

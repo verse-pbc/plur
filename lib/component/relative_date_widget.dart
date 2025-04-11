@@ -15,11 +15,8 @@ enum TimeUnit { seconds, minutes, hours, days, older }
 class RelativeDateWidget extends ConsumerWidget {
   /// Unix timestamp in seconds
   final int date;
-  
-  /// Optional text style to apply
-  final TextStyle? style;
 
-  const RelativeDateWidget(this.date, {super.key, this.style});
+  const RelativeDateWidget(this.date, {super.key});
 
   /// Formats a timestamp into a human-readable relative date string.
   ///
@@ -74,7 +71,7 @@ class RelativeDateWidget extends ConsumerWidget {
     final currentTime = ref.watch(timestampProvider);
     return Text(
       _formatRelativeDate(currentTime),
-      style: style ?? TextStyle(
+      style: TextStyle(
         color: themeData.hintColor,
         fontSize: themeData.textTheme.bodySmall!.fontSize,
       ),

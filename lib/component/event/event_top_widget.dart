@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/relative_date_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -20,8 +18,7 @@ class EventTopWidget extends StatefulWidget {
   final Event event;
   final String? pagePubkey;
 
-  const EventTopWidget({
-    super.key,
+  const EventTopWidget({super.key,
     required this.event,
     this.pagePubkey,
   });
@@ -33,12 +30,15 @@ class EventTopWidget extends StatefulWidget {
 }
 
 class _EventTopWidgetState extends State<EventTopWidget> {
-  static const double imageWidth = 40; // Slightly larger avatar
+  static const double imageWidth = 34;
 
   String? pubkey;
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+    var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
+
     pubkey = widget.event.pubkey;
     // if this is the zap event, change the pubkey from the zap tag info
     if (widget.event.kind == EventKind.zap) {
@@ -62,13 +62,15 @@ class _EventTopWidgetState extends State<EventTopWidget> {
         return userProvider.getUser(pubkey!);
       },
       builder: (context, user, child) {
+        final themeData = Theme.of(context);
+
         String nip05Text = Nip19.encodeSimplePubKey(pubkey!);
 
-        if (user != null && StringUtil.isNotBlank(user.nip05)) {
-          nip05Text = user.nip05!;
+        if (user != null) {
+          if (StringUtil.isNotBlank(user.nip05)) {
+            nip05Text = user.nip05!;
+          }
         }
-
-        String displayName = NameWidget.getSimpleName(pubkey!, user);
 
         return Container(
           padding: const EdgeInsets.only(
@@ -79,86 +81,60 @@ class _EventTopWidgetState extends State<EventTopWidget> {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // User avatar with slightly elevated look
               jumpWrap(Container(
-                margin: const EdgeInsets.only(top: 2),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
+                margin: const EdgeInsets.only(top: 4),
                 child: UserPicWidget(
                   width: imageWidth,
                   pubkey: pubkey!,
                   user: user,
                 ),
               )),
-              
-              // User info column
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.only(left: Base.basePaddingHalf * 1.5),
+                  padding: const EdgeInsets.only(left: Base.basePaddingHalf),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Username with new styling
                           Expanded(
                             child: jumpWrap(
-                              Text(
-                                displayName,
-                                style: GoogleFonts.nunito(
-                                  textStyle: PlurColors.usernameStyle,
-                                ),
+                              NameWidget(
+                                pubkey: widget.event.pubkey,
+                                user: user,
                                 maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                                textOverflow: TextOverflow.ellipsis,
+                                showNip05: false,
+                                showName: false,
                               ),
                             ),
                           ),
-                          
-                          // Time stamp with new styling
-                          Container(
-                            child: RelativeDateWidget(
-                              widget.event.createdAt,
-                              style: GoogleFonts.nunito(
-                                textStyle: PlurColors.timestampStyle,
-                              ),
-                            ),
-                          ),
+                          RelativeDateWidget(widget.event.createdAt)
                         ],
                       ),
-                      
-                      // NIP-05 identifier with new styling
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              nip05Text,
-                              style: GoogleFonts.nunito(
-                                textStyle: PlurColors.handleStyle,
+                      Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: nip05Text,
+                              style: TextStyle(
+                                fontSize: smallTextSize,
+                                color: themeData.hintColor,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                             ),
-                          ),
-                          
-                          // NIP-05 verification icon
-                          Container(
-                            margin: const EdgeInsets.only(left: 3),
-                            child: Nip05ValidWidget(
-                              pubkey: pubkey!,
-                              size: 14,
+                            WidgetSpan(
+                              alignment: PlaceholderAlignment.baseline,
+                              baseline: TextBaseline.ideographic,
+                              child: Container(
+                                margin: const EdgeInsets.only(left: 3),
+                                child: Nip05ValidWidget(pubkey: pubkey!),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),

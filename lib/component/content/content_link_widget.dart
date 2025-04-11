@@ -16,19 +16,11 @@ class ContentLinkWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use the title if provided, otherwise format the URL nicely
-    final displayText = title != null ? title! : link;
-    
-    // Make URLs slightly more compact if they're direct links (no title)
-    final isDirectUrlDisplay = title == null;
-    
     return ContentStrLinkWidget(
-      str: displayText,
+      str: title != null ? title! : link,
       onTap: () {
         LinkRouterUtil.router(context, link);
       },
-      // Apply special styling for direct URL display if needed
-      showUnderline: true,
     );
   }
 }

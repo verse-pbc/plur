@@ -6,21 +6,16 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/editor/search_mention_user_widget.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
-import '../../features/communities/communities_screen.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
@@ -28,6 +23,7 @@ import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
+import '../group/communities_widget.dart';
 import '../group/create_community_dialog.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
@@ -69,86 +65,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
   late TabController followTabController;
   late TabController globalsTabController;
   late TabController dmTabController;
-  
-  // Build the toggle switch for community view modes
-  Widget _buildCommunityViewToggle(IndexProvider indexProvider, ThemeData themeData) {
-    return Center(
-      child: Container(
-        // Make container more compact
-        width: 120, // Reduced width
-        height: 28, // Reduced height
-        decoration: BoxDecoration(
-          color: themeData.cardColor,
-          borderRadius: BorderRadius.circular(14), // Adjusted for smaller height
-          border: Border.all(
-            color: themeData.dividerColor,
-            width: 0.5, // Thinner border
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  indexProvider.setCommunityViewMode(CommunityViewMode.grid);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: indexProvider.communityViewMode == CommunityViewMode.grid
-                        ? themeData.colorScheme.primary
-                        : Colors.transparent,
-                    borderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(14), // Adjusted for smaller height
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Groups',
-                    style: TextStyle(
-                      color: indexProvider.communityViewMode == CommunityViewMode.grid
-                          ? themeData.colorScheme.onPrimary
-                          : themeData.textTheme.bodyMedium?.color,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11, // Smaller font size
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  indexProvider.setCommunityViewMode(CommunityViewMode.feed);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: indexProvider.communityViewMode == CommunityViewMode.feed
-                        ? themeData.colorScheme.primary
-                        : Colors.transparent,
-                    borderRadius: const BorderRadius.horizontal(
-                      right: Radius.circular(14), // Adjusted for smaller height
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Feed',
-                    style: TextStyle(
-                      color: indexProvider.communityViewMode == CommunityViewMode.feed
-                          ? themeData.colorScheme.onPrimary
-                          : themeData.textTheme.bodyMedium?.color,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11, // Smaller font size
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   @override
   void initState() {
@@ -183,9 +99,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
         log('$e');
       }
     }
-    
-    // Initialize tab preloading
-    _preloadTabsAfterInit();
   }
 
   /// Handles app lifecycle state changes to manage Nostr connection
@@ -232,9 +145,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
   @override
   Widget doBuild(BuildContext context) {
     mediaDataCache.update(context);
-    
+    final localization = S.of(context);
+
     // Note: This is critical. Rebuild this widget when settings change.
     Provider.of<SettingsProvider>(context);
+
     if (nostr == null) {
       return const LoginSignupWidget();
     }
@@ -247,437 +162,227 @@ class _IndexWidgetState extends CustState<IndexWidget>
     indexProvider.setFollowTabController(followTabController);
     indexProvider.setGlobalTabController(globalsTabController);
 
-    // Configure TabControllers
-    _setupTabControllers(indexProvider);
-
-    // Build the main content
-    final mainIndex = _buildMainIndex(context, indexProvider);
-
-    return _buildAppropriateLayout(context, mainIndex);
-  }
-
-  void _setupTabControllers(IndexProvider indexProvider) {
-    indexProvider.setFollowTabController(followTabController);
-    indexProvider.setGlobalTabController(globalsTabController);
-  }
-
-  Widget _buildMainIndex(BuildContext context, IndexProvider indexProvider) {
-    final appBarContent = _buildAppBarContent(context, indexProvider);
-    final mainContent = _buildMainContent(context, indexProvider);
-    final musicPlayer = _buildMusicPlayer();
-
-    return Stack(
-      children: [
-        Column(
-          children: [
-            IndexAppBar(
-              center: appBarContent._center,
-              right: appBarContent._right,
-            ),
-            mainContent,
-          ],
-        ),
-        musicPlayer,
-      ],
-    );
-  }
-
-  // Helper class is defined outside of the widget class
-  _AppBarContent _buildAppBarContent(BuildContext context, IndexProvider indexProvider) {
-    final localization = S.of(context);
     final themeData = Theme.of(context);
-    final titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
-    final titleTextStyle = TextStyle(
+    var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
+    var titleTextStyle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
       color: titleTextColor,
     );
-    final indicatorColor = themeData.primaryColor;
+    Color? indicatorColor = themeData.primaryColor;
 
-    Widget? center;
-    Widget? right;
-
-    switch (indexProvider.currentTap) {
-      case 0: // Communities
-        // Build the toggle control for switching between grid and feed views
-        center = _buildCommunityViewToggle(indexProvider, themeData);
-        
-        // Create community button
-        right = GestureDetector(
-          onTap: () => CreateCommunityDialog.show(context),
-          child: const Icon(Icons.group_add),
-        );
-        break;
-      case 1: // DMs
-        center = TabBar(
-          indicatorColor: indicatorColor,
-          indicatorWeight: 3,
-          indicatorSize: TabBarIndicatorSize.tab,
-          dividerHeight: 0,
-          tabs: [
-            IndexTabItemWidget(
-              localization.DMs,
-              titleTextStyle,
-              omitText: "DM",
-            ),
-            IndexTabItemWidget(
-              localization.Request,
-              titleTextStyle,
-              omitText: "R",
-            ),
-          ],
-          controller: dmTabController,
-        );
-        right = GestureDetector(
-          onTap: () {
-            _showSearchUserForDM(context);
-          },
-          child: const Icon(Icons.chat_rounded),
-        );
-        break;
-      case 2: // Search
-        center = Center(
-          child: Text(
-            localization.Search,
-            style: titleTextStyle,
+    // Build app bar content based on current tab
+    Widget? appBarCenter;
+    Widget? appBarRight;
+    if (indexProvider.currentTap == 0) {
+      appBarCenter = Center(
+        child: Text(
+          localization.Your_Groups,
+          style: titleTextStyle,
+        ),
+      );
+      appBarRight = GestureDetector(
+        onTap: () {
+          CreateCommunityDialog.show(context);
+        },
+        child: const Icon(Icons.group_add),
+      );
+    } else if (indexProvider.currentTap == 1) {
+      appBarCenter = TabBar(
+        indicatorColor: indicatorColor,
+        indicatorWeight: 3,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
+        tabs: [
+          IndexTabItemWidget(
+            localization.Notes,
+            titleTextStyle,
+            omitText: "N",
           ),
-        );
-        break;
+          IndexTabItemWidget(
+            localization.Users,
+            titleTextStyle,
+            omitText: "U",
+          ),
+          IndexTabItemWidget(
+            localization.Topics,
+            titleTextStyle,
+            omitText: "T",
+          ),
+        ],
+        controller: globalsTabController,
+      );
+    } else if (indexProvider.currentTap == 2) {
+      appBarCenter = Center(
+        child: Text(
+          localization.Search,
+          style: titleTextStyle,
+        ),
+      );
+    } else if (indexProvider.currentTap == 3) {
+      appBarCenter = TabBar(
+        indicatorColor: indicatorColor,
+        indicatorWeight: 3,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
+        tabs: [
+          IndexTabItemWidget(
+            localization.DMs,
+            titleTextStyle,
+            omitText: "DM",
+          ),
+          IndexTabItemWidget(
+            localization.Request,
+            titleTextStyle,
+            omitText: "R",
+          ),
+        ],
+        controller: dmTabController,
+      );
     }
 
-    return _AppBarContent(center, right);
-  }
-
-  Widget _buildGroupsTabHeader(S localization, TextStyle titleTextStyle) {
-    return Center(
-      child: Text(
-        localization.Your_Groups,
-        style: titleTextStyle,
-      ),
-    );
-  }
-
-  Widget _buildCreateGroupButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () => CreateCommunityDialog.show(context),
-      child: const Icon(Icons.group_add),
-    );
-  }
-
-  Widget _buildGlobalsTabBar(S localization, TextStyle titleTextStyle, Color? indicatorColor) {
-    return TabBar(
-      indicatorColor: indicatorColor,
-      indicatorWeight: 3,
-      indicatorSize: TabBarIndicatorSize.tab,
-      dividerHeight: 0,
-      tabs: [
-        IndexTabItemWidget(
-          localization.Notes,
-          titleTextStyle,
-          omitText: "N",
-        ),
-        IndexTabItemWidget(
-          localization.Users,
-          titleTextStyle,
-          omitText: "U",
-        ),
-        IndexTabItemWidget(
-          localization.Topics,
-          titleTextStyle,
-          omitText: "T",
-        ),
-      ],
-      controller: globalsTabController,
-    );
-  }
-
-  Widget _buildSearchTabHeader(S localization, TextStyle titleTextStyle) {
-    return Center(
-      child: Text(
-        localization.Search,
-        style: titleTextStyle,
-      ),
-    );
-  }
-
-  Widget _buildDMTabBar(S localization, TextStyle titleTextStyle, Color? indicatorColor) {
-    return TabBar(
-      indicatorColor: indicatorColor,
-      indicatorWeight: 3,
-      indicatorSize: TabBarIndicatorSize.tab,
-      dividerHeight: 0,
-      tabs: [
-        IndexTabItemWidget(
-          localization.DMs,
-          titleTextStyle,
-          omitText: "DM",
-        ),
-        IndexTabItemWidget(
-          localization.Request,
-          titleTextStyle,
-          omitText: "R",
-        ),
-      ],
-      controller: dmTabController,
-    );
-  }
-
-  // Cache for tab widgets with RepaintBoundary for better isolation
-  final Map<int, Widget> _tabWidgets = {};
-  
-  // Tracks if we need to prefetch next tab
-  int? _prefetchingTabIndex;
-  
-  // Used to track if tabs have been preloaded
-  final Set<int> _preloadedTabs = {};
-  
-  // Preload tabs during initialization in overridden init method
-  void _preloadTabsAfterInit() {
-    // Pre-create all tabs during initialization to avoid lag during first switch
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Preload the current tab immediately
-      _createTabWidget(0);
-      
-      // Schedule preloading of other tabs with a delay to not block initial rendering
-      Future.delayed(const Duration(milliseconds: 500), () {
-        _preloadAllTabs();
-      });
-    });
-  }
-  
-  // Preload all tabs in the background to avoid lag when switching
-  void _preloadAllTabs() {
-    // Only preload once
-    if (_preloadedTabs.isNotEmpty) return;
-    
-    for (int i = 0; i < 3; i++) {
-      _preloadedTabs.add(i);
-      if (!_tabWidgets.containsKey(i)) {
-        _createTabWidget(i);
-      }
-    }
-  }
-  
-  Widget _buildMainContent(BuildContext context, IndexProvider indexProvider) {
-    // Pre-fetching: if we're switching tabs, ensure the target tab is built
-    if (indexProvider.previousTap != indexProvider.currentTap && 
-        _prefetchingTabIndex != indexProvider.currentTap) {
-      _prefetchingTabIndex = indexProvider.currentTap;
-      
-      // Schedule creation of the next tab in a microtask to avoid blocking UI
-      Future.microtask(() {
-        if (!_tabWidgets.containsKey(indexProvider.currentTap)) {
-          _createTabWidget(indexProvider.currentTap);
-        }
-        _prefetchingTabIndex = null;
-      });
-    }
-    
-    // Ensure main tabs are created and cached
-    if (!_tabWidgets.containsKey(indexProvider.currentTap)) {
-      _createTabWidget(indexProvider.currentTap);
-    }
-    
-    return MediaQuery.removePadding(
+    var mainCenterWidget = MediaQuery.removePadding(
       context: context,
       removeTop: true,
       child: Expanded(
-        // IndexedStack preserves state better than Offstage + TickerMode
-        // for complex widgets like CommunitiesScreen
-        child: IndexedStack(
-          index: indexProvider.currentTap,
-          sizing: StackFit.expand,
-          children: [
-            // Wrap each tab in RepaintBoundary to isolate rendering
-            RepaintBoundary(
-              child: TickerMode(
-                enabled: indexProvider.currentTap == 0,
-                child: _tabWidgets[0] ?? const SizedBox.shrink(),
-              ),
-            ),
-            RepaintBoundary(
-              child: TickerMode(
-                enabled: indexProvider.currentTap == 1,
-                child: _tabWidgets[1] ?? const SizedBox.shrink(),
-              ),
-            ),
-            RepaintBoundary(
-              child: TickerMode(
-                enabled: indexProvider.currentTap == 2,
-                child: _tabWidgets[2] ?? const SizedBox.shrink(),
-              ),
-            ),
-          ],
+          child: IndexedStack(
+        index: indexProvider.currentTap,
+        children: [
+          const CommunitiesWidget(),
+          const SearchWidget(),
+          DMWidget(
+            tabController: dmTabController,
+          ),
+        ],
+      )),
+    );
+
+    List<Widget> mainIndexList = [
+      Column(
+        children: [
+          IndexAppBar(
+            center: appBarCenter,
+            right: appBarRight,
+          ),
+          mainCenterWidget,
+        ],
+      ),
+      Positioned(
+        bottom: Base.basePadding,
+        left: 0,
+        right: 0,
+        child: Selector<MusicProvider, MusicInfo?>(
+          builder: ((context, musicInfo, child) {
+            if (musicInfo != null) {
+              return MusicWidget(
+                musicInfo,
+                clearable: true,
+              );
+            }
+
+            return Container();
+          }),
+          selector: (_, provider) {
+            return provider.musicInfo;
+          },
         ),
-      ),
+      )
+    ];
+    Widget mainIndex = Stack(
+      children: mainIndexList,
     );
-  }
-  
-  // Create and cache tab widgets with memory optimization
-  void _createTabWidget(int tabIndex) {
-    if (_tabWidgets.containsKey(tabIndex)) {
-      return; // Already created, don't recreate
-    }
-    
-    switch (tabIndex) {
-      case 0:
-        _tabWidgets[0] = const CommunitiesScreen();
-        break;
-      case 1:
-        _tabWidgets[1] = DMWidget(tabController: dmTabController);
-        break;
-      case 2:
-        _tabWidgets[2] = const SearchWidget();
-        break;
-    }
-  }
 
-  Widget _buildMusicPlayer() {
-    return Positioned(
-      bottom: Base.basePadding,
-      left: 0,
-      right: 0,
-      child: Selector<MusicProvider, MusicInfo?>(
-        builder: ((context, musicInfo, child) {
-          if (musicInfo != null) {
-            return MusicWidget(
-              musicInfo,
-              clearable: true,
-            );
-          }
-          return Container();
-        }),
-        selector: (_, provider) => provider.musicInfo,
-      ),
-    );
-  }
-
-  Widget _buildAppropriateLayout(BuildContext context, Widget mainIndex) {
-    final localization = S.of(context);
-    
     if (TableModeUtil.isTableMode()) {
-      return _buildTableModeLayout(context, mainIndex, localization);
+      var maxWidth = mediaDataCache.size.width;
+      double column0Width = maxWidth * 2 / 5;
+      double column1Width = maxWidth * 2 / 5;
+      if (column0Width > IndexWidget.pcMaxColumn0) {
+        column0Width = IndexWidget.pcMaxColumn0;
+      }
+      if (column1Width > IndexWidget.pcMaxColumn1) {
+        column1Width = IndexWidget.pcMaxColumn1;
+      }
+
+      var mainScaffold = Scaffold(
+        // floatingActionButton: addBtn,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: Row(children: [
+          IndexPcDrawerWrapper(
+            fixWidth: column0Width,
+          ),
+          Container(
+            width: column1Width,
+            margin: const EdgeInsets.only(
+              right: 1,
+            ),
+            child: mainIndex,
+          ),
+          Expanded(
+            child: Selector<PcRouterFakeProvider, List<RouterFakeInfo>>(
+              builder: (context, infos, child) {
+                if (infos.isEmpty) {
+                  return Center(
+                    child: Text(localization.There_should_be_an_universe_here),
+                  );
+                }
+
+                List<Widget> pages = [];
+                for (var info in infos) {
+                  if (StringUtil.isNotBlank(info.routerPath) &&
+                      routes[info.routerPath] != null) {
+                    var builder = routes[info.routerPath];
+                    if (builder != null) {
+                      pages.add(PcRouterFake(
+                        info: info,
+                        child: builder(context),
+                      ));
+                    }
+                  } else if (info.buildContent != null) {
+                    pages.add(PcRouterFake(
+                      info: info,
+                      child: info.buildContent!(context),
+                    ));
+                  }
+                }
+
+                return IndexedStack(
+                  index: pages.length - 1,
+                  children: pages,
+                );
+              },
+              selector: (_, provider) {
+                return provider.routerFakeInfos;
+              },
+              shouldRebuild: (previous, next) {
+                if (previous != next) {
+                  return true;
+                }
+                return false;
+              },
+            ),
+          )
+        ]),
+      );
+
+      return PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (pcRouterFakeProvider.routerFakeInfos.isNotEmpty) {
+            pcRouterFakeProvider.removeLast();
+          }
+        },
+        child: mainScaffold,
+      );
     } else {
-      return _buildMobileLayout(mainIndex);
-    }
-  }
-
-  void _showSearchUserForDM(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(title: const Text("Select User")),
-          body: const SearchMentionUserWidget(),
+      return Scaffold(
+        body: mainIndex,
+        drawer: const Drawer(
+          child: IndexDrawerContent(
+            smallMode: false,
+          ),
         ),
-      ),
-    ).then((pubkey) {
-      if (pubkey != null && pubkey is String) {
-        // Use the DMProvider to create a new session or find an existing one
-        final dmProvider = Provider.of<DMProvider>(context, listen: false);
-        final dmDetail = dmProvider.findOrNewADetail(pubkey);
-        
-        // Navigate to the DM detail screen with the selected user
-        RouterUtil.router(context, RouterPath.dmDetail, dmDetail);
-      }
-    });
-  }
-
-  Widget _buildMobileLayout(Widget mainIndex) {
-    return Scaffold(
-      body: mainIndex,
-      drawer: const Drawer(
-        child: IndexDrawerContent(
-          smallMode: false,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTableModeLayout(BuildContext context, Widget mainIndex, S localization) {
-    final columnWidths = _calculateTableModeColumnWidths();
-    
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, result) {
-        if (pcRouterFakeProvider.routerFakeInfos.isNotEmpty) {
-          pcRouterFakeProvider.removeLast();
-        }
-      },
-      child: Scaffold(
-        body: Row(
-          children: [
-            IndexPcDrawerWrapper(
-              fixWidth: columnWidths.column0Width,
-            ),
-            Container(
-              width: columnWidths.column1Width,
-              margin: const EdgeInsets.only(right: 1),
-              child: mainIndex,
-            ),
-            Expanded(
-              child: _buildRouterFakeContent(localization),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _ColumnWidths _calculateTableModeColumnWidths() {
-    final maxWidth = mediaDataCache.size.width;
-    double column0Width = maxWidth * 2 / 5;
-    double column1Width = maxWidth * 2 / 5;
-    
-    if (column0Width > IndexWidget.pcMaxColumn0) {
-      column0Width = IndexWidget.pcMaxColumn0;
+      );
     }
-    if (column1Width > IndexWidget.pcMaxColumn1) {
-      column1Width = IndexWidget.pcMaxColumn1;
-    }
-    
-    return _ColumnWidths(column0Width, column1Width);
-  }
-
-  Widget _buildRouterFakeContent(S localization) {
-    return Selector<PcRouterFakeProvider, List<RouterFakeInfo>>(
-      builder: (context, infos, child) {
-        if (infos.isEmpty) {
-          return Center(
-            child: Text(localization.There_should_be_an_universe_here),
-          );
-        }
-
-        return IndexedStack(
-          index: infos.length - 1,
-          children: _buildRouterFakePages(context, infos),
-        );
-      },
-      selector: (_, provider) => provider.routerFakeInfos,
-      shouldRebuild: (previous, next) => previous != next,
-    );
-  }
-
-  List<Widget> _buildRouterFakePages(BuildContext context, List<RouterFakeInfo> infos) {
-    final pages = <Widget>[];
-    
-    for (var info in infos) {
-      if (StringUtil.isNotBlank(info.routerPath) && routes[info.routerPath] != null) {
-        final builder = routes[info.routerPath];
-        if (builder != null) {
-          pages.add(PcRouterFake(
-            info: info,
-            child: builder(context),
-          ));
-        }
-      } else if (info.buildContent != null) {
-        pages.add(PcRouterFake(
-          info: info,
-          child: info.buildContent!(context),
-        ));
-      }
-    }
-    
-    return pages;
   }
 
   void doAuth() {
@@ -731,20 +436,4 @@ class _IndexWidgetState extends CustState<IndexWidget>
       await FlutterInappPurchase.instance.finalize();
     }
   }
-}
-
-/// Helper class to hold appbar components
-class _AppBarContent {
-  final Widget? _center;
-  final Widget? _right;
-  
-  _AppBarContent(this._center, this._right);
-}
-
-/// Helper class to hold column width values
-class _ColumnWidths {
-  final double column0Width;
-  final double column1Width;
-  
-  _ColumnWidths(this.column0Width, this.column1Width);
 }
