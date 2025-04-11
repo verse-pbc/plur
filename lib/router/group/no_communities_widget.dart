@@ -229,25 +229,64 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   void _joinTestUsersGroup() {
     const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
-    // Show loading indicator
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Joining Plur Test Users group..."),
-        duration: Duration(seconds: 1),
-      ),
+    // Show confirmation dialog first
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text("Join Plur Test Users Group"),
+          content: const Text(
+            "Would you like to join the Plur Test Users community? "
+            "This is a public group for testing features and connecting with other users."
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Close dialog without joining
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  color: Theme.of(context).customColors.secondaryForegroundColor,
+                ),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Close dialog
+                
+                // Show loading indicator
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Joining Plur Test Users group..."),
+                    duration: Duration(seconds: 1),
+                  ),
+                );
+                
+                // Attempt to join the group
+                bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                
+                if (!success && mounted) {
+                  // Show error message if joining failed
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Failed to join test users group. Please try again later."),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                }
+              },
+              child: Text(
+                "Join Group",
+                style: TextStyle(
+                  color: Theme.of(context).customColors.accentColor,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
-    
-    // Attempt to join the group
-    bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
-    
-    if (!success && mounted) {
-      // Show error message if joining failed
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Failed to join test users group. Please try again later."),
-          duration: Duration(seconds: 3),
-        ),
-      );
-    }
   }
 }
