@@ -1,74 +1,50 @@
-# BotToast, Layout, and Test Group Joining Fixes
+# Admin-Only Posts Feature and UI Improvements
 
 ## Summary
-This PR addresses several critical issues from the CHANGELOG causing blank screens, layout errors, and improves the user experience. It implements error handling improvements, fixes layout constraints, makes the Test Users Group joining optional, and addresses iOS/macOS compatibility issues.
+This PR adds a new admin-only posts feature for communities, completely redesigns the group invitation dialog, and fixes critical issues with community creation. It also addresses iOS build issues.
 
 ## Implements CHANGELOG Items
 
 ### From Release Notes Section
-- ✅ **"Made test group joining optional with confirmation dialog"**
-- ✅ **"Fixed blank screen issues when creating and joining communities"**
-- ✅ **"Improved invitation and group creation workflow with better error handling"**
+- ✅ **"Added admin-only posts feature for community admins"**
+- ✅ **"Redesigned group invitation dialog with better UX and clear next steps"**
+- ✅ **"Fixed issue with community creation button allowing multiple submissions"**
 
-### From Internal Changes Section  
-- ✅ **"Fixed AVIF image loading issues that caused crashes"**
-- ✅ **"Improved BotToast error handling to prevent blank screens"**
-- ✅ **"Fixed issues with unbounded constraints in layout of community screens"**
-- ✅ **"Enhanced error logging and recovery to improve app stability"**
+## Features and Fixes
 
-## Technical Changes
+1. **Admin-Only Posts Feature**:
+   - Added a toggle in group settings for "Admin-only posts" option
+   - Implemented permission checks to restrict posting to admins when enabled
+   - Only allows admins to create new posts, while all members can still chat
+   - Added localization for all new UI text
 
-### BotToast Error Handling
-- Fixed `LateInitializationError: Local 'cancelFunc' has not been initialized` errors
-- Added proper toast function tracking and cleanup to prevent memory leaks
-- Improved error recovery when toasts fail to display
-- Added periodic toast cleanup in SystemTimer
+2. **Invite Dialog Redesign**:
+   - Completely redesigned the invitation dialog after group creation
+   - Added clear next steps for community setup including guidelines creation
+   - Improved UI with better spacing, readability, and clear calls to action
+   - Fixed rendering issues that previously caused layout exceptions
 
-### Layout and Rendering Fixes
-- Fixed "Cannot hit test a render box with no size" errors in InvitePeopleWidget
-- Fixed MouseTracker assertion errors with safer async state management
-- Resolved unbounded height constraints with proper layout constraints
-- Used LayoutBuilder, SingleChildScrollView, and ConstrainedBox for proper sizing
-- Added _isDisposed flag for safer widget lifecycle management
+3. **Community Creation Improvements**:
+   - Fixed issue where creating a community button could be clicked multiple times
+   - Added input blocking during community creation to prevent duplicate submissions
+   - Improved error handling to provide better feedback on failures
 
-### UI Improvements
-- Enhanced "Join Plur Test Users Group" dialog with Plur design system colors
-- Improved button layout and responsiveness in dialogs
-- Used proper localization instead of hardcoded text
+4. **iOS Fixes**:
+   - Fixed iOS build issues with the Podfile
+   - Disabled Sentry on iOS/macOS by adding appropriate preprocessor definitions
+   - Added DisableSentry flag in Info.plist
 
-### User Experience Enhancements
-- Made Test Users Group joining optional instead of automatic
-- Improved error recovery throughout the app
-- Enhanced state management to prevent updates during critical phases
-
-### Sentry and BlurHash Changes
-- Added helper files for better Sentry error reporting compatibility on iOS/macOS
-- Fixed BlurHash issues on iOS by providing empty implementations when needed
-- Improved error logging and recovery to improve app stability
-
-### Test Improvements
-- Fixed test failures related to SettingsProvider LateInitializationError:
-  - Added proper test instance management in SettingsProvider with setTestInstance/clearTestInstance methods
-  - Fixed tab_switching_performance_test.dart to use proper mocks for settings
-  - Simplified problematic tests that were encountering HTTP client mocking issues
-- Fixed EventKind constants usage in tests:
-  - Updated constants to use the actual names from the SDK (groupMetadata, groupMembers, groupNote)
-  - Fixed mock objects for testing
-  - Improved test robustness
+## Technical Implementation
+- Added `adminOnlyPosts` property to GroupMetadata class
+- Updated NIP29 protocol implementation to support admin-only posts tags
+- Modified permission checks in editor_widget.dart to enforce admin-only restrictions
+- Redesigned invite_people_widget.dart to improve layout and prevent rendering issues
+- Used AbsorbPointer to block UI interactions during async operations
+- Added improved error handling and state management
 
 ## Testing
-- Verified that the app no longer shows blank screens when errors occur
-- Confirmed that new users aren't automatically joined to test groups
-- Tested that the UI properly renders on different screen sizes without layout errors
-- Confirmed proper localization is working for all text elements
-- Fixed all failing tests to ensure CI pipeline passes:
-  - Fixed mock settings provider initialization in tests
-  - Updated test structure to work with the latest SDK constants
-  - Simplified complex tests with HTTP client mocking to improve stability
-
-## Screenshots
-*Before: Join Test Users dialog with incorrect color scheme*
-[See attached screenshots in PR]
-
-*After: Join Test Users dialog with Plur color scheme*
-[See attached screenshots in PR]
+- Verified that only admins can create posts when admin-only posts is enabled
+- Confirmed that all members can still chat in admin-only posts groups
+- Tested the new invite dialog to ensure proper rendering on different devices
+- Verified that the community creation button cannot be clicked multiple times
+- Confirmed that the app builds and runs correctly on iOS devices

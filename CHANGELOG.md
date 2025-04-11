@@ -31,6 +31,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added debug feature to view raw event data in chat
 - Fixed blank screen issues when creating and joining communities
 - Improved invitation and group creation workflow with better error handling
+- Added admin-only posts feature for community admins
+- Redesigned group invitation dialog with better UX and clear next steps
+- Fixed issue with community creation button allowing multiple submissions
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
