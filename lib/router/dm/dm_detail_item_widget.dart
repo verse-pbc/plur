@@ -10,6 +10,7 @@ import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/settings_provider.dart';
+import '../group/group_detail_chat_widget.dart';
 import 'dm_plaintext_handle.dart';
 
 class DMDetailItemWidget extends StatefulWidget {
@@ -18,12 +19,15 @@ class DMDetailItemWidget extends StatefulWidget {
   final Event event;
 
   final bool isLocal;
+  
+  final String? replyToId;
 
   const DMDetailItemWidget({
     super.key, 
     required this.sessionPubkey,
     required this.event,
     required this.isLocal,
+    this.replyToId,
   });
 
   @override
@@ -102,6 +106,32 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
       topList.add(enhancedIcon);
     }
 
+    // Build the reply indicator if this is a reply
+    Widget? replyIndicator;
+    if (widget.replyToId != null) {
+      replyIndicator = Container(
+        margin: const EdgeInsets.only(bottom: 4),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.reply,
+              size: 14,
+              color: hintColor,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              'Reply',
+              style: TextStyle(
+                fontSize: 12,
+                color: hintColor,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     var contentWidget = Container(
       margin: const EdgeInsets.only(
         left: Base.basePaddingHalf,
@@ -116,6 +146,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
             mainAxisSize: MainAxisSize.min,
             children: topList,
           ),
+          if (replyIndicator != null) replyIndicator,
           Container(
             margin: const EdgeInsets.only(top: 4),
             padding: const EdgeInsets.only(
@@ -132,20 +163,60 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
             // child: SelectableText(content),
-            child: Column(
-              crossAxisAlignment: widget.isLocal
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ContentWidget(
-                  content: content,
-                  event: widget.event,
-                  showLinkPreview:
-                      settingsProvider.linkPreview == OpenStatus.open,
-                  smallest: true,
-                ),
-              ],
+            child: GestureDetector(
+              onLongPress: () {
+                // Show context menu with reply option
+                final RenderBox renderBox = context.findRenderObject() as RenderBox;
+                final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+                final RelativeRect position = RelativeRect.fromRect(
+                  Rect.fromPoints(
+                    renderBox.localToGlobal(Offset.zero, ancestor: overlay),
+                    renderBox.localToGlobal(renderBox.size.bottomRight(Offset.zero), ancestor: overlay),
+                  ),
+                  Offset.zero & overlay.size,
+                );
+                
+                showMenu(
+                  context: context,
+                  position: position,
+                  items: [
+                    PopupMenuItem(
+                      value: 'reply',
+                      child: Row(
+                        children: const [
+                          Icon(Icons.reply),
+                          SizedBox(width: 8),
+                          Text('Reply'),
+                        ],
+                      ),
+                    ),
+                  ],
+                ).then((value) {
+                  if (value == 'reply') {
+                    // Notify parent to set up reply
+                    final chatWidget = context.findAncestorStateOfType<GroupDetailChatWidgetState>();
+                    if (chatWidget != null) {
+                      chatWidget.setReplyToEvent(widget.event);
+                    }
+                  }
+                });
+              },
+              child: Column(
+                crossAxisAlignment: widget.isLocal
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ContentWidget(
+                    content: content,
+                    event: widget.event,
+                    showLinkPreview: settingsProvider.linkPreview == OpenStatus.open,
+                    showImage: true,  // Enable image display
+                    showVideo: true,  // Enable video display
+                    smallest: true,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
