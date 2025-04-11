@@ -5,7 +5,7 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
-import 'package:nostrmo/router/group/community_widget.dart';
+import 'package:nostrmo/features/communities/community_widget.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/time_util.dart';
