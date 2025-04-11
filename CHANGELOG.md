@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 - Add name collection to the onboarding flow. [#314](https://github.com/verse-pbc/issues/issues/314)
 - Added a warning that group media is public. [#246](https://github.com/verse-pbc/issues/issues/246)
+- Added convenient paste join link buttons to easily join communities from clipboard invite links
 
 ### Internal Changes
 

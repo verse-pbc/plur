@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
+import 'package:nostrmo/component/paste_join_link_button.dart';
 
 import '../../component/shimmer/shimmer.dart';
 import '../../util/theme_util.dart';
@@ -49,6 +50,9 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
         error: (error, stackTrace) => Center(child: ErrorWidget(error)),
         loading: () => const Center(child: CircularProgressIndicator()),
       ),
+      // Add the paste link button that appears when clipboard has a join link
+      floatingActionButton: const PasteJoinLinkButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
