@@ -61,7 +61,6 @@ class ImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isWeb = PlatformUtil.isWeb();
     final processedUrl = _getProcessedUrl(url, isWeb);
-    final imageTag = "img_${url.hashCode}"; // Unique tag for preload optimization
 
     // Use try-catch at the entire build level to catch any unexpected errors
     try {
