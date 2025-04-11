@@ -3540,16 +3540,6 @@ class S {
     );
   }
 
-  /// `Find Group`
-  String get Find_Group {
-    return Intl.message(
-      'Find Group',
-      name: 'Find_Group',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `For legal reasons, we need to make sure you're over this age to use Plur.`
   String get Age_verification_message {
     return Intl.message(
@@ -3560,31 +3550,11 @@ class S {
     );
   }
 
-  /// `Discover Groups`
-  String get Discover_Groups {
-    return Intl.message(
-      'Discover Groups',
-      name: 'Discover_Groups',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `No`
   String get No {
     return Intl.message(
       'No',
       name: 'No',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Search for public groups`
-  String get Search_for_public_groups {
-    return Intl.message(
-      'Search for public groups',
-      name: 'Search_for_public_groups',
       desc: '',
       args: [],
     );
@@ -3685,6 +3655,36 @@ class S {
     return Intl.message(
       'Continue',
       name: 'Continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find Group`
+  String get Find_Group {
+    return Intl.message(
+      'Find Group',
+      name: 'Find_Group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover Groups`
+  String get Discover_Groups {
+    return Intl.message(
+      'Discover Groups',
+      name: 'Discover_Groups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for public groups`
+  String get Search_for_public_groups {
+    return Intl.message(
+      'Search for public groups',
+      name: 'Search_for_public_groups',
       desc: '',
       args: [],
     );
