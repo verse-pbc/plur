@@ -9,27 +9,27 @@ import 'nip19.dart';
 import 'tlv_util.dart';
 
 class NIP19Tlv {
-  static const NOTE_REFERENCES = "nostr:";
+  static const noteReferences = "nostr:";
 
   static bool isNprofile(String text) {
-    return Nip19.isKey(Hrps.NPROFILE, text);
+    return Nip19.isKey(Hrps.nprofile, text);
   }
 
   static bool isNevent(String text) {
-    return Nip19.isKey(Hrps.NEVENT, text);
+    return Nip19.isKey(Hrps.nevent, text);
   }
 
   static bool isNrelay(String text) {
-    return Nip19.isKey(Hrps.NRELAY, text);
+    return Nip19.isKey(Hrps.nrelay, text);
   }
 
   static bool isNaddr(String text) {
-    return Nip19.isKey(Hrps.NADDR, text);
+    return Nip19.isKey(Hrps.naddr, text);
   }
 
   static List<int> _decodePreHandle(String text) {
     try {
-      text = text.replaceAll(NOTE_REFERENCES, "");
+      text = text.replaceAll(noteReferences, "");
 
       var decoder = Bech32Decoder();
       var bech32Result = decoder.convert(text, 1000);
@@ -55,9 +55,9 @@ class NIP19Tlv {
       }
       startIndex += tlvData.length + 2;
 
-      if (tlvData.typ == TLVType.Default) {
+      if (tlvData.typ == TLVType.defaultType) {
         pubkey = HEX.encode(tlvData.data);
-      } else if (tlvData.typ == TLVType.Relay) {
+      } else if (tlvData.typ == TLVType.relay) {
         var relay = utf8.decode(tlvData.data);
         relays.add(relay);
       }
@@ -86,16 +86,16 @@ class NIP19Tlv {
       }
       startIndex += tlvData.length + 2;
 
-      if (tlvData.typ == TLVType.Default) {
+      if (tlvData.typ == TLVType.defaultType) {
         id = HEX.encode(tlvData.data);
-      } else if (tlvData.typ == TLVType.Relay) {
+      } else if (tlvData.typ == TLVType.relay) {
         var relay = utf8.decode(tlvData.data);
         relays.add(relay);
-      } else if (tlvData.typ == TLVType.Kind) {
+      } else if (tlvData.typ == TLVType.kind) {
         Uint8List byteList = Uint8List.fromList(tlvData.data);
         var byteData = ByteData.sublistView(byteList);
         kind = byteData.getInt32(0, Endian.big);
-      } else if (tlvData.typ == TLVType.Author) {
+      } else if (tlvData.typ == TLVType.author) {
         author = HEX.encode(tlvData.data);
       }
     }
@@ -120,7 +120,7 @@ class NIP19Tlv {
       }
       startIndex += tlvData.length + 2;
 
-      if (tlvData.typ == TLVType.Default) {
+      if (tlvData.typ == TLVType.defaultType) {
         var relay = utf8.decode(tlvData.data);
         addr = relay;
       }
@@ -149,16 +149,16 @@ class NIP19Tlv {
       }
       startIndex += tlvData.length + 2;
 
-      if (tlvData.typ == TLVType.Default) {
+      if (tlvData.typ == TLVType.defaultType) {
         id = HEX.encode(tlvData.data);
-      } else if (tlvData.typ == TLVType.Relay) {
+      } else if (tlvData.typ == TLVType.relay) {
         var relay = utf8.decode(tlvData.data);
         relays.add(relay);
-      } else if (tlvData.typ == TLVType.Kind) {
+      } else if (tlvData.typ == TLVType.kind) {
         Uint8List byteList = Uint8List.fromList(tlvData.data);
         var byteData = ByteData.sublistView(byteList);
         kind = byteData.getInt32(0, Endian.big);
-      } else if (tlvData.typ == TLVType.Author) {
+      } else if (tlvData.typ == TLVType.author) {
         author = HEX.encode(tlvData.data);
       }
     }
@@ -173,63 +173,63 @@ class NIP19Tlv {
   static String _handleEncodeResult(String hrp, List<int> buf) {
     var encoder = Bech32Encoder();
     Bech32 input = Bech32(hrp, buf);
-    return NOTE_REFERENCES + encoder.convert(input, 2000);
+    return noteReferences + encoder.convert(input, 2000);
   }
 
   static String encodeNprofile(Nprofile o) {
     List<int> buf = [];
-    TLVUtil.writeTLVEntry(buf, TLVType.Default, HEX.decode(o.pubkey));
+    TLVUtil.writeTLVEntry(buf, TLVType.defaultType, HEX.decode(o.pubkey));
     if (o.relays != null) {
       for (var relay in o.relays!) {
-        TLVUtil.writeTLVEntry(buf, TLVType.Relay, utf8.encode(relay));
+        TLVUtil.writeTLVEntry(buf, TLVType.relay, utf8.encode(relay));
       }
     }
 
     buf = Nip19.convertBits(buf, 8, 5, true);
 
-    return _handleEncodeResult(Hrps.NPROFILE, buf);
+    return _handleEncodeResult(Hrps.nprofile, buf);
   }
 
   static String encodeNevent(Nevent o) {
     List<int> buf = [];
-    TLVUtil.writeTLVEntry(buf, TLVType.Default, HEX.decode(o.id));
+    TLVUtil.writeTLVEntry(buf, TLVType.defaultType, HEX.decode(o.id));
     if (o.relays != null) {
       for (var relay in o.relays!) {
-        TLVUtil.writeTLVEntry(buf, TLVType.Relay, utf8.encode(relay));
+        TLVUtil.writeTLVEntry(buf, TLVType.relay, utf8.encode(relay));
       }
     }
     if (o.author != null) {
-      TLVUtil.writeTLVEntry(buf, TLVType.Author, HEX.decode(o.author!));
+      TLVUtil.writeTLVEntry(buf, TLVType.author, HEX.decode(o.author!));
     }
 
     buf = Nip19.convertBits(buf, 8, 5, true);
 
-    return _handleEncodeResult(Hrps.NEVENT, buf);
+    return _handleEncodeResult(Hrps.nevent, buf);
   }
 
   static String encodeNrelay(Nrelay o) {
     List<int> buf = [];
-    TLVUtil.writeTLVEntry(buf, TLVType.Default, utf8.encode(o.addr));
+    TLVUtil.writeTLVEntry(buf, TLVType.defaultType, utf8.encode(o.addr));
 
     buf = Nip19.convertBits(buf, 8, 5, true);
 
-    return _handleEncodeResult(Hrps.NRELAY, buf);
+    return _handleEncodeResult(Hrps.nrelay, buf);
   }
 
   static String encodeNaddr(Naddr o) {
     List<int> buf = [];
-    TLVUtil.writeTLVEntry(buf, TLVType.Default, HEX.decode(o.id));
-    TLVUtil.writeTLVEntry(buf, TLVType.Author, HEX.decode(o.author));
-    TLVUtil.writeTLVEntry(buf, TLVType.Kind, [o.kind]);
+    TLVUtil.writeTLVEntry(buf, TLVType.defaultType, HEX.decode(o.id));
+    TLVUtil.writeTLVEntry(buf, TLVType.author, HEX.decode(o.author));
+    TLVUtil.writeTLVEntry(buf, TLVType.kind, [o.kind]);
     if (o.relays != null) {
       for (var relay in o.relays!) {
-        TLVUtil.writeTLVEntry(buf, TLVType.Relay, utf8.encode(relay));
+        TLVUtil.writeTLVEntry(buf, TLVType.relay, utf8.encode(relay));
       }
     }
 
     buf = Nip19.convertBits(buf, 8, 5, true);
 
-    return _handleEncodeResult(Hrps.NRELAY, buf);
+    return _handleEncodeResult(Hrps.nrelay, buf);
   }
 }
 

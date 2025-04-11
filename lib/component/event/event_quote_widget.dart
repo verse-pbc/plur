@@ -94,8 +94,8 @@ class _EventQuoteWidgetState extends CustState<EventQuoteWidget> {
 
   Widget buildEventWidget(
       Event event, Color cardColor, BoxDecoration boxDecoration) {
-    if (event.kind == EventKind.STORAGE_SHARED_FILE ||
-        event.kind == EventKind.FILE_HEADER) {
+    if (event.kind == EventKind.storageSharedFile ||
+        event.kind == EventKind.fileHeader) {
       return EventMainWidget(
         screenshotController: screenshotController,
         event: event,

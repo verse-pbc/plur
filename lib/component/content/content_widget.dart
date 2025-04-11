@@ -199,7 +199,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     largetFontSize = themeData.textTheme.bodyLarge!.fontSize!;
     iconWidgetWidth = largetFontSize + 4;
     hintColor = themeData.hintColor;
-    codeBackgroundColor = hintColor!.withOpacity(0.25);
+    codeBackgroundColor = hintColor!.withAlpha(64);
     var settingsProvider = Provider.of<SettingsProvider>(context);
     mdh1Style = TextStyle(
       fontSize: largetFontSize + 1,
@@ -253,7 +253,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     });
 
     if (widget.imageListMode &&
-        settingsProvider.limitNoteHeight != OpenStatus.CLOSE) {
+        settingsProvider.limitNoteHeight != OpenStatus.close) {
       // imageListMode is true, means this content is in list, should limit height
       return LayoutBuilder(builder: (context, constraints) {
         TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
@@ -283,7 +283,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: Base.basePadding),
                   height: 30,
-                  color: themeData.cardColor.withOpacity(0.85),
+                  color: themeData.cardColor.withAlpha(217),
                   child: Text(
                     localization.Show_more,
                     style: TextStyle(
@@ -588,7 +588,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       List<InlineSpan> currentList, List<String> images) {
     if (str.indexOf(httpsPre) == 0 ||
         str.indexOf(httpPre) == 0 ||
-        str.indexOf(BASE64.PREFIX) == 0) {
+        str.indexOf(BASE64.prefix) == 0) {
       // http style, get path style
       var pathType = PathTypeUtil.getPathType(str);
       if (pathType == "image") {
@@ -778,7 +778,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         var nevent = NIP19Tlv.decodeNevent(key);
         if (nevent != null &&
             (nevent.kind == null ||
-                EventKind.SUPPORTED_EVENTS.contains(nevent.kind))) {
+                EventKind.supportedEvents.contains(nevent.kind))) {
           // block
           bufferToList(buffer, currentList, images, removeLastSpan: true);
           var w = EventQuoteWidget(
@@ -817,7 +817,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           }
 
           if (StringUtil.isNotBlank(naddr.author) &&
-              naddr.kind == EventKind.METADATA) {
+              naddr.kind == EventKind.metadata) {
             // inline
             bufferToList(buffer, currentList, images);
             currentList.add(WidgetSpan(
@@ -825,7 +825,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
             return otherStr;
           } else if (StringUtil.isNotBlank(naddr.id) &&
-              EventKind.SUPPORTED_EVENTS.contains(naddr.kind)) {
+              EventKind.supportedEvents.contains(naddr.kind)) {
             // block
             String? id = naddr.id;
             AId? aid;
@@ -846,7 +846,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             counterAddLines(fakeEventCounter);
 
             return otherStr;
-          } else if (naddr.kind == EventKind.LIVE_EVENT) {
+          } else if (naddr.kind == EventKind.liveEvent) {
             bufferToList(buffer, currentList, images, removeLastSpan: true);
             var w = ContentLinkPreWidget(
               link: "https://zap.stream/$key",
@@ -1212,7 +1212,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       return;
     }
 
-    if (settingsProvider.openTranslate != OpenStatus.OPEN) {
+    if (settingsProvider.openTranslate != OpenStatus.open) {
       // is close
       if (targetTextMap.isNotEmpty) {
         // set targetTextMap to null

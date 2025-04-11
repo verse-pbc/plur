@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ColorList {
 
-  static List<Color> ALL_COLOR = [
+  static List<Color> allColor = [
     Colors.purple[700]!,
     Colors.blue[700]!,
     Colors.cyan[700]!,
@@ -16,7 +16,7 @@ class ColorList {
 
   static MaterialColor getThemeColor(int colorValue) {
     var i = 0;
-    Color checkedColor = ALL_COLOR[i++];
+    Color checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,
@@ -35,7 +35,7 @@ class ColorList {
       );
     }
 
-    checkedColor = ALL_COLOR[i++];
+    checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,
@@ -54,7 +54,7 @@ class ColorList {
       );
     }
 
-    checkedColor = ALL_COLOR[i++];
+    checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,
@@ -73,7 +73,7 @@ class ColorList {
       );
     }
 
-    checkedColor = ALL_COLOR[i++];
+    checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,
@@ -92,7 +92,7 @@ class ColorList {
       );
     }
 
-    checkedColor = ALL_COLOR[i++];
+    checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,
@@ -111,7 +111,7 @@ class ColorList {
       );
     }
 
-    checkedColor = ALL_COLOR[i++];
+    checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,
@@ -130,7 +130,7 @@ class ColorList {
       );
     }
 
-    checkedColor = ALL_COLOR[i++];
+    checkedColor = allColor[i++];
     if (colorValue == checkedColor.value) {
       return MaterialColor(
         checkedColor.value,

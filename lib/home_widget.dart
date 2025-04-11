@@ -13,13 +13,13 @@ import 'package:provider/provider.dart';
 import 'generated/l10n.dart';
 
 class HomeWidget extends StatefulWidget {
-  Widget child;
+  final Widget child;
 
-  Locale? locale;
+  final Locale? locale;
 
-  ThemeData? theme;
+  final ThemeData? theme;
 
-  HomeWidget({
+  const HomeWidget({
     super.key,
     required this.child,
     this.locale,

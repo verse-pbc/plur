@@ -42,7 +42,7 @@ class MusicProvider extends ChangeNotifier {
   Future<void> play(MusicInfo mi) async {
     try {
       log('music info: $_musicInfo');
-    } catch (e) {}
+    } catch (_) {}
 
     if (_musicInfo != null && mi.audioUrl == _musicInfo!.audioUrl) {
       player.seek(Duration.zero);

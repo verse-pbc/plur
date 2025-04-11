@@ -14,40 +14,61 @@ class CreateCommunityWidget extends StatefulWidget {
 class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
   final TextEditingController _communityNameController =
       TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text(
-          "Create your community",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+    final localization = S.of(context);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              localization.Create_your_community,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            Text(localization.Name_your_community),
+            const SizedBox(height: 10),
+            TextField(
+              controller: _communityNameController,
+              decoration: InputDecoration(
+                hintText: localization.community_name,
+                border: const OutlineInputBorder(),
+              ),
+              onChanged: (text) {
+                setState(() {});
+              },
+            ),
+            const SizedBox(height: 20),
+            PrimaryButtonWidget(
+              text: S.of(context).Confirm,
+              onTap: _communityNameController.text.isNotEmpty
+                  ? _createCommunity
+                  : null,
+              enabled: _communityNameController.text.isNotEmpty,
+            ),
+          ],
         ),
-        const SizedBox(height: 20),
-        const Text("Name your community"),
-        const SizedBox(height: 10),
-        TextField(
-          controller: _communityNameController,
-          decoration: const InputDecoration(
-            hintText: "community name",
-            border: OutlineInputBorder(),
-          ),
-          onChanged: (text) {
-            setState(() {});
-          },
-        ),
-        const SizedBox(height: 20),
-        PrimaryButtonWidget(
-          text: S.of(context).Confirm,
-          onTap: _communityNameController.text.isNotEmpty
-              ? () => widget.onCreateCommunity(_communityNameController.text)
-              : null,
-          enabled: _communityNameController.text.isNotEmpty,
-        ),
-      ],
+      ),
     );
+  }
+
+  void _createCommunity() {
+    if (_isLoading) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    widget.onCreateCommunity(_communityNameController.text);
+    // No need to set _isLoading back to false as we'll transition to the next screen
   }
 }

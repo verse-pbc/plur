@@ -5,18 +5,18 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import '../main.dart';
 
 class ImageWidget extends StatelessWidget {
-  String imageUrl;
+  final String url;
 
-  double? width;
+  final double? width;
 
-  double? height;
+  final double? height;
 
-  BoxFit? fit;
+  final BoxFit? fit;
 
-  PlaceholderWidgetBuilder? placeholder;
+  final PlaceholderWidgetBuilder? placeholder;
 
-  ImageWidget({super.key, 
-    required this.imageUrl,
+  const ImageWidget({super.key,
+    required this.url,
     this.width,
     this.height,
     this.fit,
@@ -25,19 +25,22 @@ class ImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (PlatformUtil.isWeb()) {
-      // TODO temp handle nostr.build cors error, these should be handled later.
-      if (imageUrl.startsWith("https://nostr.build/i/p/")) {
-        imageUrl = imageUrl.replaceFirst(
-            "https://nostr.build/i/p/", "https://pfp.nostr.build/");
-      } else if (imageUrl.startsWith("https://nostr.build/i/")) {
-        imageUrl = imageUrl.replaceFirst(
-            "https://nostr.build/i/", "https://image.nostr.build/");
-      } else if (imageUrl.startsWith("https://cdn.nostr.build/i/")) {
-        imageUrl = imageUrl.replaceFirst(
-            "https://cdn.nostr.build/i/", "https://image.nostr.build/");
+    final imageUrl = () {
+      if (PlatformUtil.isWeb()) {
+        // TODO temp handle nostr.build cors error, these should be handled later.
+        if (url.startsWith("https://nostr.build/i/p/")) {
+          return url.replaceFirst(
+              "https://nostr.build/i/p/", "https://pfp.nostr.build/");
+        } else if (url.startsWith("https://nostr.build/i/")) {
+          return url.replaceFirst(
+              "https://nostr.build/i/", "https://image.nostr.build/");
+        } else if (url.startsWith("https://cdn.nostr.build/i/")) {
+          return url.replaceFirst(
+              "https://cdn.nostr.build/i/", "https://image.nostr.build/");
+        }
       }
-    }
+      return url;
+    }();
 
     return CachedNetworkImage(
       imageUrl: imageUrl,

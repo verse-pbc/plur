@@ -15,9 +15,9 @@ import 'package:provider/provider.dart';
 import 'dm_plaintext_handle.dart';
 
 class DMSessionListItemWidget extends StatefulWidget {
-  DMSessionDetail detail;
+  final DMSessionDetail detail;
 
-  DMSessionListItemWidget({
+  const DMSessionListItemWidget({
     super.key,
     required this.detail,
   });
@@ -32,8 +32,6 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
     with DMPlaintextHandle {
   static const double imageWidth = 34;
 
-  static const double halfImageWidth = 17;
-
   @override
   Widget build(BuildContext context) {
     var main = Selector<UserProvider, User?>(
@@ -46,7 +44,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
         var dmSession = widget.detail.dmSession;
 
         var content = dmSession.newestEvent!.content;
-        if (dmSession.newestEvent!.kind == EventKind.DIRECT_MESSAGE &&
+        if (dmSession.newestEvent!.kind == EventKind.directMessage &&
             StringUtil.isBlank(plainContent)) {
           handleEncryptedText(dmSession.newestEvent!, dmSession.pubkey);
         }
@@ -152,7 +150,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
 
     return GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.DM_DETAIL, widget.detail);
+        RouterUtil.router(context, RouterPath.dmDetail, widget.detail);
       },
       child: main,
     );

@@ -4,23 +4,23 @@ import 'package:nostrmo/component/nip05_valid_widget.dart';
 import 'package:nostrmo/data/user.dart';
 
 class NameWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  User? user;
+  final User? user;
 
-  bool showNip05;
+  final bool showNip05;
 
-  double? fontSize;
+  final double? fontSize;
 
-  Color? fontColor;
+  final Color? fontColor;
 
-  TextOverflow? textOverflow;
+  final TextOverflow? textOverflow;
 
-  int? maxLines;
+  final int? maxLines;
 
-  bool showName;
+  final bool showName;
 
-  NameWidget({
+  const NameWidget({
     super.key,
     required this.pubkey,
     this.user,
@@ -42,7 +42,6 @@ class _NameWidgetState extends State<NameWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var textSize = themeData.textTheme.bodyMedium!.fontSize;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     Color hintColor = themeData.hintColor;

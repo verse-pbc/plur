@@ -39,7 +39,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
 
     entries.add(AddBtnStartItemButton(
       iconData: Icons.note,
-      iconBackgroundColor: ColorList.ALL_COLOR[++index],
+      iconBackgroundColor: ColorList.allColor[++index],
       iconSize: iconSize,
       name: "Note",
       backgroundColor: cardColor,
@@ -50,7 +50,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
     ));
     entries.add(AddBtnStartItemButton(
       iconData: Icons.article,
-      iconBackgroundColor: ColorList.ALL_COLOR[++index],
+      iconBackgroundColor: ColorList.allColor[++index],
       iconSize: iconSize,
       name: "Article",
       backgroundColor: cardColor,
@@ -61,7 +61,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
     ));
     entries.add(AddBtnStartItemButton(
       iconData: Icons.image,
-      iconBackgroundColor: ColorList.ALL_COLOR[++index],
+      iconBackgroundColor: ColorList.allColor[++index],
       iconSize: iconSize,
       name: "Media (NIP-94)",
       backgroundColor: cardColor,
@@ -71,7 +71,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
     ));
     entries.add(AddBtnStartItemButton(
       iconData: Icons.poll,
-      iconBackgroundColor: ColorList.ALL_COLOR[++index],
+      iconBackgroundColor: ColorList.allColor[++index],
       iconSize: iconSize,
       name: "Poll",
       backgroundColor: cardColor,
@@ -82,7 +82,7 @@ class _AddBtnWrapperWidgetState extends State<AddBtnWrapperWidget> {
     ));
     entries.add(AddBtnStartItemButton(
       iconData: Icons.trending_up,
-      iconBackgroundColor: ColorList.ALL_COLOR[++index],
+      iconBackgroundColor: ColorList.allColor[++index],
       iconSize: iconSize,
       name: "Zap Goal",
       backgroundColor: cardColor,
@@ -164,7 +164,7 @@ class AddBtnStartItemButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withAlpha(51),
               offset: const Offset(2, 5),
               blurRadius: 10,
               spreadRadius: 0,

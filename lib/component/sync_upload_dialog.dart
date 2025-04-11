@@ -13,9 +13,9 @@ import '../util/router_util.dart';
 import '../util/theme_util.dart';
 
 class SyncUploadDialog extends StatefulWidget {
-  List<Event> events;
+  final List<Event> events;
 
-  SyncUploadDialog({super.key, required this.events});
+  const SyncUploadDialog({super.key, required this.events});
 
   static Future<void> show(BuildContext context, List<Event> events) async {
     await showDialog(
@@ -47,7 +47,6 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     var mainColor = themeData.primaryColor;
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
     Color cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
 
     var relayProvider = Provider.of<RelayProvider>(context);
 
@@ -102,13 +101,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     ));
 
     List<Widget> subList = [];
-    List<String> addrs = [RelayLocal.URL, ...relayProvider.relayAddrs]
+    List<String> addrs = [RelayLocal.localUrl, ...relayProvider.relayAddrs]
       
       ;
     for (var relayAddr in addrs) {
       var relayStatus = relayProvider.relayStatusMap[relayAddr];
       if (relayStatus == null) {
-        if (relayAddr == RelayLocal.URL) {
+        if (relayAddr == RelayLocal.localUrl) {
           subList.add(SyncUploadItem(
               relayAddr, _relaySelected[relayAddr] == true, onItemTap));
         }
@@ -141,7 +140,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
           onTap: () {
             beginToUpload();
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,
@@ -235,7 +234,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
             try {
               count++;
               relay.send(message);
-            } catch (e) {}
+            } catch (_) {}
           }
         }
         // log("note ${index} send to ${count} relays");
@@ -254,13 +253,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
 }
 
 class SyncUploadItem extends StatefulWidget {
-  String addr;
+  final String addr;
 
-  bool check;
+  final bool check;
 
-  Function(String, bool) onTap;
+  final Function(String, bool) onTap;
 
-  SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
+  const SyncUploadItem(this.addr, this.check, this.onTap, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -287,10 +286,10 @@ class _SyncUploadItem extends State<SyncUploadItem> {
           bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: widget.check ? mainColor.withOpacity(0.2) : null,
+          color: widget.check ? mainColor.withAlpha(51) : null,
           border: Border.all(
             width: 1,
-            color: hintColor.withOpacity(0.5),
+            color: hintColor.withAlpha(128),
           ),
           borderRadius: BorderRadius.circular(Base.basePaddingHalf),
         ),

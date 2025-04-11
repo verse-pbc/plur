@@ -93,23 +93,23 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
           num: provider.followSetEventMap.length,
           name: localization.Follow_set,
           onTap: () {
-            RouterUtil.router(context, RouterPath.FOLLOW_SET_LIST);
+            RouterUtil.router(context, RouterPath.followSetList);
           }));
 
-      list.add(Selector<ListProvider, int>(builder: (context, num, child) {
+      list.add(Selector<ListProvider, int>(builder: (context, number, child) {
         return UserStatisticsItemWidget(
-            num: num,
+            num: number,
             name: localization.Groups,
             onTap: () {
-              RouterUtil.router(context, RouterPath.GROUP_LIST);
+              RouterUtil.router(context, RouterPath.groupList);
             });
       }, selector: (_, provider) {
         return provider.groupIdentifiers.length;
       }));
 
-      list.add(Selector<RelayProvider, int>(builder: (context, num, child) {
+      list.add(Selector<RelayProvider, int>(builder: (context, number, child) {
         return UserStatisticsItemWidget(
-            num: num, name: localization.Relays, onTap: onRelaysTap);
+            num: number, name: localization.Relays, onTap: onRelaysTap);
       }, selector: (_, provider) {
         return provider.total();
       }));
@@ -218,7 +218,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       fetchLocalContactsId = StringUtil.rndNameStr(16);
       localContactBox = EventMemBox(sortAfterAdd: false);
       var filter =
-          Filter(authors: [widget.pubkey], kinds: [EventKind.CONTACT_LIST]);
+          Filter(authors: [widget.pubkey], kinds: [EventKind.contactList]);
       nostr!.query([filter.toJson()], (event) {
         localContactBox!.add(event);
       }, id: fetchLocalContactsId);
@@ -245,11 +245,12 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       }
 
       var result = await EnumSelectorWidget.show(context, enumList);
+      if (!mounted) return;
       if (result != null) {
         var event = result.value as Event;
         var contactList = ContactList.fromJson(event.tags, event.createdAt);
         RouterUtil.router(
-            context, RouterPath.USER_HISTORY_CONTACT_LIST, contactList);
+            context, RouterPath.userHistoryContactList, contactList);
       }
     }
   }
@@ -269,7 +270,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       var filter = Filter(
           authors: [widget.pubkey],
           limit: 1,
-          kinds: [EventKind.RELAY_LIST_METADATA]);
+          kinds: [EventKind.relayListMetadata]);
       nostr!.query([filter.toJson()], (event) {
         if (((relaysEvent != null &&
                     event.createdAt > relaysEvent!.createdAt) ||
@@ -288,23 +289,23 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     if (isLocal) {
       var cl = contactListProvider.contactList;
       if (cl != null) {
-        RouterUtil.router(context, RouterPath.USER_CONTACT_LIST, cl);
+        RouterUtil.router(context, RouterPath.userContactList, cl);
       }
     } else {
       var contactList = userProvider.getContactList(pubkey!);
       if (contactList != null) {
-        RouterUtil.router(context, RouterPath.USER_CONTACT_LIST, contactList);
+        RouterUtil.router(context, RouterPath.userContactList, contactList);
       }
     }
   }
 
   onFollowedTagsTap() {
     if (contactList != null) {
-      RouterUtil.router(context, RouterPath.FOLLOWED_TAGS_LIST, contactList);
+      RouterUtil.router(context, RouterPath.followedTagsList, contactList);
     } else if (isLocal) {
       var cl = contactListProvider.contactList;
       if (cl != null) {
-        RouterUtil.router(context, RouterPath.FOLLOWED_TAGS_LIST, cl);
+        RouterUtil.router(context, RouterPath.followedTagsList, cl);
       }
     }
   }
@@ -317,7 +318,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       followedMap = {};
       // pull zap event
       Map<String, dynamic> filter = {};
-      filter["kinds"] = [EventKind.CONTACT_LIST];
+      filter["kinds"] = [EventKind.contactList];
       filter["#p"] = [widget.pubkey];
       followedSubscribeId = StringUtil.rndNameStr(12);
       nostr!.query([filter], (e) {
@@ -335,15 +336,15 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     } else {
       // jump to see
       var pubkeys = followedMap!.keys.toList();
-      RouterUtil.router(context, RouterPath.FOLLOWED, pubkeys);
+      RouterUtil.router(context, RouterPath.followed, pubkeys);
     }
   }
 
   onRelaysTap() {
     if (relaysTags != null && relaysTags!.isNotEmpty) {
-      RouterUtil.router(context, RouterPath.USER_RELAYS, relaysTags);
+      RouterUtil.router(context, RouterPath.userRelays, relaysTags);
     } else if (isLocal) {
-      RouterUtil.router(context, RouterPath.RELAYS);
+      RouterUtil.router(context, RouterPath.relays);
     }
   }
 
@@ -353,7 +354,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     if (zapEventBox == null) {
       zapEventBox = EventMemBox(sortAfterAdd: false);
       // pull zap event
-      var filter = Filter(kinds: [EventKind.ZAP], p: [widget.pubkey]);
+      var filter = Filter(kinds: [EventKind.zap], p: [widget.pubkey]);
       zapSubscribeId = StringUtil.rndNameStr(12);
 
       nostr!.query([filter.toJson()], onZapEvent, id: zapSubscribeId);
@@ -363,12 +364,12 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       // Router to vist list
       zapEventBox!.sort();
       var list = zapEventBox!.all();
-      RouterUtil.router(context, RouterPath.USER_ZAP_LIST, list);
+      RouterUtil.router(context, RouterPath.userZapList, list);
     }
   }
 
   onZapEvent(Event event) {
-    if (event.kind == EventKind.ZAP && zapEventBox!.add(event)) {
+    if (event.kind == EventKind.zap && zapEventBox!.add(event)) {
       setState(() {
         zapNum = zapNum! + ZapInfoUtil.getNumFromZapEvent(event);
       });
@@ -388,7 +389,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
     if (StringUtil.isNotBlank(queryId)) {
       try {
         nostr!.unsubscribe(queryId);
-      } catch (e) {}
+      } catch (_) {}
     }
   }
 
@@ -396,11 +397,11 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
   onFollowedCommunitiesTap() {
     if (contactList != null) {
-      RouterUtil.router(context, RouterPath.FOLLOWED_COMMUNITIES, contactList);
+      RouterUtil.router(context, RouterPath.followedCommunities, contactList);
     } else if (isLocal) {
       var cl = contactListProvider.contactList;
       if (cl != null) {
-        RouterUtil.router(context, RouterPath.FOLLOWED_COMMUNITIES, cl);
+        RouterUtil.router(context, RouterPath.followedCommunities, cl);
       }
     }
   }

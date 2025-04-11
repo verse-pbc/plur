@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import '../../consts/base.dart';
 
 class RelaySpeedWidget extends StatefulWidget {
-  String addr;
+  final String addr;
 
-  RelaySpeedWidget(this.addr, {super.key});
+  const RelaySpeedWidget(this.addr, {super.key});
 
   @override
   State<StatefulWidget> createState() {

@@ -12,11 +12,11 @@ import '../../util/router_util.dart';
 class DMNoticeItemWidget extends StatelessWidget {
   static const double imageWidth = 34;
 
-  NoticeData newestNotice;
+  final NoticeData newestNotice;
 
-  bool hasNewMessage;
+  final bool hasNewMessage;
 
-  DMNoticeItemWidget({
+  const DMNoticeItemWidget({
     super.key, 
     required this.newestNotice,
     this.hasNewMessage = false,
@@ -128,7 +128,7 @@ class DMNoticeItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         noticeProvider.setRead();
-        RouterUtil.router(context, RouterPath.NOTICES);
+        RouterUtil.router(context, RouterPath.notices);
       },
       child: main,
     );

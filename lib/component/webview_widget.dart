@@ -24,9 +24,9 @@ import '../generated/l10n.dart';
 import '../main.dart';
 
 class WebViewWidget extends StatefulWidget {
-  String url;
+  final String url;
 
-  WebViewWidget({super.key, required this.url});
+  const WebViewWidget({super.key, required this.url});
 
   static void open(BuildContext context, String link) {
     if (TableModeUtil.isTableMode()) {
@@ -144,12 +144,14 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 action: PermissionResponseAction.GRANT);
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async {
+            final navigator = Navigator.of(context);
             var uri = navigationAction.request.url!;
             if (uri.scheme == "lightning" && StringUtil.isNotBlank(uri.path)) {
               var result =
                   await NIP07Dialog.show(context, NIP07Methods.lightning);
               if (result == true) {
-                await LightningUtil.goToPay(context, uri.path);
+                if (!mounted) return NavigationActionPolicy.CANCEL;
+                await LightningUtil.goToPay(navigator.context, uri.path);
               }
               return NavigationActionPolicy.CANCEL;
             }
@@ -187,7 +189,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
 
     AppBar? appbar;
     late Widget bodyWidget;
-    if (settingsProvider.webviewAppbarOpen == OpenStatus.OPEN) {
+    if (settingsProvider.webviewAppbarOpen == OpenStatus.open) {
       bodyWidget = main;
       appbar = AppBar(
         backgroundColor: appBarBG,
@@ -336,6 +338,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
 
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
+      if (!mounted) return;
       BotToast.showText(text: S.of(context).Copy_success);
     });
   }
@@ -355,7 +358,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
     try {
       webViewController!
           .loadUrl(urlRequest: URLRequest(url: WebUri("about:blank")));
-    } catch (e) {}
+    } catch (_) {}
     webViewController!.dispose();
     super.dispose();
     // log("dispose!!!!");
@@ -376,6 +379,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           var script = "window.nostr.callback(\"$resultId\", \"$pubkey\");";
           controller.evaluateJavascript(source: script);
         } else {
+          if (!mounted) return;
           nip07Reject(resultId, S.of(context).Forbid);
         }
       },
@@ -388,6 +392,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
         var resultId = jsonObj["resultId"];
         var content = jsonObj["msg"];
 
+        final localization = S.of(context);
         var confirmResult = await NIP07Dialog.show(
             context, NIP07Methods.signEvent,
             content: content);
@@ -410,10 +415,10 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 "window.nostr.callback(\"$resultId\", JSON.parse(\"$eventResultStr\"));";
             webViewController!.evaluateJavascript(source: script);
           } catch (e) {
-            nip07Reject(resultId, S.of(context).Sign_fail);
+            nip07Reject(resultId, localization.Sign_fail);
           }
         } else {
-          nip07Reject(resultId, S.of(context).Forbid);
+          nip07Reject(resultId, localization.Forbid);
         }
       },
     );
@@ -423,6 +428,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
         var jsMsg = jsMsgs[0];
         var jsonObj = jsonDecode(jsMsg);
         var resultId = jsonObj["resultId"];
+        final localization = S.of(context);
 
         var confirmResult =
             await NIP07Dialog.show(context, NIP07Methods.getRelays);
@@ -438,7 +444,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
               "window.nostr.callback(\"$resultId\", JSON.parse(\"$resultStr\"));";
           webViewController!.evaluateJavascript(source: script);
         } else {
-          nip07Reject(resultId, S.of(context).Forbid);
+          nip07Reject(resultId, localization.Forbid);
         }
       },
     );
@@ -452,9 +458,10 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
         if (msg != null && msg is Map) {
           var pubkey = msg["pubkey"];
           var plaintext = msg["plaintext"];
+          final localization = S.of(context);
 
           var confirmResult = await NIP07Dialog.show(
-              context, NIP07Methods.nip04_encrypt,
+              context, NIP07Methods.nip04Encrypt,
               content: plaintext);
           if (confirmResult == true) {
             var resultStr = await nostr!.nostrSigner.encrypt(pubkey, plaintext);
@@ -465,7 +472,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 "window.nostr.callback(\"$resultId\", \"$resultStr\");";
             webViewController!.evaluateJavascript(source: script);
           } else {
-            nip07Reject(resultId, S.of(context).Forbid);
+            nip07Reject(resultId, localization.Forbid);
           }
         }
       },
@@ -477,12 +484,13 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
         var jsonObj = jsonDecode(jsMsg.message);
         var resultId = jsonObj["resultId"];
         var msg = jsonObj["msg"];
+        final localization = S.of(context);
         if (msg != null && msg is Map) {
           var pubkey = msg["pubkey"];
           var ciphertext = msg["ciphertext"];
 
           var confirmResult = await NIP07Dialog.show(
-              context, NIP07Methods.nip04_decrypt,
+              context, NIP07Methods.nip04Decrypt,
               content: ciphertext);
           if (confirmResult == true) {
             var resultStr =
@@ -495,7 +503,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 "window.nostr.callback(\"$resultId\", \"$resultStr\");";
             webViewController!.evaluateJavascript(source: script);
           } else {
-            nip07Reject(resultId, S.of(context).Forbid);
+            nip07Reject(resultId, localization.Forbid);
           }
         }
       },

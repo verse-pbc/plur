@@ -11,11 +11,11 @@ import '../../provider/music_provider.dart';
 import '../image_widget.dart';
 
 class MusicWidget extends StatefulWidget {
-  MusicInfo musicInfo;
+  final MusicInfo musicInfo;
 
-  bool clearable;
+  final bool clearable;
 
-  MusicWidget(this.musicInfo, {super.key, this.clearable = false});
+  const MusicWidget(this.musicInfo, {super.key, this.clearable = false});
 
   @override
   State<StatefulWidget> createState() {
@@ -54,7 +54,7 @@ class _MusicWidgetState extends State<MusicWidget> {
     Widget? imageWidget;
     if (StringUtil.isNotBlank(widget.musicInfo.imageUrl)) {
       imageWidget = ImageWidget(
-        imageUrl: widget.musicInfo.imageUrl!,
+        url: widget.musicInfo.imageUrl!,
         width: imageHeight,
         height: imageHeight,
       );
@@ -62,7 +62,7 @@ class _MusicWidgetState extends State<MusicWidget> {
       imageWidget = Container(
         width: imageHeight,
         height: imageHeight,
-        color: themeData.hintColor.withOpacity(0.5),
+        color: themeData.hintColor.withAlpha(128),
       );
     }
 

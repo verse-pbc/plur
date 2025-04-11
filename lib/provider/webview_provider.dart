@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/src/in_app_webview/in_app_webview_controller.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
 class WebViewProvider extends ChangeNotifier with WidgetsBindingObserver {

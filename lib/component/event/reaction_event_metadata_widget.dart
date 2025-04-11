@@ -9,9 +9,9 @@ import '../../provider/user_provider.dart';
 import '../user/simple_name_widget.dart';
 
 class ReactionEventMetadataWidget extends StatefulWidget {
-  String pubkey;
+  final String pubkey;
 
-  ReactionEventMetadataWidget({super.key, 
+  const ReactionEventMetadataWidget({super.key,
     required this.pubkey,
   });
 
@@ -22,7 +22,7 @@ class ReactionEventMetadataWidget extends StatefulWidget {
 }
 
 class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidget> {
-  static const double IMAGE_WIDTH = 20;
+  static const double imageWidth = 20;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +34,7 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
 
       list.add(UserPicWidget(
         pubkey: widget.pubkey,
-        width: IMAGE_WIDTH,
+        width: imageWidth,
         user: user,
       ));
 
@@ -50,7 +50,7 @@ class _ReactionEventMetadataWidgetState extends State<ReactionEventMetadataWidge
 
       return GestureDetector(
         onTap: () {
-          RouterUtil.router(context, RouterPath.USER, widget.pubkey);
+          RouterUtil.router(context, RouterPath.user, widget.pubkey);
         },
         child: Row(
           mainAxisSize: MainAxisSize.min,

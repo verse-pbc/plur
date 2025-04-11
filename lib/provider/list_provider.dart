@@ -10,6 +10,7 @@ import 'package:nostrmo/util/string_code_generator.dart';
 
 import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
+import '../data/public_group_info.dart';
 import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
@@ -63,7 +64,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _handleExtraAndNotify(Event event) async {
-    if (event.kind == EventKind.EMOJIS_LIST) {
+    if (event.kind == EventKind.emojisList) {
       // This is a emoji list, try to handle some listSet
       for (var tag in event.tags) {
         if (tag is List && tag.length > 1) {
@@ -74,15 +75,14 @@ class ListProvider extends ChangeNotifier {
           }
         }
       }
-    } else if (event.kind == EventKind.BOOKMARKS_LIST) {
+    } else if (event.kind == EventKind.bookmarksList) {
       // due to bookmarks info will use many times, so it should parse when it was receive.
       var bm = await parseBookmarks();
       if (bm != null) {
         _bookmarks = bm;
       }
-    } else if (event.kind == EventKind.GROUP_LIST) {
+    } else if (event.kind == EventKind.groupList) {
       _groupIdentifiers.clear();
-
       for (var tag in event.tags) {
         if (tag is List && tag.length > 2) {
           var k = tag[0];
@@ -90,7 +90,7 @@ class ListProvider extends ChangeNotifier {
           var host = tag[2];
           if (k == "group") {
             var gi = GroupIdentifier(host, groupId);
-            _groupIdentifiers.add(gi);
+            _addGroupIdentifier(gi);
           }
         }
       }
@@ -104,7 +104,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   String get emojiKey {
-    return "${EventKind.EMOJIS_LIST}:${nostr!.publicKey}";
+    return "${EventKind.emojisList}:${nostr!.publicKey}";
   }
 
   List<MapEntry<String, List<CustomEmoji>>> emojis(
@@ -169,7 +169,7 @@ class ListProvider extends ChangeNotifier {
       }
       tags.add(["emoji", emoji.name, emoji.filepath]);
       var changedEvent =
-          Event(nostr!.publicKey, EventKind.EMOJIS_LIST, tags, "");
+          Event(nostr!.publicKey, EventKind.emojisList, tags, "");
       var result = await nostr!.sendEvent(changedEvent);
 
       if (result != null) {
@@ -188,7 +188,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   String get bookmarksKey {
-    return "${EventKind.BOOKMARKS_LIST}:${nostr!.publicKey}";
+    return "${EventKind.bookmarksList}:${nostr!.publicKey}";
   }
 
   Event? getBookmarksEvent() {
@@ -292,7 +292,7 @@ class ListProvider extends ChangeNotifier {
     }
 
     var event =
-        Event(nostr!.publicKey, EventKind.BOOKMARKS_LIST, tags, content!);
+        Event(nostr!.publicKey, EventKind.bookmarksList, tags, content!);
     var resultEvent = await nostr!.sendEvent(event);
     if (resultEvent != null) {
       _holder[bookmarksKey] = resultEvent;
@@ -331,7 +331,7 @@ class ListProvider extends ChangeNotifier {
     if (isGroupMember(request)) {
       BotToast.showText(text: "You're already a member of this group.");
       if (context != null) {
-        RouterUtil.router(context, RouterPath.GROUP_DETAIL,
+        RouterUtil.router(context, RouterPath.groupDetail,
             GroupIdentifier(request.host, request.groupId));
       }
       return;
@@ -358,8 +358,9 @@ class ListProvider extends ChangeNotifier {
         .where((result) => result.$2)
         .map((result) => result.$1)
         .toList();
-
-    _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    if (context != null && context.mounted) {
+      _handleJoinResults(successfullyJoinedGroupIds, context, requests);
+    }
     cancelFunc.call();
   }
 
@@ -400,14 +401,14 @@ class ListProvider extends ChangeNotifier {
 
     return Event(
       nostr!.publicKey,
-      EventKind.GROUP_JOIN,
+      EventKind.groupJoin,
       eventTags,
       "",
     );
   }
 
   Future<bool> _verifyMembership(JoinGroupParameters request) async {
-    final filter = Filter(kinds: [EventKind.GROUP_MEMBERS], limit: 1);
+    final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
     final filterMap = filter.toJson();
     filterMap["#d"] = [request.groupId];
 
@@ -417,7 +418,7 @@ class ListProvider extends ChangeNotifier {
       [filterMap],
       (Event event) => _checkTagsForMembership(event, completer),
       tempRelays: [request.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
 
@@ -432,7 +433,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _checkTagsForMembership(Event event, Completer<bool> completer) {
-    if (event.kind == EventKind.GROUP_MEMBERS) {
+    if (event.kind == EventKind.groupMembers) {
       for (var tag in event.tags) {
         if (tag is List && tag.length > 1) {
           if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
@@ -457,7 +458,7 @@ class ListProvider extends ChangeNotifier {
 
       if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
         RouterUtil.router(
-            context, RouterPath.GROUP_DETAIL, successfullyJoinedGroupIds[0]);
+            context, RouterPath.groupDetail, successfullyJoinedGroupIds[0]);
       }
     } else {
       BotToast.showText(
@@ -474,7 +475,7 @@ class ListProvider extends ChangeNotifier {
 
     final event = Event(
       nostr!.publicKey,
-      EventKind.GROUP_LEAVE,
+      EventKind.groupLeave,
       [
         ["h", gi.groupId]
       ],
@@ -498,7 +499,7 @@ class ListProvider extends ChangeNotifier {
 
     final updateGroupListEvent = Event(
       nostr!.publicKey,
-      EventKind.GROUP_LIST,
+      EventKind.groupList,
       tags,
       "",
     );
@@ -509,53 +510,105 @@ class ListProvider extends ChangeNotifier {
 
   Future<(String?, GroupIdentifier?)> createGroupAndGenerateInvite(
       String groupName) async {
+    print("createGroupAndGenerateInvite starting for group: $groupName");
     final cancelFunc = BotToast.showLoading();
     const host = RelayProvider.defaultGroupsRelayAddress;
+    print("Using host: $host");
 
     // Generate a random string for the group ID
     final groupId = StringCodeGenerator.generateGroupId();
+    print("Generated group ID: $groupId");
 
     // Create the event for creating a group.
     // We only support private closed group for now.
     final createGroupEvent = Event(
       nostr!.publicKey,
-      EventKind.GROUP_CREATE_GROUP,
+      EventKind.groupCreateGroup,
       [
         ["h", groupId]
       ],
       "",
     );
+    print("Created group creation event: ${createGroupEvent.id}");
 
+    print("Sending event to relay...");
     final resultEvent = await nostr!
         .sendEvent(createGroupEvent, tempRelays: [host], targetRelays: [host]);
+    print("Result from group creation: ${resultEvent?.id ?? 'null'}");
 
     String? inviteLink;
     GroupIdentifier? newGroup;
     // Event was successfully sent
     if (resultEvent != null) {
       newGroup = GroupIdentifier(host, groupId);
+      print("New group identifier created: $newGroup");
 
       //  Add the group to the list
+      print("Before adding to _groupIdentifiers. Current count: ${_groupIdentifiers.length}");
       _groupIdentifiers.add(newGroup);
+      print("After adding to _groupIdentifiers. New count: ${_groupIdentifiers.length}");
+      
+      print("Creating group metadata for name: $groupName");
       _editMetadata(newGroup, groupName);
+      
+      print("Updating groups list event");
       _updateGroups();
 
       // Generate an invite code
       final inviteCode = StringCodeGenerator.generateInviteCode();
+      print("Generated invite code: $inviteCode");
       inviteLink = createInviteLink(newGroup, inviteCode);
+      print("Created invite link: $inviteLink");
+      
+      // Double check that the group was added
+      if (_groupIdentifiers.contains(newGroup)) {
+        print("Confirmed group is in the list");
+      } else {
+        print("ERROR: Group was not added to the list!");
+      }
+      
+      // Manually verify the group is in groupIdentifiers
+      print("Group identifiers list content verification:");
+      for (var group in _groupIdentifiers) {
+        print(" - $group");
+      }
+    } else {
+      print("ERROR: Group creation failed - resultEvent is null");
     }
 
+    // Force a notify listeners to ensure UI updates
+    notifyListeners();
+    
     cancelFunc.call();
     return (inviteLink, newGroup);
   }
 
   void _editMetadata(GroupIdentifier group, String groupName) {
+    print("_editMetadata called for group: $group with name: $groupName");
+    
+    // Create metadata with name and default values
     GroupMetadata groupMetadata = GroupMetadata(
       group.groupId,
       0,
       name: groupName,
+      // Add a picture if none was provided
+      picture: "https://placehold.co/400x400/4267B2/FFF?text=${groupName.substring(0, 1).toUpperCase()}",
+      // Add a default about text
+      about: "A new group called $groupName",
+      // Default to private, closed group
+      public: false,
+      open: false,
     );
-    groupProvider.updateMetadata(group, groupMetadata);
+    
+    print("Created metadata: ${groupMetadata.toString()}");
+    print("Calling groupProvider.updateMetadata");
+    
+    try {
+      groupProvider.updateMetadata(group, groupMetadata);
+      print("Successfully called updateMetadata");
+    } catch (e) {
+      print("Error in updateMetadata: $e");
+    }
   }
 
   String createInviteLink(GroupIdentifier group, String inviteCode,
@@ -574,7 +627,7 @@ class ListProvider extends ChangeNotifier {
 
     final inviteEvent = Event(
       nostr!.publicKey,
-      EventKind.GROUP_CREATE_INVITE,
+      EventKind.groupCreateInvite,
       tags,
       "", // Empty content as per example
     );
@@ -595,29 +648,30 @@ class ListProvider extends ChangeNotifier {
 
   /// Add a group identifier to the list and fetch its metadata
   void _addGroupIdentifier(GroupIdentifier groupId) {
-    if (!_groupIdentifiers.contains(groupId)) {
-      _groupIdentifiers.add(groupId);
-      // Fetch metadata for just this new group
-      _queryGroupMetadata(groupId);
+    if (_groupIdentifiers.contains(groupId)) {
+      return;
     }
+    _groupIdentifiers.add(groupId);
+    _queryGroupMetadata(groupId);
   }
 
   /// Fetch metadata for a specific group
   void _queryGroupMetadata(GroupIdentifier groupId) async {
     // Create filter for group metadata
-    final filter = Filter(kinds: [EventKind.GROUP_METADATA], limit: 1);
+    final filter = Filter(kinds: [EventKind.groupMetadata], limit: 1);
     final filterMap = filter.toJson();
     filterMap["#d"] = [groupId.groupId];
 
     nostr!.query(
       [filterMap],
       (Event event) {
-        if (event.kind == EventKind.GROUP_METADATA) {
+        if (event.kind == EventKind.groupMetadata) {
           groupProvider.onEvent(groupId, event);
         }
       },
       tempRelays: [groupId.host],
-      relayTypes: RelayType.ONLY_TEMP,
+      targetRelays: [groupId.host],
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
   }
@@ -627,12 +681,12 @@ class ListProvider extends ChangeNotifier {
     final filters = [
       {
         // Get groups where user is a member
-        "kinds": [EventKind.GROUP_MEMBERS],
+        "kinds": [EventKind.groupMembers],
         "#p": [nostr!.publicKey],
       },
       {
         // Get groups where user is an admin
-        "kinds": [EventKind.GROUP_ADMINS],
+        "kinds": [EventKind.groupAdmins],
         "#p": [nostr!.publicKey],
       }
     ];
@@ -640,10 +694,13 @@ class ListProvider extends ChangeNotifier {
     nostr!.query(
       filters,
       (Event event) {
-        _extractGroupIdentifiersFromTags(event, tagPrefix: "d").forEach(_addGroupIdentifier);
+        final ids = _extractGroupIdentifiersFromTags(event, tagPrefix: "d");
+        ids.forEach(_addGroupIdentifier);
+        notifyListeners();
       },
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: RelayType.ONLY_TEMP,
+      targetRelays: [RelayProvider.defaultGroupsRelayAddress],
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
   }
@@ -659,8 +716,8 @@ class ListProvider extends ChangeNotifier {
 
   /// Handles membership/admin events by adding new groups to _groupIdentifiers
   void handleAdminMembershipEvent(Event event) {
-    if (event.kind == EventKind.GROUP_MEMBERS ||
-        event.kind == EventKind.GROUP_ADMINS) {
+    if (event.kind == EventKind.groupMembers ||
+        event.kind == EventKind.groupAdmins) {
       _extractGroupIdentifiersFromTags(event, tagPrefix: "d")
           .forEach(_addGroupIdentifier);
       notifyListeners();
@@ -669,11 +726,168 @@ class ListProvider extends ChangeNotifier {
 
   /// Handles metadata update events by updating the group metadata in GroupProvider
   void handleEditMetadataEvent(Event event) {
-    if (event.kind == EventKind.GROUP_EDIT_METADATA) {
+    if (event.kind == EventKind.groupEditMetadata) {
       _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
-          .forEach((groupId) => groupProvider.onEvent(groupId, event));
+          .forEach((groupId) {
+            groupProvider.onEvent(groupId, event);
+            _queryGroupMetadata(groupId);
+          });
       notifyListeners();
     }
+  }
+  
+  // Function to query public groups from multiple relays
+  Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
+    log("🔍 SIMPLIFIED APPROACH: Starting to query for ALL group metadata from relays: $relays");
+    log("This approach treats all metadata events as public groups to maximize discovery");
+    
+    List<PublicGroupInfo> publicGroups = [];
+    final completer = Completer<List<PublicGroupInfo>>();
+    
+    // For debugging
+    int editStatusEvents = 0;
+    int metadataEvents = 0;
+    int memberEvents = 0;
+    int noteEvents = 0;
+    int publicGroundsFound = 0;
+    
+    // We're now adding groups directly in the metadata event handler
+    
+    // Let's keep it as simple as possible - just fetch ALL groups metadata
+    // and filter them client-side
+    final filters = [
+      {
+        "kinds": [EventKind.groupMetadata],
+        "limit": 500,
+      }
+    ];
+    
+    int pendingRelays = relays.length;
+    
+    // Get the data from each relay
+    for (final relay in relays) {
+      nostr!.query(
+        filters,
+        (Event event) {
+          // Keep track of event types for debugging
+          if (event.kind == EventKind.groupEditStatus) {
+            editStatusEvents++;
+            log("Received GROUP_EDIT_STATUS event: ${event.id.substring(0, 10)}...");
+            
+            // Find the 'h' tag for group ID
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'h') {
+                final groupId = tag[1];
+                final groupKey = '$relay:$groupId';
+                
+                // Check if this is a public group
+                bool isPublic = false;
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.isNotEmpty && subTag[0] == 'public') {
+                    isPublic = true;
+                    break;
+                  }
+                }
+                
+                log("GROUP_EDIT_STATUS for group $groupId - public: $isPublic");
+                
+                if (isPublic) {
+                  // Fetch metadata for this group
+                  groupProvider.query(GroupIdentifier(relay, groupId));
+                }
+              }
+            }
+          } else if (event.kind == EventKind.groupMetadata) {
+            metadataEvents++;
+            
+            // Extract groupId from the 'd' tag
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'd') {
+                final groupId = tag[1];
+                final groupKey = '$relay:$groupId';
+                
+                // Extract metadata from tags
+                String? groupName;
+                String? picture;
+                String? about;
+                
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.length > 1) {
+                    if (subTag[0] == 'name') {
+                      groupName = subTag[1];
+                    } else if (subTag[0] == 'picture') {
+                      picture = subTag[1];
+                    } else if (subTag[0] == 'about') {
+                      about = subTag[1];
+                    }
+                  }
+                }
+                
+                // Treat all groups as public until we have a consistent standard
+                log("GROUP_METADATA for group $groupId - name: ${groupName ?? 'unnamed'}");
+                
+                // Add this group directly to the results
+                final parts = groupKey.split(':');
+                if (parts.length == 2) {
+                  final host = parts[0];
+                  
+                  publicGroups.add(PublicGroupInfo(
+                    identifier: GroupIdentifier(host, groupId),
+                    name: groupName ?? 'Unnamed Group',
+                    about: about,
+                    picture: picture,
+                    memberCount: 1, // Default member count
+                    lastActive: DateTime.now(), // Default to current time
+                  ));
+                  publicGroundsFound++;
+                  log("Added group $groupKey to results");
+                }
+              }
+            }
+          } else if (event.kind == EventKind.groupMembers) {
+            memberEvents++;
+            // We're ignoring member events for now in our simplified approach
+          } else if (event.kind == EventKind.groupNote) {
+            noteEvents++;
+            // We're ignoring note events for now in our simplified approach
+          }
+        },
+        tempRelays: [relay],
+        relayTypes: RelayType.onlyTemp,
+      );
+      
+      // Simulate query completion after a delay (since onComplete callback is not available)
+      Future.delayed(Duration(seconds: 3), () {
+        pendingRelays--;
+        if (pendingRelays <= 0) {
+          if (!completer.isCompleted) {
+            completer.complete(publicGroups);
+          }
+        }
+      });
+    }
+    
+    // We're not using incomplete data handling anymore since we're 
+    // directly adding groups from metadata events
+    
+    // Set a timeout to ensure we return results even if some relays don't respond
+    Future.delayed(const Duration(seconds: 10), () {
+      if (!completer.isCompleted) {
+        log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " +
+            "Metadata Events: $metadataEvents, " +
+            "Public Groups Found: $publicGroundsFound");
+        
+        if (publicGroundsFound == 0) {
+          log("⚠️ NO GROUPS FOUND: This could indicate network issues or that the relays don't host any groups");
+        } else {
+          log("✅ SUCCESS: Found $publicGroundsFound groups from $metadataEvents metadata events");
+        }
+        
+        completer.complete(publicGroups);
+      }
+    });
+    
+    return completer.future;
   }
 }
 

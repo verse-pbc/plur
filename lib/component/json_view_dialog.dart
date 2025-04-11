@@ -12,9 +12,9 @@ import '../util/table_mode_util.dart';
 import '../util/theme_util.dart';
 
 class JsonViewDialog extends StatefulWidget {
-  String jsonText;
+  final String jsonText;
 
-  JsonViewDialog(this.jsonText, {super.key});
+  const JsonViewDialog(this.jsonText, {super.key});
 
   static Future<bool?> show(BuildContext context, String jsonText) async {
     return await showDialog<bool>(
@@ -37,7 +37,6 @@ class JsonViewDialog extends StatefulWidget {
 class _JsonViewDialog extends State<JsonViewDialog> {
   @override
   Widget build(BuildContext context) {
-    final localization = S.of(context);
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
     var mainColor = themeData.primaryColor;
@@ -90,7 +89,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
             _doCopy(widget.jsonText);
             RouterUtil.back(context);
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,
@@ -164,6 +163,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
 
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
+      if (!mounted) return;
       BotToast.showText(text: S.of(context).Copy_success);
     });
   }

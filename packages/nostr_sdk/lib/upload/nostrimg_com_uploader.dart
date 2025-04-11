@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'upload_util.dart';
-import 'package:http_parser/src/media_type.dart';
+import 'package:http_parser/http_parser.dart';
 
 import '../utils/base64.dart';
 import 'nostr_build_uploader.dart';

@@ -20,8 +20,8 @@ class ColorSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
-    for (var i = 0; i < ColorList.ALL_COLOR.length; i++) {
-      var c = ColorList.ALL_COLOR[i];
+    for (var i = 0; i < ColorList.allColor.length; i++) {
+      var c = ColorList.allColor[i];
       widgets.add(SliverToBoxAdapter(
         child: ColorSelectorItemWidget(
           color: c,
@@ -48,7 +48,7 @@ class ColorSelectorWidget extends StatelessWidget {
         ));
 
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.2),
+      backgroundColor: Colors.black.withAlpha(51),
       body: FocusScope(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

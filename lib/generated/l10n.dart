@@ -70,11 +70,81 @@ class S {
     );
   }
 
+  /// `Discard`
+  String get Discard {
+    return Intl.message(
+      'Discard',
+      name: 'Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to discard unsaved changes?`
+  String get Confirm_Discard {
+    return Intl.message(
+      'Are you sure you want to discard unsaved changes?',
+      name: 'Confirm_Discard',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get Error {
+    return Intl.message(
+      'Error',
+      name: 'Error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get Retry {
+    return Intl.message(
+      'Retry',
+      name: 'Retry',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get Communities {
     return Intl.message(
       'Communities',
       name: 'Communities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Guidelines`
+  String get Community_Guidelines {
+    return Intl.message(
+      'Community Guidelines',
+      name: 'Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Posting to`
+  String get Posting_to {
+    return Intl.message(
+      'Posting to',
+      name: 'Posting_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Post`
+  String get New_Post {
+    return Intl.message(
+      'New Post',
+      name: 'New_Post',
       desc: '',
       args: [],
     );
@@ -610,10 +680,10 @@ class S {
     );
   }
 
-  /// `Send`
+  /// `Publish`
   String get Send {
     return Intl.message(
-      'Send',
+      'Publish',
       name: 'Send',
       desc: '',
       args: [],
@@ -1920,10 +1990,10 @@ class S {
     );
   }
 
-  /// `Send fail`
+  /// `Publish failed`
   String get Send_fail {
     return Intl.message(
-      'Send fail',
+      'Publish failed',
       name: 'Send_fail',
       desc: '',
       args: [],
@@ -3350,6 +3420,16 @@ class S {
     );
   }
 
+  /// `Enter the guidelines of your community`
+  String get Enter_Community_Guidelines {
+    return Intl.message(
+      'Enter the guidelines of your community',
+      name: 'Enter_Community_Guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Description`
   String get Description {
     return Intl.message(
@@ -3365,6 +3445,16 @@ class S {
     return Intl.message(
       'Save',
       name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred while trying to save your data.`
+  String get Save_failed {
+    return Intl.message(
+      'An error occurred while trying to save your data.',
+      name: 'Save_failed',
       desc: '',
       args: [],
     );
@@ -3437,6 +3527,416 @@ class S {
       name: 'Group_members',
       desc: '',
       args: [number],
+    );
+  }
+
+  /// `Are you over 16 years old?`
+  String get Age_verification_question {
+    return Intl.message(
+      'Are you over 16 years old?',
+      name: 'Age_verification_question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `For legal reasons, we need to make sure you're over this age to use Plur.`
+  String get Age_verification_message {
+    return Intl.message(
+      'For legal reasons, we need to make sure you\'re over this age to use Plur.',
+      name: 'Age_verification_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No`
+  String get No {
+    return Intl.message(
+      'No',
+      name: 'No',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yes`
+  String get Yes {
+    return Intl.message(
+      'Yes',
+      name: 'Yes',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your community`
+  String get Create_your_community {
+    return Intl.message(
+      'Create your community',
+      name: 'Create_your_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `community name`
+  String get community_name {
+    return Intl.message(
+      'community name',
+      name: 'community_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name your community`
+  String get Name_your_community {
+    return Intl.message(
+      'Name your community',
+      name: 'Name_your_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start or join a community`
+  String get Start_or_join_a_community {
+    return Intl.message(
+      'Start or join a community',
+      name: 'Start_or_join_a_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect with others by creating your own community or joining an existing one with an invite link.`
+  String get Connect_with_others {
+    return Intl.message(
+      'Connect with others by creating your own community or joining an existing one with an invite link.',
+      name: 'Connect_with_others',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have an invite link? Tap on it to join a community.`
+  String get Have_invite_link {
+    return Intl.message(
+      'Have an invite link? Tap on it to join a community.',
+      name: 'Have_invite_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What should we call you?`
+  String get onboarding_name_input_title {
+    return Intl.message(
+      'What should we call you?',
+      name: 'onboarding_name_input_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your name or nickname`
+  String get onboarding_name_input_hint {
+    return Intl.message(
+      'Your name or nickname',
+      name: 'onboarding_name_input_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Continue`
+  String get Continue {
+    return Intl.message(
+      'Continue',
+      name: 'Continue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Find Group`
+  String get Find_Group {
+    return Intl.message(
+      'Find Group',
+      name: 'Find_Group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Discover Groups`
+  String get Discover_Groups {
+    return Intl.message(
+      'Discover Groups',
+      name: 'Discover_Groups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for public groups`
+  String get Search_for_public_groups {
+    return Intl.message(
+      'Search for public groups',
+      name: 'Search_for_public_groups',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get Active {
+    return Intl.message(
+      'Active',
+      name: 'Active',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Actions`
+  String get Actions {
+    return Intl.message(
+      'Actions',
+      name: 'Actions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite`
+  String get Invite {
+    return Intl.message(
+      'Invite',
+      name: 'Invite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave Group`
+  String get Leave_Group {
+    return Intl.message(
+      'Leave Group',
+      name: 'Leave_Group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave Group?`
+  String get Leave_Group_Question {
+    return Intl.message(
+      'Leave Group?',
+      name: 'Leave_Group_Question',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to leave this group?`
+  String get Leave_Group_Confirmation {
+    return Intl.message(
+      'Are you sure you want to leave this group?',
+      name: 'Leave_Group_Confirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Leave`
+  String get Leave {
+    return Intl.message(
+      'Leave',
+      name: 'Leave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Menu`
+  String get Menu {
+    return Intl.message(
+      'Menu',
+      name: 'Menu',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Media`
+  String get Media {
+    return Intl.message(
+      'Media',
+      name: 'Media',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Links`
+  String get Links {
+    return Intl.message(
+      'Links',
+      name: 'Links',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Places`
+  String get Places {
+    return Intl.message(
+      'Places',
+      name: 'Places',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Events`
+  String get Events {
+    return Intl.message(
+      'Events',
+      name: 'Events',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Group`
+  String get Edit_Group {
+    return Intl.message(
+      'Edit Group',
+      name: 'Edit_Group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Details`
+  String get Edit_Details {
+    return Intl.message(
+      'Edit Details',
+      name: 'Edit_Details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove`
+  String get Remove {
+    return Intl.message(
+      'Remove',
+      name: 'Remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Changes saved successfully`
+  String get Changes_saved {
+    return Intl.message(
+      'Changes saved successfully',
+      name: 'Changes_saved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error saving changes`
+  String get Save_error {
+    return Intl.message(
+      'Error saving changes',
+      name: 'Save_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community name is required`
+  String get Community_Name_Required {
+    return Intl.message(
+      'Community name is required',
+      name: 'Community_Name_Required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visible to everyone in the network`
+  String get Group_Public_Description {
+    return Intl.message(
+      'Visible to everyone in the network',
+      name: 'Group_Public_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only visible to members of this group`
+  String get Group_Private_Description {
+    return Intl.message(
+      'Only visible to members of this group',
+      name: 'Group_Private_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Anyone can join without approval`
+  String get Group_Open_Description {
+    return Intl.message(
+      'Anyone can join without approval',
+      name: 'Group_Open_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Requires invitation or approval to join`
+  String get Group_Closed_Description {
+    return Intl.message(
+      'Requires invitation or approval to join',
+      name: 'Group_Closed_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite people to join this group`
+  String get Invite_people_to_join {
+    return Intl.message(
+      'Invite people to join this group',
+      name: 'Invite_people_to_join',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Done`
+  String get Done {
+    return Intl.message(
+      'Done',
+      name: 'Done',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share this link with people you want to invite to the group.`
+  String get Share_invite_description {
+    return Intl.message(
+      'Share this link with people you want to invite to the group.',
+      name: 'Share_invite_description',
+      desc: '',
+      args: [],
     );
   }
 }

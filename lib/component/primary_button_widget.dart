@@ -27,11 +27,11 @@ class PrimaryButtonWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
         onTap: enabled ? onTap : null,
-        highlightColor: buttonColor.withOpacity(0.2),
+        highlightColor: buttonColor.withAlpha(51),
         borderRadius: BorderRadius.circular(borderRadius),
         child: Container(
           decoration: BoxDecoration(
-            color: enabled ? buttonColor : buttonColor.withOpacity(0.4),
+            color: enabled ? buttonColor : buttonColor.withAlpha(102),
             borderRadius: BorderRadius.circular(borderRadius),
           ),
           height: height,
@@ -41,7 +41,7 @@ class PrimaryButtonWidget extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color:
-                  enabled ? buttonTextColor : buttonTextColor.withOpacity(0.4),
+                  enabled ? buttonTextColor : buttonTextColor.withAlpha(102),
             ),
           ),
         ),

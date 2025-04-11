@@ -102,7 +102,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
           onTap: () {
             _onConfirm();
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,
@@ -198,6 +198,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
       cancel.call();
     }
 
+    if (!mounted) return;
     RouterUtil.back(context, CustomEmoji(name: text, filepath: filepath));
   }
 }
