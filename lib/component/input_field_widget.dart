@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../util/theme_util.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../consts/plur_colors.dart';
 
 /// Custom input field that is used to take input from the user.
 class InputFieldWidget extends StatelessWidget {
@@ -21,36 +22,46 @@ class InputFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     return SizedBox(
-      height: 37,
+      height: 48,
       child: TextField(
         controller: controller,
         key: textFieldKey,
         decoration: InputDecoration(
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           hintText: hintText,
-          hintStyle: TextStyle(
-            color: themeData.customColors.dimmedColor,
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: themeData.customColors.dimmedColor,
+          hintStyle: GoogleFonts.nunito(
+            textStyle: const TextStyle(
+              color: PlurColors.secondaryText,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
             ),
-            borderRadius: BorderRadius.circular(4),
+          ),
+          filled: true,
+          fillColor: PlurColors.primaryDark,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: PlurColors.separator,
+              width: 1.5,
+            ),
+            borderRadius: BorderRadius.circular(12),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: themeData.customColors.dimmedColor,
+            borderSide: const BorderSide(
+              color: PlurColors.primaryPurple,
+              width: 1.5,
             ),
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(12),
           ),
         ),
-        style: TextStyle(
-          color: themeData.customColors.primaryForegroundColor,
-          fontSize: 16,
+        cursorColor: PlurColors.primaryPurple,
+        style: GoogleFonts.nunito(
+          textStyle: const TextStyle(
+            color: PlurColors.primaryText,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
