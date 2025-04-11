@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
@@ -24,21 +25,118 @@ class CommunitiesScreen extends ConsumerStatefulWidget {
   }
 }
 
-class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
+class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with AutomaticKeepAliveClientMixin {
   final subscribeId = StringUtil.rndNameStr(16);
+  
+  // Static cache to persist between tab switches
+  static GroupFeedProvider? _cachedFeedProvider;
+  
+  // Cache for view mode state
+  static CommunityViewMode? _lastViewMode;
+  
+  // Flag to prevent duplicate initialization 
+  static bool _globalInitializationDone = false;
   
   @override
   void dispose() {
-    if (_feedProvider != null) {
-      _feedProvider!.dispose();
-    }
+    // Don't dispose the feed provider when the widget is disposed - it needs to survive tab switching
+    // We'll clean it up in app dispose instead
     super.dispose();
   }
 
-  GroupFeedProvider? _feedProvider;
+  // Singleton pattern for feed provider to persist across tab switches
+  GroupFeedProvider _getFeedProvider(ListProvider listProvider) {
+    // Use static cached provider if it exists
+    if (_cachedFeedProvider != null) {
+      return _cachedFeedProvider!;
+    }
+    
+    // Create a new provider and cache it statically
+    _cachedFeedProvider = GroupFeedProvider(listProvider);
+    return _cachedFeedProvider!;
+  }
+
+  // Initialize feed provider with optimized initialization
+  void _initFeedProvider(ListProvider listProvider) {
+    final provider = _getFeedProvider(listProvider);
+    
+    // Only initialize once globally
+    if (!_globalInitializationDone) {
+      // Use a microtask for async initialization
+      Future.microtask(() {
+        provider.subscribe();
+        provider.doQuery(null);
+        _globalInitializationDone = true;
+        
+        // Notify IndexProvider that this tab has loaded
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (context.mounted) {
+            try {
+              final indexProvider = context.read<IndexProvider>();
+              indexProvider.markTabLoaded(0);
+            } catch (e) {
+              // Ignore context errors during initialization
+            }
+          }
+        });
+      });
+    }
+  }
+  
+  // Persistent cached widgets that survive rebuild cycles
+  static Widget? _cachedGridWidget;
+  static Widget? _cachedFeedWidget;
+  static Widget? _cachedEmptyWidget;
+  
+  // Pre-built loading widget for faster display
+  final Widget _loadingWidget = const Center(child: CircularProgressIndicator());
+  
+  @override
+  bool get wantKeepAlive => true;
+  
+  @override
+  void initState() {
+    super.initState();
+    
+    // Always preload on init to ensure data is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _preloadData();
+    });
+  }
+  
+  // Initialize on first build
+  void _initializeState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        try {
+          final listProvider = context.read<ListProvider>();
+          _initFeedProvider(listProvider);
+        } catch (e) {
+          // Handle failure to read provider
+        }
+      }
+    });
+  }
+  
+  void _preloadData() {
+    if (context.mounted) {
+      try {
+        // Get providers without triggering rebuilds
+        final listProvider = context.read<ListProvider>();
+        
+        // Initialize feed provider immediately but only once globally
+        _initFeedProvider(listProvider);
+      } catch (e) {
+        // Ignore provider errors during initialization
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Must call super for AutomaticKeepAliveClientMixin
+    super.build(context);
+    
     final themeData = Theme.of(context);
     final appBgColor = themeData.customColors.appBgColor;
     final separatorColor = themeData.customColors.separatorColor;
@@ -49,87 +147,156 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
       end: const Alignment(1.0, 0.3),
       tileMode: TileMode.clamp,
     );
-    // Get the view mode from IndexProvider using the aliased provider
-    final indexProvider = provider.Provider.of<IndexProvider>(context);
-    final viewMode = indexProvider.communityViewMode;
-    final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
     
-    final controller = ref.watch(communitiesControllerProvider);
-    
-    return Scaffold(
-      body: controller.when(
-        data: (groupIds) {
-          if (groupIds.isEmpty) {
-            return const Center(
-              child: NoCommunitiesWidget(),
-            );
-          }
-          
-          // Choose content based on view mode
-          if (viewMode == CommunityViewMode.feed) {
-            // Create and initialize the provider only once
-            if (_feedProvider == null) {
-              _feedProvider = GroupFeedProvider(listProvider);
-              _feedProvider!.subscribe();
-              _feedProvider!.doQuery(null);
-            }
-            return provider.ChangeNotifierProvider.value(
-              value: _feedProvider!,
-              child: const CommunitiesFeedWidget(),
-            );
-          } else {
-            // Default to grid view
-            return Shimmer(
-              linearGradient: shimmerGradient,
-              child: CommunitiesGridWidget(groupIds: groupIds),
-            );
-          }
-        },
-        error: (error, stackTrace) => Center(child: ErrorWidget(error)),
-        loading: () => const Center(child: CircularProgressIndicator()),
-      ),
-      // Add toggle view button
-      floatingActionButton: controller.maybeWhen(
-        data: (groupIds) {
-          if (groupIds.isEmpty) {
-            // Only show paste link button when there are no groups
-            return const PasteJoinLinkButton();
-          } else {
-            // Show both buttons when there are groups
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                // Toggle view button
-                FloatingActionButton(
-                  heroTag: 'toggleView',
-                  mini: true,
-                  onPressed: () {
-                    // Toggle the view mode in IndexProvider
-                    indexProvider.setCommunityViewMode(
-                      viewMode == CommunityViewMode.grid
-                          ? CommunityViewMode.feed
-                          : CommunityViewMode.grid
+    // Get the view mode from IndexProvider
+    // Use a Selector to minimize rebuilds on view mode changes
+    return provider.Selector<IndexProvider, CommunityViewMode>(
+      selector: (_, provider) => provider.communityViewMode,
+      builder: (context, viewMode, _) {
+        // Check if view mode changed
+        final viewModeChanged = _lastViewMode != viewMode;
+        _lastViewMode = viewMode;
+        
+        // Get the list provider without triggering rebuilds
+        final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
+        
+        // Initialize feed provider early
+        final feedProvider = _getFeedProvider(listProvider);
+        
+        // Check if we have cached widgets to show immediately
+        if (!viewModeChanged && 
+            ((viewMode == CommunityViewMode.feed && _cachedFeedWidget != null) || 
+             (viewMode == CommunityViewMode.grid && _cachedGridWidget != null))) {
+          // Return cached widget immediately
+          return _buildScaffold(
+            context, 
+            viewMode,
+            viewMode == CommunityViewMode.feed 
+                ? _cachedFeedWidget!
+                : _cachedGridWidget!,
+            feedProvider
+          );
+        }
+        
+        // Use Scaffold directly for better layout management
+        return Scaffold(
+          body: Consumer(
+            builder: (context, ref, child) {
+              // Use a less reactive watch pattern
+              final controller = ref.watch(communitiesControllerProvider);
+              
+              // If loading and cached widget available
+              if (controller is AsyncLoading) {
+                if (viewMode == CommunityViewMode.feed && _cachedFeedWidget != null) {
+                  return _cachedFeedWidget!;
+                } else if (viewMode == CommunityViewMode.grid && _cachedGridWidget != null) {
+                  return _cachedGridWidget!;
+                }
+                return _loadingWidget;
+              }
+              
+              return controller.when(
+                data: (groupIds) {
+                  if (groupIds.isEmpty) {
+                    // Cache empty state widget
+                    _cachedEmptyWidget ??= const Center(
+                      child: NoCommunitiesWidget(),
                     );
-                  },
-                  tooltip: viewMode == CommunityViewMode.grid
-                      ? 'Switch to Feed View'
-                      : 'Switch to Grid View',
-                  child: Icon(
-                    viewMode == CommunityViewMode.grid
-                        ? Icons.view_list
-                        : Icons.grid_view,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Paste join link button
-                const PasteJoinLinkButton(),
-              ],
-            );
-          }
-        },
-        orElse: () => const PasteJoinLinkButton(),
-      ),
+                    return _cachedEmptyWidget!;
+                  }
+                  
+                  // Choose content based on view mode with persistent caching
+                  if (viewMode == CommunityViewMode.feed) {
+                    // Only create feed widget if not already cached
+                    if (_cachedFeedWidget == null) {
+                      _cachedFeedWidget = provider.ChangeNotifierProvider.value(
+                        value: feedProvider,
+                        child: const CommunitiesFeedWidget(),
+                      );
+                    }
+                    return _cachedFeedWidget!;
+                  } else {
+                    // Only create grid widget if not already cached
+                    if (_cachedGridWidget == null || viewModeChanged) {
+                      _cachedGridWidget = Shimmer(
+                        linearGradient: shimmerGradient,
+                        child: CommunitiesGridWidget(groupIds: groupIds),
+                      );
+                    }
+                    return _cachedGridWidget!;
+                  }
+                },
+                error: (error, stackTrace) => Center(child: ErrorWidget(error)),
+                loading: () => _loadingWidget,
+              );
+            },
+          ),
+          // Add toggle view button
+          floatingActionButton: _buildFloatingActionButtons(context),
+          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        );
+      }
+    );
+  }
+  
+  // Separated widget building methods to improve maintainability
+  Widget _buildScaffold(BuildContext context, CommunityViewMode viewMode, Widget body, GroupFeedProvider feedProvider) {
+    return Scaffold(
+      body: body,
+      floatingActionButton: _buildFloatingActionButtons(context),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+  
+  Widget _buildFloatingActionButtons(BuildContext context) {
+    // Get the current view mode
+    final indexProvider = provider.Provider.of<IndexProvider>(context, listen: false);
+    final viewMode = indexProvider.communityViewMode;
+    
+    return Consumer(
+      builder: (context, ref, _) {
+        final controllerState = ref.watch(communitiesControllerProvider);
+        return controllerState.maybeWhen(
+          data: (groupIds) {
+            if (groupIds.isEmpty) {
+              // Only show paste link button when there are no groups
+              return const PasteJoinLinkButton();
+            } else {
+              // Show both buttons when there are groups
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  // Toggle view button
+                  FloatingActionButton(
+                    heroTag: 'toggleView',
+                    mini: true,
+                    onPressed: () {
+                      // Toggle the view mode in IndexProvider
+                      indexProvider.setCommunityViewMode(
+                        viewMode == CommunityViewMode.grid
+                            ? CommunityViewMode.feed
+                            : CommunityViewMode.grid
+                      );
+                    },
+                    tooltip: viewMode == CommunityViewMode.grid
+                        ? 'Switch to Feed View'
+                        : 'Switch to Grid View',
+                    child: Icon(
+                      viewMode == CommunityViewMode.grid
+                          ? Icons.view_list
+                          : Icons.grid_view,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Paste join link button
+                  const PasteJoinLinkButton(),
+                ],
+              );
+            }
+          },
+          orElse: () => const PasteJoinLinkButton(),
+        );
+      },
     );
   }
 }
