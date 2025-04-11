@@ -182,7 +182,15 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
         }
       }
     } catch (e) {
-      // Ignore clipboard errors
+      // Handle clipboard permission errors
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Cannot access clipboard. Please interact with the page first or use the 'Join Community' option."),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
     }
   }
 }
