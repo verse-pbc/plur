@@ -161,10 +161,21 @@ flutter:
   uses-material-design: true
   assets:
     - assets/imgs/
+    - assets/imgs/landing/
+    - assets/imgs/landing/1.5x/
+    - assets/imgs/landing/2.0x/
+    - assets/imgs/landing/3.0x/
+    - assets/imgs/landing/4.0x/
     - assets/imgs/landing/logo.png
     - assets/imgs/music/
+    - assets/imgs/music/wavlake.png
+    - assets/imgs/logo/
     - assets/imgs/logo/logo512.png
-    # - assets/imgs/logo/logo_android.png
+    - assets/imgs/logo/logo_android.png
+    - assets/imgs/logo/logo_ios.png
+    - assets/imgs/welcome_groups.png
+    - assets/imgs/alby_logo.png
+    - assets/imgs/cashu_logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
