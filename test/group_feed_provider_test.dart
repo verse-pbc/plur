@@ -75,7 +75,7 @@ void main() {
         'id': '2'.padLeft(64, '0'),
         'pubkey': '0'.padLeft(64, '0'),
         'created_at': 1000,
-        'kind': EventKind.text,
+        'kind': EventKind.textNote,
         'tags': [],
         'content': 'not a group post',
         'sig': '0'.padLeft(128, '0'),
