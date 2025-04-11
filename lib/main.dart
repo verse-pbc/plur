@@ -279,8 +279,8 @@ Future<void> main() async {
       log("MediaKit init error $e");
     }
 
-    // Using standard font loading through pubspec.yaml
-    log("Using 'SF Pro Rounded' font defined in pubspec.yaml");
+    // Using Google Fonts for font loading
+    log("Using Google Fonts 'Nunito' throughout the app");
 
     log("Initializing Firebase...");
     await Firebase.initializeApp(
@@ -819,53 +819,44 @@ class _MyApp extends State<MyApp> {
     required Color foregroundColor,
   }) =>
       TextTheme(
-        bodyLarge: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        bodyLarge: GoogleFonts.nunito(
           fontSize: baseFontSize + 2,
           color: foregroundColor,
         ),
-        bodyMedium: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        bodyMedium: GoogleFonts.nunito(
           fontSize: baseFontSize,
           color: foregroundColor,
         ),
-        bodySmall: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        bodySmall: GoogleFonts.nunito(
           fontSize: baseFontSize - 2,
           color: foregroundColor,
         ),
-        titleLarge: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        titleLarge: GoogleFonts.nunito(
           fontSize: baseFontSize + 4,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
-        titleMedium: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        titleMedium: GoogleFonts.nunito(
           fontSize: baseFontSize + 2,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
-        titleSmall: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        titleSmall: GoogleFonts.nunito(
           fontSize: baseFontSize,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
-        labelLarge: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        labelLarge: GoogleFonts.nunito(
           fontSize: baseFontSize,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
-        labelMedium: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        labelMedium: GoogleFonts.nunito(
           fontSize: baseFontSize - 1,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
-        labelSmall: TextStyle(
-          fontFamily: 'SF Pro Rounded',
+        labelSmall: GoogleFonts.nunito(
           fontSize: baseFontSize - 2,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
@@ -876,8 +867,7 @@ class _MyApp extends State<MyApp> {
 TextStyle _titleTextStyle({
   required Color foregroundColor,
 }) =>
-    TextStyle(
-      fontFamily: 'SF Pro Rounded',
+    GoogleFonts.nunito(
       color: foregroundColor,
       fontWeight: FontWeight.bold,
     );

@@ -26,7 +26,6 @@ class NoNotesWidget extends StatelessWidget {
                       Text(
                         groupName,
                         style: TextStyle(
-                          fontFamily: 'Roboto',
                           fontSize:
                               Theme.of(context).textTheme.bodyLarge!.fontSize,
                           fontWeight: FontWeight.w500,
@@ -38,7 +37,6 @@ class NoNotesWidget extends StatelessWidget {
                       Text(
                         'Write a note to welcome your community!',
                         style: TextStyle(
-                          fontFamily: 'Roboto',
                           fontSize:
                               Theme.of(context).textTheme.bodyMedium!.fontSize,
                           color: Theme.of(context).textTheme.bodyMedium!.color,
