@@ -4,8 +4,10 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_widget.dart';
 import 'package:nostrmo/component/content/content_image_widget.dart';
 import 'package:nostrmo/component/content/content_video_widget.dart';
+import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'dart:convert';
 import 'package:provider/provider.dart';
 
 import '../../component/user/user_pic_widget.dart';
@@ -216,6 +218,16 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                         ],
                       ),
                     ),
+                    PopupMenuItem(
+                      value: 'view_raw',
+                      child: Row(
+                        children: const [
+                          Icon(Icons.code),
+                          SizedBox(width: 8),
+                          Text('View Raw Event'),
+                        ],
+                      ),
+                    ),
                   ],
                 ).then((value) {
                   if (value == 'reply') {
@@ -224,6 +236,9 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                     if (chatWidget != null) {
                       chatWidget.setReplyToEvent(widget.event);
                     }
+                  } else if (value == 'view_raw') {
+                    // Show the raw event in a JSON viewer
+                    _showRawEvent();
                   }
                 });
               },
@@ -297,5 +312,24 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         children: list,
       ),
     );
+  }
+  
+  void _showRawEvent() {
+    // Convert event to a map that can be easily viewed
+    final eventMap = {
+      'id': widget.event.id,
+      'pubkey': widget.event.pubkey,
+      'created_at': widget.event.createdAt,
+      'kind': widget.event.kind,
+      'tags': widget.event.tags,
+      'content': widget.event.content,
+      'sig': widget.event.sig,
+    };
+    
+    // Convert to pretty-printed JSON
+    final prettyJson = JsonEncoder.withIndent('  ').convert(eventMap);
+    
+    // Show dialog with the JSON content
+    JsonViewDialog.show(context, prettyJson);
   }
 }
