@@ -197,6 +197,8 @@ MusicInfoCache musicInfoCache = MusicInfoCache();
 
 RelayLocalDB? relayLocalDB;
 
+// Global variables - we're not creating custom getters/setters for testing
+// Instead we'll directly mock these in tests
 Nostr? nostr;
 
 bool dataSyncMode = false;
