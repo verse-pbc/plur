@@ -1,0 +1,237 @@
+Text(
+    'Nos Idle Chat',
+    textAlign: TextAlign.center,
+    style: TextStyle(
+        color: const Color(0xFFECE2FD) /* Highlight */,
+        fontSize: 17,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w600,
+        height: 1.29,
+        letterSpacing: 0.68,
+    ),
+)
+// ---
+Text(
+    'Rabble',
+    style: TextStyle(
+        color: const Color(0xFFECE2FD) /* Highlight */,
+        fontSize: 17,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w600,
+        height: 1.29,
+        letterSpacing: 0.68,
+    ),
+)
+// ---
+Text(
+    'rabble@getplur.dev',
+    style: TextStyle(
+        color: const Color(0xFF63518E) /* Secondary */,
+        fontSize: 15,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w500,
+        height: 1.33,
+        letterSpacing: 0.60,
+    ),
+)
+// ---
+Text(
+    '1:25pm',
+    textAlign: TextAlign.right,
+    style: TextStyle(
+        color: const Color(0xFF63518E) /* Secondary */,
+        fontSize: 15,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w500,
+        height: 1.33,
+        letterSpacing: 0.60,
+    ),
+)
+// ---
+Text.rich(
+    TextSpan(
+        children: [
+            TextSpan(
+                text: 'I’ll be back on CNN live at the top of the hour, in 20 minutes, talking about the ',
+                style: TextStyle(
+                    color: const Color(0xFFB5A0E1) /* Primary */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w400,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+            TextSpan(
+                text: '#BreakingTheBird',
+                style: TextStyle(
+                    color: const Color(0xFFECE2FD) /* Highlight */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w500,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+            TextSpan(
+                text: ' documentary. Twitter should always have been a ',
+                style: TextStyle(
+                    color: const Color(0xFFB5A0E1) /* Primary */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w400,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+            TextSpan(
+                text: '#protocol',
+                style: TextStyle(
+                    color: const Color(0xFFECE2FD) /* Highlight */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w500,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+            TextSpan(
+                text: ', and now we have that. We’ll see what i’m able to get in, these things go so fast.\n\nCheck the link:        ',
+                style: TextStyle(
+                    color: const Color(0xFFB5A0E1) /* Primary */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w400,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+            TextSpan(
+                text: 'https://cnn.com/interviews/rabble',
+                style: TextStyle(
+                    color: const Color(0xFFECE2FD) /* Highlight */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w500,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+        ],
+    ),
+)
+// ---
+Text(
+    'Shaina',
+    style: TextStyle(
+        color: const Color(0xFFECE2FD) /* Highlight */,
+        fontSize: 17,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w600,
+        height: 1.29,
+        letterSpacing: 0.68,
+    ),
+)
+// ---
+Text(
+    'shaina@getplur.app',
+    style: TextStyle(
+        color: const Color(0xFF63518E) /* Secondary */,
+        fontSize: 15,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w500,
+        height: 1.33,
+        letterSpacing: 0.60,
+    ),
+)
+// ---
+Text(
+    '2:43pm',
+    textAlign: TextAlign.right,
+    style: TextStyle(
+        color: const Color(0xFF63518E) /* Secondary */,
+        fontSize: 15,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w500,
+        height: 1.33,
+        letterSpacing: 0.60,
+    ),
+)
+// ---
+Text.rich(
+    TextSpan(
+        children: [
+            TextSpan(
+                text: 'Trying out some new ideas for our onboarding process. If anyone has thoughts or suggestions, hit me up! ',
+                style: TextStyle(
+                    color: const Color(0xFFB5A0E1) /* Primary */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w400,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+            TextSpan(
+                text: '#UX #TeamPlur',
+                style: TextStyle(
+                    color: const Color(0xFFECE2FD) /* Highlight */,
+                    fontSize: 17,
+                    fontFamily: 'SF Pro Rounded',
+                    fontWeight: FontWeight.w500,
+                    height: 1.35,
+                    letterSpacing: 0.34,
+                ),
+            ),
+        ],
+    ),
+)
+// ---
+Text(
+    'Matt',
+    style: TextStyle(
+        color: const Color(0xFFECE2FD) /* Highlight */,
+        fontSize: 17,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w600,
+        height: 1.29,
+        letterSpacing: 0.68,
+    ),
+)
+// ---
+Text(
+    'matt@getplur.dev',
+    style: TextStyle(
+        color: const Color(0xFF63518E) /* Secondary */,
+        fontSize: 15,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w500,
+        height: 1.33,
+        letterSpacing: 0.60,
+    ),
+)
+// ---
+Text(
+    '2:43pm',
+    textAlign: TextAlign.right,
+    style: TextStyle(
+        color: const Color(0xFF63518E) /* Secondary */,
+        fontSize: 15,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w500,
+        height: 1.33,
+        letterSpacing: 0.60,
+    ),
+)
+// ---
+Text(
+    'Finally got around to starting ‘Atomic Habits’—everyone who recommended it was right, total game-changer already. 📚✨',
+    style: TextStyle(
+        color: const Color(0xFFB5A0E1) /* Primary */,
+        fontSize: 17,
+        fontFamily: 'SF Pro Rounded',
+        fontWeight: FontWeight.w400,
+        height: 1.35,
+        letterSpacing: 0.34,
+    ),
+)

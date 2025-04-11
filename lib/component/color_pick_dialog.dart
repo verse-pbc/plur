@@ -56,7 +56,7 @@ class _ColorPickDialogState extends State<ColorPickDialog> {
           onTap: () {
             RouterUtil.back(context, selectedColor);
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,

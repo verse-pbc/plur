@@ -35,7 +35,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
     final localization = S.of(context);
     final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
-    var pollBackgroundColor = hintColor.withOpacity(0.3);
+    var pollBackgroundColor = hintColor.withAlpha(76);
     var mainColor = themeData.primaryColor;
 
     return Selector<EventReactionsProvider, EventReactions?>(
@@ -144,7 +144,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
                       widthFactor: percent,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: mainColor.withOpacity(0.4),
+                          color: mainColor.withAlpha(102),
                           borderRadius: BorderRadius.circular(4),
                         ),
                       ),

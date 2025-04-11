@@ -7,9 +7,16 @@ import 'package:nostrmo/util/number_format_util.dart';
 import 'package:nostrmo/util/router_util.dart';
 
 class EventTopZapsWidget extends StatefulWidget {
-  final List<Event> zapEvents;
+  final Event event;
+  final dynamic eventRelation;
+  final List<Event>? zapEvents;
 
-  const EventTopZapsWidget(this.zapEvents, {super.key});
+  const EventTopZapsWidget({
+    super.key,
+    required this.event,
+    required this.eventRelation,
+    this.zapEvents,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -26,12 +33,26 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.zapEvents.isEmpty) {
+    // Use zap events directly if provided
+    if (widget.zapEvents != null && widget.zapEvents!.isNotEmpty) {
+      return _buildWithZapEvents(widget.zapEvents!);
+    }
+    
+    // Otherwise, check if we have eventRelation with zapInfos
+    if (widget.eventRelation != null && widget.eventRelation.zapInfos.isNotEmpty) {
+      return _buildWithZapInfos(widget.eventRelation.zapInfos);
+    }
+    
+    return Container();
+  }
+  
+  Widget _buildWithZapEvents(List<Event> zapEvents) {
+    if (zapEvents.isEmpty) {
       return Container();
     }
 
     List<EventTopZapInfo> zapInfos = [];
-    for (var zapEvent in widget.zapEvents) {
+    for (var zapEvent in zapEvents) {
       var zapNum = ZapInfoUtil.getNumFromZapEvent(zapEvent);
       var pubkey = ZapInfoUtil.parseSenderPubkey(zapEvent);
       pubkey ??= zapEvent.pubkey;
@@ -41,7 +62,34 @@ class _EventTopZapsWidgetState extends State<EventTopZapsWidget> {
     zapInfos.sort((a, b) {
       return b.zapNum - a.zapNum;
     });
+    
+    return _buildTopZapsWidget(zapInfos);
+  }
+  
+  Widget _buildWithZapInfos(List<EventZapInfo> zapInfos) {
+    if (zapInfos.isEmpty) {
+      return Container();
+    }
+    
+    // Convert EventZapInfo to EventTopZapInfo
+    List<EventTopZapInfo> topZapInfos = [];
+    for (var zapInfo in zapInfos) {
+      // Assume weight is the zap amount for display purposes
+      topZapInfos.add(EventTopZapInfo(zapInfo.pubkey, zapInfo.weight.toInt()));
+    }
+    
+    topZapInfos.sort((a, b) {
+      return b.zapNum - a.zapNum;
+    });
 
+    return _buildTopZapsWidget(topZapInfos);
+  }
+  
+  Widget _buildTopZapsWidget(List<EventTopZapInfo> zapInfos) {
+    if (zapInfos.isEmpty) {
+      return Container();
+    }
+    
     List<Widget> list = [];
 
     List<Widget> topList = [];

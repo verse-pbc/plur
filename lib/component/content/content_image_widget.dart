@@ -54,11 +54,11 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
 
     Widget? main;
     Widget? placeholder;
-    // needn't get from provider
+    // Use blurhash if available and enabled
     if (settingsProvider.openBlurhashImage != OpenStatus.close &&
-        (widget.fileMetadata != null &&
-            StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) &&
-        !PlatformUtil.isWeb()) {
+        widget.fileMetadata != null &&
+        StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) {
+      // Note: Removed the PlatformUtil.isWeb() check to support blurhash on all platforms
       placeholder = genBlurhashImageWidget(
           widget.fileMetadata!, themeData.hintColor, widget.imageBoxFix);
     }
@@ -89,21 +89,77 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
     );
   }
 
-  void previewImages(context) {
-    List<String> imageList = widget.imageList ?? [];
-    if (imageList.isEmpty) {
-      imageList = [widget.imageUrl];
+  void previewImages(BuildContext context) {
+    try {
+      // Get the image list, falling back to the single image
+      List<String> imageList = widget.imageList ?? [];
+      if (imageList.isEmpty) {
+        imageList = [widget.imageUrl];
+      }
+      
+      // Process image URLs to handle problematic formats before preview
+      List<ImageProvider> imageProviders = [];
+      for (var imageUrl in imageList) {
+        // Process URL to handle AVIF and other problematic formats
+        if (PlatformUtil.isWeb() && 
+            (imageUrl.toLowerCase().endsWith('.avif') || 
+             imageUrl.toLowerCase().endsWith('.webp') ||
+             imageUrl.toLowerCase().endsWith('.heic'))) {
+          // For problematic formats, try to get a version without extension
+          final extensionMatch = RegExp(r'\.([a-zA-Z0-9]+)$').firstMatch(imageUrl);
+          if (extensionMatch != null) {
+            final extension = extensionMatch.group(0) ?? '';
+            imageUrl = imageUrl.substring(0, imageUrl.length - extension.length);
+          }
+        }
+        
+        // Try to load the image, with error handling
+        try {
+          imageProviders.add(CachedNetworkImageProvider(
+            imageUrl,
+            cacheManager: imageLocalCacheManager,
+          ));
+        } catch (e) {
+          // If adding a specific image fails, just skip it
+          print("Error creating image provider for $imageUrl: $e");
+        }
+      }
+      
+      // Only show the dialog if we have at least one valid image
+      if (imageProviders.isNotEmpty) {
+        // Ensure the initial index is valid
+        int safeIndex = widget.imageIndex;
+        if (safeIndex >= imageProviders.length) {
+          safeIndex = 0;
+        }
+        
+        MultiImageProvider multiImageProvider =
+            MultiImageProvider(imageProviders, initialIndex: safeIndex);
+
+        ImagePreviewDialog.show(
+          context, 
+          multiImageProvider,
+          doubleTapZoomable: true, 
+          swipeDismissible: true,
+        );
+      } else {
+        // No valid images to show
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Could not load image for preview'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      // Catch any errors during the preview process
+      print("Error previewing images: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Error loading image preview'),
+          duration: Duration(seconds: 2),
+        ),
+      );
     }
-
-    List<ImageProvider> imageProviders = [];
-    for (var imageUrl in imageList) {
-      imageProviders.add(CachedNetworkImageProvider(imageUrl));
-    }
-
-    MultiImageProvider multiImageProvider =
-        MultiImageProvider(imageProviders, initialIndex: widget.imageIndex);
-
-    ImagePreviewDialog.show(context, multiImageProvider,
-        doubleTapZoomable: true, swipeDismissible: true);
   }
 }

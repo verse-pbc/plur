@@ -5,12 +5,13 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
-import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
+import 'package:nostrmo/consts/like_select_type.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -98,305 +99,97 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         if (eventReactions != null) {
           var mapLength = eventReactions.likeNumMap.length;
           if (mapLength == 1) {
-            iconText = eventReactions.likeNumMap.keys.first;
+            // only one emoji
+            IconData? iconData;
+            eventReactions.likeNumMap.forEach((key, value) {
+              iconText = key;
+              iconData = getIconDataByContent(key);
+              if (iconData != null) {
+                likeIconData = iconData!;
+              }
+            });
           } else if (mapLength > 1) {
-            int maxNum = 0;
-            for (var entry in eventReactions.likeNumMap.entries) {
-              if (entry.value > maxNum) {
-                iconText = entry.key;
-                maxNum = entry.value;
+            var max = 0;
+            eventReactions.likeNumMap.forEach((key, value) {
+              if (value > max) {
+                max = value;
+                iconText = key;
               }
+            });
+            if (iconText == LikeSelectType.like) {
+              likeIconData = Icons.favorite;
+            } else if (iconText == LikeSelectType.funnyFace) {
+              likeIconData = Icons.emoji_emotions;
+            } else if (iconText == LikeSelectType.party) {
+              likeIconData = Icons.celebration;
+            } else if (iconText == LikeSelectType.ok) {
+              likeIconData = Icons.thumb_up;
+            } else if (iconText == LikeSelectType.fire) {
+              likeIconData = Icons.local_fire_department;
+            } else {
+              showMoreIconWidget = InkWell(
+                customBorder: const CircleBorder(),
+                onTap: showMoreLikeTap,
+                child: const Icon(
+                  Icons.expand_more,
+                  size: 15,
+                ),
+              );
             }
-
-            var iconData = Icons.keyboard_double_arrow_down_rounded;
-            if (showMoreLike) {
-              iconData = Icons.keyboard_double_arrow_up_rounded;
-            }
-
-            showMoreIconWidget = GestureDetector(
-              onTap: showMoreLikeTap,
-              child: Icon(
-                iconData,
-                color: likeColor,
-                size: 24,
-              ),
-            );
           }
         }
-        Widget likeWidget = EventReactionNumWidget(
-          num: likeNum,
-          iconText: iconText,
-          iconData: likeIconData,
-          onTap: onLikeTap,
-          color: likeColor,
-          fontSize: fontSize,
-          showMoreWidget: showMoreIconWidget,
-        );
-
-        Widget? showMoreZapWidget;
-        if (eventReactions != null && eventReactions.zaps.isNotEmpty) {
-          var iconData = Icons.keyboard_double_arrow_up_rounded;
-          if (showMoreZap) {
-            iconData = Icons.keyboard_double_arrow_down_rounded;
-          }
-
-          showMoreZapWidget = GestureDetector(
-            onTap: showMoreZapTap,
-            child: Icon(
-              iconData,
-              color: hintColor,
-              size: 24,
-            ),
-          );
-        }
-
-        Widget moreBtnWidget = Container(
-          alignment: Alignment.center,
-          child: PopupMenuButton<String>(
-            tooltip: localization.More,
-            itemBuilder: (context) {
-              var bookmarkItem =
-                  BookmarkItem.getFromEventReactions(widget.eventRelation);
-
-              List<PopupMenuEntry<String>> list = [
-                PopupMenuItem(
-                  value: "copyEvent",
-                  child: Text(localization.Copy_Note_Json, style: popFontStyle),
-                ),
-                PopupMenuItem(
-                  value: "copyPubkey",
-                  child:
-                      Text(localization.Copy_Note_Pubkey, style: popFontStyle),
-                ),
-                PopupMenuItem(
-                  value: "copyId",
-                  child: Text(localization.Copy_Note_Id, style: popFontStyle),
-                ),
-                const PopupMenuDivider(),
-              ];
-
-              if (widget.showDetailBtn) {
-                list.add(PopupMenuItem(
-                  value: "detail",
-                  child: Text(localization.Detail, style: popFontStyle),
-                ));
-              }
-
-              list.add(PopupMenuItem(
-                value: "share",
-                child: Text(localization.Share, style: popFontStyle),
-              ));
-              list.add(const PopupMenuDivider());
-              if (!readOnly) {
-                if (listProvider.checkPrivateBookmark(bookmarkItem)) {
-                  list.add(PopupMenuItem(
-                    value: "removeFromPrivateBookmark",
-                    child: Text(localization.Remove_from_private_bookmark,
-                        style: popFontStyle),
-                  ));
-                } else {
-                  list.add(PopupMenuItem(
-                    value: "addToPrivateBookmark",
-                    child: Text(localization.Add_to_private_bookmark,
-                        style: popFontStyle),
-                  ));
-                }
-                if (listProvider.checkPublicBookmark(bookmarkItem)) {
-                  list.add(PopupMenuItem(
-                    value: "removeFromPublicBookmark",
-                    child: Text(localization.Remove_from_public_bookmark,
-                        style: popFontStyle),
-                  ));
-                } else {
-                  list.add(PopupMenuItem(
-                    value: "addToPublicBookmark",
-                    child: Text(localization.Add_to_public_bookmark,
-                        style: popFontStyle),
-                  ));
-                }
-                list.add(const PopupMenuDivider());
-              }
-              list.add(PopupMenuItem(
-                value: "source",
-                child: Text(localization.Source, style: popFontStyle),
-              ));
-              list.add(PopupMenuItem(
-                value: "broadcase",
-                child: Text(localization.Broadcast, style: popFontStyle),
-              ));
-              list.add(PopupMenuItem(
-                value: "block",
-                child: Text(localization.Block, style: popFontStyle),
-              ));
-
-              var groupAdmins =
-                  GroupIdentifierInheritedWidget.getGroupAdmins(context);
-              var isGroupEvent = (widget.event.kind == EventKind.groupNote ||
-                  widget.event.kind == EventKind.groupNoteReply);
-              var pubkey = nostr!.publicKey;
-              if ((!isGroupEvent && widget.event.pubkey == pubkey) ||
-                  (isGroupEvent &&
-                      (groupAdmins?.containsUser(pubkey) ?? false))) {
-                list.add(const PopupMenuDivider());
-                list.add(PopupMenuItem(
-                  value: "delete",
-                  child: Text(
-                    localization.Delete,
-                    style: TextStyle(
-                      color: Colors.red,
-                      fontSize: mediumFontSize,
-                    ),
-                  ),
-                ));
-              }
-
-              return list;
-            },
-            onSelected: onPopupSelected,
-            child: Container(
-              height: double.infinity,
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(
-                left: Base.basePaddingHalf,
-                right: Base.basePaddingHalf,
-              ),
-              child: Icon(
-                Icons.more_vert_rounded,
-                size: 18,
-                color: hintColor,
-              ),
-            ),
-          ),
-        );
-
-        var topReactionsWidget = Row(
-          children: [
-            Expanded(
-                child: Container(
-              alignment: Alignment.centerLeft,
-              child: EventReactionNumWidget(
-                num: replyNum,
-                iconData: Icons.comment_rounded,
-                onTap: onCommmentTap,
-                color: hintColor,
-                fontSize: fontSize,
-              ),
-            )),
-            Expanded(
-                child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: openZapDialog,
-              child: SizedBox(
-                height: double.infinity,
-                child: EventReactionNumWidget(
-                  num: zapNum,
-                  iconData: Icons.bolt_rounded,
-                  onTap: null,
-                  color: hintColor,
-                  fontSize: fontSize,
-                  showMoreWidget: showMoreZapWidget,
-                ),
-              ),
-            )),
-            Expanded(
-                child: Container(
-              alignment: Alignment.center,
-              child: likeWidget,
-            )),
-            Expanded(
-              child: Container(
-                alignment: Alignment.center,
-                child: PopupMenuButton<String>(
-                  tooltip: localization.Boost,
-                  enabled: !readOnly,
-                  itemBuilder: (context) {
-                    return [
-                      PopupMenuItem(
-                        value: "boost",
-                        child: Text(localization.Boost),
-                      ),
-                      PopupMenuItem(
-                        value: "quote",
-                        child: Text(localization.Quote),
-                      ),
-                    ];
-                  },
-                  onSelected: onRepostTap,
-                  child: EventReactionNumWidget(
-                    num: repostNum,
-                    iconData: Icons.repeat_rounded,
-                    color: hintColor,
-                    fontSize: fontSize,
-                  ),
-                ),
-              ),
-            ),
-            moreBtnWidget,
-          ],
-        );
 
         List<Widget> mainList = [];
 
-        if (showMoreZap &&
-            eventReactions != null &&
-            eventReactions.zaps.isNotEmpty) {
-          mainList.add(Container(
-            margin: const EdgeInsets.only(
-              top: Base.basePadding,
-              bottom: Base.basePaddingHalf,
+        // zapmore
+        // likeMore
+
+        if (showMoreZap) {
+          List<Widget> zapList = [];
+          int counter = 0;
+          eventReactions!.zapNumMap.forEach((key, value) {
+            if (counter == 0) {
+              counter++;
+              return;
+            }
+            if (value > 0) {
+              zapList.add(Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: Base.basePaddingHalf,
+                ),
+                child: Text("$key $value"),
+              ));
+            }
+          });
+          mainList.add(SizedBox(
+            width: double.maxFinite,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              children: zapList,
             ),
-            child: EventTopZapsWidget(eventReactions.zaps),
           ));
         }
 
-        mainList.add(SizedBox(
-          height: 34,
-          child: topReactionsWidget,
-        ));
-
-        if (showMoreLike &&
-            eventReactions != null &&
-            eventReactions.likeNumMap.length > 1) {
-          Map<String, int> myLikeMap = {};
-          if (eventReactions.myLikeEvents != null) {
-            for (var event in eventReactions.myLikeEvents!) {
-              var likeText = EventReactions.getLikeText(event);
-              myLikeMap[likeText] = 1;
-            }
-          }
+        if (showMoreLike) {
           List<Widget> ers = [];
-          for (var entry in eventReactions.likeNumMap.entries) {
-            var likeText = entry.key;
-            var num = entry.value;
-
-            Color color = hintColor;
-            if (myLikeMap[likeText] != null) {
-              color = mainColor;
+          int counter = 0;
+          eventReactions!.likeNumMap.forEach((key, value) {
+            if (counter == 0) {
+              counter++;
+              return;
             }
-
-            ers.add(Container(
-              margin: const EdgeInsets.only(right: Base.basePaddingHalf),
-              child: EventReactionEmojiNumWidget(
-                iconData: Icons.favorite_rounded,
-                iconText: likeText,
-                num: num,
-                color: color,
-                fontSize: fontSize,
-              ),
-            ));
-          }
-
-          mainList.add(Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(
-              left: Base.basePadding,
-              right: Base.basePadding,
-              bottom: Base.basePaddingHalf,
-            ),
+            if (value > 0) {
+              ers.add(Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: Base.basePaddingHalf,
+                ),
+                child: Text("$key $value"),
+              ));
+            }
+          });
+          mainList.add(SizedBox(
             width: double.maxFinite,
             child: Wrap(
-              runSpacing: Base.basePaddingHalf,
-              spacing: Base.basePaddingHalf,
               alignment: WrapAlignment.center,
               children: ers,
             ),
@@ -409,7 +202,71 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: mainList,
+            children: [
+              if (widget.eventRelation.zapInfos.isNotEmpty)
+                Container(
+                  margin: const EdgeInsets.only(
+                    bottom: Base.basePaddingHalf,
+                  ),
+                  child: EventTopZapsWidget(
+                    zapEvents: const [], // Pass empty list and let the widget handle these internally
+                    event: widget.event, 
+                    eventRelation: widget.eventRelation,
+                  ),
+                ),
+              // Redesigned reaction bar with modern styling
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Reply button
+                    _buildReactionButton(
+                      icon: Icons.chat_bubble_outline_rounded,
+                      count: replyNum,
+                      color: hintColor,
+                      onTap: tapReply,
+                    ),
+                    
+                    // Repost button
+                    _buildReactionButton(
+                      icon: Icons.repeat_rounded,
+                      count: repostNum,
+                      color: hintColor,
+                      onTap: tapRepost,
+                    ),
+                    
+                    // Like button
+                    _buildReactionButton(
+                      icon: likeIconData,
+                      count: likeNum,
+                      color: likeColor,
+                      onTap: tapLike,
+                      extraWidget: showMoreIconWidget,
+                    ),
+                    
+                    // Zap button
+                    _buildReactionButton(
+                      icon: Icons.bolt_rounded, 
+                      count: zapNum,
+                      color: hintColor,
+                      onTap: tapZap,
+                    ),
+                    
+                    // More options button
+                    if (widget.showDetailBtn)
+                      _buildReactionButton(
+                        icon: Icons.more_horiz_rounded, 
+                        count: null, // No count for this button
+                        color: hintColor,
+                        onTap: tapMore,
+                        showLabel: false,
+                      ),
+                  ],
+                ),
+              ),
+              ...mainList,
+            ],
           ),
         );
       },
@@ -429,6 +286,59 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
         return false;
       },
+    );
+  }
+  
+  // Helper method for creating consistent reaction buttons
+  Widget _buildReactionButton({
+    required IconData icon,
+    required int? count,
+    required Color color,
+    required VoidCallback onTap,
+    Widget? extraWidget,
+    bool showLabel = true,
+  }) {
+    final theme = Theme.of(context);
+    final fontSize = theme.textTheme.bodyMedium!.fontSize!;
+    
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: fontSize + 3,
+                color: color,
+              ),
+              if (showLabel && count != null)
+                Container(
+                  margin: const EdgeInsets.only(left: 4),
+                  child: Text(
+                    NumberFormatUtil.format(count),
+                    style: GoogleFonts.nunito(
+                      textStyle: TextStyle(
+                        color: color,
+                        fontSize: fontSize - 1,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
+              if (extraWidget != null)
+                Container(
+                  margin: const EdgeInsets.only(left: 2),
+                  child: extraWidget,
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -698,153 +608,272 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     List<String>? relayAddrs;
     if (widget.event.kind == EventKind.groupNote ||
         widget.event.kind == EventKind.groupNoteReply) {
-      var groupIdentifier =
-          GroupIdentifierInheritedWidget.getGroupIdentifier(context);
+      var groupIdentifier = widget.event.relations().groupIdentifier;
       if (groupIdentifier != null) {
-        relayAddrs = [groupIdentifier.host];
+        var metadata = groupProvider.getMetadata(groupIdentifier);
+        // post to our main relays.
+        relayAddrs = [];
+        if (metadata != null && metadata.relays != null) {
+          relayAddrs = List<String>.from(metadata.relays!);
+        }
+        if (StringUtil.isNotBlank(groupIdentifier.host)) {
+          relayAddrs.add(groupIdentifier.host);
+        }
       }
     }
-
     return relayAddrs;
   }
-}
 
-class EventReactionNumWidget extends StatelessWidget {
-  final String? iconText;
-
-  final IconData iconData;
-
-  final int num;
-
-  final GestureTapCallback? onTap;
-
-  final GestureLongPressCallback? onLongPress;
-
-  final Color color;
-
-  final double fontSize;
-
-  final Widget? showMoreWidget;
-
-  const EventReactionNumWidget({
-    super.key,
-    this.iconText,
-    required this.iconData,
-    required this.num,
-    this.onTap,
-    this.onLongPress,
-    required this.color,
-    required this.fontSize,
-    this.showMoreWidget,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Widget? main;
-    var iconWidget = Icon(
-      iconData,
-      size: 16,
-      color: color,
-    );
-
-    List<Widget> list = [];
-    if (StringUtil.isNotBlank(iconText)) {
-      list.add(Text(iconText!));
-    } else {
-      list.add(iconWidget);
-    }
-
-    if (num != 0) {
-      String numStr = NumberFormatUtil.format(num);
-
-      list.add(Container(
-        margin: const EdgeInsets.only(left: 4),
-        child: Text(
-          numStr,
-          style: TextStyle(color: color, fontSize: fontSize),
-        ),
-      ));
-      if (showMoreWidget != null) {
-        list.add(showMoreWidget!);
-      }
-    }
-
-    main = Row(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: list,
-    );
-    main = SizedBox(
-      height: double.infinity,
-      child: main,
-    );
-
-    if (onTap != null || onLongPress != null) {
-      return GestureDetector(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        behavior: HitTestBehavior.translucent,
-        child: main,
-      );
-    } else {
-      return main;
-    }
+  void tapLike() {
+    onLikeTap();
   }
-}
 
-class EventReactionEmojiNumWidget extends StatelessWidget {
-  final String? iconText;
+  void tapZap() {
+    if (readOnly) {
+      return;
+    }
+    openZapDialog();
+  }
 
-  final IconData iconData;
+  void tapReply() {
+    onCommmentTap();
+  }
 
-  final int num;
-
-  final Color color;
-
-  final double fontSize;
-
-  const EventReactionEmojiNumWidget({
-    super.key,
-    this.iconText,
-    required this.iconData,
-    required this.num,
-    required this.color,
-    required this.fontSize,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    Widget iconWidget = Icon(
-      iconData,
-      size: 16,
-      color: color,
-    );
-
-    List<Widget> list = [];
-    if (StringUtil.isNotBlank(iconText)) {
-      list.add(Text(iconText!));
-    } else {
-      list.add(iconWidget);
+  void tapRepost() {
+    if (readOnly) {
+      return;
     }
 
-    if (num != 0) {
-      String numStr = NumberFormatUtil.format(num);
+    var localization = S.of(context);
+    final themeData = Theme.of(context);
+    var popFontStyle = TextStyle(
+      fontSize: themeData.textTheme.bodyMedium!.fontSize,
+    );
 
-      list.add(Container(
-        margin: const EdgeInsets.only(left: 4),
-        child: Text(
-          numStr,
-          style: TextStyle(color: color, fontSize: fontSize),
-        ),
-      ));
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Wrap(
+          children: [
+            ListTile(
+              title: Text(
+                localization.Boost,
+                style: popFontStyle,
+              ),
+              leading: const Icon(Icons.repeat),
+              onTap: () {
+                Navigator.of(context).pop();
+                onRepostTap("boost");
+              },
+            ),
+            ListTile(
+              title: Text(
+                localization.Quote,
+                style: popFontStyle,
+              ),
+              leading: const Icon(Icons.format_quote),
+              onTap: () {
+                Navigator.of(context).pop();
+                onRepostTap("quote");
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void tapMore() {
+    var localization = S.of(context);
+    final themeData = Theme.of(context);
+    var popFontStyle = TextStyle(
+      fontSize: themeData.textTheme.bodyMedium!.fontSize,
+    );
+    var myPubkey = settingsProvider.privateKey == null
+        ? null
+        : settingsProvider.pubkey; // Use pubkey from settingsProvider instead of deriving it
+
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        var list = [
+          ListTile(
+            title: Text(
+              localization.Copy_Note_Id,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.copy),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("copyId");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.Copy_Note_Pubkey,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.copy),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("copyPubkey");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.Open_Note_detail,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.open_in_new),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("detail");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.Share,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.share),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("share");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.Copy_Note_Json,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.content_copy),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("copyEvent");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.Broadcast,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.send),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("broadcase");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.Source,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.link),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("source");
+            },
+          ),
+        ];
+
+        if (listProvider.privateBookmarkContains(widget.event.id)) {
+          list.add(ListTile(
+            title: Text(
+              localization.Remove_from_private_bookmark,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.bookmark_remove),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("removeFromPrivateBookmark");
+            },
+          ));
+        } else {
+          list.add(ListTile(
+            title: Text(
+              localization.Add_to_private_bookmark,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.bookmark_add),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("addToPrivateBookmark");
+            },
+          ));
+        }
+
+        if (listProvider.publicBookmarkContains(widget.event.id)) {
+          list.add(ListTile(
+            title: Text(
+              localization.Remove_from_public_bookmark,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.bookmark_remove),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("removeFromPublicBookmark");
+            },
+          ));
+        } else {
+          list.add(ListTile(
+            title: Text(
+              localization.Add_to_public_bookmark,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.bookmark_add),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("addToPublicBookmark");
+            },
+          ));
+        }
+
+        list.add(ListTile(
+          title: Text(
+            localization.Block,
+            style: popFontStyle,
+          ),
+          leading: const Icon(Icons.block),
+          onTap: () {
+            Navigator.of(context).pop();
+            onPopupSelected("block");
+          },
+        ));
+
+        if (myPubkey != null && myPubkey == widget.event.pubkey) {
+          list.add(ListTile(
+            title: Text(
+              localization.Delete,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.delete_forever),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("delete");
+            },
+          ));
+        }
+
+        return Wrap(
+          children: list,
+        );
+      },
+    );
+  }
+
+  IconData? getIconDataByContent(String content) {
+    if (content == LikeSelectType.like) {
+      return Icons.favorite;
+    } else if (content == LikeSelectType.funnyFace) {
+      return Icons.emoji_emotions;
+    } else if (content == LikeSelectType.party) {
+      return Icons.celebration;
+    } else if (content == LikeSelectType.ok) {
+      return Icons.thumb_up;
+    } else if (content == LikeSelectType.fire) {
+      return Icons.local_fire_department;
     }
 
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: list,
-    );
+    return null;
   }
 }

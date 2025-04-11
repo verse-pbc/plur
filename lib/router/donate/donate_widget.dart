@@ -204,7 +204,7 @@ class _DonateButtonWidget extends StatelessWidget {
             style: ButtonStyle(
               side: WidgetStateProperty.all(BorderSide(
                 width: 1,
-                color: hintColor.withOpacity(0.4),
+                color: hintColor.withAlpha(102),
               )),
             ),
             child: Container(

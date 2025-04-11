@@ -55,13 +55,13 @@ class _EditorNotifyItemWidgetState extends State<EditorNotifyItemWidget> {
             widget.item.selected = !widget.item.selected;
           });
         },
-        side: BorderSide(color: textColor!.withOpacity(0.6), width: 2),
+        side: BorderSide(color: textColor!.withAlpha(153), width: 2),
       ),
     ));
 
     return Container(
       decoration: BoxDecoration(
-        color: mainColor.withOpacity(0.65),
+        color: mainColor.withAlpha(166),
         borderRadius: BorderRadius.circular(15),
       ),
       padding: const EdgeInsets.only(

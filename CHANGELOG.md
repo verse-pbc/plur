@@ -11,8 +11,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Completely redesigned onboarding flow with 4-step process:
+  - Age verification (16+ requirement)
+  - Nickname input with validation (3+ characters, profanity filter)
+  - Optional email entry with format validation
+  - Private key generation and secure storage
+- New landing page with clear paths for new and existing users
+- Improved login flow with dedicated form for existing users
+- Enhanced login options with explicit support for nsecBunker URLs and nsec.app accounts
+- Improved login form messaging to better explain login options and warn about read-only limitations
+- Progress indicators showing current step in onboarding
+- Back navigation between onboarding steps
+- Added support for chat messages in groups following NIP-29 protocol
+- Made test group joining optional with confirmation dialog
+- Improved UI with tabs to toggle between posts and chat in group detail view
+- Added reply functionality to chat messages
+- Added support for displaying images and videos directly in chat messages
+- Implemented NIP-94 imeta tag support for better image display in chat
+- Added debug feature to view raw event data in chat
+- Fixed blank screen issues when creating and joining communities
+- Improved invitation and group creation workflow with better error handling
 
 ### Internal Changes
+- Refactored code to follow Flutter best practices with smaller, focused functions
+- Fixed index mismatch in tab navigation
+- Improved tab styling for better readability
+- Added comprehensive unit tests for group chat functionality
+- Added proper handling of image metadata including blurhash and dimensions
+- Implemented aspect ratio preservation for images in chat
+- Fixed AVIF image loading issues that caused crashes
+- Improved BotToast error handling to prevent blank screens
+- Fixed issues with unbounded constraints in layout of community screens
+- Enhanced error logging and recovery to improve app stability
 
 ## [0.0.5]
 
@@ -23,18 +53,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 - Made it easier to dismiss fullscreen images. [#286](https://github.com/verse-pbc/issues/issues/286)
 - Added Cancel button when adding accounts. [#254](https://github.com/verse-pbc/issues/issues/254)
-- Start caching groups metadatas thus improving the loading times. [#261](https://github.com/verse-pbc/issues/issues/261)
-- Added Onboarding Age Verification screen before signup. [#283](https://github.com/verse-pbc/issues/issues/283)
-- Improved empty state for communities with prominent "Create Group" button.
-- Added Community Guidelines to groups. [#264](https://github.com/verse-pbc/issues/issues/264)
-- Fix inconsistent navbar background color. [#305](https://github.com/verse-pbc/issues/issues/305)
-- Admin Panel: Added confirmation dialog when dismissing with unsaved changes. [#299](https://github.com/verse-pbc/issues/issues/299)
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
 - Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
-- Fixed all remaining lint issues. [#308](https://github.com/verse-pbc/issues/issues/308)
-- Reverted deletion of Examine Lint Changes workflow job.
 
 ## [0.0.4]
 
