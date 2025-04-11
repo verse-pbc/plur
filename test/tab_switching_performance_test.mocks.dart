@@ -3,19 +3,20 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i7;
-import 'dart:ui' as _i11;
+import 'dart:async' as _i8;
+import 'dart:ui' as _i12;
 
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:nostr_sdk/nostr_sdk.dart' as _i2;
-import 'package:nostrmo/data/custom_emoji.dart' as _i5;
-import 'package:nostrmo/data/join_group_parameters.dart' as _i8;
-import 'package:nostrmo/data/public_group_info.dart' as _i10;
-import 'package:nostrmo/generated/l10n.dart' as _i6;
-import 'package:nostrmo/provider/group_feed_provider.dart' as _i12;
-import 'package:nostrmo/provider/list_provider.dart' as _i3;
+import 'package:nostrmo/data/custom_emoji.dart' as _i6;
+import 'package:nostrmo/data/join_group_parameters.dart' as _i9;
+import 'package:nostrmo/data/public_group_info.dart' as _i11;
+import 'package:nostrmo/generated/l10n.dart' as _i7;
+import 'package:nostrmo/provider/group_feed_provider.dart' as _i13;
+import 'package:nostrmo/provider/list_provider.dart' as _i4;
+import 'package:nostrmo/provider/settings_provider.dart' as _i3;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -50,10 +51,20 @@ class _FakeEventMemBox_1 extends _i1.SmartFake implements _i2.EventMemBox {
         );
 }
 
+class _FakeSettingData_2 extends _i1.SmartFake implements _i3.SettingData {
+  _FakeSettingData_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ListProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockListProvider extends _i1.Mock implements _i3.ListProvider {
+class MockListProvider extends _i1.Mock implements _i4.ListProvider {
   MockListProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -61,7 +72,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
   @override
   String get emojiKey => (super.noSuchMethod(
         Invocation.getter(#emojiKey),
-        returnValue: _i4.dummyValue<String>(
+        returnValue: _i5.dummyValue<String>(
           this,
           Invocation.getter(#emojiKey),
         ),
@@ -70,7 +81,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
   @override
   String get bookmarksKey => (super.noSuchMethod(
         Invocation.getter(#bookmarksKey),
-        returnValue: _i4.dummyValue<String>(
+        returnValue: _i5.dummyValue<String>(
           this,
           Invocation.getter(#bookmarksKey),
         ),
@@ -85,6 +96,24 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool privateBookmarkContains(String? eventId) => (super.noSuchMethod(
+        Invocation.method(
+          #privateBookmarkContains,
+          [eventId],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool publicBookmarkContains(String? eventId) => (super.noSuchMethod(
+        Invocation.method(
+          #publicBookmarkContains,
+          [eventId],
+        ),
         returnValue: false,
       ) as bool);
 
@@ -120,8 +149,8 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-  List<MapEntry<String, List<_i5.CustomEmoji>>> emojis(
-    _i6.S? localization,
+  List<MapEntry<String, List<_i6.CustomEmoji>>> emojis(
+    _i7.S? localization,
     _i2.Event? emojiEvent,
   ) =>
       (super.noSuchMethod(
@@ -132,11 +161,11 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
             emojiEvent,
           ],
         ),
-        returnValue: <MapEntry<String, List<_i5.CustomEmoji>>>[],
-      ) as List<MapEntry<String, List<_i5.CustomEmoji>>>);
+        returnValue: <MapEntry<String, List<_i6.CustomEmoji>>>[],
+      ) as List<MapEntry<String, List<_i6.CustomEmoji>>>);
 
   @override
-  void addCustomEmoji(_i5.CustomEmoji? emoji) => super.noSuchMethod(
+  void addCustomEmoji(_i6.CustomEmoji? emoji) => super.noSuchMethod(
         Invocation.method(
           #addCustomEmoji,
           [emoji],
@@ -160,13 +189,13 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       ) as _i2.Bookmarks);
 
   @override
-  _i7.Future<_i2.Bookmarks?> parseBookmarks() => (super.noSuchMethod(
+  _i8.Future<_i2.Bookmarks?> parseBookmarks() => (super.noSuchMethod(
         Invocation.method(
           #parseBookmarks,
           [],
         ),
-        returnValue: _i7.Future<_i2.Bookmarks?>.value(),
-      ) as _i7.Future<_i2.Bookmarks?>);
+        returnValue: _i8.Future<_i2.Bookmarks?>.value(),
+      ) as _i8.Future<_i2.Bookmarks?>);
 
   @override
   void addPrivateBookmark(_i2.BookmarkItem? bookmarkItem) => super.noSuchMethod(
@@ -233,8 +262,8 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
 
   @override
   void joinGroup(
-    _i8.JoinGroupParameters? request, {
-    _i9.BuildContext? context,
+    _i9.JoinGroupParameters? request, {
+    _i10.BuildContext? context,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -246,7 +275,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-  bool isGroupMember(_i8.JoinGroupParameters? request) => (super.noSuchMethod(
+  bool isGroupMember(_i9.JoinGroupParameters? request) => (super.noSuchMethod(
         Invocation.method(
           #isGroupMember,
           [request],
@@ -256,8 +285,8 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
 
   @override
   void joinGroups(
-    List<_i8.JoinGroupParameters>? requests, {
-    _i9.BuildContext? context,
+    List<_i9.JoinGroupParameters>? requests, {
+    _i10.BuildContext? context,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -278,7 +307,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-  _i7.Future<(String?, _i2.GroupIdentifier?)> createGroupAndGenerateInvite(
+  _i8.Future<(String?, _i2.GroupIdentifier?)> createGroupAndGenerateInvite(
           String? groupName) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -286,8 +315,8 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
           [groupName],
         ),
         returnValue:
-            _i7.Future<(String?, _i2.GroupIdentifier?)>.value((null, null)),
-      ) as _i7.Future<(String?, _i2.GroupIdentifier?)>);
+            _i8.Future<(String?, _i2.GroupIdentifier?)>.value((null, null)),
+      ) as _i8.Future<(String?, _i2.GroupIdentifier?)>);
 
   @override
   String createInviteLink(
@@ -304,7 +333,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
           ],
           {#roles: roles},
         ),
-        returnValue: _i4.dummyValue<String>(
+        returnValue: _i5.dummyValue<String>(
           this,
           Invocation.method(
             #createInviteLink,
@@ -354,19 +383,19 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-  _i7.Future<List<_i10.PublicGroupInfo>> queryPublicGroups(
+  _i8.Future<List<_i11.PublicGroupInfo>> queryPublicGroups(
           List<String>? relays) =>
       (super.noSuchMethod(
         Invocation.method(
           #queryPublicGroups,
           [relays],
         ),
-        returnValue: _i7.Future<List<_i10.PublicGroupInfo>>.value(
-            <_i10.PublicGroupInfo>[]),
-      ) as _i7.Future<List<_i10.PublicGroupInfo>>);
+        returnValue: _i8.Future<List<_i11.PublicGroupInfo>>.value(
+            <_i11.PublicGroupInfo>[]),
+      ) as _i8.Future<List<_i11.PublicGroupInfo>>);
 
   @override
-  void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -375,7 +404,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-  void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -405,7 +434,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
 /// A class which mocks [GroupFeedProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGroupFeedProvider extends _i1.Mock implements _i12.GroupFeedProvider {
+class MockGroupFeedProvider extends _i1.Mock implements _i13.GroupFeedProvider {
   MockGroupFeedProvider() {
     _i1.throwOnMissingStub(this);
   }
@@ -449,7 +478,7 @@ class MockGroupFeedProvider extends _i1.Mock implements _i12.GroupFeedProvider {
   @override
   String get subscribeId => (super.noSuchMethod(
         Invocation.getter(#subscribeId),
-        returnValue: _i4.dummyValue<String>(
+        returnValue: _i5.dummyValue<String>(
           this,
           Invocation.getter(#subscribeId),
         ),
@@ -622,7 +651,7 @@ class MockGroupFeedProvider extends _i1.Mock implements _i12.GroupFeedProvider {
       );
 
   @override
-  void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -631,7 +660,7 @@ class MockGroupFeedProvider extends _i1.Mock implements _i12.GroupFeedProvider {
       );
 
   @override
-  void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -670,6 +699,553 @@ class MockGroupFeedProvider extends _i1.Mock implements _i12.GroupFeedProvider {
   void disposeLater() => super.noSuchMethod(
         Invocation.method(
           #disposeLater,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [SettingsProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSettingsProvider extends _i1.Mock implements _i3.SettingsProvider {
+  MockSettingsProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  Map<String, String> get privateKeyMap => (super.noSuchMethod(
+        Invocation.getter(#privateKeyMap),
+        returnValue: <String, String>{},
+      ) as Map<String, String>);
+
+  @override
+  set nwcUrl(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #nwcUrl,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i3.SettingData get settingData => (super.noSuchMethod(
+        Invocation.getter(#settingData),
+        returnValue: _FakeSettingData_2(
+          this,
+          Invocation.getter(#settingData),
+        ),
+      ) as _i3.SettingData);
+
+  @override
+  int get lockOpen => (super.noSuchMethod(
+        Invocation.getter(#lockOpen),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  int get linkPreview => (super.noSuchMethod(
+        Invocation.getter(#linkPreview),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  int get videoPreviewInList => (super.noSuchMethod(
+        Invocation.getter(#videoPreviewInList),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  int get imgCompress => (super.noSuchMethod(
+        Invocation.getter(#imgCompress),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  int get themeStyle => (super.noSuchMethod(
+        Invocation.getter(#themeStyle),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  double get fontSize => (super.noSuchMethod(
+        Invocation.getter(#fontSize),
+        returnValue: 0.0,
+      ) as double);
+
+  @override
+  int get webviewAppbarOpen => (super.noSuchMethod(
+        Invocation.getter(#webviewAppbarOpen),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  set settingData(_i3.SettingData? o) => super.noSuchMethod(
+        Invocation.setter(
+          #settingData,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set privateKeyIndex(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #privateKeyIndex,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set lockOpen(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #lockOpen,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set defaultIndex(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #defaultIndex,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set defaultTab(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #defaultTab,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set linkPreview(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #linkPreview,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set videoPreviewInList(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #videoPreviewInList,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set network(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #network,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set imageService(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #imageService,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set imageServiceAddr(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #imageServiceAddr,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set videoPreview(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #videoPreview,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set imagePreview(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #imagePreview,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set profilePicturePreview(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #profilePicturePreview,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set i18n(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #i18n,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set imgCompress(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #imgCompress,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set themeStyle(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #themeStyle,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set themeColor(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #themeColor,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set mainFontColor(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #mainFontColor,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set hintFontColor(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #hintFontColor,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set cardColor(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #cardColor,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set backgroundImage(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #backgroundImage,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set fontFamily(String? fontFamily) => super.noSuchMethod(
+        Invocation.setter(
+          #fontFamily,
+          fontFamily,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set openTranslate(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #openTranslate,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set translateSourceArgs(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #translateSourceArgs,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set translateTarget(String? o) => super.noSuchMethod(
+        Invocation.setter(
+          #translateTarget,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set broadcaseWhenBoost(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #broadcaseWhenBoost,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set fontSize(double? o) => super.noSuchMethod(
+        Invocation.setter(
+          #fontSize,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set webviewAppbarOpen(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #webviewAppbarOpen,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set tableMode(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #tableMode,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set autoOpenSensitive(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #autoOpenSensitive,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set relayLocal(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #relayLocal,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set relayMode(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #relayMode,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set eventSignCheck(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #eventSignCheck,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set limitNoteHeight(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #limitNoteHeight,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set threadMode(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #threadMode,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set maxSubEventLevel(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #maxSubEventLevel,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set hideRelayNotices(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #hideRelayNotices,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set openBlurhashImage(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #openBlurhashImage,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  set wotFilter(int? o) => super.noSuchMethod(
+        Invocation.setter(
+          #wotFilter,
+          o,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i8.Future<void> reload() => (super.noSuchMethod(
+        Invocation.method(
+          #reload,
+          [],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  int addAndChangePrivateKey(
+    String? pk, {
+    bool? updateUI = false,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addAndChangePrivateKey,
+          [pk],
+          {#updateUI: updateUI},
+        ),
+        returnValue: 0,
+      ) as int);
+
+  @override
+  void removeKey(int? index) => super.noSuchMethod(
+        Invocation.method(
+          #removeKey,
+          [index],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool translateSourceArgsCheck(String? str) => (super.noSuchMethod(
+        Invocation.method(
+          #translateSourceArgsCheck,
+          [str],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  void setI18n(
+    String? i18n,
+    String? i18nCC,
+  ) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setI18n,
+          [
+            i18n,
+            i18nCC,
+          ],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i8.Future<void> saveAndNotifyListeners({bool? updateUI = true}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveAndNotifyListeners,
+          [],
+          {#updateUI: updateUI},
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  void notify() => super.noSuchMethod(
+        Invocation.method(
+          #notify,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i12.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
           [],
         ),
         returnValueForMissingStub: null,
