@@ -519,20 +519,36 @@ class _ContentWidgetState extends State<ContentWidget> {
       metadata = _extractImageMetadata();
     }
     
-    // Create two possible main components: the text and possibly an image
-    Widget textContent = SizedBox(
-      width: !widget.smallest ? double.infinity : null,
-      child: SelectableText.rich(
-        TextSpan(
-          children: allList,
+    // SPECIAL HANDLING: If the content is JUST an image URL, don't display it as text
+    String? contentToCheck = widget.content;
+    String? mediaUrl = metadata.isNotEmpty ? metadata['mediaUrl'] : null;
+    
+    // Create the text content component, possibly hiding the URL
+    Widget textContent;
+    
+    // If the content is just the URL of an image that will be displayed separately,
+    // don't show it in the text content (fixes the duplicate URL issue)
+    if (mediaUrl != null && 
+        contentToCheck != null && 
+        contentToCheck.trim() == mediaUrl.trim()) {
+      // Content is just the image URL - don't render it as text
+      textContent = Container();
+    } else {
+      // Normal text content
+      textContent = SizedBox(
+        width: !widget.smallest ? double.infinity : null,
+        child: SelectableText.rich(
+          TextSpan(
+            children: allList,
+          ),
+          onTap: () {
+            if (widget.textOnTap != null) {
+              widget.textOnTap!();
+            }
+          },
         ),
-        onTap: () {
-          if (widget.textOnTap != null) {
-            widget.textOnTap!();
-          }
-        },
-      ),
-    );
+      );
+    }
     
     // If we found media in the event, display it like in DMDetailItemWidget
     if (widget.showImage && 
@@ -541,30 +557,38 @@ class _ContentWidgetState extends State<ContentWidget> {
         metadata['mediaUrl'] != null) {
       
       // Create a column with text and image, similar to DMDetailItemWidget
+      // Only include spacing if there's actually text content to display
+      List<Widget> columnChildren = [];
+      
+      // Only add text content if it's not empty
+      if (textContent is! Container || textContent.child != null) {
+        columnChildren.add(textContent);
+        // Add spacing only if we have both text and image
+        columnChildren.add(const SizedBox(height: 8));
+      }
+      
+      // Add the appropriate media widget
+      if (metadata['contentType'] == "image") {
+        columnChildren.add(
+          _buildImageWidget(
+            metadata['mediaUrl'], 
+            metadata['blurhash'], 
+            metadata['dimensions']
+          )
+        );
+      } else if (metadata['contentType'] == "video" && widget.showVideo) {
+        columnChildren.add(
+          ContentVideoWidget(
+            url: metadata['mediaUrl'],
+            width: 300,
+            height: 200,
+          )
+        );
+      }
+      
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Show text content
-          textContent,
-          
-          // Small spacing
-          const SizedBox(height: 8),
-          
-          // Show image using the exact same method as DMDetailItemWidget
-          metadata['contentType'] == "image" 
-            ? _buildImageWidget(
-                metadata['mediaUrl'], 
-                metadata['blurhash'], 
-                metadata['dimensions']
-              )
-            : metadata['contentType'] == "video" && widget.showVideo
-                ? ContentVideoWidget(
-                    url: metadata['mediaUrl'],
-                    width: 300,
-                    height: 200,
-                  )
-                : Container(),
-        ],
+        children: columnChildren,
       );
     }
     
@@ -637,34 +661,43 @@ class _ContentWidgetState extends State<ContentWidget> {
       // http style, get path style
       var pathType = PathTypeUtil.getPathType(str);
       if (pathType == "image") {
+        // Always add to images list for metadata extraction
         images.add(str);
+        
+        // Check if this is the only content - if so, don't show it as text
+        // This special case will prevent duplicate URLs in the feed
+        bool isOnlyContent = widget.content != null && widget.content!.trim() == str.trim();
+        
         if (!widget.showImage) {
+          // If we're not showing images, just show the link
           currentList.add(buildLinkSpan(str));
+        } else if (isOnlyContent) {
+          // If this URL is the entire post content, don't show it at all
+          // The image will be displayed separately below the text
+          // This fixes the "duplicate URL" issue in the screenshot
+          return null;
+        } else if (widget.imageListMode &&
+            (contentDecoderInfo != null &&
+                contentDecoderInfo!.imageNum > 1)) {
+          // Show placeholder in list mode
+          var imagePlaceholder = const Icon(
+            Icons.image,
+            size: 15,
+          );
+
+          bufferToList(buffer, currentList, images, removeLastSpan: true);
+          currentList.add(WidgetSpan(child: imagePlaceholder));
         } else {
-          if (widget.imageListMode &&
-              (contentDecoderInfo != null &&
-                  contentDecoderInfo!.imageNum > 1)) {
-            // this content decode in list, use list mode
-            var imagePlaceholder = const Icon(
-              Icons.image,
-              size: 15,
-            );
+          // For normal mode with multiple content items, 
+          // just show a small placeholder instead of the raw URL
+          var imagePlaceholder = const Icon(
+            Icons.image,
+            size: 15,
+          );
 
-            bufferToList(buffer, currentList, images, removeLastSpan: true);
-            currentList.add(WidgetSpan(child: imagePlaceholder));
-          } else {
-            // Don't directly render the image here
-            // Just add a placeholder - the actual image will be rendered separately
-            // This is the key change: we're not trying to render the image inline anymore
-            var imagePlaceholder = const Icon(
-              Icons.image,
-              size: 15,
-            );
-
-            bufferToList(buffer, currentList, images, removeLastSpan: true);
-            currentList.add(WidgetSpan(child: imagePlaceholder));
-            counterAddLines(fakeImageCounter);
-          }
+          bufferToList(buffer, currentList, images, removeLastSpan: true);
+          currentList.add(WidgetSpan(child: imagePlaceholder));
+          counterAddLines(fakeImageCounter);
         }
         return null;
       } else if (pathType == "video") {
