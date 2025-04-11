@@ -7,8 +7,6 @@ import '../data/event_db.dart';
 import '../main.dart';
 
 class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
-  static DMProvider? _dmProvider;
-
   final List<DMSessionDetail> _knownList = [];
 
   final List<DMSessionDetail> _unknownList = [];
@@ -26,22 +24,44 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
   }
 
   DMSessionDetail findOrNewADetail(String pubkey) {
+    // First check if we already have this session in our known list
     for (var detail in knownList) {
       if (detail.dmSession.pubkey == pubkey) {
         return detail;
       }
     }
 
+    // Then check in the unknown list
     for (var detail in _unknownList) {
       if (detail.dmSession.pubkey == pubkey) {
         return detail;
       }
     }
 
+    // Initialize localPubkey if needed
+    if (localPubkey == null && nostr != null) {
+      localPubkey = nostr!.publicKey;
+    }
+
+    // Create a new DM session
     var dmSession = DMSession(pubkey: pubkey);
     DMSessionDetail detail = DMSessionDetail(dmSession);
-    detail.info = DMSessionInfo(pubkey: pubkey, readedTime: 0);
-
+    
+    // Initialize DMSessionInfo with all required fields
+    var keyIndex = settingsProvider.privateKeyIndex;
+    detail.info = DMSessionInfo(
+      pubkey: pubkey, 
+      readedTime: 0,
+      keyIndex: keyIndex
+    );
+    
+    // Add the session to the unknown list
+    _unknownList.add(detail);
+    _sessionDetails[pubkey] = detail;
+    
+    // Ensure we have the session loaded
+    _sortDetailList();
+    
     return detail;
   }
 
@@ -49,9 +69,20 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     if (detail != null &&
         detail.info != null &&
         detail.dmSession.newestEvent != null) {
+      // Ensure keyIndex is set
+      if (detail.info!.keyIndex == null && settingsProvider.privateKeyIndex != null) {
+        detail.info!.keyIndex = settingsProvider.privateKeyIndex;
+      }
+      
       detail.info!.readedTime = detail.dmSession.newestEvent!.createdAt;
-      DMSessionInfoDB.update(detail.info!);
-      notifyListeners();
+      
+      // Only try to update if we have a valid keyIndex
+      if (detail.info!.keyIndex != null) {
+        DMSessionInfoDB.update(detail.info!);
+        notifyListeners();
+      } else {
+        print("Warning: Cannot update DMSessionInfo, keyIndex is null");
+      }
     }
   }
 
@@ -91,7 +122,7 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     var keyIndex = settingsProvider.privateKeyIndex!;
     var events = await EventDB.list(
         keyIndex,
-        [EventKind.DIRECT_MESSAGE, EventKind.PRIVATE_DIRECT_MESSAGE],
+        [EventKind.directMessage, EventKind.privateDirectMessage],
         0,
         10000000);
     if (events.isNotEmpty) {
@@ -145,16 +176,30 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
   }
 
   void _doSortDetailList(List<DMSessionDetail> detailList) {
-    detailList.sort((detail0, detail1) {
-      return detail1.dmSession.newestEvent!.createdAt -
-          detail0.dmSession.newestEvent!.createdAt;
-    });
-
-    // // copy to a new list for provider update
-    // var length = detailList.length;
-    // List<DMSessionDetail> newlist =
-    //     List.generate(length, (index) => detailList[index]);
-    // return newlist;
+    // Remove entries with null newestEvent to a separate list
+    List<DMSessionDetail> withoutEvents = [];
+    List<DMSessionDetail> withEvents = [];
+    
+    for (var detail in detailList) {
+      if (detail.dmSession.newestEvent == null) {
+        withoutEvents.add(detail);
+      } else {
+        withEvents.add(detail);
+      }
+    }
+    
+    // Sort only those with events
+    if (withEvents.isNotEmpty) {
+      withEvents.sort((detail0, detail1) {
+        return detail1.dmSession.newestEvent!.createdAt -
+            detail0.dmSession.newestEvent!.createdAt;
+      });
+    }
+    
+    // Clear and repopulate the original list
+    detailList.clear();
+    detailList.addAll(withEvents);
+    detailList.addAll(withoutEvents);
   }
 
   String? _getPubkey(String localPubkey, Event event) {
@@ -199,11 +244,11 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
       {Nostr? targetNostr, bool initQuery = false, bool queryAll = false}) {
     targetNostr ??= nostr;
     var filter0 = Filter(
-      kinds: [EventKind.DIRECT_MESSAGE],
+      kinds: [EventKind.directMessage],
       authors: [targetNostr!.publicKey],
     );
     var filter1 = Filter(
-      kinds: [EventKind.DIRECT_MESSAGE],
+      kinds: [EventKind.directMessage],
       p: [targetNostr.publicKey],
     );
 
@@ -230,6 +275,17 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
   }
 
   void eventLaterHandle(List<Event> events, {bool updateUI = true}) {
+    // Check if localPubkey is set, if not, get it from the current nostr instance
+    if (localPubkey == null && nostr != null) {
+      localPubkey = nostr!.publicKey;
+    }
+    
+    // If still null, we can't process events properly
+    if (localPubkey == null) {
+      print("Error: localPubkey is null in DMProvider.eventLaterHandle");
+      return;
+    }
+    
     bool updated = false;
     for (var event in events) {
       var addResult = _addEvent(localPubkey!, event);

@@ -5,7 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_mention_user_widget.dart';
 
 class MarkdownMentionUserElementBuilder implements MarkdownElementBuilder {
-  static const String TAG = "mentionUser";
+  static const String tag = "mentionUser";
 
   @override
   Widget? visitElementAfter(md.Element element, TextStyle? preferredStyle) {

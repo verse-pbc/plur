@@ -18,16 +18,19 @@ class EventIdRouterWidget extends StatefulWidget {
     String eventId, {
     String? relayAddr,
   }) async {
+    final navigator = Navigator.of(context);
+
     var event = await showDialog(
       context: context,
       useRootNavigator: false,
-      builder: (context) {
+      builder: (_) {
         return EventIdRouterWidget(eventId, relayAddr);
       },
     );
 
     if (event != null) {
-      RouterUtil.router(context, RouterPath.getThreadDetailPath(), event);
+      if (!navigator.mounted) return;
+      RouterUtil.router(navigator.context, RouterPath.getThreadDetailPath(), event);
     }
   }
 

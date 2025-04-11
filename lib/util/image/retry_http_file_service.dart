@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter_cache_manager/src/web/file_service.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart' as http;
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';

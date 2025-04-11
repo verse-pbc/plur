@@ -161,7 +161,7 @@ class FollowSet extends ContactList {
       return null;
     }
 
-    return Event(pubkey, EventKind.FOLLOW_SETS, tags, content!);
+    return Event(pubkey, EventKind.followSets, tags, content!);
   }
 
   List<Contact> get publicContacts {

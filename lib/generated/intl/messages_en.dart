@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "By continuing, you accept our <accent>terms of service</accent>"),
         "Account_Manager":
             MessageLookupByLibrary.simpleMessage("Account Manager"),
+        "Actions": MessageLookupByLibrary.simpleMessage("Actions"),
+        "Active": MessageLookupByLibrary.simpleMessage("Active"),
         "Add": MessageLookupByLibrary.simpleMessage("Add"),
         "Add_Account": MessageLookupByLibrary.simpleMessage("Add Account"),
         "Add_Custom_Emoji":
@@ -54,6 +56,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Admin": MessageLookupByLibrary.simpleMessage("Admin"),
         "Admin_Panel": MessageLookupByLibrary.simpleMessage("Admin Panel"),
         "Admins": MessageLookupByLibrary.simpleMessage("Admins"),
+        "Age_verification_message": MessageLookupByLibrary.simpleMessage(
+            "For legal reasons, we need to make sure you\'re over this age to use Plur."),
+        "Age_verification_question":
+            MessageLookupByLibrary.simpleMessage("Are you over 16 years old?"),
         "All_media_public": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
         "Any": MessageLookupByLibrary.simpleMessage("Any"),
@@ -83,6 +89,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Cache": MessageLookupByLibrary.simpleMessage("Cache"),
         "Cache_Relay": MessageLookupByLibrary.simpleMessage("Cache Relay"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "Changes_saved":
+            MessageLookupByLibrary.simpleMessage("Changes saved successfully"),
         "Chat": MessageLookupByLibrary.simpleMessage("Chat"),
         "Clear_All_Data":
             MessageLookupByLibrary.simpleMessage("Clear All Data"),
@@ -94,13 +102,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
+        "Community_Guidelines":
+            MessageLookupByLibrary.simpleMessage("Community Guidelines"),
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
+        "Community_Name_Required":
+            MessageLookupByLibrary.simpleMessage("Community name is required"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+        "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to discard unsaved changes?"),
+        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
+            "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
         "Content_warning":
             MessageLookupByLibrary.simpleMessage("Content warning"),
+        "Continue": MessageLookupByLibrary.simpleMessage("Continue"),
         "Copy": MessageLookupByLibrary.simpleMessage("Copy"),
         "Copy_Hex_Key": MessageLookupByLibrary.simpleMessage("Copy Hex Key"),
         "Copy_Key": MessageLookupByLibrary.simpleMessage("Copy Key"),
@@ -116,6 +133,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Copy_init_Url": MessageLookupByLibrary.simpleMessage("Copy init Url"),
         "Copy_success": MessageLookupByLibrary.simpleMessage("Copy success!"),
         "Create_Group": MessageLookupByLibrary.simpleMessage("Create Group"),
+        "Create_your_community":
+            MessageLookupByLibrary.simpleMessage("Create your community"),
         "Creator": MessageLookupByLibrary.simpleMessage("Creator"),
         "Custom": MessageLookupByLibrary.simpleMessage("Custom"),
         "Custom_Color": MessageLookupByLibrary.simpleMessage("Custom Color"),
@@ -143,22 +162,32 @@ class MessageLookup extends MessageLookupByLibrary {
         "Detail": MessageLookupByLibrary.simpleMessage("Detail"),
         "Development": MessageLookupByLibrary.simpleMessage("Development"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Dirtywords"),
+        "Discard": MessageLookupByLibrary.simpleMessage("Discard"),
+        "Discover_Groups":
+            MessageLookupByLibrary.simpleMessage("Discover Groups"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "Donate": MessageLookupByLibrary.simpleMessage("Donate"),
+        "Done": MessageLookupByLibrary.simpleMessage("Done"),
         "Dont_Compress":
             MessageLookupByLibrary.simpleMessage("Don\'t Compress"),
         "Download": MessageLookupByLibrary.simpleMessage("Download"),
         "Edit": MessageLookupByLibrary.simpleMessage("Edit"),
+        "Edit_Details": MessageLookupByLibrary.simpleMessage("Edit Details"),
+        "Edit_Group": MessageLookupByLibrary.simpleMessage("Edit Group"),
         "Edit_name": MessageLookupByLibrary.simpleMessage("Edit name"),
         "Emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
         "Empty_text_may_be_ban_by_relays": MessageLookupByLibrary.simpleMessage(
             "Empty text may be ban by relays."),
         "Enter_Community_Description": MessageLookupByLibrary.simpleMessage(
             "Enter a description of your community"),
+        "Enter_Community_Guidelines": MessageLookupByLibrary.simpleMessage(
+            "Enter the guidelines of your community"),
         "Enter_Community_Name": MessageLookupByLibrary.simpleMessage(
             "Enter a name for your community"),
+        "Error": MessageLookupByLibrary.simpleMessage("Error"),
         "Event_Sign_Check":
             MessageLookupByLibrary.simpleMessage("Event Sign Check"),
+        "Events": MessageLookupByLibrary.simpleMessage("Events"),
         "Face": MessageLookupByLibrary.simpleMessage("Face"),
         "Fast_Mode": MessageLookupByLibrary.simpleMessage("Fast Mode"),
         "File_Size": MessageLookupByLibrary.simpleMessage("File Size"),
@@ -167,6 +196,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "File_save_success":
             MessageLookupByLibrary.simpleMessage("File save success"),
         "Filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "Find_Group": MessageLookupByLibrary.simpleMessage("Find Group"),
         "Find_clouded_relay_list_do_you_want_to_download":
             MessageLookupByLibrary.simpleMessage(
                 "Find clouded relay list, do you want to download it?"),
@@ -196,11 +226,21 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
         "Group": MessageLookupByLibrary.simpleMessage("Group"),
         "GroupId": MessageLookupByLibrary.simpleMessage("GroupId"),
+        "Group_Closed_Description": MessageLookupByLibrary.simpleMessage(
+            "Requires invitation or approval to join"),
         "Group_Info": MessageLookupByLibrary.simpleMessage("Group Info"),
+        "Group_Open_Description": MessageLookupByLibrary.simpleMessage(
+            "Anyone can join without approval"),
+        "Group_Private_Description": MessageLookupByLibrary.simpleMessage(
+            "Only visible to members of this group"),
+        "Group_Public_Description": MessageLookupByLibrary.simpleMessage(
+            "Visible to everyone in the network"),
         "Group_member": m0,
         "Group_members": m1,
         "Groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Hashtag"),
+        "Have_invite_link": MessageLookupByLibrary.simpleMessage(
+            "Have an invite link? Tap on it to join a community."),
         "Hide": MessageLookupByLibrary.simpleMessage("Hide"),
         "Hide_Relay_Notices":
             MessageLookupByLibrary.simpleMessage("Hide Relay Notices"),
@@ -243,8 +283,17 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Input parse error"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Input relay address."),
+        "Invite": MessageLookupByLibrary.simpleMessage("Invite"),
+        "Invite_people_to_join": MessageLookupByLibrary.simpleMessage(
+            "Invite people to join this group"),
         "Join_Group": MessageLookupByLibrary.simpleMessage("Join Group"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
+        "Leave": MessageLookupByLibrary.simpleMessage("Leave"),
+        "Leave_Group": MessageLookupByLibrary.simpleMessage("Leave Group"),
+        "Leave_Group_Confirmation": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to leave this group?"),
+        "Leave_Group_Question":
+            MessageLookupByLibrary.simpleMessage("Leave Group?"),
         "Light": MessageLookupByLibrary.simpleMessage("Light"),
         "Lightning_Address":
             MessageLookupByLibrary.simpleMessage("Lightning Address"),
@@ -253,6 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Limit_Note_Height":
             MessageLookupByLibrary.simpleMessage("Limit Note Height"),
         "Link_preview": MessageLookupByLibrary.simpleMessage("Link preview"),
+        "Links": MessageLookupByLibrary.simpleMessage("Links"),
         "Lnurl_and_Lud16_can_t_found": MessageLookupByLibrary.simpleMessage(
             "Lnurl and Lud16 can\'t found."),
         "LocalRelay": MessageLookupByLibrary.simpleMessage("Local Relay"),
@@ -264,10 +314,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login_fail": MessageLookupByLibrary.simpleMessage("Login fail"),
         "Lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
         "Max_Sub_Notes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
+        "Media": MessageLookupByLibrary.simpleMessage("Media"),
         "Member": MessageLookupByLibrary.simpleMessage("Member"),
         "Members": MessageLookupByLibrary.simpleMessage("Members"),
         "Mention_User": MessageLookupByLibrary.simpleMessage("Mention User"),
         "Mentions": MessageLookupByLibrary.simpleMessage("Mentions"),
+        "Menu": MessageLookupByLibrary.simpleMessage("Menu"),
         "Metadata_can_not_be_found":
             MessageLookupByLibrary.simpleMessage("Metadata can not be found."),
         "Method": MessageLookupByLibrary.simpleMessage("Method"),
@@ -286,8 +338,12 @@ class MessageLookup extends MessageLookupByLibrary {
             "NWC is Nostr Wallet Connect, with NWC Setting you zap within the app."),
         "NWC_TIP2": MessageLookupByLibrary.simpleMessage("NWC URL is like"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
+        "Name_your_community":
+            MessageLookupByLibrary.simpleMessage("Name your community"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
+        "New_Post": MessageLookupByLibrary.simpleMessage("New Post"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
+        "No": MessageLookupByLibrary.simpleMessage("No"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "Nostromo_developers_will_never_require_a_key_from_you":
             MessageLookupByLibrary.simpleMessage(
@@ -319,6 +375,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Password": MessageLookupByLibrary.simpleMessage("Password"),
         "Pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "Picture": MessageLookupByLibrary.simpleMessage("Picture"),
+        "Places": MessageLookupByLibrary.simpleMessage("Places"),
         "Please_authenticate_to_turn_off_the_privacy_lock":
             MessageLookupByLibrary.simpleMessage(
                 "Please authenticate to turn off the privacy lock"),
@@ -357,6 +414,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please select relays"),
         "Poll": MessageLookupByLibrary.simpleMessage("Poll"),
         "Popular_Users": MessageLookupByLibrary.simpleMessage("Popular Users"),
+        "Posting_to": MessageLookupByLibrary.simpleMessage("Posting to"),
         "Posts": MessageLookupByLibrary.simpleMessage("Posts"),
         "Posts_and_replies":
             MessageLookupByLibrary.simpleMessage("Posts & Replies"),
@@ -378,29 +436,39 @@ class MessageLookup extends MessageLookupByLibrary {
         "Relay_Info": MessageLookupByLibrary.simpleMessage("Relay Info"),
         "Relay_Mode": MessageLookupByLibrary.simpleMessage("Relay Mode"),
         "Relays": MessageLookupByLibrary.simpleMessage("Relays"),
+        "Remove": MessageLookupByLibrary.simpleMessage("Remove"),
         "Remove_from_private_bookmark": MessageLookupByLibrary.simpleMessage(
             "Remove from private bookmark"),
         "Remove_from_public_bookmark":
             MessageLookupByLibrary.simpleMessage("Remove from public bookmark"),
         "Replying": MessageLookupByLibrary.simpleMessage("Replying"),
         "Request": MessageLookupByLibrary.simpleMessage("Request"),
+        "Retry": MessageLookupByLibrary.simpleMessage("Retry"),
         "Save": MessageLookupByLibrary.simpleMessage("Save"),
+        "Save_error":
+            MessageLookupByLibrary.simpleMessage("Error saving changes"),
+        "Save_failed": MessageLookupByLibrary.simpleMessage(
+            "An error occurred while trying to save your data."),
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "Search_User_from_cache":
             MessageLookupByLibrary.simpleMessage("Search User from cache"),
+        "Search_for_public_groups":
+            MessageLookupByLibrary.simpleMessage("Search for public groups"),
         "Search_note_content":
             MessageLookupByLibrary.simpleMessage("Search note content"),
         "Search_pubkey_event":
             MessageLookupByLibrary.simpleMessage("Search pubkey event"),
         "Select_relay_to_upload":
             MessageLookupByLibrary.simpleMessage("Select relay to upload"),
-        "Send": MessageLookupByLibrary.simpleMessage("Send"),
-        "Send_fail": MessageLookupByLibrary.simpleMessage("Send fail"),
+        "Send": MessageLookupByLibrary.simpleMessage("Publish"),
+        "Send_fail": MessageLookupByLibrary.simpleMessage("Publish failed"),
         "Send_interval": MessageLookupByLibrary.simpleMessage("Send interval"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Sensitive Content"),
         "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "Share": MessageLookupByLibrary.simpleMessage("Share"),
+        "Share_invite_description": MessageLookupByLibrary.simpleMessage(
+            "Share this link with people you want to invite to the group."),
         "Show": MessageLookupByLibrary.simpleMessage("Show"),
         "Show_more": MessageLookupByLibrary.simpleMessage("Show more"),
         "Show_more_replies":
@@ -414,6 +482,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "The support client will split and transfer zaps to the users you had added."),
         "Split_and_Transfer_Zap":
             MessageLookupByLibrary.simpleMessage("Split and Transfer Zap"),
+        "Start_or_join_a_community":
+            MessageLookupByLibrary.simpleMessage("Start or join a community"),
         "Subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "Submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "Sync_Upload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
@@ -476,6 +546,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Write a message"),
         "Wrong_Private_Key_format":
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
+        "Yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
         "Your_Groups": MessageLookupByLibrary.simpleMessage("Your Groups"),
@@ -494,6 +565,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "boosted": MessageLookupByLibrary.simpleMessage("boosted"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
+        "community_name":
+            MessageLookupByLibrary.simpleMessage("community name"),
         "group": MessageLookupByLibrary.simpleMessage("group"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":
@@ -506,6 +579,10 @@ class MessageLookup extends MessageLookupByLibrary {
             "The network will take effect the next time the app is launched"),
         "not_found": MessageLookupByLibrary.simpleMessage("not found"),
         "notes_updated": MessageLookupByLibrary.simpleMessage("notes updated"),
+        "onboarding_name_input_hint":
+            MessageLookupByLibrary.simpleMessage("Your name or nickname"),
+        "onboarding_name_input_title":
+            MessageLookupByLibrary.simpleMessage("What should we call you?"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "or": MessageLookupByLibrary.simpleMessage("or"),
         "poll_option_info":

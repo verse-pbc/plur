@@ -4,17 +4,17 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import '../../consts/base.dart';
 
 class SettingsGroupItemWidget extends StatelessWidget {
-  String name;
+  final String name;
 
-  Color? nameColor;
+  final Color? nameColor;
 
-  String? value;
+  final String? value;
 
-  Widget? child;
+  final Widget? child;
 
-  Function? onTap;
+  final Function? onTap;
 
-  SettingsGroupItemWidget({super.key, 
+  const SettingsGroupItemWidget({super.key,
     required this.name,
     this.nameColor,
     this.value,
@@ -29,8 +29,11 @@ class SettingsGroupItemWidget extends StatelessWidget {
     var cardColor = themeData.cardColor;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
 
-    if (child == null && StringUtil.isNotBlank(value)) {
-      child = Text(
+    final Widget resolvedChild;
+    if (child != null) {
+      resolvedChild = child!;
+    } else if (StringUtil.isNotBlank(value)) {
+      resolvedChild = Text(
         value!,
         style: TextStyle(
           color: hintColor,
@@ -38,9 +41,9 @@ class SettingsGroupItemWidget extends StatelessWidget {
           fontSize: fontSize,
         ),
       );
+    } else {
+      resolvedChild = Container();
     }
-
-    child ??= Container();
 
     Widget nameWidget = Text(
       name,
@@ -72,7 +75,7 @@ class SettingsGroupItemWidget extends StatelessWidget {
               Expanded(
                 child: Container(),
               ),
-              child!,
+              resolvedChild,
             ],
           ),
         ),

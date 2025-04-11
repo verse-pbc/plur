@@ -4,11 +4,11 @@ import 'package:nostrmo/consts/base.dart';
 import '../generated/l10n.dart';
 
 class NewNotesUpdatedWidget extends StatelessWidget {
-  int num;
+  final int num;
 
-  Function? onTap;
+  final Function? onTap;
 
-  NewNotesUpdatedWidget({super.key, required this.num, this.onTap});
+  const NewNotesUpdatedWidget({super.key, required this.num, this.onTap});
 
   @override
   Widget build(BuildContext context) {

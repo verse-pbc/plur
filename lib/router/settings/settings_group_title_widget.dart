@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../consts/base.dart';
 
 class SettingsGroupTitleWidget extends StatelessWidget {
-  IconData iconData;
+  final IconData iconData;
 
-  String title;
+  final String title;
 
-  SettingsGroupTitleWidget({super.key, 
+  const SettingsGroupTitleWidget({super.key,
     required this.iconData,
     required this.title,
   });

@@ -11,9 +11,9 @@ import '../main_btn_widget.dart';
 import '../tag_widget.dart';
 
 class EventTorrentWidget extends StatefulWidget {
-  TorrentInfo torrentInfo;
+  final TorrentInfo torrentInfo;
 
-  EventTorrentWidget(this.torrentInfo, {super.key});
+  const EventTorrentWidget(this.torrentInfo, {super.key});
 
   @override
   State<StatefulWidget> createState() {
@@ -119,7 +119,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
           }
 
           Clipboard.setData(ClipboardData(text: link)).then((_) {
-            BotToast.showText(text: S.of(context).Copy_success);
+            BotToast.showText(text: localization.Copy_success);
           });
 
           var url = Uri.parse(link);

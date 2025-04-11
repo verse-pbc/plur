@@ -11,7 +11,7 @@ class MarkdownMentionEventInlineSyntax extends md.InlineSyntax {
     // var text = match.input.substring(match.start, match.end);
     var text = match[0]!;
     final element =
-        md.Element.text(MarkdownMentionEventElementBuilder.TAG, text);
+        md.Element.text(MarkdownMentionEventElementBuilder.tag, text);
     parser.addNode(element);
 
     return true;

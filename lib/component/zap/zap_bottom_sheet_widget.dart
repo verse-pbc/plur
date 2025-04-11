@@ -42,13 +42,13 @@ class ZapBottomSheetWidget extends StatefulWidget {
     );
   }
 
-  String? eventId;
+  final String? eventId;
 
-  List<EventZapInfo> zapInfos;
+  final List<EventZapInfo> zapInfos;
 
-  BuildContext parentContext;
+  final BuildContext parentContext;
 
-  ZapBottomSheetWidget(
+  const ZapBottomSheetWidget(
     this.parentContext,
     this.zapInfos, {super.key, 
     this.eventId,
@@ -161,7 +161,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
           onTap: () {
             _onConfirm();
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 50,
@@ -245,7 +245,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
         height: width,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: mainColor.withOpacity(0.2),
+          color: mainColor.withAlpha(51),
           borderRadius: BorderRadius.circular(4),
           border: Border.all(
             color: borderColor,

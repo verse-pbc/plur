@@ -4,9 +4,9 @@ import 'package:flutter_placeholder_textlines/placeholder_lines.dart';
 import '../../consts/base.dart';
 
 class EventTopPlaceholder extends StatelessWidget {
-  static const double IMAGE_WIDTH = 34;
+  static const double imageWidth = 34;
 
-  static const double HALF_IMAGE_WIDTH = 17;
+  static const double halfImageWidth = 17;
 
   const EventTopPlaceholder({super.key});
   @override
@@ -25,11 +25,11 @@ class EventTopPlaceholder extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            width: IMAGE_WIDTH,
-            height: IMAGE_WIDTH,
+            width: imageWidth,
+            height: imageWidth,
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(HALF_IMAGE_WIDTH),
+              borderRadius: BorderRadius.circular(halfImageWidth),
               color: hintColor,
             ),
           ),

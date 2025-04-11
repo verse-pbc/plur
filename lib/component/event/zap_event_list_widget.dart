@@ -7,11 +7,11 @@ import '../../util/router_util.dart';
 import 'zap_event_main_widget.dart';
 
 class ZapEventListWidget extends StatefulWidget {
-  Event event;
+  final Event event;
 
-  bool jumpable;
+  final bool jumpable;
 
-  ZapEventListWidget({super.key,
+  const ZapEventListWidget({super.key,
     required this.event,
     this.jumpable = true,
   });

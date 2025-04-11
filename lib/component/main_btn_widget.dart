@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MainBtnWidget extends StatelessWidget {
-  String text;
+  final String text;
 
-  Function? onTap;
+  final Function? onTap;
 
-  MainBtnWidget({super.key, required this.text, this.onTap});
+  const MainBtnWidget({super.key, required this.text, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class MainBtnWidget extends StatelessWidget {
             onTap!();
           }
         },
-        highlightColor: mainColor.withOpacity(0.2),
+        highlightColor: mainColor.withAlpha(51),
         child: Container(
           color: mainColor,
           height: 40,

@@ -15,6 +15,7 @@ import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/router/index/index_app_bar.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
@@ -23,6 +24,7 @@ import '../../component/editor/editor_mixin.dart';
 import '../../component/editor/poll_input_widget.dart';
 import '../../component/editor/zap_split_input_widget.dart';
 import '../../generated/l10n.dart';
+import '../../provider/group_provider.dart';
 import 'editor_notify_item_widget.dart';
 import '../../component/info_message_widget.dart';
 import '../../component/appbar_bottom_border.dart';
@@ -205,7 +207,6 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
     final localization = S.of(context);
     final themeData = Theme.of(context);
-    var hintColor = themeData.hintColor;
     var textColor = themeData.textTheme.bodyMedium!.color;
     var cardColor = themeData.cardColor;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
@@ -222,28 +223,31 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           if (tagName == "a") {
             // this note is add to community
             var aid = AId.fromString(tagValue);
-            if (aid != null && aid.kind == EventKind.COMMUNITY_DEFINITION) {
+            if (aid != null && aid.kind == EventKind.communityDefinition) {
               list.add(Container(
-                padding: const EdgeInsets.only(
-                  left: Base.basePadding,
-                  right: Base.basePadding,
+                padding: const EdgeInsets.all(Base.basePadding),
+                margin: const EdgeInsets.only(bottom: Base.basePadding),
+                decoration: BoxDecoration(
+                  color: themeData.primaryColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 alignment: Alignment.centerLeft,
                 child: Row(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       margin: const EdgeInsets.only(right: Base.basePadding),
                       child: Icon(
                         Icons.groups,
-                        size: largeTextSize,
-                        color: hintColor,
+                        size: largeTextSize! * 1.2,
+                        color: themeData.primaryColor,
                       ),
                     ),
                     Text(
-                      aid.title,
-                      style: const TextStyle(
+                      "${localization.Posting_to} ${aid.title}",
+                      style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: largeTextSize,
+                        color: textColor,
                       ),
                     ),
                   ],
@@ -253,6 +257,47 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
           }
         }
       }
+    }
+    
+    // If posting to a group through groupIdentifier but no tag is found above
+    if (widget.groupIdentifier != null && list.isEmpty) {
+      list.add(Container(
+        padding: const EdgeInsets.all(Base.basePadding),
+        margin: const EdgeInsets.only(bottom: Base.basePadding),
+        decoration: BoxDecoration(
+          color: themeData.primaryColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        alignment: Alignment.centerLeft,
+        child: Row(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(right: Base.basePadding),
+              child: Icon(
+                Icons.groups,
+                size: largeTextSize! * 1.2,
+                color: themeData.primaryColor,
+              ),
+            ),
+            Selector<GroupProvider, GroupMetadata?>(
+              selector: (_, provider) => widget.groupIdentifier != null 
+                ? provider.getMetadata(widget.groupIdentifier!) 
+                : null,
+              builder: (context, metadata, child) {
+                final groupName = metadata?.name ?? widget.groupIdentifier?.groupId ?? '';
+                return Text(
+                  "${localization.Posting_to} $groupName",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: largeTextSize,
+                    color: textColor,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ));
     }
 
     if ((notifyItems != null && notifyItems!.isNotEmpty) ||
@@ -409,15 +454,38 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         backgroundColor: cardColor,
         bottom: const AppBarBottomBorder(),
         leading: const AppbarBackBtnWidget(),
+        title: widget.groupIdentifier != null ? Text(
+          localization.New_Post,
+          style: TextStyle(
+            color: textColor,
+            fontSize: fontSize,
+          ),
+        ) : null,
         actions: [
-          TextButton(
-            onPressed: documentSave,
-            style: const ButtonStyle(),
-            child: Text(
-              localization.Send,
-              style: TextStyle(
-                color: textColor,
-                fontSize: fontSize,
+          Container(
+            margin: const EdgeInsets.only(right: Base.basePadding),
+            child: ElevatedButton(
+              onPressed: documentSave,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: themeData.primaryColor,
+                foregroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    localization.Send,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  const Icon(Icons.send, size: 16),
+                ],
               ),
             ),
           ),
@@ -425,8 +493,25 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       ),
       body: Container(
         color: cardColor,
-        child: Column(
-          children: list,
+        width: double.infinity,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // Add margins on larger screens but keep full width on small screens
+            final screenWidth = MediaQuery.of(context).size.width;
+            final isSmallScreen = screenWidth < 600;
+            
+            return Center(
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: isSmallScreen ? double.infinity : 600,
+                ),
+                padding: isSmallScreen ? EdgeInsets.zero : const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: list,
+                ),
+              ),
+            );
+          },
         ),
       ),
     );

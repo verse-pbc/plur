@@ -88,7 +88,6 @@ class _IndexBottomBar extends State<IndexBottomBar> {
     );
   }
 
-  @override
   Future<void> onReady(BuildContext context) async {}
 }
 
@@ -97,10 +96,10 @@ class IndexBottomBarButton extends StatelessWidget {
   final int index;
   final bool selected;
   final Function(int)? onTap;
-  bool bigFont;
-  Function? onDoubleTap;
+  final bool bigFont;
+  final Function? onDoubleTap;
 
-  IndexBottomBarButton({
+  const IndexBottomBarButton({
     super.key, 
     required this.iconData,
     required this.index,

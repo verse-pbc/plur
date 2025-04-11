@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import '../provider/pc_router_fake_provider.dart';
 
 class PcRouterFake extends InheritedWidget {
-  RouterFakeInfo info;
+  final RouterFakeInfo info;
 
-  PcRouterFake({
+  const PcRouterFake({
     super.key,
     required super.child,
     required this.info,

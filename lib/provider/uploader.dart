@@ -29,7 +29,7 @@ class Uploader {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
 
       if (result != null) {
-        if (settingsProvider.imageService == ImageServices.NIP_95 &&
+        if (settingsProvider.imageService == ImageServices.nip95 &&
             result.files.single.size > nip95MaxLength) {
           if (!context.mounted) return null;
           BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
@@ -68,7 +68,7 @@ class Uploader {
         );
 
         if (result != null) {
-          if (settingsProvider.imageService == ImageServices.NIP_95 &&
+          if (settingsProvider.imageService == ImageServices.nip95 &&
               (await result.length()) > nip95MaxLength) {
             if (!context.mounted) return null;
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
@@ -77,7 +77,7 @@ class Uploader {
         }
       }
 
-      if (settingsProvider.imageService == ImageServices.NIP_95) {
+      if (settingsProvider.imageService == ImageServices.nip95) {
         var fileSize = StoreUtil.getFileSize(file!.path);
         if (fileSize != null && fileSize > nip95MaxLength) {
           if (!context.mounted) return null;
@@ -108,7 +108,7 @@ class Uploader {
       if (result != null) {
         for (var file in result.files) {
           var size = file.size;
-          if (settingsProvider.imageService == ImageServices.NIP_95 &&
+          if (settingsProvider.imageService == ImageServices.nip95 &&
               size > nip95MaxLength) {
             if (!context.mounted) return [];
             BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
@@ -156,7 +156,7 @@ class Uploader {
           );
 
           if (result != null) {
-            if (settingsProvider.imageService == ImageServices.NIP_95 &&
+            if (settingsProvider.imageService == ImageServices.nip95 &&
                 (await result.length()) > nip95MaxLength) {
               if (!context.mounted) return [];
               BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
@@ -168,7 +168,7 @@ class Uploader {
           }
         }
 
-        if (settingsProvider.imageService == ImageServices.NIP_95) {
+        if (settingsProvider.imageService == ImageServices.nip95) {
           var fileSize = StoreUtil.getFileSize(file!.path);
           if (fileSize != null && fileSize > nip95MaxLength) {
             if (!context.mounted) return [];
@@ -191,39 +191,39 @@ class Uploader {
     if (nostr == null) return null;
     final String? serviceURL = settingsProvider.imageServiceAddr;
     return switch (imageService) {
-      ImageServices.POMF2_LAIN_LA => await Pomf2LainLa.upload(
+      ImageServices.pomf2LainLa => await Pomf2LainLa.upload(
           localPath,
           fileName: fileName,
         ),
-      ImageServices.NOSTO_RE => await BlossomUploader.upload(
+      ImageServices.nostore => await BlossomUploader.upload(
           nostr!,
           blossomURL,
           localPath,
           fileName: fileName,
         ),
-      ImageServices.NIP_95 => await NIP95Uploader.upload(
+      ImageServices.nip95 => await NIP95Uploader.upload(
           nostr!,
           localPath,
           fileName: fileName,
         ),
-      ImageServices.NIP_96 when StringUtil.isNotBlank(serviceURL) =>
+      ImageServices.nip96 when StringUtil.isNotBlank(serviceURL) =>
         await NIP96Uploader.upload(
           nostr!,
           serviceURL!,
           localPath,
           fileName: fileName,
         ),
-      ImageServices.BLOSSOM when StringUtil.isNotBlank(serviceURL) =>
+      ImageServices.blossom when StringUtil.isNotBlank(serviceURL) =>
         await BlossomUploader.upload(
           nostr!,
           serviceURL!,
           localPath,
           fileName: fileName,
         ),
-      ImageServices.VOID_CAT => await VoidCatUploader.upload(
+      ImageServices.voidCat => await VoidCatUploader.upload(
           localPath,
         ),
-      ImageServices.NOSTR_BUILD => await NIP96Uploader.upload(
+      ImageServices.nostrBuild => await NIP96Uploader.upload(
           nostr!,
           nostrBuildURL,
           localPath,

@@ -41,7 +41,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     bindLoadMoreScroll(_controller);
     _controller.addListener(() {
       if (_controller.offset > 50 && mainColor != null) {
-        appBarBG = mainColor!.withOpacity(0.2);
+        appBarBG = mainColor!.withAlpha(51);
         setState(() {});
       } else {
         appBarBG = null;
@@ -108,7 +108,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
         var event = events[index];
         return EventListWidget(
           event: event,
-          showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+          showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
         );
       },
       itemCount: events.length + 1,
@@ -170,7 +170,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
 
     // load event from relay
     var filter = Filter(
-      kinds: EventKind.SUPPORTED_EVENTS,
+      kinds: EventKind.supportedEvents,
       until: until,
       limit: queryLimit,
     );
@@ -235,7 +235,7 @@ class _FollowSetFeedWidgetState extends CustState<FollowSetFeedWidget>
     if (StringUtil.isNotBlank(subscribeId)) {
       try {
         nostr!.unsubscribe(subscribeId!);
-      } catch (e) {}
+      } catch (_) {}
     }
   }
 
