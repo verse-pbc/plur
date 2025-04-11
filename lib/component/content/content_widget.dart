@@ -515,7 +515,8 @@ class _ContentWidgetState extends State<ContentWidget> {
 
     // SPECIAL HANDLING: Check for image metadata first (DMDetailItemWidget approach)
     Map<String, dynamic> metadata = {};
-    if (widget.event != null && widget.showImage && !widget.imageListMode) {
+    if (widget.event != null && widget.showImage) {
+      // Extract metadata regardless of whether we're in list mode
       metadata = _extractImageMetadata();
     }
     
@@ -592,6 +593,48 @@ class _ContentWidgetState extends State<ContentWidget> {
       );
     }
     
+    // Special handling for a post that ONLY contains an image
+    if (widget.showImage && 
+        metadata.isNotEmpty && 
+        metadata['containsMedia'] == true && 
+        metadata['mediaUrl'] != null &&
+        widget.imageListMode) {
+      
+      // For image list mode with a single-image post, show the image nicely
+      if (images.length == 1 && contentToCheck != null && 
+          contentToCheck.trim() == metadata['mediaUrl'].trim()) {
+        
+        // Create a column with minimal text content (placeholder)
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Show the image list mode version
+            SizedBox(
+              height: contentImageListHeight,
+              width: double.infinity,
+              child: CustomScrollView(
+                slivers: [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+                      width: contentImageListHeight,
+                      height: contentImageListHeight,
+                      child: _buildImageWidget(
+                        metadata['mediaUrl'],
+                        metadata['blurhash'],
+                        metadata['dimensions'],
+                      ),
+                    ),
+                  ),
+                ],
+                scrollDirection: Axis.horizontal,
+              ),
+            ),
+          ],
+        );
+      }
+    }
+    
     // Regular handling for text or image list mode
     var main = textContent;
     
@@ -603,11 +646,22 @@ class _ContentWidgetState extends State<ContentWidget> {
       List<Widget> imageWidgetList = [];
       var index = 0;
       for (var image in images) {
-        // Use built-in getFileMetadata for backward compatibility
-        final fileMetadata = getFileMetadata(image);
-        // Extract dimensions and blurhash if available
-        String? dimensions = fileMetadata?.dim;
-        String? blurhash = fileMetadata?.blurhash;
+        // Try to use metadata from the special extraction if available
+        String? blurhash;
+        String? dimensions;
+        
+        // First try to use the metadata from the direct parsing
+        if (image == metadata['mediaUrl']) {
+          blurhash = metadata['blurhash'];
+          dimensions = metadata['dimensions'];
+        }
+        
+        // Fallback to the original approach if needed
+        if (blurhash == null || dimensions == null) {
+          final fileMetadata = getFileMetadata(image);
+          dimensions = fileMetadata?.dim ?? dimensions;
+          blurhash = fileMetadata?.blurhash ?? blurhash;
+        }
         
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
