@@ -101,7 +101,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Action button
+                    // Action buttons
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -116,6 +116,30 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                               borderRadius: 8,
                               onTap: _createCommunity,
                             ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Join Test Users Group button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: OutlinedButton(
+                        onPressed: _joinTestUsersGroup,
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: themeData.customColors.accentColor),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          "Join Plur Test Users",
+                          style: TextStyle(
+                            color: themeData.customColors.accentColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
                     ),
                     const SizedBox(height: 16),
 
@@ -198,6 +222,32 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
           ),
         );
       }
+    }
+  }
+  
+  /// Joins the Plur Test Users community group
+  void _joinTestUsersGroup() {
+    const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
+    
+    // Show loading indicator
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Joining Plur Test Users group..."),
+        duration: Duration(seconds: 1),
+      ),
+    );
+    
+    // Attempt to join the group
+    bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+    
+    if (!success && mounted) {
+      // Show error message if joining failed
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Failed to join test users group. Please try again later."),
+          duration: Duration(seconds: 3),
+        ),
+      );
     }
   }
 }
