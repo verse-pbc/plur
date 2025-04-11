@@ -3930,6 +3930,36 @@ class S {
     );
   }
 
+  /// `Admin-only posts`
+  String get admin_only_posts {
+    return Intl.message(
+      'Admin-only posts',
+      name: 'admin_only_posts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Only admins can post announcements, but everyone can chat`
+  String get Group_AdminOnly_Description {
+    return Intl.message(
+      'Only admins can post announcements, but everyone can chat',
+      name: 'Group_AdminOnly_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All members can post announcements and chat`
+  String get Group_AllMembers_Description {
+    return Intl.message(
+      'All members can post announcements and chat',
+      name: 'Group_AllMembers_Description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Invite people to join this group`
   String get Invite_people_to_join {
     return Intl.message(
@@ -3955,6 +3985,116 @@ class S {
     return Intl.message(
       'Share this link with people you want to invite to the group.',
       name: 'Share_invite_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community created!`
+  String get community_created {
+    return Intl.message(
+      'Community created!',
+      name: 'community_created',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Next steps`
+  String get next_steps {
+    return Intl.message(
+      'Next steps',
+      name: 'next_steps',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add guidelines`
+  String get add_guidelines {
+    return Intl.message(
+      'Add guidelines',
+      name: 'add_guidelines',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Set rules and expectations for your community`
+  String get guidelines_description {
+    return Intl.message(
+      'Set rules and expectations for your community',
+      name: 'guidelines_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Customize your community`
+  String get customize_community {
+    return Intl.message(
+      'Customize your community',
+      name: 'customize_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add images and details to make your community stand out`
+  String get customize_description {
+    return Intl.message(
+      'Add images and details to make your community stand out',
+      name: 'customize_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite people`
+  String get invite_people {
+    return Intl.message(
+      'Invite people',
+      name: 'invite_people',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share the link below to invite others to join`
+  String get share_invite_link {
+    return Intl.message(
+      'Share the link below to invite others to join',
+      name: 'share_invite_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invitation link`
+  String get invitation_link {
+    return Intl.message(
+      'Invitation link',
+      name: 'invitation_link',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Link copied to clipboard!`
+  String get link_copied {
+    return Intl.message(
+      'Link copied to clipboard!',
+      name: 'link_copied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Go to community`
+  String get go_to_community {
+    return Intl.message(
+      'Go to community',
+      name: 'go_to_community',
       desc: '',
       args: [],
     );

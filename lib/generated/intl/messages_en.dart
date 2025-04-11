@@ -228,6 +228,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
         "Group": MessageLookupByLibrary.simpleMessage("Group"),
         "GroupId": MessageLookupByLibrary.simpleMessage("GroupId"),
+        "Group_AdminOnly_Description": MessageLookupByLibrary.simpleMessage(
+            "Only admins can post announcements, but everyone can chat"),
+        "Group_AllMembers_Description": MessageLookupByLibrary.simpleMessage(
+            "All members can post announcements and chat"),
         "Group_Closed_Description": MessageLookupByLibrary.simpleMessage(
             "Requires invitation or approval to join"),
         "Group_Info": MessageLookupByLibrary.simpleMessage("Group Info"),
@@ -563,24 +567,44 @@ class MessageLookup extends MessageLookupByLibrary {
             "Zap num can not smaller then"),
         "Zap_number_not_enough":
             MessageLookupByLibrary.simpleMessage("Zap number not enough"),
+        "add_guidelines":
+            MessageLookupByLibrary.simpleMessage("Add guidelines"),
         "add_poll_option":
             MessageLookupByLibrary.simpleMessage("add poll option"),
+        "admin_only_posts":
+            MessageLookupByLibrary.simpleMessage("Admin-only posts"),
         "auto": MessageLookupByLibrary.simpleMessage("Auto"),
         "boosted": MessageLookupByLibrary.simpleMessage("boosted"),
         "close": MessageLookupByLibrary.simpleMessage("Close"),
         "closed": MessageLookupByLibrary.simpleMessage("closed"),
+        "community_created":
+            MessageLookupByLibrary.simpleMessage("Community created!"),
         "community_name":
             MessageLookupByLibrary.simpleMessage("community name"),
+        "customize_community":
+            MessageLookupByLibrary.simpleMessage("Customize your community"),
+        "customize_description": MessageLookupByLibrary.simpleMessage(
+            "Add images and details to make your community stand out"),
+        "go_to_community":
+            MessageLookupByLibrary.simpleMessage("Go to community"),
         "group": MessageLookupByLibrary.simpleMessage("group"),
+        "guidelines_description": MessageLookupByLibrary.simpleMessage(
+            "Set rules and expectations for your community"),
+        "invitation_link":
+            MessageLookupByLibrary.simpleMessage("Invitation link"),
+        "invite_people": MessageLookupByLibrary.simpleMessage("Invite people"),
         "is_sending": MessageLookupByLibrary.simpleMessage("is sending"),
         "key_has_been_copy":
             MessageLookupByLibrary.simpleMessage("The key has been copied!"),
         "liked": MessageLookupByLibrary.simpleMessage("liked"),
+        "link_copied":
+            MessageLookupByLibrary.simpleMessage("Link copied to clipboard!"),
         "loading": MessageLookupByLibrary.simpleMessage("loading"),
         "max_zap_num": MessageLookupByLibrary.simpleMessage("max zap num"),
         "min_zap_num": MessageLookupByLibrary.simpleMessage("min zap num"),
         "network_take_effect_tip": MessageLookupByLibrary.simpleMessage(
             "The network will take effect the next time the app is launched"),
+        "next_steps": MessageLookupByLibrary.simpleMessage("Next steps"),
         "not_found": MessageLookupByLibrary.simpleMessage("not found"),
         "notes_updated": MessageLookupByLibrary.simpleMessage("notes updated"),
         "onboarding_name_input_hint":
@@ -594,6 +618,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "private": MessageLookupByLibrary.simpleMessage("private"),
         "public": MessageLookupByLibrary.simpleMessage("public"),
         "replied": MessageLookupByLibrary.simpleMessage("replied"),
+        "share_invite_link": MessageLookupByLibrary.simpleMessage(
+            "Share the link below to invite others to join"),
         "view_key": MessageLookupByLibrary.simpleMessage("view key")
       };
 }

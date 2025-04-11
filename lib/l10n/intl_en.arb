@@ -402,7 +402,21 @@
     "Group_Private_Description": "Only visible to members of this group",
     "Group_Open_Description": "Anyone can join without approval",
     "Group_Closed_Description": "Requires invitation or approval to join",
+    "admin_only_posts": "Admin-only posts",
+    "Group_AdminOnly_Description": "Only admins can post announcements, but everyone can chat",
+    "Group_AllMembers_Description": "All members can post announcements and chat",
     "Invite_people_to_join": "Invite people to join this group",
     "Done": "Done",
-    "Share_invite_description": "Share this link with people you want to invite to the group."
+    "Share_invite_description": "Share this link with people you want to invite to the group.",
+    "community_created": "Community created!",
+    "next_steps": "Next steps",
+    "add_guidelines": "Add guidelines",
+    "guidelines_description": "Set rules and expectations for your community",
+    "customize_community": "Customize your community",
+    "customize_description": "Add images and details to make your community stand out",
+    "invite_people": "Invite people",
+    "share_invite_link": "Share the link below to invite others to join",
+    "invitation_link": "Invitation link",
+    "link_copied": "Link copied to clipboard!",
+    "go_to_community": "Go to community"
 }
