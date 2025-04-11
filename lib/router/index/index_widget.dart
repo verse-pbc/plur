@@ -186,6 +186,9 @@ class _IndexWidgetState extends CustState<IndexWidget>
         log('$e');
       }
     }
+    
+    // Initialize tab preloading
+    _preloadTabsAfterInit();
   }
 
   /// Handles app lifecycle state changes to manage Nostr connection
@@ -422,25 +425,114 @@ class _IndexWidgetState extends CustState<IndexWidget>
     );
   }
 
+  // Cache for tab widgets with RepaintBoundary for better isolation
+  final Map<int, Widget> _tabWidgets = {};
+  
+  // Tracks if we need to prefetch next tab
+  int? _prefetchingTabIndex;
+  
+  // Used to track if tabs have been preloaded
+  final Set<int> _preloadedTabs = {};
+  
+  // Preload tabs during initialization in overridden init method
+  void _preloadTabsAfterInit() {
+    // Pre-create all tabs during initialization to avoid lag during first switch
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Preload the current tab immediately
+      _createTabWidget(0);
+      
+      // Schedule preloading of other tabs with a delay to not block initial rendering
+      Future.delayed(const Duration(milliseconds: 500), () {
+        _preloadAllTabs();
+      });
+    });
+  }
+  
+  // Preload all tabs in the background to avoid lag when switching
+  void _preloadAllTabs() {
+    // Only preload once
+    if (_preloadedTabs.isNotEmpty) return;
+    
+    for (int i = 0; i < 3; i++) {
+      _preloadedTabs.add(i);
+      if (!_tabWidgets.containsKey(i)) {
+        _createTabWidget(i);
+      }
+    }
+  }
+  
   Widget _buildMainContent(BuildContext context, IndexProvider indexProvider) {
+    // Pre-fetching: if we're switching tabs, ensure the target tab is built
+    if (indexProvider.previousTap != indexProvider.currentTap && 
+        _prefetchingTabIndex != indexProvider.currentTap) {
+      _prefetchingTabIndex = indexProvider.currentTap;
+      
+      // Schedule creation of the next tab in a microtask to avoid blocking UI
+      Future.microtask(() {
+        if (!_tabWidgets.containsKey(indexProvider.currentTap)) {
+          _createTabWidget(indexProvider.currentTap);
+        }
+        _prefetchingTabIndex = null;
+      });
+    }
+    
+    // Ensure main tabs are created and cached
+    if (!_tabWidgets.containsKey(indexProvider.currentTap)) {
+      _createTabWidget(indexProvider.currentTap);
+    }
+    
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
       child: Expanded(
+        // IndexedStack preserves state better than Offstage + TickerMode
+        // for complex widgets like CommunitiesScreen
         child: IndexedStack(
           index: indexProvider.currentTap,
+          sizing: StackFit.expand,
           children: [
-            // Both Communities Screen and Feed are combined into a single tab
-            // with view mode controlled by the IndexProvider
-            const CommunitiesScreen(),
-            DMWidget(
-              tabController: dmTabController,
+            // Wrap each tab in RepaintBoundary to isolate rendering
+            RepaintBoundary(
+              child: TickerMode(
+                enabled: indexProvider.currentTap == 0,
+                child: _tabWidgets[0] ?? const SizedBox.shrink(),
+              ),
             ),
-            const SearchWidget(),
+            RepaintBoundary(
+              child: TickerMode(
+                enabled: indexProvider.currentTap == 1,
+                child: _tabWidgets[1] ?? const SizedBox.shrink(),
+              ),
+            ),
+            RepaintBoundary(
+              child: TickerMode(
+                enabled: indexProvider.currentTap == 2,
+                child: _tabWidgets[2] ?? const SizedBox.shrink(),
+              ),
+            ),
           ],
         ),
       ),
     );
+  }
+  
+  // Create and cache tab widgets with memory optimization
+  void _createTabWidget(int tabIndex) {
+    if (_tabWidgets.containsKey(tabIndex)) {
+      return; // Already created, don't recreate
+    }
+    
+    switch (tabIndex) {
+      case 0:
+        _tabWidgets[0] = const CommunitiesScreen();
+        break;
+      case 1:
+        _tabWidgets[1] = DMWidget(tabController: dmTabController);
+        break;
+      case 2:
+        _tabWidgets[2] = const SearchWidget();
+        break;
+    }
   }
 
   Widget _buildMusicPlayer() {
