@@ -705,7 +705,7 @@ class ListProvider extends ChangeNotifier {
     // and filter them client-side
     final filters = [
       {
-        "kinds": [EventKind.GROUP_METADATA],
+        "kinds": [EventKind.groupMetadata],
         "limit": 500,
       }
     ];
@@ -718,7 +718,7 @@ class ListProvider extends ChangeNotifier {
         filters,
         (Event event) {
           // Keep track of event types for debugging
-          if (event.kind == EventKind.GROUP_EDIT_STATUS) {
+          if (event.kind == EventKind.groupEditStatus) {
             editStatusEvents++;
             log("Received GROUP_EDIT_STATUS event: ${event.id.substring(0, 10)}...");
             
@@ -745,7 +745,7 @@ class ListProvider extends ChangeNotifier {
                 }
               }
             }
-          } else if (event.kind == EventKind.GROUP_METADATA) {
+          } else if (event.kind == EventKind.groupMetadata) {
             metadataEvents++;
             
             // Extract groupId from the 'd' tag
@@ -792,16 +792,16 @@ class ListProvider extends ChangeNotifier {
                 }
               }
             }
-          } else if (event.kind == EventKind.GROUP_MEMBERS) {
+          } else if (event.kind == EventKind.groupMembers) {
             memberEvents++;
             // We're ignoring member events for now in our simplified approach
-          } else if (event.kind == EventKind.GROUP_NOTE) {
+          } else if (event.kind == EventKind.groupNote) {
             noteEvents++;
             // We're ignoring note events for now in our simplified approach
           }
         },
         tempRelays: [relay],
-        relayTypes: RelayType.ONLY_TEMP,
+        relayTypes: RelayType.onlyTemp,
       );
       
       // Simulate query completion after a delay (since onComplete callback is not available)
