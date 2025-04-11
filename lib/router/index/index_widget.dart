@@ -6,14 +6,18 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/editor/search_mention_user_widget.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
+import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../features/communities/communities_screen.dart';
@@ -149,7 +153,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
     // Note: This is critical. Rebuild this widget when settings change.
     Provider.of<SettingsProvider>(context);
-
     if (nostr == null) {
       return const LoginSignupWidget();
     }
@@ -195,6 +198,32 @@ class _IndexWidgetState extends CustState<IndexWidget>
         dividerHeight: 0,
         tabs: [
           IndexTabItemWidget(
+            localization.DMs,
+            titleTextStyle,
+            omitText: "DM",
+          ),
+          IndexTabItemWidget(
+            localization.Request,
+            titleTextStyle,
+            omitText: "R",
+          ),
+        ],
+        controller: dmTabController,
+      );
+      appBarRight = GestureDetector(
+        onTap: () {
+          _showSearchUserForDM(context);
+        },
+        child: const Icon(Icons.chat_rounded),
+      );
+    } else if (indexProvider.currentTap == 2) {
+      appBarCenter = TabBar(
+        indicatorColor: indicatorColor,
+        indicatorWeight: 3,
+        indicatorSize: TabBarIndicatorSize.tab,
+        dividerHeight: 0,
+        tabs: [
+          IndexTabItemWidget(
             localization.Notes,
             titleTextStyle,
             omitText: "N",
@@ -212,33 +241,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ],
         controller: globalsTabController,
       );
-    } else if (indexProvider.currentTap == 2) {
-      appBarCenter = Center(
-        child: Text(
-          localization.Search,
-          style: titleTextStyle,
-        ),
-      );
-    } else if (indexProvider.currentTap == 3) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.DMs,
-            titleTextStyle,
-            omitText: "DM",
-          ),
-          IndexTabItemWidget(
-            localization.Request,
-            titleTextStyle,
-            omitText: "R",
-          ),
-        ],
-        controller: dmTabController,
-      );
     }
 
     var mainCenterWidget = MediaQuery.removePadding(
@@ -249,10 +251,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
         index: indexProvider.currentTap,
         children: [
           const CommunitiesScreen(),
-          const SearchWidget(),
           DMWidget(
             tabController: dmTabController,
           ),
+          const SearchWidget(),
         ],
       )),
     );
@@ -383,6 +385,26 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ),
       );
     }
+  }
+
+  void _showSearchUserForDM(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => Scaffold(
+          appBar: AppBar(title: const Text("Select User")),
+          body: const SearchMentionUserWidget(),
+        ),
+      ),
+    ).then((pubkey) {
+      if (pubkey != null && pubkey is String) {
+        // Use the DMProvider to create a new session or find an existing one
+        final dmProvider = Provider.of<DMProvider>(context, listen: false);
+        final dmDetail = dmProvider.findOrNewADetail(pubkey);
+        
+        // Navigate to the DM detail screen with the selected user
+        RouterUtil.router(context, RouterPath.DM_DETAIL, dmDetail);
+      }
+    });
   }
 
   void doAuth() {
