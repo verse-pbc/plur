@@ -8,7 +8,7 @@ import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/index/index_widget.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' hide ChangeNotifierProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'tab_switching_performance_test.mocks.dart';
