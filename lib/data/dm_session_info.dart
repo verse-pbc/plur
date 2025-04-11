@@ -13,7 +13,7 @@ class DMSessionInfo {
   String? value3;
 
   DMSessionInfo(
-      {this.pubkey, this.readedTime, this.value1, this.value2, this.value3});
+      {this.keyIndex, this.pubkey, this.readedTime, this.value1, this.value2, this.value3});
 
   DMSessionInfo.fromJson(Map<String, dynamic> json) {
     keyIndex = json['key_index'];

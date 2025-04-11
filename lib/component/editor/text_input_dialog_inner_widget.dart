@@ -76,7 +76,7 @@ class _TextInputDialogInnerWidgetState
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
           onTap: _onConfirm,
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,

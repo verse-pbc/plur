@@ -27,6 +27,12 @@ class DMSessionInfoDB {
   }
 
   static Future<int> update(DMSessionInfo o, {DatabaseExecutor? db}) async {
+    // Check if keyIndex and pubkey are not null before updating
+    if (o.keyIndex == null || o.pubkey == null) {
+      print("Error: Cannot update DMSessionInfo with null keyIndex or pubkey");
+      return 0; // Return 0 rows affected
+    }
+    
     db = await DB.getDB(db);
     var jsonObj = o.toJson();
     return await db.update(

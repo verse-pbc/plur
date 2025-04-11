@@ -31,6 +31,23 @@ class NameWidget extends StatefulWidget {
     this.maxLines = 3,
     this.showName = true,
   });
+  
+  /// Gets a simple display name for a user
+  /// If user has a displayName, use that
+  /// If not, try using user.name
+  /// If neither exists, use the nip19 encoded pubkey
+  static String getSimpleName(String pubkey, User? user) {
+    if (user != null) {
+      if (StringUtil.isNotBlank(user.displayName)) {
+        return user.displayName!;
+      } else if (StringUtil.isNotBlank(user.name)) {
+        return user.name!;
+      }
+    }
+    
+    // Fall back to nip19 encoded pubkey
+    return Nip19.encodeSimplePubKey(pubkey);
+  }
 
   @override
   State<StatefulWidget> createState() {

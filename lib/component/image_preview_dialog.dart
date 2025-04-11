@@ -127,7 +127,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
     final localization = S.of(context);
 
     var main = Scaffold(
-      backgroundColor: widget.backgroundColor.withOpacity(0.5),
+      backgroundColor: widget.backgroundColor.withAlpha(128),
       body: GestureDetector(
         onTap: _close,
         child: Stack(

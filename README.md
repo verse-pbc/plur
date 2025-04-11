@@ -91,8 +91,16 @@ flutter build windows --release
 
 #### Web
 
-```
+```bash
+# Build the web app
 flutter build web --release --web-renderer canvaskit
+
+# Run a local web server to test the build
+cd build/web
+python -m http.server 8000
+
+# Open in browser
+open http://localhost:8000
 ```
 
 #### Linux

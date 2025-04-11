@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/consts/plur_colors.dart';
 
 class ContentStrLinkWidget extends StatelessWidget {
   final bool showUnderline;
@@ -17,8 +18,11 @@ class ContentStrLinkWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
+    
+    // According to feed_m_styles design, interactive elements should use the "Highlight" color
+    // This ensures hashtags, mentions, and links use the correct off-white/light purple color
+    const linkColor = PlurColors.highlightText;
 
     return GestureDetector(
       onTap: () {
@@ -27,10 +31,11 @@ class ContentStrLinkWidget extends StatelessWidget {
       child: Text(
         StringUtil.breakWord(str),
         style: TextStyle(
-          color: mainColor,
+          color: linkColor,
+          fontWeight: FontWeight.w500,
           decoration:
               showUnderline ? TextDecoration.underline : TextDecoration.none,
-          decorationColor: mainColor,
+          decorationColor: linkColor,
           fontSize: fontSize,
         ),
         // fix when flutter upgrade, text not vertical align by bottom

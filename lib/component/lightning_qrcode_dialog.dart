@@ -81,7 +81,7 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
           bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: hintColor.withOpacity(0.5),
+          color: hintColor.withAlpha(128),
           borderRadius: BorderRadius.circular(10),
         ),
         child: SelectableText(

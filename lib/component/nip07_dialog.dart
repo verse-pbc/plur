@@ -105,7 +105,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
         width: double.maxFinite,
         padding: const EdgeInsets.all(Base.basePaddingHalf),
         decoration: BoxDecoration(
-          color: hintColor.withOpacity(0.3),
+          color: hintColor.withAlpha(76),
           borderRadius: BorderRadius.circular(6),
         ),
         margin: const EdgeInsets.only(
@@ -126,7 +126,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
           },
           child: Container(
             height: 36,
-            color: hintColor.withOpacity(0.3),
+            color: hintColor.withAlpha(76),
             alignment: Alignment.center,
             child: Text(
               localization.Cancel,
@@ -147,7 +147,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
           },
           child: Container(
             height: 36,
-            color: hintColor.withOpacity(0.3),
+            color: hintColor.withAlpha(76),
             alignment: Alignment.center,
             child: Text(
               localization.Confirm,

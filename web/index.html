@@ -19,18 +19,19 @@
 
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Nostrmo web client">
+  <meta name="description" content="Plur web client">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Nostrmo">
+  <meta name="apple-mobile-web-app-title" content="Plur">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
-  <title>Nostrmo</title>
+  <title>Plur</title>
   <link rel="manifest" href="manifest.json">
 
   <script>
@@ -40,10 +41,17 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer=""></script>
 
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <!-- Viewport meta tag is added by Flutter -->
 
-  <!-- This file will make this project not work in nostrmo's webview -->
+  <!-- WebView support scripts - commented out as it can cause issues with the web app -->
   <!-- <script type="application/javascript" src="/assets/packages/flutter_inappwebview_web/assets/web/web_support.js" defer=""></script> -->
+  
+  <!-- Fix for loading webview packages in web mode -->
+  <script>
+    // Mock WebView related objects to prevent errors
+    window.flutter_inappwebview = {};
+    window.flutter_inappwebview_web = {};
+  </script>
   <style id="splash-screen-style">
     html {
       height: 100%
@@ -166,17 +174,66 @@
   </picture>
 
   <script>
-    window.addEventListener('load', function (ev) {
-      // Download main.dart.js
+    // Global error handler to catch all JS errors
+    window.addEventListener('error', function(event) {
+      console.error('Global error caught:', event.error);
+    });
+
+    window.addEventListener('unhandledrejection', function(event) {
+      console.error('Unhandled promise rejection:', event.reason);
+    });
+
+    window.addEventListener('load', function(ev) {
+      console.log("Window loaded, starting Flutter initialization");
+      
+      // Set up error handling before initializing
+      var loading = document.getElementById('loading');
+      window.addEventListener('flutter-first-frame', function() {
+        console.log("Flutter rendered first frame");
+        if (loading) {
+          loading.classList.add('fade');
+        }
+      });
+      
+      // Simplified loader that follows the Flutter docs exactly
+      _flutter = {
+        loader: {
+          loadEntrypoint: function(options) {
+            return Promise.resolve().then(function () {
+              var entrypointUrl = options && options.entrypointUrl || "main.dart.js";
+              return _loadScriptAsync(entrypointUrl).then(function (entrypoint) {
+                if (options && options.onEntrypointLoaded) {
+                  return options.onEntrypointLoaded(entrypoint);
+                }
+              });
+            });
+          }
+        }
+      };
+      
+      function _loadScriptAsync(url) {
+        return new Promise(function(resolve, reject) {
+          var script = document.createElement('script');
+          script.src = url;
+          script.onload = function() { resolve(window.flutter_web_main); };
+          script.onerror = reject;
+          document.body.appendChild(script);
+        });
+      }
+      
+      // Try initializing Flutter
       _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function (engineInitializer) {
-          engineInitializer.initializeEngine().then(function (appRunner) {
+        onEntrypointLoaded: function(engineInitializer) {
+          console.log("Flutter entrypoint loaded");
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            console.log("Flutter engine initialized, running app");
             appRunner.runApp();
+          }).catch(function(error) {
+            console.error("Error initializing Flutter engine:", error);
           });
         }
+      }).catch(function(error) {
+        console.error("Error loading Flutter:", error);
       });
     });
   </script>
