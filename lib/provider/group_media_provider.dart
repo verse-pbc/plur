@@ -163,27 +163,44 @@ class GroupMediaProvider extends ChangeNotifier with PendingEventsLaterFunction 
     }
   }
   
-  /// Check if an event has image content (either via imeta tags or content URLs)
+  /// Check if an event has media content (via imeta tags)
+  /// Properly following NIP-92 spec
   bool _hasImageContent(Event event) {
-    // Check for imeta tags
+    // Check for imeta tags according to NIP-92
     for (var tag in event.tags) {
-      if (tag is List && tag.isNotEmpty) {
-        if (tag[0] == "imeta") {
+      if (tag is List && tag.isNotEmpty && tag[0] == "imeta") {
+        // Now check if this is actually media by looking for "m" key with image/video mime type
+        // Per NIP-92, the "m" parameter (mime type) is REQUIRED
+        bool hasMimeType = false;
+        
+        for (var i = 1; i < tag.length; i++) {
+          if (tag[i] is String) {
+            final parts = tag[i].toString().split(" ");
+            if (parts.length >= 2 && parts[0] == "m") {
+              final mimeType = parts[1].toLowerCase();
+              // Check if the mime type is for images or videos
+              if (mimeType.startsWith("image/") || mimeType.startsWith("video/")) {
+                return true;
+              }
+              hasMimeType = true;
+            }
+          }
+        }
+        
+        // If we found an imeta tag but it doesn't have a mime type, it's not valid
+        // But for backward compatibility, let's assume it's media anyway
+        if (!hasMimeType) {
           return true;
         }
       }
     }
     
-    // Check for image URLs in content
-    final content = event.content.toLowerCase();
-    return content.contains('.jpg') || 
-           content.contains('.jpeg') || 
-           content.contains('.png') || 
-           content.contains('.gif') ||
-           content.contains('.webp');
+    // No valid imeta tags found, not considered media
+    return false;
   }
   
   /// Process file metadata from an event and store it for later use
+  /// Strictly follow NIP-92 spec with no special handling
   void _processEventFileMetadata(Event event) {
     final metadataList = <FileMetadata>[];
     
