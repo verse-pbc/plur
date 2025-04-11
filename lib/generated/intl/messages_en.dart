@@ -460,8 +460,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search pubkey event"),
         "Select_relay_to_upload":
             MessageLookupByLibrary.simpleMessage("Select relay to upload"),
-        "Send": MessageLookupByLibrary.simpleMessage("Send"),
-        "Send_fail": MessageLookupByLibrary.simpleMessage("Send fail"),
+        "Send": MessageLookupByLibrary.simpleMessage("Publish"),
+        "Send_fail": MessageLookupByLibrary.simpleMessage("Publish failed"),
         "Send_interval": MessageLookupByLibrary.simpleMessage("Send interval"),
         "Sensitive_Content":
             MessageLookupByLibrary.simpleMessage("Sensitive Content"),
