@@ -232,8 +232,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   @override
   Widget doBuild(BuildContext context) {
     mediaDataCache.update(context);
-    final localization = S.of(context);
-
+    
     // Note: This is critical. Rebuild this widget when settings change.
     Provider.of<SettingsProvider>(context);
     if (nostr == null) {
@@ -248,225 +247,229 @@ class _IndexWidgetState extends CustState<IndexWidget>
     indexProvider.setFollowTabController(followTabController);
     indexProvider.setGlobalTabController(globalsTabController);
 
+    // Configure TabControllers
+    _setupTabControllers(indexProvider);
+
+    // Build the main content
+    final mainIndex = _buildMainIndex(context, indexProvider);
+
+    return _buildAppropriateLayout(context, mainIndex);
+  }
+
+  void _setupTabControllers(IndexProvider indexProvider) {
+    indexProvider.setFollowTabController(followTabController);
+    indexProvider.setGlobalTabController(globalsTabController);
+  }
+
+  Widget _buildMainIndex(BuildContext context, IndexProvider indexProvider) {
+    final appBarContent = _buildAppBarContent(context, indexProvider);
+    final mainContent = _buildMainContent(context, indexProvider);
+    final musicPlayer = _buildMusicPlayer();
+
+    return Stack(
+      children: [
+        Column(
+          children: [
+            IndexAppBar(
+              center: appBarContent._center,
+              right: appBarContent._right,
+            ),
+            mainContent,
+          ],
+        ),
+        musicPlayer,
+      ],
+    );
+  }
+
+  // Helper class is defined outside of the widget class
+  _AppBarContent _buildAppBarContent(BuildContext context, IndexProvider indexProvider) {
+    final localization = S.of(context);
     final themeData = Theme.of(context);
-    var titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
-    var titleTextStyle = TextStyle(
+    final titleTextColor = themeData.appBarTheme.titleTextStyle!.color;
+    final titleTextStyle = TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
       color: titleTextColor,
     );
-    Color? indicatorColor = themeData.primaryColor;
+    final indicatorColor = themeData.primaryColor;
 
-    // Build app bar content based on current tab
-    Widget? appBarCenter;
-    Widget? appBarRight;
-    if (indexProvider.currentTap == 0) {
-      // Build the toggle control for switching between grid and feed views
-      appBarCenter = _buildCommunityViewToggle(indexProvider, themeData);
-      
-      // Create community button 
-      appBarRight = GestureDetector(
-        onTap: () {
-          CreateCommunityDialog.show(context);
-        },
-        child: const Icon(Icons.group_add),
-      );
-    } else if (indexProvider.currentTap == 1) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.DMs,
-            titleTextStyle,
-            omitText: "DM",
+    Widget? center;
+    Widget? right;
+
+    switch (indexProvider.currentTap) {
+      case 0: // Communities
+        // Build the toggle control for switching between grid and feed views
+        center = _buildCommunityViewToggle(indexProvider, themeData);
+        
+        // Create community button
+        right = GestureDetector(
+          onTap: () => CreateCommunityDialog.show(context),
+          child: const Icon(Icons.group_add),
+        );
+        break;
+      case 1: // DMs
+        center = TabBar(
+          indicatorColor: indicatorColor,
+          indicatorWeight: 3,
+          indicatorSize: TabBarIndicatorSize.tab,
+          dividerHeight: 0,
+          tabs: [
+            IndexTabItemWidget(
+              localization.DMs,
+              titleTextStyle,
+              omitText: "DM",
+            ),
+            IndexTabItemWidget(
+              localization.Request,
+              titleTextStyle,
+              omitText: "R",
+            ),
+          ],
+          controller: dmTabController,
+        );
+        right = GestureDetector(
+          onTap: () {
+            _showSearchUserForDM(context);
+          },
+          child: const Icon(Icons.chat_rounded),
+        );
+        break;
+      case 2: // Search
+        center = Center(
+          child: Text(
+            localization.Search,
+            style: titleTextStyle,
           ),
-          IndexTabItemWidget(
-            localization.Request,
-            titleTextStyle,
-            omitText: "R",
-          ),
-        ],
-        controller: dmTabController,
-      );
-      appBarRight = GestureDetector(
-        onTap: () {
-          _showSearchUserForDM(context);
-        },
-        child: const Icon(Icons.chat_rounded),
-      );
-    } else if (indexProvider.currentTap == 2) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.Notes,
-            titleTextStyle,
-            omitText: "N",
-          ),
-          IndexTabItemWidget(
-            localization.Users,
-            titleTextStyle,
-            omitText: "U",
-          ),
-          IndexTabItemWidget(
-            localization.Topics,
-            titleTextStyle,
-            omitText: "T",
-          ),
-        ],
-        controller: globalsTabController,
-      );
+        );
+        break;
     }
 
-    var mainCenterWidget = MediaQuery.removePadding(
+    return _AppBarContent(center, right);
+  }
+
+  Widget _buildGroupsTabHeader(S localization, TextStyle titleTextStyle) {
+    return Center(
+      child: Text(
+        localization.Your_Groups,
+        style: titleTextStyle,
+      ),
+    );
+  }
+
+  Widget _buildCreateGroupButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => CreateCommunityDialog.show(context),
+      child: const Icon(Icons.group_add),
+    );
+  }
+
+  Widget _buildGlobalsTabBar(S localization, TextStyle titleTextStyle, Color? indicatorColor) {
+    return TabBar(
+      indicatorColor: indicatorColor,
+      indicatorWeight: 3,
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerHeight: 0,
+      tabs: [
+        IndexTabItemWidget(
+          localization.Notes,
+          titleTextStyle,
+          omitText: "N",
+        ),
+        IndexTabItemWidget(
+          localization.Users,
+          titleTextStyle,
+          omitText: "U",
+        ),
+        IndexTabItemWidget(
+          localization.Topics,
+          titleTextStyle,
+          omitText: "T",
+        ),
+      ],
+      controller: globalsTabController,
+    );
+  }
+
+  Widget _buildSearchTabHeader(S localization, TextStyle titleTextStyle) {
+    return Center(
+      child: Text(
+        localization.Search,
+        style: titleTextStyle,
+      ),
+    );
+  }
+
+  Widget _buildDMTabBar(S localization, TextStyle titleTextStyle, Color? indicatorColor) {
+    return TabBar(
+      indicatorColor: indicatorColor,
+      indicatorWeight: 3,
+      indicatorSize: TabBarIndicatorSize.tab,
+      dividerHeight: 0,
+      tabs: [
+        IndexTabItemWidget(
+          localization.DMs,
+          titleTextStyle,
+          omitText: "DM",
+        ),
+        IndexTabItemWidget(
+          localization.Request,
+          titleTextStyle,
+          omitText: "R",
+        ),
+      ],
+      controller: dmTabController,
+    );
+  }
+
+  Widget _buildMainContent(BuildContext context, IndexProvider indexProvider) {
+    return MediaQuery.removePadding(
       context: context,
       removeTop: true,
       child: Expanded(
-          child: IndexedStack(
-        index: indexProvider.currentTap,
-        children: [
-          // Both Communities Screen and Feed are combined into a single tab
-          // with view mode controlled by the IndexProvider
-          const CommunitiesScreen(),
-          DMWidget(
-            tabController: dmTabController,
-          ),
-          const SearchWidget(),
-        ],
-      )),
-    );
-
-    List<Widget> mainIndexList = [
-      Column(
-        children: [
-          IndexAppBar(
-            center: appBarCenter,
-            right: appBarRight,
-          ),
-          mainCenterWidget,
-        ],
+        child: IndexedStack(
+          index: indexProvider.currentTap,
+          children: [
+            // Both Communities Screen and Feed are combined into a single tab
+            // with view mode controlled by the IndexProvider
+            const CommunitiesScreen(),
+            DMWidget(
+              tabController: dmTabController,
+            ),
+            const SearchWidget(),
+          ],
+        ),
       ),
-      Positioned(
-        bottom: Base.basePadding,
-        left: 0,
-        right: 0,
-        child: Selector<MusicProvider, MusicInfo?>(
-          builder: ((context, musicInfo, child) {
-            if (musicInfo != null) {
-              return MusicWidget(
-                musicInfo,
-                clearable: true,
-              );
-            }
-
-            return Container();
-          }),
-          selector: (_, provider) {
-            return provider.musicInfo;
-          },
-        ),
-      )
-    ];
-    Widget mainIndex = Stack(
-      children: mainIndexList,
     );
+  }
 
-    if (TableModeUtil.isTableMode()) {
-      var maxWidth = mediaDataCache.size.width;
-      double column0Width = maxWidth * 2 / 5;
-      double column1Width = maxWidth * 2 / 5;
-      if (column0Width > IndexWidget.pcMaxColumn0) {
-        column0Width = IndexWidget.pcMaxColumn0;
-      }
-      if (column1Width > IndexWidget.pcMaxColumn1) {
-        column1Width = IndexWidget.pcMaxColumn1;
-      }
-
-      var mainScaffold = Scaffold(
-        // floatingActionButton: addBtn,
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: Row(children: [
-          IndexPcDrawerWrapper(
-            fixWidth: column0Width,
-          ),
-          Container(
-            width: column1Width,
-            margin: const EdgeInsets.only(
-              right: 1,
-            ),
-            child: mainIndex,
-          ),
-          Expanded(
-            child: Selector<PcRouterFakeProvider, List<RouterFakeInfo>>(
-              builder: (context, infos, child) {
-                if (infos.isEmpty) {
-                  return Center(
-                    child: Text(localization.There_should_be_an_universe_here),
-                  );
-                }
-
-                List<Widget> pages = [];
-                for (var info in infos) {
-                  if (StringUtil.isNotBlank(info.routerPath) &&
-                      routes[info.routerPath] != null) {
-                    var builder = routes[info.routerPath];
-                    if (builder != null) {
-                      pages.add(PcRouterFake(
-                        info: info,
-                        child: builder(context),
-                      ));
-                    }
-                  } else if (info.buildContent != null) {
-                    pages.add(PcRouterFake(
-                      info: info,
-                      child: info.buildContent!(context),
-                    ));
-                  }
-                }
-
-                return IndexedStack(
-                  index: pages.length - 1,
-                  children: pages,
-                );
-              },
-              selector: (_, provider) {
-                return provider.routerFakeInfos;
-              },
-              shouldRebuild: (previous, next) {
-                if (previous != next) {
-                  return true;
-                }
-                return false;
-              },
-            ),
-          )
-        ]),
-      );
-
-      return PopScope(
-        canPop: false,
-        onPopInvokedWithResult: (didPop, result) {
-          if (pcRouterFakeProvider.routerFakeInfos.isNotEmpty) {
-            pcRouterFakeProvider.removeLast();
+  Widget _buildMusicPlayer() {
+    return Positioned(
+      bottom: Base.basePadding,
+      left: 0,
+      right: 0,
+      child: Selector<MusicProvider, MusicInfo?>(
+        builder: ((context, musicInfo, child) {
+          if (musicInfo != null) {
+            return MusicWidget(
+              musicInfo,
+              clearable: true,
+            );
           }
-        },
-        child: mainScaffold,
-      );
+          return Container();
+        }),
+        selector: (_, provider) => provider.musicInfo,
+      ),
+    );
+  }
+
+  Widget _buildAppropriateLayout(BuildContext context, Widget mainIndex) {
+    final localization = S.of(context);
+    
+    if (TableModeUtil.isTableMode()) {
+      return _buildTableModeLayout(context, mainIndex, localization);
     } else {
-      return Scaffold(
-        body: mainIndex,
-        drawer: const Drawer(
-          child: IndexDrawerContent(
-            smallMode: false,
-          ),
-        ),
-      );
+      return _buildMobileLayout(mainIndex);
     }
   }
 
@@ -488,6 +491,105 @@ class _IndexWidgetState extends CustState<IndexWidget>
         RouterUtil.router(context, RouterPath.dmDetail, dmDetail);
       }
     });
+  }
+
+  Widget _buildMobileLayout(Widget mainIndex) {
+    return Scaffold(
+      body: mainIndex,
+      drawer: const Drawer(
+        child: IndexDrawerContent(
+          smallMode: false,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTableModeLayout(BuildContext context, Widget mainIndex, S localization) {
+    final columnWidths = _calculateTableModeColumnWidths();
+    
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (pcRouterFakeProvider.routerFakeInfos.isNotEmpty) {
+          pcRouterFakeProvider.removeLast();
+        }
+      },
+      child: Scaffold(
+        body: Row(
+          children: [
+            IndexPcDrawerWrapper(
+              fixWidth: columnWidths.column0Width,
+            ),
+            Container(
+              width: columnWidths.column1Width,
+              margin: const EdgeInsets.only(right: 1),
+              child: mainIndex,
+            ),
+            Expanded(
+              child: _buildRouterFakeContent(localization),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _ColumnWidths _calculateTableModeColumnWidths() {
+    final maxWidth = mediaDataCache.size.width;
+    double column0Width = maxWidth * 2 / 5;
+    double column1Width = maxWidth * 2 / 5;
+    
+    if (column0Width > IndexWidget.pcMaxColumn0) {
+      column0Width = IndexWidget.pcMaxColumn0;
+    }
+    if (column1Width > IndexWidget.pcMaxColumn1) {
+      column1Width = IndexWidget.pcMaxColumn1;
+    }
+    
+    return _ColumnWidths(column0Width, column1Width);
+  }
+
+  Widget _buildRouterFakeContent(S localization) {
+    return Selector<PcRouterFakeProvider, List<RouterFakeInfo>>(
+      builder: (context, infos, child) {
+        if (infos.isEmpty) {
+          return Center(
+            child: Text(localization.There_should_be_an_universe_here),
+          );
+        }
+
+        return IndexedStack(
+          index: infos.length - 1,
+          children: _buildRouterFakePages(context, infos),
+        );
+      },
+      selector: (_, provider) => provider.routerFakeInfos,
+      shouldRebuild: (previous, next) => previous != next,
+    );
+  }
+
+  List<Widget> _buildRouterFakePages(BuildContext context, List<RouterFakeInfo> infos) {
+    final pages = <Widget>[];
+    
+    for (var info in infos) {
+      if (StringUtil.isNotBlank(info.routerPath) && routes[info.routerPath] != null) {
+        final builder = routes[info.routerPath];
+        if (builder != null) {
+          pages.add(PcRouterFake(
+            info: info,
+            child: builder(context),
+          ));
+        }
+      } else if (info.buildContent != null) {
+        pages.add(PcRouterFake(
+          info: info,
+          child: info.buildContent!(context),
+        ));
+      }
+    }
+    
+    return pages;
+>>>>>>> feature/chat_experiment
   }
 
   void doAuth() {
@@ -541,4 +643,20 @@ class _IndexWidgetState extends CustState<IndexWidget>
       await FlutterInappPurchase.instance.finalize();
     }
   }
+}
+
+/// Helper class to hold appbar components
+class _AppBarContent {
+  final Widget? _center;
+  final Widget? _right;
+  
+  _AppBarContent(this._center, this._right);
+}
+
+/// Helper class to hold column width values
+class _ColumnWidths {
+  final double column0Width;
+  final double column1Width;
+  
+  _ColumnWidths(this.column0Width, this.column1Width);
 }
