@@ -6,8 +6,9 @@ import '../provider/user_provider.dart';
 
 class Nip05ValidWidget extends StatefulWidget {
   final String pubkey;
+  final double? size;
 
-  const Nip05ValidWidget({super.key, required this.pubkey});
+  const Nip05ValidWidget({super.key, required this.pubkey, this.size});
 
   @override
   State<StatefulWidget> createState() {
@@ -44,7 +45,7 @@ class _Nip05ValidWidgetState extends State<Nip05ValidWidget> {
       return Icon(
         iconData,
         color: iconColor,
-        size: smallTextSize,
+        size: widget.size ?? smallTextSize,
       );
     }, selector: (_, provider) {
       return provider.getNip05Status(widget.pubkey);

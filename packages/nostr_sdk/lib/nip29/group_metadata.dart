@@ -15,6 +15,8 @@ class GroupMetadata extends GroupObject {
   bool? public;
 
   bool? open;
+  
+  List<String>? relays;
 
   GroupMetadata(
     String groupId,
@@ -25,6 +27,7 @@ class GroupMetadata extends GroupObject {
     this.communityGuidelines,
     this.public,
     this.open,
+    this.relays,
   }) : super(groupId, createdAt);
 
   static GroupMetadata? loadFromEvent(Event event) {
@@ -35,6 +38,7 @@ class GroupMetadata extends GroupObject {
     String? communityGuidelines;
     bool? public;
     bool? open;
+    List<String> relays = [];
     int createdAt = event.createdAt;
     for (var tag in event.tags) {
       if (tag is List && tag.isNotEmpty) {
@@ -63,6 +67,8 @@ class GroupMetadata extends GroupObject {
             communityGuidelines = value;
           } else if (key == "h") {
             groupId = value;
+          } else if (key == "relay") {
+            relays.add(value);
           }
         }
       }
@@ -81,6 +87,7 @@ class GroupMetadata extends GroupObject {
       communityGuidelines: communityGuidelines,
       public: public,
       open: open,
+      relays: relays.isNotEmpty ? relays : null,
     );
   }
 

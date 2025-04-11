@@ -51,8 +51,8 @@ class OnboardingStepWidget extends StatelessWidget {
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
       child: Container(
-        color: PlurColors.appBackground,
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 32),
+        color: Colors.transparent,
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -60,12 +60,12 @@ class OnboardingStepWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: PlurColors.cardBackground,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    color: Colors.black.withAlpha(38),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6),
                   ),
                 ],
               ),
@@ -75,12 +75,19 @@ class OnboardingStepWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Emoji
-                  Text(
-                    emoji,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                      fontSize: 64,
-                      height: 1.2,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: PlurColors.primaryPurple.withAlpha(26),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      emoji,
+                      textAlign: TextAlign.start,
+                      style: const TextStyle(
+                        fontSize: 48,
+                        height: 1.0,
+                      ),
                     ),
                   ),
 
@@ -97,11 +104,12 @@ class OnboardingStepWidget extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
+                        letterSpacing: 0.3,
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
 
                   // Description or input field
                   description != null
@@ -113,6 +121,7 @@ class OnboardingStepWidget extends StatelessWidget {
                               color: PlurColors.primaryText,
                               fontSize: 17,
                               height: 1.4,
+                              letterSpacing: 0.2,
                             ),
                           ),
                         )
@@ -126,19 +135,23 @@ class OnboardingStepWidget extends StatelessWidget {
 
             const Spacer(),
 
-            // Buttons
+            // Buttons with enhanced styling
             Row(
               children: List.generate(
                 buttons.length,
                 (index) => [
                   if (index > 0) const SizedBox(width: 16),
                   Expanded(
-                    child: PrimaryButtonWidget(
-                      text: buttons[index].text,
-                      borderRadius: 12,
-                      height: 48,
-                      onTap: buttons[index].onTap,
-                      enabled: buttons[index].enabled,
+                    child: AnimatedOpacity(
+                      opacity: buttons[index].enabled ? 1.0 : 0.6,
+                      duration: const Duration(milliseconds: 200),
+                      child: PrimaryButtonWidget(
+                        text: buttons[index].text,
+                        borderRadius: 14,
+                        height: 52,
+                        onTap: buttons[index].onTap,
+                        enabled: buttons[index].enabled,
+                      ),
                     ),
                   ),
                 ],
