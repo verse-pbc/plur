@@ -107,7 +107,7 @@ class _FilterDirtywordItemWidgetState extends State<FilterDirtywordItemWidget> {
             bottom: 4,
           ),
           decoration: BoxDecoration(
-            color: mainColor.withOpacity(0.8),
+            color: mainColor.withAlpha(204),
             borderRadius: BorderRadius.circular(4),
           ),
           child: Text(

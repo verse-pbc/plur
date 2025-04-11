@@ -89,7 +89,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
             _doCopy(widget.jsonText);
             RouterUtil.back(context);
           },
-          highlightColor: mainColor.withOpacity(0.2),
+          highlightColor: mainColor.withAlpha(51),
           child: Container(
             color: mainColor,
             height: 40,

@@ -14,7 +14,7 @@ Widget? genBlurhashImageWidget(
       decodingHeight: height, decodingWidth: width);
 
   return Container(
-    color: color.withOpacity(0.2),
+    color: color.withAlpha(51),
     child: AspectRatio(
       aspectRatio: 1.6,
       child: Image(
