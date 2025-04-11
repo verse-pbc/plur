@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 
 import '../../component/image_preview_dialog.dart';
-import '../../component/blurhash_image_component/blurhash_image_widget.dart';
 import '../../component/content/content_image_widget.dart';
 import '../../provider/group_media_provider.dart';
 import '../../util/theme_util.dart';

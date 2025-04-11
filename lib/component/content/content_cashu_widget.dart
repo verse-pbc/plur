@@ -52,7 +52,7 @@ class ContentCashuWidget extends StatelessWidget {
                     width: 50,
                     height: 50,
                     errorBuilder: (context, error, stackTrace) {
-                      return Icon(
+                      return const Icon(
                         Icons.currency_bitcoin,
                         size: 50,
                         color: Colors.white,

@@ -94,7 +94,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
                 child: Image.asset(
                   "assets/imgs/alby_logo.png",
                   errorBuilder: (context, error, stackTrace) {
-                    return Icon(
+                    return const Icon(
                       Icons.bolt,
                       color: Colors.white,
                     );

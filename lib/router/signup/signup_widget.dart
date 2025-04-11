@@ -407,10 +407,10 @@ class _SignupWidgetState extends State<SignupWidget> {
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: dimmedColor),
             ),
-            errorBorder: OutlineInputBorder(
+            errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
             ),
-            focusedErrorBorder: OutlineInputBorder(
+            focusedErrorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
             ),
             hintText: "Enter nickname (min. 3 characters)",
@@ -506,10 +506,10 @@ class _SignupWidgetState extends State<SignupWidget> {
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: dimmedColor),
             ),
-            errorBorder: OutlineInputBorder(
+            errorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
             ),
-            focusedErrorBorder: OutlineInputBorder(
+            focusedErrorBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Colors.red),
             ),
             hintText: "Enter email address (optional)",

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/main.dart';
-import 'package:nostrmo/router/index/index_widget.dart';
-import 'package:nostrmo/router/login/login_widget.dart';
-import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'mocks.dart';
 
 /// A helper to create a test version of MyApp with mocked route implementations

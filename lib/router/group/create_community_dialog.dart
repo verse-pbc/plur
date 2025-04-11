@@ -8,15 +8,11 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/util/community_join_util.dart';
 import 'package:provider/provider.dart';
-import 'package:nostrmo/provider/list_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/provider/relay_provider.dart';
 
 /// This is a version of InvitePeopleWidget kept for backward compatibility
 class OldInvitePeopleWidget extends StatelessWidget {
@@ -139,7 +135,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   bool _isCreating = false;
   DialogView _currentView = DialogView.chooseOption;
 
-  bool _showInviteCommunity = false;
+  final bool _showInviteCommunity = false;
 
   @override
   Widget build(BuildContext context) {

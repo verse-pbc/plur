@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/generated/l10n.dart';
 
 /// A mock implementation of NoCommunitiesWidget for testing
 class MockNoCommunitiesWidget extends StatelessWidget {
@@ -12,9 +11,9 @@ class MockNoCommunitiesWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
+            const Text(
               'Start or join a community',
-              key: const Key('community_widget_text'),
+              key: Key('community_widget_text'),
             ),
             FilledButton(
               onPressed: () {},
@@ -94,9 +93,9 @@ class _MockOnboardingWidgetState extends State<MockOnboardingWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (showAgeVerification) ...[
-              Text(
+              const Text(
                 'Are you at least 13 years old?',
-                key: const Key('age_verification_title'),
+                key: Key('age_verification_title'),
               ),
               const SizedBox(height: 20),
               Row(
@@ -143,9 +142,9 @@ class _MockOnboardingWidgetState extends State<MockOnboardingWidget> {
               ),
             ],
             if (showNameInput) ...[
-              Text(
+              const Text(
                 'What should we call you?',
-                key: const Key('name_input_title'),
+                key: Key('name_input_title'),
               ),
               const SizedBox(height: 20),
               Padding(

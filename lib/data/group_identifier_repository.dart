@@ -77,7 +77,7 @@ class GroupIdentifierRepository {
       log("No group list event found - this may be a new user", name: _logName);
       return [];
     }
-    final event = events?.firstOrNull;
+    final event = events.firstOrNull;
     if (event == null) {
       return [];
     }

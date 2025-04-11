@@ -37,7 +37,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
       final listProvider = Provider.of<ListProvider>(context, listen: false);
       
       // Try our own default relay first, then fallback to other well-known relays
-      final defaultRelay = RelayProvider.defaultGroupsRelayAddress;
+      const defaultRelay = RelayProvider.defaultGroupsRelayAddress;
       
       // Start with just the default relay for faster results
       print("📡 STAGE 1: Querying default relay: $defaultRelay");
