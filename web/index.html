@@ -40,7 +40,7 @@
   <!-- This script adds the flutter initialization JS code -->
   <script src="flutter.js" defer=""></script>
 
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <!-- Viewport meta tag is added by Flutter -->
 
   <!-- This file will make this project not work in nostrmo's webview -->
   <!-- <script type="application/javascript" src="/assets/packages/flutter_inappwebview_web/assets/web/web_support.js" defer=""></script> -->
@@ -166,18 +166,34 @@
   </picture>
 
   <script>
-    window.addEventListener('load', function (ev) {
-      // Download main.dart.js
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
-        onEntrypointLoaded: function (engineInitializer) {
-          engineInitializer.initializeEngine().then(function (appRunner) {
-            appRunner.runApp();
-          });
-        }
-      });
+    window.addEventListener('load', function(ev) {
+      // Manual loading of main.dart.js with error handling
+      console.log("Loading Flutter app...");
+
+      try {
+        // Create script element for main.dart.js
+        var scriptElement = document.createElement('script');
+        scriptElement.type = 'application/javascript';
+        scriptElement.src = 'main.dart.js';
+        
+        // Add error handler
+        scriptElement.onerror = function(error) {
+          console.error('Failed to load main.dart.js:', error);
+          
+          // Show a message to the user
+          var loadingElement = document.querySelector('#loading');
+          if (loadingElement) {
+            loadingElement.innerText = 'Error loading the application. Please try again later.';
+            loadingElement.style.color = 'red';
+          }
+        };
+        
+        // Append script to body
+        document.body.appendChild(scriptElement);
+        console.log("Flutter app script added to DOM");
+      } catch (e) {
+        console.error('Error during app initialization:', e);
+      }
     });
   </script>
 

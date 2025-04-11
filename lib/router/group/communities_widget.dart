@@ -33,6 +33,8 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
 
   @override
   Widget doBuild(BuildContext context) {
+    print("CommunitiesWidget building...");
+    
     final listProvider = Provider.of<ListProvider>(context);
     final indexProvider = Provider.of<IndexProvider>(context);
     final groupIds = listProvider.groupIdentifiers;
