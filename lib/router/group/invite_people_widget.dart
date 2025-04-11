@@ -123,6 +123,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
     // GroupIdentifier is available
 
     return Scaffold(
+      // Use AppBar with proper sizing and styling
       appBar: AppBar(
         title: Text(
           localization.Invite,
@@ -132,6 +133,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
             fontWeight: FontWeight.bold,
           ),
         ),
+        elevation: 0, // Remove shadow
         leading: const AppbarBackBtnWidget(),
         bottom: const AppBarBottomBorder(),
       ),
@@ -175,7 +177,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    inviteLink.isNotEmpty ? inviteLink : localization.Loading,
+                                    inviteLink.isNotEmpty ? inviteLink : localization.loading,
                                     style: TextStyle(
                                       fontSize: 14,
                                       color: customColors.primaryForegroundColor,
