@@ -20,10 +20,20 @@ class CommunityWidget extends ConsumerStatefulWidget {
 
 class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
   @override
+  void initState() {
+    super.initState();
+    // Schedule the invalidation for the next frame to avoid build-time issues
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        ref.invalidate(cachedGroupMetadataProvider(widget.groupIdentifier));
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final groupIdentifier = widget.groupIdentifier;
     final groupId = widget.groupIdentifier.groupId;
-    ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
     final controller = ref.watch(cachedGroupMetadataProvider(groupIdentifier));
     const imageSize = CommunityImageWidget.imageSize;
     return controller.when(
