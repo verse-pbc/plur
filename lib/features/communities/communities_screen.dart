@@ -36,6 +36,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   // Flag to prevent duplicate initialization 
   static bool _globalInitializationDone = false;
   
+
   @override
   void dispose() {
     // Don't dispose the feed provider when the widget is disposed - it needs to survive tab switching
@@ -223,9 +224,12 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   } else {
                     // Only create grid widget if not already cached
                     if (_cachedGridWidget == null || viewModeChanged) {
+                      // Create a copy of the list to sort (no-op for now, sorting will be added in a future PR)
+                      final sortedGroupIds = List<GroupIdentifier>.from(groupIds);
+                      
                       _cachedGridWidget = Shimmer(
                         linearGradient: shimmerGradient,
-                        child: CommunitiesGridWidget(groupIds: groupIds),
+                        child: CommunitiesGridWidget(groupIds: sortedGroupIds),
                       );
                     }
                     return _cachedGridWidget!;
@@ -253,6 +257,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     );
   }
   
+
   Widget _buildFloatingActionButtons(BuildContext context) {
     // Get the current view mode
     final indexProvider = provider.Provider.of<IndexProvider>(context, listen: false);
