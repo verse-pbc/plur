@@ -168,7 +168,7 @@ flutter:
     - assets/imgs/music/wavlake.png
     
   fonts:
-    - family: SFProRounded
+    - family: "SF Pro Rounded"
       fonts:
         - asset: assets/fonts/SFProRounded-Regular.ttf
           weight: 400

@@ -280,7 +280,7 @@ Future<void> main() async {
     }
 
     // Using standard font loading through pubspec.yaml
-    log("Using SFProRounded font defined in pubspec.yaml");
+    log("Using 'SF Pro Rounded' font defined in pubspec.yaml");
 
     log("Initializing Firebase...");
     await Firebase.initializeApp(
@@ -820,52 +820,52 @@ class _MyApp extends State<MyApp> {
   }) =>
       TextTheme(
         bodyLarge: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize + 2,
           color: foregroundColor,
         ),
         bodyMedium: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize,
           color: foregroundColor,
         ),
         bodySmall: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize - 2,
           color: foregroundColor,
         ),
         titleLarge: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize + 4,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         titleMedium: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize + 2,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         titleSmall: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize,
           fontWeight: FontWeight.bold,
           color: foregroundColor,
         ),
         labelLarge: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
         labelMedium: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize - 1,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
         labelSmall: TextStyle(
-          fontFamily: 'SFProRounded',
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize - 2,
           fontWeight: FontWeight.w500,
           color: foregroundColor,
@@ -877,7 +877,7 @@ TextStyle _titleTextStyle({
   required Color foregroundColor,
 }) =>
     TextStyle(
-      fontFamily: 'SFProRounded',
+      fontFamily: 'SF Pro Rounded',
       color: foregroundColor,
       fontWeight: FontWeight.bold,
     );
