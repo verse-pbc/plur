@@ -619,6 +619,20 @@ class _MyApp extends State<MyApp> {
                     child: const GroupInfoWidget(),
                   ),
                 );
+              case RouterPath.inviteToGroup:
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesScreen(),
+                  );
+                }
+                
+                final inviteGroupId = settings.arguments as GroupIdentifier;
+                return MaterialPageRoute(
+                  builder: (context) => InvitePeopleWidget(
+                    groupIdentifier: inviteGroupId,
+                  ),
+                );
+                
               case RouterPath.groupDetail:
                 if (settings.arguments == null) {
                   return MaterialPageRoute(

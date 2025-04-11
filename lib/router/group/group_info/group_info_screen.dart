@@ -174,8 +174,9 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                                       context: context,
                                       icon: Icons.share_outlined,
                                       label: localization.Share,
+                                      isDisabled: true,
                                       onTap: () {
-                                        // TODO: Implement share functionality
+                                        // Feature not yet implemented
                                       },
                                     ),
                                     if (isAdmin) ...[
@@ -275,6 +276,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
               labelColor: customColors.accentColor,
               unselectedLabelColor: customColors.secondaryForegroundColor,
               tabs: [
+                // Implemented tabs
                 Tab(
                   text: localization.Members,
                   icon: const Icon(Icons.people_outline, size: 20),
@@ -283,17 +285,18 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                   text: localization.Media,
                   icon: const Icon(Icons.photo_library_outlined, size: 20),
                 ),
+                // Tabs that are not yet implemented
                 Tab(
-                  text: localization.Links,
-                  icon: const Icon(Icons.link, size: 20),
+                  text: "${localization.Links} (soon)",
+                  icon: Icon(Icons.link, size: 20, color: customColors.dimmedColor),
                 ),
                 Tab(
-                  text: localization.Places,
-                  icon: const Icon(Icons.place_outlined, size: 20),
+                  text: "${localization.Places} (soon)",
+                  icon: Icon(Icons.place_outlined, size: 20, color: customColors.dimmedColor),
                 ),
                 Tab(
-                  text: localization.Events,
-                  icon: const Icon(Icons.event_outlined, size: 20),
+                  text: "${localization.Events} (soon)",
+                  icon: Icon(Icons.event_outlined, size: 20, color: customColors.dimmedColor),
                 ),
               ],
             ),
@@ -308,13 +311,14 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
     required IconData icon,
     required String label,
     required VoidCallback onTap,
+    bool isDisabled = false,
   }) {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
     
     return Expanded(
       child: InkWell(
-        onTap: onTap,
+        onTap: isDisabled ? null : onTap,
         borderRadius: BorderRadius.circular(8),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
@@ -323,11 +327,11 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
                 icon,
-                color: customColors.accentColor,
+                color: isDisabled ? customColors.dimmedColor : customColors.accentColor,
                 size: 24,
               ),
               const SizedBox(height: 4),
@@ -335,9 +339,18 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
                 label,
                 style: TextStyle(
                   fontSize: 14,
-                  color: customColors.primaryForegroundColor,
+                  color: isDisabled ? customColors.dimmedColor : customColors.primaryForegroundColor,
                 ),
               ),
+              if (isDisabled)
+                Text(
+                  "Coming soon",
+                  style: TextStyle(
+                    fontSize: 9,
+                    color: customColors.dimmedColor,
+                    fontStyle: FontStyle.italic,
+                  ),
+                ),
             ],
           ),
         ),
@@ -354,13 +367,22 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.inbox_outlined,
+            Icons.construction_outlined,
             size: 48,
             color: customColors.dimmedColor,
           ),
           const SizedBox(height: 16),
           Text(
-            "No $tabName found",
+            "Coming Soon",
+            style: TextStyle(
+              color: customColors.secondaryForegroundColor,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            "$tabName feature is under development",
             style: TextStyle(
               color: customColors.secondaryForegroundColor,
               fontSize: 16,
@@ -533,4 +555,5 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
     final nameParts = displayName.split(' ');
     return nameParts.first;
   }
+  
 }
