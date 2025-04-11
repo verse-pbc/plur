@@ -72,7 +72,11 @@ class GroupIdentifierRepository {
       relayTypes: RelayType.tempAndLocal,
       sendAfterAuth: true,
     );
-    assert(events?.length == 1, "Didn't receive a group list");
+    // If there's no group list event yet (first time user), just return an empty list
+    if (events == null || events.isEmpty) {
+      log("No group list event found - this may be a new user", name: _logName);
+      return [];
+    }
     final event = events?.firstOrNull;
     if (event == null) {
       return [];
