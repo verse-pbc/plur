@@ -4,7 +4,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i7;
+<<<<<<< HEAD
 import 'dart:ui' as _i11;
+=======
+import 'dart:ui' as _i10;
+>>>>>>> origin/combined_feed_list
 
 import 'package:flutter/material.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
@@ -12,7 +16,10 @@ import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:nostr_sdk/nostr_sdk.dart' as _i2;
 import 'package:nostrmo/data/custom_emoji.dart' as _i5;
 import 'package:nostrmo/data/join_group_parameters.dart' as _i8;
+<<<<<<< HEAD
 import 'package:nostrmo/data/public_group_info.dart' as _i10;
+=======
+>>>>>>> origin/combined_feed_list
 import 'package:nostrmo/generated/l10n.dart' as _i6;
 import 'package:nostrmo/provider/list_provider.dart' as _i3;
 
@@ -363,6 +370,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
+<<<<<<< HEAD
   _i7.Future<List<_i10.PublicGroupInfo>> queryPublicGroups(
           List<String>? relays) =>
       (super.noSuchMethod(
@@ -376,6 +384,9 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
 
   @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+=======
+  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+>>>>>>> origin/combined_feed_list
         Invocation.method(
           #addListener,
           [listener],
@@ -384,7 +395,11 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
+<<<<<<< HEAD
   void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
+=======
+  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
+>>>>>>> origin/combined_feed_list
         Invocation.method(
           #removeListener,
           [listener],

@@ -2,15 +2,31 @@ import 'package:flutter/material.dart';
 
 import '../consts/index_taps.dart';
 
+// Community view modes - grid or feed
+enum CommunityViewMode {
+  grid,
+  feed
+}
+
 class IndexProvider extends ChangeNotifier {
   int _currentTap = IndexTaps.follow;
+  
+  // Default to grid view for communities
+  CommunityViewMode _communityViewMode = CommunityViewMode.grid;
 
   int get currentTap => _currentTap;
+  CommunityViewMode get communityViewMode => _communityViewMode;
 
   IndexProvider({int? indexTap}) {
     if (indexTap != null) {
       _currentTap = indexTap;
     }
+  }
+  
+  // Change the community view mode
+  void setCommunityViewMode(CommunityViewMode mode) {
+    _communityViewMode = mode;
+    notifyListeners();
   }
 
   void setCurrentTap(int v) {
