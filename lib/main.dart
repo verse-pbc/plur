@@ -14,7 +14,7 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show rootBundle, ByteData;
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
@@ -267,9 +267,19 @@ Future<void> main() async {
 
   // Load SF Pro Rounded fonts manually
   final FontLoader sfProRounded = FontLoader('SF Pro Display');
-  await sfProRounded.addFont(rootBundle.load('assets/fonts/SF-Pro-Rounded-Regular.otf'));
-  await sfProRounded.addFont(rootBundle.load('assets/fonts/SF-Pro-Rounded-Medium.otf'));
-  await sfProRounded.addFont(rootBundle.load('assets/fonts/SF-Pro-Rounded-Bold.otf'));
+  
+  // Load regular font
+  ByteData regularData = await rootBundle.load('assets/fonts/SF-Pro-Rounded-Regular.otf');
+  sfProRounded.addFont(Future.value(regularData));
+  
+  // Load medium font
+  ByteData mediumData = await rootBundle.load('assets/fonts/SF-Pro-Rounded-Medium.otf');
+  sfProRounded.addFont(Future.value(mediumData));
+  
+  // Load bold font
+  ByteData boldData = await rootBundle.load('assets/fonts/SF-Pro-Rounded-Bold.otf');
+  sfProRounded.addFont(Future.value(boldData));
+  
   await sfProRounded.load();
 
   await Firebase.initializeApp(
