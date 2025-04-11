@@ -542,7 +542,6 @@ mixin EditorMixin {
           }
           if (StringUtil.isNotBlank(value) && value is String) {
             if (value.indexOf("http") != 0) {
-              final localization = S.of(context);
               // this is a local image, update it first
               var imagePath = await Uploader.upload(
                 value,
@@ -579,7 +578,7 @@ mixin EditorMixin {
 
                 value = imagePath;
               } else {
-                BotToast.showText(text: localization.Upload_fail);
+                BotToast.showText(text: S.of(context).Upload_fail);
                 return null;
               }
             }
@@ -601,7 +600,7 @@ mixin EditorMixin {
 
           value = m["tag"];
           if (StringUtil.isNotBlank(value)) {
-            result = handleInlineValue(result, '#$value');
+            result = handleInlineValue(result, "#" + value);
             tags.add(["t", value]);
             continue;
           }
@@ -708,7 +707,7 @@ mixin EditorMixin {
       if (openPrivateDM) {
         // Private dm message
         var rumorEvent = Event(
-            nostr!.publicKey, EventKind.privateDirectMessage, allTags, result,
+            nostr!.publicKey, EventKind.PRIVATE_DIRECT_MESSAGE, allTags, result,
             createdAt: getCreatedAt());
         // this is the event send to sender, should return after send and set into giftWrapProvider and dmProvider
         event = await GiftWrapUtil.getGiftWrapEvent(
@@ -734,11 +733,11 @@ mixin EditorMixin {
         }
         result = encryptedResult;
         event = Event(
-            nostr!.publicKey, EventKind.directMessage, allTags, result,
+            nostr!.publicKey, EventKind.DIRECT_MESSAGE, allTags, result,
             createdAt: getCreatedAt());
       }
     } else if (groupIdentifier != null) {
-      final eventKind = getGroupEventKind() ?? EventKind.groupNote;
+      final eventKind = getGroupEventKind() ?? EventKind.GROUP_NOTE;
       // group event
       event = Event(
           nostr!.publicKey,
@@ -754,13 +753,13 @@ mixin EditorMixin {
       // get poll tag from PollInputComponent
       var pollTags = pollInputController.getTags();
       allTags.addAll(pollTags);
-      event = Event(nostr!.publicKey, EventKind.poll, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.POLL, allTags, result,
           createdAt: getCreatedAt());
     } else if (inputZapGoal) {
       // zap goal event
       var extralTags = zapGoalInputController.getTags();
       allTags.addAll(extralTags);
-      event = Event(nostr!.publicKey, EventKind.zapGoals, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.ZAP_GOALS, allTags, result,
           createdAt: getCreatedAt());
     } else if (isLongForm()) {
       // long form
@@ -784,15 +783,15 @@ mixin EditorMixin {
       allTags.add(["d", id]);
       allTags.add([
         "a",
-        "${EventKind.longForm}:${nostr!.publicKey}:$id",
+        "${EventKind.LONG_FORM}:${nostr!.publicKey}:$id",
         oneWriteRelay
       ]);
 
-      event = Event(nostr!.publicKey, EventKind.longForm, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.LONG_FORM, allTags, result,
           createdAt: getCreatedAt());
     } else {
       // text note
-      event = Event(nostr!.publicKey, EventKind.textNote, allTags, result,
+      event = Event(nostr!.publicKey, EventKind.TEXT_NOTE, allTags, result,
           createdAt: getCreatedAt());
     }
 
@@ -1072,7 +1071,7 @@ mixin EditorMixin {
           height: emojiBtnWidth,
           alignment: Alignment.center,
           child: ImageWidget(
-            url: emoji.filepath!,
+            imageUrl: emoji.filepath!,
           ),
         ),
       ));
@@ -1178,7 +1177,7 @@ mixin EditorMixin {
     } else {
       main = GestureDetector(
         onTap: pickAndUploadLongFormImage,
-        child: ImageWidget(url: longFormImage!),
+        child: ImageWidget(imageUrl: longFormImage!),
       );
     }
 

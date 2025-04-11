@@ -103,10 +103,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
-        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
-            "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to discard unsaved changes?"),
+        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
+            "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
         "Content_warning":

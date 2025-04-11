@@ -137,10 +137,10 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     }
 
     bool imagePreview = settingsProvider.imagePreview == null ||
-        settingsProvider.imagePreview == OpenStatus.open;
+        settingsProvider.imagePreview == OpenStatus.OPEN;
     bool videoPreview = widget.showVideo;
     if (settingsProvider.videoPreview != null) {
-      videoPreview = settingsProvider.videoPreview == OpenStatus.open;
+      videoPreview = settingsProvider.videoPreview == OpenStatus.OPEN;
     }
 
     final themeData = Theme.of(context);
@@ -150,8 +150,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     var mainColor = themeData.primaryColor;
 
     Event? repostEvent;
-    if ((widget.event.kind == EventKind.repost ||
-            widget.event.kind == EventKind.genericRepost) &&
+    if ((widget.event.kind == EventKind.REPOST ||
+            widget.event.kind == EventKind.GENERIC_REPOST) &&
         widget.event.content.contains("\"pubkey\"")) {
       try {
         var jsonMap = jsonDecode(widget.event.content);
@@ -170,13 +170,13 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       }
     }
 
-    if (settingsProvider.autoOpenSensitive == OpenStatus.open) {
+    if (settingsProvider.autoOpenSensitive == OpenStatus.OPEN) {
       showWarning = true;
     }
 
     List<Widget> list = [];
     if (showWarning || !eventRelation.warning) {
-      if (widget.event.kind == EventKind.longForm) {
+      if (widget.event.kind == EventKind.LONG_FORM) {
         var longFormMargin =
             const EdgeInsets.only(bottom: Base.basePaddingHalf);
 
@@ -266,8 +266,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           eventRelation: eventRelation,
           showDetailBtn: widget.showDetailBtn,
         ));
-      } else if (widget.event.kind == EventKind.repost ||
-          widget.event.kind == EventKind.genericRepost) {
+      } else if (widget.event.kind == EventKind.REPOST ||
+          widget.event.kind == EventKind.GENERIC_REPOST) {
         list.add(Container(
           alignment: Alignment.centerLeft,
           child: Text("${localization.Boost}:"),
@@ -310,7 +310,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             );
           }
         }
-      } else if (widget.event.kind == EventKind.storageSharedFile) {
+      } else if (widget.event.kind == EventKind.STORAGE_SHARED_FILE) {
         list.add(buildStorageSharedFileWidget());
         if (!widget.inQuote) {
           if (eventRelation.zapInfos.isNotEmpty) {
@@ -382,11 +382,11 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           buildContentWidget(settingsProvider, imagePreview, videoPreview),
         );
 
-        if (widget.event.kind == EventKind.poll) {
+        if (widget.event.kind == EventKind.POLL) {
           list.add(EventPollWidget(
             event: widget.event,
           ));
-        } else if (widget.event.kind == EventKind.zapGoals ||
+        } else if (widget.event.kind == EventKind.ZAP_GOALS ||
             StringUtil.isNotBlank(eventRelation.zapraiser)) {
           list.add(EventZapGoalsWidget(
             event: widget.event,
@@ -394,9 +394,9 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           ));
         }
 
-        if (widget.event.kind == EventKind.fileHeader ||
-            widget.event.kind == EventKind.videoHorizontal ||
-            widget.event.kind == EventKind.videoVertical) {
+        if (widget.event.kind == EventKind.FILE_HEADER ||
+            widget.event.kind == EventKind.VIDEO_HORIZONTAL ||
+            widget.event.kind == EventKind.VIDEO_VERTICAL) {
           String? m;
           String? url;
           List? imeta;
@@ -440,9 +440,9 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           }
 
           if (StringUtil.isNotBlank(url)) {
-            if (widget.event.kind == EventKind.videoHorizontal ||
-                widget.event.kind == EventKind.videoVertical) {
-              if (settingsProvider.videoPreview == OpenStatus.open &&
+            if (widget.event.kind == EventKind.VIDEO_HORIZONTAL ||
+                widget.event.kind == EventKind.VIDEO_VERTICAL) {
+              if (settingsProvider.videoPreview == OpenStatus.OPEN &&
                   widget.showVideo) {
                 list.add(ContentVideoWidget(url: url!));
               } else {
@@ -463,8 +463,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 if (fileType == "image") {
                   list.add(ContentImageWidget(imageUrl: url));
                 } else if (fileType == "video") {
-                  if (settingsProvider.videoPreview != OpenStatus.open &&
-                      (settingsProvider.videoPreviewInList == OpenStatus.open ||
+                  if (settingsProvider.videoPreview != OpenStatus.OPEN &&
+                      (settingsProvider.videoPreviewInList == OpenStatus.OPEN ||
                           widget.showVideo)) {
                     list.add(ContentVideoWidget(url: url));
                   } else {
@@ -495,14 +495,14 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         }
 
         if (eventRelation.aId != null &&
-            eventRelation.aId!.kind == EventKind.longForm &&
+            eventRelation.aId!.kind == EventKind.LONG_FORM &&
             widget.showLinkedLongForm) {
           list.add(EventQuoteWidget(
             aId: eventRelation.aId!,
           ));
         }
 
-        if (widget.event.kind == EventKind.torrents) {
+        if (widget.event.kind == EventKind.TORRENTS) {
           var torrentInfo = TorrentInfo.fromEvent(widget.event);
           if (torrentInfo != null) {
             list.add(EventTorrentWidget(torrentInfo));
@@ -513,8 +513,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           list.add(buildZapInfoWidgets(themeData));
         }
 
-        if (widget.event.kind != EventKind.zap &&
-            !(widget.event.kind == EventKind.fileHeader && widget.inQuote)) {
+        if (widget.event.kind != EventKind.ZAP &&
+            !(widget.event.kind == EventKind.FILE_HEADER && widget.inQuote)) {
           list.add(EventReactionsWidget(
             screenshotController: widget.screenshotController,
             event: widget.event,
@@ -534,7 +534,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     List<Widget> eventAllList = [];
 
     if (eventRelation.aId != null &&
-        eventRelation.aId!.kind == EventKind.communityDefinition &&
+        eventRelation.aId!.kind == EventKind.COMMUNITY_DEFINITION &&
         widget.showCommunity) {
       var communityTitle = Row(
         children: [
@@ -559,7 +559,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           GestureDetector(
             onTap: () {
               RouterUtil.router(
-                  context, RouterPath.communityDetail, eventRelation.aId);
+                  context, RouterPath.COMMUNITY_DETAIL, eventRelation.aId);
             },
             child: Text(
               eventRelation.aId!.title,
@@ -583,8 +583,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     }
 
     if (!(widget.inQuote &&
-        (widget.event.kind == EventKind.fileHeader ||
-            widget.event.kind == EventKind.storageSharedFile))) {
+        (widget.event.kind == EventKind.FILE_HEADER ||
+            widget.event.kind == EventKind.STORAGE_SHARED_FILE))) {
       eventAllList.add(EventTopWidget(
         event: widget.event,
         pagePubkey: widget.pagePubkey,
@@ -616,7 +616,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       SettingsProvider settingsProvider, bool imagePreview, bool videoPreview) {
     var content = widget.event.content;
     if (StringUtil.isBlank(content) &&
-        widget.event.kind == EventKind.zap &&
+        widget.event.kind == EventKind.ZAP &&
         StringUtil.isNotBlank(eventRelation.innerZapContent)) {
       content = eventRelation.innerZapContent!;
     }
@@ -629,7 +629,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         textOnTap: widget.textOnTap,
         showImage: imagePreview,
         showVideo: videoPreview,
-        showLinkPreview: settingsProvider.linkPreview == OpenStatus.open,
+        showLinkPreview: settingsProvider.linkPreview == OpenStatus.OPEN,
         imageListMode: widget.imageListMode,
         eventRelation: eventRelation,
       ),
@@ -681,7 +681,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
         MarkdownNrelayInlineSyntax(),
       ],
       imageBuilder: (Uri uri, String? title, String? alt) {
-        if (settingsProvider.imagePreview == OpenStatus.close) {
+        if (settingsProvider.imagePreview == OpenStatus.CLOSE) {
           return ContentLinkWidget(
             link: uri.toString(),
             title: title,
@@ -706,27 +706,27 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               // jump user page
               var pubkey = Nip19.decode(link);
               if (StringUtil.isNotBlank(pubkey)) {
-                RouterUtil.router(context, RouterPath.user, pubkey);
+                RouterUtil.router(context, RouterPath.USER, pubkey);
               }
             } else if (NIP19Tlv.isNprofile(link)) {
               var nprofile = NIP19Tlv.decodeNprofile(link);
               if (nprofile != null) {
-                RouterUtil.router(context, RouterPath.user, nprofile.pubkey);
+                RouterUtil.router(context, RouterPath.USER, nprofile.pubkey);
               }
             } else if (Nip19.isNoteId(link)) {
               var noteId = Nip19.decode(link);
               if (StringUtil.isNotBlank(noteId)) {
-                RouterUtil.router(context, RouterPath.eventDetail, noteId);
+                RouterUtil.router(context, RouterPath.EVENT_DETAIL, noteId);
               }
             } else if (NIP19Tlv.isNevent(link)) {
               var nevent = NIP19Tlv.decodeNevent(link);
               if (nevent != null) {
-                RouterUtil.router(context, RouterPath.eventDetail, nevent.id);
+                RouterUtil.router(context, RouterPath.EVENT_DETAIL, nevent.id);
               }
             } else if (NIP19Tlv.isNaddr(link)) {
               var naddr = NIP19Tlv.decodeNaddr(link);
               if (naddr != null) {
-                RouterUtil.router(context, RouterPath.eventDetail, naddr.id);
+                RouterUtil.router(context, RouterPath.EVENT_DETAIL, naddr.id);
               }
             } else if (NIP19Tlv.isNrelay(link)) {
               var nrelay = NIP19Tlv.decodeNrelay(link);
@@ -800,8 +800,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
     var content = widget.event.content;
     var type = eventRelation.type;
 
-    if (!content.startsWith(BASE64.prefix)) {
-      content = BASE64.pngPrefix + content;
+    if (!content.startsWith(BASE64.PREFIX)) {
+      content = BASE64.PNG_PREFIX + content;
     }
 
     if (type != null && type.startsWith("image")) {
@@ -840,7 +840,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           builder: (context, user, child) {
             return GestureDetector(
               onTap: () {
-                RouterUtil.router(context, RouterPath.user, zapInfo.pubkey);
+                RouterUtil.router(context, RouterPath.USER, zapInfo.pubkey);
               },
               child: Container(
                 width: imageWidgetWidth,
@@ -892,7 +892,7 @@ class _EventReplyingComponent extends State<EventReplyingComponent> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        RouterUtil.router(context, RouterPath.user, widget.pubkey);
+        RouterUtil.router(context, RouterPath.USER, widget.pubkey);
       },
       child: Selector<UserProvider, User?>(
         builder: (context, user, child) {
