@@ -11,8 +11,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Added support for chat messages in groups following NIP-29 protocol
+- Added auto-joining to test group for new users
+- Improved UI with tabs to toggle between posts and chat in group detail view
+- Added reply functionality to chat messages
 
 ### Internal Changes
+- Refactored code to follow Flutter best practices with smaller, focused functions
+- Fixed index mismatch in tab navigation
+- Improved tab styling for better readability
+- Added comprehensive unit tests for group chat functionality
 
 ## [0.0.5]
 
