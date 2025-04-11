@@ -230,7 +230,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
       
       // Create a specialized filter just to find this exact NIP-05
       final filter = Filter(
-        kinds: [EventKind.METADATA],
+        kinds: [EventKind.metadata],
         limit: 20,
       );
       
@@ -248,7 +248,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
       
       // Query relays for this exact NIP-05
       nostr!.query([filter.toJson()], (event) {
-        if (event.kind == EventKind.METADATA) {
+        if (event.kind == EventKind.metadata) {
           try {
             final content = jsonDecode(event.content);
             final userNip05 = content['nip05'] as String?;
@@ -284,7 +284,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
     try {
       // Query the relays for users with matching content in their metadata
       final filter = Filter(
-        kinds: [EventKind.METADATA],
+        kinds: [EventKind.metadata],
         limit: 50,  // Increased limit to get more potential matches
       );
       
@@ -316,7 +316,7 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
       
       // Search the relays
       nostr!.query([filter.toJson()], (event) {
-        if (event.kind == EventKind.METADATA) {
+        if (event.kind == EventKind.metadata) {
           try {
             final content = jsonDecode(event.content);
             
@@ -412,12 +412,12 @@ class _SearchMentionUserWidgetState extends State<SearchMentionUserWidget> {
       
       // Create a subscription to get recent events and filter them client-side
       final filter = Filter(
-        kinds: [EventKind.METADATA], 
+        kinds: [EventKind.metadata], 
         limit: 100  // Get more events to increase chances of matches
       );
       
       nostr!.query([filter.toJson()], (event) {
-        if (event.kind == EventKind.METADATA) {
+        if (event.kind == EventKind.metadata) {
           try {
             final content = jsonDecode(event.content);
             
