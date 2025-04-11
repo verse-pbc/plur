@@ -130,6 +130,26 @@ class S {
     );
   }
 
+  /// `Posting to`
+  String get Posting_to {
+    return Intl.message(
+      'Posting to',
+      name: 'Posting_to',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Post`
+  String get New_Post {
+    return Intl.message(
+      'New Post',
+      name: 'New_Post',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Open`
   String get open {
     return Intl.message(

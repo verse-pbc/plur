@@ -312,6 +312,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Name_your_community":
             MessageLookupByLibrary.simpleMessage("Name your community"),
         "Network": MessageLookupByLibrary.simpleMessage("Network"),
+        "New_Post": MessageLookupByLibrary.simpleMessage("New Post"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
         "No": MessageLookupByLibrary.simpleMessage("No"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
@@ -383,6 +384,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please select relays"),
         "Poll": MessageLookupByLibrary.simpleMessage("Poll"),
         "Popular_Users": MessageLookupByLibrary.simpleMessage("Popular Users"),
+        "Posting_to": MessageLookupByLibrary.simpleMessage("Posting to"),
         "Posts": MessageLookupByLibrary.simpleMessage("Posts"),
         "Posts_and_replies":
             MessageLookupByLibrary.simpleMessage("Posts & Replies"),
