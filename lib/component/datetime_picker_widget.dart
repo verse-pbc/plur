@@ -113,7 +113,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
             calendarStyle: CalendarStyle(
               rangeHighlightColor: mainColor,
               selectedDecoration: BoxDecoration(
-                color: mainColor.withOpacity(0.8),
+                color: mainColor.withAlpha(204),
                 shape: BoxShape.circle,
               ),
               todayTextStyle: const TextStyle(
@@ -202,7 +202,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
     );
 
     return Scaffold(
-      backgroundColor: Colors.black.withOpacity(0.2),
+      backgroundColor: Colors.black.withAlpha(51),
       body: FocusScope(
         // Overlay 中 textField autoFocus 需要包一层 FocusScope
         node: _focusScopeNode,
