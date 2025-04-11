@@ -233,11 +233,33 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
+        // Get colors from Plur theme
+        final plurBackground = const Color(0xFF231F32); // PlurColors.cardBackground
+        final plurPurple = const Color(0xFF7445FE);     // PlurColors.primaryPurple
+        final plurPrimaryText = const Color(0xFFB5A0E1); // PlurColors.primaryText
+        final plurHighlightText = const Color(0xFFECE2FD); // PlurColors.highlightText
+        final plurSecondaryText = const Color(0xFF63518E); // PlurColors.secondaryText
+        
         return AlertDialog(
-          title: const Text("Join Plur Test Users Group"),
-          content: const Text(
+          backgroundColor: plurBackground,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Text(
+            "Join Plur Test Users Group",
+            style: TextStyle(
+              color: plurHighlightText,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          content: Text(
             "Would you like to join the Plur Test Users community? "
-            "This is a public group for testing features and connecting with other users."
+            "This is a public group for testing features and connecting with other users.",
+            style: TextStyle(
+              color: plurPrimaryText,
+              fontSize: 16,
+            ),
           ),
           actions: [
             TextButton(
@@ -247,19 +269,21 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
               child: Text(
                 "Cancel",
                 style: TextStyle(
-                  color: Theme.of(context).customColors.secondaryForegroundColor,
+                  color: plurSecondaryText,
+                  fontSize: 16,
                 ),
               ),
             ),
-            TextButton(
+            ElevatedButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Close dialog
                 
                 // Show loading indicator
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("Joining Plur Test Users group..."),
-                    duration: Duration(seconds: 1),
+                  SnackBar(
+                    content: const Text("Joining Plur Test Users group..."),
+                    duration: const Duration(seconds: 1),
+                    backgroundColor: plurPurple.withOpacity(0.9),
                   ),
                 );
                 
@@ -276,11 +300,19 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                   );
                 }
               },
-              child: Text(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: plurPurple,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: const Text(
                 "Join Group",
                 style: TextStyle(
-                  color: Theme.of(context).customColors.accentColor,
                   fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
             ),
