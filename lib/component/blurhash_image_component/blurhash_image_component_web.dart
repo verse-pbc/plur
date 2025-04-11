@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:blurhash_dart/blurhash_dart.dart';
+import 'package:image/image.dart' as img;
 
 Widget? genBlurhashImageWidget(
     FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {
@@ -28,7 +29,11 @@ Widget? genBlurhashImageWidget(
     final blurhashImage = BlurHash.decode(fileMetadata.blurhash!);
     
     // Generate the image data with proper dimensions - using positional arguments
-    final imageData = blurhashImage.toImage(width, height);
+    final image = blurhashImage.toImage(width, height);
+    
+    // Convert the image to bytes that can be used with Image.memory
+    // We need to get a Uint8List from the Image object
+    final pngBytes = img.encodePng(image);
     
     // Create a memory image from the decoded blurhash
     return Container(
@@ -36,7 +41,7 @@ Widget? genBlurhashImageWidget(
       child: AspectRatio(
         aspectRatio: aspectRatio,
         child: Image.memory(
-          imageData,
+          pngBytes,
           fit: imageBoxFix,
           width: width.toDouble(),
           height: height.toDouble(),
