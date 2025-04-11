@@ -331,12 +331,9 @@ class _IndexWidgetState extends CustState<IndexWidget>
           child: IndexedStack(
         index: indexProvider.currentTap,
         children: [
+          // Both Communities Screen and Feed are combined into a single tab
+          // with view mode controlled by the IndexProvider
           const CommunitiesScreen(),
-          // Provide GroupFeedProvider for the AllGroupPostsWidget
-          ChangeNotifierProvider(
-            create: (context) => GroupFeedProvider(Provider.of<ListProvider>(context, listen: false)),
-            child: const AllGroupPostsWidget(),
-          ),
           DMWidget(
             tabController: dmTabController,
           ),
