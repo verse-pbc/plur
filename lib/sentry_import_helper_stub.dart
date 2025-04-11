@@ -1,6 +1,9 @@
 // Empty stub for iOS/macOS that doesn't import Sentry
 // This file is loaded on iOS/macOS platforms
 
+// Export the stub to be used in place of real Sentry
+export 'sentry_stub.dart';
+
 // Define fallback functions that do nothing
 Future<void> initSentry(void Function() appRunner) async {
   // Just run the app directly without Sentry
@@ -10,6 +13,3 @@ Future<void> initSentry(void Function() appRunner) async {
 class SentryStub {
   static const bool isSentryAvailable = false;
 }
-
-// Export the stub to be used in place of real Sentry
-export 'sentry_stub.dart';
