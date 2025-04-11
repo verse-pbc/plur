@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 
-import '../../consts/base.dart';
 import '../../component/image_preview_dialog.dart';
+import '../../component/blurhash_image_component/blurhash_image_widget.dart';
 import '../../provider/group_media_provider.dart';
 import '../../util/theme_util.dart';
 import '../../generated/l10n.dart';
@@ -132,28 +133,50 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
     );
   }
   
-  /// Build an individual grid item for a media post
+  /// Build an individual grid item for a media post following NIP-92
   Widget _buildMediaGridItem(
     BuildContext context, 
     {required Event event, required GroupMediaProvider provider}
   ) {
     // Get file metadata for the event
     final metadataList = provider.getFileMetadata(event.id);
-    String? imageUrl;
-    
-    // Try to get the image URL from metadata first
-    if (metadataList.isNotEmpty) {
-      imageUrl = metadataList.first.url;
-    } 
-    // If no metadata, try to extract an image URL from the content
-    else {
-      imageUrl = _extractImageUrl(event.content);
-    }
-    
-    // If still no URL, use a placeholder
-    if (imageUrl == null) {
+    if (metadataList.isEmpty) {
+      // If there's no metadata, we shouldn't even be here according to our filter
+      // but just in case, show a placeholder
       return _buildPlaceholder(context, event);
     }
+    
+    // Get the first metadata entry (typically there's only one per event)
+    final metadata = metadataList.first;
+    String? imageUrl;
+    String? blurhash;
+    
+    // According to NIP-92, we should prioritize in this order:
+    // 1. thumb - smaller representation of the resource
+    // 2. image - another representation (may be original or processed)
+    // 3. url - the main resource URL
+    imageUrl = metadata.thumb ?? metadata.image ?? metadata.url;
+    blurhash = metadata.blurhash;
+    
+    // Make sure we have a URL (should always be the case since url is required in NIP-92)
+    if (imageUrl.isEmpty) {
+      return _buildPlaceholder(context, event);
+    }
+    
+    // Check if this is an image or video type we can display
+    // Strictly follow NIP-92 mime type
+    final mimeType = metadata.m.toLowerCase();
+    final isImage = mimeType.startsWith('image/');
+    final isVideo = mimeType.startsWith('video/');
+    
+    if (!isImage && !isVideo) {
+      // If it's not an image or video type, use a placeholder
+      return _buildPlaceholder(context, event);
+    }
+    
+    // Debug information
+    print('Event ${event.id.substring(0, 8)} mime type: $mimeType');
+    print('Using media URL: $imageUrl');
     
     // Build the grid tile with the image
     return InkWell(
@@ -165,11 +188,48 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
         child: CachedNetworkImage(
           imageUrl: imageUrl,
           fit: BoxFit.cover,
-          placeholder: (context, url) => _buildLoadingPlaceholder(context),
-          errorWidget: (context, url, error) => _buildPlaceholder(context, event),
+          placeholder: (context, url) => 
+            blurhash != null
+              ? _buildBlurhashPlaceholder(context, blurhash)
+              : _buildLoadingPlaceholder(context),
+          errorWidget: (context, url, error) {
+            print('Error loading image $url: $error');
+            return _buildPlaceholder(context, event);
+          },
         ),
       ),
     );
+  }
+  
+  /// Build a placeholder using blurhash
+  Widget _buildBlurhashPlaceholder(BuildContext context, String blurhash) {
+    final themeData = Theme.of(context);
+    final customColors = themeData.customColors;
+    
+    // Create a fake FileMetadata just for the blurhash
+    try {
+      final fakeMetadata = FileMetadata(
+        "placeholder-url", 
+        "image/jpeg",
+        blurhash: blurhash,
+      );
+      
+      // Use the genBlurhashImageWidget function from the imported module
+      final blurhashWidget = genBlurhashImageWidget(
+        fakeMetadata, 
+        customColors.navBgColor, 
+        BoxFit.cover
+      );
+      
+      if (blurhashWidget != null) {
+        return blurhashWidget;
+      }
+    } catch (e) {
+      // Fallback if blurhash processing fails
+      print('Error creating blurhash: $e');
+    }
+    
+    return _buildLoadingPlaceholder(context);
   }
   
   /// Build a loading placeholder for images
@@ -208,29 +268,18 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
     );
   }
   
-  /// Extract an image URL from event content
-  String? _extractImageUrl(String content) {
-    // Simple regex to find image URLs - this could be enhanced
-    final RegExp imageRegex = RegExp(
-      r'https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|webp)',
-      caseSensitive: false,
-    );
-    
-    final match = imageRegex.firstMatch(content);
-    if (match != null) {
-      return match.group(0);
-    }
-    
-    return null;
-  }
-  
   /// Open the image preview dialog
   void _openImagePreview(BuildContext context, Event event, String imageUrl) {
+    // Create a SingleImageProvider with the image URL
+    final imageProvider = SingleImageProvider(
+      Image.network(imageUrl).image,
+    );
+    
+    // Show the image preview dialog with the created provider
     ImagePreviewDialog.show(
-      context: context,
-      imageURL: imageUrl,
-      heroTag: 'media_${event.id}',
-      event: event,
+      context,
+      imageProvider,
+      doubleTapZoomable: true,
     );
   }
 }
