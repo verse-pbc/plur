@@ -183,7 +183,7 @@ class MemberCardDialog extends StatelessWidget {
                         // Add a small delay to ensure dialog is fully closed
                         Future.delayed(const Duration(milliseconds: 100), () {
                           try {
-                            RouterUtil.router(navigationContext, RouterPath.USER, pubkey);
+                            RouterUtil.router(navigationContext, RouterPath.user, pubkey);
                           } catch (e) {
                             // Show error toast if profile navigation fails
                             BotToast.showText(text: "Failed to open profile: $e");
@@ -222,7 +222,7 @@ class MemberCardDialog extends StatelessWidget {
                             // Navigate to DM detail with the session
                             RouterUtil.router(
                               navigationContext,
-                              RouterPath.DM_DETAIL,
+                              RouterPath.dmDetail,
                               dmSessionDetail,
                             );
                           } catch (e) {
