@@ -418,7 +418,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             }
           }
 
-          // Process imeta tags to extract image metadata
+          // Process imeta tags to extract image metadata following NIP-92 spec
           if (imeta != null) {
             final fileMetadata = FileMetadata.fromNIP92Tag(imeta);
             
@@ -426,12 +426,16 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             if (fileMetadata != null) {
               url = fileMetadata.url;
               m = fileMetadata.m;
-              previewImage = fileMetadata.image ?? fileMetadata.thumb;
               
-              // If we have blurhash or dimensions, create FileMetadata for display
-              if (StringUtil.isNotBlank(fileMetadata.blurhash) || 
-                  StringUtil.isNotBlank(fileMetadata.dim)) {
-                eventRelation.fileMetadatas[url] = fileMetadata;
+              // Follow NIP-92 priority: thumb > image > url
+              previewImage = fileMetadata.thumb ?? fileMetadata.image ?? fileMetadata.url;
+              
+              // Store the file metadata for the image display
+              eventRelation.fileMetadatas[url] = fileMetadata;
+              
+              // Also store by preview image URL if it's different from main URL
+              if (previewImage != url && previewImage != null) {
+                eventRelation.fileMetadatas[previewImage] = fileMetadata;
               }
             } else {
               // Fallback to manual parsing if FileMetadata couldn't be created
@@ -461,7 +465,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           // Display images or videos based on the extracted information
           if (StringUtil.isNotBlank(previewImage)) {
             // If we have a preview image, display it directly
-            final metadata = eventRelation.fileMetadatas[url];
+            final metadata = eventRelation.fileMetadatas[previewImage] ?? eventRelation.fileMetadatas[url];
             list.add(ContentImageWidget(
               imageUrl: previewImage!,
               fileMetadata: metadata,
@@ -479,9 +483,11 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               // Show and decode based on media type
               if (StringUtil.isNotBlank(m)) {
                 if (m!.indexOf("image/") == 0) {
+                  // Get metadata, check if we have a preferred URL to display
                   final metadata = eventRelation.fileMetadatas[url];
+                  final displayUrl = metadata?.thumb ?? metadata?.image ?? url!;
                   list.add(ContentImageWidget(
-                    imageUrl: url!,
+                    imageUrl: displayUrl,
                     fileMetadata: metadata,
                   ));
                 } else if (m.indexOf("video/") == 0 && widget.showVideo) {
@@ -493,8 +499,9 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 var fileType = PathTypeUtil.getPathType(url!);
                 if (fileType == "image") {
                   final metadata = eventRelation.fileMetadatas[url];
+                  final displayUrl = metadata?.thumb ?? metadata?.image ?? url!;
                   list.add(ContentImageWidget(
-                    imageUrl: url!,
+                    imageUrl: displayUrl,
                     fileMetadata: metadata,
                   ));
                 } else if (fileType == "video") {

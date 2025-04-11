@@ -54,11 +54,11 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
 
     Widget? main;
     Widget? placeholder;
-    // needn't get from provider
+    // Use blurhash if available and enabled
     if (settingsProvider.openBlurhashImage != OpenStatus.close &&
-        (widget.fileMetadata != null &&
-            StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) &&
-        !PlatformUtil.isWeb()) {
+        widget.fileMetadata != null &&
+        StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) {
+      // Note: Removed the PlatformUtil.isWeb() check to support blurhash on all platforms
       placeholder = genBlurhashImageWidget(
           widget.fileMetadata!, themeData.hintColor, widget.imageBoxFix);
     }
