@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../consts/base.dart';
 import '../consts/base_consts.dart';
 import '../consts/theme_style.dart';
+import '../main.dart';
 import 'data_util.dart';
 
 class SettingsProvider extends ChangeNotifier {
@@ -114,6 +115,12 @@ class SettingsProvider extends ChangeNotifier {
       return _privateKeyMap[_settingData!.privateKeyIndex.toString()];
     }
     return null;
+  }
+  
+  /// Public key based on the current selected private key
+  String? get pubkey {
+    // Pubkey should come from the Nostr instance
+    return nostr?.publicKey;
   }
 
   int addAndChangePrivateKey(String pk, {bool updateUI = false}) {

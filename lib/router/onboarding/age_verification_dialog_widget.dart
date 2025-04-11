@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../util/router_util.dart';
 import '../../consts/plur_colors.dart';
+import '../../component/primary_button_widget.dart';
 
 /// Dialog to show when user is under 16 years old.
 class AgeVerificationDialog extends StatelessWidget {
@@ -16,34 +17,41 @@ class AgeVerificationDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(20),
       ),
       elevation: 0,
       backgroundColor: Colors.transparent,
       child: Container(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(28),
         decoration: BoxDecoration(
           color: PlurColors.cardBackground,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 16,
-              offset: const Offset(0, 8),
+              color: Colors.black.withAlpha(51),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
             ),
           ],
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Emoji icon
-            const Text(
-              '⚠️',
-              style: TextStyle(
-                fontSize: 48,
+            // Emoji icon in a container with background
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.amber.withAlpha(26),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.all(16),
+              child: const Text(
+                '⚠️',
+                style: TextStyle(
+                  fontSize: 48,
+                ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             
             // Title
             Text(
@@ -53,8 +61,9 @@ class AgeVerificationDialog extends StatelessWidget {
               style: GoogleFonts.nunito(
                 textStyle: const TextStyle(
                   color: PlurColors.highlightText,
-                  fontSize: 22,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  letterSpacing: 0.3,
                 ),
               ),
             ),
@@ -70,46 +79,24 @@ class AgeVerificationDialog extends StatelessWidget {
                 textStyle: const TextStyle(
                   color: PlurColors.primaryText,
                   fontSize: 16,
-                  height: 1.4,
+                  height: 1.5,
+                  letterSpacing: 0.2,
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 28),
             
             // Button
-            GestureDetector(
+            PrimaryButtonWidget(
+              text: 'Understood',
+              height: 52,
+              borderRadius: 14,
               onTap: () {
                 // Close dialog using dialog's context
                 RouterUtil.back(context);
                 // Navigate back to login using parent context
                 RouterUtil.back(parentContext);
               },
-              child: Container(
-                width: double.infinity,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: PlurColors.buttonBackground,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: PlurColors.buttonBackground.withOpacity(0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  'OK',
-                  style: GoogleFonts.nunito(
-                    textStyle: const TextStyle(
-                      color: PlurColors.buttonText,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -121,6 +108,7 @@ class AgeVerificationDialog extends StatelessWidget {
     return showDialog(
       context: context,
       barrierDismissible: false,
+      barrierColor: Colors.black.withAlpha(153),
       builder: (dialogContext) => AgeVerificationDialog(
         parentContext: context,
       ),

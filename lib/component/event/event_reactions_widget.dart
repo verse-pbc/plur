@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nostr_sdk/client_utils/keys.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
+import 'package:nostrmo/consts/like_select_type.dart';
 import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -204,13 +206,15 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (widget.eventRelation.zapInfos.isNotEmpty)
+              if (widget.eventRelation != null && 
+                  widget.eventRelation.zapInfos.isNotEmpty)
                 Container(
                   margin: const EdgeInsets.only(
                     bottom: Base.basePaddingHalf,
                   ),
                   child: EventTopZapsWidget(
-                    event: widget.event,
+                    zapEvents: [], // Pass empty list and let the widget handle these internally
+                    event: widget.event, 
                     eventRelation: widget.eventRelation,
                   ),
                 ),
@@ -613,8 +617,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         var metadata = groupProvider.getMetadata(groupIdentifier);
         // post to our main relays.
         relayAddrs = [];
-        if (metadata != null) {
-          relayAddrs = metadata.relays;
+        if (metadata != null && metadata.relays != null) {
+          relayAddrs = List<String>.from(metadata.relays!);
         }
         if (StringUtil.isNotBlank(groupIdentifier.host)) {
           relayAddrs.add(groupIdentifier.host);
@@ -691,7 +695,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     );
     var myPubkey = settingsProvider.privateKey == null
         ? null
-        : Keychain.getPublicKey(settingsProvider.privateKey!);
+        : settingsProvider.pubkey; // Use pubkey from settingsProvider instead of deriving it
 
     showModalBottomSheet(
       context: context,
@@ -699,7 +703,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         var list = [
           ListTile(
             title: Text(
-              localization.Copy_Note_ID,
+              localization.Copy_Note_Id,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.copy),
@@ -721,7 +725,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.View_detail,
+              localization.Open_Note_detail,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.open_in_new),
@@ -743,7 +747,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Copy_Event,
+              localization.Copy_Note_Json,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.content_copy),
