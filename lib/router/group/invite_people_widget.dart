@@ -33,6 +33,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
   late String inviteCode;
   String inviteLink = ''; // Initialize with empty string instead of late
   bool isLoading = true;
+  bool _isDisposed = false; // Track if widget is disposed
 
   @override
   void initState() {
@@ -53,30 +54,44 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
   
   // Separate method to ensure invite link is properly initialized
   void _initializeInviteLink() {
-    if (mounted && (inviteLink.isEmpty || isLoading)) {
-      final arg = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
-      if (arg != null && arg is GroupIdentifier) {
-        try {
-          final listProvider = Provider.of<ListProvider>(context, listen: false);
-          final newInviteLink = listProvider.createInviteLink(arg, inviteCode);
-          
-          if (mounted) {
-            setState(() {
-              inviteLink = newInviteLink;
-              isLoading = false;
-            });
-          }
-        } catch (e) {
-          // Handle error case
-          if (mounted) {
-            setState(() {
-              isLoading = false;
-            });
-            BotToast.showText(text: "Failed to create invite link: $e");
+    // Use a microtask to avoid calling setState during build
+    Future.microtask(() {
+      if (mounted && (inviteLink.isEmpty || isLoading)) {
+        final arg = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
+        if (arg != null && arg is GroupIdentifier) {
+          try {
+            final listProvider = Provider.of<ListProvider>(context, listen: false);
+            final newInviteLink = listProvider.createInviteLink(arg, inviteCode);
+            
+            // Prevent setting state during animation or build phase
+            if (mounted && !_isDisposed) {
+              // Use a Future.delayed to ensure we're not in a critical build phase
+              Future.delayed(Duration.zero, () {
+                if (mounted && !_isDisposed) {
+                  setState(() {
+                    inviteLink = newInviteLink;
+                    isLoading = false;
+                  });
+                }
+              });
+            }
+          } catch (e) {
+            // Handle error case
+            if (mounted && !_isDisposed) {
+              // Use Future.delayed to ensure we're not in a critical build phase
+              Future.delayed(Duration.zero, () {
+                if (mounted && !_isDisposed) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  BotToast.showText(text: "Failed to create invite link: $e");
+                }
+              });
+            }
           }
         }
       }
-    }
+    });
   }
   
   @override
@@ -85,6 +100,12 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
     
     // Initialization is now handled in initState with _initializeInviteLink
     // This method is kept for lifecycle compliance but doesn't duplicate work
+  }
+  
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   @override
