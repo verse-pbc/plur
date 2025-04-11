@@ -3549,6 +3549,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Create your community`
+  String get Create_your_community {
+    return Intl.message(
+      'Create your community',
+      name: 'Create_your_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `community name`
+  String get community_name {
+    return Intl.message(
+      'community name',
+      name: 'community_name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name your community`
+  String get Name_your_community {
+    return Intl.message(
+      'Name your community',
+      name: 'Name_your_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start or join a community`
+  String get Start_or_join_a_community {
+    return Intl.message(
+      'Start or join a community',
+      name: 'Start_or_join_a_community',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connect with others by creating your own community or joining an existing one with an invite link.`
+  String get Connect_with_others {
+    return Intl.message(
+      'Connect with others by creating your own community or joining an existing one with an invite link.',
+      name: 'Connect_with_others',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Have an invite link? Tap on it to join a community.`
+  String get Have_invite_link {
+    return Intl.message(
+      'Have an invite link? Tap on it to join a community.',
+      name: 'Have_invite_link',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
