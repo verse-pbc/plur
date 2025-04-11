@@ -22,6 +22,43 @@ class ListProvider extends ChangeNotifier {
   // holder, hold the events.
   // key - "kind:pubkey", value - event
   final Map<String, Event> _holder = {};
+  
+  // Bookmark methods
+  // NIP-51 defines 30003 as private bookmarks list
+  static const int privateBookmarkListKind = 30003;
+  
+  // NIP-51 defines 10003 as public bookmarks list
+  static const int publicBookmarkListKind = 10003;
+  
+  bool privateBookmarkContains(String eventId) {
+    // Get private bookmarks and check if event is included
+    final privateBookmarksKey = "$privateBookmarkListKind:${nostr?.publicKey}";
+    final privateBookmarks = _holder[privateBookmarksKey];
+    if (privateBookmarks == null) return false;
+    
+    // Check if the event ID is in the tags
+    for (var tag in privateBookmarks.tags) {
+      if (tag is List && tag.isNotEmpty && tag[0] == "e" && tag.length > 1 && tag[1] == eventId) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  bool publicBookmarkContains(String eventId) {
+    // Get public bookmarks and check if event is included
+    final publicBookmarksKey = "$publicBookmarkListKind:${nostr?.publicKey}";
+    final publicBookmarks = _holder[publicBookmarksKey];
+    if (publicBookmarks == null) return false;
+    
+    // Check if the event ID is in the tags
+    for (var tag in publicBookmarks.tags) {
+      if (tag is List && tag.isNotEmpty && tag[0] == "e" && tag.length > 1 && tag[1] == eventId) {
+        return true;
+      }
+    }
+    return false;
+  }
 
   void load(
     String pubkey,
