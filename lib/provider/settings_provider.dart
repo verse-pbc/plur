@@ -256,7 +256,7 @@ class SettingsProvider extends ChangeNotifier {
   String? get backgroundImage => _settingData!.backgroundImage;
 
   /// fontFamily
-  String? get fontFamily => _settingData!.fontFamily;
+  String? get fontFamily => _settingData!.fontFamily ?? 'SF Pro Rounded';
 
   int? get openTranslate => _settingData!.openTranslate;
 
