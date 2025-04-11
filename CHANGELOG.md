@@ -22,6 +22,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved login form messaging to better explain login options and warn about read-only limitations
 - Progress indicators showing current step in onboarding
 - Back navigation between onboarding steps
+- Added support for chat messages in groups following NIP-29 protocol
+- Added auto-joining to test group for new users
+- Improved UI with tabs to toggle between posts and chat in group detail view
+- Added reply functionality to chat messages
+- Added support for displaying images and videos directly in chat messages
+- Implemented NIP-94 imeta tag support for better image display in chat
+- Added debug feature to view raw event data in chat
+
+### Internal Changes
+- Refactored code to follow Flutter best practices with smaller, focused functions
+- Fixed index mismatch in tab navigation
+- Improved tab styling for better readability
+- Added comprehensive unit tests for group chat functionality
+- Added proper handling of image metadata including blurhash and dimensions
+- Implemented aspect ratio preservation for images in chat
+
+## [0.0.5]
+
+### Release Notes
 - Fixed issue where new notes toast was not getting displayed in groups. [#250](https://github.com/verse-pbc/issues/issues/250)
 - Fixed an issue where we would lose connection to the relay, resulting in content failing to load. [#260](https://github.com/verse-pbc/issues/issues/260)
 - Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)

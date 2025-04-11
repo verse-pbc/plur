@@ -42,6 +42,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Add_account_and_login":
             MessageLookupByLibrary.simpleMessage("Add account and login?"),
         "Add_now": MessageLookupByLibrary.simpleMessage("Add now"),
+        "Add_photos_to_posts": MessageLookupByLibrary.simpleMessage(
+            "Add photos to your posts to see them here."),
         "Add_this_relay_to_local":
             MessageLookupByLibrary.simpleMessage("Add this relay to local?"),
         "Add_to_known_list":
@@ -344,6 +346,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "New_Post": MessageLookupByLibrary.simpleMessage("New Post"),
         "Nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
         "No": MessageLookupByLibrary.simpleMessage("No"),
+        "No_Media_found":
+            MessageLookupByLibrary.simpleMessage("No Media found"),
         "Normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "Nostromo_developers_will_never_require_a_key_from_you":
             MessageLookupByLibrary.simpleMessage(
