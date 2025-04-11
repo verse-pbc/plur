@@ -54,3 +54,4 @@ app.*.map.json
 
 # Fastlane
 fastlane/report.xml
+**/CLAUDE.local.md

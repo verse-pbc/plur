@@ -46,7 +46,7 @@ class DMNoticeItemWidget extends StatelessWidget {
         child: Image.asset(
           "assets/imgs/logo/logo512.png",
           errorBuilder: (context, error, stackTrace) {
-            return Icon(
+            return const Icon(
               Icons.notifications,
               size: imageWidth * 0.7,
               color: Colors.white,

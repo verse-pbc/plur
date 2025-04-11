@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event/group_event_list_widget.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/component/new_notes_updated_widget.dart';
-import 'package:nostrmo/component/paste_join_link_button.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
-import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/router/group/no_notes_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -22,7 +19,7 @@ class AllGroupPostsWidget extends StatefulWidget {
   }
 }
 
-class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> with AutomaticKeepAliveClientMixin {
+class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> {
   final ScrollController scrollController = ScrollController();
 
   GroupFeedProvider? groupFeedProvider;
@@ -60,18 +57,18 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
       }
     }
     
-    // Don't double initialize
+    // We shouldn't need to initialize here since the CommunitiesScreen should
+    // have already initialized the provider, but we'll keep this as a safeguard
+    // and only initialize if actually needed
     if (!_isInitialized && groupFeedProvider != null) {
-      groupFeedProvider!.subscribe();
-      groupFeedProvider!.doQuery(null);
       _isInitialized = true;
+      // Don't call subscribe() or doQuery() here since that should have been done in CommunitiesScreen
     }
   }
 
   @override
   Widget doBuild(BuildContext context) {
-    // Must call super for AutomaticKeepAliveClientMixin
-    super.build(context);
+    // We're using KeepAliveCustState which handles the keep-alive mixin
     
     var settingsProvider = Provider.of<SettingsProvider>(context);
     groupFeedProvider = Provider.of<GroupFeedProvider>(context);
@@ -170,10 +167,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
 
   @override
   Future<void> onReady(BuildContext context) async {
-    // Only initialize once
+    // Mark as initialized but don't reinitialize the provider
+    // The provider should already be initialized by CommunitiesScreen
     if (!_isInitialized) {
-      groupFeedProvider!.subscribe();
-      groupFeedProvider!.doQuery(null);
       _isInitialized = true;
     }
   }

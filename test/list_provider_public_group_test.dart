@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/data/public_group_info.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/main.dart';
@@ -43,9 +42,9 @@ void main() {
   });
 
   test('queryPublicGroups should process public groups', () async {
-    final testRelay = 'wss://test.relay';
-    final testGroupId = 'test-group-id';
-    final testGroupName = 'Test Group';
+    const testRelay = 'wss://test.relay';
+    const testGroupId = 'test-group-id';
+    const testGroupName = 'Test Group';
     
     // Create a GROUP_METADATA event with a public tag
     final metadataEvent = Event(

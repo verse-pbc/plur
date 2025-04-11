@@ -33,7 +33,16 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  # Install all pods but exclude Sentry
+  pods_dir = File.dirname(File.realpath(__FILE__))
+  pod_deps = flutter_get_ios_frameworks_dependencies(pods_dir)
+  pod_deps.reject! { |p| p.start_with?('sentry') || p.start_with?('Sentry') }
+  
+  pod_deps.each do |dependency|
+    name, path, options = dependency.strip.split(';')
+    options = options.to_s.empty? ? {} : options.split(',').map { |o| o.split('=') }.to_h
+    pod name, :path => path, **options
+  end
 end
 
 post_install do |installer|

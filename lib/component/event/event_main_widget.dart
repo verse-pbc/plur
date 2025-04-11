@@ -434,7 +434,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               eventRelation.fileMetadatas[url] = fileMetadata;
               
               // Also store by preview image URL if it's different from main URL
-              if (previewImage != url && previewImage != null) {
+              if (previewImage != url) {
                 eventRelation.fileMetadatas[previewImage] = fileMetadata;
               }
             } else {
@@ -499,7 +499,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 var fileType = PathTypeUtil.getPathType(url!);
                 if (fileType == "image") {
                   final metadata = eventRelation.fileMetadatas[url];
-                  final displayUrl = metadata?.thumb ?? metadata?.image ?? url!;
+                  final displayUrl = metadata?.thumb ?? metadata?.image ?? url;
                   list.add(ContentImageWidget(
                     imageUrl: displayUrl,
                     fileMetadata: metadata,
@@ -508,12 +508,12 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                   if (settingsProvider.videoPreview == OpenStatus.open ||
                       (settingsProvider.videoPreviewInList == OpenStatus.open ||
                           widget.showVideo)) {
-                    list.add(ContentVideoWidget(url: url!));
+                    list.add(ContentVideoWidget(url: url));
                   } else {
-                    list.add(ContentLinkWidget(link: url!));
+                    list.add(ContentLinkWidget(link: url));
                   }
                 } else {
-                  list.add(ContentLinkWidget(link: url!));
+                  list.add(ContentLinkWidget(link: url));
                 }
               }
             }
