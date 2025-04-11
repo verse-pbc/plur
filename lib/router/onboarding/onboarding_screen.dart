@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import '../../util/theme_util.dart';
 import 'age_verification_step.dart';
 import 'age_verification_dialog_widget.dart';
@@ -80,6 +81,14 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
   }
 
   void _completeOnboarding() {
-    Navigator.of(context).pop(_userName);
+    // Import nostr_sdk to generate a private key
+    final String privateKey = generatePrivateKey();
+    
+    // Return both the private key and username in a map
+    Map<String, String> result = {
+      'privateKey': privateKey,
+      'userName': _userName ?? '',
+    };
+    Navigator.of(context).pop(result);
   }
 }
