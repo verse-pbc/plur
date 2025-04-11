@@ -31,7 +31,7 @@ class InvitePeopleWidget extends StatefulWidget {
 
 class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
   late String inviteCode;
-  late String inviteLink;
+  String inviteLink = ''; // Initialize with empty string instead of late
   bool isLoading = true;
 
   @override
@@ -44,26 +44,47 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
       inviteLink = widget.shareableLink!;
       isLoading = false;
     }
+    
+    // Schedule async initialization
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeInviteLink();
+    });
+  }
+  
+  // Separate method to ensure invite link is properly initialized
+  void _initializeInviteLink() {
+    if (mounted && (inviteLink.isEmpty || isLoading)) {
+      final arg = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
+      if (arg != null && arg is GroupIdentifier) {
+        try {
+          final listProvider = Provider.of<ListProvider>(context, listen: false);
+          final newInviteLink = listProvider.createInviteLink(arg, inviteCode);
+          
+          if (mounted) {
+            setState(() {
+              inviteLink = newInviteLink;
+              isLoading = false;
+            });
+          }
+        } catch (e) {
+          // Handle error case
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+            BotToast.showText(text: "Failed to create invite link: $e");
+          }
+        }
+      }
+    }
   }
   
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     
-    // If we don't have a shareableLink, try to get it from the route arguments or widget.groupIdentifier
-    if (widget.shareableLink == null || widget.shareableLink!.isEmpty) {
-      final arg = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
-      if (arg != null && arg is GroupIdentifier) {
-        final listProvider = Provider.of<ListProvider>(context, listen: false);
-        inviteLink = listProvider.createInviteLink(arg, inviteCode);
-        
-        if (isLoading) {
-          setState(() {
-            isLoading = false;
-          });
-        }
-      }
-    }
+    // Initialization is now handled in initState with _initializeInviteLink
+    // This method is kept for lifecycle compliance but doesn't duplicate work
   }
 
   @override
@@ -111,34 +132,39 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                   ),
                   const SizedBox(height: 20),
                   Container(
+                    width: double.infinity, // Ensure container has width
+                    constraints: const BoxConstraints(minHeight: 56), // Ensure minimum height
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
                       color: customColors.feedBgColor,
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Expanded(
                           child: Text(
-                            inviteLink,
+                            inviteLink.isNotEmpty ? inviteLink : localization.Loading,
                             style: TextStyle(
                               fontSize: 14,
                               color: customColors.primaryForegroundColor,
                             ),
                             overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
                           ),
                         ),
+                        const SizedBox(width: 8), // Add spacing
                         IconButton(
                           icon: Icon(
                             Icons.copy,
                             color: customColors.accentColor,
                           ),
-                          onPressed: () {
+                          onPressed: inviteLink.isNotEmpty ? () {
                             Clipboard.setData(ClipboardData(text: inviteLink));
                             BotToast.showText(
                               text: localization.Copy_success,
                             );
-                          },
+                          } : null, // Disable if no link
                         ),
                       ],
                     ),
@@ -156,21 +182,26 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                   if (widget.showCreatePostButton) ...[
                     const SizedBox(height: 40),
                     Center(
-                      child: InkWell(
-                        onTap: () {
-                          RouterUtil.back(context);
-                          RouterUtil.router(context, RouterPath.groupDetail, groupId);
-                        },
-                        highlightColor: themeData.primaryColor.withOpacity(0.2),
-                        child: Container(
-                          color: themeData.primaryColor,
-                          height: 40,
-                          alignment: Alignment.center,
+                      child: SizedBox(
+                        width: double.infinity, // Ensure the widget has a defined width
+                        child: ElevatedButton(
+                          onPressed: () {
+                            RouterUtil.back(context);
+                            RouterUtil.router(context, RouterPath.groupDetail, groupId);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: themeData.primaryColor,
+                            foregroundColor: customColors.buttonTextColor,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
                           child: Text(
                             'Create your first post',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: customColors.buttonTextColor,
+                              fontSize: 16,
                             ),
                           ),
                         ),
