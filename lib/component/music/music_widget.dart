@@ -79,6 +79,13 @@ class _MusicWidgetState extends State<MusicWidget> {
           widget.musicInfo.icon!,
           width: 18,
           height: 18,
+          errorBuilder: (context, error, stackTrace) {
+            return Icon(
+              Icons.music_note,
+              size: 18,
+              color: hintColor,
+            );
+          },
         ),
       ));
     }

@@ -51,6 +51,13 @@ class ContentCashuWidget extends StatelessWidget {
                     "assets/imgs/cashu_logo.png",
                     width: 50,
                     height: 50,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(
+                        Icons.currency_bitcoin,
+                        size: 50,
+                        color: Colors.white,
+                      );
+                    },
                   ),
                 ),
                 Column(

@@ -22,6 +22,20 @@ Widget? genBlurhashImageWidget(
         width: width.toDouble(),
         height: height.toDouble(),
         image: imageProvider,
+        errorBuilder: (context, error, stackTrace) {
+          return Container(
+            width: width?.toDouble(),
+            height: height?.toDouble(),
+            color: color.withAlpha(51),
+            child: Center(
+              child: Icon(
+                Icons.image_not_supported,
+                size: (width ?? 60) / 3,
+                color: Colors.white.withAlpha(127),
+              ),
+            ),
+          );
+        },
       ),
     ),
   );

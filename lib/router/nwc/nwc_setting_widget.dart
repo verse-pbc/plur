@@ -91,7 +91,15 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
                   color: ColorsUtil.hexToColor("#ffdf6f"),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Image.asset("assets/imgs/alby_logo.png"),
+                child: Image.asset(
+                  "assets/imgs/alby_logo.png",
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(
+                      Icons.bolt,
+                      color: Colors.white,
+                    );
+                  },
+                ),
               ),
             ),
           ),

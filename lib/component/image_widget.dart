@@ -48,7 +48,21 @@ class ImageWidget extends StatelessWidget {
       height: height,
       fit: fit,
       placeholder: placeholder,
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+      errorWidget: (context, url, error) {
+        // Create a more helpful fallback that matches dimensions and provides visual context
+        return Container(
+          width: width,
+          height: height,
+          color: Theme.of(context).hintColor.withOpacity(0.1),
+          child: Center(
+            child: Icon(
+              Icons.image_not_supported,
+              size: (width != null && height != null) ? (width! < height! ? width! * 0.5 : height! * 0.5) : 24,
+              color: Theme.of(context).hintColor,
+            ),
+          ),
+        );
+      },
       cacheManager: imageLocalCacheManager,
       // imageRenderMethodForWeb: ImageRenderMethodForWeb.HttpGet,
     );
