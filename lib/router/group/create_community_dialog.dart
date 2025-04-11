@@ -160,7 +160,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: customColors.cardBgColor,
+                  color: themeData.customColors.cardBgColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
