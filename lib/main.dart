@@ -604,43 +604,37 @@ class _MyApp extends State<MyApp> {
                     child: const GroupAdminScreen(),
                   ),
                 );
-              case RouterPath.GROUP_INFO:
+              case RouterPath.groupInfo:
                 // Handle direct navigation without arguments
                 if (settings.arguments == null) {
-                  print("GROUP_INFO: arguments are null, redirecting to CommunitiesWidget");
                   return MaterialPageRoute(
-                    builder: (context) => const CommunitiesWidget(),
+                    builder: (context) => const CommunitiesScreen(),
                   );
                 }
                 
                 final groupId = settings.arguments as GroupIdentifier;
-                print("GROUP_INFO: Creating route with groupId: $groupId");
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: groupId,
                     child: const GroupInfoWidget(),
                   ),
                 );
-              case RouterPath.GROUP_DETAIL:
+              case RouterPath.groupDetail:
                 if (settings.arguments == null) {
-                  print("GROUP_DETAIL: arguments are null, redirecting to CommunitiesWidget");
                   return MaterialPageRoute(
-                    builder: (context) => const CommunitiesWidget(),
+                    builder: (context) => const CommunitiesScreen(),
                   );
                 }
                 
                 // Handle GroupIdentifier for this route as well
                 final groupId = settings.arguments as GroupIdentifier;
-                print("GROUP_DETAIL: Creating route with groupId: $groupId");
                 
                 return null; // Let the usual route handle it
               default:
-                print("No special handling for route: ${settings.name}");
                 return null;
             }
           },
           onUnknownRoute: (settings) {
-            print("Unknown route: ${settings.name}");
             // Fallback to index page
             return MaterialPageRoute(
               builder: (context) => IndexWidget(reload: reload),

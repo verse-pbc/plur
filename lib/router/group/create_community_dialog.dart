@@ -84,7 +84,7 @@ class OldInvitePeopleWidget extends StatelessWidget {
                   RouterUtil.back(context);
                   // GroupDetailWidget.showTooltipOnGroupCreation = true;
                   RouterUtil.router(
-                      context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                      context, RouterPath.groupDetail, groupIdentifier);
                 },
                 highlightColor: theme.primaryColor.withOpacity(0.2),
                 child: Container(
@@ -160,7 +160,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
               child: Container(
                 margin: const EdgeInsets.symmetric(horizontal: 20),
                 decoration: BoxDecoration(
-                  color: cardColor,
+                  color: customColors.cardBgColor,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
