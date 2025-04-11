@@ -513,10 +513,15 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
     closeLine(buffer, currentList, allList, images);
 
-    var main = SizedBox(
+    // SPECIAL HANDLING: Check for image metadata first (DMDetailItemWidget approach)
+    Map<String, dynamic> metadata = {};
+    if (widget.event != null && widget.showImage && !widget.imageListMode) {
+      metadata = _extractImageMetadata();
+    }
+    
+    // Create two possible main components: the text and possibly an image
+    Widget textContent = SizedBox(
       width: !widget.smallest ? double.infinity : null,
-      // padding: EdgeInsets.only(bottom: 20),
-      // color: Colors.red,
       child: SelectableText.rich(
         TextSpan(
           children: allList,
@@ -528,6 +533,44 @@ class _ContentWidgetState extends State<ContentWidget> {
         },
       ),
     );
+    
+    // If we found media in the event, display it like in DMDetailItemWidget
+    if (widget.showImage && 
+        metadata.isNotEmpty && 
+        metadata['containsMedia'] == true && 
+        metadata['mediaUrl'] != null) {
+      
+      // Create a column with text and image, similar to DMDetailItemWidget
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Show text content
+          textContent,
+          
+          // Small spacing
+          const SizedBox(height: 8),
+          
+          // Show image using the exact same method as DMDetailItemWidget
+          metadata['contentType'] == "image" 
+            ? _buildImageWidget(
+                metadata['mediaUrl'], 
+                metadata['blurhash'], 
+                metadata['dimensions']
+              )
+            : metadata['contentType'] == "video" && widget.showVideo
+                ? ContentVideoWidget(
+                    url: metadata['mediaUrl'],
+                    width: 300,
+                    height: 200,
+                  )
+                : Container(),
+        ],
+      );
+    }
+    
+    // Regular handling for text or image list mode
+    var main = textContent;
+    
     if (widget.showImage &&
         widget.imageListMode &&
         (contentDecoderInfo != null && contentDecoderInfo!.imageNum > 1)) {
@@ -536,19 +579,21 @@ class _ContentWidgetState extends State<ContentWidget> {
       List<Widget> imageWidgetList = [];
       var index = 0;
       for (var image in images) {
+        // Use built-in getFileMetadata for backward compatibility
+        final fileMetadata = getFileMetadata(image);
+        // Extract dimensions and blurhash if available
+        String? dimensions = fileMetadata?.dim;
+        String? blurhash = fileMetadata?.blurhash;
+        
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
             margin: const EdgeInsets.only(right: Base.basePaddingHalf),
             width: contentImageListHeight,
             height: contentImageListHeight,
-            child: ContentImageWidget(
-              imageUrl: image,
-              imageList: images,
-              imageIndex: index,
-              height: contentImageListHeight,
-              width: contentImageListHeight,
-              fileMetadata: getFileMetadata(image),
-              imageBoxFix: BoxFit.cover,
+            child: _buildImageWidget(
+              image,
+              blurhash,
+              dimensions,
             ),
           ),
         ));
@@ -608,52 +653,16 @@ class _ContentWidgetState extends State<ContentWidget> {
             bufferToList(buffer, currentList, images, removeLastSpan: true);
             currentList.add(WidgetSpan(child: imagePlaceholder));
           } else {
-            // Get file metadata for the image - similar to DMDetailItemWidget approach
-            final fileMetadata = getFileMetadata(str);
-            
-            // Calculate dimensions based on metadata if available
-            double? width;
-            double? height;
-            
-            // Use dimensions from metadata if available, like DMDetailItemWidget does
-            if (fileMetadata != null && StringUtil.isNotBlank(fileMetadata.dim)) {
-              final dimensions = fileMetadata.dim;
-              final parts = dimensions!.split('x');
-              if (parts.length == 2) {
-                try {
-                  final originalWidth = int.parse(parts[0]);
-                  final originalHeight = int.parse(parts[1]);
-                  
-                  // Calculate aspect ratio
-                  final aspectRatio = originalWidth / originalHeight;
-                  
-                  // Set reasonable dimensions with proper aspect ratio
-                  width = 300; // Default max width
-                  height = width / aspectRatio;
-                  
-                  // Cap height if it gets too tall
-                  if (height > 400) {
-                    height = 400;
-                    width = height * aspectRatio;
-                  }
-                } catch (e) {
-                  // Parsing error, use defaults (null will use default in ContentImageWidget)
-                }
-              }
-            }
-            
-            // Show image in content with improved dimensions
-            var imageWidget = ContentImageWidget(
-              imageUrl: str,
-              imageList: images,
-              imageIndex: images.length - 1,
-              fileMetadata: fileMetadata,
-              width: width,
-              height: height,
+            // Don't directly render the image here
+            // Just add a placeholder - the actual image will be rendered separately
+            // This is the key change: we're not trying to render the image inline anymore
+            var imagePlaceholder = const Icon(
+              Icons.image,
+              size: 15,
             );
 
             bufferToList(buffer, currentList, images, removeLastSpan: true);
-            currentList.add(WidgetSpan(child: imageWidget));
+            currentList.add(WidgetSpan(child: imagePlaceholder));
             counterAddLines(fakeImageCounter);
           }
         }
@@ -1331,65 +1340,129 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
   }
 
-  // Enhanced FileMetadata method that works like the DMDetailItemWidget implementation
-  getFileMetadata(String imageUrl) {
-    // First check if we already have metadata from eventRelation
-    if (widget.eventRelation != null && 
-        widget.eventRelation!.fileMetadatas.containsKey(imageUrl)) {
-      return widget.eventRelation!.fileMetadatas[imageUrl];
-    }
+  /// Direct port of the _buildImageWidget method from DMDetailItemWidget
+  /// This is proven to work in the chat context so we're using exactly the same approach
+  Widget _buildImageWidget(String imageUrl, String? blurhash, String? dimensions) {
+    // Default dimensions for images in content
+    double width = 300;  // Slightly larger than chat for posts
+    double height = 200; 
     
-    // If no metadata exists via eventRelation, try to extract it directly from the event
-    // This is the crucial part that makes it work like the group chat implementation
-    if (widget.event != null) {
-      String? blurhash;
-      String? dimensions;
-      
-      // Look for imeta tags with metadata about this image
-      for (final tag in widget.event!.tags) {
-        if (tag.isNotEmpty && tag[0] == "imeta" && tag.length > 1) {
-          // Check if this imeta tag is for our image
-          bool isForThisImage = false;
+    // If we have dimensions info, use it to calculate better aspect ratio
+    if (dimensions != null) {
+      final parts = dimensions.split('x');
+      if (parts.length == 2) {
+        try {
+          final originalWidth = int.parse(parts[0]);
+          final originalHeight = int.parse(parts[1]);
           
-          // Parse the imeta tag data to see if it's for this URL
-          for (int i = 1; i < tag.length; i++) {
-            String item = tag[i];
-            if (item.startsWith("url ")) {
-              final url = item.substring(4).trim();
-              if (url == imageUrl) {
-                isForThisImage = true;
-              }
-            }
-          }
+          // Calculate aspect ratio
+          final aspectRatio = originalWidth / originalHeight;
           
-          // If this imeta tag is for our image, extract metadata
-          if (isForThisImage) {
-            for (int i = 1; i < tag.length; i++) {
-              String item = tag[i];
-              if (item.startsWith("blurhash ")) {
-                blurhash = item.substring(9).trim();
-              } else if (item.startsWith("dim ")) {
-                dimensions = item.substring(4).trim();
-              }
-            }
-            
-            // Create a FileMetadata object if we found useful data
-            if (blurhash != null || dimensions != null) {
-              return FileMetadata(
-                imageUrl,
-                "image/jpeg", // Assume JPEG as default type
-                blurhash: blurhash,
-                dim: dimensions,
-              );
-            }
-            
-            break; // Found the right imeta tag, no need to keep looking
+          // Maintain aspect ratio with max width
+          width = 300;  // Slightly larger than chat for posts
+          height = width / aspectRatio;
+          
+          // Cap height if it gets too tall
+          if (height > 400) {
+            height = 400;
+            width = height * aspectRatio;
           }
+        } catch (e) {
+          // Parsing error, use defaults
+          debugPrint('Error parsing dimensions: $e');
         }
       }
     }
     
-    // Return null if no metadata found
+    // Create FileMetadata object if we have blurhash
+    FileMetadata? fileMetadata;
+    if (blurhash != null) {
+      // FileMetadata requires url and media type
+      fileMetadata = FileMetadata(
+        imageUrl,
+        "image/jpeg", // Assume JPEG as default type
+        blurhash: blurhash,
+        dim: dimensions,
+      );
+    }
+    
+    return ContentImageWidget(
+      imageUrl: imageUrl,
+      width: width,
+      height: height,
+      imageBoxFix: BoxFit.cover,
+      fileMetadata: fileMetadata,
+    );
+  }
+  
+  /// Extract metadata from the event tags for an image URL
+  /// This is a direct port of how DMDetailItemWidget handles image detection
+  Map<String, dynamic> _extractImageMetadata() {
+    if (widget.event == null) {
+      return {};
+    }
+    
+    bool containsMedia = false;
+    String? mediaUrl;
+    String contentType = "text";
+    String? blurhash;
+    String? dimensions;
+    
+    // First check for imeta tags which provide better metadata for images
+    for (final tag in widget.event!.tags) {
+      if (tag.isNotEmpty && tag[0] == "imeta" && tag.length > 1) {
+        // Parse the imeta tag data
+        for (int i = 1; i < tag.length; i++) {
+          String item = tag[i];
+          if (item.startsWith("url ")) {
+            mediaUrl = item.substring(4).trim();
+            contentType = "image";
+            containsMedia = true;
+          } else if (item.startsWith("blurhash ")) {
+            blurhash = item.substring(9).trim();
+          } else if (item.startsWith("dim ")) {
+            dimensions = item.substring(4).trim();
+          }
+        }
+        
+        // Break since we found what we needed
+        if (containsMedia) break;
+      }
+    }
+    
+    // If we didn't find media in imeta tags, check the content directly
+    if (!containsMedia && widget.content != null) {
+      // Simple URL detection for images and videos
+      final urlPattern = RegExp(r'https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|mp4|webm|mov|bin)');
+      final match = urlPattern.firstMatch(widget.content!);
+      if (match != null) {
+        mediaUrl = match.group(0);
+        final extension = match.group(1)?.toLowerCase();
+        
+        if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'bin') {
+          contentType = "image";
+          containsMedia = true;
+        } else if (extension == 'mp4' || extension == 'webm' || extension == 'mov') {
+          contentType = "video";
+          containsMedia = true;
+        }
+      }
+    }
+    
+    return {
+      'containsMedia': containsMedia,
+      'mediaUrl': mediaUrl,
+      'contentType': contentType,
+      'blurhash': blurhash,
+      'dimensions': dimensions,
+    };
+  }
+  
+  /// Legacy method for backward compatibility
+  getFileMetadata(String imageUrl) {
+    if (widget.eventRelation != null) {
+      return widget.eventRelation!.fileMetadatas[imageUrl];
+    }
     return null;
   }
 }
