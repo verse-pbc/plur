@@ -7,7 +7,8 @@ import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/component/paste_join_link_button.dart';
-import 'package:provider/provider.dart';
+// Import Provider package with an alias to avoid conflicts
+import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
 import '../../util/theme_util.dart';
@@ -48,10 +49,10 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
       end: const Alignment(1.0, 0.3),
       tileMode: TileMode.clamp,
     );
-    // Get the view mode from IndexProvider
-    final indexProvider = Provider.of<IndexProvider>(context);
+    // Get the view mode from IndexProvider using the aliased provider
+    final indexProvider = provider.Provider.of<IndexProvider>(context);
     final viewMode = indexProvider.communityViewMode;
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
     
     final controller = ref.watch(communitiesControllerProvider);
     
@@ -72,7 +73,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> {
               _feedProvider!.subscribe();
               _feedProvider!.doQuery(null);
             }
-            return ChangeNotifierProvider.value(
+            return provider.ChangeNotifierProvider.value(
               value: _feedProvider!,
               child: const CommunitiesFeedWidget(),
             );
