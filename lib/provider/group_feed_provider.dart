@@ -67,14 +67,14 @@ class GroupFeedProvider extends ChangeNotifier {
     
     // Create a filter for GROUP_NOTE events
     filters.add({
-      "kinds": [EventKind.GROUP_NOTE],
+      "kinds": [EventKind.groupNote],
       "#h": groupIds,
       "limit": 50,
     });
     
     // Create a filter for GROUP_NOTE_REPLY events
     filters.add({
-      "kinds": [EventKind.GROUP_NOTE_REPLY],
+      "kinds": [EventKind.groupNoteReply],
       "#h": groupIds,
       "limit": 50,
     });
@@ -83,7 +83,7 @@ class GroupFeedProvider extends ChangeNotifier {
       filters,
       _onQueryEvent,
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: [RelayType.TEMP],
+      relayTypes: [RelayType.temp],
       sendAfterAuth: true,
     );
   }
@@ -99,14 +99,14 @@ class GroupFeedProvider extends ChangeNotifier {
     final List<String> groupIds = _groupIdentifiers.map((gi) => gi.groupId).toList();
     
     filters.add({
-      "kinds": [EventKind.GROUP_NOTE],
+      "kinds": [EventKind.groupNote],
       "#h": groupIds,
       "until": until,
       "limit": 50,
     });
     
     filters.add({
-      "kinds": [EventKind.GROUP_NOTE_REPLY],
+      "kinds": [EventKind.groupNoteReply],
       "#h": groupIds,
       "until": until,
       "limit": 50,
@@ -116,7 +116,7 @@ class GroupFeedProvider extends ChangeNotifier {
       filters,
       _onQueryEvent,
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
-      relayTypes: [RelayType.TEMP],
+      relayTypes: [RelayType.temp],
       sendAfterAuth: true,
     );
   }
@@ -145,12 +145,12 @@ class GroupFeedProvider extends ChangeNotifier {
     
     final filters = [
       {
-        "kinds": [EventKind.GROUP_NOTE],
+        "kinds": [EventKind.groupNote],
         "#h": groupIds,
         "since": currentTime,
       },
       {
-        "kinds": [EventKind.GROUP_NOTE_REPLY],
+        "kinds": [EventKind.groupNoteReply],
         "#h": groupIds,
         "since": currentTime,
       }
@@ -161,7 +161,7 @@ class GroupFeedProvider extends ChangeNotifier {
         filters,
         _handleNewEvent,
         id: _subscribeId,
-        relayTypes: [RelayType.TEMP],
+        relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );
@@ -202,7 +202,7 @@ class GroupFeedProvider extends ChangeNotifier {
   
   // Check if event belongs to one of our groups
   bool isGroupEvent(Event event) {
-    if (event.kind != EventKind.GROUP_NOTE && event.kind != EventKind.GROUP_NOTE_REPLY) {
+    if (event.kind != EventKind.groupNote && event.kind != EventKind.groupNoteReply) {
       return false;
     }
     
