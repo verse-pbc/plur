@@ -33,6 +33,7 @@ import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
+import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
@@ -588,21 +589,62 @@ class _MyApp extends State<MyApp> {
           initialRoute: RouterPath.index,
           routes: routes,
           onGenerateRoute: (settings) {
+            print("Generating route for: ${settings.name} with args: ${settings.arguments}");
             switch (settings.name) {
               case RouterPath.groupAdmin:
                 final groupId = settings.arguments as GroupIdentifier?;
                 if (groupId == null) {
+                  print("GROUP_ADMIN: groupId is null, returning null route");
                   return null;
                 }
+                print("GROUP_ADMIN: Creating route with groupId: $groupId");
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: groupId,
                     child: const GroupAdminScreen(),
                   ),
                 );
+              case RouterPath.GROUP_INFO:
+                // Handle direct navigation without arguments
+                if (settings.arguments == null) {
+                  print("GROUP_INFO: arguments are null, redirecting to CommunitiesWidget");
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesWidget(),
+                  );
+                }
+                
+                final groupId = settings.arguments as GroupIdentifier;
+                print("GROUP_INFO: Creating route with groupId: $groupId");
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: groupId,
+                    child: const GroupInfoWidget(),
+                  ),
+                );
+              case RouterPath.GROUP_DETAIL:
+                if (settings.arguments == null) {
+                  print("GROUP_DETAIL: arguments are null, redirecting to CommunitiesWidget");
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesWidget(),
+                  );
+                }
+                
+                // Handle GroupIdentifier for this route as well
+                final groupId = settings.arguments as GroupIdentifier;
+                print("GROUP_DETAIL: Creating route with groupId: $groupId");
+                
+                return null; // Let the usual route handle it
               default:
+                print("No special handling for route: ${settings.name}");
                 return null;
             }
+          },
+          onUnknownRoute: (settings) {
+            print("Unknown route: ${settings.name}");
+            // Fallback to index page
+            return MaterialPageRoute(
+              builder: (context) => IndexWidget(reload: reload),
+            );
           },
         ),
       ),
