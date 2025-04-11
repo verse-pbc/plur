@@ -81,5 +81,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>DisableSentry</key>
+	<true/>
 </dict>
 </plist>
