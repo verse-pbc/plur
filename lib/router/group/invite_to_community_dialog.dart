@@ -20,6 +20,7 @@ class InviteToCommunityDialog extends StatefulWidget {
   static Future<void> show({
     required BuildContext context,
     required GroupIdentifier? groupIdentifier,
+    ListProvider? listProvider,
   }) async {
     if (groupIdentifier == null) return;
 
