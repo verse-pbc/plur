@@ -493,9 +493,23 @@ class ListProvider extends ChangeNotifier {
       _groupIdentifiers.addAll(successfullyJoinedGroupIds);
       _updateGroups();
 
-      if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
-        RouterUtil.router(
-            context, RouterPath.groupDetail, successfullyJoinedGroupIds[0]);
+      // Show success message instead of immediate navigation
+      BotToast.showText(
+        text: "Successfully joined community. You can view it in your communities list.",
+        duration: const Duration(seconds: 3),
+      );
+      
+      // Navigate back to the communities list instead of directly to the group detail
+      if (context != null && context.mounted) {
+        // Delayed navigation to ensure communities list is updated
+        Future.delayed(const Duration(milliseconds: 300), () {
+          try {
+            // Navigate to communities list
+            RouterUtil.router(context, RouterPath.groupList, null);
+          } catch (e) {
+            log("Error navigating after join: $e");
+          }
+        });
       }
     } else {
       BotToast.showText(
@@ -894,7 +908,7 @@ class ListProvider extends ChangeNotifier {
       );
       
       // Simulate query completion after a delay (since onComplete callback is not available)
-      Future.delayed(Duration(seconds: 3), () {
+      Future.delayed(const Duration(seconds: 3), () {
         pendingRelays--;
         if (pendingRelays <= 0) {
           if (!completer.isCompleted) {
@@ -910,9 +924,7 @@ class ListProvider extends ChangeNotifier {
     // Set a timeout to ensure we return results even if some relays don't respond
     Future.delayed(const Duration(seconds: 10), () {
       if (!completer.isCompleted) {
-        log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " +
-            "Metadata Events: $metadataEvents, " +
-            "Public Groups Found: $publicGroundsFound");
+        log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " "Metadata Events: $metadataEvents, " "Public Groups Found: $publicGroundsFound");
         
         if (publicGroundsFound == 0) {
           log("⚠️ NO GROUPS FOUND: This could indicate network issues or that the relays don't host any groups");
