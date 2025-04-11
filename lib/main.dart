@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -375,17 +376,36 @@ Future<void> main() async {
     log("Application started");
   }
 
-  if (const bool.hasEnvironment("SENTRY_DSN")) {
-    await SentryFlutter.init(
-      (options) {
-        // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
-        options.environment = const String.fromEnvironment('ENVIRONMENT',
-            defaultValue: 'production');
-      },
-      appRunner: () {
-        startApp();
-      },
-    );
+  // Skip Sentry on iOS and macOS to avoid build issues
+  bool skipSentry = false;
+  
+  try {
+    // Check if we're on iOS or macOS
+    if (Platform.isIOS || Platform.isMacOS) {
+      skipSentry = true;
+      log("Skipping Sentry initialization on iOS/macOS");
+    }
+  } catch (e) {
+    // If Platform is not available (like on web), continue with normal flow
+    log("Error checking platform: $e");
+  }
+  
+  if (!skipSentry && const bool.hasEnvironment("SENTRY_DSN")) {
+    try {
+      await SentryFlutter.init(
+        (options) {
+          // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+          options.environment = const String.fromEnvironment('ENVIRONMENT',
+              defaultValue: 'production');
+        },
+        appRunner: () {
+          startApp();
+        },
+      );
+    } catch (e) {
+      log("Error initializing Sentry: $e");
+      startApp();
+    }
   } else {
     startApp();
   }
