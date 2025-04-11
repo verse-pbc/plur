@@ -31,7 +31,6 @@ import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
-import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
@@ -60,6 +59,8 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'features/communities/communities_screen.dart';
+import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
@@ -463,11 +464,12 @@ class _MyApp extends State<MyApp> {
       RouterPath.followSetDetail: (context) => const FollowSetDetailWidget(),
       RouterPath.followSetFeed: (context) => const FollowSetFeedWidget(),
       RouterPath.nwcSetting: (context) => const NwcSettingWidget(),
-      RouterPath.groupList: (context) => const CommunitiesWidget(),
+      RouterPath.groupList: (context) => const CommunitiesScreen(),
       RouterPath.groupDetail: (context) => const GroupDetailWidget(),
       RouterPath.groupEdit: (context) => const GroupEditWidget(),
       RouterPath.groupMembers: (context) => const GroupMembersWidget(),
       RouterPath.groupInfo: (context) => const GroupInfoWidget(),
+      RouterPath.communityGuidelines: (context) => const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };

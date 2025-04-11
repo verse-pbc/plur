@@ -9,7 +9,7 @@ import 'package:nostrmo/main.dart';
 import 'dart:developer';
 
 import '../../component/shimmer/shimmer.dart';
-import 'communities_grid_widget.dart';
+import '../../features/communities/communities_grid_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
 import '../../util/theme_util.dart';

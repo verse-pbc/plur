@@ -18,9 +18,11 @@ class GroupMetadataRepository {
   ///
   /// - Parameters:
   ///   - id: The identifier of the group for which metadata is to be fetched.
+  ///   - cached: Whether to retrieve metadata from cache. Defaults to false.
   /// - Returns: A `Future` that resolves to the `GroupMetadata` of the
   /// specified group.
-  Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id) async {
+  Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id,
+      {bool cached = false}) async {
     assert(nostr != null, "nostr instance is null");
     final host = id.host;
     final groupId = id.groupId;
@@ -40,7 +42,7 @@ class GroupMetadataRepository {
       filters,
       tempRelays: [host],
       targetRelays: [host],
-      relayTypes: RelayType.onlyTemp,
+      relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
       sendAfterAuth: true,
     );
     if (events?.length != 1) {
@@ -131,4 +133,11 @@ final groupMetadataProvider = FutureProvider.autoDispose
     .family<GroupMetadata?, GroupIdentifier>((ref, id) {
   final repository = ref.watch(groupMetadataRepositoryProvider);
   return repository.fetchGroupMetadata(id);
+});
+
+/// A provider that fetches group metadata from cache and handles its disposal.
+final cachedGroupMetadataProvider = FutureProvider.autoDispose
+    .family<GroupMetadata?, GroupIdentifier>((ref, id) {
+  final repository = ref.watch(groupMetadataRepositoryProvider);
+  return repository.fetchGroupMetadata(id, cached: true);
 });
