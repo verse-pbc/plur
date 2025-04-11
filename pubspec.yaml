@@ -168,13 +168,13 @@ flutter:
     - assets/imgs/music/wavlake.png
     
   fonts:
-    - family: SF Pro Display
+    - family: SFProRounded
       fonts:
-        - asset: assets/fonts/SF-Pro-Rounded-Regular.otf
+        - asset: assets/fonts/SFProRounded-Regular.otf
           weight: 400
-        - asset: assets/fonts/SF-Pro-Rounded-Medium.otf
+        - asset: assets/fonts/SFProRounded-Medium.otf
           weight: 500
-        - asset: assets/fonts/SF-Pro-Rounded-Bold.otf
+        - asset: assets/fonts/SFProRounded-Bold.otf
           weight: 700
   # To add assets to your application, add an assets section, like this:
   # assets:
