@@ -8,8 +8,9 @@ import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/index/index_widget.dart';
-import 'package:provider/provider.dart' hide ChangeNotifierProvider;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+// We're not using flutter_riverpod ChangeNotifierProvider directly
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide ChangeNotifierProvider;
 
 import 'tab_switching_performance_test.mocks.dart';
 
@@ -41,8 +42,8 @@ void main() {
       await tester.pumpWidget(
         MultiProvider(
           providers: [
-            ChangeNotifierProvider<IndexProvider>(create: (_) => indexProvider),
-            ChangeNotifierProvider<ListProvider>(create: (_) => mockListProvider),
+            ChangeNotifierProvider<IndexProvider>.value(value: indexProvider),
+            ChangeNotifierProvider<ListProvider>.value(value: mockListProvider),
           ],
           child: MaterialApp(
             home: Material(
@@ -87,9 +88,9 @@ void main() {
         ProviderScope(
           child: MultiProvider(
             providers: [
-              ChangeNotifierProvider<ListProvider>(create: (_) => mockListProvider),
-              ChangeNotifierProvider<GroupFeedProvider>(create: (_) => mockGroupFeedProvider),
-              ChangeNotifierProvider<IndexProvider>(create: (_) => indexProvider),
+              ChangeNotifierProvider<ListProvider>.value(value: mockListProvider),
+              ChangeNotifierProvider<GroupFeedProvider>.value(value: mockGroupFeedProvider),
+              ChangeNotifierProvider<IndexProvider>.value(value: indexProvider),
             ],
             child: const MaterialApp(
               home: CommunitiesScreen(),
