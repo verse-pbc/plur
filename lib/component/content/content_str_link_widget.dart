@@ -20,9 +20,9 @@ class ContentStrLinkWidget extends StatelessWidget {
     final themeData = Theme.of(context);
     var fontSize = themeData.textTheme.bodyMedium!.fontSize;
     
-    // Using Plur's primaryPurple color for all interactive links based on the design
-    // This ensures hashtags, mentions, and links all use the same vibrant purple color
-    const linkColor = PlurColors.primaryPurple;
+    // According to feed_m_styles design, interactive elements should use the "Highlight" color
+    // This ensures hashtags, mentions, and links use the correct off-white/light purple color
+    const linkColor = PlurColors.highlightText;
 
     return GestureDetector(
       onTap: () {
