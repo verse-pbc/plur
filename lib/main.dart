@@ -205,13 +205,17 @@ late TrieTextMatcher defaultTrieTextMatcher;
 late WotProvider wotProvider;
 
 Future<void> initializeProviders({bool isTesting = false}) async {
-  var dbInitTask = DB.getCurrentDatabase();
-  var dataUtilTask = DataUtil.getInstance();
-  var relayLocalDBTask = RelayLocalDB.init();
-  var dataFutureResultList =
-      await Future.wait([dbInitTask, dataUtilTask, relayLocalDBTask]);
-  relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
-  sharedPreferences = dataFutureResultList[1] as SharedPreferences;
+  try {
+    log("Starting provider initialization");
+    var dbInitTask = DB.getCurrentDatabase();
+    var dataUtilTask = DataUtil.getInstance();
+    var relayLocalDBTask = RelayLocalDB.init();
+    log("Waiting for database initialization results...");
+    var dataFutureResultList =
+        await Future.wait([dbInitTask, dataUtilTask, relayLocalDBTask]);
+    relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
+    sharedPreferences = dataFutureResultList[1] as SharedPreferences;
+    log("Database initialization completed");
 
   var settingTask = SettingsProvider.getInstance();
   var userTask = UserProvider.getInstance();
@@ -255,100 +259,121 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   wotProvider = WotProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
+    log("Provider initialization completed");
+  } catch (e, stackTrace) {
+    log("Error during provider initialization: $e");
+    log("Stack trace: $stackTrace");
+  }
 }
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   try {
-    MediaKit.ensureInitialized();
-  } catch (e) {
-    log("MediaKit init error $e");
-  }
-
-  // Load SF Pro Rounded fonts manually
-  final FontLoader sfProRounded = FontLoader('SF Pro Display');
-  
-  // Load regular font
-  ByteData regularData = await rootBundle.load('assets/fonts/SF-Pro-Rounded-Regular.otf');
-  sfProRounded.addFont(Future.value(regularData));
-  
-  // Load medium font
-  ByteData mediumData = await rootBundle.load('assets/fonts/SF-Pro-Rounded-Medium.otf');
-  sfProRounded.addFont(Future.value(mediumData));
-  
-  // Load bold font
-  ByteData boldData = await rootBundle.load('assets/fonts/SF-Pro-Rounded-Bold.otf');
-  sfProRounded.addFont(Future.value(boldData));
-  
-  await sfProRounded.load();
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
-  if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
-    await windowManager.ensureInitialized();
-
-    WindowOptions windowOptions = const WindowOptions(
-      size: Size(1280, 800),
-      center: true,
-      backgroundColor: Colors.transparent,
-      skipTaskbar: false,
-      titleBarStyle: TitleBarStyle.normal,
-      title: Base.appName,
-    );
-    windowManager.waitUntilReadyToShow(windowOptions, () async {
-      await windowManager.show();
-      await windowManager.focus();
-    });
-  }
-
-  if (PlatformUtil.isWeb()) {
-    databaseFactory = databaseFactoryFfiWeb;
-  } else if (PlatformUtil.isWindowsOrLinux()) {
-    // Initialize FFI
-    sqfliteFfiInit();
-    // Change the default factory
-    databaseFactory = databaseFactoryFfi;
-  }
-
-  try {
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-  } catch (e) {
-    log('$e');
-  }
-
-  await initializeProviders();
-
-  if (StringUtil.isNotBlank(settingsProvider.network)) {
-    var network = settingsProvider.network;
-    network = network!.trim();
-    SocksProxy.initProxy(proxy: network);
-  }
-
-  if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
-    nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
-
-    if (nostr != null && settingsProvider.wotFilter == OpenStatus.open) {
-      var pubkey = nostr!.publicKey;
-      wotProvider.init(pubkey);
+    log("Starting application initialization");
+    WidgetsFlutterBinding.ensureInitialized();
+    log("Flutter binding initialized");
+    
+    try {
+      MediaKit.ensureInitialized();
+      log("MediaKit initialized");
+    } catch (e) {
+      log("MediaKit init error $e");
     }
+
+    // Let's skip manual font loading for now as it might be causing startup delay
+    // Font will be loaded through Google Fonts or system defaults
+    log("Using standard font loading from pubspec.yaml");
+
+    log("Initializing Firebase...");
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    log("Firebase initialized");
+
+    if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
+      log("Initializing window manager for desktop");
+      await windowManager.ensureInitialized();
+
+      WindowOptions windowOptions = const WindowOptions(
+        size: Size(1280, 800),
+        center: true,
+        backgroundColor: Colors.transparent,
+        skipTaskbar: false,
+        titleBarStyle: TitleBarStyle.normal,
+        title: Base.appName,
+      );
+      windowManager.waitUntilReadyToShow(windowOptions, () async {
+        await windowManager.show();
+        await windowManager.focus();
+      });
+      log("Window manager initialized");
+    }
+
+    if (PlatformUtil.isWeb()) {
+      log("Setting up web-specific database");
+      databaseFactory = databaseFactoryFfiWeb;
+    } else if (PlatformUtil.isWindowsOrLinux()) {
+      log("Setting up Windows/Linux-specific database");
+      // Initialize FFI
+      sqfliteFfiInit();
+      // Change the default factory
+      databaseFactory = databaseFactoryFfi;
+    }
+
+    try {
+      log("Setting system UI mode");
+      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+          overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+      log("System UI mode set");
+    } catch (e) {
+      log('Error setting system UI mode: $e');
+    }
+
+    log("Starting provider initialization...");
+    await initializeProviders();
+    log("Providers initialized");
+
+    if (StringUtil.isNotBlank(settingsProvider.network)) {
+      log("Initializing network proxy");
+      var network = settingsProvider.network;
+      network = network!.trim();
+      SocksProxy.initProxy(proxy: network);
+      log("Network proxy initialized");
+    }
+
+    if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
+      log("Generating Nostr with key");
+      nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
+      log("Nostr initialized");
+
+      if (nostr != null && settingsProvider.wotFilter == OpenStatus.open) {
+        log("Initializing WoT provider");
+        var pubkey = nostr!.publicKey;
+        wotProvider.init(pubkey);
+        log("WoT provider initialized");
+      }
+    }
+  } catch (e, stackTrace) {
+    log("!!!CRITICAL ERROR!!! in main initialization: $e");
+    log("Stack trace: $stackTrace");
   }
 
   // Hides the splash and runs the app.
   void startApp() {
     try {
+      log("Removing splash screen...");
       FlutterNativeSplash.remove();
+      log("Splash screen removed successfully");
     } catch (e) {
       log("Error removing splash screen: $e");
     }
     
+    log("Starting application...");
     runApp(
       const riverpod.ProviderScope(
         child: MyApp(),
       ),
     );
+    log("Application started");
   }
 
   if (const bool.hasEnvironment("SENTRY_DSN")) {
