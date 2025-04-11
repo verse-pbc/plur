@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "By continuing, you accept our <accent>terms of service</accent>"),
         "Account_Manager":
             MessageLookupByLibrary.simpleMessage("Account Manager"),
+        "Active": MessageLookupByLibrary.simpleMessage("Active"),
         "Add": MessageLookupByLibrary.simpleMessage("Add"),
         "Add_Account": MessageLookupByLibrary.simpleMessage("Add Account"),
         "Add_Custom_Emoji":
@@ -157,6 +158,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Development": MessageLookupByLibrary.simpleMessage("Development"),
         "Dirtywords": MessageLookupByLibrary.simpleMessage("Dirtywords"),
         "Discard": MessageLookupByLibrary.simpleMessage("Discard"),
+        "Discover_Groups":
+            MessageLookupByLibrary.simpleMessage("Discover Groups"),
         "Display_Name": MessageLookupByLibrary.simpleMessage("Display Name"),
         "Donate": MessageLookupByLibrary.simpleMessage("Donate"),
         "Dont_Compress":
@@ -184,6 +187,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "File_save_success":
             MessageLookupByLibrary.simpleMessage("File save success"),
         "Filter": MessageLookupByLibrary.simpleMessage("Filter"),
+        "Find_Group": MessageLookupByLibrary.simpleMessage("Find Group"),
         "Find_clouded_relay_list_do_you_want_to_download":
             MessageLookupByLibrary.simpleMessage(
                 "Find clouded relay list, do you want to download it?"),
@@ -413,6 +417,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Search": MessageLookupByLibrary.simpleMessage("Search"),
         "Search_User_from_cache":
             MessageLookupByLibrary.simpleMessage("Search User from cache"),
+        "Search_for_public_groups":
+            MessageLookupByLibrary.simpleMessage("Search for public groups"),
         "Search_note_content":
             MessageLookupByLibrary.simpleMessage("Search note content"),
         "Search_pubkey_event":

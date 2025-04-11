@@ -32,6 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix inconsistent navbar background color. [#305](https://github.com/verse-pbc/issues/issues/305)
 - Admin Panel: Added confirmation dialog when dismissing with unsaved changes. [#299](https://github.com/verse-pbc/issues/issues/299)
 - Added Direct Messages access from sidebar menu with ability to search relays for users by name or NIP-05 identifier. [#317](https://github.com/verse-pbc/issues/issues/317)
+- Added ability to find and join public communities on connected relays.
+- Added a combined feed view that shows posts from all joined communities in one place.
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)

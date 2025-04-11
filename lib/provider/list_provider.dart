@@ -10,6 +10,7 @@ import 'package:nostrmo/util/string_code_generator.dart';
 
 import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
+import '../data/public_group_info.dart';
 import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
@@ -681,6 +682,160 @@ class ListProvider extends ChangeNotifier {
           });
       notifyListeners();
     }
+  }
+  
+  // Function to query public groups from multiple relays
+  Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
+    log("🔍 SIMPLIFIED APPROACH: Starting to query for ALL group metadata from relays: $relays");
+    log("This approach treats all metadata events as public groups to maximize discovery");
+    
+    List<PublicGroupInfo> publicGroups = [];
+    final completer = Completer<List<PublicGroupInfo>>();
+    
+    // For debugging
+    int editStatusEvents = 0;
+    int metadataEvents = 0;
+    int memberEvents = 0;
+    int noteEvents = 0;
+    int publicGroundsFound = 0;
+    
+    // We're now adding groups directly in the metadata event handler
+    
+    // Let's keep it as simple as possible - just fetch ALL groups metadata
+    // and filter them client-side
+    final filters = [
+      {
+        "kinds": [EventKind.GROUP_METADATA],
+        "limit": 500,
+      }
+    ];
+    
+    int pendingRelays = relays.length;
+    
+    // Get the data from each relay
+    for (final relay in relays) {
+      nostr!.query(
+        filters,
+        (Event event) {
+          // Keep track of event types for debugging
+          if (event.kind == EventKind.GROUP_EDIT_STATUS) {
+            editStatusEvents++;
+            log("Received GROUP_EDIT_STATUS event: ${event.id.substring(0, 10)}...");
+            
+            // Find the 'h' tag for group ID
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'h') {
+                final groupId = tag[1];
+                final groupKey = '$relay:$groupId';
+                
+                // Check if this is a public group
+                bool isPublic = false;
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.isNotEmpty && subTag[0] == 'public') {
+                    isPublic = true;
+                    break;
+                  }
+                }
+                
+                log("GROUP_EDIT_STATUS for group $groupId - public: $isPublic");
+                
+                if (isPublic) {
+                  // Fetch metadata for this group
+                  groupProvider.query(GroupIdentifier(relay, groupId));
+                }
+              }
+            }
+          } else if (event.kind == EventKind.GROUP_METADATA) {
+            metadataEvents++;
+            
+            // Extract groupId from the 'd' tag
+            for (var tag in event.tags) {
+              if (tag is List && tag.length > 1 && tag[0] == 'd') {
+                final groupId = tag[1];
+                final groupKey = '$relay:$groupId';
+                
+                // Extract metadata from tags
+                String? groupName;
+                String? picture;
+                String? about;
+                
+                for (var subTag in event.tags) {
+                  if (subTag is List && subTag.length > 1) {
+                    if (subTag[0] == 'name') {
+                      groupName = subTag[1];
+                    } else if (subTag[0] == 'picture') {
+                      picture = subTag[1];
+                    } else if (subTag[0] == 'about') {
+                      about = subTag[1];
+                    }
+                  }
+                }
+                
+                // Treat all groups as public until we have a consistent standard
+                log("GROUP_METADATA for group $groupId - name: ${groupName ?? 'unnamed'}");
+                
+                // Add this group directly to the results
+                final parts = groupKey.split(':');
+                if (parts.length == 2) {
+                  final host = parts[0];
+                  
+                  publicGroups.add(PublicGroupInfo(
+                    identifier: GroupIdentifier(host, groupId),
+                    name: groupName ?? 'Unnamed Group',
+                    about: about,
+                    picture: picture,
+                    memberCount: 1, // Default member count
+                    lastActive: DateTime.now(), // Default to current time
+                  ));
+                  publicGroundsFound++;
+                  log("Added group $groupKey to results");
+                }
+              }
+            }
+          } else if (event.kind == EventKind.GROUP_MEMBERS) {
+            memberEvents++;
+            // We're ignoring member events for now in our simplified approach
+          } else if (event.kind == EventKind.GROUP_NOTE) {
+            noteEvents++;
+            // We're ignoring note events for now in our simplified approach
+          }
+        },
+        tempRelays: [relay],
+        relayTypes: RelayType.ONLY_TEMP,
+      );
+      
+      // Simulate query completion after a delay (since onComplete callback is not available)
+      Future.delayed(Duration(seconds: 3), () {
+        pendingRelays--;
+        if (pendingRelays <= 0) {
+          if (!completer.isCompleted) {
+            completer.complete(publicGroups);
+          }
+        }
+      });
+    }
+    
+    // We're not using incomplete data handling anymore since we're 
+    // directly adding groups from metadata events
+    
+    // Set a timeout to ensure we return results even if some relays don't respond
+    Future.delayed(const Duration(seconds: 10), () {
+      if (!completer.isCompleted) {
+        log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " +
+            "Metadata Events: $metadataEvents, " +
+            "Public Groups Found: $publicGroundsFound");
+        
+        if (publicGroundsFound == 0) {
+          log("⚠️ NO GROUPS FOUND: This could indicate network issues or that the relays don't host any groups");
+        } else {
+          log("✅ SUCCESS: Found $publicGroundsFound groups from $metadataEvents metadata events");
+        }
+        
+        completer.complete(publicGroups);
+      }
+    });
+    
+    return completer.future;
   }
 }
 

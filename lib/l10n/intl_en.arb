@@ -372,5 +372,9 @@
     "All_media_public": "All media is publicly accessible to anyone with the URL.",
     "onboarding_name_input_title": "What should we call you?",
     "onboarding_name_input_hint": "Your name or nickname",
-    "Continue": "Continue"
+    "Continue": "Continue",
+    "Find_Group": "Find Group",
+    "Discover_Groups": "Discover Groups",
+    "Search_for_public_groups": "Search for public groups",
+    "Active": "Active"
 }
