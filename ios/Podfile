@@ -33,19 +33,20 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # Install all pods but exclude Sentry
-  pods_dir = File.dirname(File.realpath(__FILE__))
-  pod_deps = flutter_get_ios_frameworks_dependencies(pods_dir)
-  pod_deps.reject! { |p| p.start_with?('sentry') || p.start_with?('Sentry') }
-  
-  pod_deps.each do |dependency|
-    name, path, options = dependency.strip.split(';')
-    options = options.to_s.empty? ? {} : options.split(',').map { |o| o.split('=') }.to_h
-    pod name, :path => path, **options
-  end
+  # Just install all the pods
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
 post_install do |installer|
+  # Add GCC_PREPROCESSOR_DEFINITIONS to disable Sentry
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'DISABLE_SENTRY=1'
+    end
+  end
+  
+  # Flutter additional iOS build settings
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
   end

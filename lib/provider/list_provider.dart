@@ -561,14 +561,15 @@ class ListProvider extends ChangeNotifier {
 
   Future<(String?, GroupIdentifier?)> createGroupAndGenerateInvite(
       String groupName) async {
-    print("createGroupAndGenerateInvite starting for group: $groupName");
+    // Comment out all print statements
+    // print("createGroupAndGenerateInvite starting for group: $groupName");
     final cancelFunc = BotToast.showLoading();
     const host = RelayProvider.defaultGroupsRelayAddress;
-    print("Using host: $host");
+    // print("Using host: $host");
 
     // Generate a random string for the group ID
     final groupId = StringCodeGenerator.generateGroupId();
-    print("Generated group ID: $groupId");
+    // print("Generated group ID: $groupId");
 
     // Create the event for creating a group.
     // We only support private closed group for now.
@@ -580,51 +581,51 @@ class ListProvider extends ChangeNotifier {
       ],
       "",
     );
-    print("Created group creation event: ${createGroupEvent.id}");
+    // print("Created group creation event: ${createGroupEvent.id}");
 
-    print("Sending event to relay...");
+    // print("Sending event to relay...");
     final resultEvent = await nostr!
         .sendEvent(createGroupEvent, tempRelays: [host], targetRelays: [host]);
-    print("Result from group creation: ${resultEvent?.id ?? 'null'}");
+    // print("Result from group creation: ${resultEvent?.id ?? 'null'}");
 
     String? inviteLink;
     GroupIdentifier? newGroup;
     // Event was successfully sent
     if (resultEvent != null) {
       newGroup = GroupIdentifier(host, groupId);
-      print("New group identifier created: $newGroup");
+      // print("New group identifier created: $newGroup");
 
       //  Add the group to the list
-      print("Before adding to _groupIdentifiers. Current count: ${_groupIdentifiers.length}");
+      // print("Before adding to _groupIdentifiers. Current count: ${_groupIdentifiers.length}");
       _groupIdentifiers.add(newGroup);
-      print("After adding to _groupIdentifiers. New count: ${_groupIdentifiers.length}");
+      // print("After adding to _groupIdentifiers. New count: ${_groupIdentifiers.length}");
       
-      print("Creating group metadata for name: $groupName");
+      // print("Creating group metadata for name: $groupName");
       _editMetadata(newGroup, groupName);
       
-      print("Updating groups list event");
+      // print("Updating groups list event");
       _updateGroups();
 
       // Generate an invite code
       final inviteCode = StringCodeGenerator.generateInviteCode();
-      print("Generated invite code: $inviteCode");
+      // print("Generated invite code: $inviteCode");
       inviteLink = createInviteLink(newGroup, inviteCode);
-      print("Created invite link: $inviteLink");
+      // print("Created invite link: $inviteLink");
       
       // Double check that the group was added
       if (_groupIdentifiers.contains(newGroup)) {
-        print("Confirmed group is in the list");
+        // print("Confirmed group is in the list");
       } else {
-        print("ERROR: Group was not added to the list!");
+        // print("ERROR: Group was not added to the list!");
       }
       
       // Manually verify the group is in groupIdentifiers
-      print("Group identifiers list content verification:");
-      for (var group in _groupIdentifiers) {
-        print(" - $group");
-      }
+      // print("Group identifiers list content verification:");
+      // for (var group in _groupIdentifiers) {
+      //   print(" - $group");
+      // }
     } else {
-      print("ERROR: Group creation failed - resultEvent is null");
+      // print("ERROR: Group creation failed - resultEvent is null");
     }
 
     // Force a notify listeners to ensure UI updates
@@ -635,7 +636,7 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _editMetadata(GroupIdentifier group, String groupName) {
-    print("_editMetadata called for group: $group with name: $groupName");
+    // print("_editMetadata called for group: $group with name: $groupName");
     
     // Create metadata with name and default values
     GroupMetadata groupMetadata = GroupMetadata(
@@ -651,14 +652,14 @@ class ListProvider extends ChangeNotifier {
       open: false,
     );
     
-    print("Created metadata: ${groupMetadata.toString()}");
-    print("Calling groupProvider.updateMetadata");
+    // print("Created metadata: ${groupMetadata.toString()}");
+    // print("Calling groupProvider.updateMetadata");
     
     try {
       groupProvider.updateMetadata(group, groupMetadata);
-      print("Successfully called updateMetadata");
+      // print("Successfully called updateMetadata");
     } catch (e) {
-      print("Error in updateMetadata: $e");
+      // print("Error in updateMetadata: $e");
     }
   }
 
@@ -789,8 +790,8 @@ class ListProvider extends ChangeNotifier {
   
   // Function to query public groups from multiple relays
   Future<List<PublicGroupInfo>> queryPublicGroups(List<String> relays) async {
-    log("🔍 SIMPLIFIED APPROACH: Starting to query for ALL group metadata from relays: $relays");
-    log("This approach treats all metadata events as public groups to maximize discovery");
+    // log("🔍 SIMPLIFIED APPROACH: Starting to query for ALL group metadata from relays: $relays");
+    // log("This approach treats all metadata events as public groups to maximize discovery");
     
     List<PublicGroupInfo> publicGroups = [];
     final completer = Completer<List<PublicGroupInfo>>();
@@ -823,7 +824,7 @@ class ListProvider extends ChangeNotifier {
           // Keep track of event types for debugging
           if (event.kind == EventKind.groupEditStatus) {
             editStatusEvents++;
-            log("Received GROUP_EDIT_STATUS event: ${event.id.substring(0, 10)}...");
+            // log("Received GROUP_EDIT_STATUS event: ${event.id.substring(0, 10)}...");
             
             // Find the 'h' tag for group ID
             for (var tag in event.tags) {
@@ -840,7 +841,7 @@ class ListProvider extends ChangeNotifier {
                   }
                 }
                 
-                log("GROUP_EDIT_STATUS for group $groupId - public: $isPublic");
+                // log("GROUP_EDIT_STATUS for group $groupId - public: $isPublic");
                 
                 if (isPublic) {
                   // Fetch metadata for this group
@@ -875,7 +876,7 @@ class ListProvider extends ChangeNotifier {
                 }
                 
                 // Treat all groups as public until we have a consistent standard
-                log("GROUP_METADATA for group $groupId - name: ${groupName ?? 'unnamed'}");
+                // log("GROUP_METADATA for group $groupId - name: ${groupName ?? 'unnamed'}");
                 
                 // Add this group directly to the results
                 final parts = groupKey.split(':');
@@ -891,7 +892,7 @@ class ListProvider extends ChangeNotifier {
                     lastActive: DateTime.now(), // Default to current time
                   ));
                   publicGroundsFound++;
-                  log("Added group $groupKey to results");
+                  // log("Added group $groupKey to results");
                 }
               }
             }
@@ -924,12 +925,12 @@ class ListProvider extends ChangeNotifier {
     // Set a timeout to ensure we return results even if some relays don't respond
     Future.delayed(const Duration(seconds: 10), () {
       if (!completer.isCompleted) {
-        log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " "Metadata Events: $metadataEvents, " "Public Groups Found: $publicGroundsFound");
+        // log("🔍 SEARCH COMPLETE: Completing group discovery - Stats: " "Metadata Events: $metadataEvents, " "Public Groups Found: $publicGroundsFound");
         
         if (publicGroundsFound == 0) {
-          log("⚠️ NO GROUPS FOUND: This could indicate network issues or that the relays don't host any groups");
+          // log("⚠️ NO GROUPS FOUND: This could indicate network issues or that the relays don't host any groups");
         } else {
-          log("✅ SUCCESS: Found $publicGroundsFound groups from $metadataEvents metadata events");
+          // log("✅ SUCCESS: Found $publicGroundsFound groups from $metadataEvents metadata events");
         }
         
         completer.complete(publicGroups);

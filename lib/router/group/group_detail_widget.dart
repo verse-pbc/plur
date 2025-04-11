@@ -321,11 +321,23 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
 
   Widget? _buildFloatingActionButton() {
     final themeData = Theme.of(context);
+    final groupProvider = Provider.of<GroupProvider>(context);
+    final groupMetadata = _groupIdentifier != null ? groupProvider.getMetadata(_groupIdentifier!) : null;
+    final groupAdmins = _groupIdentifier != null ? groupProvider.getAdmins(_groupIdentifier!) : null;
+    final isAdmin = groupAdmins?.containsUser(nostr!.publicKey) ?? false;
+    
+    // Check if this is an admin-only posts group
+    final adminOnlyPosts = groupMetadata?.adminOnlyPosts ?? false;
     
     // Only show FAB on the Posts tab (index 0)
-    // Return null for Chat tab to completely remove the FAB
+    // And only to admins if adminOnlyPosts is enabled
     if (_tabController.index == 0) {
-      // Posts tab
+      // If adminOnlyPosts is true, only show the FAB to admins
+      if (adminOnlyPosts && !isAdmin) {
+        return null; // Not an admin in an admin-only posts group
+      }
+      
+      // Either not admin-only-posts, or user is an admin
       return FloatingActionButton(
         onPressed: _jumpToAddNote,
         backgroundColor: themeData.customColors.accentColor,

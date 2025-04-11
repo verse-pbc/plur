@@ -33,8 +33,8 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     NIP29.deleteEvent(nostr!, groupIdentifier, eventId);
   }
 
-  void editStatus(GroupIdentifier groupIdentifier, bool? public, bool? open) {
-    NIP29.editStatus(nostr!, groupIdentifier, public, open);
+  void editStatus(GroupIdentifier groupIdentifier, bool? public, bool? open, [bool? adminOnlyPosts]) {
+    NIP29.editStatus(nostr!, groupIdentifier, public, open, adminOnlyPosts);
   }
 
   GroupMetadata? getMetadata(GroupIdentifier groupIdentifier) {

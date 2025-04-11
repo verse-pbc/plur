@@ -32,6 +32,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
   GroupIdentifier? groupIdentifier;
   bool publicValue = false;
   bool openValue = false;
+  bool adminOnlyPostsValue = false;
   GroupMetadata? oldGroupMetadata;
   bool isLoading = false;
 
@@ -62,6 +63,9 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         }
         if (groupMetadata.open != null) {
           openValue = groupMetadata.open!;
+        }
+        if (groupMetadata.adminOnlyPosts != null) {
+          adminOnlyPostsValue = groupMetadata.adminOnlyPosts!;
         }
       }
     }
@@ -206,6 +210,23 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                     onChanged: (value) {
                       setState(() {
                         openValue = value;
+                      });
+                    },
+                  ),
+                  
+                  const SizedBox(height: 8),
+                  
+                  // Admin-only posts toggle
+                  _buildSwitchTile(
+                    context: context,
+                    title: localization.admin_only_posts,
+                    subtitle: adminOnlyPostsValue 
+                        ? localization.Group_AdminOnly_Description 
+                        : localization.Group_AllMembers_Description,
+                    value: adminOnlyPostsValue,
+                    onChanged: (value) {
+                      setState(() {
+                        adminOnlyPostsValue = value;
                       });
                     },
                   ),
@@ -623,9 +644,12 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         if (oldGroupMetadata!.open != openValue) {
           updateStatus = true;
         }
+        if (oldGroupMetadata!.adminOnlyPosts != adminOnlyPostsValue) {
+          updateStatus = true;
+        }
 
         if (updateStatus) {
-          groupProvider.editStatus(groupIdentifier!, publicValue, openValue);
+          groupProvider.editStatus(groupIdentifier!, publicValue, openValue, adminOnlyPostsValue);
         }
       }
       

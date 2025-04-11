@@ -16,6 +16,9 @@ class GroupMetadata extends GroupObject {
 
   bool? open;
   
+  /// When true, only admins can post announcements, but all members can still chat
+  bool? adminOnlyPosts;
+  
   List<String>? relays;
 
   GroupMetadata(
@@ -27,6 +30,7 @@ class GroupMetadata extends GroupObject {
     this.communityGuidelines,
     this.public,
     this.open,
+    this.adminOnlyPosts,
     this.relays,
   }) : super(groupId, createdAt);
 
@@ -38,6 +42,7 @@ class GroupMetadata extends GroupObject {
     String? communityGuidelines;
     bool? public;
     bool? open;
+    bool? adminOnlyPosts;
     List<String> relays = [];
     int createdAt = event.createdAt;
     for (var tag in event.tags) {
@@ -52,6 +57,10 @@ class GroupMetadata extends GroupObject {
           open = true;
         } else if (key == "closed") {
           open = false;
+        } else if (key == "adminOnlyPosts") {
+          adminOnlyPosts = true;
+        } else if (key == "memberPosts") {
+          adminOnlyPosts = false;
         } else if (tag.length > 1) {
           var value = tag[1];
 
@@ -87,6 +96,7 @@ class GroupMetadata extends GroupObject {
       communityGuidelines: communityGuidelines,
       public: public,
       open: open,
+      adminOnlyPosts: adminOnlyPosts,
       relays: relays.isNotEmpty ? relays : null,
     );
   }

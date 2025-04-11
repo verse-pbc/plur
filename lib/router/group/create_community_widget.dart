@@ -39,6 +39,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
             const SizedBox(height: 10),
             TextField(
               controller: _communityNameController,
+              enabled: !_isLoading,
               decoration: InputDecoration(
                 hintText: localization.community_name,
                 border: const OutlineInputBorder(),
@@ -48,13 +49,23 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
               },
             ),
             const SizedBox(height: 20),
-            PrimaryButtonWidget(
-              text: S.of(context).Confirm,
-              onTap: _communityNameController.text.isNotEmpty
-                  ? _createCommunity
-                  : null,
-              enabled: _communityNameController.text.isNotEmpty,
-            ),
+            _isLoading
+                ? Container(
+                    height: 48,
+                    alignment: Alignment.center,
+                    child: const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(),
+                    ),
+                  )
+                : PrimaryButtonWidget(
+                    text: S.of(context).Confirm,
+                    onTap: _communityNameController.text.isNotEmpty
+                        ? _createCommunity
+                        : null,
+                    enabled: _communityNameController.text.isNotEmpty,
+                  ),
           ],
         ),
       ),

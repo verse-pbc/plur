@@ -19,8 +19,8 @@ class NIP29 {
   }
 
   static Future<void> editStatus(Nostr nostr, GroupIdentifier groupIdentifier,
-      bool? public, bool? open) async {
-    if (public == null && open == null) {
+      bool? public, bool? open, [bool? adminOnlyPosts]) async {
+    if (public == null && open == null && adminOnlyPosts == null) {
       return;
     }
 
@@ -38,6 +38,13 @@ class NIP29 {
         tags.add(["open"]);
       } else {
         tags.add(["closed"]);
+      }
+    }
+    if (adminOnlyPosts != null) {
+      if (adminOnlyPosts) {
+        tags.add(["adminOnlyPosts"]);
+      } else {
+        tags.add(["memberPosts"]);
       }
     }
 

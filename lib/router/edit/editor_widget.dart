@@ -75,6 +75,22 @@ class EditorWidget extends StatefulWidget {
     tagsAddedWhenSend ??= [];
     tagPs ??= [];
 
+    // If this is for a group, check if it's admin-only posts and if the user is an admin
+    if (groupIdentifier != null && groupEventKind == EventKind.groupNote) {
+      final groupProvider = Provider.of<GroupProvider>(context, listen: false);
+      final groupMetadata = groupProvider.getMetadata(groupIdentifier);
+      final groupAdmins = groupProvider.getAdmins(groupIdentifier);
+      
+      final isAdmin = groupAdmins?.containsUser(nostr!.publicKey) ?? false;
+      final adminOnlyPosts = groupMetadata?.adminOnlyPosts ?? false;
+      
+      // Block non-admins from posting in admin-only groups
+      if (adminOnlyPosts && !isAdmin) {
+        BotToast.showText(text: S.of(context).Group_AdminOnly_Description);
+        return Future.value(null);
+      }
+    }
+
     var editor = EditorWidget(
       tags: tags,
       tagsAddedWhenSend: tagsAddedWhenSend,
