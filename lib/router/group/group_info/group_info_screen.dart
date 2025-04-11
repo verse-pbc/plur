@@ -7,8 +7,8 @@ import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import '../../../component/appbar_bottom_border.dart';
 import '../../../util/theme_util.dart';
+import '../group_members/group_members_screen.dart';
 import 'group_info_header_widget.dart';
-import 'group_info_menu_widget.dart';
 import 'group_info_popupmenu_widget.dart';
 import '../../../consts/base.dart';
 
@@ -74,7 +74,10 @@ class GroupInfoWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                 ],
-                GroupInfoMenuWidget(groupId: groupId),
+                Provider<GroupIdentifier>.value(
+                  value: groupId,
+                  child: const GroupMembersWidget(),
+                ),
                 const SizedBox(height: 24),
               ],
             ),
