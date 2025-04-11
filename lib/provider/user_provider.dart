@@ -6,6 +6,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/nip05status.dart';
 import 'package:nostrmo/data/event_db.dart';
+import 'package:nostrmo/data/db.dart';
 
 import '../data/user.dart';
 import '../data/user_db.dart';
@@ -183,16 +184,26 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       return Nip05Status.metadataNotFound;
     } else if (StringUtil.isNotBlank(user.nip05)) {
       if (user.valid == null) {
-        Nip05Validator.valid(user.nip05!, pubkey).then((valid) async {
-          if (valid != null) {
-            if (valid) {
-              user.valid = Nip05Status.nip05Valid;
-              await UserDB.update(user);
-            } else {
-              // only update cache, next open app vill valid again
-              user.valid = Nip05Status.nip05Invalid;
+        // Schedule NIP05 validation outside of any potential transaction
+        Future.microtask(() async {
+          try {
+            final valid = await Nip05Validator.valid(user.nip05!, pubkey);
+            if (valid != null) {
+              if (valid) {
+                user.valid = Nip05Status.nip05Valid;
+                // Update the database with the validated user
+                await DB.transaction((txn) async {
+                  await UserDB.update(user, db: txn);
+                });
+              } else {
+                // only update cache, next open app will validate again
+                user.valid = Nip05Status.nip05Invalid;
+              }
+              notifyListeners();
             }
-            notifyListeners();
+          } catch (e) {
+            // Handle validation errors
+            print("NIP05 validation error: $e");
           }
         });
 
@@ -209,71 +220,86 @@ class UserProvider extends ChangeNotifier with LaterFunction {
 
   final EventMemBox _pendingEvents = EventMemBox(sortAfterAdd: false);
 
-  void _handlePendingEvents() {
-    for (var event in _pendingEvents.all()) {
-      if (event.kind == EventKind.metadata) {
-        if (StringUtil.isBlank(event.content)) {
-          continue;
-        }
-
-        _handingPubkeys.remove(event.pubkey);
-
-        var jsonObj = jsonDecode(event.content);
-        var user = User.fromJson(jsonObj);
-        user.pubkey = event.pubkey;
-        user.updatedAt = event.createdAt;
-
-        // check cache
-        final oldUser = _userCache[user.pubkey];
-        if (oldUser == null) {
-          // db
-          UserDB.insert(user);
-          // cache
-          _userCache[user.pubkey!] = user;
-          // refresh
-        } else if (oldUser.updatedAt! < user.updatedAt!) {
-          // db
-          UserDB.update(user);
-          // cache
-          _userCache[user.pubkey!] = user;
-          // refresh
-        }
-      } else if (event.kind == EventKind.relayListMetadata) {
-        // this is relayInfoMetadata, only set to cache, not update UI
-        var oldRelayListMetadata = _relayListMetadataCache[event.pubkey];
-        if (oldRelayListMetadata == null) {
-          // insert
-          EventDB.insert(Base.defaultDataIndex, event);
-          _eventToRelayListCache(event);
-        } else if (event.createdAt > oldRelayListMetadata.createdAt) {
-          // update, remote old event and insert new event
-          EventDB.execute(
-              "delete from event where key_index = ? and kind = ? and pubkey = ?",
-              [
-                Base.defaultDataIndex,
-                EventKind.relayListMetadata,
-                event.pubkey
-              ]);
-          EventDB.insert(Base.defaultDataIndex, event);
-          _eventToRelayListCache(event);
-        }
-      } else if (event.kind == EventKind.contactList) {
-        var oldContactList = _contactListMap[event.pubkey];
-        if (oldContactList == null) {
-          // insert
-          EventDB.insert(Base.defaultDataIndex, event);
-          _eventToContactList(event);
-        } else if (event.createdAt > oldContactList.createdAt) {
-          // update, remote old event and insert new event
-          EventDB.execute(
-              "delete from event where key_index = ? and kind = ? and pubkey = ?",
-              [Base.defaultDataIndex, EventKind.contactList, event.pubkey]);
-          EventDB.insert(Base.defaultDataIndex, event);
-          _eventToContactList(event);
-        }
-      }
+  Future<void> _handlePendingEvents() async {
+    final events = _pendingEvents.all();
+    if (events.isEmpty) {
+      return;
     }
+    
+    // Process events in batches to reduce transaction overhead
+    const batchSize = 10;
+    for (var i = 0; i < events.length; i += batchSize) {
+      final end = (i + batchSize < events.length) ? i + batchSize : events.length;
+      final batch = events.sublist(i, end);
+      
+      // Process this batch in a transaction
+      await DB.transaction((txn) async {
+        for (var event in batch) {
+          if (event.kind == EventKind.metadata) {
+            if (StringUtil.isBlank(event.content)) {
+              continue;
+            }
 
+            _handingPubkeys.remove(event.pubkey);
+
+            var jsonObj = jsonDecode(event.content);
+            var user = User.fromJson(jsonObj);
+            user.pubkey = event.pubkey;
+            user.updatedAt = event.createdAt;
+
+            // check cache
+            final oldUser = _userCache[user.pubkey];
+            if (oldUser == null) {
+              // db - use the transaction
+              await UserDB.insert(user, db: txn);
+              // cache
+              _userCache[user.pubkey!] = user;
+              // refresh
+            } else if (oldUser.updatedAt! < user.updatedAt!) {
+              // db - use the transaction
+              await UserDB.update(user, db: txn);
+              // cache
+              _userCache[user.pubkey!] = user;
+              // refresh
+            }
+          } else if (event.kind == EventKind.relayListMetadata) {
+            // this is relayInfoMetadata, only set to cache, not update UI
+            var oldRelayListMetadata = _relayListMetadataCache[event.pubkey];
+            if (oldRelayListMetadata == null) {
+              // insert - use transaction
+              await EventDB.insert(Base.defaultDataIndex, event, db: txn);
+              _eventToRelayListCache(event);
+            } else if (event.createdAt > oldRelayListMetadata.createdAt) {
+              // update, remove old event and insert new event - use transaction
+              await txn.execute(
+                  "delete from event where key_index = ? and kind = ? and pubkey = ?",
+                  [
+                    Base.defaultDataIndex,
+                    EventKind.relayListMetadata,
+                    event.pubkey
+                  ]);
+              await EventDB.insert(Base.defaultDataIndex, event, db: txn);
+              _eventToRelayListCache(event);
+            }
+          } else if (event.kind == EventKind.contactList) {
+            var oldContactList = _contactListMap[event.pubkey];
+            if (oldContactList == null) {
+              // insert - use transaction
+              await EventDB.insert(Base.defaultDataIndex, event, db: txn);
+              _eventToContactList(event);
+            } else if (event.createdAt > oldContactList.createdAt) {
+              // update, remove old event and insert new event - use transaction
+              await txn.execute(
+                  "delete from event where key_index = ? and kind = ? and pubkey = ?",
+                  [Base.defaultDataIndex, EventKind.contactList, event.pubkey]);
+              await EventDB.insert(Base.defaultDataIndex, event, db: txn);
+              _eventToContactList(event);
+            }
+          }
+        } // end for loop over batch
+      }); // end transaction
+    } // end for loop over batches
+    
     _pendingEvents.clear();
     notifyListeners();
   }
