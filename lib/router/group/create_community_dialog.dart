@@ -9,6 +9,7 @@ import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
+import 'package:nostrmo/util/community_join_util.dart';
 import 'package:provider/provider.dart';
 
 // Track which view is currently active
@@ -266,37 +267,13 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   
   // Handle joining an existing community
   void _onJoinCommunity(String joinLink) async {
-    // Parse the link
-    try {
-      Uri uri = Uri.parse(joinLink.trim());
-      if (uri.scheme.toLowerCase() == 'plur' && uri.host.toLowerCase() == 'join-community') {
-        String? groupId = uri.queryParameters['group-id'];
-        String? code = uri.queryParameters['code'];
-
-        if (groupId == null || groupId.isEmpty) {
-          _showError("Invalid community link. Missing group ID.");
-          return;
-        }
-
-        final listProvider = Provider.of<ListProvider>(context, listen: false);
-        
-        // Join the group using the existing method
-        listProvider.joinGroup(
-          JoinGroupParameters(
-            'wss://communities.nos.social', // Default relay
-            groupId,
-            code: code,
-          ),
-          context: context,
-        );
-        
-        // Close the dialog
-        RouterUtil.back(context);
-      } else {
-        _showError("Invalid community link format. Please check and try again.");
-      }
-    } catch (e) {
-      _showError("Could not process the community link. Please check and try again.");
+    bool success = CommunityJoinUtil.parseAndJoinCommunity(context, joinLink);
+    
+    if (success) {
+      // Close the dialog
+      RouterUtil.back(context);
+    } else {
+      _showError("Invalid community link format. Please check and try again.");
     }
   }
   

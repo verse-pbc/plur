@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/component/appbar_bottom_border.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
+import 'package:nostrmo/component/paste_join_link_button.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
 import 'package:nostrmo/router/group/communities_grid_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -89,6 +90,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget>
           ),
         ],
       ),
+      // Add the paste link button that appears when clipboard has a join link
+      floatingActionButton: const PasteJoinLinkButton(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 

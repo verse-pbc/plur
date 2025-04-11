@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
+import 'package:nostrmo/util/community_join_util.dart';
 
 class NoCommunitiesWidget extends StatefulWidget {
   const NoCommunitiesWidget({super.key});
@@ -110,15 +112,28 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Hint text
-                    Text(
-                      localization.Have_invite_link,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontStyle: FontStyle.italic,
-                        color: themeData.customColors.dimmedColor,
+                    // Hint text with paste option
+                    GestureDetector(
+                      onTap: _pasteJoinLink,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            localization.Have_invite_link,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontStyle: FontStyle.italic,
+                              color: themeData.customColors.dimmedColor,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.content_paste,
+                            size: 16,
+                            color: themeData.customColors.accentColor,
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -147,5 +162,27 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
         });
       }
     });
+  }
+  
+  Future<void> _pasteJoinLink() async {
+    try {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      final clipboardText = clipboardData?.text?.trim();
+      
+      if (clipboardText != null) {
+        bool success = CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
+        
+        if (!success && mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("No valid community link in clipboard"),
+              duration: Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      // Ignore clipboard errors
+    }
   }
 }
