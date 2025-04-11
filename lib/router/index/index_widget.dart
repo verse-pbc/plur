@@ -25,11 +25,13 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
 import '../../provider/settings_provider.dart';
+import '../../provider/list_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
 import '../group/all_group_posts_widget.dart';
 import '../group/create_community_dialog.dart';
+import '../../provider/group_feed_provider.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
 import 'index_app_bar.dart';
@@ -330,7 +332,11 @@ class _IndexWidgetState extends CustState<IndexWidget>
         index: indexProvider.currentTap,
         children: [
           const CommunitiesScreen(),
-          const AllGroupPostsWidget(),
+          // Provide GroupFeedProvider for the AllGroupPostsWidget
+          ChangeNotifierProvider(
+            create: (context) => GroupFeedProvider(Provider.of<ListProvider>(context, listen: false)),
+            child: const AllGroupPostsWidget(),
+          ),
           DMWidget(
             tabController: dmTabController,
           ),
