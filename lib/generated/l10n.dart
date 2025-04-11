@@ -3560,31 +3560,11 @@ class S {
     );
   }
 
-  /// `What should we call you?`
-  String get onboarding_name_input_title {
-    return Intl.message(
-      'What should we call you?',
-      name: 'onboarding_name_input_title',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `community name`
   String get community_name {
     return Intl.message(
       'community name',
       name: 'community_name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your name or nickname`
-  String get onboarding_name_input_hint {
-    return Intl.message(
-      'Your name or nickname',
-      name: 'onboarding_name_input_hint',
       desc: '',
       args: [],
     );
@@ -3629,7 +3609,27 @@ class S {
       args: [],
     );
   }
-  
+
+  /// `What should we call you?`
+  String get onboarding_name_input_title {
+    return Intl.message(
+      'What should we call you?',
+      name: 'onboarding_name_input_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your name or nickname`
+  String get onboarding_name_input_hint {
+    return Intl.message(
+      'Your name or nickname',
+      name: 'onboarding_name_input_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Continue`
   String get Continue {
     return Intl.message(
