@@ -1,9 +1,22 @@
 # BotToast, Layout, and Test Group Joining Fixes
 
 ## Summary
-This PR addresses several critical issues causing blank screens and layout errors. It improves error handling, fixes layout constraints, and makes the Test Users Group joining optional for new users.
+This PR addresses several critical issues from the CHANGELOG causing blank screens, layout errors, and improves the user experience. It implements error handling improvements, fixes layout constraints, makes the Test Users Group joining optional, and addresses iOS/macOS compatibility issues.
 
-## Changes
+## Implements CHANGELOG Items
+
+### From Release Notes Section
+- ✅ **"Made test group joining optional with confirmation dialog"**
+- ✅ **"Fixed blank screen issues when creating and joining communities"**
+- ✅ **"Improved invitation and group creation workflow with better error handling"**
+
+### From Internal Changes Section  
+- ✅ **"Fixed AVIF image loading issues that caused crashes"**
+- ✅ **"Improved BotToast error handling to prevent blank screens"**
+- ✅ **"Fixed issues with unbounded constraints in layout of community screens"**
+- ✅ **"Enhanced error logging and recovery to improve app stability"**
+
+## Technical Changes
 
 ### BotToast Error Handling
 - Fixed `LateInitializationError: Local 'cancelFunc' has not been initialized` errors
