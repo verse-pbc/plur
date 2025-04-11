@@ -10,6 +10,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import '../../../main.dart';
 
 enum GroupInfoMenuItem {
+  backToGroups,
   members,
   settings,
   leave;
@@ -17,6 +18,8 @@ enum GroupInfoMenuItem {
   String getTitle(BuildContext context) {
     final localization = S.of(context);
     switch (this) {
+      case GroupInfoMenuItem.backToGroups:
+        return localization.Communities;
       case GroupInfoMenuItem.members:
         return localization.Members;
       case GroupInfoMenuItem.settings:
@@ -28,6 +31,8 @@ enum GroupInfoMenuItem {
 
   IconData getIcon() {
     switch (this) {
+      case GroupInfoMenuItem.backToGroups:
+        return Icons.groups_outlined;
       case GroupInfoMenuItem.members:
         return Icons.people_outline;
       case GroupInfoMenuItem.settings:
@@ -109,8 +114,11 @@ class GroupInfoMenuWidget extends StatelessWidget {
   }
 
   List<GroupInfoMenuItem> _getMenuItems(BuildContext context, GroupProvider groupProvider) {
-    // Always include Members
-    List<GroupInfoMenuItem> items = [GroupInfoMenuItem.members];
+    // Start with Back to Groups and Members
+    List<GroupInfoMenuItem> items = [
+      GroupInfoMenuItem.backToGroups,
+      GroupInfoMenuItem.members,
+    ];
     
     // Add Settings only if user is admin
     final groupAdmins = groupProvider.getAdmins(groupId);
@@ -129,6 +137,9 @@ class GroupInfoMenuWidget extends StatelessWidget {
 
   void _handleMenuItemTap(BuildContext context, GroupInfoMenuItem item) {
     switch (item) {
+      case GroupInfoMenuItem.backToGroups:
+        RouterUtil.router(context, RouterPath.groupList);
+        break;
       case GroupInfoMenuItem.members:
         RouterUtil.router(context, RouterPath.groupMembers, groupId);
         break;
