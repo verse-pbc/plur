@@ -54,7 +54,6 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         width: imageWidth,
       ),
     );
-    // var maxWidth = mediaDataCache.size.width;
     var smallTextSize = themeData.textTheme.bodySmall!.fontSize;
     var hintColor = themeData.hintColor;
 
@@ -73,9 +72,29 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     if (StringUtil.isNotBlank(plainContent)) {
       content = plainContent!;
     }
-    content = content.replaceAll("\r", " ");
-    content = content.replaceAll("\n", " ");
-
+    
+    // Check if content contains image or video URLs
+    bool containsMedia = false;
+    String? mediaUrl;
+    String contentType = "text";
+    
+    // Simple URL detection for images and videos
+    final urlPattern = RegExp(r'https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|mp4|webm|mov)');
+    final match = urlPattern.firstMatch(content);
+    if (match != null) {
+      mediaUrl = match.group(0);
+      final extension = match.group(1)?.toLowerCase();
+      
+      if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif') {
+        contentType = "image";
+        containsMedia = true;
+      } else if (extension == 'mp4' || extension == 'webm' || extension == 'mov') {
+        contentType = "video";
+        containsMedia = true;
+      }
+    }
+    
+    // Create message metadata row with time and encryption indicator
     var timeWidget = Text(
       timeStr,
       style: TextStyle(
@@ -131,6 +150,15 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         ),
       );
     }
+    
+    // Format for display in message bubble
+    String displayContent = content;
+    if (containsMedia) {
+      // Remove the media URL from the text content to avoid duplication
+      displayContent = content.replaceAll(mediaUrl!, '').trim();
+    }
+    displayContent = displayContent.replaceAll("\r", " ");
+    displayContent = displayContent.replaceAll("\n", " ");
 
     var contentWidget = Container(
       margin: const EdgeInsets.only(
@@ -155,14 +183,10 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               bottom: Base.basePaddingHalf,
               left: Base.basePaddingHalf + 1,
             ),
-            // constraints:
-            //     BoxConstraints(maxWidth: (maxWidth - imageWidth) * 0.85),
             decoration: BoxDecoration(
-              // color: Colors.red,
               color: mainColor.withOpacity(0.3),
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
-            // child: SelectableText(content),
             child: GestureDetector(
               onLongPress: () {
                 // Show context menu with reply option
@@ -207,14 +231,35 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                     : CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ContentWidget(
-                    content: content,
-                    event: widget.event,
-                    showLinkPreview: settingsProvider.linkPreview == OpenStatus.open,
-                    showImage: true,  // Enable image display
-                    showVideo: true,  // Enable video display
-                    smallest: true,
-                  ),
+                  // Show text content if available
+                  if (displayContent.isNotEmpty)
+                    ContentWidget(
+                      content: displayContent,
+                      event: widget.event,
+                      showLinkPreview: settingsProvider.linkPreview == OpenStatus.open,
+                      showImage: false,  // Don't show images in the text content
+                      showVideo: false,  // Don't show videos in the text content
+                      smallest: true,
+                    ),
+                  
+                  // Add spacing if we have both text and media
+                  if (displayContent.isNotEmpty && containsMedia)
+                    const SizedBox(height: 8),
+                  
+                  // Show inline media if available
+                  if (containsMedia && mediaUrl != null)
+                    contentType == "image" 
+                      ? ContentImageWidget(
+                          imageUrl: mediaUrl,
+                          width: 200,  // Set reasonable width for chat bubble
+                          height: 150,  // Set reasonable height for chat bubble
+                          imageBoxFix: BoxFit.cover,
+                        )
+                      : ContentVideoWidget(
+                          url: mediaUrl,
+                          width: 200,  // Set reasonable width for chat bubble
+                          height: 150,  // Set reasonable height for chat bubble
+                        ),
                 ],
               ),
             ),
