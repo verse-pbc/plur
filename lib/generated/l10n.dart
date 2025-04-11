@@ -3810,6 +3810,26 @@ class S {
     );
   }
 
+  /// `No Media found`
+  String get No_Media_found {
+    return Intl.message(
+      'No Media found',
+      name: 'No_Media_found',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add photos to your posts to see them here.`
+  String get Add_photos_to_posts {
+    return Intl.message(
+      'Add photos to your posts to see them here.',
+      name: 'Add_photos_to_posts',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit Group`
   String get Edit_Group {
     return Intl.message(

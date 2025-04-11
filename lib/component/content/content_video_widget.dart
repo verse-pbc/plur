@@ -12,8 +12,15 @@ import '../../consts/base64.dart';
 
 class ContentVideoWidget extends StatefulWidget {
   final String url;
+  final double? width;
+  final double? height;
 
-  const ContentVideoWidget({super.key, required this.url});
+  const ContentVideoWidget({
+    super.key, 
+    required this.url,
+    this.width,
+    this.height,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -71,13 +78,16 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    var currentWidth = width ?? MediaQuery.of(context).size.width;
-    var currentHeight = currentWidth * 9.0 / 16.0;
+    // Use widget's width if provided, otherwise use detected width or screen width
+    var currentWidth = widget.width ?? width ?? MediaQuery.of(context).size.width;
+    var currentHeight = widget.height ?? (currentWidth * 9.0 / 16.0);
 
+    // Update with player's detected dimensions
     videoWidth = player.state.width;
     videoHeight = player.state.height;
 
-    if (videoWidth != null && videoHeight != null) {
+    // If widget width/height not explicitly set, calculate based on video aspect ratio
+    if (widget.width == null && widget.height == null && videoWidth != null && videoHeight != null) {
       if (videoHeight! / videoWidth! > 1.2) {
         currentWidth = currentWidth * 0.6;
       }

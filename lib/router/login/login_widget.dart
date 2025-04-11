@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
+import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_text/styled_text.dart';
@@ -34,6 +35,24 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   /// Controller for the TextField to track text changes.
   final TextEditingController _controller = TextEditingController();
+  
+  /// Auto-joins the test group for new users when running in local/development environment
+  void _joinTestGroupIfDev() {
+    // The test group ID and invite code as specified
+    const String testGroupId = "7C8T22GTBRGW";
+    const String testInviteCode = "MEXI77KG";
+    const String testGroupHost = RelayProvider.defaultGroupsRelayAddress;
+    
+    // Create join parameters
+    final joinParams = JoinGroupParameters(
+      testGroupHost,
+      testGroupId,
+      code: testInviteCode,
+    );
+    
+    // Join the test group
+    listProvider.joinGroup(joinParams);
+  }
 
   /// Boolean flag to enable/disable the Login button.
   bool _isLoginButtonEnabled = false;
@@ -500,6 +519,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         settingsProvider.notifyListeners();
         firstLogin = true;
         indexProvider.setCurrentTap(0);
+        
+        // Auto join testing group for dev/local builds
+        _joinTestGroupIfDev();
       }
     }
   }
@@ -640,6 +662,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.notifyListeners();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
+    
+    // Auto join testing group for dev/local builds
+    _joinTestGroupIfDev();
   }
 
   Future<void> _loginByAndroidSigner() async {
@@ -667,6 +692,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.notifyListeners();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
+    
+    // Auto join testing group for dev/local builds
+    _joinTestGroupIfDev();
   }
 
   Future<void> _loginWithWebSigner() async {
@@ -691,6 +719,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.notifyListeners();
     firstLogin = true;
     indexProvider.setCurrentTap(0);
+    
+    // Auto join testing group for dev/local builds
+    _joinTestGroupIfDev();
   }
 
   void _doPreLogin() {
