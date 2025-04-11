@@ -77,24 +77,60 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
       content = plainContent!;
     }
     
-    // Check if content contains image or video URLs
+    // Check if content contains image or video URLs or if there are imeta tags
     bool containsMedia = false;
     String? mediaUrl;
     String contentType = "text";
+    String? blurhash;
+    String? dimensions;
     
-    // Simple URL detection for images and videos
-    final urlPattern = RegExp(r'https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|mp4|webm|mov)');
-    final match = urlPattern.firstMatch(content);
-    if (match != null) {
-      mediaUrl = match.group(0);
-      final extension = match.group(1)?.toLowerCase();
-      
-      if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif') {
-        contentType = "image";
-        containsMedia = true;
-      } else if (extension == 'mp4' || extension == 'webm' || extension == 'mov') {
-        contentType = "video";
-        containsMedia = true;
+    // Prepare display content variable
+    String displayContent = content;
+    
+    // First check for imeta tags which provide better metadata for images
+    for (final tag in widget.event.tags) {
+      if (tag.isNotEmpty && tag[0] == "imeta" && tag.length > 1) {
+        // Parse the imeta tag data
+        for (int i = 1; i < tag.length; i++) {
+          String item = tag[i];
+          if (item.startsWith("url ")) {
+            mediaUrl = item.substring(4).trim();
+            contentType = "image";
+            containsMedia = true;
+          } else if (item.startsWith("blurhash ")) {
+            blurhash = item.substring(9).trim();
+          } else if (item.startsWith("dim ")) {
+            dimensions = item.substring(4).trim();
+          }
+        }
+        
+        // If we found an image through imeta, use the content as fallback URL
+        if (containsMedia && mediaUrl != null && content.trim() == mediaUrl) {
+          // Content is just the image URL, no need for text display
+          displayContent = "";
+        }
+        
+        // Break since we found what we needed
+        if (containsMedia) break;
+      }
+    }
+    
+    // If we didn't find media in imeta tags, check the content directly
+    if (!containsMedia) {
+      // Simple URL detection for images and videos
+      final urlPattern = RegExp(r'https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|mp4|webm|mov|bin)');
+      final match = urlPattern.firstMatch(content);
+      if (match != null) {
+        mediaUrl = match.group(0);
+        final extension = match.group(1)?.toLowerCase();
+        
+        if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'bin') {
+          contentType = "image";
+          containsMedia = true;
+        } else if (extension == 'mp4' || extension == 'webm' || extension == 'mov') {
+          contentType = "video";
+          containsMedia = true;
+        }
       }
     }
     
@@ -156,10 +192,9 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     }
     
     // Format for display in message bubble
-    String displayContent = content;
-    if (containsMedia) {
+    if (containsMedia && mediaUrl != null) {
       // Remove the media URL from the text content to avoid duplication
-      displayContent = content.replaceAll(mediaUrl!, '').trim();
+      displayContent = content.replaceAll(mediaUrl, '').trim();
     }
     displayContent = displayContent.replaceAll("\r", " ");
     displayContent = displayContent.replaceAll("\n", " ");
@@ -188,7 +223,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               left: Base.basePaddingHalf + 1,
             ),
             decoration: BoxDecoration(
-              color: mainColor.withOpacity(0.3),
+              color: mainColor.withAlpha(76), // 0.3 opacity as alpha
               borderRadius: const BorderRadius.all(Radius.circular(5)),
             ),
             child: GestureDetector(
@@ -266,12 +301,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                   // Show inline media if available
                   if (containsMedia && mediaUrl != null)
                     contentType == "image" 
-                      ? ContentImageWidget(
-                          imageUrl: mediaUrl,
-                          width: 200,  // Set reasonable width for chat bubble
-                          height: 150,  // Set reasonable height for chat bubble
-                          imageBoxFix: BoxFit.cover,
-                        )
+                      ? _buildImageWidget(mediaUrl, blurhash, dimensions)
                       : ContentVideoWidget(
                           url: mediaUrl,
                           width: 200,  // Set reasonable width for chat bubble
@@ -314,6 +344,67 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     );
   }
   
+  /// Builds an image widget with proper sizing based on the image's dimensions
+  /// and with blurhash loading support if available.
+  /// 
+  /// - [imageUrl] The URL of the image to display
+  /// - [blurhash] Optional blurhash for smoother loading
+  /// - [dimensions] Optional dimensions in format "widthxheight"
+  Widget _buildImageWidget(String imageUrl, String? blurhash, String? dimensions) {
+    // Default dimensions for the chat bubble
+    double width = 200;
+    double height = 150;
+    
+    // If we have dimensions info, use it to calculate better aspect ratio
+    if (dimensions != null) {
+      final parts = dimensions.split('x');
+      if (parts.length == 2) {
+        try {
+          final originalWidth = int.parse(parts[0]);
+          final originalHeight = int.parse(parts[1]);
+          
+          // Calculate aspect ratio
+          final aspectRatio = originalWidth / originalHeight;
+          
+          // Maintain aspect ratio with max width of 200
+          width = 200;
+          height = width / aspectRatio;
+          
+          // Cap height if it gets too tall
+          if (height > 300) {
+            height = 300;
+            width = height * aspectRatio;
+          }
+        } catch (e) {
+          // Parsing error, use defaults
+        }
+      }
+    }
+    
+    // Create FileMetadata object if we have blurhash
+    FileMetadata? fileMetadata;
+    if (blurhash != null) {
+      // FileMetadata requires url and media type
+      fileMetadata = FileMetadata(
+        imageUrl,
+        "image/jpeg", // Assume JPEG as default type
+        blurhash: blurhash,
+        dim: dimensions,
+      );
+    }
+    
+    return ContentImageWidget(
+      imageUrl: imageUrl,
+      width: width,
+      height: height,
+      imageBoxFix: BoxFit.cover,
+      fileMetadata: fileMetadata,
+    );
+  }
+  
+  /// Shows a dialog with the raw JSON data of the current event.
+  /// Used for debugging purposes to inspect event structure,
+  /// especially for media messages with imeta tags.
   void _showRawEvent() {
     // Convert event to a map that can be easily viewed
     final eventMap = {
@@ -329,7 +420,10 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     // Convert to pretty-printed JSON
     final prettyJson = JsonEncoder.withIndent('  ').convert(eventMap);
     
+    // Store context in local variable to avoid async gap warning
+    final currentContext = context;
+    
     // Show dialog with the JSON content
-    JsonViewDialog.show(context, prettyJson);
+    JsonViewDialog.show(currentContext, prettyJson);
   }
 }

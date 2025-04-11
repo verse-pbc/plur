@@ -3,6 +3,9 @@ import '../../util/theme_util.dart';
 import 'age_verification_step.dart';
 import 'age_verification_dialog_widget.dart';
 import '../../consts/base.dart';
+import '../../data/join_group_parameters.dart';
+import '../../provider/relay_provider.dart';
+import '../../main.dart';
 
 /// Manages the onboarding process through multiple steps.
 class OnboardingWidget extends StatefulWidget {
@@ -72,6 +75,26 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
   }
 
   void _completeOnboarding() {
+    // For local/development builds, auto-join the testing group
+    _joinTestingGroup();
+    
     Navigator.of(context).pop(true);
+  }
+  
+  void _joinTestingGroup() {
+    // The test group ID and invite code as specified
+    const String testGroupId = "7C8T22GTBRGW";
+    const String testInviteCode = "MEXI77KG";
+    const String testGroupHost = RelayProvider.defaultGroupsRelayAddress;
+    
+    // Create join parameters
+    final joinParams = JoinGroupParameters(
+      testGroupHost,
+      testGroupId,
+      code: testInviteCode,
+    );
+    
+    // Join the test group
+    listProvider.joinGroup(joinParams);
   }
 }
