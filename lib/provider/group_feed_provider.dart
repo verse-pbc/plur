@@ -37,12 +37,17 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   }
 
   void clear() {
-    clearData();
+    clearData(preserveCache: true);
   }
 
-  void clearData() {
+  void clearData({bool preserveCache = false}) {
     newNotesBox.clear();
     notesBox.clear();
+    
+    // Only clear the static cache if explicitly requested
+    if (!preserveCache) {
+      _staticEventCache.clear();
+    }
   }
 
   @override
@@ -80,12 +85,48 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     notifyListeners();
   }
 
+  // Add static cache of events to persist even when provider is recreated
+  static final Map<String, Event> _staticEventCache = {};
+  
+  // Track when the last query was made to prevent duplicate queries
+  DateTime? _lastQueryTime;
+  
+  // Time in milliseconds to throttle query requests
+  static const int _queryThrottleMs = 5000; // 5 seconds
+  
   void doQuery(int? until) {
+    // Don't allow rapid duplicate queries
+    final now = DateTime.now();
+    if (_lastQueryTime != null) {
+      final diffMs = now.difference(_lastQueryTime!).inMilliseconds;
+      if (diffMs < _queryThrottleMs) {
+        log("Query throttled, last query was $diffMs ms ago");
+        return;
+      }
+    }
+    _lastQueryTime = now;
+    
     final groupIds = _listProvider.groupIdentifiers;
     if (groupIds.isEmpty) {
       return;
     }
+    
+    // Restore cached events if we have any
+    if (notesBox.isEmpty() && _staticEventCache.isNotEmpty) {
+      log("Restoring ${_staticEventCache.length} events from cache");
+      _staticEventCache.values.forEach((event) {
+        notesBox.add(event);
+      });
+      notesBox.sort();
+      
+      // Mark as loaded since we restored from cache
+      if (isLoading) {
+        isLoading = false;
+        notifyListeners();
+      }
+    }
 
+    // Create filters for each group
     final filters = groupIds.map((groupId) {
       final filter = Filter(
         until: until ?? _initTime,
@@ -96,7 +137,7 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       return jsonMap;
     }).toList();
 
-    // Query the default relay for all groups
+    // Query the default relay for all groups to get initial results quickly
     nostr!.query(
       filters,
       onEvent,
@@ -105,24 +146,27 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       sendAfterAuth: true,
     );
     
-    // Also query each group's specific relay
-    for (final groupId in groupIds) {
-      final specificFilter = Filter(
-        until: until ?? _initTime,
-        kinds: [EventKind.groupNote, EventKind.groupNoteReply],
-      );
-      final jsonMap = specificFilter.toJson();
-      jsonMap["#h"] = [groupId.groupId];
-      
-      // Query the specific relay for this group
-      nostr!.query(
-        [jsonMap],
-        onEvent,
-        tempRelays: [groupId.host],
-        relayTypes: RelayType.onlyTemp,
-        sendAfterAuth: true,
-      );
-    }
+    // Batch queries to group-specific relays to reduce network overhead
+    // Use a delay to allow the UI to respond first with the default relay results
+    Future.delayed(const Duration(milliseconds: 100), () {
+      for (final groupId in groupIds) {
+        final specificFilter = Filter(
+          until: until ?? _initTime,
+          kinds: [EventKind.groupNote, EventKind.groupNoteReply],
+        );
+        final jsonMap = specificFilter.toJson();
+        jsonMap["#h"] = [groupId.groupId];
+        
+        // Query the specific relay for this group
+        nostr!.query(
+          [jsonMap],
+          onEvent,
+          tempRelays: [groupId.host],
+          relayTypes: RelayType.onlyTemp,
+          sendAfterAuth: true,
+        );
+      }
+    });
   }
 
   void onEvent(Event event) {
@@ -131,8 +175,11 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
 
       for (var e in list) {
         if (isGroupNote(e)) {
+          // Add to both the active box and the static cache
           if (notesBox.add(e)) {
             noteAdded = true;
+            // Update static cache for persistence
+            _staticEventCache[e.id] = e;
           }
         }
       }
@@ -155,8 +202,11 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   void deleteEvent(Event e) {
     var id = e.id;
     if (isGroupNote(e)) {
+      // Remove from all storage locations
       newNotesBox.delete(id);
       notesBox.delete(id);
+      _staticEventCache.remove(id);
+      
       notesBox.sort();
       notifyListeners();
     }
