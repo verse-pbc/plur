@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
 - Start caching groups metadatas thus improving the loading times. [#261](https://github.com/verse-pbc/issues/issues/261)
 - Added Community Guidelines to groups. [#264](https://github.com/verse-pbc/issues/issues/264)
+- Fixed web version splash screen and loading issues.
 
 ### Internal Changes
 
@@ -43,12 +44,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ability to find and join public communities on connected relays.
 - Added a combined feed view that shows posts from all joined communities in one place.
 - Improved post editor interface with better organization and visual design. [#288](https://github.com/verse-pbc/issues/issues/288)
+- Fixed web version splash screen and loading issues.
 
 ### Internal Changes
 - Added functions to send push notification registration events to our relay. [#137](https://github.com/verse-pbc/plur/pull/137)
 - Renamed Metadata to User for clarity. [#275](https://github.com/verse-pbc/issues/issues/275)
 - Fixed all remaining lint issues. [#308](https://github.com/verse-pbc/issues/issues/308)
 - Reverted deletion of Examine Lint Changes workflow job.
+- Updated branding from NostrMo to Plur in user-facing elements while maintaining internal package compatibility.
+- Fixed web initialization scripts to properly handle Flutter web loading.
 
 ## [0.0.4]
 
