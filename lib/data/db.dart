@@ -58,11 +58,20 @@ class DB {
     return _database!;
   }
 
+  /// Returns an existing database executor if provided, otherwise returns the current database
+  /// Important: When using transactions, always pass the transaction object to nested operations
   static Future<DatabaseExecutor> getDB(DatabaseExecutor? db) async {
     if (db != null) {
       return db;
     }
     return getCurrentDatabase();
+  }
+  
+  /// Executes database operations in a transaction to prevent database locking
+  /// This method should be used when performing multiple related database operations
+  static Future<T> transaction<T>(Future<T> Function(Transaction txn) action) async {
+    final db = await getCurrentDatabase();
+    return await db.transaction(action);
   }
 
   static void close() {
