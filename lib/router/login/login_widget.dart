@@ -41,7 +41,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // The test group ID and invite code as specified
     const String testGroupId = "7C8T22GTBRGW";
     const String testInviteCode = "MEXI77KG";
-    const String testGroupHost = RelayProvider.defaultGroupsRelayAddress;
+    const String testGroupHost = 'wss://communities.nos.social';
     
     // Create join parameters
     final joinParams = JoinGroupParameters(

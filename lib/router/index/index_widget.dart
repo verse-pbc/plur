@@ -589,7 +589,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
     }
     
     return pages;
->>>>>>> feature/chat_experiment
   }
 
   void doAuth() {
