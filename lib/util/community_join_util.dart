@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:provider/provider.dart';

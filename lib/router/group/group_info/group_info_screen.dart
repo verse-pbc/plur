@@ -417,7 +417,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
     
     // Get a limited list of members to show (up to 8 members in a grid)
     final members = groupMembers.members!;
-    final displayLimit = 8;
+    const displayLimit = 8;
     final displayMembers = members.length > displayLimit 
         ? members.sublist(0, displayLimit) 
         : members;

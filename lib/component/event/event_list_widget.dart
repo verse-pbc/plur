@@ -2,14 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:nostrmo/util/theme_util.dart';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';

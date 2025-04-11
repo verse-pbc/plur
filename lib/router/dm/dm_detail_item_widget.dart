@@ -11,7 +11,6 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'dart:convert';
 import 'package:provider/provider.dart';
-import 'package:flutter/rendering.dart';
 
 import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
@@ -149,13 +148,13 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     
     try {
       // Cache for parsed media information by event ID
-      final Map<String, Map<String, dynamic>> _mediaInfoCache = _DMDetailItemWidgetState._mediaInfoCacheGlobal;
+      final Map<String, Map<String, dynamic>> mediaInfoCache = _DMDetailItemWidgetState._mediaInfoCacheGlobal;
       
       // Use cached content if available
       String content = plainContent ?? widget.event.content;
       
       // Skip if the media info is already cached
-      if (!_mediaInfoCache.containsKey(widget.event.id)) {
+      if (!mediaInfoCache.containsKey(widget.event.id)) {
         bool containsMedia = false;
         String? mediaUrl;
         String contentType = "text";
@@ -204,7 +203,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         }
         
         // Cache the results
-        _mediaInfoCache[widget.event.id] = {
+        mediaInfoCache[widget.event.id] = {
           'containsMedia': containsMedia,
           'mediaUrl': mediaUrl,
           'contentType': contentType,
@@ -279,7 +278,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     );
     
     // Get media info from cache
-    final Map<String, Map<String, dynamic>> _mediaInfoCache = _DMDetailItemWidgetState._mediaInfoCacheGlobal;
+    final Map<String, Map<String, dynamic>> mediaInfoCache = _DMDetailItemWidgetState._mediaInfoCacheGlobal;
     
     // Default values
     bool containsMedia = false;
@@ -289,8 +288,8 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     String? dimensions;
     
     // Use cached media info if available
-    if (_mediaInfoCache.containsKey(widget.event.id)) {
-      final cachedInfo = _mediaInfoCache[widget.event.id]!;
+    if (mediaInfoCache.containsKey(widget.event.id)) {
+      final cachedInfo = mediaInfoCache[widget.event.id]!;
       containsMedia = cachedInfo['containsMedia'] ?? false;
       mediaUrl = cachedInfo['mediaUrl'];
       contentType = cachedInfo['contentType'] ?? 'text';
@@ -325,7 +324,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
           left: Base.basePaddingHalf,
           right: Base.basePaddingHalf,
         ),
-        child: Icon(
+        child: const Icon(
           Icons.enhanced_encryption,
           size: 14,
           color: PlurColors.secondaryText,
@@ -351,7 +350,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
+            const Icon(
               Icons.reply,
               size: 14,
               color: PlurColors.secondaryText,
@@ -360,7 +359,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
             Text(
               'Reply',
               style: GoogleFonts.nunito(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                   fontSize: 12,
                   color: PlurColors.secondaryText,
                   fontWeight: FontWeight.w500,
@@ -437,20 +436,20 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                   context: context,
                   position: position,
                   items: [
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 'reply',
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.reply),
                           SizedBox(width: 8),
                           Text('Reply'),
                         ],
                       ),
                     ),
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 'view_raw',
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.code),
                           SizedBox(width: 8),
                           Text('View Raw Event'),
@@ -484,7 +483,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                     Text(
                       displayContent,
                       style: GoogleFonts.nunito(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           color: PlurColors.primaryText,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -566,12 +565,12 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     double height = 150;
     
     // Quick dimension check with caching for repeated dimensions
-    final Map<String, Map<String, double>> _dimensionCache = _DMDetailItemWidgetState._dimensionCacheGlobal;
+    final Map<String, Map<String, double>> dimensionCache = _DMDetailItemWidgetState._dimensionCacheGlobal;
     
     if (dimensions != null) {
-      if (_dimensionCache.containsKey(dimensions)) {
+      if (dimensionCache.containsKey(dimensions)) {
         // Use cached dimension calculations
-        final cachedDimensions = _dimensionCache[dimensions]!;
+        final cachedDimensions = dimensionCache[dimensions]!;
         width = cachedDimensions['width']!;
         height = cachedDimensions['height']!;
       } else {
@@ -595,7 +594,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
             }
             
             // Cache the calculated dimensions
-            _dimensionCache[dimensions] = {
+            dimensionCache[dimensions] = {
               'width': width,
               'height': height,
             };
@@ -644,7 +643,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     };
     
     // Convert to pretty-printed JSON
-    final prettyJson = JsonEncoder.withIndent('  ').convert(eventMap);
+    final prettyJson = const JsonEncoder.withIndent('  ').convert(eventMap);
     
     // Store context in local variable to avoid async gap warning
     final currentContext = context;

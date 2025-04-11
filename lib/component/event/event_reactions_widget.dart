@@ -6,15 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nostr_sdk/client_utils/keys.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
-import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/like_select_type.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -164,7 +161,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               ));
             }
           });
-          mainList.add(Container(
+          mainList.add(SizedBox(
             width: double.maxFinite,
             child: Wrap(
               alignment: WrapAlignment.center,
@@ -190,7 +187,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               ));
             }
           });
-          mainList.add(Container(
+          mainList.add(SizedBox(
             width: double.maxFinite,
             child: Wrap(
               alignment: WrapAlignment.center,
@@ -206,14 +203,13 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (widget.eventRelation != null && 
-                  widget.eventRelation.zapInfos.isNotEmpty)
+              if (widget.eventRelation.zapInfos.isNotEmpty)
                 Container(
                   margin: const EdgeInsets.only(
                     bottom: Base.basePaddingHalf,
                   ),
                   child: EventTopZapsWidget(
-                    zapEvents: [], // Pass empty list and let the widget handle these internally
+                    zapEvents: const [], // Pass empty list and let the widget handle these internally
                     event: widget.event, 
                     eventRelation: widget.eventRelation,
                   ),

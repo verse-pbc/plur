@@ -6,7 +6,6 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
 
 /// A widget that decorates an event post with its community information
 class GroupEventListWidget extends StatelessWidget {

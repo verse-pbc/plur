@@ -8,7 +8,6 @@ import 'package:nostrmo/util/theme_util.dart';
 
 import '../../../data/user.dart';
 import 'group_member_info_widget.dart';
-import 'member_card_dialog.dart';
 
 /// Displays a member of a group in a list.
 class GroupMemberItemWidget extends StatelessWidget {

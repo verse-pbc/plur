@@ -88,9 +88,9 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
         ),
         const SizedBox(height: 20),
         
-        Text(
+        const Text(
           "Paste a community invitation link",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 16,
           ),
         ),
