@@ -778,15 +778,54 @@ class _MyApp extends State<MyApp> {
   }) =>
       TextTheme(
         bodyLarge: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize + 2,
           color: foregroundColor,
         ),
         bodyMedium: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize,
           color: foregroundColor,
         ),
         bodySmall: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           fontSize: baseFontSize - 2,
+          color: foregroundColor,
+        ),
+        titleLarge: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          fontSize: baseFontSize + 4,
+          fontWeight: FontWeight.bold,
+          color: foregroundColor,
+        ),
+        titleMedium: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          fontSize: baseFontSize + 2,
+          fontWeight: FontWeight.bold,
+          color: foregroundColor,
+        ),
+        titleSmall: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          fontSize: baseFontSize,
+          fontWeight: FontWeight.bold,
+          color: foregroundColor,
+        ),
+        labelLarge: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          fontSize: baseFontSize,
+          fontWeight: FontWeight.w500,
+          color: foregroundColor,
+        ),
+        labelMedium: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          fontSize: baseFontSize - 1,
+          fontWeight: FontWeight.w500,
+          color: foregroundColor,
+        ),
+        labelSmall: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          fontSize: baseFontSize - 2,
+          fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
       );
@@ -795,7 +834,11 @@ class _MyApp extends State<MyApp> {
 TextStyle _titleTextStyle({
   required Color foregroundColor,
 }) =>
-    TextStyle(color: foregroundColor);
+    TextStyle(
+      fontFamily: 'SF Pro Rounded',
+      color: foregroundColor,
+      fontWeight: FontWeight.bold,
+    );
 
 TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
     GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);

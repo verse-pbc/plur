@@ -166,6 +166,16 @@ flutter:
     - assets/imgs/alby_logo.png
     - assets/imgs/logo/logo512.png
     - assets/imgs/music/wavlake.png
+    
+  fonts:
+    - family: SF Pro Rounded
+      fonts:
+        - asset: assets/fonts/SF-Pro-Rounded-Regular.otf
+          weight: 400
+        - asset: assets/fonts/SF-Pro-Rounded-Medium.otf
+          weight: 500
+        - asset: assets/fonts/SF-Pro-Rounded-Bold.otf
+          weight: 700
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
