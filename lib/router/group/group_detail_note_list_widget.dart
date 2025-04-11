@@ -165,7 +165,7 @@ class _GroupDetailNoteListWidgetState
         sendAfterAuth: true,
       );
     } catch (e) {
-      log("Error in subscription: $e");
+      // log("Error in subscription: $e");
     }
   }
 
@@ -186,7 +186,7 @@ class _GroupDetailNoteListWidgetState
     try {
       nostr!.unsubscribe(subscribeId);
     } catch (e) {
-      log("Error unsubscribing: $e");
+      // log("Error unsubscribing: $e");
     }
   }
 

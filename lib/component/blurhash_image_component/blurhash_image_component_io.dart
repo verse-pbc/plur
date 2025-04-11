@@ -23,7 +23,7 @@ Widget? genBlurhashImageWidget(
     }
   } catch (e) {
     // Fallback to placeholder on any error
-    print("BlurHash error: $e");
+    // print("BlurHash error: $e");
   }
   
   // Default to placeholder
@@ -74,7 +74,7 @@ Widget? _buildBlurHashImage(FileMetadata fileMetadata, Color color, BoxFit image
       }
     }
   } catch (e) {
-    print("Error creating blurhash: $e");
+    // print("Error creating blurhash: $e");
   }
   
   // Fallback 
@@ -93,7 +93,7 @@ dynamic _createImageProvider(String blurhash, int width, int height) {
       );
     }
   } catch (e) {
-    print("Failed to create image provider: $e");
+    // print("Failed to create image provider: $e");
   }
   return null;
 }
