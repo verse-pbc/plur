@@ -418,28 +418,55 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             }
           }
 
+          // Process imeta tags to extract image metadata
           if (imeta != null) {
-            for (var tagItem in imeta) {
-              if (tagItem is! String) {
-                continue;
+            final fileMetadata = FileMetadata.fromNIP92Tag(imeta);
+            
+            // If we have valid file metadata, extract the URLs and media type
+            if (fileMetadata != null) {
+              url = fileMetadata.url;
+              m = fileMetadata.m;
+              previewImage = fileMetadata.image ?? fileMetadata.thumb;
+              
+              // If we have blurhash or dimensions, create FileMetadata for display
+              if (StringUtil.isNotBlank(fileMetadata.blurhash) || 
+                  StringUtil.isNotBlank(fileMetadata.dim)) {
+                eventRelation.fileMetadatas[url] = fileMetadata;
               }
-
-              var strs = tagItem.split(" ");
-              if (strs.length > 1) {
-                var key = strs[0];
-                var value = strs[1];
-                if (key == "url" && url == null) {
-                  url = value;
-                } else if (key == "m" && url == null) {
-                  m = value;
-                } else if (key == "image" && previewImage == null) {
-                  previewImage = value;
+            } else {
+              // Fallback to manual parsing if FileMetadata couldn't be created
+              for (var tagItem in imeta) {
+                if (tagItem is! String) {
+                  continue;
+                }
+  
+                var strs = tagItem.split(" ");
+                if (strs.length > 1) {
+                  var key = strs[0];
+                  var value = strs[1];
+                  if (key == "url" && url == null) {
+                    url = value;
+                  } else if (key == "m" && m == null) {
+                    m = value;
+                  } else if (key == "image" && previewImage == null) {
+                    previewImage = value;
+                  } else if (key == "thumb" && previewImage == null) {
+                    previewImage = value; 
+                  }
                 }
               }
             }
           }
 
-          if (StringUtil.isNotBlank(url)) {
+          // Display images or videos based on the extracted information
+          if (StringUtil.isNotBlank(previewImage)) {
+            // If we have a preview image, display it directly
+            final metadata = eventRelation.fileMetadatas[url];
+            list.add(ContentImageWidget(
+              imageUrl: previewImage!,
+              fileMetadata: metadata,
+            ));
+          } else if (StringUtil.isNotBlank(url)) {
             if (widget.event.kind == EventKind.videoHorizontal ||
                 widget.event.kind == EventKind.videoVertical) {
               if (settingsProvider.videoPreview == OpenStatus.open &&
@@ -449,10 +476,14 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 list.add(ContentLinkWidget(link: url!));
               }
             } else {
-              //  show and decode depend m
+              // Show and decode based on media type
               if (StringUtil.isNotBlank(m)) {
                 if (m!.indexOf("image/") == 0) {
-                  list.add(ContentImageWidget(imageUrl: url!));
+                  final metadata = eventRelation.fileMetadatas[url];
+                  list.add(ContentImageWidget(
+                    imageUrl: url!,
+                    fileMetadata: metadata,
+                  ));
                 } else if (m.indexOf("video/") == 0 && widget.showVideo) {
                   list.add(ContentVideoWidget(url: url!));
                 } else {
@@ -461,17 +492,21 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               } else {
                 var fileType = PathTypeUtil.getPathType(url!);
                 if (fileType == "image") {
-                  list.add(ContentImageWidget(imageUrl: url));
+                  final metadata = eventRelation.fileMetadatas[url];
+                  list.add(ContentImageWidget(
+                    imageUrl: url!,
+                    fileMetadata: metadata,
+                  ));
                 } else if (fileType == "video") {
-                  if (settingsProvider.videoPreview != OpenStatus.open &&
+                  if (settingsProvider.videoPreview == OpenStatus.open ||
                       (settingsProvider.videoPreviewInList == OpenStatus.open ||
                           widget.showVideo)) {
-                    list.add(ContentVideoWidget(url: url));
+                    list.add(ContentVideoWidget(url: url!));
                   } else {
-                    list.add(ContentLinkWidget(link: url));
+                    list.add(ContentLinkWidget(link: url!));
                   }
                 } else {
-                  list.add(ContentLinkWidget(link: url));
+                  list.add(ContentLinkWidget(link: url!));
                 }
               }
             }
