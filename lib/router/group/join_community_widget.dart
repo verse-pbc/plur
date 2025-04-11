@@ -31,7 +31,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
     
     // If clipboard contains what looks like a community link, pre-fill it
     if (clipboardText != null && 
-        clipboardText.startsWith('plur://join-community') &&
+        (clipboardText.startsWith('plur://join-community') || clipboardText.startsWith('plur:join-community')) &&
         clipboardText.contains('group-id=')) {
       _linkController.text = clipboardText;
       _validateLink(clipboardText);
@@ -41,8 +41,10 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
   void _validateLink(String text) {
     setState(() {
       // Basic validation - we'll do more thorough validation when processing
-      _hasValidFormat = text.trim().startsWith('plur://join-community') && 
-                       text.contains('group-id=');
+      final trimmedText = text.trim();
+      _hasValidFormat = (trimmedText.startsWith('plur://join-community') || 
+                         trimmedText.startsWith('plur:join-community')) && 
+                        trimmedText.contains('group-id=');
     });
   }
 
