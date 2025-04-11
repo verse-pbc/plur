@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
-import '../../util/theme_util.dart';
+import '../../component/group/group_avatar_widget.dart';
 
-/// Displays the image of a community with an appropiate fallback mechanism.
+/// Displays the image of a community with an appropriate fallback mechanism.
 class CommunityImageWidget extends StatelessWidget {
   /// Identifier to show when there is no name inside [metadata].
   final String identifier;
@@ -18,30 +18,13 @@ class CommunityImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final separatorColor = themeData.customColors.separatorColor;
-    final dimmedColor = themeData.customColors.dimmedColor;
     final imageUrl = metadata?.picture;
-    return Container(
-      width: imageSize,
-      height: imageSize,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: separatorColor,
-          width: 4,
-        ),
-      ),
-      child: ClipOval(
-        child: imageUrl != null
-            ? Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                width: imageSize,
-                height: imageSize,
-              )
-            : Icon(Icons.group, color: dimmedColor, size: 64),
-      ),
+    
+    // Use the GroupAvatar widget for consistent community image display
+    return GroupAvatar(
+      imageUrl: imageUrl,
+      size: imageSize,
+      borderWidth: 4.0,
     );
   }
 }
