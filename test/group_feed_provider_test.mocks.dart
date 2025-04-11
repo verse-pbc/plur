@@ -4,11 +4,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i7;
-<<<<<<< HEAD
 import 'dart:ui' as _i11;
-=======
-import 'dart:ui' as _i10;
->>>>>>> origin/combined_feed_list
 
 import 'package:flutter/material.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
@@ -16,10 +12,7 @@ import 'package:mockito/src/dummies.dart' as _i4;
 import 'package:nostr_sdk/nostr_sdk.dart' as _i2;
 import 'package:nostrmo/data/custom_emoji.dart' as _i5;
 import 'package:nostrmo/data/join_group_parameters.dart' as _i8;
-<<<<<<< HEAD
 import 'package:nostrmo/data/public_group_info.dart' as _i10;
-=======
->>>>>>> origin/combined_feed_list
 import 'package:nostrmo/generated/l10n.dart' as _i6;
 import 'package:nostrmo/provider/list_provider.dart' as _i3;
 
@@ -38,26 +31,6 @@ import 'package:nostrmo/provider/list_provider.dart' as _i3;
 
 class _FakeBookmarks_0 extends _i1.SmartFake implements _i2.Bookmarks {
   _FakeBookmarks_0(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeNostrSigner_1 extends _i1.SmartFake implements _i2.NostrSigner {
-  _FakeNostrSigner_1(
-    Object parent,
-    Invocation parentInvocation,
-  ) : super(
-          parent,
-          parentInvocation,
-        );
-}
-
-class _FakeRelay_2 extends _i1.SmartFake implements _i2.Relay {
-  _FakeRelay_2(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -101,6 +74,24 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
   @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool privateBookmarkContains(String? eventId) => (super.noSuchMethod(
+        Invocation.method(
+          #privateBookmarkContains,
+          [eventId],
+        ),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool publicBookmarkContains(String? eventId) => (super.noSuchMethod(
+        Invocation.method(
+          #publicBookmarkContains,
+          [eventId],
+        ),
         returnValue: false,
       ) as bool);
 
@@ -370,7 +361,6 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-<<<<<<< HEAD
   _i7.Future<List<_i10.PublicGroupInfo>> queryPublicGroups(
           List<String>? relays) =>
       (super.noSuchMethod(
@@ -384,9 +374,6 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
 
   @override
   void addListener(_i11.VoidCallback? listener) => super.noSuchMethod(
-=======
-  void addListener(_i10.VoidCallback? listener) => super.noSuchMethod(
->>>>>>> origin/combined_feed_list
         Invocation.method(
           #addListener,
           [listener],
@@ -395,11 +382,7 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
       );
 
   @override
-<<<<<<< HEAD
   void removeListener(_i11.VoidCallback? listener) => super.noSuchMethod(
-=======
-  void removeListener(_i10.VoidCallback? listener) => super.noSuchMethod(
->>>>>>> origin/combined_feed_list
         Invocation.method(
           #removeListener,
           [listener],
@@ -424,557 +407,4 @@ class MockListProvider extends _i1.Mock implements _i3.ListProvider {
         ),
         returnValueForMissingStub: null,
       );
-}
-
-/// A class which mocks [Nostr].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockNostr extends _i1.Mock implements _i2.Nostr {
-  MockNostr() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.NostrSigner get nostrSigner => (super.noSuchMethod(
-        Invocation.getter(#nostrSigner),
-        returnValue: _FakeNostrSigner_1(
-          this,
-          Invocation.getter(#nostrSigner),
-        ),
-      ) as _i2.NostrSigner);
-
-  @override
-  set nostrSigner(_i2.NostrSigner? _nostrSigner) => super.noSuchMethod(
-        Invocation.setter(
-          #nostrSigner,
-          _nostrSigner,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  set onNotice(
-          dynamic Function(
-            String,
-            String,
-          )? _onNotice) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #onNotice,
-          _onNotice,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i2.Relay Function(String) get tempRelayGener => (super.noSuchMethod(
-        Invocation.getter(#tempRelayGener),
-        returnValue: (String __p0) => _FakeRelay_2(
-          this,
-          Invocation.getter(#tempRelayGener),
-        ),
-      ) as _i2.Relay Function(String));
-
-  @override
-  set tempRelayGener(_i2.Relay Function(String)? _tempRelayGener) =>
-      super.noSuchMethod(
-        Invocation.setter(
-          #tempRelayGener,
-          _tempRelayGener,
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  String get publicKey => (super.noSuchMethod(
-        Invocation.getter(#publicKey),
-        returnValue: _i4.dummyValue<String>(
-          this,
-          Invocation.getter(#publicKey),
-        ),
-      ) as String);
-
-  @override
-  _i7.Future<_i2.Event?> sendLike(
-    String? id, {
-    String? pubkey,
-    String? content,
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #sendLike,
-          [id],
-          {
-            #pubkey: pubkey,
-            #content: content,
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-          },
-        ),
-        returnValue: _i7.Future<_i2.Event?>.value(),
-      ) as _i7.Future<_i2.Event?>);
-
-  @override
-  _i7.Future<_i2.Event?> deleteEvent(
-    String? eventId, {
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #deleteEvent,
-          [eventId],
-          {
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-          },
-        ),
-        returnValue: _i7.Future<_i2.Event?>.value(),
-      ) as _i7.Future<_i2.Event?>);
-
-  @override
-  _i7.Future<_i2.Event?> deleteEvents(
-    List<String>? eventIds, {
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #deleteEvents,
-          [eventIds],
-          {
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-          },
-        ),
-        returnValue: _i7.Future<_i2.Event?>.value(),
-      ) as _i7.Future<_i2.Event?>);
-
-  @override
-  _i7.Future<_i2.Event?> sendRepost(
-    String? id, {
-    String? relayAddr,
-    String? content = r'',
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #sendRepost,
-          [id],
-          {
-            #relayAddr: relayAddr,
-            #content: content,
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-          },
-        ),
-        returnValue: _i7.Future<_i2.Event?>.value(),
-      ) as _i7.Future<_i2.Event?>);
-
-  @override
-  _i7.Future<_i2.Event?> sendContactList(
-    _i2.ContactList? contacts,
-    String? content, {
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #sendContactList,
-          [
-            contacts,
-            content,
-          ],
-          {
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-          },
-        ),
-        returnValue: _i7.Future<_i2.Event?>.value(),
-      ) as _i7.Future<_i2.Event?>);
-
-  @override
-  _i7.Future<_i2.Event?> sendEvent(
-    _i2.Event? event, {
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #sendEvent,
-          [event],
-          {
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-          },
-        ),
-        returnValue: _i7.Future<_i2.Event?>.value(),
-      ) as _i7.Future<_i2.Event?>);
-
-  @override
-  void checkEventSign(_i2.Event? event) => super.noSuchMethod(
-        Invocation.method(
-          #checkEventSign,
-          [event],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i7.Future<void> signEvent(_i2.Event? event) => (super.noSuchMethod(
-        Invocation.method(
-          #signEvent,
-          [event],
-        ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
-
-  @override
-  _i2.Event? broadcase(
-    _i2.Event? event, {
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-  }) =>
-      (super.noSuchMethod(Invocation.method(
-        #broadcase,
-        [event],
-        {
-          #tempRelays: tempRelays,
-          #targetRelays: targetRelays,
-        },
-      )) as _i2.Event?);
-
-  @override
-  void close() => super.noSuchMethod(
-        Invocation.method(
-          #close,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  void addInitQuery(
-    List<Map<String, dynamic>>? filters,
-    dynamic Function(_i2.Event)? onEvent, {
-    String? id,
-    Function? onComplete,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #addInitQuery,
-          [
-            filters,
-            onEvent,
-          ],
-          {
-            #id: id,
-            #onComplete: onComplete,
-          },
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  bool tempRelayHasSubscription(String? relayAddr) => (super.noSuchMethod(
-        Invocation.method(
-          #tempRelayHasSubscription,
-          [relayAddr],
-        ),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  String subscribe(
-    List<Map<String, dynamic>>? filters,
-    dynamic Function(_i2.Event)? onEvent, {
-    String? id,
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-    List<int>? relayTypes = const [
-      1,
-      2,
-      3,
-      4,
-    ],
-    bool? sendAfterAuth = false,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #subscribe,
-          [
-            filters,
-            onEvent,
-          ],
-          {
-            #id: id,
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-            #relayTypes: relayTypes,
-            #sendAfterAuth: sendAfterAuth,
-          },
-        ),
-        returnValue: _i4.dummyValue<String>(
-          this,
-          Invocation.method(
-            #subscribe,
-            [
-              filters,
-              onEvent,
-            ],
-            {
-              #id: id,
-              #tempRelays: tempRelays,
-              #targetRelays: targetRelays,
-              #relayTypes: relayTypes,
-              #sendAfterAuth: sendAfterAuth,
-            },
-          ),
-        ),
-      ) as String);
-
-  @override
-  void unsubscribe(String? id) => super.noSuchMethod(
-        Invocation.method(
-          #unsubscribe,
-          [id],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  _i7.Future<List<_i2.Event>> queryEvents(
-    List<Map<String, dynamic>>? filters, {
-    String? id,
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-    List<int>? relayTypes = const [
-      1,
-      2,
-      3,
-      4,
-    ],
-    bool? sendAfterAuth = false,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #queryEvents,
-          [filters],
-          {
-            #id: id,
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-            #relayTypes: relayTypes,
-            #sendAfterAuth: sendAfterAuth,
-          },
-        ),
-        returnValue: _i7.Future<List<_i2.Event>>.value(<_i2.Event>[]),
-      ) as _i7.Future<List<_i2.Event>>);
-
-  @override
-  String query(
-    List<Map<String, dynamic>>? filters,
-    dynamic Function(_i2.Event)? onEvent, {
-    String? id,
-    Function? onComplete,
-    List<String>? tempRelays,
-    List<String>? targetRelays,
-    List<int>? relayTypes = const [
-      1,
-      2,
-      3,
-      4,
-    ],
-    bool? sendAfterAuth = false,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #query,
-          [
-            filters,
-            onEvent,
-          ],
-          {
-            #id: id,
-            #onComplete: onComplete,
-            #tempRelays: tempRelays,
-            #targetRelays: targetRelays,
-            #relayTypes: relayTypes,
-            #sendAfterAuth: sendAfterAuth,
-          },
-        ),
-        returnValue: _i4.dummyValue<String>(
-          this,
-          Invocation.method(
-            #query,
-            [
-              filters,
-              onEvent,
-            ],
-            {
-              #id: id,
-              #onComplete: onComplete,
-              #tempRelays: tempRelays,
-              #targetRelays: targetRelays,
-              #relayTypes: relayTypes,
-              #sendAfterAuth: sendAfterAuth,
-            },
-          ),
-        ),
-      ) as String);
-
-  @override
-  String queryByFilters(
-    Map<String, List<Map<String, dynamic>>>? filtersMap,
-    dynamic Function(_i2.Event)? onEvent, {
-    String? id,
-    Function? onComplete,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #queryByFilters,
-          [
-            filtersMap,
-            onEvent,
-          ],
-          {
-            #id: id,
-            #onComplete: onComplete,
-          },
-        ),
-        returnValue: _i4.dummyValue<String>(
-          this,
-          Invocation.method(
-            #queryByFilters,
-            [
-              filtersMap,
-              onEvent,
-            ],
-            {
-              #id: id,
-              #onComplete: onComplete,
-            },
-          ),
-        ),
-      ) as String);
-
-  @override
-  _i7.Future<bool> addRelay(
-    _i2.Relay? relay, {
-    bool? autoSubscribe = false,
-    bool? init = false,
-    int? relayType = 1,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #addRelay,
-          [relay],
-          {
-            #autoSubscribe: autoSubscribe,
-            #init: init,
-            #relayType: relayType,
-          },
-        ),
-        returnValue: _i7.Future<bool>.value(false),
-      ) as _i7.Future<bool>);
-
-  @override
-  void removeRelay(
-    String? url, {
-    int? relayType = 1,
-  }) =>
-      super.noSuchMethod(
-        Invocation.method(
-          #removeRelay,
-          [url],
-          {#relayType: relayType},
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  List<_i2.Relay> activeRelays() => (super.noSuchMethod(
-        Invocation.method(
-          #activeRelays,
-          [],
-        ),
-        returnValue: <_i2.Relay>[],
-      ) as List<_i2.Relay>);
-
-  @override
-  _i2.Relay? getRelay(String? url) => (super.noSuchMethod(Invocation.method(
-        #getRelay,
-        [url],
-      )) as _i2.Relay?);
-
-  @override
-  _i2.Relay? getTempRelay(String? url) => (super.noSuchMethod(Invocation.method(
-        #getTempRelay,
-        [url],
-      )) as _i2.Relay?);
-
-  @override
-  void reconnect() => super.noSuchMethod(
-        Invocation.method(
-          #reconnect,
-          [],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  List<String> getExtralReadableRelays(
-    List<String>? extraRelays,
-    int? maxRelayNum,
-  ) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getExtralReadableRelays,
-          [
-            extraRelays,
-            maxRelayNum,
-          ],
-        ),
-        returnValue: <String>[],
-      ) as List<String>);
-
-  @override
-  void removeTempRelay(String? addr) => super.noSuchMethod(
-        Invocation.method(
-          #removeTempRelay,
-          [addr],
-        ),
-        returnValueForMissingStub: null,
-      );
-
-  @override
-  bool readable() => (super.noSuchMethod(
-        Invocation.method(
-          #readable,
-          [],
-        ),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  bool writable() => (super.noSuchMethod(
-        Invocation.method(
-          #writable,
-          [],
-        ),
-        returnValue: false,
-      ) as bool);
-
-  @override
-  bool isReadOnly() => (super.noSuchMethod(
-        Invocation.method(
-          #isReadOnly,
-          [],
-        ),
-        returnValue: false,
-      ) as bool);
 }
