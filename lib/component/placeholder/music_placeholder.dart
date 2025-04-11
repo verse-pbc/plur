@@ -23,7 +23,7 @@ class MusicPlaceholder extends StatelessWidget {
     var imageWidget = Container(
       width: imageHeight,
       height: imageHeight,
-      color: themeData.hintColor.withAlpha(128),
+      color: themeData.hintColor.withOpacity(0.5),
     );
     List<Widget> topList = [
       imageWidget,

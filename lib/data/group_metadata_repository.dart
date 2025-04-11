@@ -7,6 +7,9 @@ import '../main.dart';
 
 /// A repository class that handles fetching and setting group metadata.
 class GroupMetadataRepository {
+  /// Token that divides community guidelines in `about`.
+  static const _communityGuidelinesMarker = "# Community Guidelines";
+
   /// Name used when logging.
   static const _logName = "GroupMetadataRepository";
 
@@ -18,11 +21,9 @@ class GroupMetadataRepository {
   ///
   /// - Parameters:
   ///   - id: The identifier of the group for which metadata is to be fetched.
-  ///   - cached: Whether to retrieve metadata from cache. Defaults to false.
   /// - Returns: A `Future` that resolves to the `GroupMetadata` of the
   /// specified group.
-  Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id,
-      {bool cached = false}) async {
+  Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id) async {
     assert(nostr != null, "nostr instance is null");
     final host = id.host;
     final groupId = id.groupId;
@@ -42,14 +43,10 @@ class GroupMetadataRepository {
       filters,
       tempRelays: [host],
       targetRelays: [host],
-      relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
+      relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
     );
-    if (events?.length != 1) {
-      log("Didn't receive group metadata for $groupId",
-          level: Level.WARNING.value, name: _logName);
-      return null;
-    }
+    assert(events?.length == 1, "Didn't receive group metadata for $groupId");
     final event = events?.firstOrNull;
     if (event == null) {
       return null;
@@ -61,7 +58,28 @@ class GroupMetadataRepository {
     );
     var metadata = GroupMetadata.loadFromEvent(event);
     assert(metadata != null, "Couldn't parse group metadata for $groupId");
-    return metadata;
+    if (metadata == null) {
+      return null;
+    }
+    final about = metadata.about;
+    if (about == null) {
+      return metadata;
+    }
+    const marker = _communityGuidelinesMarker;
+    final index = about.indexOf(marker);
+    if (index == -1) {
+      return metadata;
+    }
+    return GroupMetadata(
+      metadata.groupId,
+      metadata.createdAt,
+      name: metadata.name,
+      picture: metadata.picture,
+      about: about.substring(0, index).trim(),
+      communityGuidelines: about.substring(index + marker.length).trim(),
+      public: metadata.public,
+      open: metadata.open,
+    );
   }
 
   /// Sets the metadata for a group.
@@ -90,11 +108,15 @@ class GroupMetadataRepository {
     if (picture != null && picture != "") {
       tags.add(["picture", picture]);
     }
+    const marker = _communityGuidelinesMarker;
     if (about != null && about != "") {
-      tags.add(["about", about]);
-    }
-    if (communityGuidelines != null && communityGuidelines != "") {
-      tags.add(["guidelines", communityGuidelines]);
+      if (communityGuidelines != null && communityGuidelines != "") {
+        tags.add(["about", "$about\n\n$marker\n\n$communityGuidelines"]);
+      } else {
+        tags.add(["about", about]);
+      }
+    } else if (communityGuidelines != null && communityGuidelines != "") {
+      tags.add(["about", "$marker\n\n$communityGuidelines"]);
     }
     final event = Event(
       nostr!.publicKey,
@@ -133,11 +155,4 @@ final groupMetadataProvider = FutureProvider.autoDispose
     .family<GroupMetadata?, GroupIdentifier>((ref, id) {
   final repository = ref.watch(groupMetadataRepositoryProvider);
   return repository.fetchGroupMetadata(id);
-});
-
-/// A provider that fetches group metadata from cache and handles its disposal.
-final cachedGroupMetadataProvider = FutureProvider.autoDispose
-    .family<GroupMetadata?, GroupIdentifier>((ref, id) {
-  final repository = ref.watch(groupMetadataRepositoryProvider);
-  return repository.fetchGroupMetadata(id, cached: true);
 });

@@ -35,7 +35,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
     final localization = S.of(context);
     final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
-    var pollBackgroundColor = hintColor.withAlpha(76);
+    var pollBackgroundColor = hintColor.withOpacity(0.3);
     var mainColor = themeData.primaryColor;
 
     return Selector<EventReactionsProvider, EventReactions?>(
@@ -92,7 +92,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
                     widthFactor: percent,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: mainColor.withAlpha(102),
+                        color: mainColor.withOpacity(0.4),
                         borderRadius: BorderRadius.circular(4),
                       ),
                     ),

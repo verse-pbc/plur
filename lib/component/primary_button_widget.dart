@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../consts/plur_colors.dart';
+import 'package:nostrmo/util/theme_util.dart';
 
 /// Button used for primary actions throughout the app.
 class PrimaryButtonWidget extends StatelessWidget {
@@ -9,44 +8,40 @@ class PrimaryButtonWidget extends StatelessWidget {
   final bool enabled;
   final double height;
   final double borderRadius;
-  
   const PrimaryButtonWidget({
     super.key,
     required this.text,
     this.onTap,
     this.enabled = true,
-    this.height = 48,
-    this.borderRadius = 12,
+    this.height = 40,
+    this.borderRadius = 0,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: enabled ? onTap : null,
-      child: Container(
-        decoration: BoxDecoration(
-          color: enabled ? PlurColors.buttonBackground : PlurColors.buttonBackground.withOpacity(0.5),
-          borderRadius: BorderRadius.circular(borderRadius),
-          boxShadow: enabled
-              ? [
-                  BoxShadow(
-                    color: PlurColors.buttonBackground.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
-        ),
-        height: height,
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: GoogleFonts.nunito(
-            textStyle: TextStyle(
-              color: enabled ? PlurColors.buttonText : PlurColors.buttonText.withOpacity(0.7),
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.5,
+    final themeData = Theme.of(context);
+    final buttonColor = themeData.customColors.accentColor;
+    final buttonTextColor = themeData.customColors.buttonTextColor;
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(borderRadius),
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        highlightColor: buttonColor.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Container(
+          decoration: BoxDecoration(
+            color: enabled ? buttonColor : buttonColor.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(borderRadius),
+          ),
+          height: height,
+          alignment: Alignment.center,
+          child: Text(
+            text,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color:
+                  enabled ? buttonTextColor : buttonTextColor.withOpacity(0.4),
             ),
           ),
         ),

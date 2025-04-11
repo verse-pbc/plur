@@ -421,7 +421,7 @@ class _PushNotificationTestWidgetState
 
             // Info card
             Card(
-              color: theme.colorScheme.primary.withAlpha(26),
+              color: theme.colorScheme.primary.withOpacity(0.1),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(

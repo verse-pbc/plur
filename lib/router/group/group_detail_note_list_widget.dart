@@ -108,16 +108,9 @@ class _GroupDetailNoteListWidgetState
     );
   }
 
-  // Track if we've already initialized
-  bool _hasInitialized = false;
-  
   @override
   Future<void> onReady(BuildContext context) async {
-    // Only initialize once to avoid expensive operations when switching tabs
-    if (!_hasInitialized) {
-      _subscribe();
-      _hasInitialized = true;
-    }
+    _subscribe();
   }
 
   void _subscribe() {
@@ -140,18 +133,6 @@ class _GroupDetailNoteListWidgetState
         "kinds": [EventKind.groupNoteReply],
         "#h": [widget.groupIdentifier.groupId],
         "since": currentTime
-      },
-      {
-        // Listen for group chat messages (NIP-29)
-        "kinds": [EventKind.groupChatMessage],
-        "#h": [widget.groupIdentifier.groupId],
-        "since": currentTime
-      },
-      {
-        // Listen for group chat replies (NIP-29)
-        "kinds": [EventKind.groupChatReply],
-        "#h": [widget.groupIdentifier.groupId],
-        "since": currentTime
       }
     ];
 
@@ -165,7 +146,7 @@ class _GroupDetailNoteListWidgetState
         sendAfterAuth: true,
       );
     } catch (e) {
-      // log("Error in subscription: $e");
+      log("Error in subscription: $e");
     }
   }
 
@@ -186,7 +167,7 @@ class _GroupDetailNoteListWidgetState
     try {
       nostr!.unsubscribe(subscribeId);
     } catch (e) {
-      // log("Error unsubscribing: $e");
+      log("Error unsubscribing: $e");
     }
   }
 

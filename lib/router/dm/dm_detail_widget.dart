@@ -116,7 +116,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
         color: cardColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(51),
+            color: Colors.black.withOpacity(0.2),
             offset: const Offset(0, -5),
             blurRadius: 10,
             spreadRadius: 0,

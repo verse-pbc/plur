@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
-import 'package:nostrmo/util/community_join_util.dart';
 
 class NoCommunitiesWidget extends StatefulWidget {
   const NoCommunitiesWidget({super.key});
@@ -67,13 +65,6 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                             "assets/imgs/welcome_groups.png",
                             width: 120,
                             height: 120,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.group,
-                                size: 120,
-                                color: themeData.customColors.dimmedColor,
-                              );
-                            },
                           ),
                         ),
                       ),
@@ -101,7 +92,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Action buttons
+                    // Action button
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -118,53 +109,16 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                             ),
                     ),
                     const SizedBox(height: 16),
-                    
-                    // Join Test Users Group button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: OutlinedButton(
-                        onPressed: _joinTestUsersGroup,
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: themeData.customColors.accentColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          "Join Plur Test Users",
-                          style: TextStyle(
-                            color: themeData.customColors.accentColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
 
-                    // Hint text with paste option
-                    GestureDetector(
-                      onTap: _pasteJoinLink,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            localization.Have_invite_link,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontStyle: FontStyle.italic,
-                              color: themeData.customColors.dimmedColor,
-                            ),
-                          ),
-                          const SizedBox(width: 4),
-                          Icon(
-                            Icons.content_paste,
-                            size: 16,
-                            color: themeData.customColors.accentColor,
-                          ),
-                        ],
+                    // Hint text
+                    Text(
+                      localization.Have_invite_link,
+                      style: TextStyle(
+                        fontSize: 14.0,
+                        fontStyle: FontStyle.italic,
+                        color: themeData.customColors.dimmedColor,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -193,132 +147,5 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
         });
       }
     });
-  }
-  
-  Future<void> _pasteJoinLink() async {
-    try {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-      final clipboardText = clipboardData?.text?.trim();
-      
-      if (clipboardText != null) {
-        bool success = CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
-        
-        if (!success && mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text("No valid community link in clipboard"),
-              duration: Duration(seconds: 2),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      // Handle clipboard permission errors
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Cannot access clipboard. Please interact with the page first or use the 'Join Community' option."),
-            duration: Duration(seconds: 3),
-          ),
-        );
-      }
-    }
-  }
-  
-  /// Joins the Plur Test Users community group
-  void _joinTestUsersGroup() {
-    const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
-    
-    // Show confirmation dialog first
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        // Get colors from Plur theme
-        final plurBackground = const Color(0xFF231F32); // PlurColors.cardBackground
-        final plurPurple = const Color(0xFF7445FE);     // PlurColors.primaryPurple
-        final plurPrimaryText = const Color(0xFFB5A0E1); // PlurColors.primaryText
-        final plurHighlightText = const Color(0xFFECE2FD); // PlurColors.highlightText
-        final plurSecondaryText = const Color(0xFF63518E); // PlurColors.secondaryText
-        
-        return AlertDialog(
-          backgroundColor: plurBackground,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            "Join Plur Test Users Group",
-            style: TextStyle(
-              color: plurHighlightText,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            "Would you like to join the Plur Test Users community? "
-            "This is a public group for testing features and connecting with other users.",
-            style: TextStyle(
-              color: plurPrimaryText,
-              fontSize: 16,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Close dialog without joining
-              },
-              child: Text(
-                "Cancel",
-                style: TextStyle(
-                  color: plurSecondaryText,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Close dialog
-                
-                // Show loading indicator
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text("Joining Plur Test Users group..."),
-                    duration: const Duration(seconds: 1),
-                    backgroundColor: plurPurple.withOpacity(0.9),
-                  ),
-                );
-                
-                // Attempt to join the group
-                bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
-                
-                if (!success && mounted) {
-                  // Show error message if joining failed
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Failed to join test users group. Please try again later."),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: plurPurple,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text(
-                "Join Group",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-          ],
-        );
-      },
-    );
   }
 }

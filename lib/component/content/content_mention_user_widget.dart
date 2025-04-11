@@ -29,8 +29,7 @@ class _ContentMentionUserWidgetState extends State<ContentMentionUserWidget> {
 
         return ContentStrLinkWidget(
           str: "@$name",
-          // Based on the design, mentions should have an underline like other links
-          showUnderline: true,
+          showUnderline: false,
           onTap: () {
             RouterUtil.router(context, RouterPath.user, widget.pubkey);
           },

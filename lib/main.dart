@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,13 +10,10 @@ import 'package:flutter_quill/translations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/styled_bot_toast.dart';
-import 'package:nostrmo/util/error_logger.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
@@ -34,9 +30,9 @@ import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
+import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
-import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
@@ -53,21 +49,16 @@ import 'package:nostrmo/router/web_utils/web_utils_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:window_manager/window_manager.dart';
-
-// Conditionally import Sentry only on supported platforms
-// This prevents compile-time errors on iOS/macOS
-import 'dart:async';
-import 'sentry_import_helper.dart' if (dart.library.io) 'sentry_import_helper_stub.dart';
 
 import 'component/content/trie_text_matcher/trie_text_matcher.dart';
 import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
-import 'features/communities/communities_screen.dart';
 import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
@@ -159,8 +150,6 @@ late BadgeDefinitionProvider badgeDefinitionProvider;
 
 late MediaDataCache mediaDataCache;
 
-late CacheStore imageCacheStore;
-
 late CacheManager imageLocalCacheManager;
 
 late PcRouterFakeProvider pcRouterFakeProvider;
@@ -197,8 +186,6 @@ MusicInfoCache musicInfoCache = MusicInfoCache();
 
 RelayLocalDB? relayLocalDB;
 
-// Global variables - we're not creating custom getters/setters for testing
-// Instead we'll directly mock these in tests
 Nostr? nostr;
 
 bool dataSyncMode = false;
@@ -213,17 +200,13 @@ late TrieTextMatcher defaultTrieTextMatcher;
 late WotProvider wotProvider;
 
 Future<void> initializeProviders({bool isTesting = false}) async {
-  try {
-    log("Starting provider initialization");
-    var dbInitTask = DB.getCurrentDatabase();
-    var dataUtilTask = DataUtil.getInstance();
-    var relayLocalDBTask = RelayLocalDB.init();
-    log("Waiting for database initialization results...");
-    var dataFutureResultList =
-        await Future.wait([dbInitTask, dataUtilTask, relayLocalDBTask]);
-    relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
-    sharedPreferences = dataFutureResultList[1] as SharedPreferences;
-    log("Database initialization completed");
+  var dbInitTask = DB.getCurrentDatabase();
+  var dataUtilTask = DataUtil.getInstance();
+  var relayLocalDBTask = RelayLocalDB.init();
+  var dataFutureResultList =
+      await Future.wait([dbInitTask, dataUtilTask, relayLocalDBTask]);
+  relayLocalDB = dataFutureResultList[2] as RelayLocalDB?;
+  sharedPreferences = dataFutureResultList[1] as SharedPreferences;
 
   var settingTask = SettingsProvider.getInstance();
   var userTask = UserProvider.getInstance();
@@ -267,156 +250,91 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   wotProvider = WotProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
-    log("Provider initialization completed");
-  } catch (e, stackTrace) {
-    log("Error during provider initialization: $e");
-    log("Stack trace: $stackTrace");
-  }
 }
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   try {
-    // Initialize our comprehensive error logger
-    ErrorLogger.init();
-    log("Error logger initialized");
-    
-    log("Starting application initialization");
-    WidgetsFlutterBinding.ensureInitialized();
-    log("Flutter binding initialized");
-    
-    try {
-      MediaKit.ensureInitialized();
-      log("MediaKit initialized");
-    } catch (e, stack) {
-      ErrorLogger.logError("MediaKit initialization failed", e, stack);
-    }
+    MediaKit.ensureInitialized();
+  } catch (e) {
+    log("MediaKit init error $e");
+  }
 
-    // Using Google Fonts for font loading
-    log("Using Google Fonts 'Nunito' throughout the app");
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-    log("Initializing Firebase...");
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
+  if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
+    await windowManager.ensureInitialized();
+
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(1280, 800),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+      title: Base.appName,
     );
-    log("Firebase initialized");
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
 
-    if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
-      log("Initializing window manager for desktop");
-      await windowManager.ensureInitialized();
+  if (PlatformUtil.isWeb()) {
+    databaseFactory = databaseFactoryFfiWeb;
+  } else if (PlatformUtil.isWindowsOrLinux()) {
+    // Initialize FFI
+    sqfliteFfiInit();
+    // Change the default factory
+    databaseFactory = databaseFactoryFfi;
+  }
 
-      WindowOptions windowOptions = const WindowOptions(
-        size: Size(1280, 800),
-        center: true,
-        backgroundColor: Colors.transparent,
-        skipTaskbar: false,
-        titleBarStyle: TitleBarStyle.normal,
-        title: Base.appName,
-      );
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
-        await windowManager.show();
-        await windowManager.focus();
-      });
-      log("Window manager initialized");
+  try {
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
+  } catch (e) {
+    log('$e');
+  }
+
+  await initializeProviders();
+
+  if (StringUtil.isNotBlank(settingsProvider.network)) {
+    var network = settingsProvider.network;
+    network = network!.trim();
+    SocksProxy.initProxy(proxy: network);
+  }
+
+  if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
+    nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
+
+    if (nostr != null && settingsProvider.wotFilter == OpenStatus.open) {
+      var pubkey = nostr!.publicKey;
+      wotProvider.init(pubkey);
     }
-
-    if (PlatformUtil.isWeb()) {
-      log("Setting up web-specific database");
-      databaseFactory = databaseFactoryFfiWeb;
-    } else if (PlatformUtil.isWindowsOrLinux()) {
-      log("Setting up Windows/Linux-specific database");
-      // Initialize FFI
-      sqfliteFfiInit();
-      // Change the default factory
-      databaseFactory = databaseFactoryFfi;
-    }
-
-    try {
-      log("Setting system UI mode");
-      await SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-          overlays: [SystemUiOverlay.top, SystemUiOverlay.bottom]);
-      log("System UI mode set");
-    } catch (e) {
-      log('Error setting system UI mode: $e');
-    }
-
-    log("Starting provider initialization...");
-    await initializeProviders();
-    log("Providers initialized");
-
-    if (StringUtil.isNotBlank(settingsProvider.network)) {
-      log("Initializing network proxy");
-      var network = settingsProvider.network;
-      network = network!.trim();
-      SocksProxy.initProxy(proxy: network);
-      log("Network proxy initialized");
-    }
-
-    if (StringUtil.isNotBlank(settingsProvider.privateKey)) {
-      log("Generating Nostr with key");
-      nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
-      log("Nostr initialized");
-
-      if (nostr != null && settingsProvider.wotFilter == OpenStatus.open) {
-        log("Initializing WoT provider");
-        var pubkey = nostr!.publicKey;
-        wotProvider.init(pubkey);
-        log("WoT provider initialized");
-      }
-    }
-  } catch (e, stackTrace) {
-    log("!!!CRITICAL ERROR!!! in main initialization: $e");
-    log("Stack trace: $stackTrace");
   }
 
   // Hides the splash and runs the app.
   void startApp() {
-    try {
-      log("Removing splash screen...");
-      FlutterNativeSplash.remove();
-      log("Splash screen removed successfully");
-    } catch (e) {
-      log("Error removing splash screen: $e");
-    }
-    
-    log("Starting application...");
+    FlutterNativeSplash.remove();
     runApp(
       const riverpod.ProviderScope(
         child: MyApp(),
       ),
     );
-    log("Application started");
   }
 
-  // Skip Sentry on iOS and macOS to avoid build issues
-  bool skipSentry = false;
-  
-  try {
-    // Check if we're on iOS or macOS
-    if (Platform.isIOS || Platform.isMacOS) {
-      skipSentry = true;
-      log("Skipping Sentry initialization on iOS/macOS");
-    }
-  } catch (e) {
-    // If Platform is not available (like on web), continue with normal flow
-    log("Error checking platform: $e");
-  }
-  
-  if (!skipSentry && const bool.hasEnvironment("SENTRY_DSN")) {
-    try {
-      await SentryFlutter.init(
-        (options) {
-          // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
-          options.environment = const String.fromEnvironment('ENVIRONMENT',
-              defaultValue: 'production');
-        },
-        appRunner: () {
-          startApp();
-        },
-      );
-    } catch (e) {
-      log("Error initializing Sentry: $e");
-      startApp();
-    }
+  if (const bool.hasEnvironment("SENTRY_DSN")) {
+    await SentryFlutter.init(
+      (options) {
+        // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+        options.environment = const String.fromEnvironment('ENVIRONMENT',
+            defaultValue: 'production');
+      },
+      appRunner: () {
+        startApp();
+      },
+    );
   } else {
     startApp();
   }
@@ -527,8 +445,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.qrScanner: (context) => const QRScannerWidget(),
       RouterPath.webUtils: (context) => const WebUtilsWidget(),
       RouterPath.relayInfo: (context) => const RelayInfoWidget(),
-      RouterPath.followedTagsList: (context) =>
-          const FollowedTagsListWidget(),
+      RouterPath.followedTagsList: (context) => const FollowedTagsListWidget(),
       RouterPath.communityDetail: (context) => const CommunityDetailWidget(),
       RouterPath.followedCommunities: (context) =>
           const FollowedCommunitiesWidget(),
@@ -538,12 +455,13 @@ class _MyApp extends State<MyApp> {
       RouterPath.followSetDetail: (context) => const FollowSetDetailWidget(),
       RouterPath.followSetFeed: (context) => const FollowSetFeedWidget(),
       RouterPath.nwcSetting: (context) => const NwcSettingWidget(),
-      RouterPath.groupList: (context) => const CommunitiesScreen(),
+      RouterPath.groupList: (context) => const CommunitiesWidget(),
       RouterPath.groupDetail: (context) => const GroupDetailWidget(),
       RouterPath.groupEdit: (context) => const GroupEditWidget(),
       RouterPath.groupMembers: (context) => const GroupMembersWidget(),
       RouterPath.groupInfo: (context) => const GroupInfoWidget(),
-      RouterPath.communityGuidelines: (context) => const CommunityGuidelinesScreen(),
+      RouterPath.communityGuidelines: (context) =>
+          const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
     };
@@ -640,93 +558,7 @@ class _MyApp extends State<MyApp> {
         theme: defaultTheme,
         child: MaterialApp(
           navigatorKey: MyApp.navigatorKey,
-          builder: (context, child) {
-            try {
-              // Wrap in a try-catch to ensure app continues even if BotToast fails
-              final botToastChild = BotToastInit()(context, child);
-              
-              // Clean up any existing BotToast cancel functions to prevent memory leaks
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                try {
-                  StyledBotToast.cleanUp();
-                } catch (e) {
-                  debugPrint("Error cleaning up toast: $e");
-                }
-              });
-              
-              // Wrap app in global error boundary
-              return ErrorBoundary(
-                errorBuilder: (error, stackTrace) {
-                  // Custom error view
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Error Encountered'),
-                      backgroundColor: Colors.red[700],
-                    ),
-                    body: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ListView(
-                        children: [
-                          const Text(
-                            'An unexpected error occurred',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            error.toString(),
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 8),
-                          if (stackTrace != null)
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                stackTrace.toString(),
-                                style: const TextStyle(
-                                  fontFamily: 'monospace',
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                RouterPath.index,
-                                (route) => false,
-                              );
-                            },
-                            child: const Text('Return to Home'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                child: botToastChild,
-              );
-            } catch (e, stack) {
-              // If BotToast initialization fails, continue without it
-              log(
-                'Error initializing BotToast: $e',
-                name: 'AppBuilder',
-                error: e,
-                stackTrace: stack,
-              );
-              
-              // Return the child wrapped in error boundary - ensure child is non-null
-              return ErrorBoundary(
-                child: child ?? const SizedBox(),
-              );
-            }
-          },
+          builder: BotToastInit(),
           navigatorObservers: [
             BotToastNavigatorObserver(),
             webViewProvider.webviewNavigatorObserver,
@@ -748,70 +580,21 @@ class _MyApp extends State<MyApp> {
           initialRoute: RouterPath.index,
           routes: routes,
           onGenerateRoute: (settings) {
-            // print("Generating route for: ${settings.name} with args: ${settings.arguments}");
             switch (settings.name) {
               case RouterPath.groupAdmin:
                 final groupId = settings.arguments as GroupIdentifier?;
                 if (groupId == null) {
-                  // print("GROUP_ADMIN: groupId is null, returning null route");
                   return null;
                 }
-                // print("GROUP_ADMIN: Creating route with groupId: $groupId");
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: groupId,
                     child: const GroupAdminScreen(),
                   ),
                 );
-              case RouterPath.groupInfo:
-                // Handle direct navigation without arguments
-                if (settings.arguments == null) {
-                  return MaterialPageRoute(
-                    builder: (context) => const CommunitiesScreen(),
-                  );
-                }
-                
-                final groupId = settings.arguments as GroupIdentifier;
-                return MaterialPageRoute(
-                  builder: (context) => Provider<GroupIdentifier>.value(
-                    value: groupId,
-                    child: const GroupInfoWidget(),
-                  ),
-                );
-              case RouterPath.inviteToGroup:
-                if (settings.arguments == null) {
-                  return MaterialPageRoute(
-                    builder: (context) => const CommunitiesScreen(),
-                  );
-                }
-                
-                final inviteGroupId = settings.arguments as GroupIdentifier;
-                return MaterialPageRoute(
-                  builder: (context) => InvitePeopleWidget(
-                    groupIdentifier: inviteGroupId,
-                  ),
-                );
-                
-              case RouterPath.groupDetail:
-                if (settings.arguments == null) {
-                  return MaterialPageRoute(
-                    builder: (context) => const CommunitiesScreen(),
-                  );
-                }
-                
-                // Handle GroupIdentifier for this route as well
-                final groupId = settings.arguments as GroupIdentifier;
-                
-                return null; // Let the usual route handle it
               default:
                 return null;
             }
-          },
-          onUnknownRoute: (settings) {
-            // Fallback to index page
-            return MaterialPageRoute(
-              builder: (context) => IndexWidget(reload: reload),
-            );
           },
         ),
       ),
@@ -875,7 +658,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [light],
       scaffoldBackgroundColor: light.appBgColor,
       primaryColor: light.accentColor,
-      focusColor: light.secondaryForegroundColor.withAlpha(26),
+      focusColor: light.secondaryForegroundColor.withOpacity(0.1),
       appBarTheme: _appBarTheme(
         bgColor: light.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -913,7 +696,7 @@ class _MyApp extends State<MyApp> {
       extensions: const [CustomColors.dark],
       scaffoldBackgroundColor: dark.appBgColor,
       primaryColor: dark.accentColor,
-      focusColor: dark.secondaryForegroundColor.withAlpha(26),
+      focusColor: dark.secondaryForegroundColor.withOpacity(0.1),
       appBarTheme: _appBarTheme(
         bgColor: dark.navBgColor,
         titleTextStyle: titleTextStyle,
@@ -923,7 +706,7 @@ class _MyApp extends State<MyApp> {
       cardColor: dark.cardBgColor,
       textTheme: textTheme,
       hintColor: dark.dimmedColor,
-      shadowColor: Colors.white.withAlpha(76),
+      shadowColor: Colors.white.withOpacity(0.3),
       tabBarTheme: _tabBarTheme(),
       canvasColor: dark.feedBgColor,
       iconTheme: _iconTheme(dark.primaryForegroundColor),
@@ -936,46 +719,16 @@ class _MyApp extends State<MyApp> {
     required Color foregroundColor,
   }) =>
       TextTheme(
-        bodyLarge: GoogleFonts.nunito(
+        bodyLarge: TextStyle(
           fontSize: baseFontSize + 2,
           color: foregroundColor,
         ),
-        bodyMedium: GoogleFonts.nunito(
+        bodyMedium: TextStyle(
           fontSize: baseFontSize,
           color: foregroundColor,
         ),
-        bodySmall: GoogleFonts.nunito(
+        bodySmall: TextStyle(
           fontSize: baseFontSize - 2,
-          color: foregroundColor,
-        ),
-        titleLarge: GoogleFonts.nunito(
-          fontSize: baseFontSize + 4,
-          fontWeight: FontWeight.bold,
-          color: foregroundColor,
-        ),
-        titleMedium: GoogleFonts.nunito(
-          fontSize: baseFontSize + 2,
-          fontWeight: FontWeight.bold,
-          color: foregroundColor,
-        ),
-        titleSmall: GoogleFonts.nunito(
-          fontSize: baseFontSize,
-          fontWeight: FontWeight.bold,
-          color: foregroundColor,
-        ),
-        labelLarge: GoogleFonts.nunito(
-          fontSize: baseFontSize,
-          fontWeight: FontWeight.w500,
-          color: foregroundColor,
-        ),
-        labelMedium: GoogleFonts.nunito(
-          fontSize: baseFontSize - 1,
-          fontWeight: FontWeight.w500,
-          color: foregroundColor,
-        ),
-        labelSmall: GoogleFonts.nunito(
-          fontSize: baseFontSize - 2,
-          fontWeight: FontWeight.w500,
           color: foregroundColor,
         ),
       );
@@ -984,10 +737,7 @@ class _MyApp extends State<MyApp> {
 TextStyle _titleTextStyle({
   required Color foregroundColor,
 }) =>
-    GoogleFonts.nunito(
-      color: foregroundColor,
-      fontWeight: FontWeight.bold,
-    );
+    TextStyle(color: foregroundColor);
 
 TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
     GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);

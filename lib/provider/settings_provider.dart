@@ -10,12 +10,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../consts/base.dart';
 import '../consts/base_consts.dart';
 import '../consts/theme_style.dart';
-import '../main.dart';
 import 'data_util.dart';
 
 class SettingsProvider extends ChangeNotifier {
   static SettingsProvider? _settingsProvider;
-  static SettingsProvider? _testInstance;
 
   SharedPreferences? _sharedPreferences;
 
@@ -25,24 +23,7 @@ class SettingsProvider extends ChangeNotifier {
 
   final Map<String, String> _nwcUrlMap = {};
 
-  // Add static test methods for testing
-  /// Sets a test instance to be used during tests
-  /// This avoids having to initialize the full provider with real SharedPreferences
-  static void setTestInstance(SettingsProvider testInstance) {
-    _testInstance = testInstance;
-  }
-
-  /// Clears the test instance - should be called in tearDown
-  static void clearTestInstance() {
-    _testInstance = null;
-  }
-
   static Future<SettingsProvider> getInstance() async {
-    // Return the test instance if it exists and we're in a test environment
-    if (_testInstance != null) {
-      return _testInstance!;
-    }
-
     if (_settingsProvider == null) {
       _settingsProvider = SettingsProvider();
       _settingsProvider!._sharedPreferences = await DataUtil.getInstance();
@@ -133,12 +114,6 @@ class SettingsProvider extends ChangeNotifier {
       return _privateKeyMap[_settingData!.privateKeyIndex.toString()];
     }
     return null;
-  }
-  
-  /// Public key based on the current selected private key
-  String? get pubkey {
-    // Pubkey should come from the Nostr instance
-    return nostr?.publicKey;
   }
 
   int addAndChangePrivateKey(String pk, {bool updateUI = false}) {
@@ -281,7 +256,7 @@ class SettingsProvider extends ChangeNotifier {
   String? get backgroundImage => _settingData!.backgroundImage;
 
   /// fontFamily
-  String? get fontFamily => _settingData!.fontFamily ?? 'Nunito';
+  String? get fontFamily => _settingData!.fontFamily;
 
   int? get openTranslate => _settingData!.openTranslate;
 

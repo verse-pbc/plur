@@ -1,5 +1,5 @@
 class TestData {
-  // Test user keys
+
   static const alicePubkey = 
       "bd91fa6ff27712408c96821435e988dee99c26db1e5e11a86a89ef5993d8782f";
   static const aliceSecretKey = 
@@ -9,7 +9,6 @@ class TestData {
   static const bobSecretKey = 
     "51fe263b683444dfc44f0a2c2e6efe9006e4e51884141a421590c725dad6a0d9";
 
-  // Sample test data
   static Map<String, dynamic> get groupNoteJson => {
     "kind": 11,
     "id": "4f1448b1b2f0812702a97b2fc68311d151f1e4c6e7866acb70c6ca890013a20e",
@@ -23,28 +22,4 @@ class TestData {
     "content": "https://nosto.re/27f1379eb6b27674843971155d32fc66848bbddb276936188220098f0db2c80d.jpeg",
     "sig": "8eda26c807cbd4589932a1e077434f6423b274342b919c32aaf08ebdd1686e774542cf5f13269a80ff50688f78dfc8a56f49c1c6e2d728348a777f13cf9101de"
   };
-  
-  // Map to store globally accessible mocks
-  static final Map<String, dynamic> _mocks = {};
-
-  /// Register a mock with a specific key
-  static void registerMock(String key, dynamic mock) {
-    _mocks[key] = mock;
-  }
-  
-  /// Register a mock as a global variable
-  static void registerGlobal(String key, dynamic value) {
-    _mocks[key] = value;
-    // In a real implementation, we would set global variables here
-  }
-
-  /// Get a previously registered mock
-  static T? getMock<T>(String key) {
-    return _mocks[key] as T?;
-  }
-
-  /// Clear all registered mocks
-  static void clearMocks() {
-    _mocks.clear();
-  }
-}
+} 

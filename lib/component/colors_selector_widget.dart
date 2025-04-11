@@ -48,7 +48,7 @@ class ColorSelectorWidget extends StatelessWidget {
         ));
 
     return Scaffold(
-      backgroundColor: Colors.black.withAlpha(51),
+      backgroundColor: Colors.black.withOpacity(0.2),
       body: FocusScope(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

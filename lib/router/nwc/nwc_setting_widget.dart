@@ -91,15 +91,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
                   color: ColorsUtil.hexToColor("#ffdf6f"),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Image.asset(
-                  "assets/imgs/alby_logo.png",
-                  errorBuilder: (context, error, stackTrace) {
-                    return const Icon(
-                      Icons.bolt,
-                      color: Colors.white,
-                    );
-                  },
-                ),
+                child: Image.asset("assets/imgs/alby_logo.png"),
               ),
             ),
           ),
@@ -113,7 +105,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
         decoration: BoxDecoration(color: mainColor),
         child: InkWell(
           onTap: _onConfirm,
-          highlightColor: mainColor.withAlpha(51),
+          highlightColor: mainColor.withOpacity(0.2),
           child: Container(
             color: mainColor,
             height: 40,
@@ -134,7 +126,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       margin: const EdgeInsets.only(top: Base.basePadding),
       padding: const EdgeInsets.all(Base.basePadding),
       decoration: BoxDecoration(
-        color: themeData.hintColor.withAlpha(102),
+        color: themeData.hintColor.withOpacity(0.4),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(

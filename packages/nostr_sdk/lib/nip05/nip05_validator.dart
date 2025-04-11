@@ -61,41 +61,4 @@ class Nip05Validator {
 
     return null;
   }
-
-  /// Retrieves the full JSON data from a NIP-05 identifier
-  /// including any custom fields like "bunker" URLs
-  static Future<Map<String, dynamic>?> getJson(String nip05Address) async {
-    var name = "_";
-    var address = nip05Address;
-    var strs = nip05Address.split("@");
-    if (strs.length > 1) {
-      name = strs[0];
-      address = strs[1];
-    }
-
-    var url = "https://$address/.well-known/nostr.json?name=$name";
-    try {
-      var response = await dio.get(url);
-      if (response.data != null) {
-        dynamic rawMap = response.data;
-        if (rawMap is String) {
-          rawMap = jsonDecode(response.data);
-        }
-
-        if (rawMap is Map) {
-          // Check if this nip05 address's metadata exists
-          if (rawMap["names"] != null && rawMap["names"][name] != null) {
-            // Cast to the specific type we need
-            Map<String, dynamic> typedMap = Map<String, dynamic>.from(rawMap);
-            // Success - we found the user's metadata
-            return typedMap;
-          }
-        }
-      }
-    } catch (e) {
-      log("getJson error in nip05 validator: $e");
-    }
-
-    return null;
-  }
 }
