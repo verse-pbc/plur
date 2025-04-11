@@ -23,6 +23,7 @@ import '../../component/editor/editor_mixin.dart';
 import '../../component/editor/poll_input_widget.dart';
 import '../../component/editor/zap_split_input_widget.dart';
 import '../../generated/l10n.dart';
+import '../../provider/group_provider.dart';
 import 'editor_notify_item_widget.dart';
 import '../../component/info_message_widget.dart';
 import '../../component/appbar_bottom_border.dart';
@@ -277,13 +278,21 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
                 color: themeData.primaryColor,
               ),
             ),
-            Text(
-              "${localization.Posting_to} ${widget.groupIdentifier?.groupId ?? ''}",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: largeTextSize,
-                color: textColor,
-              ),
+            Selector<GroupProvider, GroupMetadata?>(
+              selector: (_, provider) => widget.groupIdentifier != null 
+                ? provider.getMetadata(widget.groupIdentifier!) 
+                : null,
+              builder: (context, metadata, child) {
+                final groupName = metadata?.name ?? widget.groupIdentifier?.groupId ?? '';
+                return Text(
+                  "${localization.Posting_to} $groupName",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: largeTextSize,
+                    color: textColor,
+                  ),
+                );
+              },
             ),
           ],
         ),
