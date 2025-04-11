@@ -23,12 +23,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Progress indicators showing current step in onboarding
 - Back navigation between onboarding steps
 - Added support for chat messages in groups following NIP-29 protocol
-- Added auto-joining to test group for new users
+- Made test group joining optional with confirmation dialog
 - Improved UI with tabs to toggle between posts and chat in group detail view
 - Added reply functionality to chat messages
 - Added support for displaying images and videos directly in chat messages
 - Implemented NIP-94 imeta tag support for better image display in chat
 - Added debug feature to view raw event data in chat
+- Fixed blank screen issues when creating and joining communities
+- Improved invitation and group creation workflow with better error handling
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -37,6 +39,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added comprehensive unit tests for group chat functionality
 - Added proper handling of image metadata including blurhash and dimensions
 - Implemented aspect ratio preservation for images in chat
+- Fixed AVIF image loading issues that caused crashes
+- Improved BotToast error handling to prevent blank screens
+- Fixed issues with unbounded constraints in layout of community screens
+- Enhanced error logging and recovery to improve app stability
 
 ## [0.0.5]
 
