@@ -57,7 +57,7 @@ class _GroupEventListWidgetState extends KeepAliveCustState<GroupEventListWidget
             var event = events[index];
             return EventListWidget(
               event: event,
-              showVideo: settingsProvider.videoPreviewInList != OpenStatus.CLOSE,
+              showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
             );
           },
           itemCount: events.length,

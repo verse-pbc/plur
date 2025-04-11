@@ -52,7 +52,7 @@ class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidg
                   return InkWell(
                     onTap: () {
                       RouterUtil.router(
-                          context, RouterPath.GROUP_DETAIL, groupIdentifier);
+                          context, RouterPath.groupDetail, groupIdentifier);
                     },
                     child: CommunityWidget(groupIdentifier),
                   );
@@ -77,24 +77,24 @@ class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidg
     final filters = [
       {
         // Listen for communities where user is a member
-        "kinds": [EventKind.GROUP_MEMBERS],
+        "kinds": [EventKind.groupMembers],
         "#p": [nostr!.publicKey],
         "since": since,
       },
       {
         // Listen for communities where user is an admin
-        "kinds": [EventKind.GROUP_ADMINS],
+        "kinds": [EventKind.groupAdmins],
         "#p": [nostr!.publicKey],
         "since": since,
       },
       {
         // Listen for community deletions
-        "kinds": [EventKind.GROUP_DELETE_GROUP],
+        "kinds": [EventKind.groupDeleteGroup],
         "since": since,
       },
       {
         // Listen for community metadata edits
-        "kinds": [EventKind.GROUP_EDIT_METADATA],
+        "kinds": [EventKind.groupEditMetadata],
         "since": since,
       }
     ];
@@ -104,7 +104,7 @@ class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidg
         filters,
         _handleSubscriptionEvent,
         id: subscribeId,
-        relayTypes: [RelayType.TEMP],
+        relayTypes: [RelayType.temp],
         tempRelays: [RelayProvider.defaultGroupsRelayAddress],
         sendAfterAuth: true,
       );
@@ -118,11 +118,11 @@ class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidg
       final listProvider = Provider.of<ListProvider>(context, listen: false);
 
       switch (event.kind) {
-        case EventKind.GROUP_DELETE_GROUP:
+        case EventKind.groupDeleteGroup:
           listProvider.handleGroupDeleteEvent(event);
-        case EventKind.GROUP_MEMBERS || EventKind.GROUP_ADMINS:
+        case EventKind.groupMembers || EventKind.groupAdmins:
           listProvider.handleAdminMembershipEvent(event);
-        case EventKind.GROUP_EDIT_METADATA:
+        case EventKind.groupEditMetadata:
           listProvider.handleEditMetadataEvent(event);
       }
     }, null);
