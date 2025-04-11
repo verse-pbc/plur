@@ -190,8 +190,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
       'userName': _userName ?? '',
     };
     
-    // For local/development builds, auto-join the testing group
-    _joinTestingGroup();
+    // Don't auto-join any groups during onboarding
+    // This was causing confusion for new users
     
     // Use a short delay and complete the operation
     Future.delayed(const Duration(milliseconds: 300)).then((_) {

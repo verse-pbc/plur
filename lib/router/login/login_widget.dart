@@ -1,6 +1,5 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
@@ -38,21 +37,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   final TextEditingController _controller = TextEditingController();
   
   /// Auto-joins the test group for new users when running in local/development environment
+  // This method was previously auto-joining users to a test group
+  // We've disabled it to avoid confusing new users with automatic navigation
   void _joinTestGroupIfDev() {
-    // The test group ID and invite code as specified
-    const String testGroupId = "7C8T22GTBRGW";
-    const String testInviteCode = "MEXI77KG";
-    const String testGroupHost = 'wss://communities.nos.social';
-    
-    // Create join parameters
-    final joinParams = JoinGroupParameters(
-      testGroupHost,
-      testGroupId,
-      code: testInviteCode,
-    );
-    
-    // Join the test group
-    listProvider.joinGroup(joinParams);
+    // Disabled automatic test group joining
+    // Users can explicitly join groups through the UI if desired
   }
 
   /// Boolean flag to enable/disable the Login button.
@@ -366,9 +355,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             foregroundColor: buttonTextColor,
             disabledForegroundColor: buttonTextColor.withOpacity(0.4),
           ),
-          child: Text(
+          child: const Text(
             "Login to Account",
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
