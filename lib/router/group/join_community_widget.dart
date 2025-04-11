@@ -26,15 +26,21 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
   }
   
   Future<void> _checkClipboard() async {
-    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    final clipboardText = clipboardData?.text?.trim();
-    
-    // If clipboard contains what looks like a community link, pre-fill it
-    if (clipboardText != null && 
-        (clipboardText.startsWith('plur://join-community') || clipboardText.startsWith('plur:join-community')) &&
-        clipboardText.contains('group-id=')) {
-      _linkController.text = clipboardText;
-      _validateLink(clipboardText);
+    try {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      final clipboardText = clipboardData?.text?.trim();
+      
+      // If clipboard contains what looks like a community link, pre-fill it
+      if (clipboardText != null && 
+          (clipboardText.startsWith('plur://join-community') || clipboardText.startsWith('plur:join-community')) &&
+          clipboardText.contains('group-id=')) {
+        _linkController.text = clipboardText;
+        _validateLink(clipboardText);
+      }
+    } catch (e) {
+      // Silently handle clipboard permission errors
+      // In web contexts, we'll need user interaction first
+      debugPrint("Clipboard access error: $e");
     }
   }
   
@@ -137,10 +143,20 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
         Center(
           child: TextButton.icon(
             onPressed: () async {
-              final data = await Clipboard.getData(Clipboard.kTextPlain);
-              if (data?.text != null) {
-                _linkController.text = data!.text!.trim();
-                _validateLink(_linkController.text);
+              try {
+                final data = await Clipboard.getData(Clipboard.kTextPlain);
+                if (data?.text != null) {
+                  _linkController.text = data!.text!.trim();
+                  _validateLink(_linkController.text);
+                }
+              } catch (e) {
+                // Handle clipboard permission errors
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Cannot access clipboard. Please interact with the page first or enter the link manually."),
+                    duration: Duration(seconds: 3),
+                  ),
+                );
               }
             },
             icon: const Icon(Icons.content_paste),
