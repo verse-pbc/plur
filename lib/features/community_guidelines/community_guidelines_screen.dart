@@ -62,7 +62,7 @@ class _CommunityGuidelinesScreenState
             onPressed: isSaveDisabled ? null : () => _save(id),
             style: TextButton.styleFrom(
               foregroundColor: accentColor,
-              disabledForegroundColor: accentColor.withOpacity(0.4),
+              disabledForegroundColor: accentColor.withAlpha(102),
             ),
             child: Text(
               localization.Save,

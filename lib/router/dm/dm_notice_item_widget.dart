@@ -43,7 +43,16 @@ class DMNoticeItemWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(imageWidth / 2),
           color: hintColor,
         ),
-        child: Image.asset("assets/imgs/logo/logo512.png"),
+        child: Image.asset(
+          "assets/imgs/logo/logo512.png",
+          errorBuilder: (context, error, stackTrace) {
+            return const Icon(
+              Icons.notifications,
+              size: imageWidth * 0.7,
+              color: Colors.white,
+            );
+          },
+        ),
       ),
     );
 

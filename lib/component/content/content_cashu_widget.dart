@@ -30,7 +30,7 @@ class ContentCashuWidget extends StatelessWidget {
         color: cardColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: Colors.black.withAlpha(51),
             offset: const Offset(0, 0),
             blurRadius: 10,
             spreadRadius: 0,
@@ -51,6 +51,13 @@ class ContentCashuWidget extends StatelessWidget {
                     "assets/imgs/cashu_logo.png",
                     width: 50,
                     height: 50,
+                    errorBuilder: (context, error, stackTrace) {
+                      return const Icon(
+                        Icons.currency_bitcoin,
+                        size: 50,
+                        color: Colors.white,
+                      );
+                    },
                   ),
                 ),
                 Column(
