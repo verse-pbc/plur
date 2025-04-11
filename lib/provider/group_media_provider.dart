@@ -46,6 +46,7 @@ class GroupMediaProvider extends ChangeNotifier with PendingEventsLaterFunction 
   void clear() {
     mediaBox.clear();
     fileMetadataMap.clear();
+    _mediaContentCache.clear();
     notifyListeners();
   }
   
@@ -163,9 +164,19 @@ class GroupMediaProvider extends ChangeNotifier with PendingEventsLaterFunction 
     }
   }
   
+  // Cache of events that have been checked for media content
+  final Map<String, bool> _mediaContentCache = {};
+  
   /// Check if an event has media content (via imeta tags)
   /// Properly following NIP-92 spec
   bool _hasImageContent(Event event) {
+    // Check cache first
+    if (_mediaContentCache.containsKey(event.id)) {
+      return _mediaContentCache[event.id]!;
+    }
+    
+    bool hasMedia = false;
+    
     // Check for imeta tags according to NIP-92
     for (var tag in event.tags) {
       if (tag is List && tag.isNotEmpty && tag[0] == "imeta") {
@@ -180,7 +191,8 @@ class GroupMediaProvider extends ChangeNotifier with PendingEventsLaterFunction 
               final mimeType = parts[1].toLowerCase();
               // Check if the mime type is for images or videos
               if (mimeType.startsWith("image/") || mimeType.startsWith("video/")) {
-                return true;
+                hasMedia = true;
+                break;
               }
               hasMimeType = true;
             }
@@ -190,13 +202,15 @@ class GroupMediaProvider extends ChangeNotifier with PendingEventsLaterFunction 
         // If we found an imeta tag but it doesn't have a mime type, it's not valid
         // But for backward compatibility, let's assume it's media anyway
         if (!hasMimeType) {
-          return true;
+          hasMedia = true;
+          break;
         }
       }
     }
     
-    // No valid imeta tags found, not considered media
-    return false;
+    // Cache the result for future checks
+    _mediaContentCache[event.id] = hasMedia;
+    return hasMedia;
   }
   
   /// Process file metadata from an event and store it for later use
