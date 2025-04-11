@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mlkit_language_id/google_mlkit_language_id.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -11,6 +12,7 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/component/music/wavlake/wavlake_track_music_info_builder.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/consts/base_consts.dart';
+import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -513,126 +515,38 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
     closeLine(buffer, currentList, allList, images);
 
-    // SPECIAL HANDLING: Check for image metadata first (DMDetailItemWidget approach)
+    // Very simple special handling for plain image URL posts
     Map<String, dynamic> metadata = {};
     if (widget.event != null && widget.showImage) {
-      // Extract metadata regardless of whether we're in list mode
       metadata = _extractImageMetadata();
     }
     
-    // SPECIAL HANDLING: If the content is JUST an image URL, don't display it as text
-    String? contentToCheck = widget.content;
-    String? mediaUrl = metadata.isNotEmpty ? metadata['mediaUrl'] : null;
-    
-    // Create the text content component, possibly hiding the URL
-    Widget textContent;
-    
-    // If the content is just the URL of an image that will be displayed separately,
-    // don't show it in the text content (fixes the duplicate URL issue)
-    if (mediaUrl != null && 
-        contentToCheck != null && 
-        contentToCheck.trim() == mediaUrl.trim()) {
-      // Content is just the image URL - don't render it as text
-      textContent = Container();
-    } else {
-      // Normal text content
-      textContent = SizedBox(
-        width: !widget.smallest ? double.infinity : null,
-        child: SelectableText.rich(
-          TextSpan(
-            children: allList,
-          ),
-          onTap: () {
-            if (widget.textOnTap != null) {
-              widget.textOnTap!();
-            }
-          },
+    // By default, show the normal text content
+    Widget textContent = SizedBox(
+      width: !widget.smallest ? double.infinity : null,
+      child: SelectableText.rich(
+        TextSpan(
+          children: allList,
         ),
-      );
-    }
+        onTap: () {
+          if (widget.textOnTap != null) {
+            widget.textOnTap!();
+          }
+        },
+      ),
+    );
     
-    // If we found media in the event, display it like in DMDetailItemWidget
+    // Special case: If the content is just an image URL, show the image instead of the URL text
     if (widget.showImage && 
         metadata.isNotEmpty && 
         metadata['containsMedia'] == true && 
         metadata['mediaUrl'] != null) {
-      
-      // Create a column with text and image, similar to DMDetailItemWidget
-      // Only include spacing if there's actually text content to display
-      List<Widget> columnChildren = [];
-      
-      // Only add text content if it's not empty
-      if (textContent is! Container || textContent.child != null) {
-        columnChildren.add(textContent);
-        // Add spacing only if we have both text and image
-        columnChildren.add(const SizedBox(height: 8));
-      }
-      
-      // Add the appropriate media widget
-      if (metadata['contentType'] == "image") {
-        columnChildren.add(
-          _buildImageWidget(
-            metadata['mediaUrl'], 
-            metadata['blurhash'], 
-            metadata['dimensions']
-          )
-        );
-      } else if (metadata['contentType'] == "video" && widget.showVideo) {
-        columnChildren.add(
-          ContentVideoWidget(
-            url: metadata['mediaUrl'],
-            width: 300,
-            height: 200,
-          )
-        );
-      }
-      
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: columnChildren,
-      );
-    }
-    
-    // Special handling for a post that ONLY contains an image
-    if (widget.showImage && 
-        metadata.isNotEmpty && 
-        metadata['containsMedia'] == true && 
-        metadata['mediaUrl'] != null &&
-        widget.imageListMode) {
-      
-      // For image list mode with a single-image post, show the image nicely
-      if (images.length == 1 && contentToCheck != null && 
-          contentToCheck.trim() == metadata['mediaUrl'].trim()) {
         
-        // Create a column with minimal text content (placeholder)
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Show the image list mode version
-            SizedBox(
-              height: contentImageListHeight,
-              width: double.infinity,
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Container(
-                      margin: const EdgeInsets.only(right: Base.basePaddingHalf),
-                      width: contentImageListHeight,
-                      height: contentImageListHeight,
-                      child: _buildImageWidget(
-                        metadata['mediaUrl'],
-                        metadata['blurhash'],
-                        metadata['dimensions'],
-                      ),
-                    ),
-                  ),
-                ],
-                scrollDirection: Axis.horizontal,
-              ),
-            ),
-          ],
-        );
-      }
+      // Get a version of the content widget without the URL displayed
+      return ContentImageWidget(
+        imageUrl: metadata['mediaUrl'],
+        imageBoxFix: BoxFit.contain,
+      );
     }
     
     // Regular handling for text or image list mode
@@ -646,32 +560,22 @@ class _ContentWidgetState extends State<ContentWidget> {
       List<Widget> imageWidgetList = [];
       var index = 0;
       for (var image in images) {
-        // Try to use metadata from the special extraction if available
-        String? blurhash;
-        String? dimensions;
-        
-        // First try to use the metadata from the direct parsing
-        if (image == metadata['mediaUrl']) {
-          blurhash = metadata['blurhash'];
-          dimensions = metadata['dimensions'];
-        }
-        
-        // Fallback to the original approach if needed
-        if (blurhash == null || dimensions == null) {
-          final fileMetadata = getFileMetadata(image);
-          dimensions = fileMetadata?.dim ?? dimensions;
-          blurhash = fileMetadata?.blurhash ?? blurhash;
-        }
+        // Get any file metadata from the event relation
+        final fileMetadata = getFileMetadata(image);
         
         imageWidgetList.add(SliverToBoxAdapter(
           child: Container(
             margin: const EdgeInsets.only(right: Base.basePaddingHalf),
             width: contentImageListHeight,
             height: contentImageListHeight,
-            child: _buildImageWidget(
-              image,
-              blurhash,
-              dimensions,
+            child: ContentImageWidget(
+              imageUrl: image,
+              imageList: images,
+              imageIndex: index,
+              height: contentImageListHeight,
+              width: contentImageListHeight,
+              fileMetadata: fileMetadata,
+              imageBoxFix: BoxFit.cover,
             ),
           ),
         ));
@@ -1247,12 +1151,18 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   void _addTextToList(String text, List<InlineSpan> allList,
       {TextStyle? textStyle}) {
+    // Apply Plur styling from design
     if (currentTextStyle != null) {
       if (textStyle == null) {
         textStyle = currentTextStyle;
       } else {
         textStyle = currentTextStyle!.merge(textStyle);
       }
+    } else {
+      // If no style is set, use our Plur design style for content
+      textStyle = textStyle ?? GoogleFonts.nunito(
+        textStyle: PlurColors.contentStyle,
+      );
     }
 
     counter.write(text);
@@ -1427,122 +1337,31 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
   }
 
-  /// Direct port of the _buildImageWidget method from DMDetailItemWidget
-  /// This is proven to work in the chat context so we're using exactly the same approach
-  Widget _buildImageWidget(String imageUrl, String? blurhash, String? dimensions) {
-    // Default dimensions for images in content
-    double width = 300;  // Slightly larger than chat for posts
-    double height = 200; 
-    
-    // If we have dimensions info, use it to calculate better aspect ratio
-    if (dimensions != null) {
-      final parts = dimensions.split('x');
-      if (parts.length == 2) {
-        try {
-          final originalWidth = int.parse(parts[0]);
-          final originalHeight = int.parse(parts[1]);
-          
-          // Calculate aspect ratio
-          final aspectRatio = originalWidth / originalHeight;
-          
-          // Maintain aspect ratio with max width
-          width = 300;  // Slightly larger than chat for posts
-          height = width / aspectRatio;
-          
-          // Cap height if it gets too tall
-          if (height > 400) {
-            height = 400;
-            width = height * aspectRatio;
-          }
-        } catch (e) {
-          // Parsing error, use defaults
-          debugPrint('Error parsing dimensions: $e');
-        }
-      }
-    }
-    
-    // Create FileMetadata object if we have blurhash
-    FileMetadata? fileMetadata;
-    if (blurhash != null) {
-      // FileMetadata requires url and media type
-      fileMetadata = FileMetadata(
-        imageUrl,
-        "image/jpeg", // Assume JPEG as default type
-        blurhash: blurhash,
-        dim: dimensions,
-      );
-    }
-    
-    return ContentImageWidget(
-      imageUrl: imageUrl,
-      width: width,
-      height: height,
-      imageBoxFix: BoxFit.cover,
-      fileMetadata: fileMetadata,
-    );
-  }
+  // We're now using ContentImageWidget directly
   
-  /// Extract metadata from the event tags for an image URL
-  /// This is a direct port of how DMDetailItemWidget handles image detection
+  /// Simply check if the content is just an image URL
   Map<String, dynamic> _extractImageMetadata() {
-    if (widget.event == null) {
+    if (widget.event == null || widget.content == null) {
       return {};
     }
     
-    bool containsMedia = false;
-    String? mediaUrl;
-    String contentType = "text";
-    String? blurhash;
-    String? dimensions;
-    
-    // First check for imeta tags which provide better metadata for images
-    for (final tag in widget.event!.tags) {
-      if (tag.isNotEmpty && tag[0] == "imeta" && tag.length > 1) {
-        // Parse the imeta tag data
-        for (int i = 1; i < tag.length; i++) {
-          String item = tag[i];
-          if (item.startsWith("url ")) {
-            mediaUrl = item.substring(4).trim();
-            contentType = "image";
-            containsMedia = true;
-          } else if (item.startsWith("blurhash ")) {
-            blurhash = item.substring(9).trim();
-          } else if (item.startsWith("dim ")) {
-            dimensions = item.substring(4).trim();
-          }
-        }
-        
-        // Break since we found what we needed
-        if (containsMedia) break;
-      }
+    // Just check if the content is a plain image URL
+    final content = widget.content!.trim();
+    if (content.startsWith('http') && 
+        (content.endsWith('.jpg') || 
+         content.endsWith('.jpeg') || 
+         content.endsWith('.png') || 
+         content.endsWith('.gif') || 
+         content.endsWith('.bin'))) {
+      
+      return {
+        'containsMedia': true,
+        'mediaUrl': content,
+        'contentType': 'image',
+      };
     }
     
-    // If we didn't find media in imeta tags, check the content directly
-    if (!containsMedia && widget.content != null) {
-      // Simple URL detection for images and videos
-      final urlPattern = RegExp(r'https?:\/\/[^\s]+\.(jpg|jpeg|png|gif|mp4|webm|mov|bin)');
-      final match = urlPattern.firstMatch(widget.content!);
-      if (match != null) {
-        mediaUrl = match.group(0);
-        final extension = match.group(1)?.toLowerCase();
-        
-        if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'bin') {
-          contentType = "image";
-          containsMedia = true;
-        } else if (extension == 'mp4' || extension == 'webm' || extension == 'mov') {
-          contentType = "video";
-          containsMedia = true;
-        }
-      }
-    }
-    
-    return {
-      'containsMedia': containsMedia,
-      'mediaUrl': mediaUrl,
-      'contentType': contentType,
-      'blurhash': blurhash,
-      'dimensions': dimensions,
-    };
+    return {};
   }
   
   /// Legacy method for backward compatibility

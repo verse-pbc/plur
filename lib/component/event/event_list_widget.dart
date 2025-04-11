@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
 import 'package:provider/provider.dart';
@@ -56,29 +58,58 @@ class _EventListWidgetState extends State<EventListWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    var cardColor = themeData.customColors.cardBgColor;
     var eventRelation = EventRelation.fromEvent(widget.event);
 
+    // Create a card with our new styling from design
     Widget main = Screenshot(
       controller: screenshotController,
       child: Container(
-        color: cardColor,
-        margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
-        padding: const EdgeInsets.only(
-          top: Base.basePadding,
-          // bottom: Base.BASE_PADDING,
+        // Apply new card styling
+        margin: const EdgeInsets.symmetric(
+          horizontal: Base.basePadding, 
+          vertical: Base.basePaddingHalf,
         ),
-        child: EventMainWidget(
-          screenshotController: screenshotController,
-          event: widget.event,
-          pagePubkey: widget.pagePubkey,
-          textOnTap: widget.jumpable ? jumpToThread : null,
-          showVideo: widget.showVideo,
-          imageListMode: widget.imageListMode,
-          showDetailBtn: widget.showDetailBtn,
-          showLongContent: widget.showLongContent,
-          showCommunity: widget.showCommunity,
-          eventRelation: eventRelation,
+        decoration: BoxDecoration(
+          color: PlurColors.cardBackground,
+          borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias, // Ensures content respects border radius
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Main content (profile pic, name, content, etc.)
+            Padding(
+              padding: const EdgeInsets.only(
+                top: Base.basePadding,
+                bottom: Base.basePaddingHalf,
+              ),
+              child: EventMainWidget(
+                screenshotController: screenshotController,
+                event: widget.event,
+                pagePubkey: widget.pagePubkey,
+                textOnTap: widget.jumpable ? jumpToThread : null,
+                showVideo: widget.showVideo,
+                imageListMode: widget.imageListMode,
+                showDetailBtn: widget.showDetailBtn,
+                showLongContent: widget.showLongContent,
+                showCommunity: widget.showCommunity,
+                eventRelation: eventRelation,
+              ),
+            ),
+            
+            // Optional separator line
+            Container(
+              height: 1,
+              color: PlurColors.separator.withOpacity(0.4),
+            ),
+          ],
         ),
       ),
     );
