@@ -14,6 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add name collection to the onboarding flow. [#314](https://github.com/verse-pbc/issues/issues/314)
 - Added a warning that group media is public. [#246](https://github.com/verse-pbc/issues/issues/246)
 - Added convenient paste join link buttons to easily join communities from clipboard invite links
+- Added a combined chronological feed of all community posts with community indicators
+- Added toggle in header to switch between grid view and chronological feed view of communities
+- Fixed issue where new notes toast was not getting displayed in groups. [#250](https://github.com/verse-pbc/issues/issues/250)
+- Updated the confirm button disabled color. [#279](https://github.com/verse-pbc/issues/issues/279)
+- Added Admin Panel. [#263](https://github.com/verse-pbc/issues/issues/263)
+- Start caching groups metadatas thus improving the loading times. [#261](https://github.com/verse-pbc/issues/issues/261)
+- Added Community Guidelines to groups. [#264](https://github.com/verse-pbc/issues/issues/264)
 
 ### Internal Changes
 
