@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/keep_alive_cust_state.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
@@ -60,27 +59,35 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   void _initFeedProvider(ListProvider listProvider) {
     final provider = _getFeedProvider(listProvider);
     
-    // Only initialize once globally
-    if (!_globalInitializationDone) {
-      // Use a microtask for async initialization
-      Future.microtask(() {
+    // Force initialization regardless of global flag - sometimes the feed data doesn't load
+    // on first launch due to race conditions
+    
+    // Initialize in a microtask to avoid blocking the UI
+    Future.microtask(() {
+      // Check if we already have data before re-initializing
+      if (provider.notesBox.isEmpty()) {
+        print("Initializing feed provider - subscribing and querying");
         provider.subscribe();
         provider.doQuery(null);
-        _globalInitializationDone = true;
-        
-        // Notify IndexProvider that this tab has loaded
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (context.mounted) {
-            try {
-              final indexProvider = context.read<IndexProvider>();
-              indexProvider.markTabLoaded(0);
-            } catch (e) {
-              // Ignore context errors during initialization
-            }
+      } else {
+        print("Feed provider already has data - skipping initialization");
+      }
+      
+      // Always mark as initialized
+      _globalInitializationDone = true;
+      
+      // Notify IndexProvider that this tab has loaded
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          try {
+            final indexProvider = context.read<IndexProvider>();
+            indexProvider.markTabLoaded(0);
+          } catch (e) {
+            // Ignore context errors during initialization
           }
-        });
+        }
       });
-    }
+    });
   }
   
   // Persistent cached widgets that survive rebuild cycles
@@ -208,12 +215,10 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   // Choose content based on view mode with persistent caching
                   if (viewMode == CommunityViewMode.feed) {
                     // Only create feed widget if not already cached
-                    if (_cachedFeedWidget == null) {
-                      _cachedFeedWidget = provider.ChangeNotifierProvider.value(
+                    _cachedFeedWidget ??= provider.ChangeNotifierProvider.value(
                         value: feedProvider,
                         child: const CommunitiesFeedWidget(),
                       );
-                    }
                     return _cachedFeedWidget!;
                   } else {
                     // Only create grid widget if not already cached

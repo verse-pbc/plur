@@ -108,9 +108,16 @@ class _GroupDetailNoteListWidgetState
     );
   }
 
+  // Track if we've already initialized
+  bool _hasInitialized = false;
+  
   @override
   Future<void> onReady(BuildContext context) async {
-    _subscribe();
+    // Only initialize once to avoid expensive operations when switching tabs
+    if (!_hasInitialized) {
+      _subscribe();
+      _hasInitialized = true;
+    }
   }
 
   void _subscribe() {

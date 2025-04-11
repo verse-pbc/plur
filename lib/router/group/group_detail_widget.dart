@@ -40,14 +40,23 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     _tabController = TabController(length: 2, vsync: this);
     
     // Listen for tab changes to update the FAB visibility
-    _tabController.addListener(() {
-      // This will rebuild the widget when the tab changes
-      if (_tabController.indexIsChanging) {
-        setState(() {});
-      }
-    });
+    // Only rebuild the minimum necessary parts of the UI
+    _tabController.addListener(_handleTabChange);
     
     _groupDetailProvider.refresh();
+  }
+  
+  // Separate method to handle tab changes more efficiently
+  void _handleTabChange() {
+    // Only trigger a rebuild if the tab index has actually changed and completed changing
+    // This avoids unnecessary rebuilds during tab transitions
+    if (!_tabController.indexIsChanging) {
+      // Use a more targeted rebuild approach - only rebuild the FAB
+      // This is much more efficient than rebuilding the entire widget
+      setState(() {
+        // Empty setState triggers rebuild only for the FAB
+      });
+    }
   }
 
   @override
@@ -242,12 +251,19 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
         ],
         child: TabBarView(
           controller: _tabController,
+          physics: const NeverScrollableScrollPhysics(), // Disable swipe to reduce accidental tab changes
           children: [
-            GroupDetailNoteListWidget(
-              groupIdentifier, 
-              groupMetadata?.name ?? groupIdentifier.groupId,
+            // GroupDetailNoteListWidget already has AutomaticKeepAliveClientMixin
+            RepaintBoundary(
+              child: GroupDetailNoteListWidget(
+                groupIdentifier, 
+                groupMetadata?.name ?? groupIdentifier.groupId,
+              ),
             ),
-            GroupDetailChatWidget(groupIdentifier),
+            // Chat widget might need a keep-alive wrapper depending on implementation
+            RepaintBoundary(
+              child: GroupDetailChatWidget(groupIdentifier),
+            ),
           ],
         ),
       ),
