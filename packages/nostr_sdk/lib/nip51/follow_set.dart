@@ -15,10 +15,10 @@ class FollowSet extends ContactList {
 
   final Map<String, Contact> _publicContacts;
   final Map<String, int> _publicFollowedTags;
-  final Map<String, int> _publicFollowedCommunitys;
+  final Map<String, int> _publicFollowedCommunities;
   final Map<String, Contact> _privateContacts;
   final Map<String, int> _privateFollowedTags;
-  final Map<String, int> _privateFollowedCommunitys;
+  final Map<String, int> _privateFollowedCommunities;
 
   @override
   int createdAt;
@@ -27,19 +27,19 @@ class FollowSet extends ContactList {
     this.dTag,
     Map<String, Contact> contacts,
     Map<String, int> followedTags,
-    Map<String, int> followedCommunitys,
+    Map<String, int> followedCommunities,
     this._publicContacts,
     this._publicFollowedTags,
-    this._publicFollowedCommunitys,
+    this._publicFollowedCommunities,
     this._privateContacts,
     this._privateFollowedTags,
-    this._privateFollowedCommunitys,
+    this._privateFollowedCommunities,
     this.createdAt, {
     this.title,
   }) : super(
           contacts: contacts,
           followedTags: followedTags,
-          followedCommunitys: followedCommunitys,
+          followedCommunities: followedCommunities,
         );
 
   static String? getDTag(Event e) {
@@ -60,18 +60,18 @@ class FollowSet extends ContactList {
   static Future<FollowSet?> genFollowSet(Nostr nostr, Event e) async {
     Map<String, Contact> contacts = {};
     Map<String, int> followedTags = {};
-    Map<String, int> followedCommunitys = {};
+    Map<String, int> followedCommunities = {};
 
     Map<String, Contact> publicContacts = {};
     Map<String, int> publicFollowedTags = {};
-    Map<String, int> publicFollowedCommunitys = {};
+    Map<String, int> publicFollowedCommunities = {};
 
     Map<String, Contact> privateContacts = {};
     Map<String, int> privateFollowedTags = {};
-    Map<String, int> privateFollowedCommunitys = {};
+    Map<String, int> privateFollowedCommunities = {};
 
     ContactList.getContactInfoFromTags(
-        e.tags, publicContacts, publicFollowedTags, publicFollowedCommunitys);
+        e.tags, publicContacts, publicFollowedTags, publicFollowedCommunities);
     String dTag = "";
     String? title;
     for (var tag in e.tags) {
@@ -95,7 +95,7 @@ class FollowSet extends ContactList {
           var jsonObj = jsonDecode(contentSource!);
           if (jsonObj is List) {
             ContactList.getContactInfoFromTags(jsonObj, privateContacts,
-                privateFollowedTags, privateFollowedCommunitys);
+                privateFollowedTags, privateFollowedCommunities);
           }
         }
       } catch (e) {
@@ -107,20 +107,20 @@ class FollowSet extends ContactList {
     contacts.addAll(privateContacts);
     followedTags.addAll(publicFollowedTags);
     followedTags.addAll(privateFollowedTags);
-    followedCommunitys.addAll(publicFollowedCommunitys);
-    followedCommunitys.addAll(privateFollowedCommunitys);
+    followedCommunities.addAll(publicFollowedCommunities);
+    followedCommunities.addAll(privateFollowedCommunities);
 
     return FollowSet(
       dTag,
       contacts,
       followedTags,
-      followedCommunitys,
+      followedCommunities,
       publicContacts,
       publicFollowedTags,
-      publicFollowedCommunitys,
+      publicFollowedCommunities,
       privateContacts,
       privateFollowedTags,
-      privateFollowedCommunitys,
+      privateFollowedCommunities,
       e.createdAt,
       title: title,
     );
@@ -140,7 +140,7 @@ class FollowSet extends ContactList {
     for (var followedTag in _publicFollowedTags.keys) {
       tags.add(["t", followedTag]);
     }
-    for (var id in _publicFollowedCommunitys.keys) {
+    for (var id in _publicFollowedCommunities.keys) {
       tags.add(["a", id]);
     }
 
@@ -151,7 +151,7 @@ class FollowSet extends ContactList {
     for (var followedTag in _privateFollowedTags.keys) {
       privateTags.add(["t", followedTag]);
     }
-    for (var id in _privateFollowedCommunitys.keys) {
+    for (var id in _privateFollowedCommunities.keys) {
       privateTags.add(["a", id]);
     }
 

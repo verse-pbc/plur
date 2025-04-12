@@ -46,7 +46,7 @@ const int noteIdLength = 63;
 /// 7. All inlineSpan must in the same SelectableText (Select all content one time).
 /// 8. LNBC info decode (Lightning).
 /// 9. Support Emoji (NIP-30)
-/// 10.Show more, hide extral when the content is too long.
+/// 10.Show more, hide extra when the content is too long.
 /// 11.Simple Markdown support. (LineStr with pre # - FontWeight blod and bigger fontSize, with pre ## - FontWeight blod and normal fontSize).
 class ContentWidget extends StatefulWidget {
   final String? content;
@@ -168,14 +168,14 @@ class _ContentWidgetState extends State<ContentWidget> {
     fontStyle: FontStyle.italic,
   );
 
-  TextStyle? tpableStyle;
+  TextStyle? tappableStyle;
 
   late StringBuffer counter;
 
   /// this list use to hold the real text, exclude the the text had bean decoded to embed.
   List<String> textList = [];
 
-  double largetFontSize = 16;
+  double largeFontSize = 16;
 
   double fontSize = 14;
 
@@ -196,35 +196,35 @@ class _ContentWidgetState extends State<ContentWidget> {
     var mainColor = themeData.primaryColor;
     smallFontSize = themeData.textTheme.bodySmall!.fontSize!;
     fontSize = themeData.textTheme.bodyMedium!.fontSize!;
-    largetFontSize = themeData.textTheme.bodyLarge!.fontSize!;
-    iconWidgetWidth = largetFontSize + 4;
+    largeFontSize = themeData.textTheme.bodyLarge!.fontSize!;
+    iconWidgetWidth = largeFontSize + 4;
     hintColor = themeData.hintColor;
     codeBackgroundColor = hintColor!.withOpacity(0.25);
     var settingsProvider = Provider.of<SettingsProvider>(context);
     mdh1Style = TextStyle(
-      fontSize: largetFontSize + 1,
+      fontSize: largeFontSize + 1,
       fontWeight: FontWeight.bold,
     );
     mdh2Style = TextStyle(
-      fontSize: largetFontSize,
+      fontSize: largeFontSize,
       fontWeight: FontWeight.bold,
     );
     mdh3Style = TextStyle(
-      fontSize: largetFontSize,
+      fontSize: largeFontSize,
       fontWeight: FontWeight.w600,
     );
     mdh3Style = TextStyle(
-      fontSize: largetFontSize,
+      fontSize: largeFontSize,
       fontWeight: FontWeight.w600,
     );
     mdh4Style = TextStyle(
-      fontSize: largetFontSize - 1,
+      fontSize: largeFontSize - 1,
       fontWeight: FontWeight.w600,
     );
     highlightStyle = TextStyle(
       backgroundColor: mainColor,
     );
-    tpableStyle = TextStyle(
+    tappableStyle = TextStyle(
       color: themeData.primaryColor,
       decoration: TextDecoration.none,
     );
@@ -810,7 +810,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   : null;
           if (StringUtil.isBlank(eventRelayAddr) && widget.event != null) {
             var ownerReadRelays =
-                userProvider.getExtralRelays(widget.event!.pubkey, false);
+                userProvider.getExtraRelays(widget.event!.pubkey, false);
             if (ownerReadRelays.isNotEmpty) {
               eventRelayAddr = ownerReadRelays.first;
             }
@@ -863,7 +863,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         !["[", "#"].contains(str.substring(1, 2))) {
       // first char is `#`, second isn't `[` and `#`
       // tag
-      var extralStr = "";
+      var extraStr = "";
       var length = str.length;
       if (tagInfos != null) {
         for (var hashtagInfo in tagInfos!.tagEntryInfos) {
@@ -872,8 +872,8 @@ class _ContentWidgetState extends State<ContentWidget> {
           if (str.indexOf(hashtag) == 1) {
             // dua to tagEntryInfos is sorted, so this is the match hashtag
             if (hashtagLength > 0 && length > hashtagLength) {
-              // this str's length is more then hashtagLength, maybe there are some extralStr.
-              extralStr = str.substring(hashtagLength + 1);
+              // this str's length is more then hashtagLength, maybe there are some extraStr.
+              extraStr = str.substring(hashtagLength + 1);
               str = "#$hashtag";
             }
             break;
@@ -886,8 +886,8 @@ class _ContentWidgetState extends State<ContentWidget> {
         alignment: PlaceholderAlignment.bottom,
         child: ContentTagWidget(tag: str),
       ));
-      if (StringUtil.isNotBlank(extralStr)) {
-        return extralStr;
+      if (StringUtil.isNotBlank(extraStr)) {
+        return extraStr;
       }
 
       return null;
@@ -1138,16 +1138,16 @@ class _ContentWidgetState extends State<ContentWidget> {
     }
   }
 
-  TextSpan buildTapableSpan(String str, {GestureTapCallback? onTap}) {
+  TextSpan buildTappableSpan(String str, {GestureTapCallback? onTap}) {
     return TextSpan(
       text: str,
-      style: tpableStyle,
+      style: tappableStyle,
       recognizer: TapGestureRecognizer()..onTap = onTap,
     );
   }
 
   TextSpan buildLinkSpan(String str) {
-    return buildTapableSpan(str, onTap: () {
+    return buildTappableSpan(str, onTap: () {
       LinkRouterUtil.router(context, str);
     });
   }

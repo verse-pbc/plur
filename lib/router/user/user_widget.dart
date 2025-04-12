@@ -231,7 +231,7 @@ class _UserWidgetState extends CustState<UserWidget>
             right: Base.basePadding * 2,
             bottom: Base.basePadding * 4,
             child: GestureDetector(
-              onTap: broadcaseAll,
+              onTap: broadcastAll,
               child: const Icon(Icons.cloud_upload),
             ),
           ));
@@ -336,7 +336,7 @@ class _UserWidgetState extends CustState<UserWidget>
       // this is init query
       // try to query from user's write relay.
       List<String>? tempRelays =
-          userProvider.getExtralRelays(pubkey!, true);
+          userProvider.getExtraRelays(pubkey!, true);
       // the init page set to very small, due to open user page very often
       filter.limit = 10;
       nostr!.query([filter.toJson()], onEventFunc,
@@ -363,7 +363,7 @@ class _UserWidgetState extends CustState<UserWidget>
     });
   }
 
-  Future<void> broadcaseAll() async {
+  Future<void> broadcastAll() async {
     await SyncUploadDialog.show(context, box.all());
   }
 

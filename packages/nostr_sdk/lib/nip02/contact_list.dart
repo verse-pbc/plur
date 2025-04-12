@@ -5,23 +5,23 @@ class ContactList {
 
   late Map<String, int> _followedTags;
 
-  late Map<String, int> _followedCommunitys;
+  late Map<String, int> _followedCommunities;
 
   late int _createdAt;
 
   ContactList({
     Map<String, Contact>? contacts,
     Map<String, int>? followedTags,
-    Map<String, int>? followedCommunitys,
+    Map<String, int>? followedCommunities,
     int? createdAt,
   }) {
     contacts ??= {};
     followedTags ??= {};
-    followedCommunitys ??= {};
+    followedCommunities ??= {};
 
     _contacts = contacts;
     _followedTags = followedTags;
-    _followedCommunitys = followedCommunitys;
+    _followedCommunities = followedCommunities;
     _createdAt = createdAt ?? DateTime.now().millisecondsSinceEpoch ~/ 1000;
   }
 
@@ -29,7 +29,7 @@ class ContactList {
       List<dynamic> tags,
       Map<String, Contact> contacts,
       Map<String, int> followedTags,
-      Map<String, int> followedCommunitys) {
+      Map<String, int> followedCommunities) {
     for (List<dynamic> tag in tags) {
       var length = tag.length;
       if (length == 0) {
@@ -56,7 +56,7 @@ class ContactList {
         followedTags[tagName] = 1;
       } else if (t == "a" && length > 1) {
         var id = tag[1];
-        followedCommunitys[id] = 1;
+        followedCommunities[id] = 1;
       }
     }
   }
@@ -64,13 +64,13 @@ class ContactList {
   factory ContactList.fromJson(List<dynamic> tags, int createdAt) {
     Map<String, Contact> contacts = {};
     Map<String, int> followedTags = {};
-    Map<String, int> followedCommunitys = {};
-    getContactInfoFromTags(tags, contacts, followedTags, followedCommunitys);
+    Map<String, int> followedCommunities = {};
+    getContactInfoFromTags(tags, contacts, followedTags, followedCommunities);
     return ContactList._(
-        contacts, followedTags, followedCommunitys, createdAt);
+        contacts, followedTags, followedCommunities, createdAt);
   }
 
-  ContactList._(this._contacts, this._followedTags, this._followedCommunitys,
+  ContactList._(this._contacts, this._followedTags, this._followedCommunities,
       this._createdAt);
 
   List<dynamic> toJson() {
@@ -81,7 +81,7 @@ class ContactList {
     for (var followedTag in _followedTags.keys) {
       result.add(["t", followedTag]);
     }
-    for (var id in _followedCommunitys.keys) {
+    for (var id in _followedCommunities.keys) {
       result.add(["a", id]);
     }
     return result;
@@ -140,22 +140,22 @@ class ContactList {
   }
 
   bool containsCommunity(String id) {
-    return _followedCommunitys.containsKey(id);
+    return _followedCommunities.containsKey(id);
   }
 
   void addCommunity(String id) {
-    _followedCommunitys[id] = 1;
+    _followedCommunities[id] = 1;
   }
 
   void removeCommunity(String id) {
-    _followedCommunitys.remove(id);
+    _followedCommunities.remove(id);
   }
 
   int totalFollowedCommunities() {
-    return _followedCommunitys.length;
+    return _followedCommunities.length;
   }
 
   Iterable<String> followedCommunitiesList() {
-    return _followedCommunitys.keys;
+    return _followedCommunities.keys;
   }
 }

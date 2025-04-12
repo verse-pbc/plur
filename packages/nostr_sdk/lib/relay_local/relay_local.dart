@@ -8,7 +8,7 @@ import '../relay/relay_info.dart';
 import 'relay_local_db.dart';
 import 'relay_local_mixin.dart';
 
-/// Relay that stores messages to and retrieves them from a local database.
+/// Relay that stores messages to and retrieves from a local database.
 class RelayLocal extends Relay with RelayLocalMixin {
   /// Url to be used as url of the instance of [RelayLocal]
   static const localUrl = "Local Relay";

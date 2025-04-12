@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
-/// Displays the title of a community with an appropiate fallback mechanism.
+/// Displays the title of a community with an appropriate fallback mechanism.
 class CommunityTitleWidget extends StatelessWidget {
   /// Identifier to show when there is no name inside [metadata].
   final String identifier;
