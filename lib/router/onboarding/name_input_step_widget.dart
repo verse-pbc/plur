@@ -44,9 +44,13 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
+    
+    // Note: We're using a simple emoji instead of a custom IconWidget
+    // to keep the implementation simpler and consistent with other steps
 
     return OnboardingStepWidget(
-      emoji: "📛",
+      // Use the custom icon widget instead of a simple emoji
+      emoji: "👤", // Better emoji for user profile
       title: localization.onboarding_name_input_title,
       titleKey: const Key('name_input_title'),
       textController: _nameController,

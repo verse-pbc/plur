@@ -144,16 +144,16 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
               builder: (context, constraints) {
                 // Use LayoutBuilder to get the available constraints
                 return SingleChildScrollView(
-                  child: ConstrainedBox(
+                  child: Container( // Use Container with fixed height
+                    width: constraints.maxWidth,
                     constraints: BoxConstraints(
                       minHeight: constraints.maxHeight,
-                      minWidth: constraints.maxWidth,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min, // Important: Use mainAxisSize.min
+                        mainAxisSize: MainAxisSize.min, // Use min to avoid layout issues
                         children: [
                           Text(
                             localization.Invite_people_to_join,

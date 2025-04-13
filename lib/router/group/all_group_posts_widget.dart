@@ -321,13 +321,15 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
-                Row(
+                // Use Column instead of Row to avoid overflow
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: themeData.colorScheme.onPrimary,
                         backgroundColor: themeData.colorScheme.primary,
+                        minimumSize: const Size(200, 40), // Fixed width
                       ),
                       onPressed: () {
                         log("👆 USER CLICKED: Force refresh feed button", name: "AllGroupPostsWidget");
@@ -337,11 +339,12 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
                       },
                       child: const Text("Refresh Feed"),
                     ),
-                    const SizedBox(width: 12),
+                    const SizedBox(height: 12),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         foregroundColor: themeData.colorScheme.onPrimary,
                         backgroundColor: themeData.colorScheme.primary,
+                        minimumSize: const Size(200, 40), // Fixed width
                       ),
                       onPressed: () {
                         // Just use a simpler navigation approach

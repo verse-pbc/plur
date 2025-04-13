@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/main.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -68,7 +69,7 @@ class _EventListWidgetState extends State<EventListWidget> {
           vertical: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: PlurColors.cardBg(context), // Use theme-aware color
+          color: themeData.customColors.cardBgColor, // Use theme extension for card background
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -105,7 +106,7 @@ class _EventListWidgetState extends State<EventListWidget> {
             // Optional separator line
             Container(
               height: 1,
-              color: PlurColors.separatorColor(context).withOpacity(0.4),
+              color: themeData.customColors.separatorColor.withOpacity(0.4),
             ),
           ],
         ),

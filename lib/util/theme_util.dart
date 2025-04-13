@@ -55,42 +55,42 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color tooltipText;
   final Color tooltipBackground;
 
-  /// Light theme values
+  /// Light theme values based on Plur design system
   static const CustomColors light = CustomColors(
-    accentColor: Color(0xFFFF5F44),
-    appBgColor: Color(0xFFFDF6F5),
+    accentColor: Color(0xFF7445FE), // Changed to Plur primary purple
+    appBgColor: Color(0xFFFFFFFF), // From PlurColors.lightAppBackground
     buttonTextColor: Color(0xFFFFFFFF),
-    cardBgColor: Color(0xFFFFFFFF),
-    dimmedColor: Color(0xFFA68782),
-    feedBgColor: Color(0xFFF2E7E6),
-    loginBgColor: Color(0xFFFDF6F5),
+    cardBgColor: Color(0xFFF5F2FF), // From PlurColors.lightCardBackground
+    dimmedColor: Color(0xFF837AA0), // Secondary text color from PlurColors
+    feedBgColor: Color(0xFFF5F2FF), // Light background
+    loginBgColor: Color(0xFFFFFFFF),
     navBgColor: Color(0xFFFFFFFF),
-    notesBgColor: Color(0xFFFFFFFF),
-    primaryForegroundColor: Color(0xFF594946),
-    secondaryForegroundColor: Color(0xFFA68782),
-    separatorColor: Color(0xFFF2E7E6),
+    notesBgColor: Color(0xFFF5F2FF),
+    primaryForegroundColor: Color(0xFF4B3997), // Primary text color from PlurColors
+    secondaryForegroundColor: Color(0xFF837AA0), // Secondary text color from PlurColors
+    separatorColor: Color(0xFFE5DBFF), // From PlurColors.lightSeparator
     tabsBgColor: Color(0xFFFFFFFF),
-    tooltipText: Color(0xFFF5EFF7),
-    tooltipBackground: Color(0xFF594946),
+    tooltipText: Color(0xFFFFFFFF),
+    tooltipBackground: Color(0xFF7445FE), // Plur purple for tooltips
   );
 
-  /// Dark theme values
+  /// Dark theme values based on design specs in doc/features/feed_m_styles
   static const CustomColors dark = CustomColors(
-    accentColor: Color(0xFFFF5F44),
-    appBgColor: Color(0xFF160F24),
+    accentColor: Color(0xFF7445FE), // Changed to Plur primary purple
+    appBgColor: Color(0xFF191B27), // From PlurColors.primaryDark
     buttonTextColor: Color(0xFFFFFFFF),
-    cardBgColor: Color(0xFF160F24),
-    dimmedColor: Color(0xFF8D7EAB),
-    feedBgColor: Color(0xFF2A1F3F),
-    loginBgColor: Color(0xFF160F24),
-    navBgColor: Color(0xFF160F24),
-    notesBgColor: Color(0xFF160F24),
-    primaryForegroundColor: Color(0xFFFFFFFF),
-    secondaryForegroundColor: Color(0xFF8D7EAB),
-    separatorColor: Color(0xFF2A1F3F),
-    tabsBgColor: Color(0xFF160F24),
-    tooltipText: Color(0xFFFFFFFF),
-    tooltipBackground: Color(0xFF8D7EAB),
+    cardBgColor: Color(0xFF231F32), // From PlurColors.cardBackground
+    dimmedColor: Color(0xFF63518E), // Secondary text color
+    feedBgColor: Color(0xFF191B27), // Same as app background
+    loginBgColor: Color(0xFF191B27),
+    navBgColor: Color(0xFF231F32), // Same as card background
+    notesBgColor: Color(0xFF231F32),
+    primaryForegroundColor: Color(0xFFB5A0E1), // Primary text color
+    secondaryForegroundColor: Color(0xFF63518E), // Secondary text color
+    separatorColor: Color(0xFF362E4E), // From PlurColors.separator
+    tabsBgColor: Color(0xFF231F32),
+    tooltipText: Color(0xFFECE2FD), // Highlight text color
+    tooltipBackground: Color(0xFF362E4E),
   );
 
   /// Copy with optional overrides

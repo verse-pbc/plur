@@ -52,41 +52,83 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
   Widget doBuild(BuildContext context) {
     final themeData = Theme.of(context);
 
-    Widget? main;
-    Widget? placeholder;
-    // Use blurhash if available and enabled
-    if (settingsProvider.openBlurhashImage != OpenStatus.close &&
-        widget.fileMetadata != null &&
-        StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) {
-      // Note: Removed the PlatformUtil.isWeb() check to support blurhash on all platforms
-      placeholder = genBlurhashImageWidget(
-          widget.fileMetadata!, themeData.hintColor, widget.imageBoxFix);
-    }
-    main = GestureDetector(
-      onTap: () {
-        previewImages(context);
-      },
-      child: Center(
-        child: ImageWidget(
-          url: widget.imageUrl,
-          fit: widget.imageBoxFix,
-          width: widget.width,
-          height: widget.height,
-          placeholder:
-              placeholder != null ? (context, url) => placeholder! : null,
+    // Validate the image URL first
+    if (widget.imageUrl.isEmpty || 
+        widget.imageUrl == "null" || 
+        widget.imageUrl == "undefined") {
+      // Return a simple placeholder for invalid URLs
+      return Container(
+        width: widget.width,
+        height: widget.height,
+        margin: const EdgeInsets.only(
+          top: Base.basePaddingHalf / 2,
+          bottom: Base.basePaddingHalf / 2,
         ),
-      ),
-    );
+        decoration: BoxDecoration(
+          color: themeData.hintColor.withAlpha(25), // ~10% opacity
+          borderRadius: BorderRadius.circular(4),
+        ),
+      );
+    }
 
-    return Container(
-      width: widget.width,
-      height: widget.height,
-      margin: const EdgeInsets.only(
-        top: Base.basePaddingHalf / 2,
-        bottom: Base.basePaddingHalf / 2,
-      ),
-      child: main,
-    );
+    // Try-catch entire build to prevent widget errors
+    try {
+      Widget? main;
+      Widget? placeholder;
+      
+      // Use blurhash if available and enabled
+      if (settingsProvider.openBlurhashImage != OpenStatus.close &&
+          widget.fileMetadata != null &&
+          StringUtil.isNotBlank(widget.fileMetadata!.blurhash)) {
+        try {
+          placeholder = genBlurhashImageWidget(
+              widget.fileMetadata!, themeData.hintColor, widget.imageBoxFix);
+        } catch (e) {
+          // Silently fail if blurhash generation fails
+          placeholder = null;
+        }
+      }
+      
+      main = GestureDetector(
+        onTap: () {
+          previewImages(context);
+        },
+        child: Center(
+          child: ImageWidget(
+            url: widget.imageUrl,
+            fit: widget.imageBoxFix,
+            width: widget.width,
+            height: widget.height,
+            placeholder:
+                placeholder != null ? (context, url) => placeholder! : null,
+          ),
+        ),
+      );
+
+      return Container(
+        width: widget.width,
+        height: widget.height,
+        margin: const EdgeInsets.only(
+          top: Base.basePaddingHalf / 2,
+          bottom: Base.basePaddingHalf / 2,
+        ),
+        child: main,
+      );
+    } catch (e) {
+      // If anything fails, return a simple placeholder
+      return Container(
+        width: widget.width,
+        height: widget.height,
+        margin: const EdgeInsets.only(
+          top: Base.basePaddingHalf / 2,
+          bottom: Base.basePaddingHalf / 2,
+        ),
+        decoration: BoxDecoration(
+          color: themeData.hintColor.withAlpha(25), // ~10% opacity
+          borderRadius: BorderRadius.circular(4),
+        ),
+      );
+    }
   }
 
   void previewImages(BuildContext context) {
@@ -100,28 +142,66 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
       // Process image URLs to handle problematic formats before preview
       List<ImageProvider> imageProviders = [];
       for (var imageUrl in imageList) {
+        // Skip empty or invalid URLs
+        if (imageUrl.isEmpty || imageUrl == "null" || imageUrl == "undefined") {
+          continue;
+        }
+        
+        // Skip nostr.download URLs as they frequently cause problems
+        if (imageUrl.contains('nostr.download/')) {
+          continue;
+        }
+        
         // Process URL to handle AVIF and other problematic formats
-        if (PlatformUtil.isWeb() && 
-            (imageUrl.toLowerCase().endsWith('.avif') || 
-             imageUrl.toLowerCase().endsWith('.webp') ||
-             imageUrl.toLowerCase().endsWith('.heic'))) {
-          // For problematic formats, try to get a version without extension
-          final extensionMatch = RegExp(r'\.([a-zA-Z0-9]+)$').firstMatch(imageUrl);
-          if (extensionMatch != null) {
-            final extension = extensionMatch.group(0) ?? '';
-            imageUrl = imageUrl.substring(0, imageUrl.length - extension.length);
+        if (PlatformUtil.isWeb()) {
+          // Check for problematic image formats
+          final problematicFormats = ['.avif', '.webp', '.heic', '.heif', '.tiff', '.bpg', '.jfif'];
+          final lowercaseUrl = imageUrl.toLowerCase();
+          bool isProblem = false;
+          
+          for (final format in problematicFormats) {
+            if (lowercaseUrl.endsWith(format)) {
+              isProblem = true;
+              break;
+            }
+          }
+          
+          if (isProblem) {
+            // For problematic formats, try to get a version without extension
+            final extensionMatch = RegExp(r'\.([a-zA-Z0-9]+)$').firstMatch(imageUrl);
+            if (extensionMatch != null) {
+              final extension = extensionMatch.group(0) ?? '';
+              imageUrl = imageUrl.substring(0, imageUrl.length - extension.length);
+            }
+          }
+          
+          // Handle CORS issues for specific hosts
+          if (imageUrl.startsWith("https://nostr.build/i/p/")) {
+            imageUrl = imageUrl.replaceFirst(
+                "https://nostr.build/i/p/", "https://pfp.nostr.build/");
+          } else if (imageUrl.startsWith("https://nostr.build/i/")) {
+            imageUrl = imageUrl.replaceFirst(
+                "https://nostr.build/i/", "https://image.nostr.build/");
+          } else if (imageUrl.startsWith("https://cdn.nostr.build/i/")) {
+            imageUrl = imageUrl.replaceFirst(
+                "https://cdn.nostr.build/i/", "https://image.nostr.build/");
           }
         }
         
         // Try to load the image, with error handling
         try {
+          // Add a simple validation for web URLs
+          if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
+            continue;
+          }
+          
           imageProviders.add(CachedNetworkImageProvider(
             imageUrl,
             cacheManager: imageLocalCacheManager,
           ));
         } catch (e) {
           // If adding a specific image fails, just skip it
-          print("Error creating image provider for $imageUrl: $e");
+          // Silent fail - no logging
         }
       }
       
@@ -133,33 +213,25 @@ class _ContentImageWidgetState extends CustState<ContentImageWidget> {
           safeIndex = 0;
         }
         
+        // Create the multi-image provider
         MultiImageProvider multiImageProvider =
             MultiImageProvider(imageProviders, initialIndex: safeIndex);
 
-        ImagePreviewDialog.show(
-          context, 
-          multiImageProvider,
-          doubleTapZoomable: true, 
-          swipeDismissible: true,
-        );
-      } else {
-        // No valid images to show
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Could not load image for preview'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+        // Show the image preview dialog with a try-catch block for additional safety
+        try {
+          ImagePreviewDialog.show(
+            context, 
+            multiImageProvider,
+            doubleTapZoomable: true, 
+            swipeDismissible: true,
+          );
+        } catch (e) {
+          // No message to user - just fail silently
+        }
       }
+      // Silent failure if no images to show - no error messages to console or user
     } catch (e) {
-      // Catch any errors during the preview process
-      print("Error previewing images: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Error loading image preview'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      // Catch any errors during the preview process - fail silently
     }
   }
 }

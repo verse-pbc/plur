@@ -146,8 +146,10 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     // Hint text with paste option
                     GestureDetector(
                       onTap: _pasteJoinLink,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      child: Wrap( // Replace Row with Wrap to prevent overflow
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 4, // Horizontal spacing between items
                         children: [
                           Text(
                             localization.Have_invite_link,
@@ -156,8 +158,8 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                               fontStyle: FontStyle.italic,
                               color: themeData.customColors.dimmedColor,
                             ),
+                            textAlign: TextAlign.center,
                           ),
-                          const SizedBox(width: 4),
                           Icon(
                             Icons.content_paste,
                             size: 16,

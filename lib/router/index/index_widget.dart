@@ -91,6 +91,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
             Expanded(
               child: GestureDetector(
                 onTap: () {
+                  debugPrint("👆 USER CLICKED: Grid tab selector");
                   indexProvider.setCommunityViewMode(CommunityViewMode.grid);
                 },
                 child: Container(
@@ -119,6 +120,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
             Expanded(
               child: GestureDetector(
                 onTap: () {
+                  debugPrint("👆 USER CLICKED: Feed tab selector");
                   indexProvider.setCommunityViewMode(CommunityViewMode.feed);
                 },
                 child: Container(

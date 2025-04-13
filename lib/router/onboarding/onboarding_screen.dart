@@ -45,8 +45,24 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode to adapt colors
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    // Define theme-adaptive colors
+    final backgroundColor = isDarkMode ? PlurColors.appBackground : Colors.white;
+    final gradientEndColor = isDarkMode ? PlurColors.appBackground : Colors.white.withAlpha(245);
+    final gradientStartColor = PlurColors.primaryPurple.withAlpha(isDarkMode ? 64 : 38);
+    final logoColor = isDarkMode ? PlurColors.highlightText : PlurColors.primaryPurple;
+    final indicatorActiveColor = PlurColors.primaryPurple;
+    final indicatorInactiveColor = isDarkMode 
+        ? PlurColors.secondaryText.withAlpha(128) 
+        : PlurColors.secondaryText.withAlpha(102);
+    final versionColor = isDarkMode 
+        ? PlurColors.secondaryText.withAlpha(179) 
+        : PlurColors.secondaryText;
+    
     return Scaffold(
-      backgroundColor: PlurColors.appBackground,
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Stack(
           children: [
@@ -57,8 +73,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    PlurColors.primaryPurple.withAlpha(64),
-                    PlurColors.appBackground,
+                    gradientStartColor,
+                    gradientEndColor,
                   ],
                   stops: const [0.0, 0.7],
                 ),
@@ -74,8 +90,8 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                 child: Text(
                   'plur',
                   style: GoogleFonts.nunito(
-                    textStyle: const TextStyle(
-                      color: PlurColors.highlightText,
+                    textStyle: TextStyle(
+                      color: logoColor,
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 1.5,
@@ -86,30 +102,34 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
             ),
             
             // Main content
-            Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: Base.maxScreenWidth),
-                child: PageView(
-                  controller: _pageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  onPageChanged: (int page) {
-                    setState(() {
-                      _currentPage = page;
-                    });
-                  },
-                  children: _steps,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 90), // Add bottom padding for version text
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: Base.maxScreenWidth),
+                  child: PageView(
+                    controller: _pageController,
+                    physics: const NeverScrollableScrollPhysics(),
+                    onPageChanged: (int page) {
+                      setState(() {
+                        _currentPage = page;
+                      });
+                    },
+                    children: _steps,
+                  ),
                 ),
               ),
             ),
             
-            // Page indicator
+            // Page indicator and version - moved up to avoid button overlap
             Positioned(
-              bottom: 24,
+              bottom: 16,
               left: 0,
               right: 0,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Page indicators
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: List.generate(
@@ -122,20 +142,20 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(4),
                           color: _currentPage == index
-                              ? PlurColors.primaryPurple
-                              : PlurColors.secondaryText.withAlpha(128),
+                              ? indicatorActiveColor
+                              : indicatorInactiveColor,
                         ),
                       ),
                     ),
                   ),
                   
                   // Version text
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 8),
                   Text(
                     'v0.1.0',
                     style: GoogleFonts.nunito(
                       textStyle: TextStyle(
-                        color: PlurColors.secondaryText.withAlpha(179),
+                        color: versionColor,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),

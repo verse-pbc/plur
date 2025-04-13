@@ -38,6 +38,8 @@ import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
+import 'package:nostrmo/router/group/group_media_grid_widget.dart';
+import 'package:nostrmo/router/group/group_media_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
@@ -860,6 +862,22 @@ class _MyApp extends State<MyApp> {
                 final groupId = settings.arguments as GroupIdentifier;
                 
                 return null; // Let the usual route handle it
+                
+              case RouterPath.groupMedia:
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesScreen(),
+                  );
+                }
+                
+                final mediaGroupId = settings.arguments as GroupIdentifier;
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: mediaGroupId,
+                    child: const GroupMediaScreen(),
+                  ),
+                );
+                
               default:
                 return null;
             }
