@@ -160,6 +160,17 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       },
       smallMode: widget.smallMode,
     ));
+    
+    // Add the COMMUNITIES option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.groups_rounded,
+      name: localization.Communities,
+      color: indexProvider.currentTap == 0 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(0);
+      },
+      smallMode: widget.smallMode,
+    ));
 
     // Add the SETTINGS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
