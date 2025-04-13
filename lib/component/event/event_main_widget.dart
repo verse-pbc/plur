@@ -3,7 +3,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/component/content/content_video_widget.dart';
 import 'package:nostrmo/component/content/markdown/markdown_mention_event_element_builder.dart';
 import 'package:nostrmo/component/event/event_torrent_widget.dart';
@@ -11,6 +13,7 @@ import 'package:nostrmo/component/event/event_zap_goals_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
+import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -788,27 +791,44 @@ class _EventMainWidgetState extends State<EventMainWidget> {
 
   Widget buildWarningWidget(double largeTextSize, Color mainColor) {
     final localization = S.of(context);
+    final themeData = Theme.of(context);
 
     return Container(
       margin: const EdgeInsets.only(
           bottom: Base.basePadding, top: Base.basePadding),
       width: double.maxFinite,
+      padding: const EdgeInsets.all(Base.basePadding),
+      decoration: BoxDecoration(
+        color: themeData.customColors.cardBgColor, // Use ThemeData extension for card background
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Column(
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.warning),
+              Icon(Icons.warning, color: PlurColors.textColor(context)),
               Container(
                 margin: const EdgeInsets.only(left: Base.basePaddingHalf),
                 child: Text(
                   localization.Content_warning,
-                  style: TextStyle(fontSize: largeTextSize),
+                  style: GoogleFonts.nunito(
+                    textStyle: TextStyle(
+                      fontSize: largeTextSize,
+                      color: PlurColors.textColor(context),
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
               )
             ],
           ),
-          Text(localization.This_note_contains_sensitive_content),
+          Text(
+            localization.This_note_contains_sensitive_content,
+            style: GoogleFonts.nunito(
+              textStyle: PlurColors.contentStyle(context),
+            ),
+          ),
           GestureDetector(
             onTap: () {
               setState(() {
@@ -824,12 +844,17 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 right: Base.basePadding,
               ),
               decoration: BoxDecoration(
-                color: mainColor,
+                color: PlurColors.primaryPurple, // Use our primary brand color 
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
                 localization.Show,
-                style: const TextStyle(color: Colors.white),
+                style: GoogleFonts.nunito(
+                  textStyle: const TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
             ),
           ),

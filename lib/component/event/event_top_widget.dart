@@ -110,13 +110,13 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // Username with new styling
+                          // Username with theme-adaptive styling
                           Expanded(
                             child: jumpWrap(
                               Text(
                                 displayName,
                                 style: GoogleFonts.nunito(
-                                  textStyle: PlurColors.usernameStyle,
+                                  textStyle: PlurColors.usernameStyle(context),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -124,12 +124,12 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                             ),
                           ),
                           
-                          // Time stamp with new styling
+                          // Time stamp with theme-adaptive styling
                           Container(
                             child: RelativeDateWidget(
                               widget.event.createdAt,
                               style: GoogleFonts.nunito(
-                                textStyle: PlurColors.timestampStyle,
+                                textStyle: PlurColors.timestampStyle(context),
                               ),
                             ),
                           ),
@@ -143,7 +143,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                             child: Text(
                               nip05Text,
                               style: GoogleFonts.nunito(
-                                textStyle: PlurColors.handleStyle,
+                                textStyle: PlurColors.handleStyle(context),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

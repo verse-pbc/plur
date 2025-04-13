@@ -2,191 +2,83 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-// Platform is not available on web, so we need to handle that
-// ignore: unused_import
-import 'dart:io' as io show Platform;
+// Platform is not available on web, so we need to handle that through our utility
+import 'package:nostrmo/component/blurhash_image_component/stub_platform.dart';
 
-// Only import these packages on web platform
-// ignore: unused_import
-import 'package:blurhash_dart/blurhash_dart.dart' if (dart.library.io) 'package:nostrmo/component/blurhash_image_component/empty_blurhash.dart' as blurhash_dart;
-// ignore: unused_import
-import 'package:image/image.dart' if (dart.library.io) 'package:nostrmo/component/blurhash_image_component/empty_image.dart' as img;
+// For web, we'll use a simpler approach without external dependencies
+// that might cause issues with Flutter web compatibility
 
 Widget? genBlurhashImageWidget(
     FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {
-  // Early return if missing blurhash or on iOS/macOS
-  if (fileMetadata.blurhash == null || (!kIsWeb && _isIosOrMacos())) {
+  try {
+    // On web, always use a simple placeholder
+    // This avoids compatibility issues with web platform
+    if (kIsWeb || fileMetadata.blurhash == null) {
+      return _buildPlaceholder(fileMetadata, color, imageBoxFix);
+    }
+    
+    // For non-web platforms that aren't iOS/macOS, delegate to the IO version
+    // The IO implementation will handle this appropriately
+    if (!SafePlatform.isIOS() && !SafePlatform.isMacOS()) {
+      // Let the IO implementation handle non-web platforms
+      return null;
+    }
+    
+    // Fallback to placeholder
     return _buildPlaceholder(fileMetadata, color, imageBoxFix);
+  } catch (e) {
+    // If anything goes wrong, return null to use the default fallback
+    return null;
   }
-  
-  // Only try to use blurhash on web (or other non-iOS/macOS platforms)
-  if (kIsWeb) {
-    try {
-      return _buildWebBlurHashImage(fileMetadata, color, imageBoxFix);
-    } catch (e) {
-      // print("Web BlurHash error: $e");
-    }
-  }
-  
-  // Fallback to placeholder
-  return _buildPlaceholder(fileMetadata, color, imageBoxFix);
 }
 
-// Web-specific implementation
-Widget? _buildWebBlurHashImage(FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {
-  // Get dimensions from metadata if available
-  int? width = fileMetadata.getImageWidth();
-  int? height = fileMetadata.getImageHeight();
-  
-  // Use default dimensions if not specified
-  width ??= 80;
-  height ??= 80;
-  
-  // Calculate aspect ratio from dimensions if available
-  double aspectRatio = 1.6; // default
-  if (height > 0) {
-    aspectRatio = width / height;
-  }
-  
-  try {
-    // Only try to use blurhash_dart on web - dynamic import to avoid errors on other platforms
-    if (kIsWeb) {
-      return _processWebBlurhash(fileMetadata.blurhash!, width, height, aspectRatio, color, imageBoxFix);
-    }
-  } catch (e) {
-    // print("Error processing web blurhash: $e");
-  }
-  
-  // Fallback if blurhash decoding fails
-  return _buildPlaceholder(fileMetadata, color, imageBoxFix);
-}
-
-// Function that dynamically handles the web blurhash logic
-Widget _processWebBlurhash(String blurhash, int width, int height, double aspectRatio, Color color, BoxFit imageBoxFix) {
-  try {
-    if (kIsWeb) {
-      // Dynamic import to avoid iOS/macOS errors
-      // This creates our blurhash image only on web
-      final imageBytes = _createWebBlurhashBytes(blurhash, width, height);
-      
-      if (imageBytes != null) {
-        return Container(
-          color: color.withAlpha(51),
-          child: AspectRatio(
-            aspectRatio: aspectRatio,
-            child: Image.memory(
-              imageBytes,
-              fit: imageBoxFix,
-              width: width.toDouble(),
-              height: height.toDouble(),
-              errorBuilder: (context, error, stackTrace) {
-                return _buildErrorPlaceholder(width, height, color);
-              },
-            ),
-          ),
-        );
-      }
-    }
-  } catch (e) {
-    // print("Error creating web blurhash: $e");
-  }
-  
-  // If we reach here, something went wrong - return a fallback placeholder
-  return Container(
-    color: color.withAlpha(51),
-    child: AspectRatio(
-      aspectRatio: aspectRatio,
-      child: Container(
-        width: width.toDouble(),
-        height: height.toDouble(),
-        color: color.withAlpha(51),
-        child: Center(
-          child: Icon(
-            Icons.image,
-            size: width / 3,
-            color: Colors.white.withAlpha(127),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-// Web-specific function to create blurhash bytes
-dynamic _createWebBlurhashBytes(String blurhash, int width, int height) {
-  try {
-    if (kIsWeb) {
-      // Use the conditionally imported packages
-      // ignore: avoid_dynamic_calls
-      final blurhashImage = blurhash_dart.BlurHash.decode(blurhash);
-      
-      // Generate the image data with proper dimensions
-      // ignore: avoid_dynamic_calls
-      final image = blurhashImage.toImage(width, height);
-      
-      // Convert the image to bytes that can be used with Image.memory
-      // ignore: avoid_dynamic_calls
-      final pngBytes = img.encodePng(image);
-      return pngBytes;
-            }
-  } catch (e) {
-    // print("Error in web blurhash processing: $e");
-  }
-  return null;
-}
+// We've simplified the web implementation to only use placeholders
+// This avoids compatibility issues with the Flutter web platform
 
 // Create a placeholder widget for when blurhash isn't available
 Widget _buildPlaceholder(FileMetadata fileMetadata, Color color, BoxFit imageBoxFix) {
-  int? width = fileMetadata.getImageWidth() ?? 80;
-  int? height = fileMetadata.getImageHeight() ?? 80;
-  
-  double aspectRatio = 1.6; // default
-  if (height > 0) {
-    aspectRatio = width / height;
-  }
-  
-  return Container(
-    color: color.withAlpha(51),
-    child: AspectRatio(
-      aspectRatio: aspectRatio,
-      child: Container(
-        width: width.toDouble(),
-        height: height.toDouble(),
-        color: color.withAlpha(51),
-        child: Center(
-          child: Icon(
-            Icons.image,
-            size: width / 3,
-            color: Colors.white.withAlpha(127),
+  try {
+    int? width = fileMetadata.getImageWidth() ?? 80;
+    int? height = fileMetadata.getImageHeight() ?? 80;
+    
+    // Default aspect ratio if dimensions are invalid
+    double aspectRatio = 1.6;
+    
+    // Protect against zero height which would cause division by zero
+    if (height > 0 && width > 0) {
+      aspectRatio = width / height;
+    }
+    
+    // Prevent extreme aspect ratios that could break layout
+    if (aspectRatio > 3) aspectRatio = 3;
+    if (aspectRatio < 0.3) aspectRatio = 0.3;
+    
+    return Container(
+      color: color.withAlpha(30), // Very subtle background
+      child: AspectRatio(
+        aspectRatio: aspectRatio,
+        child: Container(
+          width: width.toDouble(),
+          height: height.toDouble(),
+          decoration: BoxDecoration(
+            color: color.withAlpha(30),
+            borderRadius: BorderRadius.circular(4),
           ),
+          // No icon or text to make it clean and simple
         ),
       ),
-    ),
-  );
-}
-
-// Widget for error state
-Widget _buildErrorPlaceholder(int? width, int? height, Color color) {
-  return Container(
-    width: width?.toDouble(),
-    height: height?.toDouble(),
-    color: color.withAlpha(51),
-    child: Center(
-      child: Icon(
-        Icons.image_not_supported,
-        size: (width ?? 60) / 3,
-        color: Colors.white.withAlpha(127),
-      ),
-    ),
-  );
-}
-
-// Helper method to safely check platform
-bool _isIosOrMacos() {
-  try {
-    return io.Platform.isIOS || io.Platform.isMacOS;
+    );
   } catch (e) {
-    // If Platform is not available (like on web), return false
-    return false;
+    // Simplified fallback for any errors
+    return Container(
+      width: 80.0,
+      height: 80.0,
+      decoration: BoxDecoration(
+        color: color.withAlpha(30),
+        borderRadius: BorderRadius.circular(4),
+      ),
+    );
   }
 }
+
+// Nothing to replace this with, we're removing the unused method

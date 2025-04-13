@@ -6,12 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/like_select_type.dart';
+import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -200,6 +202,10 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           padding: const EdgeInsets.only(
             bottom: Base.basePaddingHalf,
           ),
+          decoration: BoxDecoration(
+            color: themeData.customColors.cardBgColor, // Use ThemeData extension for card background
+            borderRadius: BorderRadius.circular(8.0),
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -289,7 +295,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     );
   }
   
-  // Helper method for creating consistent reaction buttons
+  // Helper method for creating consistent reaction buttons with theme support
   Widget _buildReactionButton({
     required IconData icon,
     required int? count,
@@ -300,6 +306,14 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
   }) {
     final theme = Theme.of(context);
     final fontSize = theme.textTheme.bodyMedium!.fontSize!;
+    
+    // Determine if this button is active (e.g. liked/reacted)
+    final bool isActive = color != theme.hintColor;
+    
+    // Choose color based on active state
+    final buttonColor = isActive 
+        ? PlurColors.primaryPurple // Active buttons always use primary color
+        : PlurColors.secondaryTextColor(context); // Non-active buttons use secondary text color
     
     return Material(
       color: Colors.transparent,
@@ -314,7 +328,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
               Icon(
                 icon,
                 size: fontSize + 3,
-                color: color,
+                color: buttonColor,
               ),
               if (showLabel && count != null)
                 Container(
@@ -323,7 +337,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                     NumberFormatUtil.format(count),
                     style: GoogleFonts.nunito(
                       textStyle: TextStyle(
-                        color: color,
+                        color: buttonColor,
                         fontSize: fontSize - 1,
                         fontWeight: FontWeight.w500,
                       ),

@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/hash_util.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+
+// Import path_provider conditionally to prevent web issues
+import 'package:path_provider/path_provider.dart' if (dart.library.js) 'package:nostrmo/util/web_stub_path_provider.dart';
 
 class StoreUtil {
   static StoreUtil? _storeUtil;
@@ -15,8 +18,18 @@ class StoreUtil {
   }
 
   static Future<String> getBasePath() async {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    return appDocDir.path;
+    // Web platform doesn't have file system access in the same way
+    if (kIsWeb) {
+      return '';
+    }
+    
+    try {
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      return appDocDir.path;
+    } catch (e) {
+      // Fallback for web or if directory can't be accessed
+      return '';
+    }
   }
 
   static Future<String?> saveFileToDocument(String filePath,
@@ -47,39 +60,59 @@ class StoreUtil {
 
   static Future<String> saveBS2TempFile(String extension, List<int> uint8list,
       {String? randFolderName, String? filename}) async {
-    var tempDir = await getTemporaryDirectory();
-    var folderPath = tempDir.path;
-    if (StringUtil.isNotBlank(randFolderName)) {
-      folderPath = "$folderPath/${randFolderName!}";
-      checkAndCreateDir("$folderPath/");
+    // Web platform doesn't support file system operations the same way
+    if (kIsWeb) {
+      return '';
     }
-    var tempFilePath =
-        "$folderPath/${StringUtil.rndNameStr(12)}.$extension";
-    if (StringUtil.isNotBlank(filename)) {
-      tempFilePath = "$folderPath/${filename!}.$extension";
+      
+    try {
+      var tempDir = await getTemporaryDirectory();
+      var folderPath = tempDir.path;
+      if (StringUtil.isNotBlank(randFolderName)) {
+        folderPath = "$folderPath/${randFolderName!}";
+        checkAndCreateDir("$folderPath/");
+      }
+      var tempFilePath =
+          "$folderPath/${StringUtil.rndNameStr(12)}.$extension";
+      if (StringUtil.isNotBlank(filename)) {
+        tempFilePath = "$folderPath/${filename!}.$extension";
+      }
+
+      var tempFile = File(tempFilePath);
+      await tempFile.writeAsBytes(uint8list);
+
+      return tempFilePath;
+    } catch (e) {
+      // Fallback for web or errors
+      return '';
     }
-
-    var tempFile = File(tempFilePath);
-    await tempFile.writeAsBytes(uint8list);
-
-    return tempFilePath;
   }
 
   static Future<String> saveBS2TempFileByMd5(
       String extension, List<int> uint8list,
       {String? randFolderName, String? filename}) async {
-    var md5Hash = HashUtil.md5Bytes(uint8list);
-
-    var tempDir = await getTemporaryDirectory();
-    var folderPath = tempDir.path;
-    var tempFilePath = "$folderPath/$md5Hash.$extension";
-
-    var tempFile = File(tempFilePath);
-    if (!tempFile.existsSync()) {
-      await tempFile.writeAsBytes(uint8list);
+    // Web platform doesn't support file system operations the same way
+    if (kIsWeb) {
+      return '';
     }
+    
+    try {
+      var md5Hash = HashUtil.md5Bytes(uint8list);
 
-    return tempFilePath;
+      var tempDir = await getTemporaryDirectory();
+      var folderPath = tempDir.path;
+      var tempFilePath = "$folderPath/$md5Hash.$extension";
+
+      var tempFile = File(tempFilePath);
+      if (!tempFile.existsSync()) {
+        await tempFile.writeAsBytes(uint8list);
+      }
+
+      return tempFilePath;
+    } catch (e) {
+      // Fallback for web or errors
+      return '';
+    }
   }
 
   static Future<void> save2File(String filepath, List<int> uint8list) async {

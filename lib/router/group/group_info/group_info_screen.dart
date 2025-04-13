@@ -28,18 +28,14 @@ class GroupInfoWidget extends StatefulWidget {
   State<GroupInfoWidget> createState() => _GroupInfoWidgetState();
 }
 
-class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
+class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
     super.dispose();
   }
 
@@ -98,210 +94,142 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
           GroupInfoPopupMenuWidget(groupId: groupId),
         ],
       ),
-      body: Column(
-        children: [
-          // Main scrollable section
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: Base.maxScreenWidth),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Members tab
-                SingleChildScrollView(
-                  child: Center(
-                    child: Container(
-                      constraints: const BoxConstraints(maxWidth: Base.maxScreenWidth),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          GroupInfoHeaderWidget(
-                            metadata: metadata,
-                            memberCount: memberCount,
+                GroupInfoHeaderWidget(
+                  metadata: metadata,
+                  memberCount: memberCount,
+                ),
+                if (metadata.about != null && metadata.about!.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 8),
+                        Text(
+                          localization.About,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: customColors.primaryForegroundColor,
                           ),
-                          if (metadata.about != null && metadata.about!.isNotEmpty) ...[
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    localization.About,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: customColors.primaryForegroundColor,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Text(
-                                    metadata.about!,
-                                    style: themeData.textTheme.bodyMedium,
-                                    textAlign: TextAlign.start,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 24),
-                          ],
-                          
-                          // Action buttons
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  localization.Actions,
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: customColors.primaryForegroundColor,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
-                                  children: [
-                                    _buildActionButton(
-                                      context: context,
-                                      icon: Icons.person_add_outlined,
-                                      label: localization.Invite,
-                                      onTap: () {
-                                        RouterUtil.router(context, RouterPath.inviteToGroup, groupId);
-                                      },
-                                    ),
-                                    const SizedBox(width: 8),
-                                    _buildActionButton(
-                                      context: context,
-                                      icon: Icons.share_outlined,
-                                      label: localization.Share,
-                                      isDisabled: true,
-                                      onTap: () {
-                                        // Feature not yet implemented
-                                      },
-                                    ),
-                                    if (isAdmin) ...[
-                                      const SizedBox(width: 8),
-                                      _buildActionButton(
-                                        context: context,
-                                        icon: Icons.edit_outlined,
-                                        label: localization.Edit,
-                                        onTap: () {
-                                          RouterUtil.router(context, RouterPath.groupEdit, groupId);
-                                        },
-                                      ),
-                                    ],
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                          
-                          // Menu section
-                          GroupInfoMenuWidget(groupId: groupId),
-                          const SizedBox(height: 24),
-                          
-                          // Members list section
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      localization.Members,
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                        color: customColors.primaryForegroundColor,
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        RouterUtil.router(context, RouterPath.groupMembers, groupId);
-                                      },
-                                      child: Text(
-                                        "See All",
-                                        style: TextStyle(
-                                          color: customColors.accentColor,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                _buildMembersList(context, groupId),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 24),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          metadata.about!,
+                          style: themeData.textTheme.bodyMedium,
+                          textAlign: TextAlign.start,
+                        ),
+                      ],
                     ),
                   ),
+                  const SizedBox(height: 24),
+                ],
+                
+                // Action buttons
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        localization.Actions,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: customColors.primaryForegroundColor,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          _buildActionButton(
+                            context: context,
+                            icon: Icons.person_add_outlined,
+                            label: localization.Invite,
+                            onTap: () {
+                              RouterUtil.router(context, RouterPath.inviteToGroup, groupId);
+                            },
+                          ),
+                          const SizedBox(width: 8),
+                          _buildActionButton(
+                            context: context,
+                            icon: Icons.share_outlined,
+                            label: localization.Share,
+                            isDisabled: true,
+                            onTap: () {
+                              // Feature not yet implemented
+                            },
+                          ),
+                          if (isAdmin) ...[
+                            const SizedBox(width: 8),
+                            _buildActionButton(
+                              context: context,
+                              icon: Icons.edit_outlined,
+                              label: localization.Edit,
+                              onTap: () {
+                                RouterUtil.router(context, RouterPath.groupEdit, groupId);
+                              },
+                            ),
+                          ],
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox(height: 24),
                 
-                // Media tab - Instagram-style grid
-                GroupMediaGridWidget(groupId: groupId),
+                // Menu section
+                GroupInfoMenuWidget(groupId: groupId),
+                const SizedBox(height: 24),
                 
-                // Links tab
-                _buildEmptyTabContent(context, localization.Links),
-                
-                // Places tab
-                _buildEmptyTabContent(context, localization.Places),
-                
-                // Events tab
-                _buildEmptyTabContent(context, localization.Events),
+                // Members list section
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            localization.Members,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: customColors.primaryForegroundColor,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              RouterUtil.router(context, RouterPath.groupMembers, groupId);
+                            },
+                            child: Text(
+                              "See All",
+                              style: TextStyle(
+                                color: customColors.accentColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      _buildMembersList(context, groupId),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 24),
               ],
             ),
           ),
-          
-          // Tab bar at bottom
-          Container(
-            decoration: BoxDecoration(
-              color: customColors.navBgColor,
-              border: Border(
-                top: BorderSide(
-                  color: customColors.separatorColor,
-                  width: 0.5,
-                ),
-              ),
-            ),
-            child: TabBar(
-              controller: _tabController,
-              indicatorColor: customColors.accentColor,
-              labelColor: customColors.accentColor,
-              unselectedLabelColor: customColors.secondaryForegroundColor,
-              tabs: [
-                // Implemented tabs
-                Tab(
-                  text: localization.Members,
-                  icon: const Icon(Icons.people_outline, size: 20),
-                ),
-                Tab(
-                  text: localization.Media,
-                  icon: const Icon(Icons.photo_library_outlined, size: 20),
-                ),
-                // Tabs that are not yet implemented
-                Tab(
-                  text: "${localization.Links} (soon)",
-                  icon: Icon(Icons.link, size: 20, color: customColors.dimmedColor),
-                ),
-                Tab(
-                  text: "${localization.Places} (soon)",
-                  icon: Icon(Icons.place_outlined, size: 20, color: customColors.dimmedColor),
-                ),
-                Tab(
-                  text: "${localization.Events} (soon)",
-                  icon: Icon(Icons.event_outlined, size: 20, color: customColors.dimmedColor),
-                ),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -448,23 +376,29 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
     
     // Calculate grid parameters
     const int crossAxisCount = 4; // 4 avatars per row
-    const double spacing = 12.0;
-    const double avatarSize = 60.0;
+    const double spacing = 8.0; // Reduce spacing to prevent overflow
+    const double avatarSize = 48.0; // Smaller avatars to fit better
+    
+    // Calculate grid height to avoid overflow
+    final int rowCount = (membersList.length / crossAxisCount).ceil();
+    final double gridHeight = rowCount * (avatarSize + 20) + (rowCount - 1) * spacing;
         
     return Container(
       decoration: BoxDecoration(
         color: customColors.feedBgColor,
         borderRadius: BorderRadius.circular(12),
       ),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(12),
+      height: gridHeight, // Fixed height based on content
       child: GridView.builder(
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: crossAxisCount,
           crossAxisSpacing: spacing,
           mainAxisSpacing: spacing,
-          childAspectRatio: 1.0,
+          // Adjust childAspectRatio to make sure items fit correctly
+          childAspectRatio: 0.9, // Slightly wider than tall for better text fit
         ),
         itemCount: membersList.length,
         itemBuilder: (context, index) {
@@ -498,48 +432,58 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> with SingleTickerProv
           isAdmin: isAdmin,
         );
       },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Admin indicator - small colored circle border
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              // User pic
-              UserPicWidget(
-                pubkey: pubkey, 
-                width: size,
-              ),
-              
-              // Admin indicator
-              if (isAdmin)
-                Container(
-                  width: size + 6,
-                  height: size + 6,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.primary,
-                      width: 2.5,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Ensure we fit within available space by using constraints
+          final itemWidth = constraints.maxWidth;
+          return SizedBox(
+            width: itemWidth,
+            child: Column(
+              mainAxisSize: MainAxisSize.min, // Use minimum space needed
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Admin indicator - small colored circle border
+                Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    // User pic - slightly smaller to ensure it fits
+                    UserPicWidget(
+                      pubkey: pubkey, 
+                      width: size - 2, // Slightly smaller to prevent overflow
                     ),
-                  ),
+                    
+                    // Admin indicator
+                    if (isAdmin)
+                      Container(
+                        width: size + 4, // Slightly smaller border
+                        height: size + 4,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2.0, // Thinner border
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
-            ],
-          ),
-          
-          // Username (truncated)
-          const SizedBox(height: 4),
-          Text(
-            _getShortName(user, pubkey),
-            style: const TextStyle(
-              fontSize: 11,
-              fontWeight: FontWeight.bold,
+                
+                // Username (truncated)
+                const SizedBox(height: 2), // Smaller spacing
+                Text(
+                  _getShortName(user, pubkey),
+                  style: const TextStyle(
+                    fontSize: 10, // Smaller font size
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                ),
+              ],
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-        ],
+          );
+        }
       ),
     );
   }
