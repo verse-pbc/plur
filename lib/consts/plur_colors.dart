@@ -7,7 +7,7 @@ class PlurColors {
   
   // ORIGINAL COLORS - keep for backward compatibility
   static const Color primaryDark = Color(0xFF191B27);
-  static const Color primaryText = Color(0xFFB5A0E1);
+  static const Color primaryText = Color(0xFFB6A0E1); // Updated to match design
   static const Color secondaryText = Color(0xFF63518E);
   static const Color highlightText = Color(0xFFECE2FD);
   static const Color cardBackground = Color(0xFF231F32);
