@@ -15,12 +15,12 @@ class CommunitiesGridWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 52),
+      padding: const EdgeInsets.only(top: 52, bottom: 80), // Increased bottom padding
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 0.0,
-        mainAxisSpacing: 32.0,
-        childAspectRatio: 1,
+        mainAxisSpacing: 40.0, // Increased to give more vertical space
+        childAspectRatio: 0.9, // Adjusted to make cells taller than they are wide
       ),
       itemCount: groupIds.length,
       itemBuilder: (context, index) {

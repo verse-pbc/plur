@@ -38,7 +38,7 @@ class CommunityTitleWidget extends StatelessWidget {
         ),
         overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
-        maxLines: 2,
+        maxLines: 3, // Increased to allow more text to display
       );
     }
   }
