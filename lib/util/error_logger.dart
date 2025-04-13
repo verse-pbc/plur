@@ -30,16 +30,31 @@ class ErrorLogger {
   
   /// Handle errors from the Flutter framework
   static void _handleFlutterError(FlutterErrorDetails details) {
-    // Log the error to console with full details
-    developer.log(
-      'FLUTTER ERROR: ${details.exception}',
-      name: 'ErrorLogger',
-      error: details.exception,
-      stackTrace: details.stack,
-    );
+    // Check if this is an image encoding error that we want to suppress
+    final errorMessage = details.exception.toString();
+    bool isImageError = errorMessage.contains("EncodingError") || 
+                        errorMessage.contains("source image cannot be decoded");
     
-    // Show a toast notification in debug mode
-    if (kDebugMode) {
+    // Always log but with different verbosity based on error type
+    if (isImageError) {
+      // For image errors, use a quieter log level without full stack trace
+      developer.log(
+        'IMAGE FLUTTER ERROR: ${details.exception}',
+        name: 'ErrorLogger',
+        error: details.exception,
+      );
+    } else {
+      // Normal errors get full logging
+      developer.log(
+        'FLUTTER ERROR: ${details.exception}',
+        name: 'ErrorLogger',
+        error: details.exception,
+        stackTrace: details.stack,
+      );
+    }
+    
+    // Show a toast notification in debug mode, but only for non-image errors
+    if (kDebugMode && !isImageError) {
       _showErrorToast('Flutter Error: ${details.exception}');
     }
     
@@ -49,16 +64,31 @@ class ErrorLogger {
   
   /// Handle errors from outside the Flutter framework
   static bool _handlePlatformError(Object error, StackTrace stack) {
-    // Log the error to console with full details
-    developer.log(
-      'PLATFORM ERROR: $error',
-      name: 'ErrorLogger',
-      error: error,
-      stackTrace: stack,
-    );
+    // Check if this is an image encoding error that we want to suppress
+    final errorMessage = error.toString();
+    bool isImageError = errorMessage.contains("EncodingError") || 
+                        errorMessage.contains("source image cannot be decoded");
     
-    // Show a toast notification in debug mode
-    if (kDebugMode) {
+    // Always log but with different verbosity based on error type
+    if (isImageError) {
+      // For image errors, use a quieter log level without full stack trace
+      developer.log(
+        'IMAGE PLATFORM ERROR: $error',
+        name: 'ErrorLogger',
+        error: error,
+      );
+    } else {
+      // Normal errors get full logging
+      developer.log(
+        'PLATFORM ERROR: $error',
+        name: 'ErrorLogger',
+        error: error,
+        stackTrace: stack,
+      );
+    }
+    
+    // Show a toast notification in debug mode, but only for non-image errors
+    if (kDebugMode && !isImageError) {
       _showErrorToast('Platform Error: $error');
     }
     
@@ -74,21 +104,44 @@ class ErrorLogger {
       truncatedMessage = '${truncatedMessage.substring(0, 500)}...';
     }
     
-    developer.log(
-      'APP ERROR: $truncatedMessage',
-      name: 'ErrorLogger',
-      error: error,
-      stackTrace: stackTrace ?? StackTrace.current,
-    );
+    // Check if this is an image encoding error that we want to suppress
+    final errorMessage = error?.toString() ?? '';
+    bool isImageError = errorMessage.contains("EncodingError") || 
+                        errorMessage.contains("source image cannot be decoded");
     
-    // Show a toast notification in debug mode
-    if (kDebugMode) {
+    // Always log to developer tools but with different verbosity
+    if (isImageError) {
+      // For image errors, use a quieter log level
+      developer.log(
+        'IMAGE ERROR: $truncatedMessage',
+        name: 'ErrorLogger',
+        error: error,
+      );
+    } else {
+      // Normal errors get full stack trace logging
+      developer.log(
+        'APP ERROR: $truncatedMessage',
+        name: 'ErrorLogger',
+        error: error,
+        stackTrace: stackTrace ?? StackTrace.current,
+      );
+    }
+    
+    // Show a toast notification in debug mode, but only for non-image errors
+    if (kDebugMode && !isImageError) {
       _showErrorToast('Error: $truncatedMessage');
     }
   }
   
   /// Show an error message to the user
   static void _showErrorToast(String message) {
+    // Skip encoding errors - these are common with image loading and we don't want to show them
+    if (message.contains("EncodingError") || message.contains("source image cannot be decoded")) {
+      // Just log silently but don't show to user
+      debugPrint("SUPPRESSED IMAGE ERROR: $message");
+      return;
+    }
+    
     // Avoid showing too many error toasts in quick succession
     final now = DateTime.now();
     if (now.difference(_lastErrorToastTime) < _errorToastThrottleTime) {
@@ -116,6 +169,13 @@ class ErrorLogger {
   
   /// Show an error message to the user with context
   static void showErrorToast(BuildContext context, String message) {
+    // Skip encoding errors - these are common with image loading and we don't want to show them
+    if (message.contains("EncodingError") || message.contains("source image cannot be decoded")) {
+      // Just log silently but don't show to user
+      debugPrint("SUPPRESSED IMAGE ERROR: $message");
+      return;
+    }
+    
     // Only show if we have a valid context
     if (context is! StatefulElement || context.state.mounted) {
       try {
@@ -146,10 +206,22 @@ class ErrorLogger {
     try {
       return await callback();
     } catch (e, stack) {
-      logError('Error during $operation', e, stack);
+      // Log the error but handle image encoding errors specially
+      final errorMessage = e.toString();
+      bool isImageError = errorMessage.contains("EncodingError") || 
+                          errorMessage.contains("source image cannot be decoded");
       
-      // Show a toast if context is provided
-      if (context != null) {
+      // Always log internally but with different levels
+      if (isImageError) {
+        // Just log silently but don't show toast for image errors
+        debugPrint("SUPPRESSED IMAGE ERROR during $operation: $e");
+      } else {
+        // Log normal errors with full details
+        logError('Error during $operation', e, stack);
+      }
+      
+      // Show a toast if context is provided AND not an image error
+      if (context != null && !isImageError) {
         showErrorToast(context, 'Error during $operation: $e');
       }
       
@@ -192,19 +264,30 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
         _originalOnError!(details);
       }
       
-      // Log to our error logger
-      ErrorLogger.logError(
-        'Widget error caught by boundary',
-        details.exception,
-        details.stack,
-      );
+      // Check if this is an image encoding error that we want to handle specially
+      final errorMessage = details.exception.toString();
+      final isImageError = errorMessage.contains("EncodingError") || 
+                           errorMessage.contains("source image cannot be decoded");
       
-      // Then handle it our way
-      if (mounted) {
-        setState(() {
-          _error = details.exception;
-          _stackTrace = details.stack;
-        });
+      // Log to our error logger with appropriate verbosity
+      if (isImageError) {
+        // For image errors, just log quietly without showing error UI
+        debugPrint("SUPPRESSED IMAGE ERROR in boundary: ${details.exception}");
+      } else {
+        // For normal errors, do full logging and show error UI
+        ErrorLogger.logError(
+          'Widget error caught by boundary',
+          details.exception,
+          details.stack,
+        );
+        
+        // Only update state to show error UI for non-image errors
+        if (mounted) {
+          setState(() {
+            _error = details.exception;
+            _stackTrace = details.stack;
+          });
+        }
       }
     };
     
@@ -218,7 +301,22 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
   
   // Add a method to manually capture errors that might happen during runtime
   void captureError(Object error, StackTrace stackTrace) {
+    // Check if this is an image encoding error that we want to handle specially
+    final errorMessage = error.toString();
+    final isImageError = errorMessage.contains("EncodingError") || 
+                         errorMessage.contains("source image cannot be decoded");
+    
+    if (isImageError) {
+      // For image errors, just log quietly without showing error UI
+      debugPrint("SUPPRESSED IMAGE ERROR in captureError: $error");
+      
+      // Don't update state for image errors - this prevents showing the error UI
+      return;
+    }
+    
+    // For normal errors, do full logging and show error UI
     ErrorLogger.logError('Runtime error caught by boundary', error, stackTrace);
+    
     if (mounted) {
       setState(() {
         _error = error;
@@ -258,6 +356,24 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
   @override
   Widget build(BuildContext context) {
     if (_error != null) {
+      // Check if this is an image encoding error before showing the error UI
+      final errorMessage = _error.toString();
+      final isImageError = errorMessage.contains("EncodingError") || 
+                           errorMessage.contains("source image cannot be decoded");
+      
+      // For image errors, skip showing the error UI completely
+      if (isImageError) {
+        debugPrint("SUPPRESSED IMAGE ERROR UI: $_error");
+        // Just return the child as if no error occurred
+        try {
+          return widget.child;
+        } catch (e) {
+          // In case the child is invalid, return empty widget
+          return const SizedBox();
+        }
+      }
+      
+      // For non-image errors, show the error UI
       if (widget.errorBuilder != null) {
         return widget.errorBuilder!(_error!, _stackTrace);
       }
@@ -305,7 +421,20 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
     try {
       return widget.child;
     } catch (error, stackTrace) {
-      // Log and capture the error
+      // Check if this is an image encoding error
+      final errorMessage = error.toString();
+      final isImageError = errorMessage.contains("EncodingError") || 
+                           errorMessage.contains("source image cannot be decoded");
+      
+      if (isImageError) {
+        // For image errors, just log quietly without showing error UI
+        debugPrint("SUPPRESSED IMAGE ERROR in build: $error");
+        
+        // Return the simplest possible fallback without updating state
+        return const SizedBox();
+      }
+      
+      // For regular errors, proceed with normal error handling
       ErrorLogger.logError('Error during build', error, stackTrace);
       
       // Immediately update state to show error UI
