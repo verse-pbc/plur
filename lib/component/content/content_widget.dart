@@ -1159,9 +1159,9 @@ class _ContentWidgetState extends State<ContentWidget> {
         textStyle = currentTextStyle!.merge(textStyle);
       }
     } else {
-      // If no style is set, use our Plur design style for content
+      // If no style is set, use our Plur design style for content with theme support
       textStyle = textStyle ?? GoogleFonts.nunito(
-        textStyle: PlurColors.contentStyle,
+        textStyle: PlurColors.contentStyle(context),
       );
     }
 

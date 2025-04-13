@@ -227,30 +227,46 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
   }
 
   Future<void> _doSaveImage({bool isPc = false}) async {
-    var index = _pageController.page!.toInt();
-    var imageProvider = widget.imageProvider.imageBuilder(context, index);
-    var imageAsBytes =
-        await imageProvider.getBytes(context, format: ImageByteFormat.png);
-    if (imageAsBytes != null) {
-      if (!isPc) {
-        var result =
-            await ImageGallerySaver.saveImage(imageAsBytes, quality: 100);
-        if (!mounted) return;
-        if (result != null && result is Map && result["isSuccess"]) {
-          BotToast.showText(text: S.of(context).Image_save_success);
+    try {
+      var index = _pageController.page!.toInt();
+      var imageProvider = widget.imageProvider.imageBuilder(context, index);
+      
+      // Use try-catch to handle errors during image processing
+      try {
+        var imageAsBytes = await imageProvider.getBytes(context, format: ImageByteFormat.png);
+        if (imageAsBytes != null) {
+          if (!isPc) {
+            var result = await ImageGallerySaver.saveImage(imageAsBytes, quality: 100);
+            if (!mounted) return;
+            if (result != null && result is Map && result["isSuccess"]) {
+              BotToast.showText(text: S.of(context).Image_save_success);
+            } else {
+              // Silently fail
+              developer.log("Failed to save image: $result", name: "ImagePreviewDialog");
+            }
+          } else {
+            var result = await FileSaver.instance.saveFile(
+              name: DateTime.now().millisecondsSinceEpoch.toString(),
+              bytes: imageAsBytes,
+              ext: ".png",
+            );
+            if (!mounted) return;
+            BotToast.showText(
+              text: "${S.of(context).Image_save_success} $result",
+              crossPage: true,
+            );
+          }
+        } else {
+          // No image bytes available
+          developer.log("No image bytes available to save", name: "ImagePreviewDialog");
         }
-      } else {
-        var result = await FileSaver.instance.saveFile(
-          name: DateTime.now().millisecondsSinceEpoch.toString(),
-          bytes: imageAsBytes,
-          ext: ".png",
-        );
-        if (!mounted) return;
-        BotToast.showText(
-          text: "${S.of(context).Image_save_success} $result",
-          crossPage: true,
-        );
+      } catch (e) {
+        // Error processing image
+        developer.log("Error processing image for save: $e", name: "ImagePreviewDialog");
       }
+    } catch (e) {
+      // Handle any errors in the outer try block
+      developer.log("Error in _doSaveImage: $e", name: "ImagePreviewDialog");
     }
   }
 

@@ -48,6 +48,20 @@ class OnboardingStepWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current theme mode to adapt colors
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    
+    // Define theme-adaptive colors
+    final cardBgColor = isDarkMode ? PlurColors.cardBackground : Colors.white;
+    final titleColor = isDarkMode ? PlurColors.highlightText : PlurColors.primaryPurple;
+    final descriptionColor = isDarkMode 
+        ? PlurColors.highlightText // Higher contrast in dark mode
+        : PlurColors.primaryDark;
+    final emojiContainerColor = PlurColors.primaryPurple.withAlpha(isDarkMode ? 38 : 26);
+    final shadowColor = isDarkMode 
+        ? Colors.black.withAlpha(60) 
+        : Colors.black.withAlpha(28);
+    
     return MediaQuery(
       data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
       child: Container(
@@ -59,11 +73,11 @@ class OnboardingStepWidget extends StatelessWidget {
             // Card container for the content
             Container(
               decoration: BoxDecoration(
-                color: PlurColors.cardBackground,
+                color: cardBgColor,
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withAlpha(38),
+                    color: shadowColor,
                     blurRadius: 12,
                     offset: const Offset(0, 6),
                   ),
@@ -74,10 +88,10 @@ class OnboardingStepWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Emoji
+                  // Emoji container with improved styling
                   Container(
                     decoration: BoxDecoration(
-                      color: PlurColors.primaryPurple.withAlpha(26),
+                      color: emojiContainerColor,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     padding: const EdgeInsets.all(16),
@@ -93,14 +107,14 @@ class OnboardingStepWidget extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Title
+                  // Title with improved contrast
                   Text(
                     title,
                     key: titleKey,
                     textAlign: TextAlign.start,
                     style: GoogleFonts.nunito(
-                      textStyle: const TextStyle(
-                        color: PlurColors.highlightText,
+                      textStyle: TextStyle(
+                        color: titleColor,
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         height: 1.2,
@@ -111,15 +125,16 @@ class OnboardingStepWidget extends StatelessWidget {
 
                   const SizedBox(height: 24),
 
-                  // Description or input field
+                  // Description or input field with improved contrast
                   description != null
                       ? Text(
                           description!,
                           textAlign: TextAlign.start,
                           style: GoogleFonts.nunito(
-                            textStyle: const TextStyle(
-                              color: PlurColors.primaryText,
+                            textStyle: TextStyle(
+                              color: descriptionColor,
                               fontSize: 17,
+                              fontWeight: FontWeight.w500, // Slightly bolder for better contrast
                               height: 1.4,
                               letterSpacing: 0.2,
                             ),
@@ -128,6 +143,7 @@ class OnboardingStepWidget extends StatelessWidget {
                       : InputFieldWidget(
                           controller: textController!,
                           hintText: textFieldHint,
+                          isDarkMode: isDarkMode,
                         ),
                 ],
               ),

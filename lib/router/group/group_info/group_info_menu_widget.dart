@@ -10,18 +10,18 @@ import 'package:nostrmo/provider/group_provider.dart';
 import '../../../main.dart';
 
 enum GroupInfoMenuItem {
-  backToGroups,
   members,
+  media,
   settings,
   leave;
 
   String getTitle(BuildContext context) {
     final localization = S.of(context);
     switch (this) {
-      case GroupInfoMenuItem.backToGroups:
-        return localization.Communities;
       case GroupInfoMenuItem.members:
         return localization.Members;
+      case GroupInfoMenuItem.media:
+        return localization.Media;
       case GroupInfoMenuItem.settings:
         return localization.Settings;
       case GroupInfoMenuItem.leave:
@@ -31,10 +31,10 @@ enum GroupInfoMenuItem {
 
   IconData getIcon() {
     switch (this) {
-      case GroupInfoMenuItem.backToGroups:
-        return Icons.groups_outlined;
       case GroupInfoMenuItem.members:
         return Icons.people_outline;
+      case GroupInfoMenuItem.media:
+        return Icons.photo_library_outlined;
       case GroupInfoMenuItem.settings:
         return Icons.settings_outlined;
       case GroupInfoMenuItem.leave:
@@ -114,10 +114,11 @@ class GroupInfoMenuWidget extends StatelessWidget {
   }
 
   List<GroupInfoMenuItem> _getMenuItems(BuildContext context, GroupProvider groupProvider) {
-    // Start with Back to Groups and Members
+    // Start with just Members for now (media temporarily hidden)
     List<GroupInfoMenuItem> items = [
-      GroupInfoMenuItem.backToGroups,
       GroupInfoMenuItem.members,
+      // TODO: Re-enable when media view is fully implemented
+      // GroupInfoMenuItem.media,
     ];
     
     // Add Settings only if user is admin
@@ -137,11 +138,11 @@ class GroupInfoMenuWidget extends StatelessWidget {
 
   void _handleMenuItemTap(BuildContext context, GroupInfoMenuItem item) {
     switch (item) {
-      case GroupInfoMenuItem.backToGroups:
-        RouterUtil.router(context, RouterPath.groupList);
-        break;
       case GroupInfoMenuItem.members:
         RouterUtil.router(context, RouterPath.groupMembers, groupId);
+        break;
+      case GroupInfoMenuItem.media:
+        RouterUtil.router(context, RouterPath.groupMedia, groupId);
         break;
       case GroupInfoMenuItem.settings:
         // TODO: Implement settings

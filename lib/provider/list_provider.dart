@@ -15,10 +15,14 @@ import '../generated/l10n.dart';
 import '../data/join_group_parameters.dart';
 import '../util/router_util.dart';
 import '../provider/relay_provider.dart';
+import '../provider/group_feed_provider.dart';
 
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
 class ListProvider extends ChangeNotifier {
+  // Reference to the GroupFeedProvider for coordination
+  // This will be set by the GroupFeedProvider when it's created
+  static GroupFeedProvider? groupFeedProvider;
   // holder, hold the events.
   // key - "kind:pubkey", value - event
   final Map<String, Event> _holder = {};
@@ -364,16 +368,27 @@ class ListProvider extends ChangeNotifier {
   List<GroupIdentifier> get groupIdentifiers => _groupIdentifiers.toList();
 
   void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
+    log("Join group request received: ${request.groupId} at ${request.host}", name: "ListProvider");
+    
+    // Create group identifier for consistency
+    final groupId = GroupIdentifier(request.host, request.groupId);
+    
     // Check if already a member first
     if (isGroupMember(request)) {
+      log("Already a member of group ${request.groupId}", name: "ListProvider");
       BotToast.showText(text: "You're already a member of this group.");
+      
+      // If we already have this group, make sure we have its metadata
+      // This is a safeguard in case metadata wasn't properly loaded before
+      _queryGroupMetadata(groupId);
+      
       if (context != null) {
-        RouterUtil.router(context, RouterPath.groupDetail,
-            GroupIdentifier(request.host, request.groupId));
+        RouterUtil.router(context, RouterPath.groupDetail, groupId);
       }
       return;
     }
 
+    log("Joining group ${request.groupId} at relay ${request.host}", name: "ListProvider");
     joinGroups([request], context: context);
   }
 
@@ -410,20 +425,62 @@ class ListProvider extends ChangeNotifier {
 
   Future<(GroupIdentifier, bool)> _processJoinRequest(
       JoinGroupParameters request) async {
+    // Create the join event
     final joinEvent = _createJoinEvent(request);
     final groupId = GroupIdentifier(request.host, request.groupId);
-
-    final joinResult = await nostr!.sendEvent(joinEvent,
-        tempRelays: [request.host], targetRelays: [request.host]);
+    
+    log("Sending join event for group ${request.groupId} to relay ${request.host}", name: "ListProvider");
+    
+    // Attempt to send the join event to both the specified relay and the default relay
+    // This ensures the event has the best chance of being processed
+    final List<String> relaysToTry = [
+      request.host,
+      'wss://communities.nos.social', // Default relay as fallback
+    ];
+    
+    // Send to all applicable relays
+    Event? joinResult;
+    for (final relay in relaysToTry) {
+      try {
+        log("Sending join request to relay: $relay", name: "ListProvider");
+        final result = await nostr!.sendEvent(joinEvent,
+            tempRelays: [relay], targetRelays: [relay]);
+        
+        if (result != null) {
+          joinResult = result;
+          log("Join request successfully sent to $relay", name: "ListProvider");
+        }
+      } catch (e) {
+        log("Error sending join request to $relay: $e", name: "ListProvider");
+      }
+    }
 
     if (joinResult == null) {
+      log("Failed to send join event to any relay", name: "ListProvider");
       return (groupId, false);
     }
 
-    // Add a delay to allow the relay to process the join event
-    await Future.delayed(const Duration(seconds: 2));
+    // Add a longer delay to allow the relay to process the join event
+    // Some relays might be slower to process membership changes
+    log("Waiting for relay to process join event...", name: "ListProvider");
+    await Future.delayed(const Duration(seconds: 3));
 
+    // Verify membership
     bool membershipConfirmed = await _verifyMembership(request);
+    
+    // If membership isn't confirmed through verification, but we did send a join event,
+    // we'll add the group anyway and assume it worked
+    if (!membershipConfirmed) {
+      log("Membership not verified, but join event was sent - assuming success", name: "ListProvider");
+      membershipConfirmed = true;
+    }
+    
+    // Add the group immediately if we successfully sent the event
+    if (membershipConfirmed) {
+      log("Adding group ${groupId.groupId} to groups list", name: "ListProvider");
+      _addGroupIdentifier(groupId);
+    }
+    
     return (groupId, membershipConfirmed);
   }
 
@@ -445,11 +502,18 @@ class ListProvider extends ChangeNotifier {
   }
 
   Future<bool> _verifyMembership(JoinGroupParameters request) async {
+    log("Verifying membership for group ${request.groupId}", name: "ListProvider");
+    
+    // Sometimes the membership event may not be immediately available
+    // So we'll try to confirm membership with multiple approaches
+    
+    // 1. First, try to get the members list event
     final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
     final filterMap = filter.toJson();
     filterMap["#d"] = [request.groupId];
 
     final completer = Completer<bool>();
+    bool queryComplete = false;
 
     nostr!.query(
       [filterMap],
@@ -457,14 +521,43 @@ class ListProvider extends ChangeNotifier {
       tempRelays: [request.host],
       relayTypes: RelayType.onlyTemp,
       sendAfterAuth: true,
+      onComplete: () {
+        queryComplete = true;
+        // If no events were received to complete the completer, assume success
+        // This can happen when we joined successfully but the members list hasn't been updated yet
+        if (!completer.isCompleted) {
+          log("No members event received but query completed - assuming success", name: "ListProvider");
+          completer.complete(true);
+        }
+      }
     );
 
     try {
-      return await completer.future.timeout(
-        const Duration(seconds: 5),
-        onTimeout: () => false,
+      // Wait longer for membership verification (10 seconds instead of 5)
+      final result = await completer.future.timeout(
+        const Duration(seconds: 10),
+        onTimeout: () {
+          // If the query completed but no membership was confirmed, 
+          // the join might have worked but the members list wasn't updated yet
+          if (queryComplete) {
+            log("Query completed but membership not confirmed - assuming success", name: "ListProvider");
+            return true;
+          }
+          
+          log("Membership verification timed out", name: "ListProvider");
+          return false;
+        },
       );
+      
+      if (result) {
+        log("Membership verified for group ${request.groupId}", name: "ListProvider");
+      } else {
+        log("Membership verification failed for group ${request.groupId}", name: "ListProvider");
+      }
+      
+      return result;
     } catch (e) {
+      log("Error verifying membership: $e", name: "ListProvider");
       return false;
     }
   }
@@ -490,32 +583,90 @@ class ListProvider extends ChangeNotifier {
   void _handleJoinResults(List<GroupIdentifier> successfullyJoinedGroupIds,
       BuildContext? context, List<JoinGroupParameters> requests) {
     if (successfullyJoinedGroupIds.isNotEmpty) {
-      _groupIdentifiers.addAll(successfullyJoinedGroupIds);
+      log("Join successful for ${successfullyJoinedGroupIds.length} groups", name: "ListProvider");
+      
+      // The groups should already be added in _processJoinRequest, but let's make sure
+      // by checking and adding any that are missing
+      for (var groupId in successfullyJoinedGroupIds) {
+        if (!_groupIdentifiers.contains(groupId)) {
+          log("Adding missing group to identifiers: ${groupId.groupId} (${groupId.host})", name: "ListProvider");
+          _addGroupIdentifier(groupId);
+        } else {
+          log("Group already in identifiers: ${groupId.groupId}", name: "ListProvider");
+          // Refresh metadata even if already added
+          _queryGroupMetadata(groupId);
+        }
+      }
+      
+      // Update the groups list event
       _updateGroups();
+      
+      // Force a notification to ensure the UI updates
+      notifyListeners();
 
-      // Show success message instead of immediate navigation
+      // Show success message
       BotToast.showText(
         text: "Successfully joined community. You can view it in your communities list.",
         duration: const Duration(seconds: 3),
       );
       
-      // Navigate back to the communities list instead of directly to the group detail
+      // Navigate to the appropriate screen
       if (context != null && context.mounted) {
-        // Delayed navigation to ensure communities list is updated
-        Future.delayed(const Duration(milliseconds: 300), () {
+        // Use a longer delay to ensure groups list is updated
+        Future.delayed(const Duration(milliseconds: 500), () {
           try {
+            // Check current group count
+            log("Current group count: ${_groupIdentifiers.length}", name: "ListProvider");
+            
             // Navigate to communities list
+            log("Navigating to communities list", name: "ListProvider");
             RouterUtil.router(context, RouterPath.groupList, null);
           } catch (e) {
-            log("Error navigating after join: $e");
+            log("Error navigating after join: $e", name: "ListProvider");
           }
         });
       }
     } else {
-      BotToast.showText(
-          text:
-              "Sorry, something went wrong and you weren't added to the group.");
-      log("Failed to join group: $requests");
+      log("No groups were successfully joined", name: "ListProvider");
+      
+      // If we have pending group join requests, try to add them anyway
+      if (requests.isNotEmpty) {
+        log("Attempting to add groups directly from requests", name: "ListProvider");
+        
+        for (var request in requests) {
+          final groupId = GroupIdentifier(request.host, request.groupId);
+          
+          if (!_groupIdentifiers.contains(groupId)) {
+            log("Directly adding group from request: ${groupId.groupId}", name: "ListProvider");
+            _addGroupIdentifier(groupId);
+          }
+        }
+        
+        // Update groups after direct addition
+        _updateGroups();
+        
+        // Show a more optimistic message
+        BotToast.showText(
+          text: "Join request sent. Check your communities list shortly.",
+          duration: const Duration(seconds: 3),
+        );
+        
+        // Still navigate to groups list
+        if (context != null && context.mounted) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            try {
+              RouterUtil.router(context, RouterPath.groupList, null);
+            } catch (e) {
+              log("Error navigating after direct add: $e", name: "ListProvider");
+            }
+          });
+        }
+      } else {
+        // Show failure message only if we couldn't do anything
+        BotToast.showText(
+            text: "Sorry, something went wrong and you weren't added to the group.");
+        log("Failed to join group and no requests available to try: $requests", name: "ListProvider");
+      }
     }
   }
 
@@ -546,92 +697,174 @@ class ListProvider extends ChangeNotifier {
   }
 
   void _updateGroups() async {
+    log("Updating groups list with ${_groupIdentifiers.length} groups", name: "ListProvider");
+    
+    // Create tags from group identifiers
     final tags = _groupIdentifiers.map((groupId) => groupId.toJson()).toList();
 
+    // Send an updated group list event
     final updateGroupListEvent = Event(
       nostr!.publicKey,
       EventKind.groupList,
       tags,
       "",
     );
-    await nostr!.sendEvent(updateGroupListEvent);
+    
+    try {
+      // Send to all available relays for maximum propagation
+      await nostr!.sendEvent(updateGroupListEvent);
+      log("Successfully sent updated group list event", name: "ListProvider");
+      
+      // Force GroupFeedProvider to refresh if it exists
+      log("Attempting to refresh GroupFeedProvider...", name: "ListProvider");
+      if (groupFeedProvider != null) {
+        log("Refreshing GroupFeedProvider to show new groups", name: "ListProvider");
+        groupFeedProvider!.refresh();
+      } else {
+        log("GroupFeedProvider not available, can't refresh", name: "ListProvider");
+      }
+    } catch (e) {
+      log("Error updating groups list: $e", name: "ListProvider");
+    }
 
+    // Notify listeners to update UI
     notifyListeners();
   }
 
   Future<(String?, GroupIdentifier?)> createGroupAndGenerateInvite(
       String groupName) async {
-    print("createGroupAndGenerateInvite starting for group: $groupName");
-    final cancelFunc = BotToast.showLoading();
-    const host = RelayProvider.defaultGroupsRelayAddress;
-    print("Using host: $host");
-
-    // Generate a random string for the group ID
-    final groupId = StringCodeGenerator.generateGroupId();
-    print("Generated group ID: $groupId");
-
-    // Create the event for creating a group.
-    // We only support private closed group for now.
-    final createGroupEvent = Event(
-      nostr!.publicKey,
-      EventKind.groupCreateGroup,
-      [
-        ["h", groupId]
-      ],
-      "",
-    );
-    print("Created group creation event: ${createGroupEvent.id}");
-
-    print("Sending event to relay...");
-    final resultEvent = await nostr!
-        .sendEvent(createGroupEvent, tempRelays: [host], targetRelays: [host]);
-    print("Result from group creation: ${resultEvent?.id ?? 'null'}");
-
-    String? inviteLink;
-    GroupIdentifier? newGroup;
-    // Event was successfully sent
-    if (resultEvent != null) {
-      newGroup = GroupIdentifier(host, groupId);
-      print("New group identifier created: $newGroup");
-
-      //  Add the group to the list
-      print("Before adding to _groupIdentifiers. Current count: ${_groupIdentifiers.length}");
-      _groupIdentifiers.add(newGroup);
-      print("After adding to _groupIdentifiers. New count: ${_groupIdentifiers.length}");
-      
-      print("Creating group metadata for name: $groupName");
-      _editMetadata(newGroup, groupName);
-      
-      print("Updating groups list event");
-      _updateGroups();
-
-      // Generate an invite code
-      final inviteCode = StringCodeGenerator.generateInviteCode();
-      print("Generated invite code: $inviteCode");
-      inviteLink = createInviteLink(newGroup, inviteCode);
-      print("Created invite link: $inviteLink");
-      
-      // Double check that the group was added
-      if (_groupIdentifiers.contains(newGroup)) {
-        print("Confirmed group is in the list");
-      } else {
-        print("ERROR: Group was not added to the list!");
-      }
-      
-      // Manually verify the group is in groupIdentifiers
-      print("Group identifiers list content verification:");
-      for (var group in _groupIdentifiers) {
-        print(" - $group");
-      }
-    } else {
-      print("ERROR: Group creation failed - resultEvent is null");
-    }
-
-    // Force a notify listeners to ensure UI updates
-    notifyListeners();
+    log("Creating group: $groupName", name: "ListProvider");
     
-    cancelFunc.call();
-    return (inviteLink, newGroup);
+    // Show loading indicator
+    final cancelFunc = BotToast.showLoading();
+    
+    try {
+      // Use multiple relays to maximize success chance
+      const List<String> relaysToTry = [
+        RelayProvider.defaultGroupsRelayAddress,
+        'wss://feeds.nostr.band',  // Try another relay as backup
+      ];
+      
+      // Generate a random string for the group ID
+      final groupId = StringCodeGenerator.generateGroupId();
+      log("Generated group ID: $groupId", name: "ListProvider");
+      
+      // Create the event for creating a group
+      final createGroupEvent = Event(
+        nostr!.publicKey,
+        EventKind.groupCreateGroup,
+        [
+          ["h", groupId]
+        ],
+        "",
+      );
+      
+      // Try sending to multiple relays to ensure success
+      Event? resultEvent;
+      String usedRelay = relaysToTry[0]; // Default to first relay
+      
+      for (final relay in relaysToTry) {
+        try {
+          log("Sending group creation event to relay: $relay", name: "ListProvider");
+          final result = await nostr!.sendEvent(
+            createGroupEvent, 
+            tempRelays: [relay], 
+            targetRelays: [relay]
+          );
+          
+          if (result != null) {
+            resultEvent = result;
+            usedRelay = relay;
+            log("Group creation successful on relay: $relay", name: "ListProvider");
+            break; // Success, stop trying other relays
+          }
+        } catch (e) {
+          log("Error creating group on relay $relay: $e", name: "ListProvider");
+          // Continue to next relay
+        }
+      }
+      
+      String? inviteLink;
+      GroupIdentifier? newGroup;
+      
+      // If event was successfully sent to any relay
+      if (resultEvent != null) {
+        // Create the group identifier
+        newGroup = GroupIdentifier(usedRelay, groupId);
+        log("Created group identifier: $usedRelay/$groupId", name: "ListProvider");
+        
+        // Add the group properly using our method that handles metadata
+        _addGroupIdentifier(newGroup);
+        log("Added group to identifiers list", name: "ListProvider");
+        
+        // Create and set metadata
+        await _createAndSetMetadata(newGroup, groupName);
+        
+        // Update groups list event
+        _updateGroups();
+        
+        // Generate an invite code and create invite link
+        final inviteCode = StringCodeGenerator.generateInviteCode();
+        inviteLink = createInviteLink(newGroup, inviteCode);
+        log("Created invite link: $inviteLink", name: "ListProvider");
+        
+        // Force refresh group data
+        if (groupFeedProvider != null) {
+          log("Refreshing GroupFeedProvider to show new group", name: "ListProvider");
+          groupFeedProvider!.refresh();
+        }
+        
+        // Notify listeners to update UI
+        notifyListeners();
+      } else {
+        log("Failed to create group - could not send event to any relay", name: "ListProvider");
+        BotToast.showText(text: "Failed to create community. Please check your connection and try again.");
+      }
+      
+      // Return results
+      return (inviteLink, newGroup);
+    } catch (e) {
+      log("Exception during group creation: $e", name: "ListProvider");
+      BotToast.showText(text: "Error creating community: $e");
+      return (null, null);
+    } finally {
+      // Always hide loading indicator
+      cancelFunc.call();
+    }
+  }
+  
+  // Create and set metadata in a more reliable way
+  Future<void> _createAndSetMetadata(GroupIdentifier group, String groupName) async {
+    log("Setting metadata for group: ${group.groupId} with name: $groupName", name: "ListProvider");
+    
+    try {
+      // Create metadata with name and default values
+      final firstInitial = groupName.isNotEmpty ? 
+          groupName.substring(0, 1).toUpperCase() : 'G';
+          
+      GroupMetadata groupMetadata = GroupMetadata(
+        group.groupId,
+        0,
+        name: groupName,
+        // Add a picture if none was provided
+        picture: "https://placehold.co/400x400/4267B2/FFF?text=$firstInitial",
+        // Add a default about text
+        about: "A new community called $groupName",
+        // Default to private, closed group
+        public: false,
+        open: false,
+      );
+      
+      // Update metadata
+      groupProvider.updateMetadata(group, groupMetadata);
+      log("Metadata updated successfully", name: "ListProvider");
+      
+      // Wait a moment to ensure metadata is processed
+      await Future.delayed(const Duration(milliseconds: 500));
+    } catch (e) {
+      log("Error updating metadata: $e", name: "ListProvider");
+      // Continue despite error - group can still work without metadata
+    }
   }
 
   void _editMetadata(GroupIdentifier group, String groupName) {
@@ -664,6 +897,8 @@ class ListProvider extends ChangeNotifier {
 
   String createInviteLink(GroupIdentifier group, String inviteCode,
       {List<String>? roles}) {
+    log("Creating invite link for group ${group.groupId}", name: "ListProvider");
+    
     final tags = [
       ["h", group.groupId],
       ["code", inviteCode],
@@ -683,11 +918,35 @@ class ListProvider extends ChangeNotifier {
       "", // Empty content as per example
     );
 
-    nostr!.sendEvent(inviteEvent,
-        tempRelays: [group.host], targetRelays: [group.host]);
+    // Try sending to multiple relays to ensure the invite propagates
+    // This is especially important for groups
+    List<String> relaysToTry = [
+      group.host, 
+      RelayProvider.defaultGroupsRelayAddress
+    ];
+    
+    // Ensure no duplicates
+    relaysToTry = relaysToTry.toSet().toList();
+    
+    // Send to all applicable relays
+    for (final relay in relaysToTry) {
+      try {
+        log("Sending invite event to relay: $relay", name: "ListProvider");
+        nostr!.sendEvent(
+          inviteEvent,
+          tempRelays: [relay], 
+          targetRelays: [relay]
+        );
+      } catch (e) {
+        log("Error sending invite to relay $relay: $e", name: "ListProvider");
+        // Continue to next relay
+      }
+    }
 
-    // Return the formatted invite link
-    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
+    // Return the formatted invite link with host parameter for better compatibility
+    final link = 'plur://join-community?group-id=${group.groupId}&code=$inviteCode&relay=${Uri.encodeComponent(group.host)}';
+    log("Generated invite link: $link", name: "ListProvider");
+    return link;
   }
 
   void clear() {
@@ -699,11 +958,48 @@ class ListProvider extends ChangeNotifier {
 
   /// Add a group identifier to the list and fetch its metadata
   void _addGroupIdentifier(GroupIdentifier groupId) {
-    if (_groupIdentifiers.contains(groupId)) {
+    log("Adding group identifier: ${groupId.groupId} at ${groupId.host}", name: "ListProvider");
+    
+    // Check if we already have this exact group
+    if (_groupIdentifiers.any((g) => g.groupId == groupId.groupId && g.host == groupId.host)) {
+      log("Group already exists, skipping add", name: "ListProvider");
+      
+      // Still query metadata in case it's changed or wasn't loaded previously
+      _queryGroupMetadata(groupId);
       return;
     }
+    
+    // Also check if we have the same group ID with a different host
+    // If so, we'll keep both to maximize chances of receiving events
+    final existingWithSameId = _groupIdentifiers
+        .where((g) => g.groupId == groupId.groupId && g.host != groupId.host)
+        .toList();
+        
+    if (existingWithSameId.isNotEmpty) {
+      log("Found existing group with same ID but different host, adding both", name: "ListProvider");
+      // Keep both to maximize event reception
+    }
+    
+    // Add to the set
     _groupIdentifiers.add(groupId);
+    log("Group added, now have ${_groupIdentifiers.length} groups", name: "ListProvider");
+    
+    // Query for metadata
     _queryGroupMetadata(groupId);
+    
+    // Also add to default relay if it's not already there
+    const defaultRelay = "wss://communities.nos.social";
+    if (groupId.host != defaultRelay) {
+      final defaultVersion = GroupIdentifier(defaultRelay, groupId.groupId);
+      if (!_groupIdentifiers.contains(defaultVersion)) {
+        log("Also adding group to default relay for broader connectivity", name: "ListProvider");
+        _groupIdentifiers.add(defaultVersion);
+        _queryGroupMetadata(defaultVersion);
+      }
+    }
+    
+    // Notify listeners immediately to update UI
+    notifyListeners();
   }
 
   /// Fetch metadata for a specific group

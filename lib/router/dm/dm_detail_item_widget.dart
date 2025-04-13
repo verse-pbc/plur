@@ -312,7 +312,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     final timeWidget = Text(
       timeStr,
       style: GoogleFonts.nunito(
-        textStyle: PlurColors.timestampStyle,
+        textStyle: PlurColors.timestampStyle(context),
       ),
     );
     

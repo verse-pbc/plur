@@ -4,6 +4,9 @@ platform :ios, '15.5'
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
+# Use git source instead of CDN due to connection issues
+source 'https://github.com/CocoaPods/Specs.git'
+
 project 'Runner', {
   'Debug-Runner-Staging' => :debug,
   'Debug' => :debug,
@@ -32,6 +35,10 @@ flutter_ios_podfile_setup
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
+  
+  # Explicitly add Firebase dependencies
+  pod 'Firebase/Core'
+  pod 'Firebase/Messaging'
   
   # Just install all the pods
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))

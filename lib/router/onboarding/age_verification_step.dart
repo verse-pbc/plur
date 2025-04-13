@@ -19,7 +19,7 @@ class AgeVerificationStep extends StatelessWidget {
     S localization = S.of(context);
 
     return OnboardingStepWidget(
-      emoji: '🪪',
+      emoji: '👨‍👩‍👧‍👦',  // Using family emoji for age verification
       title: localization.Age_verification_question,
       titleKey: const Key('age_verification_title'),
       description: localization.Age_verification_message,
