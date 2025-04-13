@@ -7,6 +7,9 @@ class CommunitiesFeedWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Log that this widget is being built/displayed
+    debugPrint("🔍 SCREEN DISPLAYED: CommunitiesFeedWidget (wrapper for AllGroupPostsWidget)");
+    
     // Provider is already initialized in the parent widget
     return const AllGroupPostsWidget();
   }
