@@ -74,23 +74,23 @@ class CustomColors extends ThemeExtension<CustomColors> {
     tooltipBackground: Color(0xFF7445FE), // Plur purple for tooltips
   );
 
-  /// Dark theme values based on design specs in doc/features/feed_m_styles
+  /// Dark theme values based on design specs in doc/screenshots/colors_right.png
   static const CustomColors dark = CustomColors(
-    accentColor: Color(0xFF7445FE), // Changed to Plur primary purple
-    appBgColor: Color(0xFF191B27), // From PlurColors.primaryDark
+    accentColor: Color(0xFFFF5F44), // Highlight Max color (accent color for buttons, etc.)
+    appBgColor: Color(0xFF150F23), // App Background color #150F23
     buttonTextColor: Color(0xFFFFFFFF),
-    cardBgColor: Color(0xFF231F32), // From PlurColors.cardBackground
-    dimmedColor: Color(0xFF63518E), // Secondary text color
-    feedBgColor: Color(0xFF191B27), // Same as app background
-    loginBgColor: Color(0xFF191B27),
-    navBgColor: Color(0xFF231F32), // Same as card background
-    notesBgColor: Color(0xFF231F32),
-    primaryForegroundColor: Color(0xFFB5A0E1), // Primary text color
-    secondaryForegroundColor: Color(0xFF63518E), // Secondary text color
-    separatorColor: Color(0xFF362E4E), // From PlurColors.separator
-    tabsBgColor: Color(0xFF231F32),
+    cardBgColor: Color(0xFF190F28), // Slightly lighter than app bg for card background
+    dimmedColor: Color(0xFF27193D), // Dim color from colors_right.png
+    feedBgColor: Color(0xFF150F23), // Same as app background
+    loginBgColor: Color(0xFF150F23),
+    navBgColor: Color(0xFF190F28), // Same as card background
+    notesBgColor: Color(0xFF190F28),
+    primaryForegroundColor: Color(0xFFB6A0E1), // Primary text color
+    secondaryForegroundColor: Color(0xFF6352BE), // Secondary text color #6352BE from colors_right.png
+    separatorColor: Color(0xFF27193D), // Same as dim color
+    tabsBgColor: Color(0xFF190F28),
     tooltipText: Color(0xFFECE2FD), // Highlight text color
-    tooltipBackground: Color(0xFF362E4E),
+    tooltipBackground: Color(0xFF27193D),
   );
 
   /// Copy with optional overrides
