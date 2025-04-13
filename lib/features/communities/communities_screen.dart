@@ -163,6 +163,10 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
       builder: (context, viewMode, _) {
         // Check if view mode changed
         final viewModeChanged = _lastViewMode != viewMode;
+        if (viewModeChanged) {
+          // Log view mode change for debugging
+          debugPrint("🔄 COMMUNITY VIEW MODE CHANGED: from ${_lastViewMode?.toString() ?? 'null'} to ${viewMode.toString()}");
+        }
         _lastViewMode = viewMode;
         
         // Get the list provider without triggering rebuilds
@@ -216,14 +220,21 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   // Choose content based on view mode with persistent caching
                   if (viewMode == CommunityViewMode.feed) {
                     // Only create feed widget if not already cached
-                    _cachedFeedWidget ??= provider.ChangeNotifierProvider.value(
+                    if (_cachedFeedWidget == null) {
+                      debugPrint("🏗️ CREATING CACHED FEED WIDGET for the first time");
+                      _cachedFeedWidget = provider.ChangeNotifierProvider.value(
                         value: feedProvider,
                         child: const CommunitiesFeedWidget(),
                       );
+                    } else {
+                      debugPrint("♻️ REUSING CACHED FEED WIDGET");
+                    }
                     return _cachedFeedWidget!;
                   } else {
                     // Only create grid widget if not already cached
                     if (_cachedGridWidget == null || viewModeChanged) {
+                      debugPrint("🏗️ CREATING CACHED GRID WIDGET: first time=${_cachedGridWidget == null}, viewModeChanged=$viewModeChanged");
+                      
                       // Create a copy of the list to sort (no-op for now, sorting will be added in a future PR)
                       final sortedGroupIds = List<GroupIdentifier>.from(groupIds);
                       
@@ -231,6 +242,8 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                         linearGradient: shimmerGradient,
                         child: CommunitiesGridWidget(groupIds: sortedGroupIds),
                       );
+                    } else {
+                      debugPrint("♻️ REUSING CACHED GRID WIDGET");
                     }
                     return _cachedGridWidget!;
                   }
@@ -282,11 +295,13 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     mini: true,
                     onPressed: () {
                       // Toggle the view mode in IndexProvider
-                      indexProvider.setCommunityViewMode(
-                        viewMode == CommunityViewMode.grid
-                            ? CommunityViewMode.feed
-                            : CommunityViewMode.grid
-                      );
+                      final newMode = viewMode == CommunityViewMode.grid
+                          ? CommunityViewMode.feed
+                          : CommunityViewMode.grid;
+                      
+                      debugPrint("👆 USER TOGGLED VIEW: Changing from ${viewMode.toString()} to ${newMode.toString()}");
+                      
+                      indexProvider.setCommunityViewMode(newMode);
                     },
                     tooltip: viewMode == CommunityViewMode.grid
                         ? 'Switch to Feed View'

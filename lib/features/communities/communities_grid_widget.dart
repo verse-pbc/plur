@@ -14,6 +14,9 @@ class CommunitiesGridWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Log that this widget is being built/displayed
+    debugPrint("🔍 SCREEN DISPLAYED: CommunitiesGridWidget (Communities grid)");
+    
     return GridView.builder(
       padding: const EdgeInsets.only(top: 52, bottom: 80), // Increased bottom padding
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

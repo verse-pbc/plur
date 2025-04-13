@@ -13,6 +13,33 @@ class IndexProvider extends ChangeNotifier {
   
   // Default to grid view for communities
   CommunityViewMode _communityViewMode = CommunityViewMode.grid;
+  
+  @override
+  void dispose() {
+    // Clear the static reference when disposed
+    if (_instance == this) {
+      _instance = null;
+    }
+    super.dispose();
+  }
+
+  // Static reference to the global instance for safe access
+  static IndexProvider? _instance;
+
+  // Static methods for global access that don't require context
+  static void setGlobalViewModeToGrid() {
+    if (_instance != null) {
+      _instance!._communityViewMode = CommunityViewMode.grid;
+      _instance!.notifyListeners();
+    }
+  }
+
+  static void setGlobalViewModeToFeed() {
+    if (_instance != null) {
+      _instance!._communityViewMode = CommunityViewMode.feed;
+      _instance!.notifyListeners();
+    }
+  }
 
   int get currentTap => _currentTap;
   CommunityViewMode get communityViewMode => _communityViewMode;
@@ -21,6 +48,9 @@ class IndexProvider extends ChangeNotifier {
     if (indexTap != null) {
       _currentTap = indexTap;
     }
+    
+    // Store reference to this instance
+    _instance = this;
   }
   
   // Change the community view mode
