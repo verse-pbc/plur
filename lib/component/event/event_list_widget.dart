@@ -68,7 +68,7 @@ class _EventListWidgetState extends State<EventListWidget> {
           vertical: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: PlurColors.cardBackground,
+          color: PlurColors.cardBg(context), // Use theme-aware color
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -105,7 +105,7 @@ class _EventListWidgetState extends State<EventListWidget> {
             // Optional separator line
             Container(
               height: 1,
-              color: PlurColors.separator.withOpacity(0.4),
+              color: PlurColors.separatorColor(context).withOpacity(0.4),
             ),
           ],
         ),
