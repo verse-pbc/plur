@@ -21,6 +21,12 @@ class StyledBotToast {
     // Skip if text is empty
     if (text.isEmpty) return;
     
+    // Skip showing toasts for encoding errors using our centralized logic
+    if (_shouldSuppressMessage(text)) {
+      debugPrint("SUPPRESSED TOAST (show): $text");
+      return;
+    }
+    
     // Safely check context to prevent issues
     if (context is StatefulElement && !context.state.mounted) return;
     
@@ -51,6 +57,12 @@ class StyledBotToast {
     // Skip if text is empty
     if (text.isEmpty) return;
     
+    // Skip showing toasts for encoding errors using our centralized logic
+    if (_shouldSuppressMessage(text)) {
+      debugPrint("SUPPRESSED ERROR TOAST (showError): $text");
+      return;
+    }
+    
     try {
       _safeShowToast(
         text,
@@ -73,6 +85,12 @@ class StyledBotToast {
   static void showSuccess(BuildContext context, {required String text}) {
     // Skip if text is empty
     if (text.isEmpty) return;
+    
+    // Skip showing toasts for encoding errors using our centralized logic
+    if (_shouldSuppressMessage(text)) {
+      debugPrint("SUPPRESSED SUCCESS TOAST (showSuccess): $text");
+      return;
+    }
     
     try {
       _safeShowToast(
@@ -116,6 +134,12 @@ class StyledBotToast {
   
   /// Private method to safely call BotToast.showText with error handling
   static void _safeShowToast(String text, {Color? contentColor}) {
+    // Skip showing toasts for encoding errors
+    if (_shouldSuppressMessage(text)) {
+      debugPrint("SUPPRESSED TOAST ERROR: $text");
+      return;
+    }
+    
     // Generate a unique ID for this toast
     final toastId = _getNextToastId();
     
@@ -177,9 +201,39 @@ class StyledBotToast {
     }
   }
   
+  /// Helper method to determine if a message should be suppressed
+  static bool _shouldSuppressMessage(String message) {
+    // List of patterns that should be suppressed
+    final List<String> suppressPatterns = [
+      "EncodingError", 
+      "source image cannot be decoded",
+      "Failed to decode image",
+      "404",
+      "nostr.download",
+      "Could not create image",
+      "Image provider exception"
+    ];
+    
+    // Check if the message contains any of the patterns
+    for (final pattern in suppressPatterns) {
+      if (message.contains(pattern)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   /// Shows the toast using a fallback mechanism when the main method fails
   static void fallbackToast(String text) {
     if (text.isEmpty) return;
+    
+    // Use our centralized suppression logic
+    if (_shouldSuppressMessage(text)) {
+      // Just log silently but don't show to user
+      debugPrint("SUPPRESSED IMAGE ERROR TOAST: $text");
+      return;
+    }
     
     // Print to console as absolute fallback
     debugPrint("TOAST: $text");

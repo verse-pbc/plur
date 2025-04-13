@@ -5,6 +5,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_quill/translations.dart';
@@ -161,7 +162,7 @@ late MediaDataCache mediaDataCache;
 
 late CacheStore imageCacheStore;
 
-late CacheManager imageLocalCacheManager;
+CacheManager? imageLocalCacheManager;
 
 late PcRouterFakeProvider pcRouterFakeProvider;
 
@@ -247,8 +248,15 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   linkPreviewDataProvider = LinkPreviewDataProvider();
   badgeDefinitionProvider = BadgeDefinitionProvider();
   mediaDataCache = MediaDataCache();
+  // Initialize cache manager, but handle it specially for web
   if (!isTesting) {
-    CacheManagerBuilder.build();
+    try {
+      // This is one of the sources of path_provider issues on web
+      CacheManagerBuilder.build();
+    } catch (e) {
+      log("Error initializing cache manager: $e");
+      // Allow the app to continue without a cache manager
+    }
   }
   pcRouterFakeProvider = PcRouterFakeProvider();
   webViewProvider = WebViewProvider.getInstance();
@@ -284,11 +292,16 @@ Future<void> main() async {
     WidgetsFlutterBinding.ensureInitialized();
     log("Flutter binding initialized");
     
-    try {
-      MediaKit.ensureInitialized();
-      log("MediaKit initialized");
-    } catch (e, stack) {
-      ErrorLogger.logError("MediaKit initialization failed", e, stack);
+    // Skip MediaKit on web - it causes issues
+    if (!kIsWeb) {
+      try {
+        MediaKit.ensureInitialized();
+        log("MediaKit initialized");
+      } catch (e, stack) {
+        ErrorLogger.logError("MediaKit initialization failed", e, stack);
+      }
+    } else {
+      log("Skipping MediaKit initialization on web platform");
     }
 
     // Using Google Fonts for font loading
@@ -300,34 +313,47 @@ Future<void> main() async {
     );
     log("Firebase initialized");
 
-    if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
+    // Skip window manager on web platform
+    if (!kIsWeb && PlatformUtil.isPC()) {
       log("Initializing window manager for desktop");
-      await windowManager.ensureInitialized();
+      try {
+        await windowManager.ensureInitialized();
 
-      WindowOptions windowOptions = const WindowOptions(
-        size: Size(1280, 800),
-        center: true,
-        backgroundColor: Colors.transparent,
-        skipTaskbar: false,
-        titleBarStyle: TitleBarStyle.normal,
-        title: Base.appName,
-      );
-      windowManager.waitUntilReadyToShow(windowOptions, () async {
-        await windowManager.show();
-        await windowManager.focus();
-      });
-      log("Window manager initialized");
+        WindowOptions windowOptions = const WindowOptions(
+          size: Size(1280, 800),
+          center: true,
+          backgroundColor: Colors.transparent,
+          skipTaskbar: false,
+          titleBarStyle: TitleBarStyle.normal,
+          title: Base.appName,
+        );
+        windowManager.waitUntilReadyToShow(windowOptions, () async {
+          await windowManager.show();
+          await windowManager.focus();
+        });
+        log("Window manager initialized");
+      } catch (e) {
+        log("Error initializing window manager: $e");
+      }
     }
 
-    if (PlatformUtil.isWeb()) {
+    if (kIsWeb) {
       log("Setting up web-specific database");
-      databaseFactory = databaseFactoryFfiWeb;
+      try {
+        databaseFactory = databaseFactoryFfiWeb;
+      } catch (e) {
+        log("Error setting up web database: $e");
+      }
     } else if (PlatformUtil.isWindowsOrLinux()) {
       log("Setting up Windows/Linux-specific database");
-      // Initialize FFI
-      sqfliteFfiInit();
-      // Change the default factory
-      databaseFactory = databaseFactoryFfi;
+      try {
+        // Initialize FFI
+        sqfliteFfiInit();
+        // Change the default factory
+        databaseFactory = databaseFactoryFfi;
+      } catch (e) {
+        log("Error setting up desktop database: $e");
+      }
     }
 
     try {
@@ -392,13 +418,17 @@ Future<void> main() async {
   
   try {
     // Check if we're on iOS or macOS
-    if (Platform.isIOS || Platform.isMacOS) {
+    if (kIsWeb) {
+      skipSentry = true;
+      log("Skipping Sentry initialization on web");
+    } else if (Platform.isIOS || Platform.isMacOS) {
       skipSentry = true;
       log("Skipping Sentry initialization on iOS/macOS");
     }
   } catch (e) {
-    // If Platform is not available (like on web), continue with normal flow
-    log("Error checking platform: $e");
+    // If Platform is not available, assume web
+    skipSentry = true;
+    log("Error checking platform: $e - assuming web platform");
   }
   
   if (!skipSentry && const bool.hasEnvironment("SENTRY_DSN")) {
@@ -492,13 +522,20 @@ class _MyApp extends State<MyApp> {
     var darkTheme = getDarkTheme();
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
+    
+    // Properly handle theme mode based on user settings
     if (settingsProvider.themeStyle == ThemeStyle.light) {
+      // Force light theme regardless of system setting
       defaultTheme = lightTheme;
+      defaultDarkTheme = null; // Don't allow dark mode
     } else if (settingsProvider.themeStyle == ThemeStyle.dark) {
+      // Force dark theme regardless of system setting
       defaultTheme = darkTheme;
+      defaultDarkTheme = null; // Don't allow light mode
     } else {
-      defaultTheme = lightTheme;
-      defaultDarkTheme = darkTheme;
+      // Auto mode - use system preference
+      defaultTheme = lightTheme;    // Light theme for light mode
+      defaultDarkTheme = darkTheme; // Dark theme for dark mode
     }
 
     routes = {
@@ -643,7 +680,8 @@ class _MyApp extends State<MyApp> {
           builder: (context, child) {
             try {
               // Wrap in a try-catch to ensure app continues even if BotToast fails
-              final botToastChild = BotToastInit()(context, child);
+              final botToastBuilder = BotToastInit();
+              final botToastChild = botToastBuilder(context, child);
               
               // Clean up any existing BotToast cancel functions to prevent memory leaks
               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -657,7 +695,21 @@ class _MyApp extends State<MyApp> {
               // Wrap app in global error boundary
               return ErrorBoundary(
                 errorBuilder: (error, stackTrace) {
-                  // Custom error view
+                  // Suppress image encoding errors completely by checking the error message
+                  final errorMessage = error.toString();
+                  if (errorMessage.contains("EncodingError") || 
+                      errorMessage.contains("source image cannot be decoded")) {
+                    // For image encoding errors, just return the original content without showing an error
+                    // This prevents the error boundary from displaying the error UI for image issues
+                    try {
+                      return botToastChild;
+                    } catch (e) {
+                      // If there's any issue, use an empty container as absolute fallback
+                      return const SizedBox();
+                    }
+                  }
+                  
+                  // For non-image errors, show the custom error view
                   return Scaffold(
                     appBar: AppBar(
                       title: const Text('Error Encountered'),
@@ -745,6 +797,11 @@ class _MyApp extends State<MyApp> {
           supportedLocales: S.delegate.supportedLocales,
           theme: defaultTheme,
           darkTheme: defaultDarkTheme,
+          themeMode: settingsProvider.themeStyle == ThemeStyle.light
+              ? ThemeMode.light
+              : settingsProvider.themeStyle == ThemeStyle.dark
+                  ? ThemeMode.dark
+                  : ThemeMode.system,
           initialRoute: RouterPath.index,
           routes: routes,
           onGenerateRoute: (settings) {

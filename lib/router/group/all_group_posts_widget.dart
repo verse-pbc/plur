@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:nostrmo/component/event/group_event_list_widget.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
@@ -5,6 +7,7 @@ import 'package:nostrmo/component/new_notes_updated_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
+import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/router/group/no_notes_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -47,22 +50,37 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
   }
   
   void _preloadContent() {
+    log("Preloading content for global feed", name: "AllGroupPostsWidget");
+    
     // If we don't have a provider yet, try getting it
     if (groupFeedProvider == null) {
       try {
         groupFeedProvider = Provider.of<GroupFeedProvider>(context, listen: false);
-      } catch (_) {
+        log("Retrieved GroupFeedProvider from context", name: "AllGroupPostsWidget");
+      } catch (e) {
         // Provider not ready yet, will try again later
+        log("Error getting GroupFeedProvider: $e", name: "AllGroupPostsWidget");
         return;
       }
     }
     
-    // We shouldn't need to initialize here since the CommunitiesScreen should
-    // have already initialized the provider, but we'll keep this as a safeguard
-    // and only initialize if actually needed
-    if (!_isInitialized && groupFeedProvider != null) {
-      _isInitialized = true;
-      // Don't call subscribe() or doQuery() here since that should have been done in CommunitiesScreen
+    // Always initialize to ensure we have data
+    if (groupFeedProvider != null) {
+      if (!_isInitialized) {
+        _isInitialized = true;
+        log("Initializing GroupFeedProvider", name: "AllGroupPostsWidget");
+      }
+      
+      // Always ensure we have posts
+      if (groupFeedProvider!.notesBox.isEmpty()) {
+        log("No posts found in feed, initiating query", name: "AllGroupPostsWidget");
+        // Make sure we're subscribed and query for data
+        groupFeedProvider!.subscribe();
+        groupFeedProvider!.doQuery(null);
+      } else {
+        log("Found ${groupFeedProvider!.notesBox.length()} existing posts in feed", 
+            name: "AllGroupPostsWidget");
+      }
     }
   }
 
@@ -73,6 +91,10 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     var settingsProvider = Provider.of<SettingsProvider>(context);
     groupFeedProvider = Provider.of<GroupFeedProvider>(context);
     final themeData = Theme.of(context);
+    
+    // Log debug info to help diagnose feed issues
+    _logDebugInfo();
+    
     var eventBox = groupFeedProvider!.notesBox;
     var events = eventBox.all();
     
@@ -171,6 +193,21 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     // The provider should already be initialized by CommunitiesScreen
     if (!_isInitialized) {
       _isInitialized = true;
+      
+      // Force initialize to ensure we have content
+      try {
+        if (groupFeedProvider == null) {
+          groupFeedProvider = Provider.of<GroupFeedProvider>(context, listen: false);
+        }
+        
+        // Force a query to ensure we have data
+        if (groupFeedProvider != null && groupFeedProvider!.notesBox.isEmpty()) {
+          groupFeedProvider!.subscribe();
+          groupFeedProvider!.doQuery(null);
+        }
+      } catch (e) {
+        log("Error initializing feed: $e", name: "AllGroupPostsWidget");
+      }
     }
   }
 
@@ -180,12 +217,36 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     _cachedEventIds = null;
     
     // Request fresh data
-    groupFeedProvider!.refresh();
+    if (groupFeedProvider != null) {
+      // Make sure we're subscribed
+      groupFeedProvider!.subscribe();
+      // Force a fresh query
+      groupFeedProvider!.refresh();
+    }
   }
   
   @override
   void dispose() {
     // Don't clear the static cache
     super.dispose();
+  }
+  
+  // Helper method for debugging that you can call from doBuild
+  void _logDebugInfo() {
+    if (groupFeedProvider != null) {
+      final provider = groupFeedProvider!;
+      final listProvider = Provider.of<ListProvider>(context, listen: false);
+      
+      log("FEED DEBUG: event boxes - main: ${provider.notesBox.length()}, new: ${provider.newNotesBox.length()}", 
+          name: "AllGroupPostsWidget");
+          
+      log("FEED DEBUG: group count from ListProvider: ${listProvider.groupIdentifiers.length}", 
+          name: "AllGroupPostsWidget");
+          
+      if (listProvider.groupIdentifiers.isNotEmpty) {
+        log("FEED DEBUG: Groups: ${listProvider.groupIdentifiers.map((g) => g.groupId).join(', ')}", 
+            name: "AllGroupPostsWidget");
+      }
+    }
   }
 }

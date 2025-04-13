@@ -5,6 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
+import 'package:nostrmo/data/join_group_parameters.dart';
 
 /// Provider that fetches and manages posts from all groups a user belongs to.
 class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
@@ -110,10 +111,15 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     _lastQueryTime = now;
     
     final groupIds = _listProvider.groupIdentifiers;
-    // print("Querying for ${groupIds.length} groups: ${groupIds.map((g) => g.groupId).join(', ')}");
+    
+    // Debugging log to help diagnose global feed issues
+    log("GroupFeedProvider: Querying for ${groupIds.length} groups: ${groupIds.map((g) => g.groupId).join(', ')}",
+        name: "GroupFeedProvider");
     
     if (groupIds.isEmpty) {
       // If no groups, set loading to false to update the UI
+      log("GroupFeedProvider: No groups found in listProvider.groupIdentifiers", 
+          name: "GroupFeedProvider");
       if (isLoading) {
         isLoading = false;
         notifyListeners();
@@ -218,8 +224,19 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       for (var e in list) {
         eventCount++;
         if (isGroupNote(e)) {
-          // Add to both the active box and the static cache
-          if (notesBox.add(e)) {
+          // Make sure this event has an h tag matching one of our groups
+          bool hasValidGroupTag = false;
+          for (var tag in e.tags) {
+            if (tag is List && tag.isNotEmpty && tag.length > 1 && 
+                tag[0] == "h" && 
+                _listProvider.groupIdentifiers.any((g) => g.groupId == tag[1])) {
+              hasValidGroupTag = true;
+              break;
+            }
+          }
+          
+          // Only add if it has a valid group tag matching our groups
+          if (hasValidGroupTag && notesBox.add(e)) {
             noteAdded = true;
             // Update static cache for persistence
             _staticEventCache[e.id] = e;
@@ -227,16 +244,16 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         }
       }
 
-      if (eventCount > 0) {
-        // print("Processed $eventCount events, added $noteAdded new events. Current total: ${notesBox.length()}");
+      // Always sort if we added notes
+      if (noteAdded) {
+        notesBox.sort();
       }
-
+      
       // If we received events and we're still in loading state, set loading to false
       if (isLoading) {
         isLoading = false;
         notifyListeners();
       } else if (noteAdded) {
-        notesBox.sort();
         notifyListeners();
       }
     }, null);
@@ -260,14 +277,19 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   }
 
   void refresh() {
-    // print("GroupFeedProvider.refresh() called");
+    log("GroupFeedProvider: refresh() called", name: "GroupFeedProvider");
+    
+    // Log current status
+    final groupIds = _listProvider.groupIdentifiers;
+    log("GroupFeedProvider: Refreshing with ${groupIds.length} groups: ${groupIds.map((g) => g.groupId).join(', ')}",
+        name: "GroupFeedProvider");
     
     // Set loading state first
     isLoading = true;
     notifyListeners();
     
-    // Clear data
-    clearData();
+    // Clear data, but preserve cache for faster reloading
+    clearData(preserveCache: false);
     
     // Reset initialization time to now
     _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -362,7 +384,23 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     later(event, (list) {
       // print("Processing ${list.length} events from subscription");
       for (final e in list) {
-        onNewEvent(e);
+        // Check if the event has a valid group tag matching our groups
+        bool hasValidGroupTag = false;
+        if (isGroupNote(e)) {
+          for (var tag in e.tags) {
+            if (tag is List && tag.isNotEmpty && tag.length > 1 && 
+                tag[0] == "h" && 
+                _listProvider.groupIdentifiers.any((g) => g.groupId == tag[1])) {
+              hasValidGroupTag = true;
+              break;
+            }
+          }
+        }
+        
+        // Only process events with valid group tags
+        if (hasValidGroupTag) {
+          onNewEvent(e);
+        }
       }
     }, null);
   }
