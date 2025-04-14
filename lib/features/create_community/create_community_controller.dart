@@ -8,25 +8,29 @@ import '../../data/group_invite_repository.dart';
 import '../../data/group_metadata_repository.dart';
 import '../../util/string_code_generator.dart';
 
-typedef AddGroupModel = (GroupIdentifier, String);
+typedef CreateCommunityModel = (GroupIdentifier, String);
 
-/// A controller class that manages the community guidelines for a group.
-class AddGroupController extends AutoDisposeAsyncNotifier<AddGroupModel?> {
+/// A controller class that manages group creation.
+class CreateCommunityController
+    extends AutoDisposeAsyncNotifier<CreateCommunityModel?> {
   @override
-  FutureOr<AddGroupModel?> build() async {
+  FutureOr<CreateCommunityModel?> build() async {
     return null;
   }
 
   Future<bool> createCommunity(String name) async {
-    state = const AsyncValue<AddGroupModel?>.loading();
+    state = const AsyncValue<CreateCommunityModel?>.loading();
     final groupIdentifier = await _createGroupIdentifier();
     if (groupIdentifier == null) {
       state = const AsyncValue.data(null);
       return false;
-    } 
+    }
     await _setGroupName(groupIdentifier, name);
-    final inviteLink = await _generateInviteLink(groupIdentifier); 
-    state = AsyncValue<AddGroupModel?>.data((groupIdentifier, inviteLink));
+    final inviteLink = await _generateInviteLink(groupIdentifier);
+    state = AsyncValue<CreateCommunityModel?>.data((
+      groupIdentifier,
+      inviteLink,
+    ));
     return true;
   }
 
@@ -56,6 +60,6 @@ class AddGroupController extends AutoDisposeAsyncNotifier<AddGroupModel?> {
   }
 }
 
-final addGroupControllerProvider =
-    AsyncNotifierProvider.autoDispose<AddGroupController, AddGroupModel?>(
-        AddGroupController.new);
+final createCommunityControllerProvider = AsyncNotifierProvider.autoDispose<
+    CreateCommunityController,
+    CreateCommunityModel?>(CreateCommunityController.new);
