@@ -48,7 +48,7 @@ class GroupMetadataRepository {
       relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
       sendAfterAuth: true,
     );
-    assert(events?.length == 1, "Didn't receive group metadata for $groupId");
+    // Events can be empty if the group never got a name for example
     final event = events?.firstOrNull;
     if (event == null) {
       return null;
