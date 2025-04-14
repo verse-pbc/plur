@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
+import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
-import 'package:nostrmo/router/group/invite_people_widget.dart';
-import 'package:nostrmo/provider/list_provider.dart';
-import 'package:provider/provider.dart';
 
 import '../group_add_dialog_controller.dart';
 
@@ -30,16 +28,11 @@ class CreateCommunityDialog extends ConsumerStatefulWidget {
 }
 
 class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
-  bool _showInviteCommunity = false;
-  String? _communityInviteLink;
-  GroupIdentifier? _groupIdentifier;
-
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
     final controller = ref.watch(addGroupControllerProvider);
-
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
       resizeToAvoidBottomInset: true,
@@ -116,6 +109,6 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   void _onCreateCommunity(String communityName) async {
     final provider = addGroupControllerProvider;
     final controller = ref.read(provider.notifier);
-    final result = await controller.createCommunity(communityName); 
+    final result = await controller.createCommunity(communityName);
   }
 }
