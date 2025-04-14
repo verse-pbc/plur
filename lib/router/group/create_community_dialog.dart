@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -7,7 +8,9 @@ import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:provider/provider.dart';
 
-class CreateCommunityDialog extends StatefulWidget {
+import '../group_add_dialog_controller.dart';
+
+class CreateCommunityDialog extends ConsumerStatefulWidget {
   const CreateCommunityDialog({super.key});
 
   static Future<void> show(BuildContext context) async {
@@ -21,10 +24,12 @@ class CreateCommunityDialog extends StatefulWidget {
   }
 
   @override
-  State<CreateCommunityDialog> createState() => _CreateCommunityDialogState();
+  ConsumerState<CreateCommunityDialog> createState() {
+    return _CreateCommunityDialogState();
+  }
 }
 
-class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
+class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   bool _showInviteCommunity = false;
   String? _communityInviteLink;
   GroupIdentifier? _groupIdentifier;
@@ -33,6 +38,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
+    final controller = ref.watch(addGroupControllerProvider);
 
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
@@ -73,15 +79,29 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
                           },
                         ),
                       ),
-                      if (!_showInviteCommunity)
-                        CreateCommunityWidget(
-                            onCreateCommunity: _onCreateCommunity),
-                      if (_showInviteCommunity)
-                        InvitePeopleWidget(
-                          shareableLink: _communityInviteLink ?? '',
-                          groupIdentifier: _groupIdentifier!,
-                          showCreatePostButton: true,
-                        ),
+                      controller.when(
+                        data: (model) {
+                          if (model == null) {
+                            return CreateCommunityWidget(
+                              onCreateCommunity: _onCreateCommunity,
+                            );
+                          } else {
+                            return InvitePeopleWidget(
+                              shareableLink: model.$2,
+                              groupIdentifier: model.$1,
+                              showCreatePostButton: true,
+                            );
+                          }
+                        },
+                        error: (error, stackTrace) {
+                          return Center(child: ErrorWidget(error));
+                        },
+                        loading: () {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -94,14 +114,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
   }
 
   void _onCreateCommunity(String communityName) async {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupDetails =
-        await listProvider.createGroupAndGenerateInvite(communityName);
-
-    setState(() {
-      _communityInviteLink = groupDetails.$1;
-      _groupIdentifier = groupDetails.$2;
-      _showInviteCommunity = true;
-    });
+    final provider = addGroupControllerProvider;
+    final controller = ref.read(provider.notifier);
+    final result = await controller.createCommunity(communityName); 
   }
 }
