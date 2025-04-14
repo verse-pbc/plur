@@ -12,12 +12,9 @@ import '../util/string_code_generator.dart';
 import '../util/time_util.dart';
 import 'group_metadata_repository.dart';
 
-/// List of [GroupIdentifier] objects.
-typedef GroupIdentifiers = List<GroupIdentifier>;
-
-class GroupIdentifierRepository {
+class GroupInviteRepository {
   /// Name used when logging.
-  static const _logName = "GroupIdentifierRepository";
+  static const _logName = "GroupInviteRepository";
 
   static const _defaultRelay = RelayProvider.defaultGroupsRelayAddress;
 
