@@ -35,12 +35,9 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
             const SizedBox(height: 12),
             SizedBox(
               width: imageSize,
-              child: SizedBox(
-                height: 60,
-                child: ShimmerLoading(
-                  isLoading: false,
-                  child: CommunityTitleWidget(groupId, value),
-                ),
+              child: ShimmerLoading(
+                isLoading: false,
+                child: CommunityTitleWidget(groupId, value),
               ),
             ),
           ],
