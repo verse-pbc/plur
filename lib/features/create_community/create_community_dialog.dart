@@ -5,8 +5,8 @@ import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
-import '../../features/communities/create_community_controller.dart';
 import '../../generated/l10n.dart';
+import 'create_community_controller.dart';
 
 class CreateCommunityDialog extends ConsumerStatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -32,7 +32,7 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     Color cardColor = themeData.cardColor;
-    final controller = ref.watch(addGroupControllerProvider);
+    final controller = ref.watch(createCommunityControllerProvider);
     return Scaffold(
       backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
       resizeToAvoidBottomInset: true,
@@ -107,8 +107,7 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   }
 
   void _onCreateCommunity(String communityName) async {
-    final provider = addGroupControllerProvider;
-    final controller = ref.read(provider.notifier);
+    final controller = ref.read(createCommunityControllerProvider.notifier);
     final result = await controller.createCommunity(communityName);
     if (!mounted) return;
     final localization = S.of(context);
