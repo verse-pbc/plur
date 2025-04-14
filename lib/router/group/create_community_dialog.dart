@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/router/group/create_community_widget.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
-import '../group_add_dialog_controller.dart';
+import '../../features/communities/create_community_controller.dart';
+import '../../generated/l10n.dart';
 
 class CreateCommunityDialog extends ConsumerStatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -110,5 +110,30 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
     final provider = addGroupControllerProvider;
     final controller = ref.read(provider.notifier);
     final result = await controller.createCommunity(communityName);
+    if (!mounted) return;
+    final localization = S.of(context);
+    if (!result) {
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (context) => AlertDialog.adaptive(
+          title: Text(localization.Error),
+          content: Text(localization.Save_failed),
+          actions: [
+            TextButton(
+              child: Text(localization.Retry),
+              onPressed: () {
+                Navigator.of(context).pop();
+                _onCreateCommunity(communityName);
+              },
+            ),
+            TextButton(
+              child: Text(localization.Cancel),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }

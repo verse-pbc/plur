@@ -8,7 +8,6 @@ import 'package:rxdart/rxdart.dart';
 
 import '../main.dart';
 import '../provider/relay_provider.dart';
-import '../util/string_code_generator.dart';
 import '../util/time_util.dart';
 import 'group_metadata_repository.dart';
 
@@ -27,11 +26,9 @@ class GroupIdentifierRepository {
     return _groupIdentifiers.stream;
   }
 
-  GroupIdentifier? createCommunity() async {
+  /// Creates a group and adds it to the group list
+  Future<GroupIdentifier?> createGroupIdentifier(String groupId) async {
     const host = _defaultRelay;
-
-    // Generate a random string for the group ID
-    final groupId = StringCodeGenerator.generateGroupId();
 
     // Create the event for creating a group.
     // We only support private closed group for now.
