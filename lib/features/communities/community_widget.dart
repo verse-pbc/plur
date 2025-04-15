@@ -23,7 +23,7 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
   Widget build(BuildContext context) {
     final groupIdentifier = widget.groupIdentifier;
     final groupId = widget.groupIdentifier.groupId;
-    ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
+    // ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
     final controller = ref.watch(cachedGroupMetadataProvider(groupIdentifier));
     const imageSize = CommunityImageWidget.imageSize;
     return controller.when(
@@ -35,10 +35,7 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
             const SizedBox(height: 12),
             SizedBox(
               width: imageSize,
-              child: ShimmerLoading(
-                isLoading: false,
-                child: CommunityTitleWidget(groupId, value),
-              ),
+              child: CommunityTitleWidget(groupId, value),
             ),
           ],
         );
@@ -51,12 +48,9 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
             const SizedBox(height: 12),
             SizedBox(
               width: imageSize,
-              child: SizedBox(
-                height: 60,
-                child: ShimmerLoading(
-                  isLoading: true,
-                  child: CommunityTitleWidget(groupId, null),
-                ),
+              child: ShimmerLoading(
+                isLoading: true,
+                child: CommunityTitleWidget(groupId, null),
               ),
             ),
           ],
