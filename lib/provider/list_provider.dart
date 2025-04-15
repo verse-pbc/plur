@@ -582,8 +582,9 @@ class ListProvider extends ChangeNotifier {
     nostr!.sendEvent(inviteEvent,
         tempRelays: [group.host], targetRelays: [group.host]);
 
-    // Return the formatted invite link
-    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
+    // Return the formatted invite link with relays parameter
+    final encodedRelays = Uri.encodeComponent(group.host);
+    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode&relays=$encodedRelays';
   }
 
   void clear() {
