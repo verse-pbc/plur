@@ -39,7 +39,8 @@ import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/router/group/group_media_grid_widget.dart';
-import 'package:nostrmo/router/group/group_media_screen.dart';
+// Media screen import temporarily commented out until file is created
+// import 'package:nostrmo/router/group/group_media_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
@@ -125,6 +126,10 @@ import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
 import 'util/theme_util.dart';
+import 'package:nostrmo/features/asks_offers/screens/create_edit_listing_screen.dart';
+import 'package:nostrmo/features/asks_offers/screens/listing_detail_screen.dart';
+import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
+import 'package:nostrmo/features/asks_offers/models/listing_model.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -585,6 +590,21 @@ class _MyApp extends State<MyApp> {
       RouterPath.communityGuidelines: (context) => const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
+      RouterPath.listings: (context) {
+        final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+        final String? groupId = args?['groupId'];
+        return ListingsScreen(groupId: groupId);
+      },
+      RouterPath.listingCreateEdit: (context) {
+        final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
+        final ListingModel? listing = args?['listing'];
+        final String? groupId = args?['groupId'];
+        return CreateEditListingScreen(listing: listing, groupId: groupId);
+      },
+      RouterPath.listingDetail: (context) {
+        final ListingModel listing = ModalRoute.of(context)!.settings.arguments as ListingModel;
+        return ListingDetailScreen(listing: listing);
+      },
     };
 
     return MultiProvider(
