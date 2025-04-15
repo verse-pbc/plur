@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../main.dart';
@@ -42,6 +45,39 @@ class GroupInviteRepository {
 
     // Return the formatted invite link
     return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
+  }
+
+  Future<bool> acceptInviteLink(
+    GroupIdentifier groupIdentifier, {
+    String? code,
+  }) async {
+    final groupId = groupIdentifier.groupId;
+    final List<List<String>> eventTags = [
+      ["h", groupId]
+    ];
+    if (code != null) {
+      eventTags.add(["code", code]);
+    }
+    final event = Event(nostr!.publicKey, EventKind.groupJoin, eventTags, "");
+    final host = groupIdentifier.host;
+    final relays = [host];
+    log(
+      "Reedeming invite to $groupId in $host...\nCode: $code",
+      level: Level.FINE.value,
+      name: _logName,
+    );
+    final result = await nostr!.sendEvent(
+      event,
+      tempRelays: relays,
+      targetRelays: relays,
+    );
+    final acceptedInvite = result != null;
+    log(
+      "Invite to $groupId in $host redeemed: $acceptedInvite",
+      level: Level.INFO.value,
+      name: _logName,
+    );
+    return acceptedInvite;
   }
 }
 

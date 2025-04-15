@@ -58,6 +58,8 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'data/group_identifier_repository.dart';
+import 'data/group_invite_repository.dart';
 import 'features/communities/communities_screen.dart';
 import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
@@ -112,6 +114,7 @@ import 'system_timer.dart';
 import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
+import 'util/router_util.dart';
 import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
@@ -340,7 +343,7 @@ Future<void> main() async {
   }
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends riverpod.ConsumerStatefulWidget {
   static const platform = MethodChannel('com.example.app/deeplink');
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
@@ -348,10 +351,12 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyApp();
+  riverpod.ConsumerState<riverpod.ConsumerStatefulWidget> createState() {
+    return _MyApp();
+  }
 }
 
-class _MyApp extends State<MyApp> {
+class _MyApp extends riverpod.ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
@@ -367,10 +372,35 @@ class _MyApp extends State<MyApp> {
     String host,
     String groupId,
     String? code,
-  ) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
+  ) async {
+    final cancelFunc = BotToast.showLoading();
+    final groupIdentifier = GroupIdentifier(host, groupId);
+    final groupInviteRepository = ref.read(groupInviteRepositoryProvider);
+    final accepted = await groupInviteRepository.acceptInviteLink(
+      groupIdentifier,
+      code: code,
+    );
+    final errorMessage =
+        "Sorry, something went wrong and you weren't added to the group.";
+    // Add a delay to allow the relay to process the join event
+    await Future.delayed(const Duration(seconds: 2));
+    // Verify user is now a member of the group
+    final groupIdentifierRepository = ref.read(
+      groupIdentifierRepositoryProvider,
+    );
+    final isMember = await groupIdentifierRepository.checkMembership(
+      groupIdentifier,
+    );
+    if (isMember) {
+      await groupIdentifierRepository.addGroupIdentifier(groupIdentifier);
+      if (!context.mounted) return;
+      RouterUtil.router(context, RouterPath.groupDetail, groupId);
+    } else {
+      BotToast.showText(
+        text: errorMessage,
+      );
+    }
+    cancelFunc.call();
   }
 
   Future<void> _handleDeepLink(MethodCall call) async {

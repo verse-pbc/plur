@@ -26,6 +26,62 @@ class GroupIdentifierRepository {
     return _groupIdentifiers.stream;
   }
 
+  Future<bool> checkMembership(GroupIdentifier groupIdentifier) async {
+    final groupId = groupIdentifier.groupId;
+    final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
+    final filterMap = filter.toJson();
+    filterMap["#d"] = [groupId];
+    final completer = Completer<bool>();
+    final host = groupIdentifier.host;
+    log(
+      "Checking membership of group $groupId in $host...",
+      level: Level.FINE.value,
+      name: _logName,
+    );
+    nostr!.query(
+      [filterMap],
+      (Event event) {
+        if (event.kind == EventKind.groupMembers) {
+          for (var tag in event.tags) {
+            if (tag is List && tag.length > 1) {
+              if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
+                if (!completer.isCompleted) {
+                  completer.complete(true);
+                }
+                return;
+              }
+            }
+          }
+          if (!completer.isCompleted) {
+            completer.complete(false);
+          }
+        }
+      },
+      tempRelays: [host],
+      relayTypes: RelayType.onlyTemp,
+      sendAfterAuth: true,
+    );
+    try {
+      final result = await completer.future.timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => false,
+      );
+      log(
+        "User is a member of group $groupId: $result",
+        level: Level.INFO.value,
+        name: _logName,
+      );
+      return result;
+    } catch (error) {
+      log(
+        "Got error while cheking membership\n${error.toString()}",
+        level: Level.WARNING.value,
+        name: _logName,
+      );
+      return false;
+    }
+  }
+
   /// Creates a group and adds it to the group list
   Future<GroupIdentifier?> createGroupIdentifier(String groupId) async {
     const host = _defaultRelay;
@@ -52,14 +108,25 @@ class GroupIdentifierRepository {
     }
 
     final groupIdentifier = GroupIdentifier(host, groupId);
-    List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
-    updated.add(groupIdentifier);
-    _groupIdentifiers.add(updated);
-    final groupIdentifiersInList = await _fetchGroupList();
-    GroupIdentifiers updatedList = List.from(groupIdentifiersInList);
-    updatedList.remove(groupIdentifier);
-    await _setGroupList(updatedList);
+    await addGroupIdentifier(groupIdentifier);
     return groupIdentifier;
+  }
+
+  /// Adds a group to the group list
+  Future<void> addGroupIdentifier(GroupIdentifier groupIdentifier) async {
+    // Update the cached stream
+    List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
+    if (!updated.contains(groupIdentifier)) {
+      updated.add(groupIdentifier);
+      _groupIdentifiers.add(updated);
+    }
+    // Update the remote group list
+    final currentGroupList = await _fetchGroupList();
+    GroupIdentifiers updatedGroupList = List.from(currentGroupList);
+    if (!updatedGroupList.contains(groupIdentifier)) {
+      updatedGroupList.add(groupIdentifier);
+      await _setGroupList(updatedGroupList);
+    }
   }
 
   Future<void> removeGroupIdentifier(GroupIdentifier groupIdentifier) async {
@@ -75,12 +142,16 @@ class GroupIdentifierRepository {
     final host = groupIdentifier.host;
     await nostr!.sendEvent(event, tempRelays: [host], targetRelays: [host]);
     List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
-    updated.remove(groupIdentifier);
-    _groupIdentifiers.add(updated);
+    if (updated.contains(groupIdentifier)) {
+      updated.remove(groupIdentifier);
+      _groupIdentifiers.add(updated);
+    }
     final groupIdentifiersInList = await _fetchGroupList();
     GroupIdentifiers updatedList = List.from(groupIdentifiersInList);
-    updatedList.remove(groupIdentifier);
-    await _setGroupList(updatedList);
+    if (updatedList.contains(groupIdentifier)) {
+      updatedList.remove(groupIdentifier);
+      await _setGroupList(updatedList);
+    }
   }
 
   void dispose() => _groupIdentifiers.close();
