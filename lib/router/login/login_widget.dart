@@ -13,6 +13,7 @@ import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
+import '../../util/notification_util.dart';
 import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
 import '../../util/theme_util.dart';
@@ -386,6 +387,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Publish metadata event with user's name
     await _publishMetadata(name);
 
+    await NotificationUtil.registerUserForPushNotifications();
+
     // Set first login flag and navigate
     firstLogin = true;
     // Set home tab and navigate to index
@@ -503,6 +506,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       settingsProvider.addAndChangePrivateKey(pk, updateUI: true);
       nostr = await relayProvider.genNostrWithKey(pk);
+
+      await NotificationUtil.registerUserForPushNotifications();
     }
 
     if (backAfterLogin && mounted) {
@@ -531,6 +536,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
+    await NotificationUtil.registerUserForPushNotifications();
+
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
@@ -553,6 +560,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var key = "${NIP07Signer.uriPre}:$pubkey";
     settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(signer);
+
+    await NotificationUtil.registerUserForPushNotifications();
 
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
