@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../util/theme_util.dart';
 import 'age_verification_step.dart';
 import 'age_verification_dialog_widget.dart';
+import 'name_input_step_widget.dart';
 import '../../consts/base.dart';
 
 /// Manages the onboarding process through multiple steps.
@@ -15,6 +16,7 @@ class OnboardingWidget extends StatefulWidget {
 class _OnboardingWidgetState extends State<OnboardingWidget> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+  String? _userName;
 
   @override
   void dispose() {
@@ -26,6 +28,12 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
     AgeVerificationStep(
       onVerified: _nextPage,
       onDenied: _onAgeDenied,
+    ),
+    NameInputStepWidget(
+      onContinue: (name) {
+        _userName = name;
+        _nextPage();
+      },
     ),
   ];
 
@@ -72,6 +80,6 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
   }
 
   void _completeOnboarding() {
-    Navigator.of(context).pop(true);
+    Navigator.of(context).pop(_userName);
   }
 }

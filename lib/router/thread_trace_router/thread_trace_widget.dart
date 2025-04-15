@@ -238,7 +238,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     }
     if (StringUtil.isNotBlank(eventRelation.pubkey)) {
       var subEventPubkeyRelays =
-          userProvider.getExtralRelays(eventRelation.pubkey, false);
+          userProvider.getExtraRelays(eventRelation.pubkey, false);
       tempRelays.addAll(subEventPubkeyRelays);
     }
 
@@ -295,7 +295,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
     }
     if (StringUtil.isNotBlank(subEventPubkey)) {
       var subEventPubkeyRelays =
-          userProvider.getExtralRelays(subEventPubkey!, false);
+          userProvider.getExtraRelays(subEventPubkey!, false);
       tempRelays.addAll(subEventPubkeyRelays);
     }
     nostr!.query([filter.toJson()], onParentEvent,

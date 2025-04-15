@@ -221,7 +221,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                 child: Text(localization.Source, style: popFontStyle),
               ));
               list.add(PopupMenuItem(
-                value: "broadcase",
+                value: "broadcast",
                 child: Text(localization.Broadcast, style: popFontStyle),
               ));
               list.add(PopupMenuItem(
@@ -458,8 +458,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     } else if (value == "removeFromPublicBookmark") {
       var item = BookmarkItem.getFromEventReactions(widget.eventRelation);
       listProvider.removePublicBookmark(item.value);
-    } else if (value == "broadcase") {
-      nostr!.broadcase(widget.event);
+    } else if (value == "broadcast") {
+      nostr!.broadcast(widget.event);
     } else if (value == "source") {
       List<EnumObj> list = [];
       for (var source in widget.event.sources) {
@@ -597,8 +597,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         eventReactionsProvider.addRepost(widget.event.id);
       }
 
-      if (settingsProvider.broadcaseWhenBoost == OpenStatus.open) {
-        nostr!.broadcase(widget.event);
+      if (settingsProvider.broadcastWhenBoost == OpenStatus.open) {
+        nostr!.broadcast(widget.event);
       }
     } else if (value == "quote") {
       await EditorWidget.open(context, initEmbeds: [
@@ -616,7 +616,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
     relayAddrs ??= [];
     relayAddrs
-        .addAll(userProvider.getExtralRelays(widget.event.pubkey, false));
+        .addAll(userProvider.getExtraRelays(widget.event.pubkey, false));
 
     if (myLikeEvents == null || myLikeEvents!.isEmpty) {
       // like

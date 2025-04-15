@@ -43,7 +43,7 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     return detail;
   }
 
-  void updateReadedTime(DMSessionDetail? detail) {
+  void updateReadTime(DMSessionDetail? detail) {
     if (detail != null &&
         detail.info != null &&
         detail.dmSession.newestEvent != null) {
@@ -53,10 +53,10 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     }
   }
 
-  void addEventAndUpdateReadedTime(DMSessionDetail detail, Event event) {
+  void addEventAndUpdateReadTime(DMSessionDetail detail, Event event) {
     pendingEvents.add(event);
     eventLaterHandle(pendingEvents, updateUI: false);
-    updateReadedTime(detail);
+    updateReadTime(detail);
   }
 
   Future<DMSessionDetail> addDmSessionToKnown(DMSessionDetail detail) async {

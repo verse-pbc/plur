@@ -136,7 +136,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   }
 
   /// Returns a [Filter] object that can be used to query events with kind
-  /// [eventKind] relevante to group [groupId] from relays.
+  /// [eventKind] relevant to group [groupId] from relays.
   @visibleForTesting
   Map<String, dynamic> genFilter(String groupId, int eventKind) {
     var filter = Filter(

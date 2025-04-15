@@ -6,6 +6,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_text/styled_text.dart';
 import 'package:provider/provider.dart';
+import 'dart:convert';
 
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
@@ -361,15 +362,15 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   /// Navigates to the Onboarding screen.
   Future<void> _navigateToOnboarding() async {
-    final completed =
-        await Navigator.of(context).pushNamed(RouterPath.onboarding);
-    if (completed == true) {
+    final name =
+        await Navigator.of(context).pushNamed(RouterPath.onboarding) as String?;
+    if (name != null) {
       final privateKey = generatePrivateKey();
-      await _completeSignup(privateKey);
+      await _completeSignup(privateKey, name);
     }
   }
 
-  Future<void> _completeSignup(String privateKey) async {
+  Future<void> _completeSignup(String privateKey, String name) async {
     final settingsProvider =
         Provider.of<SettingsProvider>(context, listen: false);
     final relayProvider = Provider.of<RelayProvider>(context, listen: false);
@@ -382,12 +383,43 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.addAndChangePrivateKey(privateKey, updateUI: true);
     nostr = await relayProvider.genNostrWithKey(privateKey);
 
+    // Publish metadata event with user's name
+    await _publishMetadata(name);
+
     // Set first login flag and navigate
     firstLogin = true;
     // Set home tab and navigate to index
     if (mounted) {
       indexProvider.setCurrentTap(0); // Set the home tab
       RouterUtil.router(context, RouterPath.index); // Navigate to home page
+    }
+  }
+
+  Future<void> _publishMetadata(String name) async {
+    if (nostr != null) {
+      try {
+        var metadata = {
+          "name": name,
+          "display_name": name,
+        };
+        var event = Event(
+          nostr!.publicKey,
+          EventKind.metadata,
+          [],
+          jsonEncode(metadata),
+        );
+        await nostr!.sendEvent(event);
+
+        // Identify user in Sentry
+        await Sentry.configureScope((scope) {
+          scope.setUser(SentryUser(
+            id: nostr!.publicKey,
+            username: name,
+          ));
+        });
+      } catch (e, stackTrace) {
+        await Sentry.captureException(e, stackTrace: stackTrace);
+      }
     }
   }
 

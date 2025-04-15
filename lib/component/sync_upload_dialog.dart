@@ -222,12 +222,12 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
         return;
       }
 
-      log("begin to broadcaseAll");
+      log("begin to broadcastAll");
       // var index = 0;
       for (var event in widget.events) {
         var message = ["EVENT", event.toJson()];
 
-        // find the relays not contain this event and send (broadcase) to it.
+        // find the relays not contain this event and send (broadcast) to it.
         int count = 0;
         for (var relay in selectedRelays) {
           if (!event.sources.contains(relay.url)) {
@@ -239,13 +239,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
         }
         // log("note ${index} send to ${count} relays");
 
-        // nostr!.broadcase(event);
+        // nostr!.broadcast(event);
         if (count > 0) {
           await Future.delayed(Duration(milliseconds: sendInterval));
         }
         // index++;
       }
-      log("broadcaseAll complete");
+      log("broadcastAll complete");
     } finally {
       cancelFunc.call();
     }

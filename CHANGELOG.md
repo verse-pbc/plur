@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Add name collection to the onboarding flow. [#314](https://github.com/verse-pbc/issues/issues/314)
 - Added member list to Group Info screen. [#306](https://github.com/verse-pbc/issues/issues/306)
 
 ### Internal Changes
+- Fixed many typos.
 
 ## [0.0.5]
 

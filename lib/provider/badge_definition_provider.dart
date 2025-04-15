@@ -13,14 +13,14 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
     }
 
     if (!_needUpdatePubKeys.contains(pubkey) &&
-        !_handingPubkeys.containsKey(pubkey)) {
+        !_handlingPubkeys.containsKey(pubkey)) {
       _needUpdatePubKeys.add(pubkey);
     }
     later(_laterCallback);
     return null;
   }
 
-  final Map<String, int> _handingPubkeys = {};
+  final Map<String, int> _handlingPubkeys = {};
 
   final List<String> _needUpdatePubKeys = [];
 
@@ -49,7 +49,7 @@ class BadgeDefinitionProvider extends ChangeNotifier with LaterFunction {
     nostr!.query(filters, _onEvent, id: subscriptId);
 
     for (var pubkey in _needUpdatePubKeys) {
-      _handingPubkeys[pubkey] = 1;
+      _handlingPubkeys[pubkey] = 1;
     }
     _needUpdatePubKeys.clear();
   }

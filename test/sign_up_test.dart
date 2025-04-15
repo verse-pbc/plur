@@ -61,7 +61,7 @@ void main() {
     relayLocalDB = null;
   });
 
-  testWidgets('Sign Up flow with age verification',
+  testWidgets('Sign Up flow with age verification and name input',
       (WidgetTester tester) async {
     // Launch the app
     await tester.pumpWidget(const MyApp());
@@ -76,6 +76,17 @@ void main() {
 
     // Accept age verification
     await tester.tap(find.text('Yes'));
+    await tester.pumpAndSettle();
+
+    // Verify we're on the name input step
+    expect(find.byKey(const Key('name_input_title')), findsOneWidget);
+
+    // Enter the name
+    await tester.enterText(find.byKey(const Key('input')), 'Test User');
+    await tester.pumpAndSettle();
+
+    // Tap the continue button
+    await tester.tap(find.text('Continue'));
     await tester.pumpAndSettle();
 
     // verify that the NoCommunitiesWidget is shown
@@ -101,10 +112,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Verify the dialog appears
-    expect(
-      find.byKey(const Key('age_dialog_title')),
-      findsOneWidget
-    );
+    expect(find.byKey(const Key('age_dialog_title')), findsOneWidget);
     expect(
       find.byKey(const Key('age_requirement_message')),
       findsOneWidget,
