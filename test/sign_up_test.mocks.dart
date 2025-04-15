@@ -494,13 +494,13 @@ class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
       ) as _i9.RelayListMetadata?);
 
   @override
-  List<String> getExtralRelays(
+  List<String> getExtraRelays(
     String? pubkey,
     bool? isWrite,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #getExtralRelays,
+          #getExtraRelays,
           [
             pubkey,
             isWrite,

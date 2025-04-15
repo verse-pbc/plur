@@ -187,7 +187,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     }
     list.add(SettingsGroupItemWidget(
       name: localization.Broadcast_When_Boost,
-      value: getOpenList(settingsProvider.broadcaseWhenBoost).name,
+      value: getOpenList(settingsProvider.broadcastWhenBoost).name,
       onTap: pickBroadcaseWhenBoost,
     ));
     list.add(SettingsGroupItemWidget(
@@ -785,7 +785,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   pickBroadcaseWhenBoost() async {
     EnumObj? resultEnumObj = await EnumSelectorWidget.show(context, openList!);
     if (resultEnumObj != null) {
-      settingsProvider.broadcaseWhenBoost = resultEnumObj.value;
+      settingsProvider.broadcastWhenBoost = resultEnumObj.value;
     }
   }
 

@@ -139,7 +139,7 @@ class Nostr {
     }
   }
 
-  Event? broadcase(Event event,
+  Event? broadcast(Event event,
       {List<String>? tempRelays, List<String>? targetRelays}) {
     var result = _pool.send(
       ["EVENT", event.toJson()],

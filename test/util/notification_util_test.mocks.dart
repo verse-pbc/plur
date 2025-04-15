@@ -254,13 +254,13 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
       ) as _i6.Future<void>);
 
   @override
-  _i7.Event? broadcase(
+  _i7.Event? broadcast(
     _i7.Event? event, {
     List<String>? tempRelays,
     List<String>? targetRelays,
   }) =>
       (super.noSuchMethod(Invocation.method(
-        #broadcase,
+        #broadcast,
         [event],
         {
           #tempRelays: tempRelays,

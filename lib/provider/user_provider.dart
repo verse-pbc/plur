@@ -15,7 +15,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
 
   final Map<String, User> _userCache = {};
 
-  final Map<String, int> _handingPubkeys = {};
+  final Map<String, int> _handlingPubkeys = {};
 
   final Map<String, ContactList> _contactListMap = {};
 
@@ -99,7 +99,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
     }
 
     if (!_needUpdatePubKeys.contains(pubkey) &&
-        !_handingPubkeys.containsKey(pubkey)) {
+        !_handlingPubkeys.containsKey(pubkey)) {
       _needUpdatePubKeys.add(pubkey);
     }
     later(_laterCallback);
@@ -133,7 +133,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
               user.valid = Nip05Status.nip05Valid;
               await UserDB.update(user);
             } else {
-              // only update cache, next open app vill valid again
+              // only update cache, next open app will validate again
               user.valid = Nip05Status.nip05Invalid;
             }
             notifyListeners();
@@ -160,7 +160,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
           continue;
         }
 
-        _handingPubkeys.remove(event.pubkey);
+        _handlingPubkeys.remove(event.pubkey);
 
         var jsonObj = jsonDecode(event.content);
         var user = User.fromJson(jsonObj);
@@ -280,7 +280,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
     }
 
     for (var pubkey in _needUpdatePubKeys) {
-      _handingPubkeys[pubkey] = 1;
+      _handlingPubkeys[pubkey] = 1;
     }
     _needUpdatePubKeys.clear();
   }
@@ -308,7 +308,7 @@ class UserProvider extends ChangeNotifier with LaterFunction {
     _contactListMap[event.pubkey] = contactList;
   }
 
-  List<String> getExtralRelays(String pubkey, bool isWrite) {
+  List<String> getExtraRelays(String pubkey, bool isWrite) {
     List<String> tempRelays = [];
     var relayListMetadata = userProvider.getRelayListMetadata(pubkey);
     if (relayListMetadata != null) {

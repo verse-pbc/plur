@@ -82,10 +82,10 @@ class _SearchWidgetState extends CustState<SearchWidget>
 
     bool? loadable;
     Widget? body;
-    if (searchAction == null && searchAbles.isNotEmpty) {
-      // no searchAction, show searchAbles
+    if (searchAction == null && availableSearchActions.isNotEmpty) {
+      // no searchAction, show availableSearchActions
       List<Widget> list = [];
-      for (var action in searchAbles) {
+      for (var action in availableSearchActions) {
         if (action == SearchActions.openPubkey) {
           list.add(SearchActionItemWidget(
               title: localization.Open_User_page, onTap: openPubkey));
@@ -403,13 +403,13 @@ class _SearchWidgetState extends CustState<SearchWidget>
 
   String? searchAction;
 
-  List<String> searchAbles = [];
+  List<String> availableSearchActions = [];
 
   String lastText = "";
 
   checkInput() {
     searchAction = null;
-    searchAbles.clear();
+    availableSearchActions.clear();
 
     var text = controller.text;
     if (text == lastText) {
@@ -418,18 +418,18 @@ class _SearchWidgetState extends CustState<SearchWidget>
 
     if (StringUtil.isNotBlank(text)) {
       if (Nip19.isPubkey(text)) {
-        searchAbles.add(SearchActions.openPubkey);
+        availableSearchActions.add(SearchActions.openPubkey);
       }
       if (Nip19.isNoteId(text)) {
-        searchAbles.add(SearchActions.openNoteId);
+        availableSearchActions.add(SearchActions.openNoteId);
       }
-      if (searchAbles.isEmpty) {
-        searchAbles.add(SearchActions.openHashtag);
+      if (availableSearchActions.isEmpty) {
+        availableSearchActions.add(SearchActions.openHashtag);
       }
-      searchAbles.add(SearchActions.searchMetadataFromCache);
-      searchAbles.add(SearchActions.searchEventFromCache);
-      searchAbles.add(SearchActions.searchPubkeyEvent);
-      searchAbles.add(SearchActions.searchNoteContent);
+      availableSearchActions.add(SearchActions.searchMetadataFromCache);
+      availableSearchActions.add(SearchActions.searchEventFromCache);
+      availableSearchActions.add(SearchActions.searchPubkeyEvent);
+      availableSearchActions.add(SearchActions.searchNoteContent);
     }
 
     lastText = text;

@@ -134,7 +134,7 @@ mixin EditorMixin {
         tooltip: localization.Take_photo,
       ));
       inputBtnList.add(quill.QuillToolbarIconButton(
-        onPressed: tackAVideo,
+        onPressed: takeAVideo,
         icon: const Icon(Icons.video_call),
         isSelected: false,
         iconTheme: null,
@@ -371,7 +371,7 @@ mixin EditorMixin {
     }
   }
 
-  Future<void> tackAVideo() async {
+  Future<void> takeAVideo() async {
     ImagePicker picker = ImagePicker();
     final XFile? photo = await picker.pickVideo(source: ImageSource.camera);
     if (photo != null) {
@@ -514,7 +514,7 @@ mixin EditorMixin {
     var tags = [...getTags()];
     var tagsAddedWhenSend = [...getTagsAddedWhenSend()];
 
-    List<String> extralRelays = [];
+    List<String> extraRelays = [];
 
     if (inputPoll) {
       var checkResult = pollInputController.checkInput(context);
@@ -614,7 +614,7 @@ mixin EditorMixin {
             result += "nostr:${Nip19.encodePubKey(value)} ";
 
             // add user's read relays
-            extralRelays.addAll(userProvider.getExtralRelays(value, false));
+            extraRelays.addAll(userProvider.getExtraRelays(value, false));
             continue;
           }
 
@@ -703,7 +703,7 @@ mixin EditorMixin {
     }
 
     Event? event;
-    List<Event> extralEvents = [];
+    List<Event> extraEvents = [];
     if (isDM() && StringUtil.isNotBlank(pubkey)) {
       if (openPrivateDM) {
         // Private dm message
@@ -718,10 +718,10 @@ mixin EditorMixin {
         for (var tags in allTags) {
           if (tags is List && tags.length > 1) {
             if (tags[0] == "p") {
-              var extralEvent = await GiftWrapUtil.getGiftWrapEvent(
+              var extraEvent = await GiftWrapUtil.getGiftWrapEvent(
                   nostr!, rumorEvent, nostr!, tags[1]);
-              if (extralEvent != null) {
-                extralEvents.add(extralEvent);
+              if (extraEvent != null) {
+                extraEvents.add(extraEvent);
               }
             }
           }
@@ -758,8 +758,8 @@ mixin EditorMixin {
           createdAt: getCreatedAt());
     } else if (inputZapGoal) {
       // zap goal event
-      var extralTags = zapGoalInputController.getTags();
-      allTags.addAll(extralTags);
+      var extraTags = zapGoalInputController.getTags();
+      allTags.addAll(extraTags);
       event = Event(nostr!.publicKey, EventKind.zapGoals, allTags, result,
           createdAt: getCreatedAt());
     } else if (isLongForm()) {
@@ -808,33 +808,33 @@ mixin EditorMixin {
       return nostr!
           .sendEvent(event, targetRelays: groupRelays, tempRelays: groupRelays);
     } else if (publishAt != null) {
-      for (var extralEvent in extralEvents) {
-        _handleSendingSendBoxEvent(extralEvent, extralRelays);
+      for (var extraEvent in extraEvents) {
+        _handleSendingSendBoxEvent(extraEvent, extraRelays);
       }
 
-      return _handleSendingSendBoxEvent(event, extralRelays);
+      return _handleSendingSendBoxEvent(event, extraRelays);
     } else {
-      for (var extralEvent in extralEvents) {
-        _handleSendingEvent(extralEvent, extralRelays);
+      for (var extraEvent in extraEvents) {
+        _handleSendingEvent(extraEvent, extraRelays);
       }
 
-      return _handleSendingEvent(event, extralRelays);
+      return _handleSendingEvent(event, extraRelays);
     }
   }
 
   Future<Event?> _handleSendingSendBoxEvent(
-      Event e, List<String> extralRelays) async {
+      Event e, List<String> extraRelays) async {
     if (StringUtil.isBlank(e.sig)) {
       nostr!.signEvent(e);
     }
 
-    List<String> list = [...relayProvider.relayAddrs, ...extralRelays];
+    List<String> list = [...relayProvider.relayAddrs, ...extraRelays];
     for (var tag in e.tags) {
       if (tag is List && tag.length > 1) {
         var k = tag[0];
         var p = tag[1];
         if (k == "p") {
-          list.addAll(userProvider.getExtralRelays(p, false));
+          list.addAll(userProvider.getExtraRelays(p, false));
         }
       }
     }
@@ -845,21 +845,21 @@ mixin EditorMixin {
     return e;
   }
 
-  Future<Event?> _handleSendingEvent(Event e, List<String> extralRelays) async {
-    List<String> list = [...extralRelays];
+  Future<Event?> _handleSendingEvent(Event e, List<String> extraRelays) async {
+    List<String> list = [...extraRelays];
     for (var tag in e.tags) {
       if (tag is List && tag.length > 1) {
         var k = tag[0];
         var p = tag[1];
         if (k == "p") {
-          list.addAll(userProvider.getExtralRelays(p, false));
+          list.addAll(userProvider.getExtraRelays(p, false));
         }
       }
     }
     list = list.toSet().toList();
 
     if (StringUtil.isNotBlank(e.sig)) {
-      return nostr!.broadcase(e, tempRelays: list);
+      return nostr!.broadcast(e, tempRelays: list);
     } else {
       return await nostr!.sendEvent(e, tempRelays: list);
     }

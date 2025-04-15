@@ -250,7 +250,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
         return;
       }
       if (event.kind == EventKind.directMessage) {
-        dmProvider.addEventAndUpdateReadedTime(detail!, event);
+        dmProvider.addEventAndUpdateReadTime(detail!, event);
       } else if (event.kind == EventKind.giftWrap) {
         giftWrapProvider.onEvent(event);
       }
@@ -273,7 +273,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
     if (detail != null &&
         detail!.info != null &&
         detail!.dmSession.newestEvent != null) {
-      dmProvider.updateReadedTime(detail);
+      dmProvider.updateReadTime(detail);
     }
   }
 

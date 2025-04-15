@@ -409,7 +409,7 @@ class ContentDecoder {
             subStr.substring(1) != "#") {
           // inline
           // tag
-          var extralStr = "";
+          var extraStr = "";
           var length = subStr.length;
           if (tagInfos != null) {
             for (var hashtagInfo in tagInfos.tagEntryInfos) {
@@ -418,8 +418,8 @@ class ContentDecoder {
               if (subStr.indexOf(hashtag) == 1) {
                 // dua to tagEntryInfos is sorted, so this is the match hashtag
                 if (hashtagLength > 0 && length > hashtagLength) {
-                  // this str's length is more then hastagLength, maybe there are some extralStr.
-                  extralStr = subStr.substring(hashtagLength + 1);
+                  // this str's length is more then hastagLength, maybe there are some extraStr.
+                  extraStr = subStr.substring(hashtagLength + 1);
                   subStr = "#$hashtag";
                 }
                 break;
@@ -429,8 +429,8 @@ class ContentDecoder {
 
           handledStr = _closeHandledStr(handledStr, inlines);
           inlines.add(ContentTagWidget(tag: subStr));
-          if (StringUtil.isNotBlank(extralStr)) {
-            handledStr = _addToHandledStr(handledStr, extralStr);
+          if (StringUtil.isNotBlank(extraStr)) {
+            handledStr = _addToHandledStr(handledStr, extraStr);
           }
         } else {
           var length = subStr.length;
