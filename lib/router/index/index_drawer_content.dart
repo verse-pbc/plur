@@ -142,7 +142,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the DMs option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.chat_rounded,
-      name: localization.DMs,
+      name: localization.dms,
       color: indexProvider.currentTap == 1 ? mainColor : null,
       onTap: () {
         indexProvider.setCurrentTap(1);
