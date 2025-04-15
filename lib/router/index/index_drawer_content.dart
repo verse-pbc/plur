@@ -127,7 +127,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     if (TableModeUtil.isTableMode()) {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.home_rounded,
-        name: localization.Home,
+        name: localization.home,
         color: indexProvider.currentTap == 0 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(0);
@@ -153,7 +153,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the SEARCH option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.search_rounded,
-      name: localization.Search,
+      name: localization.search,
       color: indexProvider.currentTap == 2 ? mainColor : null,
       onTap: () {
         indexProvider.setCurrentTap(2);
@@ -164,7 +164,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the COMMUNITIES option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.groups_rounded,
-      name: localization.Communities,
+      name: localization.communities,
       color: indexProvider.currentTap == 0 ? mainColor : null,
       onTap: () {
         indexProvider.setCurrentTap(0);
@@ -172,10 +172,24 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       smallMode: widget.smallMode,
     ));
 
+    // Add the Asks & Offers option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.store_mall_directory_rounded,
+      name: localization.asksAndOffers,
+      color: indexProvider.currentTap == 3 ? mainColor : null,
+      onTap: () {
+        RouterUtil.router(context, RouterPath.listings);
+        if (!TableModeUtil.isTableMode()) {
+          Navigator.pop(context);
+        }
+      },
+      smallMode: widget.smallMode,
+    ));
+
     // Add the SETTINGS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
-      name: localization.Settings,
+      name: localization.settings,
       onTap: () {
         RouterUtil.router(context, RouterPath.settings);
       },
@@ -194,7 +208,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the Account Manager widget.
     list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
-      name: localization.Account_Manager,
+      name: localization.accountManager,
       onTap: () {
         _showBasicModalBottomSheet(context);
       },
@@ -219,7 +233,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         "" => version,
         var buildNumber => "$version ($buildNumber)",
       };
-      Widget versionWidget = Text("${localization.Version}: $versionText");
+      Widget versionWidget = Text("${localization.version}: $versionText");
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
