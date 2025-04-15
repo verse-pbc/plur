@@ -894,7 +894,8 @@ class _MyApp extends State<MyApp> {
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: mediaGroupId,
-                    child: const GroupMediaScreen(),
+                    // TODO: Implement GroupMediaScreen
+                    child: const Text("Group Media Screen not implemented yet"),
                   ),
                 );
                 

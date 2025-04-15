@@ -106,7 +106,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
         leading: TextButton(
           onPressed: _cancel,
           child: Text(
-            localization.Cancel,
+            localization.cancel,
             style: TextStyle(
               color: themeData.customColors.accentColor,
               fontSize: 16.0,
@@ -118,7 +118,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
           ),
         ),
         title: Text(
-          localization.Edit,
+          localization.edit,
           style: TextStyle(
             color: themeData.customColors.primaryForegroundColor,
             fontSize: 16,
@@ -146,7 +146,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
               onPressed: _hasChanges ? _save : null,
               style: const ButtonStyle(),
               child: Text(
-                localization.Save,
+                localization.save,
                 style: TextStyle(
                   color: _hasChanges
                       ? themeData.customColors.accentColor
@@ -179,7 +179,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                 ),
                 foregroundColor: themeData.customColors.accentColor,
               ),
-              child: Text(localization.Update_Image),
+              child: Text(localization.updateImage),
             ),
             const SizedBox(height: 44),
             Padding(
@@ -187,8 +187,8 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
               child: TextFormField(
                 controller: _nameController,
                 decoration: inputDecoration.copyWith(
-                  labelText: localization.Community_Name,
-                  hintText: localization.Enter_Community_Name,
+                  labelText: localization.communityName,
+                  hintText: localization.enterCommunityName,
                 ),
               ),
             ),
@@ -198,8 +198,8 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
               child: TextFormField(
                 controller: _descriptionController,
                 decoration: inputDecoration.copyWith(
-                  labelText: localization.Description,
-                  hintText: localization.Enter_Community_Description,
+                  labelText: localization.description,
+                  hintText: localization.enterCommunityDescription,
                   alignLabelWithHint: true,
                 ),
                 maxLines: 5,
@@ -219,7 +219,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
               child: Column(
                 children: [
                   _NavigationRow(
-                    title: localization.Members,
+                    title: localization.members,
                     onTap: () {
                       final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
@@ -227,7 +227,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                     },
                   ),
                   _NavigationRow(
-                    title: localization.Community_Guidelines,
+                    title: localization.communityGuidelines,
                     onTap: () {
                       final groupId = context.read<GroupIdentifier>();
                       RouterUtil.router(
@@ -259,7 +259,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
       if (!mounted) return;
 
       if (remoteUrl == null) {
-        final errorMessage = S.of(context).Image_upload_failed;
+        final errorMessage = S.of(context).imageUploadFailed;
         throw Exception(errorMessage);
       }
       setState(() => _pictureUrl = remoteUrl);
@@ -282,7 +282,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
           child: AlertDialog(
             backgroundColor: themeData.colorScheme.surface,
             content: Text(
-              localization.Confirm_Discard,
+              localization.confirmDiscard,
               style: TextStyle(
                 color: themeData.colorScheme.onSurface,
               ),
@@ -290,11 +290,11 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text(localization.Cancel),
+                child: Text(localization.cancel),
               ),
               TextButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text(localization.Discard),
+                child: Text(localization.discard),
               ),
             ],
           ),

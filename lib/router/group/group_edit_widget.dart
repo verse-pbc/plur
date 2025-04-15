@@ -71,7 +71,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Edit_Group,
+          localization.editGroup,
           style: TextStyle(
             color: customColors.primaryForegroundColor,
             fontSize: 16,
@@ -100,7 +100,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          localization.Group_Info,
+                          localization.groupInfo,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
