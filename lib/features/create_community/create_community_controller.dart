@@ -20,6 +20,7 @@ class CreateCommunityController
 
   Future<bool> createCommunity(String name) async {
     state = const AsyncValue<CreateCommunityModel?>.loading();
+    await Future.delayed(Duration(seconds: 5));
     final groupIdentifier = await _createGroupIdentifier();
     if (groupIdentifier == null) {
       state = const AsyncValue.data(null);
