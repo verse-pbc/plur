@@ -13,6 +13,7 @@ import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
+import '../../features/community/leave_community_button.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
@@ -70,7 +71,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
       color: themeData.appBarTheme.backgroundColor,
     );
     if (groupMetadata != null && StringUtil.isNotBlank(groupMetadata.name)) {
-        title = groupMetadata.name!;
+      title = groupMetadata.name!;
     }
 
     var appbar = SliverAppBar(
@@ -119,9 +120,9 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
               );
             },
           ),
-        IconButton(
-          icon: const Icon(Icons.group_remove_outlined),
-          onPressed: _leaveGroup,
+        LeaveCommunityButton(
+          groupIdentifier,
+          onLeft: () => RouterUtil.back(context),
         ),
       ],
     );
@@ -179,14 +180,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
 
   void _onEventDelete(nostr_event.Event e) {
     _groupDetailProvider.deleteEvent(e);
-  }
-
-  void _leaveGroup() {
-    final id = _groupIdentifier;
-    if (id != null) {
-      listProvider.leaveGroup(id);
-    }
-    RouterUtil.back(context);
   }
 
   void _showGroupInfo() {
