@@ -47,22 +47,46 @@ class GroupIdentifierRepository {
       targetRelays: [host],
     );
 
-    // Event was successfully sent
-    if (resultEvent != null) {
-      final newGroup = GroupIdentifier(host, groupId);
-
-      //  Add the group to the list
-      _groupIdentifiers.value.add(newGroup);
-
-      return newGroup; 
+    if (resultEvent == null) {
+      return null;
     }
-    return null;
+
+    final groupIdentifier = GroupIdentifier(host, groupId);
+    List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
+    updated.add(groupIdentifier);
+    _groupIdentifiers.add(updated);
+    final groupIdentifiersInList = await _fetchGroupList();
+    GroupIdentifiers updatedList = List.from(groupIdentifiersInList);
+    updatedList.remove(groupIdentifier);
+    await _setGroupList(updatedList);
+    return groupIdentifier;
+  }
+
+  Future<void> removeGroupIdentifier(GroupIdentifier groupIdentifier) async {
+    final groupId = groupIdentifier.groupId;
+    final event = Event(
+      nostr!.publicKey,
+      EventKind.groupLeave,
+      [
+        ["h", groupId]
+      ],
+      "",
+    );
+    final host = groupIdentifier.host;
+    await nostr!.sendEvent(event, tempRelays: [host], targetRelays: [host]);
+    List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
+    updated.remove(groupIdentifier);
+    _groupIdentifiers.add(updated);
+    final groupIdentifiersInList = await _fetchGroupList();
+    GroupIdentifiers updatedList = List.from(groupIdentifiersInList);
+    updatedList.remove(groupIdentifier);
+    await _setGroupList(updatedList);
   }
 
   void dispose() => _groupIdentifiers.close();
 
   Future<void> _fetchInitialListOfGroupIdentifiers() async {
-    final groupIdentifiersInList = await _fetchGroupIdentifiersFromGroupList();
+    final groupIdentifiersInList = await _fetchGroupList();
     log(
       "Received group list\n${groupIdentifiersInList.toString()}",
       level: Level.FINE.value,
@@ -90,7 +114,7 @@ class GroupIdentifierRepository {
     _groupIdentifiers.add(newGroupIdentifiers);
   }
 
-  Future<GroupIdentifiers> _fetchGroupIdentifiersFromGroupList() async {
+  Future<GroupIdentifiers> _fetchGroupList() async {
     Filter filter = Filter();
     filter.kinds = [EventKind.groupList];
     filter.authors = [nostr!.publicKey];
@@ -123,6 +147,22 @@ class GroupIdentifierRepository {
       }
     }
     return groupIdentifiers;
+  }
+
+  Future<void> _setGroupList(GroupIdentifiers groupIdentifiers) async {
+    final tags = groupIdentifiers.map((groupId) => groupId.toJson()).toList();
+    final updateGroupListEvent = Event(
+      nostr!.publicKey,
+      EventKind.groupList,
+      tags,
+      "",
+    );
+    await nostr!.sendEvent(updateGroupListEvent);
+    log(
+      "Updated group list\n${groupIdentifiers.toString()}",
+      level: Level.FINE.value,
+      name: _logName,
+    );
   }
 
   Future<GroupIdentifiers> _fetchGroupIdentifiersFromRelays() async {

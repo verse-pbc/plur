@@ -55,8 +55,7 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
     required RenderBox descendant,
     Offset offset = Offset.zero,
   }) {
-    final shimmerBox = context.findRenderObject() as RenderBox?;
-    return descendant.localToGlobal(offset, ancestor: shimmerBox);
+    return descendant.localToGlobal(offset, ancestor: descendant);
   }
 
   Listenable get shimmerChanges => _shimmerController;
