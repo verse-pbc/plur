@@ -387,8 +387,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Publish metadata event with user's name
     await _publishMetadata(name);
 
-    await NotificationUtil.registerUserForPushNotifications();
-
     // Set first login flag and navigate
     firstLogin = true;
     // Set home tab and navigate to index
@@ -506,8 +504,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       settingsProvider.addAndChangePrivateKey(pk, updateUI: true);
       nostr = await relayProvider.genNostrWithKey(pk);
-
-      await NotificationUtil.registerUserForPushNotifications();
     }
 
     if (backAfterLogin && mounted) {
@@ -536,8 +532,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
-    await NotificationUtil.registerUserForPushNotifications();
-
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
@@ -560,8 +554,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var key = "${NIP07Signer.uriPre}:$pubkey";
     settingsProvider.addAndChangePrivateKey(key, updateUI: true);
     nostr = await relayProvider.genNostr(signer);
-
-    await NotificationUtil.registerUserForPushNotifications();
 
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);

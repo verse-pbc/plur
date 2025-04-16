@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:nostrmo/util/notification_util.dart';
 
 import '../consts/client_connected.dart';
 import '../main.dart';
@@ -197,6 +198,8 @@ class RelayProvider extends ChangeNotifier {
         log("relay $relayAddr add to pool error ${e.toString()}");
       }
     }
+
+    NotificationUtil.registerUserForPushNotifications(nostr);
 
     return nostr;
   }

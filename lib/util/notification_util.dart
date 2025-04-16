@@ -35,28 +35,19 @@ class NotificationUtil {
     _setupForegroundMessaging();
     _setupBackgroundClickHandler(_handleBackgroundNotificationClick);
     _setupTokenRefreshHandler();
-
-    // Register token on app launch if user is logged in
-    if (nostr != null) {
-      await registerUserForPushNotifications();
-    }
   }
 
   /// Helper function to register the current user for push notifications
   /// This includes getting the FCM token and registering it with the relay
   /// Returns true if registration was successful, false otherwise
-  static Future<bool> registerUserForPushNotifications() async {
-    if (nostr == null) {
-      log('Cannot register for push notifications: nostr is null');
-      return false;
-    }
-
+  static Future<bool> registerUserForPushNotifications(Nostr nostr) async {
     final token = await getToken();
     if (token == null) {
       log('Cannot register for push notifications: FCM token is null');
       return false;
     }
 
+    log('Registering user for push notifications with token: $token');
     return registerTokenWithRelay(
       token: token,
       nostr: nostr!,
@@ -264,7 +255,6 @@ class NotificationUtil {
   /// Get the Firebase Cloud Messaging token
   static Future<String?> getToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    log('FCM Token: $token');
     return token;
   }
 
