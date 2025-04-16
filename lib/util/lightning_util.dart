@@ -38,7 +38,7 @@ class LightningUtil {
                 color: Colors.orange,
               ),
               Text(
-                "$text ${localization.is_sending}...",
+                "$text ${localization.isSending}...",
                 style: TextStyle(
                   fontSize: fontSize,
                 ),
@@ -49,7 +49,7 @@ class LightningUtil {
         trailing: (cancelFunc) {
           return FilledButton(
             child: Text(
-              localization.Cancel,
+              localization.cancel,
               style: TextStyle(
                 fontSize: fontSize,
               ),

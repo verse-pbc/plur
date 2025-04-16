@@ -142,7 +142,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
       child: TextField(
         controller: msgController,
         decoration: InputDecoration(
-          hintText: "${localization.Input_Comment} (${localization.Optional})",
+          hintText: "${localization.inputComment} (${localization.optional})",
           border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
@@ -167,7 +167,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
             height: 50,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Confirm,
+              S.of(context).confirm,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -222,7 +222,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
         list.add(child);
       } else {
         list.add(Text(
-          localization.Custom,
+          localization.custom,
           style: TextStyle(
             fontSize: themeData.textTheme.bodySmall!.fontSize,
           ),
@@ -265,7 +265,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
       var text = numberController.text;
       num = int.tryParse(text);
       if (num == null) {
-        BotToast.showText(text: S.of(context).Number_parse_error);
+        BotToast.showText(text: S.of(context).numberParseError);
         return;
       }
     }
@@ -280,7 +280,7 @@ class _ZapBottomSheetWidgetState extends CustState<ZapBottomSheetWidget> {
           eventId: widget.eventId, comment: comment);
     } else {
       if (zapInfosLength > num) {
-        BotToast.showText(text: localization.Zap_number_not_enough);
+        BotToast.showText(text: localization.zapNumberNotEnough);
         return;
       }
 

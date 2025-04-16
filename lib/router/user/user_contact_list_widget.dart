@@ -39,7 +39,7 @@ class _UserContactListWidgetState extends State<UserContactListWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Following,
+          localization.following,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,

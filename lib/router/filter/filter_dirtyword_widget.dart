@@ -48,7 +48,7 @@ class _FilterDirtywordWidgetState extends State<FilterDirtywordWidget> {
           controller: controller,
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.abc),
-            hintText: localization.Input_dirtyword,
+            hintText: localization.inputDirtyword,
             suffixIcon: IconButton(
               icon: const Icon(Icons.add),
               onPressed: addDirtyWord,
@@ -62,7 +62,7 @@ class _FilterDirtywordWidgetState extends State<FilterDirtywordWidget> {
   void addDirtyWord() {
     var word = controller.text;
     if (StringUtil.isBlank(word)) {
-      BotToast.showText(text: S.of(context).Word_can_t_be_null);
+      BotToast.showText(text: S.of(context).wordCantBeNull);
       return;
     }
 

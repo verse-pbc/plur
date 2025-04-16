@@ -28,13 +28,13 @@ class ZapGoalInputController {
     final localization = S.of(context);
     if (StringUtil.isBlank(goalAmountController.text)) {
       log("checked input is blank!");
-      BotToast.showText(text: localization.Input_can_not_be_null);
+      BotToast.showText(text: localization.inputCanNotBeNull);
       return false;
     }
     if (StringUtil.isNotBlank(goalAmountController.text)) {
       var num = int.tryParse(goalAmountController.text);
       if (num == null) {
-        BotToast.showText(text: localization.Number_parse_error);
+        BotToast.showText(text: localization.numberParseError);
         return false;
       }
     }
@@ -68,7 +68,7 @@ class _ZapGoalInputWidgetState extends State<ZapGoalInputWidget> {
     Widget inputWidget = TextField(
       controller: widget.zapGoalInputController.goalAmountController,
       decoration: InputDecoration(
-        hintText: localization.Goal_Amount_In_Sats,
+        hintText: localization.goalAmountInSats,
       ),
     );
 

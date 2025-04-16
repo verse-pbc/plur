@@ -51,13 +51,13 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
     return OnboardingStepWidget(
       // Use the custom icon widget instead of a simple emoji
       emoji: "👤", // Better emoji for user profile
-      title: localization.onboarding_name_input_title,
+      title: localization.onboardingNameInputTitle,
       titleKey: const Key('name_input_title'),
       textController: _nameController,
-      textFieldHint: localization.onboarding_name_input_hint,
+      textFieldHint: localization.onboardingNameInputHint,
       buttons: [
         OnboardingStepButton(
-          text: localization.Continue,
+          text: localization.continueButton,
           enabled: _isButtonEnabled,
           onTap: () {
             final name = _nameController.text.trim();

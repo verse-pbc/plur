@@ -80,7 +80,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
         const SizedBox(height: 10),
         
         Text(
-          l10n.Join_Group,
+          l10n.joinGroup,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -121,7 +121,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
           maxLines: 3,
           minLines: 1,
           decoration: InputDecoration(
-            hintText: l10n.Please_input,
+            hintText: l10n.pleaseInput,
             border: const OutlineInputBorder(),
             suffixIcon: _linkController.text.isNotEmpty 
               ? IconButton(
@@ -170,7 +170,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
         
         // Join button
         PrimaryButtonWidget(
-          text: l10n.Join_Group,
+          text: l10n.joinGroup,
           onTap: _hasValidFormat 
             ? () => widget.onJoinCommunity(_linkController.text) 
             : null,

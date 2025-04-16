@@ -82,7 +82,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Group_Info,
+          localization.groupInfo,
           style: TextStyle(
             color: customColors.primaryForegroundColor,
             fontSize: 16,
@@ -113,7 +113,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                       children: [
                         const SizedBox(height: 8),
                         Text(
-                          localization.About,
+                          localization.about,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -139,7 +139,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        localization.Actions,
+                        localization.actions,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -152,7 +152,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                           _buildActionButton(
                             context: context,
                             icon: Icons.person_add_outlined,
-                            label: localization.Invite,
+                            label: localization.invite,
                             onTap: () {
                               RouterUtil.router(context, RouterPath.inviteToGroup, groupId);
                             },
@@ -161,7 +161,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                           _buildActionButton(
                             context: context,
                             icon: Icons.share_outlined,
-                            label: localization.Share,
+                            label: localization.share,
                             isDisabled: true,
                             onTap: () {
                               // Feature not yet implemented
@@ -172,7 +172,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                             _buildActionButton(
                               context: context,
                               icon: Icons.edit_outlined,
-                              label: localization.Edit,
+                              label: localization.edit,
                               onTap: () {
                                 RouterUtil.router(context, RouterPath.groupEdit, groupId);
                               },
@@ -199,7 +199,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            localization.Members,
+                            localization.members,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,

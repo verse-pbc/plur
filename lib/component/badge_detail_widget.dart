@@ -73,7 +73,7 @@ class _BadgeDetailWidgetState extends State<BadgeDetailWidget> {
         margin: const EdgeInsets.only(top: Base.basePadding),
         child: Row(
           children: [
-            Expanded(child: Text(localization.Creator)),
+            Expanded(child: Text(localization.creator)),
             GestureDetector(
               onTap: () {
                 RouterUtil.router(

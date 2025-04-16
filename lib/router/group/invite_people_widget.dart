@@ -126,7 +126,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
       // Use AppBar with proper sizing and styling
       appBar: AppBar(
         title: Text(
-          localization.Invite,
+          localization.invite,
           style: TextStyle(
             color: customColors.primaryForegroundColor,
             fontSize: 16,
@@ -156,7 +156,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                         mainAxisSize: MainAxisSize.min, // Use min to avoid layout issues
                         children: [
                           Text(
-                            localization.Invite_people_to_join,
+                            localization.invitePeopleToJoin,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -195,7 +195,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                   onPressed: inviteLink.isNotEmpty ? () {
                                     Clipboard.setData(ClipboardData(text: inviteLink));
                                     BotToast.showText(
-                                      text: localization.Copy_success,
+                                      text: localization.copySuccess,
                                     );
                                   } : null, // Disable if no link
                                 ),
@@ -204,7 +204,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                           ),
                           const SizedBox(height: 40),
                           Text(
-                            localization.Share_invite_description,
+                            localization.shareInviteDescription,
                             style: TextStyle(
                               fontSize: 14,
                               color: customColors.secondaryForegroundColor,

@@ -88,25 +88,25 @@ class _SearchWidgetState extends CustState<SearchWidget>
       for (var action in searchAbles) {
         if (action == SearchActions.openPubkey) {
           list.add(SearchActionItemWidget(
-              title: localization.Open_User_page, onTap: openPubkey));
+              title: localization.openUserPage, onTap: openPubkey));
         } else if (action == SearchActions.openNoteId) {
           list.add(SearchActionItemWidget(
-              title: localization.Open_Note_detail, onTap: openNoteId));
+              title: localization.openNoteDetail, onTap: openNoteId));
         } else if (action == SearchActions.openHashtag) {
           list.add(SearchActionItemWidget(
-              title: "${localization.open} ${localization.Hashtag}", onTap: openHashtag));
+              title: "${localization.open} ${localization.hashtag}", onTap: openHashtag));
         } else if (action == SearchActions.searchMetadataFromCache) {
           list.add(SearchActionItemWidget(
-              title: localization.Search_User_from_cache, onTap: searchMetadataFromCache));
+              title: localization.searchUserFromCache, onTap: searchMetadataFromCache));
         } else if (action == SearchActions.searchEventFromCache) {
           list.add(SearchActionItemWidget(
-              title: localization.Open_Event_from_cache, onTap: searchEventFromCache));
+              title: localization.openEventFromCache, onTap: searchEventFromCache));
         } else if (action == SearchActions.searchPubkeyEvent) {
           list.add(SearchActionItemWidget(
-              title: localization.Search_pubkey_event, onTap: onEditingComplete));
+              title: localization.searchPubkeyEvent, onTap: onEditingComplete));
         } else if (action == SearchActions.searchNoteContent) {
           list.add(SearchActionItemWidget(
-              title: "${localization.Search_note_content} NIP-50",
+              title: "${localization.searchNoteContent} NIP-50",
               onTap: searchNoteContent));
         }
       }
@@ -198,7 +198,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
               controller: controller,
               decoration: InputDecoration(
                 prefixIcon: const Icon(Icons.search),
-                hintText: localization.Please_input_search_content,
+                hintText: localization.pleaseInputSearchContent,
                 suffixIcon: suffixWidget,
               ),
               onEditingComplete: onEditingComplete,

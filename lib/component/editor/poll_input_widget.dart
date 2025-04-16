@@ -38,21 +38,21 @@ class PollInputController {
     if (StringUtil.isNotBlank(maxValueController.text)) {
       var num = int.tryParse(maxValueController.text);
       if (num == null) {
-        BotToast.showText(text: localization.Number_parse_error);
+        BotToast.showText(text: localization.numberParseError);
         return false;
       }
     }
     if (StringUtil.isNotBlank(minValueController.text)) {
       var num = int.tryParse(minValueController.text);
       if (num == null) {
-        BotToast.showText(text: localization.Number_parse_error);
+        BotToast.showText(text: localization.numberParseError);
         return false;
       }
     }
 
     for (var pollOptionController in pollOptionControllers) {
       if (StringUtil.isBlank(pollOptionController.text)) {
-        BotToast.showText(text: localization.Input_can_not_be_null);
+        BotToast.showText(text: localization.inputCanNotBeNull);
         return false;
       }
     }
@@ -99,7 +99,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
       Widget inputWidget = TextField(
         controller: controller,
         decoration: InputDecoration(
-          hintText: localization.poll_option_info,
+          hintText: localization.pollOptionInfo,
         ),
       );
       if (delAble) {
@@ -130,7 +130,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
           color: mainColor,
           alignment: Alignment.center,
           child: Text(
-            localization.add_poll_option,
+            localization.addPollOption,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -147,7 +147,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
             child: TextField(
           controller: widget.pollInputController.minValueController,
           decoration: InputDecoration(
-            hintText: localization.min_zap_num,
+            hintText: localization.minZapNum,
           ),
           keyboardType: TextInputType.number,
         )),
@@ -158,7 +158,7 @@ class _PollInputWidgetState extends State<PollInputWidget> {
             child: TextField(
           controller: widget.pollInputController.maxValueController,
           decoration: InputDecoration(
-            hintText: localization.max_zap_num,
+            hintText: localization.maxZapNum,
           ),
           keyboardType: TextInputType.number,
         )),

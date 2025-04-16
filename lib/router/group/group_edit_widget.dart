@@ -71,7 +71,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Edit_Group,
+          localization.editGroup,
           style: TextStyle(
             color: customColors.primaryForegroundColor,
             fontSize: 16,
@@ -100,7 +100,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          localization.Group_Info,
+                          localization.groupInfo,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -110,14 +110,14 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                         const SizedBox(height: 16),
                         _buildInfoRow(
                           context: context,
-                          label: localization.Relay,
+                          label: localization.relay,
                           value: groupIdentifier!.host,
                           isImportant: true,
                         ),
                         const SizedBox(height: 12),
                         _buildInfoRow(
                           context: context,
-                          label: localization.GroupId,
+                          label: localization.groupId,
                           value: groupIdentifier!.groupId,
                           isImportant: true,
                         ),
@@ -129,7 +129,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   
                   // Editable fields
                   Text(
-                    localization.Edit_Details,
+                    localization.editDetails,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -142,8 +142,8 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   _buildTextField(
                     context: context,
                     controller: nameController,
-                    label: localization.Community_Name,
-                    hint: localization.Enter_Community_Name,
+                    label: localization.communityNameHeader,
+                    hint: localization.enterCommunityName,
                     maxLength: 50,
                   ),
                   const SizedBox(height: 16),
@@ -152,7 +152,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   _buildImageField(
                     context: context,
                     controller: pictureController,
-                    label: localization.Picture,
+                    label: localization.picture,
                     onTap: pickPicture,
                   ),
                   const SizedBox(height: 16),
@@ -161,8 +161,8 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   _buildTextField(
                     context: context,
                     controller: aboutController,
-                    label: localization.Description,
-                    hint: localization.Enter_Community_Description,
+                    label: localization.description,
+                    hint: localization.enterCommunityDescription,
                     maxLines: 5,
                     maxLength: 500,
                   ),
@@ -170,7 +170,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   
                   // Group settings section
                   Text(
-                    localization.Settings,
+                    localization.settings,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -182,10 +182,10 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   // Privacy toggle
                   _buildSwitchTile(
                     context: context,
-                    title: localization.public,
+                    title: localization.publicType,
                     subtitle: publicValue 
-                        ? localization.Group_Public_Description 
-                        : localization.Group_Private_Description,
+                        ? localization.groupPublicDescription 
+                        : localization.groupPrivateDescription,
                     value: publicValue,
                     onChanged: (value) {
                       setState(() {
@@ -200,8 +200,8 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                     context: context,
                     title: localization.open,
                     subtitle: openValue 
-                        ? localization.Group_Open_Description 
-                        : localization.Group_Closed_Description,
+                        ? localization.groupOpenDescription 
+                        : localization.groupClosedDescription,
                     value: openValue,
                     onChanged: (value) {
                       setState(() {
@@ -224,7 +224,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                         ),
                       ),
                       child: Text(
-                        localization.Save,
+                        localization.save,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -237,7 +237,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   // Media notice
                   const SizedBox(height: 16),
                   Text(
-                    localization.All_media_public,
+                    localization.allMediaPublic,
                     style: TextStyle(
                       fontSize: 12,
                       color: customColors.secondaryForegroundColor,
@@ -416,7 +416,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        S.of(context).Update_Image,
+                        S.of(context).updateImage,
                         style: TextStyle(
                           color: customColors.accentColor,
                         ),
@@ -448,7 +448,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Text(
-                    S.of(context).Remove,
+                    S.of(context).remove,
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.red[300],
@@ -566,7 +566,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         );
         return uploadedFile;
       } catch (e) {
-        BotToast.showText(text: S.of(context).Image_upload_failed);
+        BotToast.showText(text: S.of(context).imageUploadFailed);
         return null;
       } finally {
         setState(() {
@@ -592,12 +592,12 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
   
   void _copyToClipboard(String text) {
     Clipboard.setData(ClipboardData(text: text));
-    BotToast.showText(text: S.of(context).Copy_success);
+    BotToast.showText(text: S.of(context).copySuccess);
   }
 
   void doSave() {
     if (nameController.text.trim().isEmpty) {
-      BotToast.showText(text: S.of(context).Community_Name_Required);
+      BotToast.showText(text: S.of(context).communityNameRequired);
       return;
     }
     
@@ -629,10 +629,10 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         }
       }
       
-      BotToast.showText(text: S.of(context).Changes_saved);
+      BotToast.showText(text: S.of(context).changesSaved);
       RouterUtil.back(context);
     } catch (e) {
-      BotToast.showText(text: S.of(context).Save_error);
+      BotToast.showText(text: S.of(context).saveError);
     } finally {
       setState(() {
         isLoading = false;

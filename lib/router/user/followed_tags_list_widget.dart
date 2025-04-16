@@ -42,7 +42,7 @@ class _FollowedTagsListWidgetState extends State<FollowedTagsListWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Followed_Tags,
+          localization.followedTags,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,

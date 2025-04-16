@@ -173,7 +173,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
                   configurations: quill.QuillEditorConfigurations(
                     placeholder: replyToEvent != null ? 
                       "Write a reply..." : 
-                      localization.What_s_happening,
+                      localization.whatSHappening,
                     embedBuilders: [
                       MentionUserEmbedBuilder(),
                       MentionEventEmbedBuilder(),
@@ -200,7 +200,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
                 onPressed: send,
                 style: const ButtonStyle(),
                 child: Text(
-                  localization.Send,
+                  localization.send,
                   style: TextStyle(
                     color: textColor,
                     fontSize: 16,
@@ -234,7 +234,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
       var event = await doDocumentSave();
       if (event == null) {
         if (!mounted) return;
-        BotToast.showText(text: S.of(context).Send_fail);
+        BotToast.showText(text: S.of(context).sendFail);
         return;
       }
 

@@ -129,7 +129,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
             child: quill.QuillEditor(
               controller: editorController,
               configurations: quill.QuillEditorConfigurations(
-                placeholder: localization.What_s_happening,
+                placeholder: localization.whatSHappening,
                 embedBuilders: [
                   MentionUserEmbedBuilder(),
                   MentionEventEmbedBuilder(),
@@ -156,7 +156,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
             onPressed: send,
             style: const ButtonStyle(),
             child: Text(
-              localization.Send,
+              localization.send,
               style: TextStyle(
                 color: textColor,
                 fontSize: 16,
@@ -201,7 +201,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
                   ),
                   child: Center(
                     child: Text(
-                      localization.Add_to_known_list,
+                      localization.addToKnownList,
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -246,7 +246,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
       var event = await doDocumentSave();
       if (event == null) {
         if (!mounted) return;
-        BotToast.showText(text: S.of(context).Send_fail);
+        BotToast.showText(text: S.of(context).sendFail);
         return;
       }
       if (event.kind == EventKind.directMessage) {

@@ -34,7 +34,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
           onTap: () {
             EditorWidget.open(context);
           },
-          child: Text(localization.Notices),
+          child: Text(localization.notices),
         ),
       );
     } else {
@@ -53,7 +53,7 @@ class _NoticeWidgetState extends State<NoticeWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Notices,
+          localization.notices,
           style: TextStyle(
             fontSize: bodyLargeFontSize,
           ),

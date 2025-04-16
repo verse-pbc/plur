@@ -41,7 +41,7 @@ class _UserHistoryContactListWidgetState extends State<UserHistoryContactListWid
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Following,
+          localization.following,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
@@ -52,7 +52,7 @@ class _UserHistoryContactListWidgetState extends State<UserHistoryContactListWid
             onPressed: doRecovery,
             style: const ButtonStyle(),
             child: Text(
-              localization.Recovery,
+              localization.recovery,
               style: TextStyle(
                 color: titleTextColor,
                 fontSize: 16,

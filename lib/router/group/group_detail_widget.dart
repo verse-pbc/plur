@@ -136,7 +136,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     if (groupMetadata != null && StringUtil.isNotBlank(groupMetadata.name)) {
       return groupMetadata.name!;
     }
-    return "${localization.Group} ${localization.Detail}";
+    return "${localization.group} ${localization.detail}";
   }
 
   Widget _buildAppBarTitle(ThemeData themeData, String title, double? fontSize) {
@@ -195,8 +195,8 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       indicatorSize: TabBarIndicatorSize.label,
       padding: const EdgeInsets.symmetric(horizontal: 8),
       tabs: [
-        Tab(text: localization.Posts),
-        Tab(text: localization.Chat),
+        Tab(text: localization.posts),
+        Tab(text: localization.chat),
       ],
     );
   }

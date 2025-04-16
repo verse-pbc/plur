@@ -78,7 +78,7 @@ class _SearchMentionWidgetState extends State<SearchMentionWidget> {
       controller: _controller,
       decoration: InputDecoration(
         prefixIcon: const Icon(Icons.search),
-        hintText: localization.Please_input_search_content,
+        hintText: localization.pleaseInputSearchContent,
         suffixIcon: suffixWidget,
       ),
       onEditingComplete: _checkInput,

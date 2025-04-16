@@ -287,7 +287,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   height: 30,
                   color: themeData.cardColor.withAlpha(217),
                   child: Text(
-                    localization.Show_more,
+                    localization.showMore,
                     style: TextStyle(
                       color: themeData.primaryColor,
                     ),

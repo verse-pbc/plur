@@ -16,7 +16,7 @@ class AdminTagWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Text(
-        localization.Admin,
+        localization.admin,
         style: TextStyle(
           fontSize: 12,
           color: themeData.customColors.dimmedColor,

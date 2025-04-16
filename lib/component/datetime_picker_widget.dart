@@ -147,7 +147,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
     final timePicker = Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        buildNumberPicker(localization.Hour, 0, 23, hour, (value) {
+        buildNumberPicker(localization.hour, 0, 23, hour, (value) {
           setState(() {
             hour = value;
           });
@@ -156,7 +156,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
           ":",
           style: timeTitleTextStyle,
         ),
-        buildNumberPicker(localization.Minute, 0, 59, minute, (value) {
+        buildNumberPicker(localization.minute, 0, 59, minute, (value) {
           setState(() {
             minute = value;
           });
@@ -182,7 +182,7 @@ class _DatetimePickerWidgetState extends State<DatetimePickerWidget> {
         color: mainColor,
         child: Center(
           child: Text(
-            localization.Confirm,
+            localization.confirm,
             style: TextStyle(
               color: Colors.white,
               fontSize: bigTextSize,

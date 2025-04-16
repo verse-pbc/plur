@@ -114,7 +114,7 @@ class _FollowedCommunitiesWidgetState extends State<FollowedCommunitiesWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Followed_Communities,
+          localization.followedCommunities,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,

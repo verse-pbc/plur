@@ -69,7 +69,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       onPressed: profileSave,
       style: const ButtonStyle(),
       child: Text(
-        localization.Submit,
+        localization.submit,
         style: TextStyle(
           color: textColor,
           fontSize: 16,
@@ -105,7 +105,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         Expanded(
           child: TextField(
             controller: displayNameController,
-            decoration: InputDecoration(labelText: localization.Display_Name),
+            decoration: InputDecoration(labelText: localization.displayName),
           ),
         ),
         Container(
@@ -118,7 +118,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         Expanded(
           child: TextField(
             controller: nameController,
-            decoration: InputDecoration(labelText: localization.Name),
+            decoration: InputDecoration(labelText: localization.name),
           ),
         ),
       ]),
@@ -131,7 +131,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
         minLines: 2,
         maxLines: 10,
         controller: aboutController,
-        decoration: InputDecoration(labelText: localization.About),
+        decoration: InputDecoration(labelText: localization.about),
       ),
     ));
 
@@ -145,7 +145,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
             onTap: pickPicture,
             child: const Icon(Icons.image),
           ),
-          labelText: localization.Picture,
+          labelText: localization.picture,
         ),
       ),
     ));
@@ -160,7 +160,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
             onTap: pickBanner,
             child: const Icon(Icons.image),
           ),
-          labelText: localization.Banner,
+          labelText: localization.banner,
         ),
       ),
     ));
@@ -170,7 +170,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       padding: padding,
       child: TextField(
         controller: websiteController,
-        decoration: InputDecoration(labelText: localization.Website),
+        decoration: InputDecoration(labelText: localization.website),
       ),
     ));
 
@@ -179,7 +179,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       padding: padding,
       child: TextField(
         controller: nip05Controller,
-        decoration: InputDecoration(labelText: "Nostr ${localization.Address}"),
+        decoration: InputDecoration(labelText: "Nostr ${localization.address}"),
       ),
     ));
 
@@ -189,7 +189,7 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       child: TextField(
         controller: lud16Controller,
         decoration: InputDecoration(
-            labelText: localization.Lightning_Address,
+            labelText: localization.lightningAddress,
             hintText: "walletname@walletservice.com"),
       ),
     ));
