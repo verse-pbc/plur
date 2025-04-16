@@ -1,17 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 
-import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
 import '../generated/l10n.dart';
-import '../data/join_group_parameters.dart';
-import '../util/router_util.dart';
 import '../provider/relay_provider.dart';
 
 /// Standard list provider.
