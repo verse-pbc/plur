@@ -380,6 +380,16 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
       groupIdentifier,
       code: code,
     );
+    // if (isGroupMember(request)) {
+    //   BotToast.showText(text: "You're already a member of this group.");
+    //   if (context != null) {
+    //     RouterUtil.router(context, RouterPath.groupDetail,
+    //         GroupIdentifier(request.host, request.groupId));
+    //   }
+    //   return;
+    // }
+
+
     final errorMessage =
         "Sorry, something went wrong and you weren't added to the group.";
     // Add a delay to allow the relay to process the join event

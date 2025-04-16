@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -54,10 +53,6 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
               ),
       ),
     );
-  }
-
-  void showCreateCommunityDialog() {
-    CreateCommunityDialog.show(context);
   }
 
   @override

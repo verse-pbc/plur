@@ -21,11 +21,12 @@ class CreateCommunityController
   Future<bool> createCommunity(String name) async {
     state = const AsyncValue<CreateCommunityModel?>.loading();
     await Future.delayed(Duration(seconds: 5));
-    final groupIdentifier = await _createGroupIdentifier();
+    final groupIdentifier = await _createGroup();
     if (groupIdentifier == null) {
       state = const AsyncValue.data(null);
       return false;
     }
+    await _saveGroupIdentifier(groupIdentifier);
     await _setGroupName(groupIdentifier, name);
     final inviteLink = await _generateInviteLink(groupIdentifier);
     state = AsyncValue<CreateCommunityModel?>.data((
@@ -35,10 +36,15 @@ class CreateCommunityController
     return true;
   }
 
-  Future<GroupIdentifier?> _createGroupIdentifier() async {
+  Future<GroupIdentifier?> _createGroup() async {
     final groupId = StringCodeGenerator.generateGroupId();
+    final groupInviteRepository = ref.watch(groupInviteRepositoryProvider);
+    return groupInviteRepository.createGroup(groupId);
+  }
+
+  _saveGroupIdentifier(GroupIdentifier groupIdentifier) async {
     final repository = ref.watch(groupIdentifierRepositoryProvider);
-    return await repository.createGroupIdentifier(groupId);
+    await repository.addGroupIdentifier(groupIdentifier);
   }
 
   _setGroupName(GroupIdentifier groupIdentifier, String name) async {

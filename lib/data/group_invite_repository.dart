@@ -13,6 +13,72 @@ class GroupInviteRepository {
 
   static const _defaultRelay = RelayProvider.defaultGroupsRelayAddress;
 
+  /// Creates a group
+  Future<GroupIdentifier?> createGroup(String groupId) async {
+    // Create the event for creating a group.
+    // We only support private closed group for now.
+    final createGroupEvent = Event(
+      nostr!.publicKey,
+      EventKind.groupCreateGroup,
+      [
+        ["h", groupId]
+      ],
+      "",
+    );
+    const host = _defaultRelay;
+    log(
+      "Creating group $groupId in $host...\n$createGroupEvent",
+      level: Level.FINE.value,
+      name: _logName,
+    );
+    final resultEvent = await nostr!.sendEvent(
+      createGroupEvent,
+      tempRelays: [host],
+      targetRelays: [host],
+    );
+    final result = resultEvent != null;
+    log(
+      "Group $groupId in $host created: $result",
+      level: Level.INFO.value,
+      name: _logName,
+    );
+    if (result) {
+      return null;
+    } else {
+      return GroupIdentifier(host, groupId);
+    }
+  }
+
+  Future<bool> leaveGroup(GroupIdentifier groupIdentifier) async {
+    final groupId = groupIdentifier.groupId;
+    final leaveGroupEvent = Event(
+      nostr!.publicKey,
+      EventKind.groupLeave,
+      [
+        ["h", groupId]
+      ],
+      "",
+    );
+    final host = groupIdentifier.host;
+    log(
+      "Leaving group $groupId in $host...\n$leaveGroupEvent",
+      level: Level.FINE.value,
+      name: _logName,
+    );
+    final resultEvent = await nostr!.sendEvent(
+      leaveGroupEvent,
+      tempRelays: [host],
+      targetRelays: [host],
+    );
+    final result = resultEvent != null;
+    log(
+      "Group $groupId in $host left: $result",
+      level: Level.INFO.value,
+      name: _logName,
+    );
+    return result;
+  }
+
   Future<String> createInviteLink(
     GroupIdentifier group,
     String inviteCode, {

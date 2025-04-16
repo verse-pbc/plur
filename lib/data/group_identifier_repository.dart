@@ -82,36 +82,6 @@ class GroupIdentifierRepository {
     }
   }
 
-  /// Creates a group and adds it to the group list
-  Future<GroupIdentifier?> createGroupIdentifier(String groupId) async {
-    const host = _defaultRelay;
-
-    // Create the event for creating a group.
-    // We only support private closed group for now.
-    final createGroupEvent = Event(
-      nostr!.publicKey,
-      EventKind.groupCreateGroup,
-      [
-        ["h", groupId]
-      ],
-      "",
-    );
-
-    final resultEvent = await nostr!.sendEvent(
-      createGroupEvent,
-      tempRelays: [host],
-      targetRelays: [host],
-    );
-
-    if (resultEvent == null) {
-      return null;
-    }
-
-    final groupIdentifier = GroupIdentifier(host, groupId);
-    await addGroupIdentifier(groupIdentifier);
-    return groupIdentifier;
-  }
-
   /// Adds a group to the group list
   Future<void> addGroupIdentifier(GroupIdentifier groupIdentifier) async {
     // Update the cached stream
@@ -130,17 +100,6 @@ class GroupIdentifierRepository {
   }
 
   Future<void> removeGroupIdentifier(GroupIdentifier groupIdentifier) async {
-    final groupId = groupIdentifier.groupId;
-    final event = Event(
-      nostr!.publicKey,
-      EventKind.groupLeave,
-      [
-        ["h", groupId]
-      ],
-      "",
-    );
-    final host = groupIdentifier.host;
-    await nostr!.sendEvent(event, tempRelays: [host], targetRelays: [host]);
     List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
     if (updated.contains(groupIdentifier)) {
       updated.remove(groupIdentifier);

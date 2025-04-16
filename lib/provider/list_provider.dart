@@ -324,32 +324,6 @@ class ListProvider extends ChangeNotifier {
   // Getter to maintain compatibility with existing code.
   List<GroupIdentifier> get groupIdentifiers => _groupIdentifiers.toList();
 
-  void leaveGroup(GroupIdentifier gi) async {
-    if (!_groupIdentifiers.contains(gi)) return;
-
-    final cancelFunc = BotToast.showLoading();
-
-    final event = Event(
-      nostr!.publicKey,
-      EventKind.groupLeave,
-      [
-        ["h", gi.groupId]
-      ],
-      "",
-    );
-
-    await nostr!
-        .sendEvent(event, tempRelays: [gi.host], targetRelays: [gi.host]);
-
-    _groupIdentifiers.removeWhere((groupIdentifier) =>
-        gi.groupId == groupIdentifier.groupId &&
-        gi.host == groupIdentifier.host);
-
-    _updateGroups();
-
-    cancelFunc.call();
-  }
-
   void _updateGroups() async {
     final tags = _groupIdentifiers.map((groupId) => groupId.toJson()).toList();
 
