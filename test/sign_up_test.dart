@@ -82,8 +82,8 @@ void main() {
 
     // Launch the app
     await tester.pumpWidget(ProviderScope(
-      child: const MyApp(),
       overrides: overrides,
+      child: const MyApp(),
     ));
     await tester.pumpAndSettle();
 
