@@ -1,3 +1,27 @@
+# iOS Build Fix Guide
+
+The iOS build issues are related to CocoaPods and deployment target compatibility. Follow these steps to fix them:
+
+## 1. Update your Ruby environment
+
+You need to use a newer version of Ruby with rbenv. Make sure you have rbenv installed:
+
+```bash
+brew install rbenv ruby-build
+```
+
+Then install Ruby 3.0+ (current latest is 3.2.2):
+
+```bash
+rbenv install 3.2.2
+rbenv global 3.2.2  # or use local for this project only
+```
+
+## 2. Update your Podfile
+
+Replace your Podfile with the improved version:
+
+```ruby
 # Uncomment this line to define a global platform for your project
 platform :ios, '15.5'
 
@@ -75,3 +99,69 @@ post_install do |installer|
     config.build_settings["DEAD_CODE_STRIPPING"] = "YES"
   end
 end
+```
+
+## 3. Update Flutter configuration files
+
+Edit the following files to ensure proper CocoaPods integration:
+
+### ios/Flutter/Debug.xcconfig
+
+```
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+#include "Generated.xcconfig"
+```
+
+### ios/Flutter/Release.xcconfig
+
+```
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
+#include "Generated.xcconfig"
+```
+
+### ios/Flutter/Staging.xcconfig
+
+```
+#include "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-runner-staging.xcconfig"
+#include "Generated.xcconfig"
+
+PRODUCT_BUNDLE_IDENTIFIER = app.verse.prototype.plur-staging
+```
+
+## 4. Clean and rebuild
+
+Run these commands in order:
+
+```bash
+# Make sure rbenv is active
+eval "$(rbenv init -)"
+
+# Clean up everything
+cd /path/to/plur
+flutter clean
+
+# Get Flutter dependencies
+flutter pub get
+
+# Set up Ruby with Bundler
+cd ios
+echo "source 'https://rubygems.org'" > Gemfile
+echo "gem 'cocoapods', '~> 1.12.1'" >> Gemfile
+bundle install
+
+# Install pods with the proper Ruby environment
+rm -rf Pods .symlinks Podfile.lock
+bundle exec pod install
+
+# Build
+cd ..
+flutter build ios --release
+```
+
+## 5. For CI/CD (Fastlane)
+
+Update the fastlane configuration to use the right Ruby/CocoaPods environment:
+
+1. Set the Xcode version using `xcversion` action
+2. Set the Ruby version using rbenv in the CI environment
+3. Ensure all CocoaPods commands use bundler: `bundle exec pod install`
