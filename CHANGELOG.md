@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal Changes
 - Fixed many typos.
+- Removed CODEOWNERS file to simplify repository management.
 
 ## [0.0.5]
 
