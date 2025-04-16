@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added member list to Group Info screen. [#306](https://github.com/verse-pbc/issues/issues/306)
 - Fixed group list on Home screen. [#284](https://github.com/verse-pbc/issues/issues/284)
 - Enable invitations generation for groups on other relays. [#140](https://github.com/verse-pbc/issues/issues/140)
+- Change user-facing usage of Groups to Communities. [#326](https://github.com/verse-pbc/issues/issues/326)
 
 ### Internal Changes
 - Fixed many typos.

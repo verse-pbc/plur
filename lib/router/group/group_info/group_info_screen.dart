@@ -40,7 +40,7 @@ class GroupInfoWidget extends StatelessWidget {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Group_Info,
+          localization.Community_Info,
           style: TextStyle(
             color: themeData.customColors.primaryForegroundColor,
             fontSize: 16,

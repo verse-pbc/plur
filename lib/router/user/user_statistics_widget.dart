@@ -99,7 +99,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       list.add(Selector<ListProvider, int>(builder: (context, number, child) {
         return UserStatisticsItemWidget(
             num: number,
-            name: localization.Groups,
+            name: localization.Communities,
             onTap: () {
               RouterUtil.router(context, RouterPath.groupList);
             });
@@ -420,7 +420,7 @@ class UserStatisticsItemWidget extends StatelessWidget {
 
   final Function(LongPressEndDetails)? onLongPressEnd;
 
-  const UserStatisticsItemWidget({super.key, 
+  const UserStatisticsItemWidget({super.key,
     required this.num,
     required this.name,
     required this.onTap,
