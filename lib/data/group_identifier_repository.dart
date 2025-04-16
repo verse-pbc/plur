@@ -137,7 +137,7 @@ class GroupIdentifierRepository {
   ///
   /// Returns `true` if the [groupIdentifier] is present, otherwise `false`.
   Future<bool> containsGroupIdentifier(GroupIdentifier groupIdentifier) async {
-    return _groupIdentifiers.value.contains(groupIdentifier); 
+    return _groupIdentifiers.value.contains(groupIdentifier);
   }
 
   /// Disposes of the repository by closing the stream.
@@ -279,7 +279,7 @@ class GroupIdentifierRepository {
   ///
   /// Listens for events such as group membership changes, metadata edits,
   /// and deletions, and updates the local list accordingly.
-  void _subscribeToNewUpdates(GroupMetadataRepository groupMetadataRepository) {
+  void _subscribeToNewUpdates(Ref ref) {
     // Get current timestamp to only receive events from now onwards.
     final since = currentUnixTimestamp();
     final filters = [
@@ -310,10 +310,7 @@ class GroupIdentifierRepository {
     nostr!.subscribe(
       filters,
       (event) => Future.microtask(
-        () => _handleSubscriptionEvent(
-          event,
-          groupMetadataRepository,
-        ),
+        () => _handleSubscriptionEvent(event, ref),
       ),
       id: subscribeId,
       tempRelays: [RelayProvider.defaultGroupsRelayAddress],
@@ -327,10 +324,7 @@ class GroupIdentifierRepository {
   ///
   /// Processes events such as group deletions, membership changes, and
   /// metadata edits, and updates the local list of group identifiers.
-  void _handleSubscriptionEvent(
-    Event event,
-    GroupMetadataRepository groupMetadataRepository,
-  ) async {
+  void _handleSubscriptionEvent(Event event, Ref ref) async {
     log(
       "Received event\n${event.toJson()}",
       level: Level.FINE.value,
@@ -360,7 +354,12 @@ class GroupIdentifierRepository {
           tagPrefix: "h",
         );
         for (var groupIdentifier in parsed) {
-          await groupMetadataRepository.fetchGroupMetadata(groupIdentifier);
+          final repository = ref.watch(groupMetadataRepositoryProvider);
+          await repository.fetchGroupMetadata(groupIdentifier);
+          // Add delay so that the local cache has time to update the db
+          await Future.delayed(const Duration(seconds: 1));
+          // Invalidate provider so that the UI is updated
+          ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
         }
     }
     _groupIdentifiers.add(updated);
@@ -385,10 +384,9 @@ class GroupIdentifierRepository {
 final groupIdentifierRepositoryProvider =
     Provider<GroupIdentifierRepository>((ref) {
   final repository = GroupIdentifierRepository();
-  final groupMetadataRepository = ref.watch(groupMetadataRepositoryProvider);
   Future.microtask(() async {
     await repository._fetchInitialListOfGroupIdentifiers();
-    repository._subscribeToNewUpdates(groupMetadataRepository);
+    repository._subscribeToNewUpdates(ref);
   });
   ref.onDispose(() => repository.dispose());
   return repository;
