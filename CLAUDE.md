@@ -12,6 +12,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Auto fix: `dart fix --apply`
 - Generate localizations: `flutter pub run intl_utils:generate`
 
+## iOS Build Instructions
+- Initialize rbenv: `eval "$(rbenv init -)"` (requires Ruby 3.2.2+)
+- Clean Flutter: `flutter clean && flutter pub get`
+- Install pods: `cd ios && pod install`
+- Build iOS: `flutter build ios --no-codesign`
+
+### iOS Build Troubleshooting
+If iOS build fails, check the following common issues:
+1. **Deployment target issues**: The Podfile enforces iOS 15.5 minimum deployment target
+2. **Ruby/CocoaPods version**: Use rbenv with Ruby 3.2.2+ and CocoaPods 1.12+
+3. **Missing localization files**: If errors about missing messages_*.dart files appear, check lib/generated/intl/messages_all.dart
+4. **Xcode configuration**: Make sure xcconfig files include the proper CocoaPods configurations
+
+See `ios/FIX_IOS_BUILD.md` for detailed iOS build troubleshooting steps.
+
 ## Communication Guidelines
 - When planning changes, provide detailed explanations of:
   - Which files you'll modify and why
