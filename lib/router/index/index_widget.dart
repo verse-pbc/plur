@@ -177,7 +177,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
     if (indexProvider.currentTap == 0) {
       appBarCenter = Center(
         child: Text(
-          localization.Your_Groups,
+          localization.Your_Communities,
           style: titleTextStyle,
         ),
       );

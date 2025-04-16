@@ -103,7 +103,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                               ),
                             )
                           : PrimaryButtonWidget(
-                              text: localization.Create_Group,
+                              text: localization.Create_Community,
                               borderRadius: 8,
                               onTap: _createCommunity,
                             ),

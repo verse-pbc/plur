@@ -46,7 +46,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
     List<Widget> list = [];
 
     list.add(Text(
-      "${localization.Add} ${localization.Group}",
+      "${localization.Add} ${localization.Community}",
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: titleFontSize,
@@ -70,7 +70,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
         controller: groupIdController,
         autofocus: true,
         decoration: InputDecoration(
-          hintText: "${localization.Please_input} ${localization.GroupId}",
+          hintText: "${localization.Please_input} ${localization.CommunityId}",
           border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),

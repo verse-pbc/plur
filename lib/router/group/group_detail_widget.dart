@@ -65,7 +65,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
     final groupAdmins = groupProvider.getAdmins(groupIdentifier);
     final isAdmin = groupAdmins?.containsUser(nostr!.publicKey) ?? false;
 
-    String title = "${localization.Group} ${localization.Detail}";
+    String title = "${localization.Community} ${localization.Detail}";
     Widget flexBackground = Container(
       color: themeData.appBarTheme.backgroundColor,
     );
