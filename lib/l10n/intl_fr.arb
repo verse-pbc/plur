@@ -361,6 +361,10 @@
         }
       }
     },
+    "communityNameHeader": "Nom de la communauté",
+    "enterCommunityName": "Saisissez un nom pour votre communauté",
+    "enterCommunityDescription": "Saisissez une description pour votre communauté",
+    "enterCommunityGuidelines": "Saisissez les règles de votre communauté",
     "ageVerificationQuestion": "Avez-vous plus de 16 ans?",
     "ageVerificationMessage": "Pour des raisons légales, nous devons nous assurer que vous avez plus de cet âge pour utiliser Plur.",
     "no": "Non",
@@ -403,5 +407,11 @@
     "groupClosedDescription": "Nécessite une invitation ou une approbation pour rejoindre",
     "invitePeopleToJoin": "Inviter des personnes à rejoindre ce groupe",
     "done": "Terminé",
-    "shareInviteDescription": "Partagez ce lien avec les personnes que vous souhaitez inviter dans le groupe."
+    "shareInviteDescription": "Partagez ce lien avec les personnes que vous souhaitez inviter dans le groupe.",
+    "noChats": "Pas encore de chats",
+    "startConversation": "Soyez le premier à commencer une conversation",
+    "noCommunities": "Vous n'avez pas encore rejoint de communautés",
+    "joinSomeCommunities": "Rejoignez quelques communautés pour les voir apparaître ici",
+    "noNotes": "Pas encore de publications",
+    "beFirstToPub": "Soyez le premier à publier dans cette communauté"
 }
