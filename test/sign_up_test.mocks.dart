@@ -12,6 +12,7 @@ import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i5;
 import 'package:nostr_sdk/nostr_sdk.dart' as _i9;
+import 'package:nostrmo/data/group_identifier_repository.dart' as _i11;
 import 'package:nostrmo/data/user.dart' as _i8;
 import 'package:nostrmo/provider/user_provider.dart' as _i7;
 
@@ -559,6 +560,79 @@ class MockUserProvider extends _i1.Mock implements _i7.UserProvider {
   void disposeLater() => super.noSuchMethod(
         Invocation.method(
           #disposeLater,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [GroupIdentifierRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockGroupIdentifierRepository extends _i1.Mock
+    implements _i11.GroupIdentifierRepository {
+  @override
+  _i3.Stream<List<_i9.GroupIdentifier>> watchGroupIdentifierList() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #watchGroupIdentifierList,
+          [],
+        ),
+        returnValue: _i3.Stream<List<_i9.GroupIdentifier>>.empty(),
+        returnValueForMissingStub:
+            _i3.Stream<List<_i9.GroupIdentifier>>.empty(),
+      ) as _i3.Stream<List<_i9.GroupIdentifier>>);
+
+  @override
+  _i3.Future<bool> checkMembership(_i9.GroupIdentifier? groupIdentifier) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #checkMembership,
+          [groupIdentifier],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
+
+  @override
+  _i3.Future<void> addGroupIdentifier(_i9.GroupIdentifier? groupIdentifier) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #addGroupIdentifier,
+          [groupIdentifier],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<void> removeGroupIdentifier(
+          _i9.GroupIdentifier? groupIdentifier) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeGroupIdentifier,
+          [groupIdentifier],
+        ),
+        returnValue: _i3.Future<void>.value(),
+        returnValueForMissingStub: _i3.Future<void>.value(),
+      ) as _i3.Future<void>);
+
+  @override
+  _i3.Future<bool> containsGroupIdentifier(
+          _i9.GroupIdentifier? groupIdentifier) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #containsGroupIdentifier,
+          [groupIdentifier],
+        ),
+        returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
+      ) as _i3.Future<bool>);
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
           [],
         ),
         returnValueForMissingStub: null,

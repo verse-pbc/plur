@@ -1,11 +1,13 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
+import 'package:nostrmo/data/group_identifier_repository.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_text/styled_text.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacy_provider;
 import 'dart:convert';
 
 import '../../consts/base.dart';
@@ -21,18 +23,18 @@ import '../../provider/relay_provider.dart';
 import '../../provider/index_provider.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
-class LoginSignupWidget extends StatefulWidget {
+class LoginSignupWidget extends ConsumerStatefulWidget {
   /// Creates an instance of [LoginSignupWidget].
   const LoginSignupWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<ConsumerStatefulWidget> createState() {
     return _LoginSignupState();
   }
 }
 
 /// Manages the state for the `LoginSignupWidget`.
-class _LoginSignupState extends State<LoginSignupWidget> {
+class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
   // Boolean flag to show/hide the text in the text field.
   bool _isTextObscured = true;
 
@@ -372,9 +374,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   Future<void> _completeSignup(String privateKey, String name) async {
     final settingsProvider =
-        Provider.of<SettingsProvider>(context, listen: false);
-    final relayProvider = Provider.of<RelayProvider>(context, listen: false);
-    final indexProvider = Provider.of<IndexProvider>(context, listen: false);
+        legacy_provider.Provider.of<SettingsProvider>(context, listen: false);
+    final relayProvider = legacy_provider.Provider.of<RelayProvider>(context, listen: false);
+    final indexProvider = legacy_provider.Provider.of<IndexProvider>(context, listen: false);
 
     // Clear previously selected account data if any
     _doPreLogin();
@@ -382,6 +384,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Set up the private key and nostr client
     settingsProvider.addAndChangePrivateKey(privateKey, updateUI: true);
     nostr = await relayProvider.genNostrWithKey(privateKey);
+    ref.invalidate(groupIdentifierRepositoryProvider);
 
     // Publish metadata event with user's name
     await _publishMetadata(name);
@@ -505,6 +508,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       nostr = await relayProvider.genNostrWithKey(pk);
     }
 
+    ref.invalidate(groupIdentifierRepositoryProvider);
+
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
@@ -564,7 +569,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   void _doPreLogin() {
     if (backAfterLogin) {
-      AccountManagerWidgetState.clearCurrentMemInfo();
+      AccountManagerWidgetState.clearCurrentMemInfo(ref);
       nostr!.close();
       nostr = null;
     }

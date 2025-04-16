@@ -18,7 +18,6 @@ import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
 import 'package:nostrmo/provider/community_list_provider.dart';
@@ -31,7 +30,6 @@ import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
-import 'package:nostrmo/router/group/communities_widget.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
@@ -59,6 +57,9 @@ import 'consts/base.dart';
 import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
+import 'data/group_identifier_repository.dart';
+import 'data/group_repository.dart';
+import 'features/communities/communities_screen.dart';
 import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
@@ -112,6 +113,7 @@ import 'system_timer.dart';
 import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
+import 'util/router_util.dart';
 import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
@@ -340,7 +342,7 @@ Future<void> main() async {
   }
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends riverpod.ConsumerStatefulWidget {
   static const platform = MethodChannel('com.example.app/deeplink');
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
@@ -348,10 +350,12 @@ class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
-  State<StatefulWidget> createState() => _MyApp();
+  riverpod.ConsumerState<riverpod.ConsumerStatefulWidget> createState() {
+    return _MyApp();
+  }
 }
 
-class _MyApp extends State<MyApp> {
+class _MyApp extends riverpod.ConsumerState<MyApp> {
   @override
   void initState() {
     super.initState();
@@ -367,10 +371,48 @@ class _MyApp extends State<MyApp> {
     String host,
     String groupId,
     String? code,
-  ) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
+  ) async {
+    final cancelFunc = BotToast.showLoading();
+    final groupIdentifier = GroupIdentifier(host, groupId);
+    final groupIdentifierRepository = ref.read(
+      groupIdentifierRepositoryProvider,
+    );
+    final isMember = await groupIdentifierRepository.containsGroupIdentifier(
+      groupIdentifier,
+    );
+    if (isMember) {
+      BotToast.showText(text: "You're already a member of this group.");
+      if (context.mounted) {
+        RouterUtil.router(
+          context,
+          RouterPath.groupDetail,
+          GroupIdentifier(host, groupId),
+        );
+      }
+      cancelFunc.call();
+      return;
+    }
+    final groupRepository = ref.read(groupRepositoryProvider);
+    await groupRepository.acceptInviteLink(
+      groupIdentifier,
+      code: code,
+    );
+    // Add a delay to allow the relay to process the join event
+    await Future.delayed(const Duration(seconds: 2));
+    // Verify user is now a member of the group
+    final isCheckedMember = await groupIdentifierRepository.checkMembership(
+      groupIdentifier,
+    );
+    if (isCheckedMember) {
+      await groupIdentifierRepository.addGroupIdentifier(groupIdentifier);
+      if (!context.mounted) return;
+      RouterUtil.router(context, RouterPath.groupDetail, groupId);
+    } else {
+      BotToast.showText(
+        text: "Sorry, something went wrong and you weren't added to the group.",
+      );
+    }
+    cancelFunc.call();
   }
 
   Future<void> _handleDeepLink(MethodCall call) async {
@@ -455,7 +497,7 @@ class _MyApp extends State<MyApp> {
       RouterPath.followSetDetail: (context) => const FollowSetDetailWidget(),
       RouterPath.followSetFeed: (context) => const FollowSetFeedWidget(),
       RouterPath.nwcSetting: (context) => const NwcSettingWidget(),
-      RouterPath.groupList: (context) => const CommunitiesWidget(),
+      RouterPath.groupList: (context) => const CommunitiesScreen(),
       RouterPath.groupDetail: (context) => const GroupDetailWidget(),
       RouterPath.groupEdit: (context) => const GroupEditWidget(),
       RouterPath.groupInfo: (context) => const GroupInfoWidget(),
