@@ -380,7 +380,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     _doPreLogin();
 
     // Set up the private key and nostr client
-    settingsProvider.addAndChangePrivateKey(privateKey, updateUI: true);
+    settingsProvider.addAndChangePrivateKey(privateKey);
     nostr = await relayProvider.genNostrWithKey(privateKey);
 
     // Publish metadata event with user's name
@@ -458,7 +458,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       _doPreLogin();
 
       var npubKey = Nip19.encodePubKey(pubkey!);
-      settingsProvider.addAndChangePrivateKey(npubKey, updateUI: true);
+      settingsProvider.addAndChangePrivateKey(npubKey);
 
       var pubkeyOnlySigner = PubkeyOnlyNostrSigner(pubkey);
       nostr = await relayProvider.genNostr(pubkeyOnlySigner);
@@ -481,7 +481,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           bunkerLink =
               (nostr!.nostrSigner as NostrRemoteSigner).info.toString();
         }
-        settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: true);
+        settingsProvider.addAndChangePrivateKey(bunkerLink);
       } finally {
         cancel.call();
       }
@@ -501,7 +501,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       _doPreLogin();
 
-      settingsProvider.addAndChangePrivateKey(pk, updateUI: true);
+      settingsProvider.addAndChangePrivateKey(pk);
       nostr = await relayProvider.genNostrWithKey(pk);
     }
 
@@ -528,7 +528,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     if (StringUtil.isNotBlank(androidNostrSigner.getPackage())) {
       key = "$key?package=${androidNostrSigner.getPackage()}";
     }
-    settingsProvider.addAndChangePrivateKey(key, updateUI: true);
+    settingsProvider.addAndChangePrivateKey(key);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
     if (backAfterLogin && mounted) {
@@ -551,7 +551,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     _doPreLogin();
 
     var key = "${NIP07Signer.uriPre}:$pubkey";
-    settingsProvider.addAndChangePrivateKey(key, updateUI: true);
+    settingsProvider.addAndChangePrivateKey(key);
     nostr = await relayProvider.genNostr(signer);
 
     if (backAfterLogin && mounted) {

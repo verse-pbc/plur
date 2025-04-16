@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 - Add name collection to the onboarding flow. [#314](https://github.com/verse-pbc/issues/issues/314)
 - Added member list to Group Info screen. [#306](https://github.com/verse-pbc/issues/issues/306)
+- Moved storage of private keys to Keychain/Secure Storage. [#324](https://github.com/verse-pbc/issues/issues/324)
 
 ### Internal Changes
 - Fixed many typos.
