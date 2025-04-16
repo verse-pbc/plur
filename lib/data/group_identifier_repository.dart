@@ -195,7 +195,6 @@ class GroupIdentifierRepository {
       relayTypes: RelayType.tempAndLocal,
       sendAfterAuth: true,
     );
-    assert(events?.length == 1, "Didn't receive a group list");
     final event = events?.firstOrNull;
     if (event == null) {
       return [];
@@ -377,6 +376,13 @@ class GroupIdentifierRepository {
         .where((tag) => tag is List && tag.length > 1 && tag[0] == tagPrefix)
         .map((tag) => GroupIdentifier(_defaultRelay, tag[1]))
         .toList();
+  }
+
+  /// Clears the list of group identifiers.
+  /// 
+  /// Resets the stream to an empty list. It does not update the remote group list.
+  void clear() {
+    _groupIdentifiers.add([]);
   }
 }
 
