@@ -22,7 +22,11 @@ class SettingsProvider extends ChangeNotifier {
 
   SettingData? _settingData;
 
-  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage(
+    aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),
+  );
 
   final Map<String, String> _privateKeyMap = {};
 
