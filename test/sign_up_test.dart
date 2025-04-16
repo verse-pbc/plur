@@ -70,7 +70,7 @@ void main() {
   });
 
   testWidgets('Sign Up flow with age verification and name input', (WidgetTester tester) async {
-  // Mock GroupIdentifierRepository to return an empty list
+    // Mock GroupIdentifierRepository to return an empty list
     final groupIdentifierRepository = MockGroupIdentifierRepository();
     when(groupIdentifierRepository.watchGroupIdentifierList())
       .thenAnswer((_) => Stream.value(<GroupIdentifier>[]));
@@ -117,7 +117,11 @@ void main() {
       (WidgetTester tester) async {
     // Launch the app and ensure nostr is null to show login screen
     nostr = null;
-    await tester.pumpWidget(const MyApp());
+
+    // Launch the app
+    await tester.pumpWidget(const ProviderScope(
+      child: MyApp(),
+    ));
     await tester.pumpAndSettle();
 
     // find the Sign Up button and tap it
