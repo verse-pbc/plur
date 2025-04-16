@@ -1,18 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/util/string_code_generator.dart';
 
-import '../consts/router_path.dart';
 import '../data/custom_emoji.dart';
 import '../generated/l10n.dart';
-import '../data/join_group_parameters.dart';
-import '../util/router_util.dart';
 import '../provider/relay_provider.dart';
 
 /// Standard list provider.
@@ -325,174 +320,6 @@ class ListProvider extends ChangeNotifier {
   // Getter to maintain compatibility with existing code.
   List<GroupIdentifier> get groupIdentifiers => _groupIdentifiers.toList();
 
-  void joinGroup(JoinGroupParameters request, {BuildContext? context}) async {
-    // Check if already a member first
-    if (isGroupMember(request)) {
-      BotToast.showText(text: "You're already a member of this group.");
-      if (context != null) {
-        RouterUtil.router(context, RouterPath.groupDetail,
-            GroupIdentifier(request.host, request.groupId));
-      }
-      return;
-    }
-
-    joinGroups([request], context: context);
-  }
-
-  bool isGroupMember(JoinGroupParameters request) {
-    final groupId = GroupIdentifier(request.host, request.groupId);
-    return _groupIdentifiers
-        .any((gi) => gi.groupId == groupId.groupId && gi.host == groupId.host);
-  }
-
-  void joinGroups(List<JoinGroupParameters> requests,
-      {BuildContext? context}) async {
-    if (requests.isEmpty) return;
-
-    final cancelFunc = BotToast.showLoading();
-
-    List<(GroupIdentifier, bool)> results =
-        await _processJoinRequests(requests);
-    final successfullyJoinedGroupIds = results
-        .where((result) => result.$2)
-        .map((result) => result.$1)
-        .toList();
-    if (context != null && context.mounted) {
-      _handleJoinResults(successfullyJoinedGroupIds, context, requests);
-    }
-    cancelFunc.call();
-  }
-
-  Future<List<(GroupIdentifier, bool)>> _processJoinRequests(
-      List<JoinGroupParameters> requests) async {
-    List<Future<(GroupIdentifier, bool)>> joinTasks =
-        requests.map((request) => _processJoinRequest(request)).toList();
-    return await Future.wait(joinTasks);
-  }
-
-  Future<(GroupIdentifier, bool)> _processJoinRequest(
-      JoinGroupParameters request) async {
-    final joinEvent = _createJoinEvent(request);
-    final groupId = GroupIdentifier(request.host, request.groupId);
-
-    final joinResult = await nostr!.sendEvent(joinEvent,
-        tempRelays: [request.host], targetRelays: [request.host]);
-
-    if (joinResult == null) {
-      return (groupId, false);
-    }
-
-    // Add a delay to allow the relay to process the join event
-    await Future.delayed(const Duration(seconds: 2));
-
-    bool membershipConfirmed = await _verifyMembership(request);
-    return (groupId, membershipConfirmed);
-  }
-
-  Event _createJoinEvent(JoinGroupParameters request) {
-    final List<List<String>> eventTags = [
-      ["h", request.groupId]
-    ];
-
-    if (request.code != null) {
-      eventTags.add(["code", request.code!]);
-    }
-
-    return Event(
-      nostr!.publicKey,
-      EventKind.groupJoin,
-      eventTags,
-      "",
-    );
-  }
-
-  Future<bool> _verifyMembership(JoinGroupParameters request) async {
-    final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
-    final filterMap = filter.toJson();
-    filterMap["#d"] = [request.groupId];
-
-    final completer = Completer<bool>();
-
-    nostr!.query(
-      [filterMap],
-      (Event event) => _checkTagsForMembership(event, completer),
-      tempRelays: [request.host],
-      relayTypes: RelayType.onlyTemp,
-      sendAfterAuth: true,
-    );
-
-    try {
-      return await completer.future.timeout(
-        const Duration(seconds: 5),
-        onTimeout: () => false,
-      );
-    } catch (e) {
-      return false;
-    }
-  }
-
-  void _checkTagsForMembership(Event event, Completer<bool> completer) {
-    if (event.kind == EventKind.groupMembers) {
-      for (var tag in event.tags) {
-        if (tag is List && tag.length > 1) {
-          if (tag[0] == "p" && tag[1] == nostr!.publicKey) {
-            if (!completer.isCompleted) {
-              completer.complete(true);
-            }
-            return;
-          }
-        }
-      }
-      if (!completer.isCompleted) {
-        completer.complete(false);
-      }
-    }
-  }
-
-  void _handleJoinResults(List<GroupIdentifier> successfullyJoinedGroupIds,
-      BuildContext? context, List<JoinGroupParameters> requests) {
-    if (successfullyJoinedGroupIds.isNotEmpty) {
-      _groupIdentifiers.addAll(successfullyJoinedGroupIds);
-      _updateGroups();
-
-      if (context != null && successfullyJoinedGroupIds.isNotEmpty) {
-        RouterUtil.router(
-            context, RouterPath.groupDetail, successfullyJoinedGroupIds[0]);
-      }
-    } else {
-      BotToast.showText(
-          text:
-              "Sorry, something went wrong and you weren't added to the group.");
-      log("Failed to join group: $requests");
-    }
-  }
-
-  void leaveGroup(GroupIdentifier gi) async {
-    if (!_groupIdentifiers.contains(gi)) return;
-
-    final cancelFunc = BotToast.showLoading();
-
-    final event = Event(
-      nostr!.publicKey,
-      EventKind.groupLeave,
-      [
-        ["h", gi.groupId]
-      ],
-      "",
-    );
-
-    await nostr!
-        .sendEvent(event, tempRelays: [gi.host], targetRelays: [gi.host]);
-
-    _groupIdentifiers.removeWhere((groupIdentifier) =>
-        gi.groupId == groupIdentifier.groupId &&
-        gi.host == groupIdentifier.host);
-
-    _updateGroups();
-
-    cancelFunc.call();
-  }
-
   void _updateGroups() async {
     final tags = _groupIdentifiers.map((groupId) => groupId.toJson()).toList();
 
@@ -506,58 +333,7 @@ class ListProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  Future<(String?, GroupIdentifier?)> createGroupAndGenerateInvite(
-      String groupName) async {
-    final cancelFunc = BotToast.showLoading();
-    const host = RelayProvider.defaultGroupsRelayAddress;
-
-    // Generate a random string for the group ID
-    final groupId = StringCodeGenerator.generateGroupId();
-
-    // Create the event for creating a group.
-    // We only support private closed group for now.
-    final createGroupEvent = Event(
-      nostr!.publicKey,
-      EventKind.groupCreateGroup,
-      [
-        ["h", groupId]
-      ],
-      "",
-    );
-
-    final resultEvent = await nostr!
-        .sendEvent(createGroupEvent, tempRelays: [host], targetRelays: [host]);
-
-    String? inviteLink;
-    GroupIdentifier? newGroup;
-    // Event was successfully sent
-    if (resultEvent != null) {
-      newGroup = GroupIdentifier(host, groupId);
-
-      //  Add the group to the list
-      _groupIdentifiers.add(newGroup);
-      _editMetadata(newGroup, groupName);
-      _updateGroups();
-
-      // Generate an invite code
-      final inviteCode = StringCodeGenerator.generateInviteCode();
-      inviteLink = createInviteLink(newGroup, inviteCode);
-    }
-
-    cancelFunc.call();
-    return (inviteLink, newGroup);
-  }
-
-  void _editMetadata(GroupIdentifier group, String groupName) {
-    GroupMetadata groupMetadata = GroupMetadata(
-      group.groupId,
-      0,
-      name: groupName,
-    );
-    groupProvider.updateMetadata(group, groupMetadata);
-  }
-
+  
   String createInviteLink(GroupIdentifier group, String inviteCode,
       {List<String>? roles}) {
     final tags = [
@@ -582,8 +358,9 @@ class ListProvider extends ChangeNotifier {
     nostr!.sendEvent(inviteEvent,
         tempRelays: [group.host], targetRelays: [group.host]);
 
-    // Return the formatted invite link
-    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
+    // Return the formatted invite link with relays parameter
+    final encodedRelays = Uri.encodeComponent(group.host);
+    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode&relays=$encodedRelays';
   }
 
   void clear() {

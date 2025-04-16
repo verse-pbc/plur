@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/router/group/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -9,7 +8,7 @@ import 'package:nostrmo/main.dart';
 import 'dart:developer';
 
 import '../../component/shimmer/shimmer.dart';
-import 'communities_grid_widget.dart';
+import '../../features/communities/communities_grid_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
 import '../../util/theme_util.dart';
@@ -54,10 +53,6 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
               ),
       ),
     );
-  }
-
-  void showCreateCommunityDialog() {
-    CreateCommunityDialog.show(context);
   }
 
   @override

@@ -2,16 +2,18 @@ import 'dart:developer';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/data/group_identifier_repository.dart';
 import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacy_provider;
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../consts/base.dart';
@@ -21,20 +23,20 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'index_drawer_content.dart';
 
-class AccountManagerWidget extends StatefulWidget {
+class AccountManagerWidget extends ConsumerStatefulWidget {
   const AccountManagerWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<ConsumerStatefulWidget> createState() {
     return AccountManagerWidgetState();
   }
 }
 
-class AccountManagerWidgetState extends State<AccountManagerWidget> {
+class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+    final settingsProvider = legacy_provider.Provider.of<SettingsProvider>(context);
     var privateKeyMap = settingsProvider.privateKeyMap;
 
     final themeData = Theme.of(context);
@@ -74,7 +76,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
         isCurrent: settingsProvider.privateKeyIndex == index,
         onLoginTap: onLoginTap,
         onLogoutTap: (index) {
-          onLogoutTap(index, context: context);
+          onLogoutTap(index, ref, context: context);
         },
       ));
     });
@@ -138,11 +140,12 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
 
   Future<void> doLogin() async {
     nostr = await relayProvider.genNostrWithKey(settingsProvider.privateKey!);
+    ref.invalidate(groupIdentifierRepositoryProvider);
   }
 
   Future<void> onLoginTap(int index) async {
     if (settingsProvider.privateKeyIndex != index) {
-      clearCurrentMemInfo();
+      clearCurrentMemInfo(ref);
       nostr!.close();
       nostr = null;
 
@@ -165,13 +168,13 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
     }
   }
 
-  static Future<void> onLogoutTap(int index,
+  static Future<void> onLogoutTap(int index, WidgetRef ref,
       {bool routerBack = true, BuildContext? context}) async {
     var oldIndex = settingsProvider.privateKeyIndex;
     clearLocalData(index);
 
     if (oldIndex == index) {
-      clearCurrentMemInfo();
+      clearCurrentMemInfo(ref);
       nostr!.close();
       nostr = null;
 
@@ -189,7 +192,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
     }
   }
 
-  static void clearCurrentMemInfo() {
+  static void clearCurrentMemInfo(WidgetRef ref) {
     mentionMeProvider.clear();
     mentionMeNewProvider.clear();
     followEventProvider.clear();
@@ -202,6 +205,8 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
     linkPreviewDataProvider.clear();
     relayProvider.clear();
     listProvider.clear();
+
+    ref.read(groupIdentifierRepositoryProvider).clear();
   }
 
   static void clearLocalData(int index) {
@@ -291,7 +296,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
     }
     final localization = S.of(context);
 
-    return Selector<UserProvider, User?>(
+    return legacy_provider.Selector<UserProvider, User?>(
         builder: (context, user, child) {
       Color currentColor = Colors.green;
       List<Widget> list = [];
