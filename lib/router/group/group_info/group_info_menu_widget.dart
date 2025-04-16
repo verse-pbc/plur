@@ -7,11 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:nostrmo/router/group/group_info/group_info_menu_item_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/group_provider.dart';
+import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import '../../../main.dart';
 
 enum GroupInfoMenuItem {
   members,
   media,
+  asksOffers,
   settings,
   leave;
 
@@ -19,13 +21,15 @@ enum GroupInfoMenuItem {
     final localization = S.of(context);
     switch (this) {
       case GroupInfoMenuItem.members:
-        return localization.Members;
+        return localization.members;
       case GroupInfoMenuItem.media:
-        return localization.Media;
+        return localization.media;
+      case GroupInfoMenuItem.asksOffers:
+        return 'Asks & Offers';
       case GroupInfoMenuItem.settings:
-        return localization.Settings;
+        return localization.settings;
       case GroupInfoMenuItem.leave:
-        return localization.Leave_Group;
+        return localization.leaveGroup;
     }
   }
 
@@ -35,6 +39,8 @@ enum GroupInfoMenuItem {
         return Icons.people_outline;
       case GroupInfoMenuItem.media:
         return Icons.photo_library_outlined;
+      case GroupInfoMenuItem.asksOffers:
+        return Icons.swap_horiz;
       case GroupInfoMenuItem.settings:
         return Icons.settings_outlined;
       case GroupInfoMenuItem.leave:
@@ -69,7 +75,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
         children: [
           // Section header
           Text(
-            localization.Menu,
+            localization.menu,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
@@ -114,11 +120,12 @@ class GroupInfoMenuWidget extends StatelessWidget {
   }
 
   List<GroupInfoMenuItem> _getMenuItems(BuildContext context, GroupProvider groupProvider) {
-    // Start with just Members for now (media temporarily hidden)
+    // Start with Members and Asks/Offers
     List<GroupInfoMenuItem> items = [
       GroupInfoMenuItem.members,
       // TODO: Re-enable when media view is fully implemented
       // GroupInfoMenuItem.media,
+      GroupInfoMenuItem.asksOffers,
     ];
     
     // Add Settings only if user is admin
@@ -144,6 +151,16 @@ class GroupInfoMenuWidget extends StatelessWidget {
       case GroupInfoMenuItem.media:
         RouterUtil.router(context, RouterPath.groupMedia, groupId);
         break;
+      case GroupInfoMenuItem.asksOffers:
+        // Navigate to the listings screen with the group ID
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ListingsScreen(
+              groupId: groupId.groupId,
+            ),
+          ),
+        );
+        break;
       case GroupInfoMenuItem.settings:
         // TODO: Implement settings
         break;
@@ -162,14 +179,14 @@ class GroupInfoMenuWidget extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(
-          localization.Leave_Group_Question,
+          localization.leaveGroupQuestion,
           style: TextStyle(
             color: customColors.primaryForegroundColor,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: Text(
-          localization.Leave_Group_Confirmation,
+          localization.leaveGroupConfirmation,
           style: TextStyle(
             color: customColors.primaryForegroundColor,
           ),
@@ -178,7 +195,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
-              localization.Cancel,
+              localization.cancel,
               style: TextStyle(
                 color: customColors.primaryForegroundColor,
               ),
@@ -194,7 +211,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
               RouterUtil.router(context, RouterPath.groupList);
             },
             child: Text(
-              localization.Leave,
+              localization.leave,
               style: const TextStyle(
                 color: Colors.red,
               ),

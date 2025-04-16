@@ -141,7 +141,7 @@ class _EventQuoteWidgetState extends CustState<EventQuoteWidget> {
       margin: const EdgeInsets.all(Base.basePadding),
       height: 60,
       decoration: boxDecoration,
-      child: Center(child: Text(S.of(context).Note_loading)),
+      child: Center(child: Text(S.of(context).noteLoading)),
     );
   }
 

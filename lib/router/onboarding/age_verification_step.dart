@@ -20,16 +20,16 @@ class AgeVerificationStep extends StatelessWidget {
 
     return OnboardingStepWidget(
       emoji: '👨‍👩‍👧‍👦',  // Using family emoji for age verification
-      title: localization.Age_verification_question,
+      title: localization.ageVerificationQuestion,
       titleKey: const Key('age_verification_title'),
-      description: localization.Age_verification_message,
+      description: localization.ageVerificationMessage,
       buttons: [
         OnboardingStepButton(
-          text: localization.No,
+          text: localization.no,
           onTap: onDenied,
         ),
         OnboardingStepButton(
-          text: localization.Yes,
+          text: localization.yes,
           onTap: onVerified,
         ),
       ],

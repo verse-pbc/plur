@@ -83,7 +83,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       List<Widget> list = [];
       list.add(UserStatisticsItemWidget(
         num: provider.total(),
-        name: localization.Following,
+        name: localization.following,
         onTap: onFollowingTap,
         onLongPressStart: onLongPressStart,
         onLongPressEnd: onLongPressEnd,
@@ -91,7 +91,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       list.add(UserStatisticsItemWidget(
           num: provider.followSetEventMap.length,
-          name: localization.Follow_set,
+          name: localization.followSet,
           onTap: () {
             RouterUtil.router(context, RouterPath.followSetList);
           }));
@@ -99,7 +99,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       list.add(Selector<ListProvider, int>(builder: (context, number, child) {
         return UserStatisticsItemWidget(
             num: number,
-            name: localization.Groups,
+            name: localization.groups,
             onTap: () {
               RouterUtil.router(context, RouterPath.groupList);
             });
@@ -109,14 +109,14 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       list.add(Selector<RelayProvider, int>(builder: (context, number, child) {
         return UserStatisticsItemWidget(
-            num: number, name: localization.Relays, onTap: onRelaysTap);
+            num: number, name: localization.relays, onTap: onRelaysTap);
       }, selector: (_, provider) {
         return provider.total();
       }));
 
       list.add(UserStatisticsItemWidget(
         num: followedNum,
-        name: localization.Followed,
+        name: localization.followed,
         onTap: onFollowedTap,
         formatNum: true,
       ));
@@ -130,13 +130,13 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
 
       list.add(UserStatisticsItemWidget(
         num: provider.totalFollowedTags(),
-        name: localization.Followed_Tags,
+        name: localization.followedTags,
         onTap: onFollowedTagsTap,
       ));
 
       list.add(UserStatisticsItemWidget(
         num: provider.totalfollowedCommunities(),
-        name: localization.Followed_Communities,
+        name: localization.followedCommunities,
         onTap: onFollowedCommunitiesTap,
       ));
 
@@ -159,17 +159,17 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
         length = contactList!.list().length;
       }
       list.add(UserStatisticsItemWidget(
-          num: length, name: localization.Following, onTap: onFollowingTap));
+          num: length, name: localization.following, onTap: onFollowingTap));
 
       if (relaysTags != null) {
         relaysNum = relaysTags!.length;
       }
       list.add(UserStatisticsItemWidget(
-          num: relaysNum, name: localization.Relays, onTap: onRelaysTap));
+          num: relaysNum, name: localization.relays, onTap: onRelaysTap));
 
       list.add(UserStatisticsItemWidget(
         num: followedNum,
-        name: localization.Followed,
+        name: localization.followed,
         onTap: onFollowedTap,
         formatNum: true,
       ));
@@ -186,7 +186,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       }
       list.add(UserStatisticsItemWidget(
           num: followedTagsLength,
-          name: localization.Followed_Tags,
+          name: localization.followedTags,
           onTap: onFollowedTagsTap));
 
       if (contactList != null) {
@@ -195,7 +195,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       }
       list.add(UserStatisticsItemWidget(
           num: followedCommunitiesLength,
-          name: localization.Followed_Communities,
+          name: localization.followedCommunities,
           onTap: onFollowedCommunitiesTap));
 
       return Container(
@@ -222,7 +222,7 @@ class _UserStatisticsWidgetState extends CustState<UserStatisticsWidget> {
       nostr!.query([filter.toJson()], (event) {
         localContactBox!.add(event);
       }, id: fetchLocalContactsId);
-      BotToast.showText(text: S.of(context).Begin_to_load_Contact_History);
+      BotToast.showText(text: S.of(context).beginToLoadContactHistory);
     }
   }
 

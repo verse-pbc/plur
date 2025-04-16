@@ -164,7 +164,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
                       child: IconButton(
                         icon: const Icon(Icons.download),
                         color: widget.closeButtonColor,
-                        tooltip: localization.Download,
+                        tooltip: localization.download,
                         onPressed: saveImage,
                       ),
                     ),
@@ -239,7 +239,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
             var result = await ImageGallerySaver.saveImage(imageAsBytes, quality: 100);
             if (!mounted) return;
             if (result != null && result is Map && result["isSuccess"]) {
-              BotToast.showText(text: S.of(context).Image_save_success);
+              BotToast.showText(text: S.of(context).imageSaveSuccess);
             } else {
               // Silently fail
               developer.log("Failed to save image: $result", name: "ImagePreviewDialog");
@@ -252,7 +252,7 @@ class _ImagePreviewDialog extends State<ImagePreviewDialog> {
             );
             if (!mounted) return;
             BotToast.showText(
-              text: "${S.of(context).Image_save_success} $result",
+              text: "${S.of(context).imageSaveSuccess} $result",
               crossPage: true,
             );
           }

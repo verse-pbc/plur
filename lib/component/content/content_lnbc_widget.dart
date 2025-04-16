@@ -19,7 +19,7 @@ class ContentLnbcWidget extends StatelessWidget {
     var cardColor = themeData.cardColor;
     double largeFontSize = 20;
 
-    var numStr = localization.Any;
+    var numStr = localization.any;
     var num = ZapInfoUtil.getNumFromStr(lnbc);
     if (num > 0) {
       numStr = num.toString();
@@ -59,7 +59,7 @@ class ContentLnbcWidget extends StatelessWidget {
                   Icons.bolt,
                   color: Colors.orange,
                 ),
-                Text(localization.Lightning_Invoice),
+                Text(localization.lightningInvoice),
               ],
             ),
           ),
@@ -104,7 +104,7 @@ class ContentLnbcWidget extends StatelessWidget {
                 height: 50,
                 alignment: Alignment.center,
                 child: Text(
-                  localization.Pay,
+                  localization.pay,
                   style: const TextStyle(
                     color: Colors.white,
                   ),

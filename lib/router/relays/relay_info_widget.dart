@@ -87,12 +87,12 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
     ));
 
     list.add(RelayInfoItemWidget(
-      title: localization.Url,
+      title: localization.url,
       child: SelectableText(relay.url),
     ));
 
     list.add(RelayInfoItemWidget(
-      title: localization.Owner,
+      title: localization.owner,
       child: Selector<UserProvider, User?>(
         builder: (context, user, child) {
           List<Widget> list = [];
@@ -122,17 +122,17 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
     ));
 
     list.add(RelayInfoItemWidget(
-      title: localization.Contact,
+      title: localization.contact,
       child: SelectableText(relayInfo.contact),
     ));
 
     list.add(RelayInfoItemWidget(
-      title: localization.Soft,
+      title: localization.soft,
       child: SelectableText(relayInfo.software),
     ));
 
     list.add(RelayInfoItemWidget(
-      title: localization.Version,
+      title: localization.version,
       child: SelectableText(relayInfo.version),
     ));
 
@@ -151,7 +151,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
     if (relay is! RelayLocal && isMyRelay) {
       list.add(CheckboxListTile(
-        title: Text(localization.Write),
+        title: Text(localization.write),
         value: relay.relayStatus.writeAccess,
         onChanged: (bool? value) {
           if (value != null) {
@@ -163,7 +163,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       ));
 
       list.add(CheckboxListTile(
-        title: Text(localization.Read),
+        title: Text(localization.read),
         value: relay.relayStatus.readAccess,
         onChanged: (bool? value) {
           if (value != null) {
@@ -178,14 +178,14 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
     if (relay is RelayLocal) {
       if (dataLength != null) {
         list.add(ListTile(
-          title: Text(localization.Data_Length),
+          title: Text(localization.dataLength),
           trailing: Text(dataLength!.toString()),
         ));
       }
 
       if (dbFileSize != null) {
         list.add(ListTile(
-          title: Text(localization.File_Size),
+          title: Text(localization.fileSize),
           trailing: Text(StoreUtil.bytesToShowStr(dbFileSize!)),
         ));
       }
@@ -193,7 +193,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       list.add(GestureDetector(
         onTap: clearAllData,
         child: ListTile(
-          title: Text(localization.Clear_All_Data),
+          title: Text(localization.clearAllData),
           mouseCursor: SystemMouseCursors.click,
         ),
       ));
@@ -201,13 +201,13 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       list.add(GestureDetector(
         onTap: clearNotMyData,
         child: ListTile(
-          title: Text(localization.Clear_Not_My_Data),
+          title: Text(localization.clearNotMyData),
           mouseCursor: SystemMouseCursors.click,
         ),
       ));
 
       list.add(CheckboxListTile(
-        title: Text(localization.Data_Sync_Mode),
+        title: Text(localization.dataSyncMode),
         value: dataSyncMode,
         onChanged: (bool? value) {
           if (value != null) {
@@ -220,7 +220,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       list.add(GestureDetector(
         onTap: backMyNotes,
         child: ListTile(
-          title: Text(localization.Backup_my_notes),
+          title: Text(localization.backupMyNotes),
           mouseCursor: SystemMouseCursors.click,
         ),
       ));
@@ -228,7 +228,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       list.add(GestureDetector(
         onTap: importNotes,
         child: ListTile(
-          title: Text(localization.Import_notes),
+          title: Text(localization.importNotes),
           mouseCursor: SystemMouseCursors.click,
         ),
       ));
@@ -238,7 +238,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Relay_Info,
+          localization.relayInfo,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
@@ -267,7 +267,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
       ext: ".json",
     );
 
-    BotToast.showText(text: "${localization.File_save_success}: $result");
+    BotToast.showText(text: "${localization.fileSaveSuccess}: $result");
   }
 
   Future<void> importNotes() async {
@@ -320,7 +320,7 @@ class _RelayInfoWidgetState extends CustState<RelayInfoWidget> {
 
   Future<void> doClearData({String? pubkey}) async {
     var result = await ConfirmDialog.show(
-        context, S.of(context).This_operation_cannot_be_undo);
+        context, S.of(context).thisOperationCannotBeUndo);
     if (result != true) {
       return;
     }

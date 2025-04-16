@@ -37,7 +37,7 @@ class _WebUtilsWidgetState extends CustState<WebUtilsWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Web_Utils,
+          localization.webUtils,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,

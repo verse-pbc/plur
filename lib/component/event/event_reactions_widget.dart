@@ -421,7 +421,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       if (!mounted) return;
-      BotToast.showText(text: S.of(context).Copy_success);
+      BotToast.showText(text: S.of(context).copySuccess);
     });
   }
 
@@ -671,7 +671,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           children: [
             ListTile(
               title: Text(
-                localization.Boost,
+                localization.boost,
                 style: popFontStyle,
               ),
               leading: const Icon(Icons.repeat),
@@ -682,7 +682,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             ),
             ListTile(
               title: Text(
-                localization.Quote,
+                localization.quote,
                 style: popFontStyle,
               ),
               leading: const Icon(Icons.format_quote),
@@ -713,7 +713,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         var list = [
           ListTile(
             title: Text(
-              localization.Copy_Note_Id,
+              localization.copyNoteId,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.copy),
@@ -724,7 +724,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Copy_Note_Pubkey,
+              localization.copyNotePubkey,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.copy),
@@ -735,7 +735,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Open_Note_detail,
+              localization.openNoteDetail,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.open_in_new),
@@ -746,7 +746,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Share,
+              localization.share,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.share),
@@ -757,7 +757,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Copy_Note_Json,
+              localization.copyNoteJson,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.content_copy),
@@ -768,7 +768,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Broadcast,
+              localization.broadcast,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.send),
@@ -779,7 +779,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           ),
           ListTile(
             title: Text(
-              localization.Source,
+              localization.source,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.link),
@@ -793,7 +793,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         if (listProvider.privateBookmarkContains(widget.event.id)) {
           list.add(ListTile(
             title: Text(
-              localization.Remove_from_private_bookmark,
+              localization.removeFromPrivateBookmark,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.bookmark_remove),
@@ -805,7 +805,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         } else {
           list.add(ListTile(
             title: Text(
-              localization.Add_to_private_bookmark,
+              localization.addToPrivateBookmark,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.bookmark_add),
@@ -819,7 +819,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         if (listProvider.publicBookmarkContains(widget.event.id)) {
           list.add(ListTile(
             title: Text(
-              localization.Remove_from_public_bookmark,
+              localization.removeFromPublicBookmark,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.bookmark_remove),
@@ -831,7 +831,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         } else {
           list.add(ListTile(
             title: Text(
-              localization.Add_to_public_bookmark,
+              localization.addToPublicBookmark,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.bookmark_add),
@@ -844,7 +844,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
         list.add(ListTile(
           title: Text(
-            localization.Block,
+            localization.block,
             style: popFontStyle,
           ),
           leading: const Icon(Icons.block),
@@ -857,7 +857,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
         if (myPubkey != null && myPubkey == widget.event.pubkey) {
           list.add(ListTile(
             title: Text(
-              localization.Delete,
+              localization.delete,
               style: popFontStyle,
             ),
             leading: const Icon(Icons.delete_forever),

@@ -55,7 +55,7 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Follow_set,
+          localization.followSet,
           style: TextStyle(
             fontSize: largeTextSize,
             fontWeight: FontWeight.bold,
@@ -90,7 +90,7 @@ class _FollowSetListWidgetState extends CustState<FollowSetListWidget> {
     // edit title
     var text = await TextInputDialog.show(
       context,
-      S.of(context).Input_follow_set_name,
+      S.of(context).inputFollowSetName,
       value: "",
     );
     if (StringUtil.isNotBlank(text)) {
@@ -146,19 +146,19 @@ class FollowSetListItem extends StatelessWidget {
             ),
           ),
           PopupMenuButton(
-            tooltip: localization.More,
+            tooltip: localization.more,
             itemBuilder: (context) {
               List<PopupMenuItem> list = [
                 PopupMenuItem(
                   value: "editTitle",
                   child: Row(
-                    children: [const Icon(Icons.edit), Text(" ${localization.Edit_name}")],
+                    children: [const Icon(Icons.edit), Text(" ${localization.editName}")],
                   ),
                 ),
                 PopupMenuItem(
                   value: "edit",
                   child: Row(
-                    children: [const Icon(Icons.people), Text(" ${localization.Edit}")],
+                    children: [const Icon(Icons.people), Text(" ${localization.edit}")],
                   ),
                 ),
                 PopupMenuItem(
@@ -170,7 +170,7 @@ class FollowSetListItem extends StatelessWidget {
                         color: Colors.red,
                       ),
                       Text(
-                        " ${localization.Delete}",
+                        " ${localization.delete}",
                         style: const TextStyle(
                           color: Colors.red,
                         ),
@@ -196,7 +196,7 @@ class FollowSetListItem extends StatelessWidget {
     // edit title
     var text = await TextInputDialog.show(
       context,
-      S.of(context).Follow_set_name_edit,
+      S.of(context).followSetNameEdit,
       value: followSet.title,
     );
     if (StringUtil.isNotBlank(text)) {

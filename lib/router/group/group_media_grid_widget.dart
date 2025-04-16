@@ -84,7 +84,7 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
           ),
           const SizedBox(height: 16),
           Text(
-            localization.No_Media_found,
+            localization.noMediaFound,
             style: TextStyle(
               color: customColors.secondaryForegroundColor,
               fontSize: 16,
@@ -92,7 +92,7 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
           ),
           const SizedBox(height: 8),
           Text(
-            localization.Add_photos_to_posts,
+            localization.addPhotosToYourPosts,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: customColors.dimmedColor,

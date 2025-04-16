@@ -58,6 +58,8 @@ class RouterPath {
   static const String groupMedia = "/groupMedia";
   static const String inviteToGroup = "/inviteToGroup";
   static const String pushNotificationTest = "/pushNotificationTest";
+  static const String listingCreateEdit = "/listingCreateEdit";
+  static const String listingDetail = "/listingDetail";
 
   static String getThreadDetailPath() {
     if (settingsProvider.threadMode == ThreadMode.fullMode) {

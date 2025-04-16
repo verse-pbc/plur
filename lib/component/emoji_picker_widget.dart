@@ -85,7 +85,7 @@ class _EmojiPickerWidgetState extends State<EmojiPickerWidget> {
           ),
           searchViewConfig: SearchViewConfig(
             backgroundColor: bgColor,
-            hintText: localization.Search,
+            hintText: localization.search,
           ),
         ),
       ),

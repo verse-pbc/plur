@@ -193,7 +193,7 @@ class ListProvider extends ChangeNotifier {
         }
       }
     }
-    result.insert(0, MapEntry(localization.Custom, list));
+    result.insert(0, MapEntry(localization.custom, list));
 
     return result;
   }

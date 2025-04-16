@@ -273,7 +273,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           widget.event.kind == EventKind.genericRepost) {
         list.add(Container(
           alignment: Alignment.centerLeft,
-          child: Text("${localization.Boost}:"),
+          child: Text("${localization.boost}:"),
         ));
         if (repostEvent != null) {
           list.add(EventQuoteWidget(
@@ -336,7 +336,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           List<Widget> replyingList = [];
           var length = eventRelation.tagPList.length;
           replyingList.add(Text(
-            "${localization.Replying}: ",
+            "${localization.replying}: ",
             style: textStyle,
           ));
           for (var index = 0; index < length; index++) {
@@ -594,7 +594,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               right: 3,
             ),
             child: Text(
-              localization.From,
+              localization.from,
               style: TextStyle(
                 color: hintColor,
                 fontSize: smallTextSize,
@@ -777,7 +777,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               var nrelay = NIP19Tlv.decodeNrelay(link);
               if (nrelay != null) {
                 var result = await ConfirmDialog.show(
-                    context, S.of(context).Add_this_relay_to_local);
+                    context, S.of(context).addThisRelayToLocal);
                 if (result == true) {
                   relayProvider.addRelay(nrelay.addr);
                 }
@@ -811,7 +811,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               Container(
                 margin: const EdgeInsets.only(left: Base.basePaddingHalf),
                 child: Text(
-                  localization.Content_warning,
+                  localization.contentWarning,
                   style: GoogleFonts.nunito(
                     textStyle: TextStyle(
                       fontSize: largeTextSize,
@@ -824,7 +824,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             ],
           ),
           Text(
-            localization.This_note_contains_sensitive_content,
+            localization.thisNoteContainsSensitiveContent,
             style: GoogleFonts.nunito(
               textStyle: PlurColors.contentStyle(context),
             ),
@@ -848,7 +848,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                localization.Show,
+                localization.show,
                 style: GoogleFonts.nunito(
                   textStyle: const TextStyle(
                     color: Colors.white,
