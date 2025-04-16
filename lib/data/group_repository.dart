@@ -7,16 +7,23 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import '../main.dart';
 import '../provider/relay_provider.dart';
 
+/// Repository for managing group-related operations.
+///
+/// This class provides methods to create groups, leave groups, generate invite
+/// links, and accept invite links. It interacts with relays to perform these
+/// operations.
 class GroupRepository {
   /// Name used when logging.
   static const _logName = "GroupRepository";
 
+  /// Default relay address for group-related operations.
   static const _defaultRelay = RelayProvider.defaultGroupsRelayAddress;
 
-  /// Creates a group
+  /// Creates a new group with the specified [groupId].
+  ///
+  /// Sends an event to the relay to create a private closed group. Returns
+  /// a [GroupIdentifier] if the group creation succeeds, otherwise returns `null`.
   Future<GroupIdentifier?> createGroup(String groupId) async {
-    // Create the event for creating a group.
-    // We only support private closed group for now.
     final createGroupEvent = Event(
       nostr!.publicKey,
       EventKind.groupCreateGroup,
@@ -43,12 +50,16 @@ class GroupRepository {
       name: _logName,
     );
     if (result) {
-      return null;
-    } else {
       return GroupIdentifier(host, groupId);
+    } else {
+      return null;
     }
   }
 
+  /// Leaves the specified group.
+  ///
+  /// Sends an event to the relay to leave the group identified by
+  /// [groupIdentifier]. Returns `true` if the operation succeeds, otherwise `false`.
   Future<bool> leaveGroup(GroupIdentifier groupIdentifier) async {
     final groupId = groupIdentifier.groupId;
     final leaveGroupEvent = Event(
@@ -79,6 +90,12 @@ class GroupRepository {
     return result;
   }
 
+  /// Creates an invite link for the specified group.
+  ///
+  /// Generates an invite link for the group identified by [group]. The
+  /// [inviteCode] is used as the unique code for the invite. Optionally,
+  /// [roles] can be specified to assign roles to the invitee. Returns the
+  /// formatted invite link as a string.
   Future<String> createInviteLink(
     GroupIdentifier group,
     String inviteCode, {
@@ -88,31 +105,31 @@ class GroupRepository {
       ["h", group.groupId],
       ["code", inviteCode]
     ];
-
-    // Add roles if provided, default to "member"
     if (roles != null && roles.isNotEmpty) {
       tags.add(["roles", ...roles]);
     } else {
       tags.add(["roles", "member"]);
     }
-
     final inviteEvent = Event(
       nostr!.publicKey,
       EventKind.groupCreateInvite,
       tags,
-      "", // Empty content as per example
+      "",
     );
-
     await nostr!.sendEvent(
       inviteEvent,
       tempRelays: [group.host],
       targetRelays: [group.host],
     );
-
-    // Return the formatted invite link
     return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
   }
 
+  /// Accepts an invite link to join a group.
+  ///
+  /// Sends an event to the relay to join the group identified by
+  /// [groupIdentifier]. Optionally, a [code] can be provided to redeem
+  /// the invite. Returns `true` if the invite is successfully redeemed,
+  /// otherwise `false`.
   Future<bool> acceptInviteLink(
     GroupIdentifier groupIdentifier, {
     String? code,
