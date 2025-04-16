@@ -252,7 +252,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
 }
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     MediaKit.ensureInitialized();
@@ -263,6 +263,8 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  NotificationUtil.setUp();
 
   if (!PlatformUtil.isWeb() && PlatformUtil.isPC()) {
     await windowManager.ensureInitialized();
@@ -358,8 +360,6 @@ class _MyApp extends State<MyApp> {
     SystemTimer.run();
 
     MyApp.platform.setMethodCallHandler(_handleDeepLink);
-
-    NotificationUtil.setUp();
   }
 
   void _joinGroup(

@@ -3,13 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
+import 'dart:async' as _i8;
 
+import 'package:firebase_core/firebase_core.dart' as _i4;
+import 'package:firebase_messaging/firebase_messaging.dart' as _i11;
+import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart'
+    as _i5;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i5;
-import 'package:nostr_sdk/event.dart' as _i7;
-import 'package:nostr_sdk/nip02/contact_list.dart' as _i8;
-import 'package:nostr_sdk/nostr.dart' as _i4;
+import 'package:mockito/src/dummies.dart' as _i7;
+import 'package:nostr_sdk/event.dart' as _i9;
+import 'package:nostr_sdk/nip02/contact_list.dart' as _i10;
+import 'package:nostr_sdk/nostr.dart' as _i6;
 import 'package:nostr_sdk/relay/relay.dart' as _i3;
 import 'package:nostr_sdk/signer/nostr_signer.dart' as _i2;
 
@@ -46,10 +50,31 @@ class _FakeRelay_1 extends _i1.SmartFake implements _i3.Relay {
         );
 }
 
+class _FakeFirebaseApp_2 extends _i1.SmartFake implements _i4.FirebaseApp {
+  _FakeFirebaseApp_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeNotificationSettings_3 extends _i1.SmartFake
+    implements _i5.NotificationSettings {
+  _FakeNotificationSettings_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [Nostr].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNostr extends _i1.Mock implements _i4.Nostr {
+class MockNostr extends _i1.Mock implements _i6.Nostr {
   MockNostr() {
     _i1.throwOnMissingStub(this);
   }
@@ -108,14 +133,14 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
   @override
   String get publicKey => (super.noSuchMethod(
         Invocation.getter(#publicKey),
-        returnValue: _i5.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.getter(#publicKey),
         ),
       ) as String);
 
   @override
-  _i6.Future<_i7.Event?> sendLike(
+  _i8.Future<_i9.Event?> sendLike(
     String? id, {
     String? pubkey,
     String? content,
@@ -133,11 +158,11 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #targetRelays: targetRelays,
           },
         ),
-        returnValue: _i6.Future<_i7.Event?>.value(),
-      ) as _i6.Future<_i7.Event?>);
+        returnValue: _i8.Future<_i9.Event?>.value(),
+      ) as _i8.Future<_i9.Event?>);
 
   @override
-  _i6.Future<_i7.Event?> deleteEvent(
+  _i8.Future<_i9.Event?> deleteEvent(
     String? eventId, {
     List<String>? tempRelays,
     List<String>? targetRelays,
@@ -151,11 +176,11 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #targetRelays: targetRelays,
           },
         ),
-        returnValue: _i6.Future<_i7.Event?>.value(),
-      ) as _i6.Future<_i7.Event?>);
+        returnValue: _i8.Future<_i9.Event?>.value(),
+      ) as _i8.Future<_i9.Event?>);
 
   @override
-  _i6.Future<_i7.Event?> deleteEvents(
+  _i8.Future<_i9.Event?> deleteEvents(
     List<String>? eventIds, {
     List<String>? tempRelays,
     List<String>? targetRelays,
@@ -169,11 +194,11 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #targetRelays: targetRelays,
           },
         ),
-        returnValue: _i6.Future<_i7.Event?>.value(),
-      ) as _i6.Future<_i7.Event?>);
+        returnValue: _i8.Future<_i9.Event?>.value(),
+      ) as _i8.Future<_i9.Event?>);
 
   @override
-  _i6.Future<_i7.Event?> sendRepost(
+  _i8.Future<_i9.Event?> sendRepost(
     String? id, {
     String? relayAddr,
     String? content = r'',
@@ -191,12 +216,12 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #targetRelays: targetRelays,
           },
         ),
-        returnValue: _i6.Future<_i7.Event?>.value(),
-      ) as _i6.Future<_i7.Event?>);
+        returnValue: _i8.Future<_i9.Event?>.value(),
+      ) as _i8.Future<_i9.Event?>);
 
   @override
-  _i6.Future<_i7.Event?> sendContactList(
-    _i8.ContactList? contacts,
+  _i8.Future<_i9.Event?> sendContactList(
+    _i10.ContactList? contacts,
     String? content, {
     List<String>? tempRelays,
     List<String>? targetRelays,
@@ -213,12 +238,12 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #targetRelays: targetRelays,
           },
         ),
-        returnValue: _i6.Future<_i7.Event?>.value(),
-      ) as _i6.Future<_i7.Event?>);
+        returnValue: _i8.Future<_i9.Event?>.value(),
+      ) as _i8.Future<_i9.Event?>);
 
   @override
-  _i6.Future<_i7.Event?> sendEvent(
-    _i7.Event? event, {
+  _i8.Future<_i9.Event?> sendEvent(
+    _i9.Event? event, {
     List<String>? tempRelays,
     List<String>? targetRelays,
   }) =>
@@ -231,11 +256,11 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #targetRelays: targetRelays,
           },
         ),
-        returnValue: _i6.Future<_i7.Event?>.value(),
-      ) as _i6.Future<_i7.Event?>);
+        returnValue: _i8.Future<_i9.Event?>.value(),
+      ) as _i8.Future<_i9.Event?>);
 
   @override
-  void checkEventSign(_i7.Event? event) => super.noSuchMethod(
+  void checkEventSign(_i9.Event? event) => super.noSuchMethod(
         Invocation.method(
           #checkEventSign,
           [event],
@@ -244,18 +269,18 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
       );
 
   @override
-  _i6.Future<void> signEvent(_i7.Event? event) => (super.noSuchMethod(
+  _i8.Future<void> signEvent(_i9.Event? event) => (super.noSuchMethod(
         Invocation.method(
           #signEvent,
           [event],
         ),
-        returnValue: _i6.Future<void>.value(),
-        returnValueForMissingStub: _i6.Future<void>.value(),
-      ) as _i6.Future<void>);
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 
   @override
-  _i7.Event? broadcast(
-    _i7.Event? event, {
+  _i9.Event? broadcast(
+    _i9.Event? event, {
     List<String>? tempRelays,
     List<String>? targetRelays,
   }) =>
@@ -266,7 +291,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
           #tempRelays: tempRelays,
           #targetRelays: targetRelays,
         },
-      )) as _i7.Event?);
+      )) as _i9.Event?);
 
   @override
   void close() => super.noSuchMethod(
@@ -280,7 +305,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
   @override
   void addInitQuery(
     List<Map<String, dynamic>>? filters,
-    dynamic Function(_i7.Event)? onEvent, {
+    dynamic Function(_i9.Event)? onEvent, {
     String? id,
     Function? onComplete,
   }) =>
@@ -311,7 +336,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
   @override
   String subscribe(
     List<Map<String, dynamic>>? filters,
-    dynamic Function(_i7.Event)? onEvent, {
+    dynamic Function(_i9.Event)? onEvent, {
     String? id,
     List<String>? tempRelays,
     List<String>? targetRelays,
@@ -338,7 +363,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #sendAfterAuth: sendAfterAuth,
           },
         ),
-        returnValue: _i5.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.method(
             #subscribe,
@@ -367,7 +392,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
       );
 
   @override
-  _i6.Future<List<_i7.Event>> queryEvents(
+  _i8.Future<List<_i9.Event>> queryEvents(
     List<Map<String, dynamic>>? filters, {
     String? id,
     List<String>? tempRelays,
@@ -392,13 +417,13 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #sendAfterAuth: sendAfterAuth,
           },
         ),
-        returnValue: _i6.Future<List<_i7.Event>>.value(<_i7.Event>[]),
-      ) as _i6.Future<List<_i7.Event>>);
+        returnValue: _i8.Future<List<_i9.Event>>.value(<_i9.Event>[]),
+      ) as _i8.Future<List<_i9.Event>>);
 
   @override
   String query(
     List<Map<String, dynamic>>? filters,
-    dynamic Function(_i7.Event)? onEvent, {
+    dynamic Function(_i9.Event)? onEvent, {
     String? id,
     Function? onComplete,
     List<String>? tempRelays,
@@ -427,7 +452,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #sendAfterAuth: sendAfterAuth,
           },
         ),
-        returnValue: _i5.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.method(
             #query,
@@ -450,7 +475,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
   @override
   String queryByFilters(
     Map<String, List<Map<String, dynamic>>>? filtersMap,
-    dynamic Function(_i7.Event)? onEvent, {
+    dynamic Function(_i9.Event)? onEvent, {
     String? id,
     Function? onComplete,
   }) =>
@@ -466,7 +491,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #onComplete: onComplete,
           },
         ),
-        returnValue: _i5.dummyValue<String>(
+        returnValue: _i7.dummyValue<String>(
           this,
           Invocation.method(
             #queryByFilters,
@@ -483,7 +508,7 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
       ) as String);
 
   @override
-  _i6.Future<bool> addRelay(
+  _i8.Future<bool> addRelay(
     _i3.Relay? relay, {
     bool? autoSubscribe = false,
     bool? init = false,
@@ -499,8 +524,8 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
             #relayType: relayType,
           },
         ),
-        returnValue: _i6.Future<bool>.value(false),
-      ) as _i6.Future<bool>);
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
 
   @override
   void removeRelay(
@@ -597,4 +622,246 @@ class MockNostr extends _i1.Mock implements _i4.Nostr {
         ),
         returnValue: false,
       ) as bool);
+}
+
+/// A class which mocks [FirebaseMessaging].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFirebaseMessaging extends _i1.Mock implements _i11.FirebaseMessaging {
+  MockFirebaseMessaging() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i4.FirebaseApp get app => (super.noSuchMethod(
+        Invocation.getter(#app),
+        returnValue: _FakeFirebaseApp_2(
+          this,
+          Invocation.getter(#app),
+        ),
+      ) as _i4.FirebaseApp);
+
+  @override
+  set app(_i4.FirebaseApp? _app) => super.noSuchMethod(
+        Invocation.setter(
+          #app,
+          _app,
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  bool get isAutoInitEnabled => (super.noSuchMethod(
+        Invocation.getter(#isAutoInitEnabled),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  _i8.Stream<String> get onTokenRefresh => (super.noSuchMethod(
+        Invocation.getter(#onTokenRefresh),
+        returnValue: _i8.Stream<String>.empty(),
+      ) as _i8.Stream<String>);
+
+  @override
+  Map<dynamic, dynamic> get pluginConstants => (super.noSuchMethod(
+        Invocation.getter(#pluginConstants),
+        returnValue: <dynamic, dynamic>{},
+      ) as Map<dynamic, dynamic>);
+
+  @override
+  _i8.Future<_i5.RemoteMessage?> getInitialMessage() => (super.noSuchMethod(
+        Invocation.method(
+          #getInitialMessage,
+          [],
+        ),
+        returnValue: _i8.Future<_i5.RemoteMessage?>.value(),
+      ) as _i8.Future<_i5.RemoteMessage?>);
+
+  @override
+  _i8.Future<void> deleteToken() => (super.noSuchMethod(
+        Invocation.method(
+          #deleteToken,
+          [],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<String?> getAPNSToken() => (super.noSuchMethod(
+        Invocation.method(
+          #getAPNSToken,
+          [],
+        ),
+        returnValue: _i8.Future<String?>.value(),
+      ) as _i8.Future<String?>);
+
+  @override
+  _i8.Future<String?> getToken({String? vapidKey}) => (super.noSuchMethod(
+        Invocation.method(
+          #getToken,
+          [],
+          {#vapidKey: vapidKey},
+        ),
+        returnValue: _i8.Future<String?>.value(),
+      ) as _i8.Future<String?>);
+
+  @override
+  _i8.Future<bool> isSupported() => (super.noSuchMethod(
+        Invocation.method(
+          #isSupported,
+          [],
+        ),
+        returnValue: _i8.Future<bool>.value(false),
+      ) as _i8.Future<bool>);
+
+  @override
+  _i8.Future<_i5.NotificationSettings> getNotificationSettings() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getNotificationSettings,
+          [],
+        ),
+        returnValue: _i8.Future<_i5.NotificationSettings>.value(
+            _FakeNotificationSettings_3(
+          this,
+          Invocation.method(
+            #getNotificationSettings,
+            [],
+          ),
+        )),
+      ) as _i8.Future<_i5.NotificationSettings>);
+
+  @override
+  _i8.Future<_i5.NotificationSettings> requestPermission({
+    bool? alert = true,
+    bool? announcement = false,
+    bool? badge = true,
+    bool? carPlay = false,
+    bool? criticalAlert = false,
+    bool? provisional = false,
+    bool? sound = true,
+    bool? providesAppNotificationSettings = false,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #requestPermission,
+          [],
+          {
+            #alert: alert,
+            #announcement: announcement,
+            #badge: badge,
+            #carPlay: carPlay,
+            #criticalAlert: criticalAlert,
+            #provisional: provisional,
+            #sound: sound,
+            #providesAppNotificationSettings: providesAppNotificationSettings,
+          },
+        ),
+        returnValue: _i8.Future<_i5.NotificationSettings>.value(
+            _FakeNotificationSettings_3(
+          this,
+          Invocation.method(
+            #requestPermission,
+            [],
+            {
+              #alert: alert,
+              #announcement: announcement,
+              #badge: badge,
+              #carPlay: carPlay,
+              #criticalAlert: criticalAlert,
+              #provisional: provisional,
+              #sound: sound,
+              #providesAppNotificationSettings: providesAppNotificationSettings,
+            },
+          ),
+        )),
+      ) as _i8.Future<_i5.NotificationSettings>);
+
+  @override
+  _i8.Future<void> sendMessage({
+    String? to,
+    Map<String, String>? data,
+    String? collapseKey,
+    String? messageId,
+    String? messageType,
+    int? ttl,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #sendMessage,
+          [],
+          {
+            #to: to,
+            #data: data,
+            #collapseKey: collapseKey,
+            #messageId: messageId,
+            #messageType: messageType,
+            #ttl: ttl,
+          },
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setAutoInitEnabled(bool? enabled) => (super.noSuchMethod(
+        Invocation.method(
+          #setAutoInitEnabled,
+          [enabled],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setDeliveryMetricsExportToBigQuery(bool? enabled) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setDeliveryMetricsExportToBigQuery,
+          [enabled],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> setForegroundNotificationPresentationOptions({
+    bool? alert = false,
+    bool? badge = false,
+    bool? sound = false,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #setForegroundNotificationPresentationOptions,
+          [],
+          {
+            #alert: alert,
+            #badge: badge,
+            #sound: sound,
+          },
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> subscribeToTopic(String? topic) => (super.noSuchMethod(
+        Invocation.method(
+          #subscribeToTopic,
+          [topic],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
+
+  @override
+  _i8.Future<void> unsubscribeFromTopic(String? topic) => (super.noSuchMethod(
+        Invocation.method(
+          #unsubscribeFromTopic,
+          [topic],
+        ),
+        returnValue: _i8.Future<void>.value(),
+        returnValueForMissingStub: _i8.Future<void>.value(),
+      ) as _i8.Future<void>);
 }

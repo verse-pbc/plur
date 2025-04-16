@@ -11,12 +11,17 @@ import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'sign_up_test.mocks.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:nostrmo/util/firebase_options.dart';
+import 'mocks/mock_firebase.dart';
 
 @GenerateNiceMocks([MockSpec<http.Client>(), MockSpec<UserProvider>()])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUpAll(() async {
+    await setupMockFirebase();
+
     SharedPreferences.setMockInitialValues({});
 
     sqfliteFfiInit();

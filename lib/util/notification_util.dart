@@ -50,7 +50,7 @@ class NotificationUtil {
     log('Registering user for push notifications with token: $token');
     return registerTokenWithRelay(
       token: token,
-      nostr: nostr!,
+      nostr: nostr,
       relayUrl: _defaultRelayUrl,
     );
   }
