@@ -28,19 +28,19 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              localization.Create_your_community,
+              localization.createYourCommunity,
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 20),
-            Text(localization.Name_your_community),
+            Text(localization.nameYourCommunity),
             const SizedBox(height: 10),
             TextField(
               controller: _communityNameController,
               decoration: InputDecoration(
-                hintText: localization.community_name,
+                hintText: localization.communityName,
                 border: const OutlineInputBorder(),
               ),
               onChanged: (text) {
@@ -49,7 +49,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
             ),
             const SizedBox(height: 20),
             PrimaryButtonWidget(
-              text: S.of(context).Confirm,
+              text: S.of(context).confirm,
               onTap: _communityNameController.text.isNotEmpty
                   ? _createCommunity
                   : null,

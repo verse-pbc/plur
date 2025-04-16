@@ -52,7 +52,7 @@ class _FilterWidgetState extends State<FilterWidget>
               height: IndexAppBar.height,
               alignment: Alignment.center,
               child: Text(
-                localization.Blocks,
+                localization.blocks,
                 style: titleTextStyle,
               ),
             ),
@@ -60,7 +60,7 @@ class _FilterWidgetState extends State<FilterWidget>
               height: IndexAppBar.height,
               alignment: Alignment.center,
               child: Text(
-                localization.Dirtywords,
+                localization.dirtywords,
                 style: titleTextStyle,
               ),
             )

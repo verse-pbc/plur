@@ -62,7 +62,7 @@ class _ColorPickDialogState extends State<ColorPickDialog> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Confirm,
+              S.of(context).confirm,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,

@@ -88,7 +88,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            localization.Invite,
+                            localization.invite,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        localization.Invite_people_to_join,
+                        localization.invitePeopleToJoin,
                         style: TextStyle(
                           fontSize: 16,
                           color: customColors.primaryForegroundColor,
@@ -139,7 +139,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                               onPressed: () {
                                 Clipboard.setData(ClipboardData(text: inviteLink));
                                 BotToast.showText(
-                                  text: localization.Copy_success,
+                                  text: localization.copySuccess,
                                 );
                               },
                             ),
@@ -153,7 +153,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                           TextButton(
                             onPressed: () => RouterUtil.back(context),
                             child: Text(
-                              localization.Done,
+                              localization.done,
                               style: TextStyle(
                                 color: customColors.accentColor,
                               ),

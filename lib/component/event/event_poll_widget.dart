@@ -94,13 +94,13 @@ class _EventPollWidgetState extends State<EventPollWidget> {
               DateTime.fromMillisecondsSinceEpoch(pollInfo!.closedAt!);
           var format = FixedDateTimeFormatter("YYYY-MM-DD hh:mm:ss");
           list.add(Row(
-            children: [Text("${localization.Close_at} ${format.encode(closeAtDT)}")],
+            children: [Text("${localization.closeAt} ${format.encode(closeAtDT)}")],
           ));
         }
 
         if (myNum > 0) {
           var myNumStr = NumberFormatUtil.format(myNum);
-          list.add(Text("${localization.You_had_voted_with} $myNumStr sats."));
+          list.add(Text("${localization.youHadVotedWith} $myNumStr sats."));
         }
 
         List<Widget> pollList = [];
@@ -181,7 +181,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
           list.add(Container(
             margin: const EdgeInsets.only(top: Base.basePaddingHalf),
             child: Text(
-              "${localization.min_zap_num}: ${pollInfo!.valueMinimum}  ${localization.max_zap_num}: ${pollInfo!.valueMaximum}",
+              "${localization.minZapNum}: ${pollInfo!.valueMinimum}  ${localization.maxZapNum}: ${pollInfo!.valueMaximum}",
               style: TextStyle(
                 color: hintColor,
               ),
@@ -211,7 +211,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
 
   Future<void> tapZap(String selectKey) async {
     var numStr = await TextInputDialog.show(
-        context, S.of(context).Input_Sats_num,
+        context, S.of(context).inputSatsNum,
         valueCheck: inputCheck);
     if (numStr != null) {
       var num = int.tryParse(numStr);
@@ -230,13 +230,13 @@ class _EventPollWidgetState extends State<EventPollWidget> {
 
   bool inputCheck(BuildContext context, String value) {
     if (StringUtil.isBlank(value)) {
-      BotToast.showText(text: S.of(context).Input_can_not_be_null);
+      BotToast.showText(text: S.of(context).inputCanNotBeNull);
       return false;
     }
 
     var num = int.tryParse(value);
     if (num == null) {
-      BotToast.showText(text: S.of(context).Input_parse_error);
+      BotToast.showText(text: S.of(context).inputParseError);
       return false;
     } else {
       if (pollInfo != null &&
@@ -244,7 +244,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
           pollInfo!.valueMinimum! > num) {
         BotToast.showText(
             text:
-                "${S.of(context).Zap_num_can_not_smaller_then} ${pollInfo!.valueMinimum!}");
+                "${S.of(context).zapNumCanNotSmallerThen} ${pollInfo!.valueMinimum!}");
         return false;
       }
       if (pollInfo != null &&
@@ -252,7 +252,7 @@ class _EventPollWidgetState extends State<EventPollWidget> {
           pollInfo!.valueMaximum! < num) {
         BotToast.showText(
             text:
-                "${S.of(context).Zap_num_can_not_bigger_then} ${pollInfo!.valueMaximum!}");
+                "${S.of(context).zapNumCanNotBiggerThen} ${pollInfo!.valueMaximum!}");
         return false;
       }
     }

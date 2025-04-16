@@ -14,11 +14,11 @@ class AuthUtil {
         localizedReason: reason,
       );
       if (!didAuthenticate && showFail) {
-        BotToast.showText(text: localization.Verify_failure);
+        BotToast.showText(text: localization.verifyFailure);
       }
       return didAuthenticate;
     } catch (e) {
-      BotToast.showText(text: localization.Verify_error);
+      BotToast.showText(text: localization.verifyError);
     }
     return false;
   }

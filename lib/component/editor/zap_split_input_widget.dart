@@ -39,14 +39,14 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
           child: ZapSplitIconWidget(titleFontSize + 2),
         ),
         Text(
-          localization.Split_and_Transfer_Zap,
+          localization.splitAndTransferZap,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
           ),
         ),
         Expanded(child: Container()),
-        MetadataTextBtn(text: localization.Add_User, onTap: addUser),
+        MetadataTextBtn(text: localization.addUser, onTap: addUser),
       ],
     ));
 
@@ -55,7 +55,7 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
     list.add(Container(
       margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Text(
-        localization.Split_Zap_Tip,
+        localization.splitZapTip,
         style: TextStyle(
           color: themeData.hintColor,
         ),
@@ -89,10 +89,10 @@ class _ZapSplitInputWidgetState extends State<ZapSplitInputWidget> {
     final localization = S.of(context);
     var pubkey = await TextInputAndSearchDialog.show(
       context,
-      localization.Search,
-      localization.Please_input_user_pubkey,
+      localization.search,
+      localization.pleaseInputUserPubkey,
       const SearchMentionUserWidget(),
-      hintText: localization.User_Pubkey,
+      hintText: localization.userPubkey,
     );
 
     if (StringUtil.isNotBlank(pubkey)) {

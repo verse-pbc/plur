@@ -49,7 +49,7 @@ class FilterBlockItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Clipboard.setData(ClipboardData(text: nip19Pubkey)).then((_) {
-          BotToast.showText(text: localization.key_has_been_copy);
+          BotToast.showText(text: localization.keyHasBeenCopy);
         });
       },
       child: Container(

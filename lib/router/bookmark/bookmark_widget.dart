@@ -60,7 +60,7 @@ class _BookmarkWidgetState extends CustState<BookmarkWidget> {
                 height: IndexAppBar.height,
                 alignment: Alignment.center,
                 child: Text(
-                  localization.Private,
+                  localization.private,
                   style: titleTextStyle,
                 ),
               ),
@@ -68,7 +68,7 @@ class _BookmarkWidgetState extends CustState<BookmarkWidget> {
                 height: IndexAppBar.height,
                 alignment: Alignment.center,
                 child: Text(
-                  localization.Public,
+                  localization.public,
                   style: titleTextStyle,
                 ),
               )

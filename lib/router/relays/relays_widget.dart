@@ -56,7 +56,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       child: Row(
         children: [
           Text(
-            localization.MyRelays,
+            localization.myRelays,
             style: TextStyle(
               fontSize: titleFontSize,
               fontWeight: FontWeight.bold,
@@ -98,7 +98,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
           bottom: Base.basePaddingHalf,
         ),
         child: Text(
-          localization.Cache_Relay,
+          localization.cacheRelay,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
           bottom: Base.basePaddingHalf,
         ),
         child: Text(
-          localization.TempRelays,
+          localization.tempRelays,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
@@ -164,7 +164,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Relays,
+          localization.relays,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,
@@ -211,11 +211,11 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
             items: [
               DropdownMenuItem(
                 value: RelayType.normal,
-                child: Text(localization.Normal),
+                child: Text(localization.normal),
               ),
               DropdownMenuItem(
                 value: RelayType.cache,
-                child: Text(localization.Cache),
+                child: Text(localization.cache),
               ),
             ],
             onChanged: (v) {
@@ -230,7 +230,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
             child: TextField(
               controller: controller,
               decoration: InputDecoration(
-                hintText: localization.Input_relay_address,
+                hintText: localization.inputRelayAddress,
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: addRelay,
@@ -247,7 +247,7 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
     var addr = controller.text;
     addr = addr.trim();
     if (StringUtil.isBlank(addr)) {
-      BotToast.showText(text: S.of(context).Address_can_t_be_null);
+      BotToast.showText(text: S.of(context).addressCantBeNull);
       return;
     }
 

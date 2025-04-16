@@ -124,7 +124,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
         const SizedBox(height: 10),
         
         Text(
-          l10n.Discover_Groups,
+          l10n.discoverGroups,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -163,7 +163,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
                   ),
                 ),
                 child: Text(
-                  l10n.Members,
+                  l10n.members,
                   style: TextStyle(
                     color: _sortBy == 'members' 
                         ? theme.primaryColor 
@@ -197,7 +197,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
                   ),
                 ),
                 child: Text(
-                  l10n.Active,
+                  l10n.active,
                   style: TextStyle(
                     color: _sortBy == 'activity' 
                         ? theme.primaryColor 
@@ -425,7 +425,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
                     foregroundColor: Colors.white,
                     minimumSize: const Size(100, 36),
                   ),
-                  child: Text(S.of(context).Join_Group),
+                  child: Text(S.of(context).joinGroup),
                 ),
               ],
             ),

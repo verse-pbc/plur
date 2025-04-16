@@ -52,7 +52,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  localization.Lnurl_and_Lud16_can_t_found,
+                  localization.lnurlAndLud16CantFound,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -60,7 +60,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
                 Container(
                   padding: const EdgeInsets.all(Base.basePadding),
                   child: ContentStrLinkWidget(
-                    str: localization.Add_now,
+                    str: localization.addNow,
                     onTap: () async {
                       await RouterUtil.router(
                           context, RouterPath.profileEditor, user);
@@ -78,7 +78,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
         list.add(Container(
           margin: const EdgeInsets.only(bottom: Base.basePadding),
           child: Text(
-            localization.Input_Sats_num_to_gen_lightning_invoice,
+            localization.inputSatsNumToGenLightningInvoice,
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: titleFontSize,
@@ -94,7 +94,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
             maxLines: 1,
             autofocus: true,
             decoration: InputDecoration(
-              hintText: localization.Input_Sats_num,
+              hintText: localization.inputSatsNum,
               border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
             ),
           ),
@@ -106,7 +106,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
           maxLines: 1,
           autofocus: true,
           decoration: InputDecoration(
-            hintText: "${localization.Input_Comment} (${localization.Optional})",
+            hintText: "${localization.inputComment} (${localization.optional})",
             border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
           ),
         ));
@@ -130,7 +130,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
                 height: 40,
                 alignment: Alignment.center,
                 child: Text(
-                  S.of(context).Confirm,
+                  S.of(context).confirm,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -165,7 +165,7 @@ class _GenLnbcWidgetState extends State<GenLnbcWidget> {
     var text = controller.text;
     var num = int.tryParse(text);
     if (num == null) {
-      BotToast.showText(text: S.of(context).Number_parse_error);
+      BotToast.showText(text: S.of(context).numberParseError);
       return;
     }
 

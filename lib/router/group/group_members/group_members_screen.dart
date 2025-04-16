@@ -81,7 +81,7 @@ class _GroupMembersWidgetState extends State<GroupMembersWidget> {
         leading: const AppbarBackBtnWidget(),
         bottom: const AppBarBottomBorder(),
         title: Text(
-          localization.Members,
+          localization.members,
           style: TextStyle(
             fontSize: bodyLargeFontSize,
             fontWeight: FontWeight.bold,

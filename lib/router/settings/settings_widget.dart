@@ -78,19 +78,19 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
 
     list.add(
       SettingsGroupItemWidget(
-        name: localization.Language,
+        name: localization.language,
         value: getI18nList(settingsProvider.i18n, settingsProvider.i18nCC).name,
         onTap: pickI18N,
       ),
     );
     list.add(SettingsGroupItemWidget(
-      name: localization.Image_Compress,
+      name: localization.imageCompress,
       value: getCompressList(settingsProvider.imgCompress).name,
       onTap: pickImageCompressList,
     ));
     if (!PlatformUtil.isPC()) {
       list.add(SettingsGroupItemWidget(
-        name: localization.Privacy_Lock,
+        name: localization.privacyLock,
         value: getLockOpenList(settingsProvider.lockOpen).name,
         onTap: pickLockOpenList,
       ));
@@ -101,32 +101,32 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       nwcValue = getOpenList(OpenStatus.close).name;
     }
     list.add(SettingsGroupItemWidget(
-      name: "NWC ${localization.Settings}",
+      name: "NWC ${localization.settings}",
       value: nwcValue,
       onTap: () {
         RouterUtil.router(context, RouterPath.nwcSetting);
       },
     ));
     list.add(SettingsGroupItemWidget(
-      name: "Wot ${localization.Filter}",
+      name: "Wot ${localization.filter}",
       value: getOpenListDefault(settingsProvider.wotFilter).name,
       onTap: pickWotFilter,
     ));
 
     list.add(SettingsGroupTitleWidget(
-        iconData: Icons.article, title: localization.Notes));
+        iconData: Icons.article, title: localization.notes));
     list.add(SettingsGroupItemWidget(
-      name: localization.Link_preview,
+      name: localization.linkPreview,
       value: getOpenList(settingsProvider.linkPreview).name,
       onTap: pickLinkPreview,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Video_preview_in_list,
+      name: localization.videoPreviewInList,
       value: getOpenList(settingsProvider.videoPreviewInList).name,
       onTap: pickVideoPreviewInList,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Image_service,
+      name: localization.imageService,
       value: getImageService(settingsProvider.imageService).name,
       onTap: _pickImageService,
     ));
@@ -134,83 +134,83 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
             settingsProvider.imageService == ImageServices.blossom) &&
         StringUtil.isNotBlank(settingsProvider.imageServiceAddr)) {
       list.add(SettingsGroupItemWidget(
-        name: localization.Image_service_path,
+        name: localization.imageServicePath,
         value: settingsProvider.imageServiceAddr,
       ));
     }
 
     list.add(SettingsGroupItemWidget(
-      name: localization.Limit_Note_Height,
+      name: localization.limitNoteHeight,
       value: getOpenList(settingsProvider.limitNoteHeight).name,
       onTap: pickLimitNoteHeight,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Forbid_profile_picture,
+      name: localization.forbidProfilePicture,
       value: getOpenList(settingsProvider.profilePicturePreview).name,
       onTap: pickProfilePicturePreview,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Forbid_image,
+      name: localization.forbidImage,
       value: getOpenList(settingsProvider.imagePreview).name,
       onTap: pickImagePreview,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Forbid_video,
+      name: localization.forbidVideo,
       value: getOpenList(settingsProvider.videoPreview).name,
       onTap: pickVideoPreview,
     ));
     if (!PlatformUtil.isWeb()) {
       list.add(SettingsGroupItemWidget(
-        name: "Blurhash ${localization.Image}",
+        name: "Blurhash ${localization.image}",
         value: getOpenList(settingsProvider.openBlurhashImage).name,
         onTap: pickOpenBlurhashImage,
       ));
     }
     if (!PlatformUtil.isPC()) {
       list.add(SettingsGroupItemWidget(
-        name: localization.Translate,
+        name: localization.translate,
         value: getOpenTranslate(settingsProvider.openTranslate).name,
         onTap: pickOpenTranslate,
       ));
       if (settingsProvider.openTranslate == OpenStatus.open) {
         list.add(SettingsGroupItemWidget(
-          name: localization.Translate_Source_Language,
+          name: localization.translateSourceLanguage,
           value: settingsProvider.translateSourceArgs,
           onTap: pickTranslateSource,
         ));
         list.add(SettingsGroupItemWidget(
-          name: localization.Translate_Target_Language,
+          name: localization.translateTargetLanguage,
           value: settingsProvider.translateTarget,
           onTap: pickTranslateTarget,
         ));
       }
     }
     list.add(SettingsGroupItemWidget(
-      name: localization.Broadcast_When_Boost,
+      name: localization.broadcastWhenBoost,
       value: getOpenList(settingsProvider.broadcaseWhenBoost).name,
       onTap: pickBroadcaseWhenBoost,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Auto_Open_Sensitive_Content,
+      name: localization.autoOpenSensitiveContent,
       value: getOpenListDefault(settingsProvider.autoOpenSensitive).name,
       onTap: pickAutoOpenSensitive,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Thread_Mode,
+      name: localization.threadMode,
       value: getThreadMode(settingsProvider.threadMode).name,
       onTap: pickThreadMode,
     ));
     list.add(SettingsGroupItemWidget(
-      name: localization.Max_Sub_Notes,
+      name: localization.maxSubNotes,
       value: "${settingsProvider.maxSubEventLevel ?? ""}",
       onTap: inputMaxSubNotesNumber,
     ));
 
     list.add(SettingsGroupTitleWidget(
-        iconData: Icons.cloud, title: localization.Network));
+        iconData: Icons.cloud, title: localization.network));
     String? networkHintText = settingsProvider.network;
     if (StringUtil.isBlank(networkHintText)) {
-      networkHintText = "${localization.Please_input} ${localization.Network}";
+      networkHintText = "${localization.pleaseInput} ${localization.network}";
     }
     Widget networkWidget = Text(
       networkHintText!,
@@ -222,37 +222,37 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       ),
     );
     list.add(SettingsGroupItemWidget(
-      name: localization.Network,
+      name: localization.network,
       onTap: inputNetwork,
       child: networkWidget,
     ));
     if (!PlatformUtil.isWeb()) {
       list.add(SettingsGroupItemWidget(
-        name: localization.LocalRelay,
+        name: localization.localRelay,
         value: getOpenList(settingsProvider.relayLocal).name,
         onTap: pickRelayLocal,
       ));
       list.add(SettingsGroupItemWidget(
-        name: localization.Relay_Mode,
+        name: localization.relayMode,
         value: getRelayMode(settingsProvider.relayMode).name,
         onTap: pickRelayModes,
       ));
       if (settingsProvider.relayMode != RelayMode.baseMode) {
         list.add(SettingsGroupItemWidget(
-          name: localization.Event_Sign_Check,
+          name: localization.eventSignCheck,
           value: getOpenListDefault(settingsProvider.eventSignCheck).name,
           onTap: pickEventSignCheck,
         ));
       }
     }
     list.add(SettingsGroupItemWidget(
-      name: localization.Hide_Relay_Notices,
+      name: localization.hideRelayNotices,
       value: getOpenList(settingsProvider.hideRelayNotices).name,
       onTap: pickHideRelayNotices,
     ));
 
     list.add(SettingsGroupTitleWidget(
-        iconData: Icons.code, title: localization.Development));
+        iconData: Icons.code, title: localization.development));
 
     list.add(SettingsGroupItemWidget(
       name: "Test Push Notifications",
@@ -262,9 +262,9 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     ));
 
     list.add(SettingsGroupTitleWidget(
-        iconData: Icons.source, title: localization.Data));
+        iconData: Icons.source, title: localization.data));
     list.add(SettingsGroupItemWidget(
-      name: localization.Delete_Account,
+      name: localization.deleteAccount,
       nameColor: Colors.red,
       onTap: askToDeleteAccount,
     ));
@@ -280,7 +280,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Settings,
+          localization.settings,
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: titleFontSize,
@@ -374,7 +374,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void initCompressList(S s) {
     if (compressList == null) {
       compressList = [];
-      compressList!.add(EnumObj(100, localization.Dont_Compress));
+      compressList!.add(EnumObj(100, localization.dontCompress));
       compressList!.add(EnumObj(90, "90%"));
       compressList!.add(EnumObj(80, "80%"));
       compressList!.add(EnumObj(70, "70%"));
@@ -430,14 +430,14 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (resultEnumObj != null) {
       if (resultEnumObj.value == OpenStatus.close) {
         bool didAuthenticate = await AuthUtil.authenticate(context,
-            localization.Please_authenticate_to_turn_off_the_privacy_lock);
+            localization.pleaseAuthenticateToTurnOffThePrivacyLock);
         if (didAuthenticate) {
           settingsProvider.lockOpen = resultEnumObj.value;
         }
         settingsProvider.lockOpen = resultEnumObj.value;
       } else if (resultEnumObj.value == OpenStatus.open) {
         bool didAuthenticate = await AuthUtil.authenticate(context,
-            localization.Please_authenticate_to_turn_on_the_privacy_lock);
+            localization.pleaseAuthenticateToTurnOnThePrivacyLock);
         if (didAuthenticate) {
           settingsProvider.lockOpen = resultEnumObj.value;
         }
@@ -450,8 +450,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void initDefaultList(S s) {
     if (defaultIndexList == null) {
       defaultIndexList = [];
-      defaultIndexList!.add(EnumObj(0, localization.Timeline));
-      defaultIndexList!.add(EnumObj(1, localization.Global));
+      defaultIndexList!.add(EnumObj(0, localization.timeline));
+      defaultIndexList!.add(EnumObj(1, localization.global));
     }
   }
 
@@ -478,9 +478,9 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void initDefaultTabListTimeline(S s) {
     if (defaultTabListTimeline == null) {
       defaultTabListTimeline = [];
-      defaultTabListTimeline!.add(EnumObj(0, localization.Posts));
-      defaultTabListTimeline!.add(EnumObj(1, localization.Posts_and_replies));
-      defaultTabListTimeline!.add(EnumObj(2, localization.Mentions));
+      defaultTabListTimeline!.add(EnumObj(0, localization.posts));
+      defaultTabListTimeline!.add(EnumObj(1, localization.postsAndReplies));
+      defaultTabListTimeline!.add(EnumObj(2, localization.mentions));
     }
   }
 
@@ -489,9 +489,9 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   void initDefaultTabListGlobal(S s) {
     if (defaultTabListGlobal == null) {
       defaultTabListGlobal = [];
-      defaultTabListGlobal!.add(EnumObj(0, localization.Notes));
-      defaultTabListGlobal!.add(EnumObj(1, localization.Users));
-      defaultTabListGlobal!.add(EnumObj(2, localization.Topics));
+      defaultTabListGlobal!.add(EnumObj(0, localization.notes));
+      defaultTabListGlobal!.add(EnumObj(1, localization.users));
+      defaultTabListGlobal!.add(EnumObj(2, localization.topics));
     }
   }
 
@@ -530,11 +530,11 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     final localization = S.of(context);
     var text = await TextInputDialog.show(
       context,
-      "${localization.Please_input} ${localization.Network}\nSOCKS5/SOCKS4/PROXY username:password@host:port",
+      "${localization.pleaseInput} ${localization.network}\nSOCKS5/SOCKS4/PROXY username:password@host:port",
       value: settingsProvider.network,
     );
     settingsProvider.network = text;
-    BotToast.showText(text: localization.network_take_effect_tip);
+    BotToast.showText(text: localization.networkTakeEffectTip);
   }
 
   List<EnumObj>? imageServiceList;
@@ -574,7 +574,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (resultEnumObj != null && mounted) {
       if (resultEnumObj.value == ImageServices.nip96) {
         var addr = await TextInputDialog.show(context,
-            "${localization.Please_input} NIP-96 ${localization.Image_service_path}");
+            "${localization.pleaseInput} NIP-96 ${localization.imageServicePath}");
         if (StringUtil.isNotBlank(addr)) {
           settingsProvider.imageService = ImageServices.nip96;
           settingsProvider.imageServiceAddr = addr;
@@ -582,7 +582,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         return;
       } else if (resultEnumObj.value == ImageServices.blossom) {
         var addr = await TextInputDialog.show(context,
-            "${localization.Please_input} Blossom ${localization.Image_service_path}");
+            "${localization.pleaseInput} Blossom ${localization.imageServicePath}");
         if (StringUtil.isNotBlank(addr)) {
           settingsProvider.imageService = ImageServices.blossom;
           settingsProvider.imageServiceAddr = addr;
@@ -627,7 +627,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
 
   askToDeleteAccount() async {
     var result =
-        await ConfirmDialog.show(context, S.of(context).Delete_Account_Tips);
+        await ConfirmDialog.show(context, S.of(context).deleteAccountTips);
     if (result == true) {
       deleteAccountLoadingCancel = BotToast.showLoading();
       try {
@@ -772,7 +772,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       bcpCodes.add(translateTarget!);
 
       var translateModelManager = TranslateModelManager.getInstance();
-      BotToast.showText(text: S.of(context).Begin_to_download_translate_model);
+      BotToast.showText(text: S.of(context).beginToDownloadTranslateModel);
       var cancelFunc = BotToast.showLoading();
       try {
         await translateModelManager.checkAndDownloadTargetModel(bcpCodes);
@@ -812,8 +812,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     final localization = S.of(context);
     if (relayModes == null) {
       relayModes = [];
-      relayModes!.add(EnumObj(RelayMode.fastMode, localization.Fast_Mode));
-      relayModes!.add(EnumObj(RelayMode.baseMode, localization.Base_Mode));
+      relayModes!.add(EnumObj(RelayMode.fastMode, localization.fastMode));
+      relayModes!.add(EnumObj(RelayMode.baseMode, localization.baseMode));
     }
     return relayModes!;
   }
@@ -858,8 +858,8 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (threadModes == null) {
       final localization = S.of(context);
       threadModes = [];
-      threadModes!.add(EnumObj(ThreadMode.fullMode, localization.Full_Mode));
-      threadModes!.add(EnumObj(ThreadMode.traceMode, localization.Trace_Mode));
+      threadModes!.add(EnumObj(ThreadMode.fullMode, localization.fullMode));
+      threadModes!.add(EnumObj(ThreadMode.traceMode, localization.traceMode));
     }
 
     return threadModes!;
@@ -884,7 +884,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
 
   inputMaxSubNotesNumber() async {
     var numText = await TextInputDialog.show(
-        context, S.of(context).Please_input_the_max_sub_notes_number);
+        context, S.of(context).pleaseInputTheMaxSubNotesNumber);
     if (StringUtil.isNotBlank(numText)) {
       var num = int.tryParse(numText!);
       if (num != null && num <= 0) {

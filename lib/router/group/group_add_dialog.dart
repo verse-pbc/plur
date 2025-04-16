@@ -46,7 +46,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
     List<Widget> list = [];
 
     list.add(Text(
-      "${localization.Add} ${localization.Group}",
+      "${localization.add} ${localization.group}",
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: titleFontSize,
@@ -58,7 +58,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
       child: TextField(
         controller: hostController,
         decoration: InputDecoration(
-          hintText: "${localization.Please_input} ${localization.Relay}",
+          hintText: "${localization.pleaseInput} ${localization.relay}",
           border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
@@ -70,7 +70,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
         controller: groupIdController,
         autofocus: true,
         decoration: InputDecoration(
-          hintText: "${localization.Please_input} ${localization.GroupId}",
+          hintText: "${localization.pleaseInput} ${localization.groupId}",
           border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
@@ -88,7 +88,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Confirm,
+              S.of(context).confirm,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -140,7 +140,7 @@ class _GroupAddDialog extends State<GroupAddDialog> {
     var groupId = groupIdController.text;
 
     if (StringUtil.isBlank(host) && StringUtil.isBlank(groupId)) {
-      BotToast.showText(text: localization.Input_can_not_be_null);
+      BotToast.showText(text: localization.inputCanNotBeNull);
       return;
     }
 
