@@ -70,8 +70,11 @@ class CreateCommunityController
     final host = groupIdentifier.host;
     final groupMetadataProvider = groupMetadataRepositoryProvider;
     final groupMetadataRepository = ref.watch(groupMetadataProvider);
-    GroupMetadata groupMetadata = GroupMetadata(groupId, 0, name: name);
+    GroupMetadata groupMetadata = GroupMetadata(groupId, 0, name: name); 
     await groupMetadataRepository.setGroupMetadata(groupMetadata, host);
+    // Add delay to give the cache enough time to update the db
+    await Future.delayed(const Duration(seconds: 1));
+    ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
   }
 
   /// Generates an invite link for the group.

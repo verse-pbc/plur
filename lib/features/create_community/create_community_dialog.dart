@@ -86,7 +86,12 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
                       },
                       loading: () {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(20, 50, 20, 90),
+                            child: Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                          ),
                         );
                       },
                     ),
