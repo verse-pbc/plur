@@ -7,9 +7,9 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import '../main.dart';
 import '../provider/relay_provider.dart';
 
-class GroupInviteRepository {
+class GroupRepository {
   /// Name used when logging.
-  static const _logName = "GroupInviteRepository";
+  static const _logName = "GroupRepository";
 
   static const _defaultRelay = RelayProvider.defaultGroupsRelayAddress;
 
@@ -147,8 +147,8 @@ class GroupInviteRepository {
   }
 }
 
-/// A provider that supplies an instance of `GroupInviteRepository`.
-final groupInviteRepositoryProvider = Provider<GroupInviteRepository>((ref) {
-  final repository = GroupInviteRepository();
+/// A provider that supplies an instance of `GroupRepository`.
+final groupRepositoryProvider = Provider<GroupRepository>((ref) {
+  final repository = GroupRepository();
   return repository;
 });

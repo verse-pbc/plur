@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../data/group_identifier_repository.dart';
-import '../../data/group_invite_repository.dart';
+import '../../data/group_repository.dart';
 import '../../data/group_metadata_repository.dart';
 import '../../util/string_code_generator.dart';
 
@@ -20,7 +20,6 @@ class CreateCommunityController
 
   Future<bool> createCommunity(String name) async {
     state = const AsyncValue<CreateCommunityModel?>.loading();
-    await Future.delayed(Duration(seconds: 5));
     final groupIdentifier = await _createGroup();
     if (groupIdentifier == null) {
       state = const AsyncValue.data(null);
@@ -38,8 +37,8 @@ class CreateCommunityController
 
   Future<GroupIdentifier?> _createGroup() async {
     final groupId = StringCodeGenerator.generateGroupId();
-    final groupInviteRepository = ref.watch(groupInviteRepositoryProvider);
-    return groupInviteRepository.createGroup(groupId);
+    final repository = ref.watch(groupRepositoryProvider);
+    return repository.createGroup(groupId);
   }
 
   _saveGroupIdentifier(GroupIdentifier groupIdentifier) async {
@@ -59,7 +58,7 @@ class CreateCommunityController
   Future<String> _generateInviteLink(GroupIdentifier groupIdentifier) async {
     // Generate an invite code
     final inviteCode = StringCodeGenerator.generateInviteCode();
-    final groupInviteRepository = ref.watch(groupInviteRepositoryProvider);
+    final groupInviteRepository = ref.watch(groupRepositoryProvider);
     return await groupInviteRepository.createInviteLink(
       groupIdentifier,
       inviteCode,

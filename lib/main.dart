@@ -59,7 +59,7 @@ import 'consts/router_path.dart';
 import 'consts/theme_style.dart';
 import 'data/db.dart';
 import 'data/group_identifier_repository.dart';
-import 'data/group_invite_repository.dart';
+import 'data/group_repository.dart';
 import 'features/communities/communities_screen.dart';
 import 'features/community_guidelines/community_guidelines_screen.dart';
 import 'util/firebase_options.dart';
@@ -375,8 +375,8 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
   ) async {
     final cancelFunc = BotToast.showLoading();
     final groupIdentifier = GroupIdentifier(host, groupId);
-    final groupInviteRepository = ref.read(groupInviteRepositoryProvider);
-    final accepted = await groupInviteRepository.acceptInviteLink(
+    final groupRepository = ref.read(groupRepositoryProvider);
+    final accepted = await groupRepository.acceptInviteLink(
       groupIdentifier,
       code: code,
     );
