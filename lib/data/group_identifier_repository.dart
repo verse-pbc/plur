@@ -42,6 +42,7 @@ class GroupIdentifierRepository {
   /// Queries the relay to verify membership in the group identified by
   /// [groupIdentifier]. Returns `true` if the user is a member, otherwise `false`.
   Future<bool> checkMembership(GroupIdentifier groupIdentifier) async {
+    assert(nostr != null, "nostr is null");
     final groupId = groupIdentifier.groupId;
     final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
     final filterMap = filter.toJson();
@@ -338,7 +339,8 @@ class GroupIdentifierRepository {
           tagPrefix: "h",
         );
         updated.removeWhere((e) => parsed.contains(e));
-      case EventKind.groupMembers || EventKind.groupAdmins:
+      case EventKind.groupMembers:
+      case EventKind.groupAdmins:
         final parsed = _extractGroupIdentifiersFromTags(
           event,
           tagPrefix: "d",
