@@ -32,6 +32,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed blank screen issues when creating and joining communities
 - Improved invitation and group creation workflow with better error handling
 - Added Communities link to sidebar for easier navigation to groups page
+- Expanded language support with improved translations:
+  - Added community-related translations for Arabic, Bulgarian, Spanish, Italian, German
+  - Added new Hindi language support with community features
+  - Added Traditional and Simplified Chinese translations for community features
+  - Added Japanese and Korean translations for community screens
+  - Added Thai translations for community features
+  - Implemented empty state messages in all supported languages
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -44,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved BotToast error handling to prevent blank screens
 - Fixed issues with unbounded constraints in layout of community screens
 - Enhanced error logging and recovery to improve app stability
+- Improved internationalization (i18n) infrastructure for adding and maintaining translations
 
 ## [0.0.5]
 
