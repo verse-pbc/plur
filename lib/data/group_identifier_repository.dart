@@ -14,18 +14,33 @@ import 'group_metadata_repository.dart';
 /// List of [GroupIdentifier] objects.
 typedef GroupIdentifiers = List<GroupIdentifier>;
 
+/// Repository for managing and interacting with group identifiers.
+///
+/// This class provides methods to fetch, add, remove, and monitor group
+/// identifiers. It interacts with relays and handles group membership
+/// verification, group list updates, and subscription to group-related events.
 class GroupIdentifierRepository {
   /// Name used when logging.
   static const _logName = "GroupIdentifierRepository";
 
+  /// Default relay address for group-related operations.
   static const _defaultRelay = RelayProvider.defaultGroupsRelayAddress;
 
+  /// BehaviorSubject to manage the stream of group identifiers.
   final _groupIdentifiers = BehaviorSubject<GroupIdentifiers>();
 
+  /// Watches the list of group identifiers as a stream.
+  ///
+  /// Returns a [Stream] of [GroupIdentifiers] that emits updates whenever
+  /// the list changes.
   Stream<GroupIdentifiers> watchGroupIdentifierList() {
     return _groupIdentifiers.stream;
   }
 
+  /// Checks if the user is a member of the specified group.
+  ///
+  /// Queries the relay to verify membership in the group identified by
+  /// [groupIdentifier]. Returns `true` if the user is a member, otherwise `false`.
   Future<bool> checkMembership(GroupIdentifier groupIdentifier) async {
     final groupId = groupIdentifier.groupId;
     final filter = Filter(kinds: [EventKind.groupMembers], limit: 1);
@@ -82,7 +97,9 @@ class GroupIdentifierRepository {
     }
   }
 
-  /// Adds a group to the group list
+  /// Adds a group identifier to the list.
+  ///
+  /// Updates both the local cached list and the remote group list.
   Future<void> addGroupIdentifier(GroupIdentifier groupIdentifier) async {
     // Update the cached stream
     List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
@@ -99,6 +116,9 @@ class GroupIdentifierRepository {
     }
   }
 
+  /// Removes a group identifier from the list.
+  ///
+  /// Updates both the local cached list and the remote group list.
   Future<void> removeGroupIdentifier(GroupIdentifier groupIdentifier) async {
     List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
     if (updated.contains(groupIdentifier)) {
@@ -113,8 +133,20 @@ class GroupIdentifierRepository {
     }
   }
 
+  /// Checks if the group identifier exists in the list.
+  ///
+  /// Returns `true` if the [groupIdentifier] is present, otherwise `false`.
+  Future<bool> containsGroupIdentifier(GroupIdentifier groupIdentifier) async {
+    return _groupIdentifiers.value.contains(groupIdentifier); 
+  }
+
+  /// Disposes of the repository by closing the stream.
   void dispose() => _groupIdentifiers.close();
 
+  /// Fetches the initial list of group identifiers.
+  ///
+  /// Combines group identifiers from the local cache and relays, ensuring
+  /// the list is up-to-date.
   Future<void> _fetchInitialListOfGroupIdentifiers() async {
     final groupIdentifiersInList = await _fetchGroupList();
     log(
@@ -144,6 +176,10 @@ class GroupIdentifierRepository {
     _groupIdentifiers.add(newGroupIdentifiers);
   }
 
+  /// Fetches the group list from the relay.
+  ///
+  /// Queries the relay for the user's group list and parses the response
+  /// into a list of [GroupIdentifier] objects.
   Future<GroupIdentifiers> _fetchGroupList() async {
     Filter filter = Filter();
     filter.kinds = [EventKind.groupList];
@@ -179,6 +215,9 @@ class GroupIdentifierRepository {
     return groupIdentifiers;
   }
 
+  /// Updates the group list on the relay.
+  ///
+  /// Sends an event to the relay with the updated list of group identifiers.
   Future<void> _setGroupList(GroupIdentifiers groupIdentifiers) async {
     final tags = groupIdentifiers.map((groupId) => groupId.toJson()).toList();
     final updateGroupListEvent = Event(
@@ -195,6 +234,10 @@ class GroupIdentifierRepository {
     );
   }
 
+  /// Fetches group identifiers from relays where the user is a member or admin.
+  ///
+  /// Queries the relay for group membership and admin events and extracts
+  /// the group identifiers from the event tags.
   Future<GroupIdentifiers> _fetchGroupIdentifiersFromRelays() async {
     final filters = [
       {
@@ -232,6 +275,10 @@ class GroupIdentifierRepository {
     return groupIdentifiersInRelays;
   }
 
+  /// Subscribes to updates for group-related events.
+  ///
+  /// Listens for events such as group membership changes, metadata edits,
+  /// and deletions, and updates the local list accordingly.
   void _subscribeToNewUpdates(GroupMetadataRepository groupMetadataRepository) {
     // Get current timestamp to only receive events from now onwards.
     final since = currentUnixTimestamp();
@@ -276,6 +323,10 @@ class GroupIdentifierRepository {
     );
   }
 
+  /// Handles events received from the subscription.
+  ///
+  /// Processes events such as group deletions, membership changes, and
+  /// metadata edits, and updates the local list of group identifiers.
   void _handleSubscriptionEvent(
     Event event,
     GroupMetadataRepository groupMetadataRepository,
@@ -315,8 +366,10 @@ class GroupIdentifierRepository {
     _groupIdentifiers.add(updated);
   }
 
-  /// Extracts group identifiers from event tags with specified prefix ("h" or
-  /// "d").
+  /// Extracts group identifiers from event tags with the specified prefix.
+  ///
+  /// Parses the tags of the given [event] and returns a list of
+  /// [GroupIdentifier] objects matching the [tagPrefix].
   GroupIdentifiers _extractGroupIdentifiersFromTags(
     Event event, {
     required String tagPrefix,
