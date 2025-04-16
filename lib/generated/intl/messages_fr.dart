@@ -115,6 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Règles de la communauté"),
         "communityName":
             MessageLookupByLibrary.simpleMessage("nom de la communauté"),
+        "communityNameHeader":
+            MessageLookupByLibrary.simpleMessage("Nom de la communauté"),
         "communityNameRequired": MessageLookupByLibrary.simpleMessage(
             "Le nom de la communauté est requis"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirmation"),
@@ -197,11 +199,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "emptyTextMayBeBanByRelays": MessageLookupByLibrary.simpleMessage(
             "Le texte vide peut être interdit par les relais"),
         "enterCommunityDescription": MessageLookupByLibrary.simpleMessage(
-            "Entrez une description de votre communauté"),
+            "Saisissez une description pour votre communauté"),
         "enterCommunityGuidelines": MessageLookupByLibrary.simpleMessage(
-            "Entrez les directives de votre communauté"),
+            "Saisissez les règles de votre communauté"),
         "enterCommunityName": MessageLookupByLibrary.simpleMessage(
-            "Entrez un nom pour votre communauté"),
+            "Saisissez un nom pour votre communauté"),
         "error": MessageLookupByLibrary.simpleMessage("Erreur"),
         "eventSignCheck": MessageLookupByLibrary.simpleMessage(
             "Vérification de signature d\'événement"),
