@@ -14,6 +14,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
@@ -29,7 +30,6 @@ import 'package:nostrmo/provider/nwc_provider.dart';
 import 'package:nostrmo/router/group/group_admin/group_admin_screen.dart';
 import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
-import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
@@ -500,7 +500,6 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
       RouterPath.groupList: (context) => const CommunitiesScreen(),
       RouterPath.groupDetail: (context) => const GroupDetailWidget(),
       RouterPath.groupEdit: (context) => const GroupEditWidget(),
-      RouterPath.groupMembers: (context) => const GroupMembersWidget(),
       RouterPath.groupInfo: (context) => const GroupInfoWidget(),
       RouterPath.communityGuidelines: (context) =>
           const CommunityGuidelinesScreen(),
@@ -622,21 +621,27 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
           initialRoute: RouterPath.index,
           routes: routes,
           onGenerateRoute: (settings) {
-            switch (settings.name) {
-              case RouterPath.groupAdmin:
-                final groupId = settings.arguments as GroupIdentifier?;
-                if (groupId == null) {
-                  return null;
-                }
-                return MaterialPageRoute(
-                  builder: (context) => Provider<GroupIdentifier>.value(
-                    value: groupId,
-                    child: const GroupAdminScreen(),
-                  ),
-                );
-              default:
-                return null;
+            final groupId = settings.arguments as GroupIdentifier?;
+            if (groupId != null) {
+              Widget? widget;
+              switch (settings.name) {
+                case RouterPath.groupAdmin:
+                  widget = const GroupAdminScreen();
+                case RouterPath.groupMembers:
+                  widget = const GroupMembersScreen();
+                default:
+                  break;
+              }
+              if (widget == null) return null;
+
+              return MaterialPageRoute(
+                builder: (context) => Provider<GroupIdentifier>.value(
+                  value: groupId,
+                  child: widget,
+                ),
+              );
             }
+            return null;
           },
         ),
       ),
