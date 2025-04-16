@@ -114,6 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Reglas de la comunidad"),
         "communityName":
             MessageLookupByLibrary.simpleMessage("nombre de la comunidad"),
+        "communityNameHeader":
+            MessageLookupByLibrary.simpleMessage("Nombre de la comunidad"),
         "communityNameRequired": MessageLookupByLibrary.simpleMessage(
             "El nombre de la comunidad es obligatorio"),
         "confirm": MessageLookupByLibrary.simpleMessage("Confirmación"),
