@@ -17,7 +17,6 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
 import 'package:nostrmo/provider/community_info_provider.dart';
 import 'package:nostrmo/provider/community_list_provider.dart';
@@ -375,39 +374,42 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
   ) async {
     final cancelFunc = BotToast.showLoading();
     final groupIdentifier = GroupIdentifier(host, groupId);
-    final groupRepository = ref.read(groupRepositoryProvider);
-    final accepted = await groupRepository.acceptInviteLink(
-      groupIdentifier,
-      code: code,
-    );
-    // if (isGroupMember(request)) {
-    //   BotToast.showText(text: "You're already a member of this group.");
-    //   if (context != null) {
-    //     RouterUtil.router(context, RouterPath.groupDetail,
-    //         GroupIdentifier(request.host, request.groupId));
-    //   }
-    //   return;
-    // }
-
-
-    final errorMessage =
-        "Sorry, something went wrong and you weren't added to the group.";
-    // Add a delay to allow the relay to process the join event
-    await Future.delayed(const Duration(seconds: 2));
-    // Verify user is now a member of the group
     final groupIdentifierRepository = ref.read(
       groupIdentifierRepositoryProvider,
     );
-    final isMember = await groupIdentifierRepository.checkMembership(
+    final isMember = await groupIdentifierRepository.containsGroupIdentifier(
       groupIdentifier,
     );
     if (isMember) {
+      BotToast.showText(text: "You're already a member of this group.");
+      if (context.mounted) {
+        RouterUtil.router(
+          context,
+          RouterPath.groupDetail,
+          GroupIdentifier(host, groupId),
+        );
+      }
+      cancelFunc.call();
+      return;
+    }
+    final groupRepository = ref.read(groupRepositoryProvider);
+    await groupRepository.acceptInviteLink(
+      groupIdentifier,
+      code: code,
+    );
+    // Add a delay to allow the relay to process the join event
+    await Future.delayed(const Duration(seconds: 2));
+    // Verify user is now a member of the group
+    final isCheckedMember = await groupIdentifierRepository.checkMembership(
+      groupIdentifier,
+    );
+    if (isCheckedMember) {
       await groupIdentifierRepository.addGroupIdentifier(groupIdentifier);
       if (!context.mounted) return;
       RouterUtil.router(context, RouterPath.groupDetail, groupId);
     } else {
       BotToast.showText(
-        text: errorMessage,
+        text: "Sorry, something went wrong and you weren't added to the group.",
       );
     }
     cancelFunc.call();

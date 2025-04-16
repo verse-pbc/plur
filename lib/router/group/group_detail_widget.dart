@@ -13,7 +13,7 @@ import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
-import '../../features/community/leave_community_button.dart';
+import '../../features/leave_community/leave_community_button.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
-import '../../data/group_identifier_repository.dart';
-import '../../data/group_repository.dart';
+import 'leave_community_controller.dart';
 
 class LeaveCommunityButton extends ConsumerWidget {
   final GroupIdentifier groupIdentifier;
@@ -13,18 +12,14 @@ class LeaveCommunityButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final groupIdentifierRepository = ref.watch(
-      groupIdentifierRepositoryProvider,
-    );
-    final groupRepository = ref.watch(
-      groupRepositoryProvider,
-    );
+    final leaveCommunityController = ref.watch(leaveCommunityControllerProvider.notifier);
     return IconButton(
       icon: const Icon(Icons.group_remove_outlined),
       onPressed: () async {
-        await groupRepository.leaveGroup(groupIdentifier);
-        await groupIdentifierRepository.removeGroupIdentifier(groupIdentifier);
-        onLeft?.call();
+        final success = await leaveCommunityController.leaveCommunity(groupIdentifier);
+        if (success) {
+          onLeft?.call();
+        }
       },
     );
   }
