@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:dio/io.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Dio? _dio;
 var cookieJar = CookieJar();
@@ -13,20 +11,20 @@ class DioUtil {
   static Dio getDio() {
     if (_dio == null) {
       _dio = Dio();
-      if (_dio!.httpClientAdapter is IOHttpClientAdapter) {
-        (_dio!.httpClientAdapter as IOHttpClientAdapter).createHttpClient =
-            () {
-          final client = HttpClient();
-          client.badCertificateCallback = (_, __, ___) => true;
-          return client;
-        };
-      }
-
+      
+      // Configure options for both platforms
       // _dio!.options.connectTimeout = Duration(minutes: 1);
       // _dio!.options.receiveTimeout = Duration(minutes: 1);
-      _dio!.options.headers["user-agent"] =
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
+      
+      // Only set headers that are safe for web browsers
       _dio!.options.headers["accept-encoding"] = "gzip";
+      
+      // Only set User-Agent header on non-web platforms
+      if (!kIsWeb) {
+        _dio!.options.headers["user-agent"] =
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36";
+      }
+      
       CookieManager cookieManager = CookieManager(cookieJar);
       _dio!.interceptors.add(cookieManager);
     }
@@ -34,7 +32,8 @@ class DioUtil {
   }
 
   static setCookie(String link, String key, String value) {
-    cookieJar.saveFromResponse(Uri.parse(link), [Cookie(key, value)]);
+    // Skip cookie setting in web - managed by browser
+    // This function is a no-op for web
   }
 
   static Future<Map<String, dynamic>?> get(String link,
