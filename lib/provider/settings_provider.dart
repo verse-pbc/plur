@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/encrypt_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
@@ -13,11 +14,15 @@ import '../consts/theme_style.dart';
 import 'data_util.dart';
 
 class SettingsProvider extends ChangeNotifier {
+  static const _privateKeysKey = 'privateKeyMap';
+
   static SettingsProvider? _settingsProvider;
 
   SharedPreferences? _sharedPreferences;
 
   SettingData? _settingData;
+
+  final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   final Map<String, String> _privateKeyMap = {};
 
@@ -43,37 +48,7 @@ class SettingsProvider extends ChangeNotifier {
         _privateKeyMap.clear();
         _nwcUrlMap.clear();
 
-        // move privateKeyMap to encryptPrivateKeyMap since 1.2.0
-        String? privateKeyMapText = _settingData!.encryptPrivateKeyMap;
-        try {
-          if (StringUtil.isNotBlank(privateKeyMapText)) {
-            privateKeyMapText = EncryptUtil.aesDecrypt(
-                privateKeyMapText!, Base.keyEKey, Base.keyIV);
-          } else if (StringUtil.isNotBlank(_settingData!.privateKeyMap) &&
-              StringUtil.isBlank(_settingData!.encryptPrivateKeyMap)) {
-            privateKeyMapText = _settingData!.privateKeyMap;
-            _settingData!.encryptPrivateKeyMap = EncryptUtil.aesEncrypt(
-                _settingData!.privateKeyMap!, Base.keyEKey, Base.keyIV);
-            _settingData!.privateKeyMap = null;
-          }
-        } catch (e) {
-          log("settingsProvider handle privateKey error");
-          log(e.toString());
-        }
-
-        if (StringUtil.isNotBlank(privateKeyMapText)) {
-          try {
-            var jsonKeyMap = jsonDecode(privateKeyMapText!);
-            if (jsonKeyMap != null) {
-              for (var entry in (jsonKeyMap as Map<String, dynamic>).entries) {
-                _privateKeyMap[entry.key] = entry.value;
-              }
-            }
-          } catch (e) {
-            log("_settingData!.privateKeyMap! jsonDecode error");
-            log(e.toString());
-          }
-        }
+        await _loadPrivateKeys();
 
         var nwcUrlMap = _settingData!.nwcUrlMap;
         if (StringUtil.isNotBlank(nwcUrlMap)) {
@@ -108,15 +83,69 @@ class SettingsProvider extends ChangeNotifier {
   Map<String, String> get privateKeyMap => _privateKeyMap;
 
   String? get privateKey {
-    if (_settingData!.privateKeyIndex != null &&
-        _settingData!.encryptPrivateKeyMap != null &&
-        _privateKeyMap.isNotEmpty) {
-      return _privateKeyMap[_settingData!.privateKeyIndex.toString()];
+    final index = _settingData!.privateKeyIndex;
+    if (index == null || _privateKeyMap.isEmpty) {
+      return null;
     }
-    return null;
+    return _privateKeyMap[index.toString()];
   }
 
-  int addAndChangePrivateKey(String pk, {bool updateUI = false}) {
+  Future<void> _loadPrivateKeys() async {
+    try {
+      // try to get keys from secure storage
+      String? privateKeyMapText = await _secureStorage.read(
+        key: _privateKeysKey,
+      );
+      if (StringUtil.isBlank(privateKeyMapText)) {
+        // try to migrate from legacy key storage
+        privateKeyMapText = _legacyPrivateKeyText();
+
+        if (StringUtil.isNotBlank(privateKeyMapText)) {
+          // found legacy keys, write to secure storage
+          await _secureStorage.write(
+            key: _privateKeysKey,
+            value: privateKeyMapText,
+          );
+        }
+
+        // clear legacy, unsecure storage
+        _settingData!.encryptPrivateKeyMap = null;
+        _settingData!.privateKeyMap = null;
+      }
+
+      if (StringUtil.isNotBlank(privateKeyMapText)) {
+        try {
+          final jsonKeyMap = jsonDecode(privateKeyMapText!);
+          if (jsonKeyMap != null) {
+            for (final entry in (jsonKeyMap as Map<String, dynamic>).entries) {
+              _privateKeyMap[entry.key] = entry.value;
+            }
+          }
+          _saveAndNotifyListeners();
+        } catch (e) {
+          log("_settingData!.privateKeyMap! jsonDecode error");
+          log(e.toString());
+        }
+      }
+    } catch (e) {
+      log("settingsProvider handle privateKey error");
+      log(e.toString());
+    }
+  }
+
+  String? _legacyPrivateKeyText() {
+    // try to get keys from old encrypted storage
+    final encryptedKeyMapText = _settingData!.encryptPrivateKeyMap;
+    if (StringUtil.isNotBlank(encryptedKeyMapText)) {
+      return EncryptUtil.aesDecrypt(
+          encryptedKeyMapText!, Base.keyEKey, Base.keyIV);
+    } else {
+      // try to get keys from even older unencrypted storage
+      return _settingData!.privateKeyMap;
+    }
+  }
+
+  int addAndChangePrivateKey(String pk) {
     int? findIndex;
     var entries = _privateKeyMap.entries;
     for (var entry in entries) {
@@ -138,9 +167,8 @@ class SettingsProvider extends ChangeNotifier {
 
         _settingData!.privateKeyIndex = i;
 
-        // _settingData!.privateKeyMap = json.encode(_privateKeyMap);
-        _encodePrivateKeyMap();
-        saveAndNotifyListeners(updateUI: updateUI);
+        _saveKeys();
+        _saveAndNotifyListeners();
 
         return i;
       }
@@ -149,17 +177,16 @@ class SettingsProvider extends ChangeNotifier {
     return -1;
   }
 
-  void _encodePrivateKeyMap() {
-    var privateKeyMap = json.encode(_privateKeyMap);
-    _settingData!.encryptPrivateKeyMap =
-        EncryptUtil.aesEncrypt(privateKeyMap, Base.keyEKey, Base.keyIV);
+  void _saveKeys() {
+    final privateKeyMapText = json.encode(_privateKeyMap);
+    _secureStorage.write(key: _privateKeysKey, value: privateKeyMapText);
   }
 
   void removeKey(int index) {
     var indexStr = index.toString();
 
     _privateKeyMap.remove(indexStr);
-    _encodePrivateKeyMap();
+    _saveKeys();
 
     _nwcUrlMap.remove(indexStr);
     _encodeNwcUrlMap();
@@ -174,7 +201,7 @@ class SettingsProvider extends ChangeNotifier {
       }
     }
 
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set nwcUrl(String? o) {
@@ -186,7 +213,7 @@ class SettingsProvider extends ChangeNotifier {
     }
 
     _encodeNwcUrlMap();
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   String? get nwcUrl {
@@ -333,226 +360,224 @@ class SettingsProvider extends ChangeNotifier {
 
   set settingData(SettingData o) {
     _settingData = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set privateKeyIndex(int? o) {
     _settingData!.privateKeyIndex = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   // set privateKeyMap(String? o) {
   //   _settingData!.privateKeyMap = o;
-  //   saveAndNotifyListeners();
+  //   _saveAndNotifyListeners();
   // }
 
   /// open lock
   set lockOpen(int o) {
     _settingData!.lockOpen = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set defaultIndex(int? o) {
     _settingData!.defaultIndex = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set defaultTab(int? o) {
     _settingData!.defaultTab = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set linkPreview(int o) {
     _settingData!.linkPreview = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set videoPreviewInList(int o) {
     _settingData!.videoPreviewInList = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set network(String? o) {
     _settingData!.network = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set imageService(String? o) {
     _settingData!.imageService = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set imageServiceAddr(String? o) {
     _settingData!.imageServiceAddr = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set videoPreview(int? o) {
     _settingData!.videoPreview = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set imagePreview(int? o) {
     _settingData!.imagePreview = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set profilePicturePreview(int? o) {
     _settingData!.profilePicturePreview = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   /// i18n
   set i18n(String? o) {
     _settingData!.i18n = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   void setI18n(String? i18n, String? i18nCC) {
     _settingData!.i18n = i18n;
     _settingData!.i18nCC = i18nCC;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   /// image compress
   set imgCompress(int o) {
     _settingData!.imgCompress = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   /// theme style
   set themeStyle(int o) {
     _settingData!.themeStyle = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   /// theme color
   set themeColor(int? o) {
     _settingData!.themeColor = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set mainFontColor(int? o) {
     _settingData!.mainFontColor = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set hintFontColor(int? o) {
     _settingData!.hintFontColor = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set cardColor(int? o) {
     _settingData!.cardColor = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set backgroundImage(String? o) {
     _settingData!.backgroundImage = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   /// fontFamily
   set fontFamily(String? fontFamily) {
     _settingData!.fontFamily = fontFamily;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set openTranslate(int? o) {
     _settingData!.openTranslate = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set translateSourceArgs(String? o) {
     _settingData!.translateSourceArgs = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set translateTarget(String? o) {
     _settingData!.translateTarget = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set broadcastWhenBoost(int? o) {
     _settingData!.broadcastWhenBoost = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set fontSize(double o) {
     _settingData!.fontSize = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set webviewAppbarOpen(int o) {
     _settingData!.webviewAppbarOpen = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set tableMode(int? o) {
     _settingData!.tableMode = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set autoOpenSensitive(int? o) {
     _settingData!.autoOpenSensitive = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set relayLocal(int? o) {
     _settingData!.relayLocal = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set relayMode(int? o) {
     _settingData!.relayMode = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set eventSignCheck(int? o) {
     _settingData!.eventSignCheck = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set limitNoteHeight(int? o) {
     _settingData!.limitNoteHeight = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set threadMode(int? o) {
     _settingData!.threadMode = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set maxSubEventLevel(int? o) {
     _settingData!.maxSubEventLevel = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set hideRelayNotices(int? o) {
     _settingData!.hideRelayNotices = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set openBlurhashImage(int? o) {
     _settingData!.openBlurhashImage = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
   set wotFilter(int? o) {
     _settingData!.wotFilter = o;
-    saveAndNotifyListeners();
+    _saveAndNotifyListeners();
   }
 
-  Future<void> saveAndNotifyListeners({bool updateUI = true}) async {
+  Future<void> _saveAndNotifyListeners() async {
     _settingData!.updatedTime = DateTime.now().millisecondsSinceEpoch;
     var m = _settingData!.toJson();
     var jsonStr = json.encode(m);
     await _sharedPreferences!.setString(DataKey.setting, jsonStr);
     _settingsProvider!._reloadTranslateSourceArgs();
 
-    if (updateUI) {
-      notifyListeners();
-    }
+    notifyListeners();
   }
 
   // Note: This is not a preferred pattern but was added to satisfy the
