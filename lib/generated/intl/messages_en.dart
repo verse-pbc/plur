@@ -96,17 +96,22 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Close Private DM"),
         "Close_at": MessageLookupByLibrary.simpleMessage("Close at"),
         "Closed": MessageLookupByLibrary.simpleMessage("Closed"),
-        "Closed_group": MessageLookupByLibrary.simpleMessage("Closed group"),
+        "Closed_community":
+            MessageLookupByLibrary.simpleMessage("Closed community"),
         "Communities": MessageLookupByLibrary.simpleMessage("Communities"),
+        "Community": MessageLookupByLibrary.simpleMessage("Community"),
+        "CommunityId": MessageLookupByLibrary.simpleMessage("Community ID"),
         "Community_Guidelines":
             MessageLookupByLibrary.simpleMessage("Community Guidelines"),
+        "Community_Info":
+            MessageLookupByLibrary.simpleMessage("Community Info"),
         "Community_Name":
             MessageLookupByLibrary.simpleMessage("Community Name"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
-        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
-            "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to discard unsaved changes?"),
+        "Connect_with_others": MessageLookupByLibrary.simpleMessage(
+            "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
         "Content": MessageLookupByLibrary.simpleMessage("Content"),
         "Content_warning":
@@ -126,7 +131,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Copy current Url"),
         "Copy_init_Url": MessageLookupByLibrary.simpleMessage("Copy init Url"),
         "Copy_success": MessageLookupByLibrary.simpleMessage("Copy success!"),
-        "Create_Group": MessageLookupByLibrary.simpleMessage("Create Group"),
+        "Create_Community":
+            MessageLookupByLibrary.simpleMessage("Create Community"),
         "Create_your_community":
             MessageLookupByLibrary.simpleMessage("Create your community"),
         "Creator": MessageLookupByLibrary.simpleMessage("Creator"),
@@ -211,12 +217,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Global": MessageLookupByLibrary.simpleMessage("Global"),
         "Goal_Amount_In_Sats":
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
-        "Group": MessageLookupByLibrary.simpleMessage("Group"),
-        "GroupId": MessageLookupByLibrary.simpleMessage("GroupId"),
-        "Group_Info": MessageLookupByLibrary.simpleMessage("Group Info"),
         "Group_member": m0,
         "Group_members": m1,
-        "Groups": MessageLookupByLibrary.simpleMessage("Groups"),
         "Hashtag": MessageLookupByLibrary.simpleMessage("Hashtag"),
         "Have_invite_link": MessageLookupByLibrary.simpleMessage(
             "Have an invite link? Tap on it to join a community."),
@@ -262,7 +264,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Input parse error"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Input relay address."),
-        "Join_Group": MessageLookupByLibrary.simpleMessage("Join Group"),
+        "Join_Community":
+            MessageLookupByLibrary.simpleMessage("Join Community"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "Light": MessageLookupByLibrary.simpleMessage("Light"),
         "Lightning_Address":
@@ -330,7 +333,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Open Private DM"),
         "Open_User_page":
             MessageLookupByLibrary.simpleMessage("Open User page"),
-        "Open_group": MessageLookupByLibrary.simpleMessage("Open group"),
+        "Open_community":
+            MessageLookupByLibrary.simpleMessage("Open community"),
         "Open_in_browser":
             MessageLookupByLibrary.simpleMessage("Open in browser"),
         "Opened": MessageLookupByLibrary.simpleMessage("Opened"),
@@ -506,7 +510,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "You_had_voted_with":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
-        "Your_Groups": MessageLookupByLibrary.simpleMessage("Your Groups"),
+        "Your_Communities":
+            MessageLookupByLibrary.simpleMessage("Your Communities"),
         "Your_private_key":
             MessageLookupByLibrary.simpleMessage("Your private key"),
         "Zap_Goals": MessageLookupByLibrary.simpleMessage("Zap Goals"),

@@ -45,5 +45,5 @@ class GroupInfoHeaderWidget extends StatelessWidget {
   }
 
   String _groupStatusText(S localization) =>
-      '${metadata.open ?? false ? localization.Open_group : localization.Closed_group} • ${memberCount == 1 ? localization.Group_member(memberCount) : localization.Group_members(memberCount)}';
+      '${metadata.open ?? false ? localization.Open_community : localization.Closed_community} • ${memberCount == 1 ? localization.Group_member(memberCount) : localization.Group_members(memberCount)}';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/component/primary_button_widget.dart';
+
+import '../../component/primary_button_widget.dart';
+import '../../generated/l10n.dart';
 
 class CreateCommunityWidget extends StatefulWidget {
   final void Function(String) onCreateCommunity;
