@@ -52,7 +52,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
 
     List<Widget> list = [];
     list.add(Text(
-      localization.Sync_Upload,
+      localization.syncUpload,
       style: TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: titleFontSize,
@@ -63,13 +63,13 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
       margin: const EdgeInsets.only(top: Base.basePadding),
       child: Row(
         children: [
-          Text("${localization.Upload_num}: ${widget.events.length}"),
+          Text("${localization.uploadNum}: ${widget.events.length}"),
           Container(
             margin: const EdgeInsets.only(
               left: Base.basePadding,
               right: Base.basePaddingHalf,
             ),
-            child: Text("${localization.Send_interval}: "),
+            child: Text("${localization.sendInterval}: "),
           ),
           DropdownButton<int>(
             isDense: true,
@@ -119,7 +119,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
     }
     list.add(Container(
       margin: const EdgeInsets.only(top: Base.basePadding),
-      child: Text(localization.Select_relay_to_upload),
+      child: Text(localization.selectRelayToUpload),
     ));
     list.add(Container(
       margin: const EdgeInsets.only(top: Base.basePaddingHalf),
@@ -146,7 +146,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Confirm,
+              S.of(context).confirm,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -218,7 +218,7 @@ class _SyncUploadDialog extends State<SyncUploadDialog> {
       }
 
       if (selectedRelays.isEmpty) {
-        BotToast.showText(text: S.of(context).Please_select_relays);
+        BotToast.showText(text: S.of(context).pleaseSelectRelays);
         return;
       }
 

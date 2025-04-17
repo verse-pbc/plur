@@ -130,7 +130,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   /// Copies the private key to the clipboard and completes the signup process
   void _copyAndContinue() async {
     Clipboard.setData(ClipboardData(text: _privateKey)).then((_) {
-      BotToast.showText(text: localization.key_has_been_copy);
+      BotToast.showText(text: localization.keyHasBeenCopy);
     });
     // Return the private key to the login screen
     Navigator.of(context).pop(_privateKey);
@@ -586,7 +586,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             ),
             const SizedBox(height: 20),
             Text(
-              localization.This_is_the_key_to_your_account,
+              localization.thisIsTheKeyToYourAccount,
               style: TextStyle(
                 color: primaryForegroundColor,
                 fontSize: 31.26,
@@ -635,7 +635,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                   color: dimmedColor,
                 ),
                 label: Text(
-                  localization.view_key,
+                  localization.viewKey,
                   style: TextStyle(
                     color: dimmedColor,
                     fontSize: 15.93,
@@ -662,7 +662,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           child: CheckboxListTile(
             key: const Key('acknowledgement_checkbox'),
             title: Text(
-              localization.I_understand_I_shouldnt_share_this_key,
+              localization.iUnderstandIShouldntShareThisKey,
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w400,
@@ -702,7 +702,7 @@ class _SignupWidgetState extends State<SignupWidget> {
               disabledForegroundColor: buttonTextColor.withAlpha((0.4 * 255).round()),
             ),
             child: Text(
-              localization.Copy_and_Continue,
+              localization.copyAndContinue,
               style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,

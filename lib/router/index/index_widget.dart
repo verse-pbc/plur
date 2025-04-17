@@ -318,12 +318,12 @@ class _IndexWidgetState extends CustState<IndexWidget>
           dividerHeight: 0,
           tabs: [
             IndexTabItemWidget(
-              localization.DMs,
+              localization.dms,
               titleTextStyle,
               omitText: "DM",
             ),
             IndexTabItemWidget(
-              localization.Request,
+              localization.request,
               titleTextStyle,
               omitText: "R",
             ),
@@ -340,7 +340,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
       case 2: // Search
         center = Center(
           child: Text(
-            localization.Search,
+            localization.search,
             style: titleTextStyle,
           ),
         );
@@ -353,7 +353,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   Widget _buildGroupsTabHeader(S localization, TextStyle titleTextStyle) {
     return Center(
       child: Text(
-        localization.Your_Groups,
+        localization.yourGroups,
         style: titleTextStyle,
       ),
     );
@@ -374,17 +374,17 @@ class _IndexWidgetState extends CustState<IndexWidget>
       dividerHeight: 0,
       tabs: [
         IndexTabItemWidget(
-          localization.Notes,
+          localization.notes,
           titleTextStyle,
           omitText: "N",
         ),
         IndexTabItemWidget(
-          localization.Users,
+          localization.users,
           titleTextStyle,
           omitText: "U",
         ),
         IndexTabItemWidget(
-          localization.Topics,
+          localization.topics,
           titleTextStyle,
           omitText: "T",
         ),
@@ -396,7 +396,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   Widget _buildSearchTabHeader(S localization, TextStyle titleTextStyle) {
     return Center(
       child: Text(
-        localization.Search,
+        localization.search,
         style: titleTextStyle,
       ),
     );
@@ -410,12 +410,12 @@ class _IndexWidgetState extends CustState<IndexWidget>
       dividerHeight: 0,
       tabs: [
         IndexTabItemWidget(
-          localization.DMs,
+          localization.dms,
           titleTextStyle,
           omitText: "DM",
         ),
         IndexTabItemWidget(
-          localization.Request,
+          localization.request,
           titleTextStyle,
           omitText: "R",
         ),
@@ -645,7 +645,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
       builder: (context, infos, child) {
         if (infos.isEmpty) {
           return Center(
-            child: Text(localization.There_should_be_an_universe_here),
+            child: Text(localization.thereShouldBeAnUniverseHere),
           );
         }
 
@@ -683,7 +683,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   }
 
   void doAuth() {
-    AuthUtil.authenticate(context, S.of(context).Please_authenticate_to_use_app)
+    AuthUtil.authenticate(context, S.of(context).pleaseAuthenticateToUseApp)
         .then((didAuthenticate) {
       if (didAuthenticate) {
         setState(() {

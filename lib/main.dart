@@ -73,6 +73,9 @@ import 'consts/theme_style.dart';
 import 'data/db.dart';
 import 'features/communities/communities_screen.dart';
 import 'features/community_guidelines/community_guidelines_screen.dart';
+import 'features/asks_offers/screens/create_edit_listing_screen.dart';
+import 'features/asks_offers/screens/listing_detail_screen.dart';
+import 'features/asks_offers/models/listing_model.dart';
 import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
@@ -595,16 +598,7 @@ class _MyApp extends State<MyApp> {
         final String? groupId = args?['groupId'];
         return ListingsScreen(groupId: groupId);
       },
-      RouterPath.listingCreateEdit: (context) {
-        final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
-        final ListingModel? listing = args?['listing'];
-        final String? groupId = args?['groupId'];
-        return CreateEditListingScreen(listing: listing, groupId: groupId);
-      },
-      RouterPath.listingDetail: (context) {
-        final ListingModel listing = ModalRoute.of(context)!.settings.arguments as ListingModel;
-        return ListingDetailScreen(listing: listing);
-      },
+      // Listing create/edit and detail routes are handled by onGenerateRoute
     };
 
     return MultiProvider(
@@ -899,6 +893,43 @@ class _MyApp extends State<MyApp> {
                   ),
                 );
                 
+              case RouterPath.listingCreateEdit:
+                // Handle different argument types for the listing create/edit screen
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CreateEditListingScreen(),
+                  );
+                }
+                
+                if (settings.arguments is Map) {
+                  final args = settings.arguments as Map;
+                  return MaterialPageRoute(
+                    builder: (context) => CreateEditListingScreen(
+                      groupId: args['groupId'],
+                      listing: args['listing'],
+                      type: args['type'],
+                    ),
+                  );
+                }
+                
+                return null;
+                
+              case RouterPath.listingDetail:
+                if (settings.arguments == null) {
+                  return null;
+                }
+                
+                if (settings.arguments is ListingModel) {
+                  final listing = settings.arguments as ListingModel;
+                  return MaterialPageRoute(
+                    builder: (context) => ListingDetailScreen(
+                      listing: listing,
+                    ),
+                  );
+                }
+                
+                return null;
+              
               default:
                 return null;
             }

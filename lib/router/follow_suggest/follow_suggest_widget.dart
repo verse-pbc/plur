@@ -44,7 +44,7 @@ class _FollowSuggestWidgetState extends CustState<FollowSuggestWidget> {
         bottom: 18,
       ),
       child: Text(
-        localization.Popular_Users,
+        localization.popularUsers,
         style: TextStyle(
           fontSize: themeData.textTheme.bodyLarge!.fontSize,
           fontWeight: FontWeight.bold,

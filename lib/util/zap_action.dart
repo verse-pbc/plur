@@ -18,7 +18,7 @@ class ZapAction {
           eventId: eventId, pollOption: pollOption, comment: comment);
 
       if (StringUtil.isBlank(invoiceCode)) {
-        BotToast.showText(text: localization.Gen_invoice_code_error);
+        BotToast.showText(text: localization.genInvoiceCodeError);
         return;
       }
 
@@ -47,7 +47,7 @@ class ZapAction {
     final localization = S.of(context);
     final user = userProvider.getUser(pubkey);
     if (user == null) {
-      BotToast.showText(text: localization.Metadata_can_not_be_found);
+      BotToast.showText(text: localization.metadataCanNotBeFound);
       return null;
     }
 
@@ -65,7 +65,7 @@ class ZapAction {
       }
     }
     if (StringUtil.isBlank(lnurl)) {
-      BotToast.showText(text: "Lnurl ${localization.not_found}");
+      BotToast.showText(text: "Lnurl ${localization.notFound}");
       return null;
     }
     // check if user set wrong

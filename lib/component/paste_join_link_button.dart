@@ -62,7 +62,7 @@ class _PasteJoinLinkButtonState extends State<PasteJoinLinkButton> {
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           icon: const Icon(Icons.content_paste),
-          label: Text(l10n.Join_Group),
+          label: Text(l10n.joinGroup),
           onPressed: () async {
             try {
               final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);

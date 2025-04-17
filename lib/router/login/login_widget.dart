@@ -159,7 +159,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Text(
-        localization.Communities,
+        localization.communities,
         style: TextStyle(
           color: primaryForegroundColor,
           fontSize: 28,
@@ -378,7 +378,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
             child: Text(
-              localization.Login_With_Android_Signer,
+              localization.loginWithAndroidSigner,
               style: TextStyle(
                 color: primaryForegroundColor,
                 fontSize: 16,
@@ -399,7 +399,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
             child: Text(
-              localization.Login_With_NIP07_Extension,
+              localization.loginWithNIP07Extension,
               style: TextStyle(
                 color: primaryForegroundColor,
                 fontSize: 16,
@@ -422,7 +422,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: StyledText(
-          text: localization.Accept_terms_of_service,
+          text: localization.acceptTermsOfService,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: primaryForegroundColor,
@@ -470,7 +470,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                           ),
                           foregroundColor: accentColor,
                         ),
-                        child: Text(localization.Cancel),
+                        child: Text(localization.cancel),
                       ),
                     ),
                   ],
@@ -555,7 +555,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var pk = _controller.text;
     if (pk.isEmpty) {
       if (!mounted) return;
-      StyledBotToast.show(context, text: S.of(context).Input_can_not_be_null);
+      StyledBotToast.show(context, text: S.of(context).inputCanNotBeNull);
       return;
     }
 
@@ -578,7 +578,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       if (StringUtil.isBlank(pubkey)) {
         if (!mounted) return;
         StyledBotToast.show(context,
-            text: "${localization.Pubkey} ${localization.not_found}");
+            text: "${localization.pubkey} ${localization.notFound}");
         return;
       }
 
@@ -669,7 +669,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       } catch (e) {
         // is not a private key
         StyledBotToast.show(context,
-            text: S.of(context).Wrong_Private_Key_format);
+            text: S.of(context).wrongPrivateKeyFormat);
         return;
       }
 
@@ -696,7 +696,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
       if (!mounted) return;
-      StyledBotToast.show(context, text: localization.Login_fail);
+      StyledBotToast.show(context, text: localization.loginFail);
       return;
     }
 
@@ -726,7 +726,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
       if (!mounted) return;
-      StyledBotToast.show(context, text: localization.Login_fail);
+      StyledBotToast.show(context, text: localization.loginFail);
       return;
     }
 

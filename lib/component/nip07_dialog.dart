@@ -51,7 +51,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
 
     List<Widget> list = [];
     list.add(Text(
-      "NIP-07 ${localization.Confirm}",
+      "NIP-07 ${localization.confirm}",
       style: TextStyle(
         fontSize: titleFontSize! + 4,
         fontWeight: FontWeight.bold,
@@ -64,21 +64,21 @@ class _NIP07Dialog extends State<NIP07Dialog> {
       margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Row(
         children: [
-          Text("${localization.Method}:  "),
+          Text("${localization.method}:  "),
           Text(widget.method),
         ],
       ),
     ));
 
-    String methodDesc = localization.NIP07_getPublicKey;
+    String methodDesc = localization.nip07GetPublicKey;
     if (widget.method == NIP07Methods.getRelays) {
-      methodDesc = localization.NIP07_getRelays;
+      methodDesc = localization.nip07GetRelays;
     } else if (widget.method == NIP07Methods.nip04Encrypt) {
-      methodDesc = localization.NIP07_encrypt;
+      methodDesc = localization.nip07Encrypt;
     } else if (widget.method == NIP07Methods.nip04Decrypt) {
-      methodDesc = localization.NIP07_decrypt;
+      methodDesc = localization.nip07Decrypt;
     } else if (widget.method == NIP07Methods.signEvent) {
-      methodDesc = localization.NIP07_signEvent;
+      methodDesc = localization.nip07SignEvent;
       try {
         if (StringUtil.isNotBlank(widget.content)) {
           var jsonObj = jsonDecode(widget.content!);
@@ -88,7 +88,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
         }
       } catch (_) {}
     } else if (widget.method == NIP07Methods.lightning) {
-      methodDesc = localization.NIP07_lightning;
+      methodDesc = localization.nip07Lightning;
     }
     list.add(Container(
       margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
@@ -100,7 +100,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
     ));
 
     if (StringUtil.isNotBlank(widget.content)) {
-      list.add(Text("${localization.Content}:"));
+      list.add(Text("${localization.content}:"));
       list.add(Container(
         width: double.maxFinite,
         padding: const EdgeInsets.all(Base.basePaddingHalf),
@@ -129,7 +129,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
             color: hintColor.withAlpha(76),
             alignment: Alignment.center,
             child: Text(
-              localization.Cancel,
+              localization.cancel,
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.bold,
@@ -150,7 +150,7 @@ class _NIP07Dialog extends State<NIP07Dialog> {
             color: hintColor.withAlpha(76),
             alignment: Alignment.center,
             child: Text(
-              localization.Confirm,
+              localization.confirm,
               style: TextStyle(
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.bold,

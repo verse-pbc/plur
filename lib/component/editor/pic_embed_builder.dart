@@ -34,7 +34,7 @@ class PicEmbedBuilder extends EmbedBuilder {
       children: [
         child,
         Text(
-          S.of(context).All_media_public,
+          S.of(context).allMediaPublic,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.grey,
                 fontStyle: FontStyle.italic,

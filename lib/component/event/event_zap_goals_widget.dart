@@ -58,7 +58,7 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
               DateTime.fromMillisecondsSinceEpoch(zapGoalsInfo!.closedAt!);
           var format = FixedDateTimeFormatter("YYYY-MM-DD hh:mm:ss");
           list.add(Row(
-            children: [Text("${localization.Close_at} ${format.encode(closeAtDT)}")],
+            children: [Text("${localization.closeAt} ${format.encode(closeAtDT)}")],
           ));
         }
 

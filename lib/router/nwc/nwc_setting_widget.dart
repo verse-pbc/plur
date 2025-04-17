@@ -48,7 +48,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       autofocus: true,
       controller: textEditingController,
       decoration: InputDecoration(
-        hintText: localization.PLease_input_NWC_URL,
+        hintText: localization.pleaseInputNWCURL,
         border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
       ),
     ));
@@ -119,7 +119,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Confirm,
+              S.of(context).confirm,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -138,14 +138,14 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-          "1. ${localization.NWC_TIP1}\n2. ${localization.NWC_TIP2} 'nostr+walletconnect:b889ff5b1513b641e2a139f661a661364979c5beee91842f8f0ef42ab558e9d4?relay=wss%3A%2F%2Frelay.damus.io&secret=71a8c14c1407c113601079c4302dab36460f0ccd0ad506f1f2dc73b5100e4f3c'"),
+          "1. ${localization.nwcTip1}\n2. ${localization.nwcTip2} 'nostr+walletconnect:b889ff5b1513b641e2a139f661a661364979c5beee91842f8f0ef42ab558e9d4?relay=wss%3A%2F%2Frelay.damus.io&secret=71a8c14c1407c113601079c4302dab36460f0ccd0ad506f1f2dc73b5100e4f3c'"),
     ));
 
     return Scaffold(
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          "NWC ${localization.Settings}",
+          "NWC ${localization.settings}",
           style: TextStyle(
             fontSize: themeData.textTheme.bodyLarge!.fontSize,
             fontWeight: FontWeight.bold,
@@ -172,7 +172,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     if (StringUtil.isNotBlank(result)) {
       var nwc = NWCInfo.loadFromUrl(result);
       if (nwc == null) {
-        BotToast.showText(text: S.of(context).Input_parse_error);
+        BotToast.showText(text: S.of(context).inputParseError);
         return;
       }
 
@@ -192,7 +192,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
     if (StringUtil.isNotBlank(result)) {
       var nwc = NWCInfo.loadFromUrl(result!);
       if (nwc == null) {
-        BotToast.showText(text: localization.Input_parse_error);
+        BotToast.showText(text: localization.inputParseError);
         return;
       }
 
@@ -213,7 +213,7 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
       if (StringUtil.isNotBlank(result)) {
         var nwc = NWCInfo.loadFromUrl(result!);
         if (nwc == null) {
-          BotToast.showText(text: localization.Input_parse_error);
+          BotToast.showText(text: localization.inputParseError);
           return;
         }
 

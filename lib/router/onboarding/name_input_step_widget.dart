@@ -57,7 +57,7 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
       textFieldHint: localization.onboardingNameInputHint,
       buttons: [
         OnboardingStepButton(
-          text: localization.continueText,
+          text: localization.continueButton,
           enabled: _isButtonEnabled,
           onTap: () {
             final name = _nameController.text.trim();
