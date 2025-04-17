@@ -72,11 +72,9 @@ class _UserTopWidgetState extends State<UserTopWidget> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
-    var hintColor = themeData.hintColor;
     var scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
     var maxWidth = mediaDataCache.size.width;
     var largeFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    var fontSize = themeData.textTheme.bodyMedium!.fontSize;
     final statusBarHeight = MediaQuery.of(context).padding.top;
     final navHeight = statusBarHeight + 46; // status bar + nav bar height
     var bannerHeight = maxWidth / 3;
@@ -88,13 +86,9 @@ class _UserTopWidgetState extends State<UserTopWidget> {
 
     String nip19Name = Nip19.encodeSimplePubKey(widget.pubkey);
     String displayName = "";
-    String? name;
     if (widget.user != null) {
       if (StringUtil.isNotBlank(widget.user!.displayName)) {
         displayName = widget.user!.displayName!;
-        if (StringUtil.isNotBlank(widget.user!.name)) {
-          name = widget.user!.name;
-        }
       } else if (StringUtil.isNotBlank(widget.user!.name)) {
         displayName = widget.user!.name!;
       }
@@ -154,23 +148,6 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     if (StringUtil.isBlank(displayName)) {
       displayName = nip19Name;
     }
-    List<TextSpan> nameSpans = [];
-    nameSpans.add(TextSpan(
-      text: displayName,
-      style: TextStyle(
-        fontSize: largeFontSize,
-        fontWeight: FontWeight.bold,
-      ),
-    ));
-    if (StringUtil.isNotBlank(name)) {
-      nameSpans.add(TextSpan(
-        text: name != null ? "@$name" : "",
-        style: TextStyle(
-          fontSize: fontSize,
-          color: hintColor,
-        ),
-      ));
-    }
 
     Widget userNameWidget = Container(
       width: double.maxFinite,
@@ -181,7 +158,11 @@ class _UserTopWidgetState extends State<UserTopWidget> {
       ),
       child: Text.rich(
         TextSpan(
-          children: nameSpans,
+          text: displayName,
+          style: TextStyle(
+            fontSize: largeFontSize,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
