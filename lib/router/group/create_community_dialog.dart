@@ -39,7 +39,7 @@ class OldInvitePeopleWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            localization.Invite_people_to_join,
+            localization.invitePeopleToJoin,
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -66,7 +66,7 @@ class OldInvitePeopleWidget extends StatelessWidget {
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: shareableLink));
                   BotToast.showText(
-                    text: localization.Copy_success,
+                    text: localization.copySuccess,
                   );
                 },
               ),
@@ -219,7 +219,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          l10n.Communities,
+          l10n.communities,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 20,
@@ -229,7 +229,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
         // Create new community option
         _buildOptionButton(
           icon: Icons.add_circle_outline,
-          title: l10n.Create_Group,
+          title: l10n.createGroup,
           description: "Start a private community that you'll be the admin of",
           onTap: () {
             setState(() {
@@ -242,7 +242,7 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
         // Join existing community option
         _buildOptionButton(
           icon: Icons.group_add,
-          title: l10n.Join_Group,
+          title: l10n.joinGroup,
           description: "Paste an invitation link to join a community",
           onTap: () {
             setState(() {
@@ -255,8 +255,8 @@ class _CreateCommunityDialogState extends State<CreateCommunityDialog> {
         // Find community option
         _buildOptionButton(
           icon: Icons.search,
-          title: l10n.Find_Group,
-          description: l10n.Search_for_public_groups,
+          title: l10n.findGroup,
+          description: l10n.searchForPublicGroups,
           onTap: () {
             setState(() {
               _currentView = DialogView.findCommunity;

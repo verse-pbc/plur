@@ -98,7 +98,7 @@ class _RelaysItemWidgetState extends State<RelaysItemWidget> {
         onTap: () {
           var text = NIP19Tlv.encodeNrelay(Nrelay(widget.addr));
           Clipboard.setData(ClipboardData(text: text)).then((_) {
-            BotToast.showText(text: localization.Copy_success);
+            BotToast.showText(text: localization.copySuccess);
           });
         },
         child: Container(

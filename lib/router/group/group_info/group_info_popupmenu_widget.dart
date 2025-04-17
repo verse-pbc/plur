@@ -31,12 +31,12 @@ class GroupInfoPopupMenuWidget extends StatelessWidget {
         if (isAdmin)
           StyledPopupItem(
             value: "admin",
-            text: localization.Admin_Panel,
+            text: localization.adminPanel,
             icon: Icons.admin_panel_settings,
           ),
         StyledPopupItem(
           value: "edit",
-          text: localization.Edit,
+          text: localization.edit,
           icon: Icons.edit_outlined,
         ),
       ],

@@ -104,7 +104,7 @@ class _TextInputAndSearchDialog extends State<TextInputAndSearchDialog>
             height: IndexAppBar.height,
             alignment: Alignment.center,
             child: Text(
-              localization.Input,
+              localization.input,
               textAlign: TextAlign.center,
             ),
           ),

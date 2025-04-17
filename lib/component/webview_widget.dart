@@ -283,23 +283,23 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
         return [
           PopupMenuItem(
             value: "copyCurrentUrl",
-            child: Text(localization.Copy_current_Url),
+            child: Text(localization.copyCurrentUrl),
           ),
           PopupMenuItem(
             value: "copyInitUrl",
-            child: Text(localization.Copy_init_Url),
+            child: Text(localization.copyInitUrl),
           ),
           PopupMenuItem(
             value: "openInBrowser",
-            child: Text(localization.Open_in_browser),
+            child: Text(localization.openInBrowser),
           ),
           PopupMenuItem(
             value: "requestPermission",
-            child: Text(localization.WebRTC_Permission),
+            child: Text(localization.webRTCPermission),
           ),
           PopupMenuItem(
             value: "hideBrowser",
-            child: Text(localization.Hide),
+            child: Text(localization.hide),
           ),
           PopupMenuItem(
             value: "close",
@@ -339,7 +339,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       if (!mounted) return;
-      BotToast.showText(text: S.of(context).Copy_success);
+      BotToast.showText(text: S.of(context).copySuccess);
     });
   }
 
@@ -380,7 +380,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
           controller.evaluateJavascript(source: script);
         } else {
           if (!mounted) return;
-          nip07Reject(resultId, S.of(context).Forbid);
+          nip07Reject(resultId, S.of(context).forbid);
         }
       },
     );
@@ -415,10 +415,10 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 "window.nostr.callback(\"$resultId\", JSON.parse(\"$eventResultStr\"));";
             webViewController!.evaluateJavascript(source: script);
           } catch (e) {
-            nip07Reject(resultId, localization.Sign_fail);
+            nip07Reject(resultId, localization.signFail);
           }
         } else {
-          nip07Reject(resultId, localization.Forbid);
+          nip07Reject(resultId, localization.forbid);
         }
       },
     );
@@ -444,7 +444,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
               "window.nostr.callback(\"$resultId\", JSON.parse(\"$resultStr\"));";
           webViewController!.evaluateJavascript(source: script);
         } else {
-          nip07Reject(resultId, localization.Forbid);
+          nip07Reject(resultId, localization.forbid);
         }
       },
     );
@@ -472,7 +472,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 "window.nostr.callback(\"$resultId\", \"$resultStr\");";
             webViewController!.evaluateJavascript(source: script);
           } else {
-            nip07Reject(resultId, localization.Forbid);
+            nip07Reject(resultId, localization.forbid);
           }
         }
       },
@@ -503,7 +503,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
                 "window.nostr.callback(\"$resultId\", \"$resultStr\");";
             webViewController!.evaluateJavascript(source: script);
           } else {
-            nip07Reject(resultId, localization.Forbid);
+            nip07Reject(resultId, localization.forbid);
           }
         }
       },

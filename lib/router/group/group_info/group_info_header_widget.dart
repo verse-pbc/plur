@@ -83,7 +83,7 @@ class GroupInfoHeaderWidget extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Text(
-                metadata.open ?? false ? localization.Open_group : localization.Closed_group,
+                metadata.open ?? false ? localization.openGroup : localization.closedGroup,
                 style: TextStyle(
                   color: customColors.dimmedColor,
                   fontSize: 14,
@@ -107,8 +107,8 @@ class GroupInfoHeaderWidget extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 memberCount == 1 
-                    ? localization.Group_member(memberCount) 
-                    : localization.Group_members(memberCount),
+                    ? localization.groupMember(memberCount) 
+                    : localization.groupMembers(memberCount),
                 style: TextStyle(
                   color: customColors.dimmedColor,
                   fontSize: 14,

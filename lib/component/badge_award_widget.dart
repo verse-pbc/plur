@@ -84,7 +84,7 @@ class _BadgeAwardWidgetState extends State<BadgeAwardWidget> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              localization.Wear,
+              localization.wear,
               style: const TextStyle(
                 color: Colors.white,
               ),

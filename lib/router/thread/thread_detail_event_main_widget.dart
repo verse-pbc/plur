@@ -136,7 +136,7 @@ class _ThreadDetailItemMainWidgetState extends State<ThreadDetailItemMainWidget>
               bottom: Base.basePadding,
             ),
             child: ContentStrLinkWidget(
-              str: localization.Show_more_replies,
+              str: localization.showMoreReplies,
               onTap: () {
                 RouterUtil.router(
                     context, RouterPath.threadTrace, widget.item.event);

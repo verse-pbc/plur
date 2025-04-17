@@ -199,7 +199,7 @@ class ZapsSendDialogItem extends StatelessWidget {
             height: rightHeight,
             width: rightWidth,
             child: MetadataTextBtn(
-              text: localization.Send,
+              text: localization.send,
               onTap: () {
                 sendZapFunction(pubkey, invoiceCode!, zapNumber);
               },

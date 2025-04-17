@@ -35,7 +35,7 @@ class Uploader {
         if (settingsProvider.imageService == ImageServices.nip95 &&
             result.files.single.size > nip95MaxLength) {
           if (!context.mounted) return null;
-          BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
+          BotToast.showText(text: S.of(context).fileIsTooBigForNIP95);
         }
 
         if (PlatformUtil.isWeb() && result.files.single.bytes != null) {
@@ -74,7 +74,7 @@ class Uploader {
           if (settingsProvider.imageService == ImageServices.nip95 &&
               (await result.length()) > nip95MaxLength) {
             if (!context.mounted) return null;
-            BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
+            BotToast.showText(text: S.of(context).fileIsTooBigForNIP95);
           }
           return result.path;
         }
@@ -84,7 +84,7 @@ class Uploader {
         var fileSize = StoreUtil.getFileSize(file!.path);
         if (fileSize != null && fileSize > nip95MaxLength) {
           if (!context.mounted) return null;
-          BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
+          BotToast.showText(text: S.of(context).fileIsTooBigForNIP95);
         }
       }
 
@@ -114,7 +114,7 @@ class Uploader {
           if (settingsProvider.imageService == ImageServices.nip95 &&
               size > nip95MaxLength) {
             if (!context.mounted) return [];
-            BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
+            BotToast.showText(text: S.of(context).fileIsTooBigForNIP95);
             return [];
           }
 
@@ -162,7 +162,7 @@ class Uploader {
             if (settingsProvider.imageService == ImageServices.nip95 &&
                 (await result.length()) > nip95MaxLength) {
               if (!context.mounted) return [];
-              BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
+              BotToast.showText(text: S.of(context).fileIsTooBigForNIP95);
               return [];
             }
 
@@ -175,7 +175,7 @@ class Uploader {
           var fileSize = StoreUtil.getFileSize(file!.path);
           if (fileSize != null && fileSize > nip95MaxLength) {
             if (!context.mounted) return [];
-            BotToast.showText(text: S.of(context).File_is_too_big_for_NIP_95);
+            BotToast.showText(text: S.of(context).fileIsTooBigForNIP95);
             return [];
           }
         }

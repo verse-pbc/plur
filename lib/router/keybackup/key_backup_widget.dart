@@ -30,11 +30,11 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
       final localization = S.of(context);
       checkboxItems = [];
       checkboxItems!.add(CheckboxItem(
-          localization.Please_do_not_disclose_or_share_the_key_to_anyone, false));
+          localization.pleaseDoNotDiscloseOrShareTheKeyToAnyone, false));
       checkboxItems!.add(CheckboxItem(
-          localization.Nostromo_developers_will_never_require_a_key_from_you, false));
+          localization.nostrmoDevelopersWillNeverRequireAKeyFromYou, false));
       checkboxItems!.add(CheckboxItem(
-          localization.Please_keep_the_key_properly_for_account_recovery, false));
+          localization.pleaseKeepTheKeyProperlyForAccountRecovery, false));
     }
   }
 
@@ -57,7 +57,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     list.add(Container(
       margin: const EdgeInsets.only(bottom: 20),
       child: Text(
-        localization.Backup_and_Safety_tips,
+        localization.backupAndSafetyTips,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,
@@ -68,7 +68,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     list.add(Container(
       margin: const EdgeInsets.only(bottom: Base.basePaddingHalf),
       child: Text(
-        localization.The_key_is_a_random_string_that_resembles_,
+        localization.theKeyIsARandomStringThatResembles,
       ),
     ));
 
@@ -85,7 +85,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
           color: mainColor,
           alignment: Alignment.center,
           child: Text(
-            localization.Copy_Key,
+            localization.copyKey,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -99,7 +99,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
     list.add(GestureDetector(
       onTap: copyHexKey,
       child: Text(
-        localization.Copy_Hex_Key,
+        localization.copyHexKey,
         style: TextStyle(
           color: mainColor,
           decoration: TextDecoration.underline,
@@ -174,7 +174,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
   bool checkTips() {
     for (var item in checkboxItems!) {
       if (!item.value) {
-        BotToast.showText(text: S.of(context).Please_check_the_tips);
+        BotToast.showText(text: S.of(context).pleaseCheckTheTips);
         return false;
       }
     }
@@ -209,7 +209,7 @@ class _KeyBackupWidgetState extends State<KeyBackupWidget> {
 
     final localization = S.of(context);
     Clipboard.setData(ClipboardData(text: key!)).then((_) {
-      BotToast.showText(text: localization.key_has_been_copy);
+      BotToast.showText(text: localization.keyHasBeenCopy);
     });
   }
 }

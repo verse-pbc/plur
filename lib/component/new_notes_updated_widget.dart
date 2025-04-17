@@ -34,7 +34,7 @@ class NewNotesUpdatedWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Text(
-          "$num ${S.of(context).notes_updated}",
+          "$num ${S.of(context).notesUpdated}",
           style: TextStyle(color: textColor),
         ),
       ),

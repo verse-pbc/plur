@@ -46,7 +46,7 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
       ),
       child: IndexDrawerItemWidget(
         iconData: Icons.people,
-        name: localization.Follow_set,
+        name: localization.followSet,
         onTap: () {},
       ),
     ));
@@ -66,14 +66,14 @@ class _FollowSetFollowBottomSheet extends State<FollowSetFollowBottomSheet> {
           SizedBox(
             width: 60,
             child: Tooltip(
-              message: localization.Private,
+              message: localization.private,
               child: const Icon(Icons.lock_outline),
             ),
           ),
           SizedBox(
             width: 60,
             child: Tooltip(
-              message: localization.Public,
+              message: localization.public,
               child: const Icon(Icons.lock_open),
             ),
           ),
