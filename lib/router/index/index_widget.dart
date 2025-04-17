@@ -646,7 +646,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
           child: const Icon(Icons.question_answer),
           backgroundColor: Colors.orange,
           foregroundColor: Colors.white,
-          label: '${l10n.ask}/${l10n.offer}',
+          label: l10n.asksAndOffers,
           onTap: () => RouterUtil.router(context, RouterPath.listings, null),
         ),
         SpeedDialChild(
