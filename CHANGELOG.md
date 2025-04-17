@@ -44,6 +44,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Create a new ask/offer listing
   - Create a new community
   - Toggle between grid and feed views
+- Added web deployment support through Cloudflare Pages:
+  - Fixed browser compatibility issues
+  - Added responsive loading animation
+  - Configured security headers for better protection
+  - Optimized assets with proper caching strategies
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -64,6 +69,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactored floating action button implementation for better UX
 - Added view mode toggle to speed dial FAB for quick switching between grid and feed views
 - Centralized action management for improved code organization
+- Added web platform compatibility enhancements:
+  - Fixed User-Agent header handling for web browsers
+  - Created conditional imports for platform-specific code
+  - Modified HTTP client setup for better cross-platform support
+  - Implemented web-compatible cookie handling
+  - Added custom Flutter web initialization with error handling
+  - Created optimized loading experience with smooth transitions
 
 ## [0.0.5]
 
