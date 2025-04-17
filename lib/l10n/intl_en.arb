@@ -408,5 +408,8 @@
     "manage": "Manage",
     "asksAndOffers": "Asks & Offers",
     "mute": "Mute",
-    "whatSHappening": "What's happening?"
+    "whatSHappening": "What's happening?",
+    "switchToFeedView": "Switch to Feed View",
+    "switchToGridView": "Switch to Grid View",
+    "post": "Post"
 }

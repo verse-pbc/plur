@@ -67,6 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
         "any": MessageLookupByLibrary.simpleMessage("Any"),
+        "asksAndOffers": MessageLookupByLibrary.simpleMessage("Asks & Offers"),
         "authenticatNeed":
             MessageLookupByLibrary.simpleMessage("Authenticat need"),
         "auto": MessageLookupByLibrary.simpleMessage("Auto"),
@@ -318,6 +319,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginWithNIP07Extension":
             MessageLookupByLibrary.simpleMessage("Login With NIP07 Extension"),
         "lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
+        "manage": MessageLookupByLibrary.simpleMessage("Manage"),
         "maxSubNotes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
         "maxZapNum": MessageLookupByLibrary.simpleMessage("max zap num"),
         "media": MessageLookupByLibrary.simpleMessage("Media"),
@@ -332,6 +334,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "minZapNum": MessageLookupByLibrary.simpleMessage("min zap num"),
         "minute": MessageLookupByLibrary.simpleMessage("Minute"),
         "more": MessageLookupByLibrary.simpleMessage("More"),
+        "mute": MessageLookupByLibrary.simpleMessage("Mute"),
         "myRelays": MessageLookupByLibrary.simpleMessage("My Relays"),
         "name": MessageLookupByLibrary.simpleMessage("Name"),
         "nameYourCommunity":
@@ -339,6 +342,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("Network"),
         "networkTakeEffectTip": MessageLookupByLibrary.simpleMessage(
             "The network will take effect the next time the app is launched"),
+        "newCommunity": MessageLookupByLibrary.simpleMessage("New Community"),
         "newPost": MessageLookupByLibrary.simpleMessage("New Post"),
         "nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
         "nip07Decrypt": MessageLookupByLibrary.simpleMessage("Decrypt"),
@@ -432,6 +436,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pollOptionInfo":
             MessageLookupByLibrary.simpleMessage("poll option info"),
         "popularUsers": MessageLookupByLibrary.simpleMessage("Popular Users"),
+        "post": MessageLookupByLibrary.simpleMessage("Post"),
         "postingTo": MessageLookupByLibrary.simpleMessage("Posting to"),
         "posts": MessageLookupByLibrary.simpleMessage("Posts"),
         "postsAndReplies":
@@ -507,6 +512,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Start or join a community"),
         "subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
+        "switchToFeedView":
+            MessageLookupByLibrary.simpleMessage("Switch to Feed View"),
+        "switchToGridView":
+            MessageLookupByLibrary.simpleMessage("Switch to Grid View"),
         "syncUpload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
         "takePhoto": MessageLookupByLibrary.simpleMessage("Take photo"),
         "takeVideo": MessageLookupByLibrary.simpleMessage("Take video"),
@@ -557,6 +566,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "webUtils": MessageLookupByLibrary.simpleMessage("Web Utils"),
         "website": MessageLookupByLibrary.simpleMessage("Website"),
         "whatSHappening":
+            MessageLookupByLibrary.simpleMessage("What\'s happening?"),
+        "whatsHappening":
             MessageLookupByLibrary.simpleMessage("What\'s happening?"),
         "wordCantBeNull":
             MessageLookupByLibrary.simpleMessage("Word can\'t be null."),
