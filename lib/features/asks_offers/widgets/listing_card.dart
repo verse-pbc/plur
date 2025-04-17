@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
+import 'package:nostrmo/component/user/simple_name_widget.dart';
+import 'package:nostrmo/data/group_identifier_repository.dart';
+import 'package:nostrmo/data/group_metadata_repository.dart';
 import 'package:nostrmo/main.dart';
+import 'package:nostrmo/provider/user_provider.dart';
+import '../models/response_model.dart';
+import '../widgets/response_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../models/listing_model.dart';
 
-class ListingCard extends StatelessWidget {
+class ListingCard extends ConsumerWidget {
   final ListingModel listing;
   final VoidCallback? onTap;
 
@@ -16,7 +25,7 @@ class ListingCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
     final isDarkMode = themeData.brightness == Brightness.dark;
@@ -144,25 +153,11 @@ class ListingCard extends StatelessWidget {
                   Row(
                     children: [
                       // Author info
-                      const Icon(Icons.person_outline, size: 16),
-                      const SizedBox(width: 4),
-                      // TODO: Replace with actual username from pubkey
-                      const Text(
-                        'Anonymous User',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      _buildUserInfo(ref),
                       
                       if (listing.groupId != null) ...[
                         const Text(' • '),
-                        // TODO: Replace with actual group name
-                        const Text(
-                          'Group',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+                        _buildGroupInfo(ref),
                       ],
                       
                       const Spacer(),
@@ -309,44 +304,67 @@ class ListingCard extends StatelessWidget {
     
     // Active listings get action buttons
     if (listing.status == ListingStatus.active) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      return Column(
         children: [
-          if (listing.type == ListingType.ask)
-            TextButton.icon(
-              onPressed: () {
-                // TODO: Implement help action
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Feature coming soon: I can help')),
-                );
-              },
-              icon: Icon(Icons.volunteer_activism, size: 16, color: askActionColor),
-              label: Text('I can help!', style: TextStyle(color: askActionColor)),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              if (listing.type == ListingType.ask)
+                Expanded(
+                  child: TextButton.icon(
+                    onPressed: () {
+                      _showResponseDialog(context, ResponseType.help);
+                    },
+                    icon: Icon(Icons.volunteer_activism, size: 16, color: askActionColor),
+                    label: Text('I can help!', style: TextStyle(color: askActionColor)),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    ),
+                  ),
+                )
+              else
+                Expanded(
+                  child: TextButton.icon(
+                    onPressed: () {
+                      _showResponseDialog(context, ResponseType.interest);
+                    },
+                    icon: Icon(Icons.thumb_up_outlined, size: 16, color: offerActionColor),
+                    label: Text('Interested', style: TextStyle(color: offerActionColor)),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                    ),
+                  ),
+                ),
+              
+              VerticalDivider(
+                width: 1,
+                thickness: 1,
+                indent: 8,
+                endIndent: 8,
+                color: customColors.separatorColor.withOpacity(0.5),
               ),
-            )
-          else
-            TextButton.icon(
-              onPressed: () {
-                // TODO: Implement interest action
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Feature coming soon: I\'m interested')),
-                );
-              },
-              icon: Icon(Icons.thumb_up_outlined, size: 16, color: offerActionColor),
-              label: Text('I\'m interested', style: TextStyle(color: offerActionColor)),
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              
+              Expanded(
+                child: TextButton.icon(
+                  onPressed: () {
+                    _showResponseDialog(context, ResponseType.question);
+                  },
+                  icon: Icon(Icons.help_outline, size: 16, color: Colors.orange),
+                  label: Text('Question', style: TextStyle(color: Colors.orange)),
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  ),
+                ),
               ),
-            ),
-          VerticalDivider(
-            width: 1,
-            thickness: 1,
-            indent: 8,
-            endIndent: 8,
-            color: customColors.separatorColor.withOpacity(0.5),
+            ],
           ),
+          
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: customColors.separatorColor.withOpacity(0.3),
+          ),
+          
           TextButton.icon(
             onPressed: () {
               // Use the global dmProvider to create a session
@@ -355,7 +373,7 @@ class ListingCard extends StatelessWidget {
               RouterUtil.router(context, RouterPath.dmDetail, detail);
             },
             icon: Icon(Icons.message_outlined, size: 16, color: messageColor),
-            label: Text('Message', style: TextStyle(color: messageColor)),
+            label: Text('Direct Message', style: TextStyle(color: messageColor)),
             style: TextButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
             ),
@@ -394,6 +412,135 @@ class ListingCard extends StatelessWidget {
         ),
       );
     }
+  }
+
+  Widget _buildUserInfo(WidgetRef ref) {
+    final themeData = Theme.of(ref.context);
+    final pubkey = listing.pubkey;
+    
+    if (pubkey.isEmpty) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Icon(Icons.person_outline, size: 16),
+          SizedBox(width: 4),
+          Text(
+            'Anonymous User',
+            style: TextStyle(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      );
+    }
+    
+    // Use the global userProvider to get user data
+    final user = userProvider.getUser(pubkey);
+    
+    return GestureDetector(
+      onTap: () {
+        // Navigate to user profile
+        RouterUtil.router(ref.context, RouterPath.user, pubkey);
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // User avatar
+          SizedBox(
+            width: 20,
+            height: 20,
+            child: UserPicWidget(
+              pubkey: pubkey,
+              width: 20,
+            ),
+          ),
+          const SizedBox(width: 4),
+          // User name
+          SimpleNameWidget(
+            pubkey: pubkey,
+            textStyle: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildGroupInfo(WidgetRef ref) {
+    if (listing.groupId == null) return const SizedBox.shrink();
+    
+    // Extract host from group identifier format (host:id)
+    String? host;
+    String groupIdFormatted = listing.groupId!;
+    
+    if (listing.groupId!.contains(':')) {
+      final parts = listing.groupId!.split(':');
+      host = parts[0];
+      groupIdFormatted = parts[1];
+    }
+    
+    // Create GroupIdentifier if both host and id are available
+    GroupIdentifier? groupIdentifier;
+    if (host != null) {
+      groupIdentifier = GroupIdentifier(host, groupIdFormatted);
+    }
+    
+    // Default widget with just the ID
+    Widget defaultWidget = Text(
+      'Group: $groupIdFormatted',
+      style: const TextStyle(
+        fontWeight: FontWeight.w500,
+      ),
+    );
+    
+    // If we can construct a group identifier, use it to fetch metadata
+    if (groupIdentifier != null) {
+      final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier!));
+      
+      return groupMetadataAsync.when(
+        data: (metadata) {
+          if (metadata == null) return defaultWidget;
+          
+          return GestureDetector(
+            onTap: () {
+              // Navigate to group detail
+              RouterUtil.router(ref.context, RouterPath.groupDetail, groupIdentifier);
+            },
+            child: Text(
+              metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted',
+              style: const TextStyle(
+                fontWeight: FontWeight.w500,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          );
+        },
+        loading: () => defaultWidget,
+        error: (_, __) => defaultWidget,
+      );
+    }
+    
+    return defaultWidget;
+  }
+
+  void _showResponseDialog(BuildContext context, ResponseType initialType) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => ResponseDialog(
+        listing: listing,
+        initialResponseType: initialType,
+      ),
+    ).then((result) {
+      if (result == true && context.mounted) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Response sent successfully')),
+        );
+      }
+    });
   }
 
   String _formatDate(DateTime date) {

@@ -32,6 +32,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed blank screen issues when creating and joining communities
 - Improved invitation and group creation workflow with better error handling
 - Added Communities link to sidebar for easier navigation to groups page
+- Added Asks & Offers feature with comprehensive response system:
+  - Create and browse community listings categorized as "Asks" or "Offers"
+  - Reply to listings with help offers, expressions of interest, or questions
+  - Accept or decline responses as the listing creator
+  - Track status of listings (active, fulfilled, cancelled, etc.)
+  - Connect with community members through direct messaging
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -44,6 +50,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved BotToast error handling to prevent blank screens
 - Fixed issues with unbounded constraints in layout of community screens
 - Enhanced error logging and recovery to improve app stability
+- Implemented response system using kind:31112 events for Asks & Offers following Nostr standards
+- Enhanced group context display in Asks & Offers listings with proper navigation
+- Added user information display in all listings with profile linking
+- Improved UI/UX for response options including help offers, expressions of interest, and questions
 
 ## [0.0.5]
 

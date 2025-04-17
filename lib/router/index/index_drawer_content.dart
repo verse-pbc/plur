@@ -175,7 +175,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the Asks & Offers option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.store_mall_directory_rounded,
-      name: localization.asksAndOffers,
+      name: "Asks & Offers",  // Using string literal until translation is available
       color: indexProvider.currentTap == 3 ? mainColor : null,
       onTap: () {
         RouterUtil.router(context, RouterPath.listings);
