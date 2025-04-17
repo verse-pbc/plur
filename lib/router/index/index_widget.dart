@@ -626,7 +626,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
       tooltip: 'Actions',
       heroTag: 'speed-dial-hero-tag',
       elevation: 8.0,
-      animationSpeed: 150,
+      animatedIcon: AnimatedIcons.menu_close,
       children: [
         SpeedDialChild(
           child: const Icon(Icons.post_add),
@@ -687,7 +687,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
   void _openPostEditor() {
     EditorWidget.open(context).then((event) {
       if (event != null) {
-        BotToast.showText(text: S.of(context).sendSuccessfully);
+        BotToast.showText(text: S.of(context).send);
       }
     });
   }
