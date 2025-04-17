@@ -671,10 +671,10 @@ class S {
   }
 
   /// `What's happening?`
-  String get whatSHappening {
+  String get whatsHappening {
     return Intl.message(
       'What\'s happening?',
-      name: 'whatSHappening',
+      name: 'whatsHappening',
       desc: '',
       args: [],
     );
@@ -3955,6 +3955,86 @@ class S {
     return Intl.message(
       'Share this link with people you want to invite to the group.',
       name: 'shareInviteDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Community`
+  String get newCommunity {
+    return Intl.message(
+      'New Community',
+      name: 'newCommunity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Manage`
+  String get manage {
+    return Intl.message(
+      'Manage',
+      name: 'manage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Asks & Offers`
+  String get asksAndOffers {
+    return Intl.message(
+      'Asks & Offers',
+      name: 'asksAndOffers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mute`
+  String get mute {
+    return Intl.message(
+      'Mute',
+      name: 'mute',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `What's happening?`
+  String get whatSHappening {
+    return Intl.message(
+      'What\'s happening?',
+      name: 'whatSHappening',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch to Feed View`
+  String get switchToFeedView {
+    return Intl.message(
+      'Switch to Feed View',
+      name: 'switchToFeedView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Switch to Grid View`
+  String get switchToGridView {
+    return Intl.message(
+      'Switch to Grid View',
+      name: 'switchToGridView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post`
+  String get post {
+    return Intl.message(
+      'Post',
+      name: 'post',
       desc: '',
       args: [],
     );
