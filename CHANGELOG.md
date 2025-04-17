@@ -38,6 +38,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Accept or decline responses as the listing creator
   - Track status of listings (active, fulfilled, cancelled, etc.)
   - Connect with community members through direct messaging
+- Upgraded the floating action button to a speed-dial with multiple options:
+  - Create a new post
+  - Start a new chat
+  - Create a new ask/offer listing
+  - Create a new community
+  - Toggle between grid and feed views
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -54,6 +60,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced group context display in Asks & Offers listings with proper navigation
 - Added user information display in all listings with profile linking
 - Improved UI/UX for response options including help offers, expressions of interest, and questions
+- Added flutter_speed_dial package for multi-action floating action button
+- Refactored floating action button implementation for better UX
+- Added view mode toggle to speed dial FAB for quick switching between grid and feed views
+- Centralized action management for improved code organization
 
 ## [0.0.5]
 

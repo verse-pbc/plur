@@ -254,8 +254,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
             },
           ),
           // Add toggle view button
-          floatingActionButton: _buildFloatingActionButtons(context),
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+          // Removed floating action button - now in index_widget.dart
         );
       }
     );
@@ -265,8 +264,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   Widget _buildScaffold(BuildContext context, CommunityViewMode viewMode, Widget body, GroupFeedProvider feedProvider) {
     return Scaffold(
       body: body,
-      floatingActionButton: _buildFloatingActionButtons(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      // Removed floating action button - now in index_widget.dart
     );
   }
   
