@@ -5,7 +5,6 @@ import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/search_mention_user_widget.dart';
 import 'package:nostrmo/component/music/music_widget.dart';
@@ -29,7 +28,6 @@ import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
-import '../edit/editor_widget.dart';
 import '../group/create_community_dialog.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
@@ -601,138 +599,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
           smallMode: false,
         ),
       ),
-      floatingActionButton: _buildSpeedDial(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
-  }
-  
-  Widget _buildSpeedDial() {
-    // Get the current tab index to determine whether to show the FAB
-    final indexProvider = Provider.of<IndexProvider>(context);
-    final currentTab = indexProvider.currentTap;
-    
-    debugPrint("Current tab: $currentTab"); // Debug print
-    
-    // Only show in communities tab (index 0)
-    if (currentTab != 0) {
-      return const SizedBox.shrink();
-    }
-    
-    final themeData = Theme.of(context);
-    final primaryColor = themeData.primaryColor;
-    final accentColor = themeData.colorScheme.secondary;
-    final l10n = S.of(context);
-    final communityViewMode = indexProvider.communityViewMode;
-    
-    return SpeedDial(
-      icon: Icons.add,
-      activeIcon: Icons.close,
-      backgroundColor: primaryColor,
-      foregroundColor: Colors.white,
-      overlayColor: Colors.black,
-      overlayOpacity: 0.5,
-      spacing: 15,
-      spaceBetweenChildren: 12,
-      tooltip: 'Actions',
-      heroTag: 'speed-dial-hero-tag',
-      elevation: 8.0,
-      // Use visible parameter to help with rebuilding
-      visible: true,
-      direction: SpeedDialDirection.up,
-      switchLabelPosition: false,
-      children: [
-        // Post creation
-        SpeedDialChild(
-          child: const Icon(Icons.post_add),
-          backgroundColor: accentColor,
-          foregroundColor: Colors.white,
-          label: l10n.post,
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          labelBackgroundColor: Colors.white,
-          onTap: () {
-            debugPrint("Tapped on post button");
-            _openPostEditor();
-          },
-        ),
-        // Chat creation
-        SpeedDialChild(
-          child: const Icon(Icons.chat),
-          backgroundColor: Colors.blue,
-          foregroundColor: Colors.white,
-          label: l10n.chat,
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          labelBackgroundColor: Colors.white,
-          onTap: () {
-            debugPrint("Tapped on chat button");
-            _showSearchUserForDM(context);
-          },
-        ),
-        // Asks & Offers
-        SpeedDialChild(
-          child: const Icon(Icons.question_answer),
-          backgroundColor: Colors.orange,
-          foregroundColor: Colors.white,
-          label: l10n.asksAndOffers,
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          labelBackgroundColor: Colors.white,
-          onTap: () {
-            debugPrint("Tapped on asks/offers button");
-            RouterUtil.router(context, RouterPath.listings, null);
-          },
-        ),
-        // Create community
-        SpeedDialChild(
-          child: const Icon(Icons.group_add),
-          backgroundColor: Colors.green,
-          foregroundColor: Colors.white,
-          label: l10n.createGroup,
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          labelBackgroundColor: Colors.white,
-          onTap: () {
-            debugPrint("Tapped on create group button");
-            CreateCommunityDialog.show(context);
-          },
-        ),
-        // Toggle view
-        SpeedDialChild(
-          child: Icon(
-            communityViewMode == CommunityViewMode.grid
-                ? Icons.view_list
-                : Icons.grid_view,
-          ),
-          backgroundColor: Colors.purple,
-          foregroundColor: Colors.white,
-          label: communityViewMode == CommunityViewMode.grid
-              ? l10n.switchToFeedView 
-              : l10n.switchToGridView,
-          labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-          labelBackgroundColor: Colors.white,
-          onTap: () {
-            debugPrint("Tapped on toggle view button");
-            _toggleViewMode(indexProvider);
-          },
-        ),
-      ],
-    );
-  }
-  
-  void _toggleViewMode(IndexProvider indexProvider) {
-    final currentMode = indexProvider.communityViewMode;
-    final newMode = currentMode == CommunityViewMode.grid
-        ? CommunityViewMode.feed
-        : CommunityViewMode.grid;
-    
-    debugPrint("👆 USER TOGGLED VIEW: Changing from ${currentMode.toString()} to ${newMode.toString()}");
-    
-    indexProvider.setCommunityViewMode(newMode);
-  }
-  
-  void _openPostEditor() {
-    EditorWidget.open(context).then((event) {
-      if (event != null) {
-        BotToast.showText(text: S.of(context).send);
-      }
-    });
   }
 
   Widget _buildTableModeLayout(BuildContext context, Widget mainIndex, S localization) {
@@ -761,8 +628,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
             ),
           ],
         ),
-        floatingActionButton: _buildSpeedDial(),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       ),
     );
   }
