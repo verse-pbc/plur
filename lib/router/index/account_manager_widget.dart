@@ -57,7 +57,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
       ),
       child: IndexDrawerItemWidget(
         iconData: Icons.account_box,
-        name: localization.Account_Manager,
+        name: localization.accountManager,
         onTap: () {},
       ),
     ));
@@ -95,7 +95,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
           side: BorderSide(width: 1, color: hintColor.withAlpha(102)),
         ),
         child: Text(
-          localization.Add_Account,
+          localization.addAccount,
           style: TextStyle(color: btnTextColor),
         ),
       ),
@@ -127,7 +127,7 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
         try {
           getPublicKey(privateKey);
         } catch (e) {
-          BotToast.showText(text: S.of(context).Wrong_Private_Key_format);
+          BotToast.showText(text: S.of(context).wrongPrivateKeyFormat);
           return false;
         }
       }
@@ -340,7 +340,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            loginTag == "ReadOnly" ? localization.Read_Only : loginTag!,
+            loginTag == "ReadOnly" ? localization.readOnly : loginTag!,
           ),
         ));
       }

@@ -30,7 +30,7 @@ class _DonateWidgetState extends CustState<DonateWidget> {
     var appBar = Appbar4Stack(
       backgroundColor: appbarBackgroundColor,
       title: Text(
-        localization.Donate,
+        localization.donate,
         style: const TextStyle(
           fontWeight: FontWeight.bold,
         ),
@@ -48,7 +48,7 @@ class _DonateWidgetState extends CustState<DonateWidget> {
       margin: const EdgeInsets.only(
         bottom: 40,
       ),
-      child: Text(localization.Buy_me_a_coffee),
+      child: Text(localization.buyMeACoffee),
     ));
 
     list.add(Container(

@@ -11,17 +11,17 @@ class ConfirmDialog {
         useRootNavigator: false,
         builder: (context) {
           return AlertDialog(
-            title: Text(localization.Notice),
+            title: Text(localization.notice),
             content: Text(content),
             actions: <Widget>[
               TextButton(
-                child: Text(localization.Cancel),
+                child: Text(localization.cancel),
                 onPressed: () {
                   Navigator.pop(context, false);
                 },
               ),
               TextButton(
-                child: Text(localization.Confirm),
+                child: Text(localization.confirm),
                 onPressed: () async {
                   RouterUtil.back(context, true);
                 },

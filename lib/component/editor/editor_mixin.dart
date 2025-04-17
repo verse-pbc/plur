@@ -121,8 +121,8 @@ mixin EditorMixin {
         isSelected: false,
         iconTheme: null,
         tooltip: openPrivateDM
-            ? localization.Close_Private_DM
-            : localization.Open_Private_DM,
+            ? localization.closePrivateDM
+            : localization.openPrivateDM,
       ));
     }
     
@@ -132,7 +132,7 @@ mixin EditorMixin {
       icon: const Icon(Icons.image),
       isSelected: false,
       iconTheme: null,
-      tooltip: localization.Image_or_Video,
+      tooltip: localization.imageOrVideo,
     ));
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
       mediaButtons.add(quill.QuillToolbarIconButton(
@@ -140,14 +140,14 @@ mixin EditorMixin {
         icon: const Icon(Icons.camera),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Take_photo,
+        tooltip: localization.takePhoto,
       ));
       mediaButtons.add(quill.QuillToolbarIconButton(
         onPressed: tackAVideo,
         icon: const Icon(Icons.video_call),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Take_video,
+        tooltip: localization.takeVideo,
       ));
     }
     
@@ -158,14 +158,14 @@ mixin EditorMixin {
         icon: const Icon(Icons.add_reaction_outlined),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Custom_Emoji,
+        tooltip: localization.customEmoji,
       ));
       emojiButtons.add(quill.QuillToolbarIconButton(
         onPressed: emojiBeginToSelect,
         icon: const Icon(Icons.tag_faces),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Emoji,
+        tooltip: localization.emoji,
       ));
     }
     
@@ -175,21 +175,21 @@ mixin EditorMixin {
       icon: const Icon(Icons.alternate_email_sharp),
       isSelected: false,
       iconTheme: null,
-      tooltip: localization.Mention_User,
+      tooltip: localization.mentionUser,
     ));
     mentionButtons.add(quill.QuillToolbarIconButton(
       onPressed: _inputMentionEvent,
       icon: const Icon(Icons.format_quote),
       isSelected: false,
       iconTheme: null,
-      tooltip: localization.Quote,
+      tooltip: localization.quote,
     ));
     mentionButtons.add(quill.QuillToolbarIconButton(
       onPressed: _inputTag,
       icon: const Icon(Icons.tag),
       isSelected: false,
       iconTheme: null,
-      tooltip: localization.Hashtag,
+      tooltip: localization.hashtag,
     ));
 
     // Format buttons
@@ -198,7 +198,7 @@ mixin EditorMixin {
       icon: const Icon(Icons.bolt),
       isSelected: false,
       iconTheme: null,
-      tooltip: localization.Lightning_Invoice,
+      tooltip: localization.lightningInvoice,
     ));
 
     if (!isDM()) {
@@ -210,7 +210,7 @@ mixin EditorMixin {
         ),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Split_and_Transfer_Zap,
+        tooltip: localization.splitAndTransferZap,
       ));
 
       formatButtons.add(
@@ -219,7 +219,7 @@ mixin EditorMixin {
           icon: Icon(Icons.warning, color: showWarning ? Colors.red : null),
           isSelected: false,
           iconTheme: null,
-          tooltip: localization.Sensitive_Content,
+          tooltip: localization.sensitiveContent,
         ),
       );
       if (!isLongForm()) {
@@ -228,7 +228,7 @@ mixin EditorMixin {
           icon: Icon(Icons.title, color: showTitle ? mainColor : null),
           isSelected: false,
           iconTheme: null,
-          tooltip: localization.Subject,
+          tooltip: localization.subject,
         ));
       }
 
@@ -239,7 +239,7 @@ mixin EditorMixin {
               color: publishAt != null ? mainColor : null),
           isSelected: false,
           iconTheme: null,
-          tooltip: localization.Delay_Send,
+          tooltip: localization.delaySend,
         ));
       }
     }
@@ -256,14 +256,14 @@ mixin EditorMixin {
         icon: Icon(Icons.poll, color: inputPoll ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Poll,
+        tooltip: localization.poll,
       ));
       otherButtons.add(quill.QuillToolbarIconButton(
         onPressed: _inputGoal,
         icon: Icon(Icons.trending_up, color: inputZapGoal ? mainColor : null),
         isSelected: false,
         iconTheme: null,
-        tooltip: localization.Zap_Goals,
+        tooltip: localization.zapGoals,
       ));
     }
 
@@ -379,7 +379,7 @@ mixin EditorMixin {
     if (!openPrivateDM) {
       var context = getContext();
       var result = await ConfirmDialog.show(
-          getContext(), S.of(context).Private_DM_Notice);
+          getContext(), S.of(context).privateDMNotice);
       if (result == false || result == null) {
         return;
       }
@@ -437,10 +437,10 @@ mixin EditorMixin {
     final localization = S.of(context);
     var value = await TextInputAndSearchDialog.show(
       context,
-      localization.Search,
-      localization.Please_input_event_id,
+      localization.search,
+      localization.pleaseInputEventId,
       const SearchMentionEventWidget(),
-      hintText: localization.Note_Id,
+      hintText: localization.noteId,
     );
     if (StringUtil.isNotBlank(value)) {
       // check nip19 value
@@ -468,12 +468,12 @@ mixin EditorMixin {
     final localization = S.of(context);
     var value = await TextInputAndSearchDialog.show(
       context,
-      localization.Search,
-      localization.Please_input_user_pubkey,
+      localization.search,
+      localization.pleaseInputUserPubkey,
       SearchMentionUserWidget(
         groupIdentifier: getGroupIdentifier(),
       ),
-      hintText: localization.User_Pubkey,
+      hintText: localization.userPubkey,
     );
     if (StringUtil.isNotBlank(value)) {
       // check nip19 value
@@ -500,8 +500,8 @@ mixin EditorMixin {
     var context = getContext();
     var value = await TextInputAndSearchDialog.show(
       context,
-      S.of(context).Input_Sats_num,
-      S.of(context).Please_input_lnbc_text,
+      S.of(context).inputSatsNum,
+      S.of(context).pleaseInputLnbcText,
       const GenLnbcWidget(),
       hintText: "lnbc...",
     );
@@ -525,8 +525,8 @@ mixin EditorMixin {
   Future<void> _inputTag() async {
     var context = getContext();
     var value = await TextInputDialog.show(
-        context, S.of(context).Please_input_Topic_text,
-        valueCheck: baseInputCheck, hintText: S.of(context).Topic);
+        context, S.of(context).pleaseInputTopicText,
+        valueCheck: baseInputCheck, hintText: S.of(context).topic);
     if (StringUtil.isNotBlank(value)) {
       _submitTag(value);
     }
@@ -534,11 +534,11 @@ mixin EditorMixin {
 
   bool baseInputCheck(BuildContext context, String value) {
     if (value.contains(" ")) {
-      BotToast.showText(text: S.of(context).Text_can_t_contain_blank_space);
+      BotToast.showText(text: S.of(context).textCantContainBlankSpace);
       return false;
     }
     if (value.contains("\n")) {
-      BotToast.showText(text: S.of(context).Text_can_t_contain_new_line);
+      BotToast.showText(text: S.of(context).textCantContainNewLine);
       return false;
     }
     return true;
@@ -631,7 +631,7 @@ mixin EditorMixin {
 
                 value = imagePath;
               } else {
-                BotToast.showText(text: S.of(context).Upload_fail);
+                BotToast.showText(text: S.of(context).uploadFail);
                 return null;
               }
             }
@@ -1184,7 +1184,7 @@ mixin EditorMixin {
           fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
-          hintText: localization.Please_input_title,
+          hintText: localization.pleaseInputTitle,
           border: InputBorder.none,
           hintStyle: TextStyle(
             fontSize: fontSize,
@@ -1268,7 +1268,7 @@ mixin EditorMixin {
           // fontWeight: FontWeight.bold,
         ),
         decoration: InputDecoration(
-          hintText: localization.Please_input_summary,
+          hintText: localization.pleaseInputSummary,
           border: InputBorder.none,
           hintStyle: TextStyle(
             fontSize: fontSize,

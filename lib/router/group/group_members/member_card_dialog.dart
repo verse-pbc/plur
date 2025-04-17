@@ -173,7 +173,7 @@ class MemberCardDialog extends StatelessWidget {
                     child: _buildActionButton(
                       context: context,
                       icon: Icons.person_outline,
-                      label: localization.Open_User_page,
+                      label: localization.openUserPage,
                       onTap: () {
                         Navigator.of(context).pop(); // Close dialog
                         
@@ -205,7 +205,7 @@ class MemberCardDialog extends StatelessWidget {
                     child: _buildActionButton(
                       context: context,
                       icon: Icons.message_outlined,
-                      label: localization.DMs,
+                      label: localization.dms,
                       onTap: () {
                         Navigator.of(context).pop(); // Close dialog
                         

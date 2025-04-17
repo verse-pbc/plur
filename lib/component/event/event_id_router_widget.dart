@@ -58,7 +58,7 @@ class _EventIdRouterWidgetState extends State<EventIdRouterWidget> {
         title: Text(localization.loading),
       ),
       body: Center(
-        child: Text(localization.Note_loading),
+        child: Text(localization.noteLoading),
       ),
     );
   }

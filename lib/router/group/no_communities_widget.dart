@@ -39,7 +39,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                   children: [
                     // Title section
                     Text(
-                      localization.Communities,
+                      localization.communities,
                       style: TextStyle(
                         fontSize: 24.0,
                         fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
 
                     // Create community section
                     Text(
-                      localization.Start_or_join_a_community,
+                      localization.startOrJoinACommunity,
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
@@ -92,7 +92,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      localization.Connect_with_others,
+                      localization.connectWithOthers,
                       style: TextStyle(
                         fontSize: 16.0,
                         color: themeData.customColors.primaryForegroundColor,
@@ -112,7 +112,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                               ),
                             )
                           : PrimaryButtonWidget(
-                              text: localization.Create_Group,
+                              text: localization.createGroup,
                               borderRadius: 8,
                               onTap: _createCommunity,
                             ),
@@ -152,7 +152,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                         spacing: 4, // Horizontal spacing between items
                         children: [
                           Text(
-                            localization.Have_invite_link,
+                            localization.haveInviteLink,
                             style: TextStyle(
                               fontSize: 14.0,
                               fontStyle: FontStyle.italic,

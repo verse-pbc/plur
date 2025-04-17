@@ -52,10 +52,10 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
 
     List<Widget> list = [];
     if (widget.title == null) {
-      list.add(Text(localization.Use_lightning_wallet_scan_and_send_sats));
+      list.add(Text(localization.useLightningWalletScanAndSendSats));
     } else {
       if (StringUtil.isNotBlank(widget.title)) {
-        list.add(Text(localization.Use_lightning_wallet_scan_and_send_sats));
+        list.add(Text(localization.useLightningWalletScanAndSendSats));
       }
     }
     list.add(Container(
@@ -139,7 +139,7 @@ class _LightningQrcodeDialog extends State<LightningQrcodeDialog> {
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       if (!mounted) return;
-      BotToast.showText(text: S.of(context).Copy_success);
+      BotToast.showText(text: S.of(context).copySuccess);
     });
   }
 }

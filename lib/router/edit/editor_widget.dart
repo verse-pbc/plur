@@ -243,7 +243,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
                       ),
                     ),
                     Text(
-                      "${localization.Posting_to} ${aid.title}",
+                      "${localization.postingTo} ${aid.title}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: largeTextSize,
@@ -286,7 +286,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
               builder: (context, metadata, child) {
                 final groupName = metadata?.name ?? widget.groupIdentifier?.groupId ?? '';
                 return Text(
-                  "${localization.Posting_to} $groupName",
+                  "${localization.postingTo} $groupName",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: largeTextSize,
@@ -303,7 +303,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     if ((notifyItems != null && notifyItems!.isNotEmpty) ||
         (editorNotifyItems.isNotEmpty)) {
       List<Widget> tagPsWidgets = [];
-      tagPsWidgets.add(Text("${localization.Notify}:"));
+      tagPsWidgets.add(Text("${localization.notify}:"));
       for (var item in notifyItems!) {
         tagPsWidgets.add(EditorNotifyItemWidget(item: item));
       }
@@ -366,7 +366,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
     Widget quillWidget = QuillEditor(
       controller: editorController,
       configurations: QuillEditorConfigurations(
-        placeholder: localization.What_s_happening,
+        placeholder: localization.whatSHappening,
         embedBuilders: [
           MentionUserEmbedBuilder(),
           MentionEventEmbedBuilder(),
@@ -436,7 +436,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
     if (_hasMedia) {
       list.add(InfoMessageWidget(
-        message: localization.All_media_public,
+        message: localization.allMediaPublic,
         icon: Icons.info,
       ));
     }
@@ -455,7 +455,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         bottom: const AppBarBottomBorder(),
         leading: const AppbarBackBtnWidget(),
         title: widget.groupIdentifier != null ? Text(
-          localization.New_Post,
+          localization.newPost,
           style: TextStyle(
             color: textColor,
             fontSize: fontSize,
@@ -478,7 +478,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    localization.Send,
+                    localization.send,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -548,7 +548,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
       var event = await doDocumentSave();
       if (!mounted) return;
       if (event == null) {
-        BotToast.showText(text: S.of(context).Send_fail);
+        BotToast.showText(text: S.of(context).sendFail);
         return;
       }
       RouterUtil.back(context, event);

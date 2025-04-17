@@ -57,7 +57,7 @@ class _UserRelayWidgetState extends State<UserRelayWidget> {
     return Scaffold(
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
-        title: Text(localization.Relays),
+        title: Text(localization.relays),
       ),
       body: Container(
         margin: const EdgeInsets.only(
@@ -135,7 +135,7 @@ class RelayMetadataWidget extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(right: Base.basePadding),
             child: Text(
-              localization.Read,
+              localization.read,
               style: TextStyle(
                 fontSize: bodySmallFontSize,
                 color: relayMetadata!.read ? Colors.green : Colors.red,
@@ -145,7 +145,7 @@ class RelayMetadataWidget extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(right: Base.basePadding),
             child: Text(
-              localization.Write,
+              localization.write,
               style: TextStyle(
                 fontSize: bodySmallFontSize,
                 color: relayMetadata!.write ? Colors.green : Colors.red,

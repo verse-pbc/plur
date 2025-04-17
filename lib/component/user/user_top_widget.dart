@@ -301,7 +301,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
   }
 
   copyPubKey() {
-    final message = S.of(context).key_has_been_copy;
+    final message = S.of(context).keyHasBeenCopy;
     Clipboard.setData(ClipboardData(text: nip19PubKey)).then((_) {
       BotToast.showText(text: message);
     });
@@ -341,7 +341,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         var nrelay = NIP19Tlv.decodeNrelay(result);
         if (nrelay != null && mounted) {
           var dialogResult = await ConfirmDialog.show(
-              context, S.of(context).Add_this_relay_to_local);
+              context, S.of(context).addThisRelayToLocal);
           if (dialogResult == true && mounted) {
             relayProvider.addRelay(nrelay.addr);
           }
@@ -351,7 +351,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
         WebViewWidget.open(context, result);
       } else {
         if (!mounted) return;
-        final message = S.of(context).Copy_success;
+        final message = S.of(context).copySuccess;
         await Clipboard.setData(ClipboardData(text: result));
         if (!mounted) return;
         BotToast.showText(text: message);

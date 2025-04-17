@@ -97,7 +97,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
           });
         },
         child: Text(
-          localization.Show_more,
+          localization.showMore,
           style: TextStyle(
             color: themeData.primaryColor,
           ),
@@ -108,7 +108,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
     list.add(Container(
       margin: const EdgeInsets.only(top: Base.basePaddingHalf),
       child: MainBtnWidget(
-        text: localization.Download,
+        text: localization.download,
         onTap: () {
           var link = "magnet:?xt=urn:btih:${widget.torrentInfo.btih}";
           if (widget.torrentInfo.trackers != null &&
@@ -119,7 +119,7 @@ class _EventTorrentWidgetState extends State<EventTorrentWidget> {
           }
 
           Clipboard.setData(ClipboardData(text: link)).then((_) {
-            BotToast.showText(text: localization.Copy_success);
+            BotToast.showText(text: localization.copySuccess);
           });
 
           var url = Uri.parse(link);

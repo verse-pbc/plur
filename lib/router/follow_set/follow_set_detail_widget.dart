@@ -67,7 +67,7 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
                 height: IndexAppBar.height,
                 alignment: Alignment.center,
                 child: Text(
-                  localization.Private,
+                  localization.private,
                   style: titleTextStyle,
                 ),
               ),
@@ -75,7 +75,7 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
                 height: IndexAppBar.height,
                 alignment: Alignment.center,
                 child: Text(
-                  localization.Public,
+                  localization.public,
                   style: titleTextStyle,
                 ),
               )
@@ -152,7 +152,7 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
           controller: controller,
           decoration: InputDecoration(
             prefixIcon: const Icon(Icons.person),
-            hintText: localization.Please_input_user_pubkey,
+            hintText: localization.pleaseInputUserPubkey,
             suffixIcon: IconButton(
               icon: const Icon(Icons.add),
               onPressed: onTap,

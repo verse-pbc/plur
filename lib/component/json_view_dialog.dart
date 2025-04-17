@@ -95,7 +95,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Copy,
+              S.of(context).copy,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -164,7 +164,7 @@ class _JsonViewDialog extends State<JsonViewDialog> {
   void _doCopy(String text) {
     Clipboard.setData(ClipboardData(text: text)).then((_) {
       if (!mounted) return;
-      BotToast.showText(text: S.of(context).Copy_success);
+      BotToast.showText(text: S.of(context).copySuccess);
     });
   }
 }

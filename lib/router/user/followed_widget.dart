@@ -81,7 +81,7 @@ class _FollowedWidgetState extends State<FollowedWidget> {
       appBar: AppBar(
         leading: const AppbarBackBtnWidget(),
         title: Text(
-          localization.Followed,
+          localization.followed,
           style: TextStyle(
             fontSize: titleFontSize,
             fontWeight: FontWeight.bold,

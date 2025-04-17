@@ -54,7 +54,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     list.add(Container(
       margin: const EdgeInsets.only(bottom: Base.basePadding),
       child: Text(
-        localization.Add_Custom_Emoji,
+        localization.addCustomEmoji,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: titleFontSize,
@@ -70,7 +70,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
         maxLines: 1,
         autofocus: true,
         decoration: InputDecoration(
-          hintText: localization.Input_Custom_Emoji_Name,
+          hintText: localization.inputCustomEmojiName,
           border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
         ),
       ),
@@ -108,7 +108,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
             height: 40,
             alignment: Alignment.center,
             child: Text(
-              S.of(context).Confirm,
+              S.of(context).confirm,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -171,12 +171,12 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
     final localization = S.of(context);
     var text = controller.text;
     if (StringUtil.isBlank(text)) {
-      BotToast.showText(text: localization.Input_can_not_be_null);
+      BotToast.showText(text: localization.inputCanNotBeNull);
       return;
     }
 
     if (RegExp(_regExp).firstMatch(text) == null) {
-      BotToast.showText(text: localization.Input_parse_error);
+      BotToast.showText(text: localization.inputParseError);
       return;
     }
 
@@ -189,7 +189,7 @@ class _CustomEmojiAddDialog extends State<CustomEmojiAddDialog> {
       log("$text $imagePath");
 
       if (StringUtil.isBlank(imagePath)) {
-        BotToast.showText(text: localization.Upload_fail);
+        BotToast.showText(text: localization.uploadFail);
         return;
       }
 

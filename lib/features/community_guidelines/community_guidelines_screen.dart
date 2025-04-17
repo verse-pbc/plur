@@ -51,7 +51,7 @@ class _CommunityGuidelinesScreenState
         leading: const AppbarBackBtnWidget(),
         bottom: const AppBarBottomBorder(),
         title: Text(
-          localization.Community_Guidelines,
+          localization.communityGuidelines,
           style: TextStyle(
             fontSize: bodyLargeFontSize,
             fontWeight: FontWeight.bold,
@@ -65,7 +65,7 @@ class _CommunityGuidelinesScreenState
               disabledForegroundColor: accentColor.withAlpha(102),
             ),
             child: Text(
-              localization.Save,
+              localization.save,
               style: const TextStyle(
                 fontSize: 18,
               ),
@@ -86,8 +86,8 @@ class _CommunityGuidelinesScreenState
                   child: TextFormField(
                     controller: _descriptionController,
                     decoration: InputDecoration(
-                      labelText: localization.Description,
-                      hintText: localization.Enter_Community_Guidelines,
+                      labelText: localization.description,
+                      hintText: localization.enterCommunityGuidelines,
                       alignLabelWithHint: true,
                       border: OutlineInputBorder(
                         borderRadius: borderRadius,
@@ -140,18 +140,18 @@ class _CommunityGuidelinesScreenState
         context: context,
         barrierDismissible: true,
         builder: (context) => AlertDialog.adaptive(
-          title: Text(localization.Error),
-          content: Text(localization.Save_failed),
+          title: Text(localization.error),
+          content: Text(localization.saveFailed),
           actions: [
             TextButton(
-              child: Text(localization.Retry),
+              child: Text(localization.retry),
               onPressed: () {
                 Navigator.of(context).pop();
                 _save(id);
               },
             ),
             TextButton(
-              child: Text(localization.Cancel),
+              child: Text(localization.cancel),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
