@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/data/group_identifier_repository.dart';
+import 'package:nostrmo/data/group_metadata_repository.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/data/user.dart';
 import '../models/listing_model.dart';
 import '../providers/listing_provider.dart';
 import '../widgets/listing_card.dart';
@@ -70,10 +75,35 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     final listingsState = ref.watch(listingProvider);
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
+    
+    // Group metadata if we're in a group
+    Widget? groupName;
+    if (widget.groupId != null) {
+      groupName = _buildGroupNameWidget();
+    }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Asks & Offers'),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Asks & Offers'),
+            if (groupName != null)
+              DefaultTextStyle(
+                style: TextStyle(
+                  fontSize: 14,
+                  color: customColors.secondaryForegroundColor,
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.arrow_back_ios, size: 12),
+                    const SizedBox(width: 4),
+                    Flexible(child: groupName),
+                  ],
+                ),
+              ),
+          ],
+        ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Container(
@@ -290,6 +320,58 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     );
   }
   
+  Widget _buildGroupNameWidget() {
+    if (widget.groupId == null) return const SizedBox.shrink();
+    
+    // Extract host from group identifier format (host:id)
+    String? host;
+    String groupIdFormatted = widget.groupId!;
+    
+    if (widget.groupId!.contains(':')) {
+      final parts = widget.groupId!.split(':');
+      host = parts[0];
+      groupIdFormatted = parts[1];
+    }
+    
+    // Create GroupIdentifier if both host and id are available
+    GroupIdentifier? groupIdentifier;
+    if (host != null) {
+      groupIdentifier = GroupIdentifier(host, groupIdFormatted);
+    }
+    
+    // If we can construct a group identifier, use it to fetch metadata
+    if (groupIdentifier != null) {
+      return Consumer(
+        builder: (context, ref, child) {
+          final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier!));
+          
+          return groupMetadataAsync.when(
+            data: (metadata) {
+              if (metadata == null) return Text('Group: $groupIdFormatted');
+              
+              return GestureDetector(
+                onTap: () {
+                  // Navigate back to group detail screen
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              );
+            },
+            loading: () => const Text('Loading group...'),
+            error: (_, __) => Text('Group: $groupIdFormatted'),
+          );
+        },
+      );
+    }
+    
+    // Fallback if we can't construct a proper GroupIdentifier
+    return Text('Group: $groupIdFormatted');
+  }
+
   String _buildEmptyStateText() {
     if (_searchQuery.isNotEmpty) {
       return 'No results found for "$_searchQuery"';
