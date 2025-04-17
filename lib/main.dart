@@ -42,6 +42,7 @@ import 'package:nostrmo/router/group/group_media_grid_widget.dart';
 // Media screen import temporarily commented out until file is created
 // import 'package:nostrmo/router/group/group_media_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';

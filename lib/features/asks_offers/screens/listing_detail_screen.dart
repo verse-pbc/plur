@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
+import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/data/group_identifier_repository.dart';
+import 'package:nostrmo/data/group_metadata_repository.dart';
+import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../models/listing_model.dart';
+import '../models/response_model.dart';
 import '../providers/listing_provider.dart';
+import '../providers/response_provider.dart';
+import '../widgets/response_dialog.dart';
+import '../widgets/response_list.dart';
 import 'create_edit_listing_screen.dart';
 
-class ListingDetailScreen extends ConsumerWidget {
+class ListingDetailScreen extends ConsumerStatefulWidget {
   final ListingModel listing;
 
   const ListingDetailScreen({
@@ -17,23 +27,70 @@ class ListingDetailScreen extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ListingDetailScreen> createState() => _ListingDetailScreenState();
+}
+
+class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
+  bool _isLoadingResponses = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadResponses();
+  }
+
+  Future<void> _loadResponses() async {
+    setState(() {
+      _isLoadingResponses = true;
+    });
+    
+    try {
+      await ref.read(responseProvider.notifier).loadResponses(
+        listingEventId: widget.listing.id,
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoadingResponses = false;
+        });
+      }
+    }
+  }
+
+  void _handleAcceptResponse(ResponseModel response) {
+    ref.read(responseProvider.notifier).updateResponse(
+      response.copyWith(
+        status: ResponseStatus.accepted,
+      ),
+    );
+  }
+
+  void _handleDeclineResponse(ResponseModel response) {
+    ref.read(responseProvider.notifier).updateResponse(
+      response.copyWith(
+        status: ResponseStatus.declined,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
     
     return Scaffold(
       appBar: AppBar(
-        title: Text(listing.type == ListingType.ask ? 'Ask Details' : 'Offer Details'),
+        title: Text(widget.listing.type == ListingType.ask ? 'Ask Details' : 'Offer Details'),
         actions: [
-          if (listing.status == ListingStatus.active) ...[
+          if (widget.listing.status == ListingStatus.active) ...[
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => CreateEditListingScreen(
-                      listing: listing,
-                      groupId: listing.groupId,
+                      listing: widget.listing,
+                      groupId: widget.listing.groupId,
                     ),
                   ),
                 );
@@ -43,7 +100,7 @@ class ListingDetailScreen extends ConsumerWidget {
               icon: const Icon(Icons.more_vert),
               onSelected: (ListingStatus status) {
                 ref.read(listingProvider.notifier).updateListing(
-                  listing.copyWith(status: status),
+                  widget.listing.copyWith(status: status),
                 );
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<ListingStatus>>[
@@ -72,12 +129,12 @@ class ListingDetailScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               decoration: BoxDecoration(
-                color: listing.type == ListingType.ask 
-                  ? Colors.blue.withOpacity(0.1)
-                  : Colors.green.withOpacity(0.1),
+                color: widget.listing.type == ListingType.ask 
+                  ? Colors.blue.withOpacity(0.1) // TODO: Replace with withValues() once determined
+                  : Colors.green.withOpacity(0.1), // TODO: Replace with withValues() once determined
                 border: Border(
                   bottom: BorderSide(
-                    color: customColors.separatorColor.withOpacity(0.3),
+                    color: customColors.separatorColor.withOpacity(0.3), // TODO: Replace with withValues() once determined
                     width: 0.5,
                   ),
                 ),
@@ -90,14 +147,14 @@ class ListingDetailScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        listing.type == ListingType.ask ? 'ASK' : 'OFFER',
+                        widget.listing.type == ListingType.ask ? 'ASK' : 'OFFER',
                         style: themeData.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: listing.type == ListingType.ask ? Colors.blue : Colors.green,
+                          color: widget.listing.type == ListingType.ask ? Colors.blue : Colors.green,
                         ),
                       ),
                       Text(
-                        listing.title,
+                        widget.listing.title,
                         style: themeData.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -111,14 +168,14 @@ class ListingDetailScreen extends ConsumerWidget {
             ),
             
             // Images
-            if (listing.imageUrls.isNotEmpty)
+            if (widget.listing.imageUrls.isNotEmpty)
               SizedBox(
                 height: 220,
                 child: PageView.builder(
-                  itemCount: listing.imageUrls.length,
+                  itemCount: widget.listing.imageUrls.length,
                   itemBuilder: (context, index) {
                     return Image.network(
-                      listing.imageUrls[index],
+                      widget.listing.imageUrls[index],
                       fit: BoxFit.cover,
                     );
                   },
@@ -134,39 +191,40 @@ class ListingDetailScreen extends ConsumerWidget {
                   // Author info
                   Row(
                     children: [
-                      CircleAvatar(
-                        // TODO: Replace with actual user image
-                        backgroundColor: themeData.primaryColor.withOpacity(0.2),
-                        child: const Icon(Icons.person_outline),
+                      // User avatar
+                      UserPicWidget(
+                        pubkey: widget.listing.pubkey,
+                        width: 40,
                       ),
                       const SizedBox(width: 12),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // TODO: Replace with actual username
-                          const Text(
-                            'Username',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
+                          // User name
+                          GestureDetector(
+                            onTap: () {
+                              RouterUtil.router(context, RouterPath.user, widget.listing.pubkey);
+                            },
+                            child: SimpleNameWidget(
+                              pubkey: widget.listing.pubkey,
+                              textStyle: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           Text(
-                            'Posted ${_formatRelativeTime(listing.createdAt)}',
+                            'Posted ${_formatRelativeTime(widget.listing.createdAt)}',
                             style: themeData.textTheme.bodySmall?.copyWith(
                               color: customColors.secondaryForegroundColor,
                             ),
                           ),
                         ],
                       ),
-                      if (listing.groupId != null) ...[
+                      if (widget.listing.groupId != null) ...[
                         const Spacer(),
-                        // TODO: Replace with actual group name
-                        Chip(
-                          label: const Text('Group Name'),
-                          backgroundColor: customColors.feedBgColor,
-                          padding: EdgeInsets.zero,
-                          visualDensity: VisualDensity.compact,
-                        ),
+                        // Group chip with group name
+                        _buildGroupChip(context),
                       ],
                     ],
                   ),
@@ -175,7 +233,7 @@ class ListingDetailScreen extends ConsumerWidget {
                   
                   // Description
                   Text(
-                    listing.content,
+                    widget.listing.content,
                     style: themeData.textTheme.bodyLarge,
                   ),
                   
@@ -192,7 +250,7 @@ class ListingDetailScreen extends ConsumerWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          if (listing.price != null)
+                          if (widget.listing.price != null)
                             ListTile(
                               leading: Container(
                                 padding: const EdgeInsets.all(8),
@@ -204,7 +262,7 @@ class ListingDetailScreen extends ConsumerWidget {
                               ),
                               title: const Text('Price'),
                               subtitle: Text(
-                                listing.price!,
+                                widget.listing.price!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.green.shade700,
@@ -212,7 +270,7 @@ class ListingDetailScreen extends ConsumerWidget {
                               ),
                             ),
                             
-                          if (listing.location != null)
+                          if (widget.listing.location != null)
                             ListTile(
                               leading: Container(
                                 padding: const EdgeInsets.all(8),
@@ -223,10 +281,10 @@ class ListingDetailScreen extends ConsumerWidget {
                                 child: const Icon(Icons.location_on, color: Colors.orange),
                               ),
                               title: const Text('Location'),
-                              subtitle: Text(listing.location!),
+                              subtitle: Text(widget.listing.location!),
                             ),
                             
-                          if (listing.expiresAt != null)
+                          if (widget.listing.expiresAt != null)
                             ListTile(
                               leading: Container(
                                 padding: const EdgeInsets.all(8),
@@ -237,10 +295,10 @@ class ListingDetailScreen extends ConsumerWidget {
                                 child: const Icon(Icons.timer, color: Colors.purple),
                               ),
                               title: const Text('Available Until'),
-                              subtitle: Text(_formatDate(listing.expiresAt!)),
+                              subtitle: Text(_formatDate(widget.listing.expiresAt!)),
                             ),
                             
-                          if (listing.paymentInfo != null)
+                          if (widget.listing.paymentInfo != null)
                             ListTile(
                               leading: Container(
                                 padding: const EdgeInsets.all(8),
@@ -251,7 +309,7 @@ class ListingDetailScreen extends ConsumerWidget {
                                 child: const Icon(Icons.payment, color: Colors.blue),
                               ),
                               title: const Text('Payment Information'),
-                              subtitle: Text(listing.paymentInfo!),
+                              subtitle: Text(widget.listing.paymentInfo!),
                             ),
                         ],
                       ),
@@ -260,57 +318,70 @@ class ListingDetailScreen extends ConsumerWidget {
                   
                   const SizedBox(height: 24),
                   
-                  // Comments section header (for future implementation)
+                  // Responses section header
                   Row(
                     children: [
                       Text(
-                        'Replies',
+                        'Responses',
                         style: themeData.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: themeData.primaryColor.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Text(
-                          '0', // Placeholder for future comment count
-                          style: TextStyle(
-                            color: themeData.primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          final responses = ref.watch(responseProvider);
+                          return Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: themeData.primaryColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              responses.maybeWhen(
+                                data: (data) => data.length.toString(),
+                                orElse: () => '0',
+                              ),
+                              style: TextStyle(
+                                color: themeData.primaryColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
                   
-                  // Placeholder for future comments implementation
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24.0),
-                    child: Center(
-                      child: Text(
-                        'Comments feature coming soon',
-                        style: TextStyle(
-                          color: customColors.secondaryForegroundColor,
-                        ),
+                  const SizedBox(height: 16),
+                  
+                  // Responses list
+                  if (_isLoadingResponses)
+                    const Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 24.0),
+                        child: CircularProgressIndicator(),
                       ),
+                    )
+                  else
+                    ResponseList(
+                      listing: widget.listing,
+                      isCurrentUserOwner: _isCurrentUserOwner(),
+                      onAccept: _handleAcceptResponse,
+                      onDecline: _handleDeclineResponse,
                     ),
-                  ),
                 ],
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: _buildBottomActions(context, ref),
+      bottomNavigationBar: _buildBottomActions(context),
     );
   }
   
-  Widget _buildBottomActions(BuildContext context, WidgetRef ref) {
-    if (listing.status == ListingStatus.active) {
+  Widget _buildBottomActions(BuildContext context) {
+    if (widget.listing.status == ListingStatus.active) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
@@ -323,72 +394,94 @@ class ListingDetailScreen extends ConsumerWidget {
             ),
           ],
         ),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            if (listing.type == ListingType.ask)
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: Implement help action
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Feature coming soon: I can help')),
-                    );
-                  },
-                  icon: const Icon(Icons.volunteer_activism),
-                  label: const Text('I can help!'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
+            Row(
+              children: [
+                if (widget.listing.type == ListingType.ask)
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        _showResponseDialog(ResponseType.help);
+                      },
+                      icon: const Icon(Icons.volunteer_activism),
+                      label: const Text('I can help!'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
+                  )
+                else
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        _showResponseDialog(ResponseType.interest);
+                      },
+                      icon: const Icon(Icons.thumb_up_outlined),
+                      label: const Text('I\'m interested'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
                   ),
-                ),
-              )
-            else
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // TODO: Implement interest action
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Feature coming soon: I\'m interested')),
-                    );
-                  },
-                  icon: const Icon(Icons.thumb_up_outlined),
-                  label: const Text('I\'m interested'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
+                const SizedBox(width: 16),
+                // "Ask a question" button
+                if (!_isCurrentUserOwner())
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () {
+                        _showResponseDialog(ResponseType.question);
+                      },
+                      icon: const Icon(Icons.help_outline),
+                      label: const Text('Ask a question'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            const SizedBox(width: 16),
-            // Owner actions
-            if (_isCurrentUserOwner()) ...[
-              OutlinedButton.icon(
-                onPressed: () {
-                  _showStatusChangeDialog(context, ref);
-                },
-                icon: const Icon(Icons.check_circle_outline),
-                label: const Text('Mark as Fulfilled'),
-              ),
-            ]
-            // Non-owner actions
-            else ...[
-              OutlinedButton.icon(
-                onPressed: () {
-                  // Use the global dmProvider to create a session
-                  final detail = dmProvider.findOrNewADetail(listing.pubkey);
-                  // Navigate to DM screen with the session detail
-                  RouterUtil.router(context, RouterPath.dmDetail, detail);
-                },
-                icon: const Icon(Icons.message_outlined),
-                label: const Text('Message'),
-              ),
-            ],
+              ],
+            ),
+            
+            const SizedBox(height: 8),
+            
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Owner actions
+                if (_isCurrentUserOwner()) ...[
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      _showStatusChangeDialog(context);
+                    },
+                    icon: const Icon(Icons.check_circle_outline),
+                    label: const Text('Mark as Fulfilled'),
+                  ),
+                ]
+                // Non-owner actions
+                else ...[
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      // Use the global dmProvider to create a session
+                      final detail = dmProvider.findOrNewADetail(widget.listing.pubkey);
+                      // Navigate to DM screen with the session detail
+                      RouterUtil.router(context, RouterPath.dmDetail, detail);
+                    },
+                    icon: const Icon(Icons.message_outlined),
+                    label: const Text('Direct Message'),
+                  ),
+                ],
+              ],
+            ),
           ],
         ),
       );
     } 
     // Fulfilled listings get a "say thanks" option
-    else if (listing.status == ListingStatus.fulfilled && !_isCurrentUserOwner()) {
+    else if (widget.listing.status == ListingStatus.fulfilled && !_isCurrentUserOwner()) {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         decoration: BoxDecoration(
@@ -422,25 +515,25 @@ class ListingDetailScreen extends ConsumerWidget {
     return const SizedBox.shrink();
   }
   
-  void _showStatusChangeDialog(BuildContext context, WidgetRef ref) {
+  void _showStatusChangeDialog(BuildContext context) {
     final themeData = Theme.of(context);
     
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: const Text('Update Status'),
         content: const Text('What is the current status of this listing?'),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
               ref.read(listingProvider.notifier).updateListing(
-                listing.copyWith(status: ListingStatus.fulfilled),
+                widget.listing.copyWith(status: ListingStatus.fulfilled),
               );
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
             },
             child: Text(
               'Mark as Fulfilled',
@@ -452,9 +545,9 @@ class ListingDetailScreen extends ConsumerWidget {
           TextButton(
             onPressed: () {
               ref.read(listingProvider.notifier).updateListing(
-                listing.copyWith(status: ListingStatus.cancelled),
+                widget.listing.copyWith(status: ListingStatus.cancelled),
               );
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
             },
             child: const Text(
               'Mark as Cancelled',
@@ -468,21 +561,42 @@ class ListingDetailScreen extends ConsumerWidget {
     );
   }
   
-  // TODO: Replace with actual user check
+  // Check if current user is the owner of the listing
   bool _isCurrentUserOwner() {
-    // Placeholder - replace with actual logic
-    return false;
+    if (nostr == null) return false;
+    return nostr!.publicKey == widget.listing.pubkey;
+  }
+
+  // Show response dialog
+  void _showResponseDialog(ResponseType initialType) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) => ResponseDialog(
+        listing: widget.listing,
+        initialResponseType: initialType,
+      ),
+    ).then((result) {
+      if (result == true && mounted) {
+        // Refresh responses after adding a new one
+        _loadResponses();
+        
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Response sent successfully')),
+        );
+      }
+    });
   }
 
   Widget _buildTypeIcon() {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: listing.type == ListingType.ask ? Colors.blue : Colors.green,
+        color: widget.listing.type == ListingType.ask ? Colors.blue : Colors.green,
         shape: BoxShape.circle,
       ),
       child: Icon(
-        listing.type == ListingType.ask ? Icons.help_outline : Icons.local_offer_outlined,
+        widget.listing.type == ListingType.ask ? Icons.help_outline : Icons.local_offer_outlined,
         color: Colors.white,
         size: 18,
       ),
@@ -491,7 +605,7 @@ class ListingDetailScreen extends ConsumerWidget {
 
   Widget _buildStatusBadge(BuildContext context) {
     Color getStatusColor() {
-      switch (listing.status) {
+      switch (widget.listing.status) {
         case ListingStatus.active:
           return Colors.green;
         case ListingStatus.inactive:
@@ -516,7 +630,7 @@ class ListingDetailScreen extends ConsumerWidget {
         ),
       ),
       child: Text(
-        listing.status.name.toUpperCase(),
+        widget.listing.status.name.toUpperCase(),
         style: TextStyle(
           color: getStatusColor(),
           fontSize: 12,
@@ -531,6 +645,69 @@ class ListingDetailScreen extends ConsumerWidget {
     return '${months[date.month - 1]} ${date.day}, ${date.year}';
   }
   
+  Widget _buildGroupChip(BuildContext context) {
+    if (widget.listing.groupId == null) return const SizedBox.shrink();
+    
+    final themeData = Theme.of(context);
+    final customColors = themeData.customColors;
+    
+    // Extract host from group identifier format (host:id)
+    String? host;
+    String groupIdFormatted = widget.listing.groupId!;
+    
+    if (widget.listing.groupId!.contains(':')) {
+      final parts = widget.listing.groupId!.split(':');
+      host = parts[0];
+      groupIdFormatted = parts[1];
+    }
+    
+    // Create GroupIdentifier if both host and id are available
+    GroupIdentifier? groupIdentifier;
+    if (host != null) {
+      groupIdentifier = GroupIdentifier(host, groupIdFormatted);
+    }
+    
+    // Default chip with just the ID
+    Widget defaultChip = Chip(
+      label: Text('Group: $groupIdFormatted'),
+      backgroundColor: customColors.feedBgColor,
+      padding: EdgeInsets.zero,
+      visualDensity: VisualDensity.compact,
+    );
+    
+    // If we can construct a group identifier, use it to fetch metadata
+    if (groupIdentifier != null) {
+      return Consumer(
+        builder: (context, ref, child) {
+          final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier!));
+          
+          return groupMetadataAsync.when(
+            data: (metadata) {
+              if (metadata == null) return defaultChip;
+              
+              return GestureDetector(
+                onTap: () {
+                  // Navigate to group detail
+                  RouterUtil.router(context, RouterPath.groupDetail, groupIdentifier);
+                },
+                child: Chip(
+                  label: Text(metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted'),
+                  backgroundColor: customColors.feedBgColor,
+                  padding: EdgeInsets.zero,
+                  visualDensity: VisualDensity.compact,
+                ),
+              );
+            },
+            loading: () => defaultChip,
+            error: (_, __) => defaultChip,
+          );
+        },
+      );
+    }
+    
+    return defaultChip;
+  }
+
   String _formatRelativeTime(DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date);
