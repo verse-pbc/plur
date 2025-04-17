@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 import '../consts/index_taps.dart';
 
@@ -110,8 +111,13 @@ class IndexProvider extends ChangeNotifier {
   }
   
   void _setCurrentTabWithAnimation(int v) {
+    debugPrint("Setting current tab to $v");
+    
     // Update the current tab immediately to avoid UI lag
     _currentTap = v;
+    
+    // Notify immediately first for faster response
+    notifyListeners();
     
     // Prevent redundant UI updates during animation
     if (!_isAnimating) {
@@ -119,6 +125,7 @@ class IndexProvider extends ChangeNotifier {
       
       // Use a microtask for smoother UI transitions
       Future.microtask(() {
+        // Second notification to ensure widgets that depend on the tab rebuild
         notifyListeners();
         
         // Add a delay after the tab change to prevent rapid switches
