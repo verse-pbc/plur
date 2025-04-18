@@ -156,7 +156,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         if (event != null) {
           // More detailed logging to diagnose validation issues
           final isValid = hasValidGroupTag(event);
-          log("  Cache event ${event.id.substring(0, 8)}: ${isValid ? 'VALID' : 'INVALID'}", 
+          final idPart = event.id.length >= 8 ? event.id.substring(0, 8) : event.id;
+          log("  Cache event ${idPart}: ${isValid ? 'VALID' : 'INVALID'}", 
               name: "GroupFeedProvider");
           
           if (isValid) {
@@ -166,14 +167,16 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
                 .map((tag) => tag[1] as String)
                 .toList();
                 
-            log("  ✅ Valid event ${event.id.substring(0, 8)}, kind=${event.kind}, groups=[${eventGroups.join(', ')}]",
+            final idPart = event.id.length >= 8 ? event.id.substring(0, 8) : event.id;
+            log("  ✅ Valid event ${idPart}, kind=${event.kind}, groups=[${eventGroups.join(', ')}]",
                 name: "GroupFeedProvider");
             
             // Check if successfully added to notesBox
             if (notesBox.add(event)) {
               validCount++;
             } else {
-              log("  ⚠️ Event ${event.id.substring(0, 8)} not added to notesBox (duplicate?)",
+              final idPart = event.id.length >= 8 ? event.id.substring(0, 8) : event.id;
+              log("  ⚠️ Event ${idPart} not added to notesBox (duplicate?)",
                   name: "GroupFeedProvider");
             }
           } else {
@@ -280,8 +283,10 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       return false;
     }
     
-    // Comprehensive logging for debugging
-    log("Checking event ${e.id.substring(0, 8)} with kind ${e.kind} from ${e.pubkey.substring(0, 8)}", 
+    // Comprehensive logging for debugging - safely truncate IDs that may be shorter
+    final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+    final pubkeyPart = e.pubkey.length >= 8 ? e.pubkey.substring(0, 8) : e.pubkey;
+    log("Checking event ${idPart} with kind ${e.kind} from ${pubkeyPart}", 
         name: "GroupFeedProvider");
     
     // Extract all h-tags from the event - these identify which group the event belongs to
@@ -292,7 +297,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     
     // If event has no group tags, it can't belong to any group
     if (eventGroupTags.isEmpty) {
-      log("Event ${e.id.substring(0, 8)} has no h-tags, excluding from feed", 
+      final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+      log("Event ${idPart} has no h-tags, excluding from feed", 
           name: "GroupFeedProvider");
       return false;
     }
@@ -300,7 +306,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     // Log all the event's tags for debugging
     for (var tag in e.tags) {
       if (tag is List && tag.isNotEmpty) {
-        log("Event ${e.id.substring(0, 8)} has tag: ${tag.join(':')}",
+        final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+        log("Event ${idPart} has tag: ${tag.join(':')}",
             name: "GroupFeedProvider");
       }
     }
@@ -316,7 +323,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     for (var groupTag in eventGroupTags) {
       if (userGroupIds.containsKey(groupTag)) {
         // This is a debug log to confirm which group the event belongs to
-        log("✅ MATCH FOUND: Group tag $groupTag for event ${e.id.substring(0, 8)}", 
+        final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+        log("✅ MATCH FOUND: Group tag $groupTag for event ${idPart}", 
             name: "GroupFeedProvider");
         return true;
       }
@@ -326,7 +334,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     if (eventGroupTags.isNotEmpty) {
       final eventGroupStr = eventGroupTags.join(', ');
       final userGroupStr = userGroups.map((g) => g.groupId).join(', ');
-      log("❌ NO MATCH: Event ${e.id.substring(0, 8)} has tags [$eventGroupStr] but user has [$userGroupStr]", 
+      final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+      log("❌ NO MATCH: Event ${idPart} has tags [$eventGroupStr] but user has [$userGroupStr]", 
           name: "GroupFeedProvider");
     }
     
@@ -347,7 +356,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         
         // First check if it's a group note type
         if (!isGroupNote(e)) {
-          log("Event ${e.id.substring(0, 8)} rejected: Not a group note (kind=${e.kind})", 
+          final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+          log("Event ${idPart} rejected: Not a group note (kind=${e.kind})", 
               name: "GroupFeedProvider");
           rejectedCount++;
           continue;
@@ -365,7 +375,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         
         // Check if we already have this event
         if (notesBox.contains(e.id)) {
-          log("Event ${e.id.substring(0, 8)} already in feed, skipping", 
+          final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+          log("Event ${idPart} already in feed, skipping", 
               name: "GroupFeedProvider");
           continue;
         }
@@ -373,13 +384,15 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         // Add to the main notes box
         if (notesBox.add(e)) {
           noteAdded = true;
-          log("✅ Added event ${e.id.substring(0, 8)} to feed", 
+          final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+          log("✅ Added event ${idPart} to feed", 
               name: "GroupFeedProvider");
           
           // Update static cache for persistence
           _staticEventCache[e.id] = e;
         } else {
-          log("Failed to add event ${e.id.substring(0, 8)} to feed (already exists or error)", 
+          final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+          log("Failed to add event ${idPart} to feed (already exists or error)", 
               name: "GroupFeedProvider");
         }
       }
@@ -618,7 +631,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       for (final e in list) {
         // Check if it's a group note
         if (!isGroupNote(e)) {
-          log("Subscription - Event ${e.id.substring(0, 8)} rejected: Not a group note (kind=${e.kind})", 
+          final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+          log("Subscription - Event ${idPart} rejected: Not a group note (kind=${e.kind})", 
               name: "GroupFeedProvider");
           rejectedEvents++;
           continue;
@@ -632,7 +646,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         }
         
         // Valid event, use onNewEvent to handle it
-        log("Subscription - Valid event ${e.id.substring(0, 8)} passed to onNewEvent", 
+        final idPart = e.id.length >= 8 ? e.id.substring(0, 8) : e.id;
+        log("Subscription - Valid event ${idPart} passed to onNewEvent", 
             name: "GroupFeedProvider");
         onNewEvent(e);
         validEvents++;
