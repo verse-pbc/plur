@@ -14,6 +14,7 @@ import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
+import '../../features/community/leave_community_button.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
@@ -290,19 +291,6 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     _groupDetailProvider.deleteEvent(e);
   }
 
-  // This method is now private and only used in the group info menu
-  // We're keeping it here for reference but it's marked with an underscore
-  // to show it's private and not used directly from this class
-  /*
-  void _leaveGroup() {
-    final id = _groupIdentifier;
-    if (id != null) {
-      listProvider.leaveGroup(id);
-    }
-    RouterUtil.back(context);
-  }
-  */
-  
   void _showSearch() {
     // TODO: Implement search functionality for the group
     // This will be implemented in a future PR
