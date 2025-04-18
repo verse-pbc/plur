@@ -67,10 +67,13 @@ class LeaveCommunityButton extends ConsumerWidget {
               // Execute callback if provided
               onLeft?.call();
               
-              // Optional: Navigate to communities screen instead of group list
-              // This is safer as the router path for communities is always available
+              // Navigate back to the main screen
+              // This is the safest approach to avoid routing issues
               if (context.mounted) {
-                Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  RouterPath.index, 
+                  (route) => false, // Remove all previous routes
+                );
               }
             },
             child: Text(
