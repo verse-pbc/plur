@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
 import 'package:nostrmo/main.dart' as main_lib;
 import '../helpers/test_data.dart';
 import '../mocks/firebase_messaging_mock.dart' as firebase_mock;
@@ -339,9 +337,25 @@ void main() {
         // Verify the token was registered
         verify(mockNostr.sendEvent(any,
             tempRelays: [defaultRelayUrl], targetRelays: [defaultRelayUrl]));
+      });
 
-        // Clean up
-        await controller.close();
+      // Test for handling null nostr case
+      test('token refresh handler does nothing when nostr is null', () async {
+        // Ensure nostr is null
+        main_lib.nostr = null;
+
+        // Simulate a token refresh event
+        mockFirebaseMessaging.simulateTokenRefresh(testToken);
+
+        // Wait for the handler to process the event
+        await Future.delayed(const Duration(seconds: 1));
+
+        // The function would return false in a real scenario if called without
+        // a valid nostr instance, but NotificationUtil guards against this
+        // We're just verifying no interactions happened with the mock
+        verifyNever(mockNostr.sendEvent(any,
+            tempRelays: anyNamed('tempRelays'),
+            targetRelays: anyNamed('targetRelays')));
       });
     });
   });

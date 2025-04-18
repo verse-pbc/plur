@@ -54,15 +54,6 @@ class MockFirebasePlatform extends FirebasePlatform {
 
   @override
   List<FirebaseAppPlatform> get apps => _apps;
-
-  @override
-  Future<void> setAutomaticDataCollectionEnabled(bool enabled) async {}
-
-  @override
-  Future<void> setAutomaticResourceManagementEnabled(bool enabled) async {}
-
-  @override
-  bool get isAutomaticDataCollectionEnabled => false;
 }
 
 /// Setup function that registers the mock implementation for Firebase Core

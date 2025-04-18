@@ -136,6 +136,9 @@ dev_dependencies:
   mockito: ^5.0.17
   build_runner: ^2.4.0
   flutter_lints: ^2.0.0
+  firebase_messaging_platform_interface: # version ommitted to stay in sync with firebase_messaging
+  plugin_platform_interface: ^2.1.8
+  firebase_core_platform_interface: ^5.0.0
 
   # A Dart Build Plugin that uploads debug symbols for Android, iOS/macOS and 
   # source maps for Web to Sentry via sentry-cli.
