@@ -12,7 +12,7 @@ import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/edit/editor_widget.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
-import 'package:nostrmo/router/group/create_community_dialog.dart';
+import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 import 'package:nostrmo/component/paste_join_link_button.dart';
 import 'package:nostrmo/util/community_join_util.dart';
