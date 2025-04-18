@@ -49,6 +49,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added responsive loading animation
   - Configured security headers for better protection
   - Optimized assets with proper caching strategies
+- Expanded language support with improved translations:
+  - Added community-related translations for Arabic, Bulgarian, Spanish, Italian, German
+  - Added new Hindi language support with community features
+  - Added Traditional and Simplified Chinese translations for community features
+  - Added Japanese and Korean translations for community screens
+  - Added Thai translations for community features
+  - Implemented empty state messages in all supported languages
+- Added reliable profile lookup feature to ensure consistent user information retrieval across relays
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -76,6 +84,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented web-compatible cookie handling
   - Added custom Flutter web initialization with error handling
   - Created optimized loading experience with smooth transitions
+- Improved internationalization (i18n) infrastructure for adding and maintaining translations
+- Added reliable relay profile lookup with fallback mechanisms:
+  - Implemented prioritized relay query system
+  - Added caching for optimized performance
+  - Created fallback strategy for incomplete profile data
+  - Enhanced error handling for network failures
 
 ## [0.0.5]
 
