@@ -2,8 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/data/join_group_parameters.dart';
-import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 
