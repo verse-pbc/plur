@@ -3,6 +3,7 @@ import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -178,7 +179,15 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       name: "Asks & Offers",  // Using string literal until translation is available
       color: indexProvider.currentTap == 3 ? mainColor : null,
       onTap: () {
-        RouterUtil.router(context, RouterPath.listings);
+        // Use direct navigation instead of RouterUtil to pass the showAllGroups parameter
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const ListingsScreen(
+              showAllGroups: true, // Show listings from all groups
+            ),
+          ),
+        );
+        
         if (!TableModeUtil.isTableMode()) {
           Navigator.pop(context);
         }

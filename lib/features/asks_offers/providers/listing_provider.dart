@@ -39,13 +39,13 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
 
       // Create filter for kind 31111 (listing events)
       final filter = Filter(kinds: [31111]);
+      // Convert filter to JSON to add custom tags
+      final filterJson = filter.toJson();
+      
       // Add tag filter if a group ID is specified
       if (groupId != null) {
-        // e and p should be initialized as lists
-        filter.e = [];
-        filter.p = [];
-        // Since we can't directly set tags in the Filter, we need to handle this differently
-        // This might require a more complex approach in the SDK
+        // Add specific h-tag filter for the group ID
+        filterJson["#h"] = [groupId];
       }
 
       // Cancel previous subscription if exists
@@ -62,7 +62,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       List<Event> initialEvents = [];
       try {
         // Adapting to the nostr_sdk available methods
-        initialEvents = await nostr!.queryEvents([filter.toJson()]);
+        initialEvents = await nostr!.queryEvents([filterJson]);
       } catch (e) {
         // Log error but continue with empty list
       }
@@ -77,7 +77,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       
       // Based on codebase examples, we pass a callback function to handle events
       nostr!.subscribe(
-        [filter.toJson()],
+        [filterJson],
         _handleSubscriptionEvent,
         id: _subscriptionId,
       );
@@ -216,6 +216,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     ListingStatus? status,
     String? groupId,
     String? searchQuery,
+    bool showAllGroups = false,
   }) {
     if (!state.hasValue || state.value == null) return [];
 
@@ -224,14 +225,18 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       if (type != null && listing.type != type) return false;
       // Filter by status
       if (status != null && listing.status != status) return false;
+      
       // Filter by group ID (if applicable)
-      // If a groupId is provided for filtering, only show listings with that groupId.
-      // If no groupId is provided for filtering, show listings with *no* groupId (public).
-      if (groupId != null) {
-         if (listing.groupId != groupId) return false;
-      } else {
-         if (listing.groupId != null) return false; // Only show public if no group filter selected
+      // When showAllGroups is true, we include all listings (from all groups) 
+      // Otherwise use the original group filtering behavior
+      if (!showAllGroups) {
+        if (groupId != null) {
+          if (listing.groupId != groupId) return false;
+        } else {
+          if (listing.groupId != null) return false; // Only show public if no group filter selected
+        }
       }
+      
       // Filter by search query
       if (searchQuery != null && searchQuery.isNotEmpty) {
         final query = searchQuery.toLowerCase();
