@@ -161,26 +161,42 @@ void main() {
       expect(fulfilledListings.first.status, ListingStatus.fulfilled);
     });
 
-    test('filterListings should filter by groupId', () {
+    test('filterListings should filter by groupId and support showAllGroups', () {
       // Create listings with different group IDs
-      final groupListing = offerListing.copyWith(
-        id: 'group_id',
-        groupId: 'test_group',
+      final groupListing1 = offerListing.copyWith(
+        id: 'group1_id',
+        groupId: 'test_group1',
+      );
+      
+      final groupListing2 = offerListing.copyWith(
+        id: 'group2_id',
+        groupId: 'test_group2',
       );
       
       // Update the state with test listings
-      final listings = [offerListing, groupListing];
+      final listings = [offerListing, groupListing1, groupListing2];
       listingNotifier.debugState = AsyncData(listings);
       
       // Test filtering by groupId
-      final groupListings = listingNotifier.filterListings(groupId: 'test_group');
-      expect(groupListings.length, 1);
-      expect(groupListings.first.groupId, 'test_group');
+      final group1Listings = listingNotifier.filterListings(groupId: 'test_group1');
+      expect(group1Listings.length, 1);
+      expect(group1Listings.first.groupId, 'test_group1');
       
       // Test filtering for public listings (no groupId)
       final publicListings = listingNotifier.filterListings();
       expect(publicListings.length, 1);
       expect(publicListings.first.groupId, isNull);
+      
+      // Test showing all groups with showAllGroups flag
+      final allGroupsListings = listingNotifier.filterListings(showAllGroups: true);
+      expect(allGroupsListings.length, 3);
+      
+      // Test showing all groups with a type filter
+      final allOffersListings = listingNotifier.filterListings(
+        type: ListingType.offer,
+        showAllGroups: true
+      );
+      expect(allOffersListings.length, 3);
     });
 
     test('filterListings should filter by search query', () {

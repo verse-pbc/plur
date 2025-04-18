@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; // Add Riverpod import
 import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -19,18 +20,18 @@ import 'account_manager_widget.dart';
 import '../../util/theme_util.dart';
 
 /// A drawer widget that displays user information and navigation options.
-class IndexDrawerContent extends StatefulWidget {
+class IndexDrawerContent extends ConsumerStatefulWidget {
   /// Determines if the drawer should be in compact mode.
   final bool smallMode;
 
   const IndexDrawerContent({super.key, required this.smallMode});
 
   @override
-  State<StatefulWidget> createState() => _IndexDrawerContentState();
+  ConsumerState<IndexDrawerContent> createState() => _IndexDrawerContentState();
 }
 
 /// The state class for [IndexDrawerContent].
-class _IndexDrawerContentState extends State<IndexDrawerContent> {
+class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
   /// Width of the profile edit button.
   ///
   /// Defaults to 40.
@@ -179,14 +180,17 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       name: "Asks & Offers",  // Using string literal until translation is available
       color: indexProvider.currentTap == 3 ? mainColor : null,
       onTap: () {
-        // Use direct navigation instead of RouterUtil to pass the showAllGroups parameter
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const ListingsScreen(
-              showAllGroups: true, // Show listings from all groups
+        // Use a WidgetsBinding.instance.addPostFrameCallback to ensure the widget tree is built
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          // Use push directly to ensure we can pass the showAllGroups parameter
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const ListingsScreen(
+                showAllGroups: true, // Show listings from all groups
+              ),
             ),
-          ),
-        );
+          );
+        });
         
         if (!TableModeUtil.isTableMode()) {
           Navigator.pop(context);
