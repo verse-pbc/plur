@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/router/group/create_community_dialog.dart';
+import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
 import 'package:nostrmo/util/community_join_util.dart';

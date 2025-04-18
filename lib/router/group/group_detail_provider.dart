@@ -26,6 +26,9 @@ class GroupDetailProvider extends ChangeNotifier
   
   // Cache for event retrieval by ID
   final Map<String, Event> _eventCache = {};
+  
+  // Track if the provider has been disposed
+  bool _disposed = false;
 
   GroupDetailProvider() {
     _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -45,6 +48,7 @@ class GroupDetailProvider extends ChangeNotifier
 
   @override
   void dispose() {
+    _disposed = true;
     disposeLater();
     clear();
     super.dispose();
@@ -66,7 +70,7 @@ class GroupDetailProvider extends ChangeNotifier
           if (e.pubkey == nostr!.publicKey) {
             mergeNewEvent();
           } else {
-            notifyListeners();
+            if (!_disposed) notifyListeners();
           }
           wasAdded = true;
         }
@@ -75,7 +79,7 @@ class GroupDetailProvider extends ChangeNotifier
         e.kind == EventKind.groupChatReply) {
       if (chatsBox.add(e)) {
         chatsBox.sort();
-        notifyListeners();
+        if (!_disposed) notifyListeners();
         wasAdded = true;
       }
     }
@@ -95,7 +99,7 @@ class GroupDetailProvider extends ChangeNotifier
     notesBox.addBox(newNotesBox);
     newNotesBox.clear();
     notesBox.sort();
-    notifyListeners();
+    if (!_disposed) notifyListeners();
   }
 
   static List<int> supportEventKinds = [
@@ -112,7 +116,7 @@ class GroupDetailProvider extends ChangeNotifier
       // Make sure loading indicator goes away
       if (isLoading) {
         isLoading = false;
-        notifyListeners();
+        if (!_disposed) notifyListeners();
       }
       return;
     }
@@ -123,7 +127,7 @@ class GroupDetailProvider extends ChangeNotifier
     // Set loading state if this is an initial query (until is null)
     if (until == null) {
       isLoading = true;
-      notifyListeners();
+      if (!_disposed) notifyListeners();
     }
     
     // Try to query multiple relays to maximize chances of getting events
@@ -162,15 +166,16 @@ class GroupDetailProvider extends ChangeNotifier
       // Make sure loading indicator goes away
       if (isLoading) {
         isLoading = false;
-        notifyListeners();
+        if (!_disposed) notifyListeners();
       }
     }
     
     // Set a timeout to ensure loading indicator goes away
     Future.delayed(const Duration(seconds: 5), () {
-      if (isLoading) {
+      // Check if we've been disposed before notifying listeners
+      if (isLoading && !_disposed) {
         isLoading = false;
-        notifyListeners();
+        if (!_disposed) notifyListeners();
       }
     });
   }
@@ -217,7 +222,7 @@ class GroupDetailProvider extends ChangeNotifier
 
       // Update UI if anything changed or if we're no longer loading
       if (noteAdded || chatAdded || (eventCount > 0 && isLoading)) {
-        notifyListeners();
+        if (!_disposed) notifyListeners();
       }
     }, null);
   }
@@ -252,12 +257,12 @@ class GroupDetailProvider extends ChangeNotifier
       notesBox.delete(id);
       _eventCache.remove(id);
       notesBox.sort();
-      notifyListeners();
+      if (!_disposed) notifyListeners();
     } else if (isGroupChat(e)) {
       chatsBox.delete(id);
       _eventCache.remove(id);
       chatsBox.sort();
-      notifyListeners();
+      if (!_disposed) notifyListeners();
     }
   }
 
@@ -271,7 +276,7 @@ class GroupDetailProvider extends ChangeNotifier
       // Clear and set loading state
       clearData();
       isLoading = true;
-      notifyListeners();
+      if (!_disposed) notifyListeners();
       
       // Update identifier and query
       _groupIdentifier = groupIdentifier;
@@ -287,7 +292,7 @@ class GroupDetailProvider extends ChangeNotifier
     // Clear data and set loading state
     clearData();
     isLoading = true;
-    notifyListeners();
+    if (!_disposed) notifyListeners();
     
     // Update time and query
     _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -332,14 +337,16 @@ class GroupDetailProvider extends ChangeNotifier
   ///
   /// [event] The event to process
   void handleDirectEvent(Event event) {
-    if (!isGroupNote(event)) return;
+    if (!isGroupNote(event) || _disposed) return;
     
     // Cache the event
     _eventCache[event.id] = event;
     
     if (!notesBox.add(event)) return;
     notesBox.sort();
-    notifyListeners();
+    if (!_disposed) {
+      if (!_disposed) notifyListeners();
+    }
   }
   
   // Get an event by ID from cache
