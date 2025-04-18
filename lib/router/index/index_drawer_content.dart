@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart'; // Add Riverpod import
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -9,7 +9,7 @@ import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacy_provider;
 
 import '../../data/user.dart';
 import '../../generated/l10n.dart';
@@ -59,7 +59,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
   @override
   Widget build(BuildContext context) {
-    var indexProvider = Provider.of<IndexProvider>(context);
+    var indexProvider = legacy_provider.Provider.of<IndexProvider>(context);
 
     final localization = S.of(context);
     var pubkey = nostr!.publicKey;
@@ -87,7 +87,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       ));
     } else {
       list.add(Stack(children: [
-        Selector<UserProvider, User?>(
+        legacy_provider.Selector<UserProvider, User?>(
           builder: (context, user, child) {
             return UserTopWidget(
               pubkey: pubkey,
