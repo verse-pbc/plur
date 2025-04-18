@@ -315,9 +315,16 @@ void main() {
         );
         event.sign(TestData.aliceSecretKey);
 
+        // Create a completer to track when the token is registered
+        final tokenRegistrationCompleter = Completer<void>();
+
         when(mockNostr.sendEvent(any,
             tempRelays: [defaultRelayUrl],
-            targetRelays: [defaultRelayUrl])).thenAnswer((_) async => event);
+            targetRelays: [defaultRelayUrl])).thenAnswer((invocation) async {
+          // Complete the completer when sendEvent is called
+          tokenRegistrationCompleter.complete();
+          return event;
+        });
 
         // Set up nostr instance
         main_lib.nostr = mockNostr;
@@ -328,15 +335,14 @@ void main() {
         // Emit a new token
         mockFirebaseMessaging.simulateTokenRefresh('new_token');
 
-        // Give the handler time to process the event
-        await Future.delayed(const Duration(milliseconds: 100));
+        // Wait for the token registration to complete
+        await tokenRegistrationCompleter.future;
 
         // Verify the token was registered
         verify(mockNostr.sendEvent(any,
             tempRelays: [defaultRelayUrl], targetRelays: [defaultRelayUrl]));
       });
 
-      // Test for handling null nostr case
       test('token refresh handler does nothing when nostr is null', () async {
         // Ensure nostr is null
         main_lib.nostr = null;
@@ -344,12 +350,6 @@ void main() {
         // Simulate a token refresh event
         mockFirebaseMessaging.simulateTokenRefresh(testToken);
 
-        // Wait for the handler to process the event
-        await Future.delayed(const Duration(seconds: 1));
-
-        // The function would return false in a real scenario if called without
-        // a valid nostr instance, but NotificationUtil guards against this
-        // We're just verifying no interactions happened with the mock
         verifyNever(mockNostr.sendEvent(any,
             tempRelays: anyNamed('tempRelays'),
             targetRelays: anyNamed('targetRelays')));
