@@ -3,11 +3,12 @@ import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacy_provider;
 
 import '../../data/user.dart';
 import '../../generated/l10n.dart';
@@ -57,7 +58,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
 
   @override
   Widget build(BuildContext context) {
-    var indexProvider = Provider.of<IndexProvider>(context);
+    var indexProvider = legacy_provider.Provider.of<IndexProvider>(context);
 
     final localization = S.of(context);
     var pubkey = nostr!.publicKey;
@@ -85,7 +86,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       ));
     } else {
       list.add(Stack(children: [
-        Selector<UserProvider, User?>(
+        legacy_provider.Selector<UserProvider, User?>(
           builder: (context, user, child) {
             return UserTopWidget(
               pubkey: pubkey,
@@ -127,7 +128,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     if (TableModeUtil.isTableMode()) {
       centerList.add(IndexDrawerItemWidget(
         iconData: Icons.home_rounded,
-        name: localization.Home,
+        name: localization.home,
         color: indexProvider.currentTap == 0 ? mainColor : null,
         onTap: () {
           indexProvider.setCurrentTap(0);
@@ -139,10 +140,68 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
       ));
     }
 
+    // Add the DMs option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.chat_rounded,
+      name: localization.dms,
+      color: indexProvider.currentTap == 1 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(1);
+      },
+      smallMode: widget.smallMode,
+    ));
+    
+    // Add the SEARCH option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.search_rounded,
+      name: localization.search,
+      color: indexProvider.currentTap == 2 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(2);
+      },
+      smallMode: widget.smallMode,
+    ));
+    
+    // Add the COMMUNITIES option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.groups_rounded,
+      name: localization.communities,
+      color: indexProvider.currentTap == 0 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(0);
+      },
+      smallMode: widget.smallMode,
+    ));
+
+    // Add the Asks & Offers option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.store_mall_directory_rounded,
+      name: "Asks & Offers",  // Using string literal until translation is available
+      color: indexProvider.currentTap == 3 ? mainColor : null,
+      onTap: () {
+        // Use a WidgetsBinding.instance.addPostFrameCallback to ensure the widget tree is built
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          // Use push directly to ensure we can pass the showAllGroups parameter
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const ListingsScreen(
+                showAllGroups: true, // Show listings from all groups
+              ),
+            ),
+          );
+        });
+        
+        if (!TableModeUtil.isTableMode()) {
+          Navigator.pop(context);
+        }
+      },
+      smallMode: widget.smallMode,
+    ));
+
     // Add the SETTINGS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.settings_rounded,
-      name: localization.Settings,
+      name: localization.settings,
       onTap: () {
         RouterUtil.router(context, RouterPath.settings);
       },
@@ -161,7 +220,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
     // Add the Account Manager widget.
     list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
-      name: localization.Account_Manager,
+      name: localization.accountManager,
       onTap: () {
         _showBasicModalBottomSheet(context);
       },
@@ -186,7 +245,7 @@ class _IndexDrawerContentState extends State<IndexDrawerContent> {
         "" => version,
         var buildNumber => "$version ($buildNumber)",
       };
-      Widget versionWidget = Text("${localization.Version}: $versionText");
+      Widget versionWidget = Text("${localization.version}: $versionText");
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
