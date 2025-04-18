@@ -47,10 +47,7 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
               width: imageSize,
               child: SizedBox(
                 height: 70, // Increased height to accommodate text
-                child: ShimmerLoading(
-                  isLoading: false,
-                  child: CommunityTitleWidget(groupId, value),
-                ),
+                child: CommunityTitleWidget(groupId, value),
               ),
             ),
           ],
