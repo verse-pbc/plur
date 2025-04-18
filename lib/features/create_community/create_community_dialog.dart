@@ -116,18 +116,18 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
         context: context,
         barrierDismissible: true,
         builder: (context) => AlertDialog.adaptive(
-          title: Text(localization.Error),
-          content: Text(localization.Save_failed),
+          title: Text(localization.error),
+          content: Text("Failed to create community"),
           actions: [
             TextButton(
-              child: Text(localization.Retry),
+              child: Text(localization.retry),
               onPressed: () {
                 Navigator.of(context).pop();
                 _onCreateCommunity(communityName);
               },
             ),
             TextButton(
-              child: Text(localization.Cancel),
+              child: Text(localization.cancel),
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],
