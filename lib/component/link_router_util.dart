@@ -64,11 +64,10 @@ class LinkRouterUtil {
           var relayAddr = (naddr.relays != null && naddr.relays!.isNotEmpty)
               ? naddr.relays![0]
               : null;
-          EventIdRouterWidget.router(context, naddr.id,
-              relayAddr: relayAddr);
+          EventIdRouterWidget.router(context, naddr.id, relayAddr: relayAddr);
         } else if (naddr.kind == EventKind.longForm &&
             StringUtil.isNotBlank(naddr.id)) {
-          // TODO load long form
+          // later: load long form
         } else if (StringUtil.isNotBlank(naddr.author) &&
             naddr.kind == EventKind.metadata) {
           RouterUtil.router(context, RouterPath.user, naddr.author);

@@ -18,7 +18,8 @@ class UserMetadataWidget extends StatefulWidget {
 
   final bool userPicturePreview;
 
-  const UserMetadataWidget({super.key,
+  const UserMetadataWidget({
+    super.key,
     required this.pubkey,
     this.user,
     this.jumpable = false,
@@ -52,8 +53,7 @@ class _MetadataWidgetState extends State<UserMetadataWidget> {
       ));
     }
 
-    if (widget.user != null &&
-        StringUtil.isNotBlank(widget.user!.about)) {
+    if (widget.user != null && StringUtil.isNotBlank(widget.user!.about)) {
       mainList.add(
         Container(
           width: double.maxFinite,
@@ -68,7 +68,7 @@ class _MetadataWidgetState extends State<UserMetadataWidget> {
             width: double.maxFinite,
             child: ContentWidget(
               content: widget.user!.about,
-              // TODO this should add source event
+              // later: this should add source event
               showLinkPreview: false,
             ),
             // child: Column(

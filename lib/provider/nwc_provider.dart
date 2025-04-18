@@ -126,9 +126,9 @@ class NWCProvider extends ChangeNotifier {
               }
             }
             if (StringUtil.isNotBlank(eventId)) {
-              log("NWC zap failed for $eventId with error: $error" );
+              log("NWC zap failed for $eventId with error: $error");
 
-              // TODO maybe there should do some rollback here.
+              // maybe there should do some rollback here.
             }
           }
         }

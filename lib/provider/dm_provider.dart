@@ -87,11 +87,8 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
 
     this.localPubkey = localPubkey;
     var keyIndex = settingsProvider.privateKeyIndex!;
-    var events = await EventDB.list(
-        keyIndex,
-        [EventKind.directMessage, EventKind.privateDirectMessage],
-        0,
-        10000000);
+    var events = await EventDB.list(keyIndex,
+        [EventKind.directMessage, EventKind.privateDirectMessage], 0, 10000000);
     if (events.isNotEmpty) {
       // find the newest event, subscribe behind the new newest event
       _initSince = events.first.createdAt;
@@ -187,7 +184,6 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     var addResult = sessionDetail.dmSession.addEvent(event);
     if (addResult) {
       _sortDetailList();
-      // TODO
     }
 
     return addResult;

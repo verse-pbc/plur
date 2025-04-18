@@ -636,7 +636,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         }
         return null;
       } else if (pathType == "link") {
-        // TODO make a music builder list
+        // later: make a music builder list
         if (wavlakeTrackMusicInfoBuilder.check(str)) {
           // check if it is wavlake track link
           String? eventId;
@@ -1111,7 +1111,6 @@ class _ContentWidgetState extends State<ContentWidget> {
     var subList = codeUnits.sublist(start, end + 1);
     return String.fromCharCodes(subList);
   }
-
 
   void _addTextToList(String text, List<InlineSpan> allList,
       {TextStyle? textStyle}) {

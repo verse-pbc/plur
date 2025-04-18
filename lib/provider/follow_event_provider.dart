@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
@@ -209,7 +208,7 @@ class FollowEventProvider extends ChangeNotifier
     return filters;
   }
 
-  // check if is posts (no tag e and not Mentions, TODO handle NIP27)
+  // check if is posts (no tag e and not Mentions, still need to handle NIP27)
   static bool eventIsPost(Event event) {
     bool isPosts = true;
     var tagLength = event.tags.length;
@@ -289,9 +288,7 @@ class FollowEventProvider extends ChangeNotifier
 
   void metadataUpdatedCallback(ContactList? contactList) {
     if (firstLogin ||
-        (eventBox.isEmpty() &&
-            contactList != null &&
-            !contactList.isEmpty())) {
+        (eventBox.isEmpty() && contactList != null && !contactList.isEmpty())) {
       doQuery();
     }
 

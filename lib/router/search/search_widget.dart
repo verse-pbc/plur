@@ -94,16 +94,20 @@ class _SearchWidgetState extends CustState<SearchWidget>
               title: localization.Open_Note_detail, onTap: openNoteId));
         } else if (action == SearchActions.openHashtag) {
           list.add(SearchActionItemWidget(
-              title: "${localization.open} ${localization.Hashtag}", onTap: openHashtag));
+              title: "${localization.open} ${localization.Hashtag}",
+              onTap: openHashtag));
         } else if (action == SearchActions.searchMetadataFromCache) {
           list.add(SearchActionItemWidget(
-              title: localization.Search_User_from_cache, onTap: searchMetadataFromCache));
+              title: localization.Search_User_from_cache,
+              onTap: searchMetadataFromCache));
         } else if (action == SearchActions.searchEventFromCache) {
           list.add(SearchActionItemWidget(
-              title: localization.Open_Event_from_cache, onTap: searchEventFromCache));
+              title: localization.Open_Event_from_cache,
+              onTap: searchEventFromCache));
         } else if (action == SearchActions.searchPubkeyEvent) {
           list.add(SearchActionItemWidget(
-              title: localization.Search_pubkey_event, onTap: onEditingComplete));
+              title: localization.Search_pubkey_event,
+              onTap: onEditingComplete));
         } else if (action == SearchActions.searchNoteContent) {
           list.add(SearchActionItemWidget(
               title: "${localization.Search_note_content} NIP-50",
@@ -287,7 +291,7 @@ class _SearchWidgetState extends CustState<SearchWidget>
         authors = [result];
       } catch (e) {
         log(e.toString());
-        // TODO handle error
+        // registers new token on refresh when nostr is availablehandle error
         return;
       }
     } else {
