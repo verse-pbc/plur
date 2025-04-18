@@ -3100,21 +3100,21 @@ class S {
     );
   }
 
-  /// `Group`
-  String get Group {
+  /// `Community`
+  String get Community {
     return Intl.message(
-      'Group',
-      name: 'Group',
+      'Community',
+      name: 'Community',
       desc: '',
       args: [],
     );
   }
 
-  /// `Groups`
-  String get Groups {
+  /// `Community ID`
+  String get CommunityId {
     return Intl.message(
-      'Groups',
-      name: 'Groups',
+      'Community ID',
+      name: 'CommunityId',
       desc: '',
       args: [],
     );
@@ -3145,16 +3145,6 @@ class S {
     return Intl.message(
       'Relay',
       name: 'Relay',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `GroupId`
-  String get GroupId {
-    return Intl.message(
-      'GroupId',
-      name: 'GroupId',
       desc: '',
       args: [],
     );
@@ -3210,21 +3200,21 @@ class S {
     );
   }
 
-  /// `Join Group`
-  String get Join_Group {
+  /// `Join Community`
+  String get Join_Community {
     return Intl.message(
-      'Join Group',
-      name: 'Join_Group',
+      'Join Community',
+      name: 'Join_Community',
       desc: '',
       args: [],
     );
   }
 
-  /// `Create Group`
-  String get Create_Group {
+  /// `Create Community`
+  String get Create_Community {
     return Intl.message(
-      'Create Group',
-      name: 'Create_Group',
+      'Create Community',
+      name: 'Create_Community',
       desc: '',
       args: [],
     );
@@ -3320,21 +3310,21 @@ class S {
     );
   }
 
-  /// `Group Info`
-  String get Group_Info {
+  /// `Community Info`
+  String get Community_Info {
     return Intl.message(
-      'Group Info',
-      name: 'Group_Info',
+      'Community Info',
+      name: 'Community_Info',
       desc: '',
       args: [],
     );
   }
 
-  /// `Your Groups`
-  String get Your_Groups {
+  /// `Your Communities`
+  String get Your_Communities {
     return Intl.message(
-      'Your Groups',
-      name: 'Your_Groups',
+      'Your Communities',
+      name: 'Your_Communities',
       desc: '',
       args: [],
     );
@@ -3470,21 +3460,21 @@ class S {
     );
   }
 
-  /// `Closed group`
-  String get Closed_group {
+  /// `Closed community`
+  String get Closed_community {
     return Intl.message(
-      'Closed group',
-      name: 'Closed_group',
+      'Closed community',
+      name: 'Closed_community',
       desc: '',
       args: [],
     );
   }
 
-  /// `Open group`
-  String get Open_group {
+  /// `Open community`
+  String get Open_community {
     return Intl.message(
-      'Open group',
-      name: 'Open_group',
+      'Open community',
+      name: 'Open_community',
       desc: '',
       args: [],
     );
@@ -3560,31 +3550,11 @@ class S {
     );
   }
 
-  /// `What should we call you?`
-  String get onboarding_name_input_title {
-    return Intl.message(
-      'What should we call you?',
-      name: 'onboarding_name_input_title',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `community name`
   String get community_name {
     return Intl.message(
       'community name',
       name: 'community_name',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `Your name or nickname`
-  String get onboarding_name_input_hint {
-    return Intl.message(
-      'Your name or nickname',
-      name: 'onboarding_name_input_hint',
       desc: '',
       args: [],
     );
@@ -3629,7 +3599,27 @@ class S {
       args: [],
     );
   }
-  
+
+  /// `What should we call you?`
+  String get onboarding_name_input_title {
+    return Intl.message(
+      'What should we call you?',
+      name: 'onboarding_name_input_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your name or nickname`
+  String get onboarding_name_input_hint {
+    return Intl.message(
+      'Your name or nickname',
+      name: 'onboarding_name_input_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Continue`
   String get Continue {
     return Intl.message(

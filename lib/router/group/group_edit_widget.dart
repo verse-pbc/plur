@@ -125,7 +125,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
       padding: padding,
       child: TextField(
         controller: groupIdController,
-        decoration: InputDecoration(labelText: localization.GroupId),
+        decoration: InputDecoration(labelText: localization.CommunityId),
         readOnly: true,
       ),
     ));

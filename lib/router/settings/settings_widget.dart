@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -12,7 +13,7 @@ import 'package:nostrmo/consts/thread_mode.dart';
 import 'package:nostrmo/router/index/account_manager_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/store_util.dart';
-import 'package:provider/provider.dart';
+import 'package:provider/provider.dart' as legacy_provider;
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/confirm_dialog.dart';
@@ -32,7 +33,7 @@ import '../../util/locale_util.dart';
 import 'settings_group_item_widget.dart';
 import 'settings_group_title_widget.dart';
 
-class SettingsWidget extends StatefulWidget {
+class SettingsWidget extends ConsumerStatefulWidget {
   final Function indexReload;
 
   const SettingsWidget({
@@ -41,12 +42,12 @@ class SettingsWidget extends StatefulWidget {
   });
 
   @override
-  State<StatefulWidget> createState() {
+  ConsumerState<ConsumerStatefulWidget> createState() {
     return _SettingsWidgetState();
   }
 }
 
-class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
+class _SettingsWidgetState extends ConsumerState<SettingsWidget> with WhenStopFunction {
   void resetTheme() {
     widget.indexReload();
   }
@@ -57,7 +58,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    var settingsProvider = Provider.of<SettingsProvider>(context);
+    var settingsProvider = legacy_provider.Provider.of<SettingsProvider>(context);
     var hintColor = themeData.hintColor;
     var cardColor = themeData.cardColor;
 
@@ -684,7 +685,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     } finally {
       var index = settingsProvider.privateKeyIndex;
       if (index != null) {
-        AccountManagerWidgetState.onLogoutTap(index,
+        AccountManagerWidgetState.onLogoutTap(index, ref,
             routerBack: true, context: context);
         userProvider.clear();
       } else {
