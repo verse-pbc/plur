@@ -44,6 +44,11 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     // accordingly.
     return Selector<UserProvider, User?>(
       builder: (context, user, child) {
+        if (user == null) {
+          // If we can't find the user, try to fetch from reliable relays
+          // This won't block the UI and will update once the profile is fetched
+          _tryFetchProfileFromReliableRelays();
+        }
         return buildWidget(user);
       },
       selector: (_, provider) {
@@ -101,5 +106,22 @@ class _UserPicWidgetState extends State<UserPicWidget> {
         child: imageWidget,
       ),
     );
+  }
+  
+  /// Attempts to fetch the user's profile from reliable relays
+  /// when the profile is missing from the standard relay set.
+  /// 
+  /// This is a non-blocking operation that will trigger a UI update
+  /// when the profile is successfully fetched.
+  void _tryFetchProfileFromReliableRelays() {
+    // Capture context and provider reference before the async gap
+    final provider = Provider.of<UserProvider>(context, listen: false);
+    final pubkey = widget.pubkey;
+    
+    // Use microtask to avoid blocking the UI thread
+    Future.microtask(() {
+      // Use the captured provider reference to avoid BuildContext across async gaps
+      provider.fetchUserProfileFromReliableRelays(pubkey);
+    });
   }
 }

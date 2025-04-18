@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -142,26 +143,94 @@ class UserProvider extends ChangeNotifier with LaterFunction {
 
   final List<String> _needUpdatePubKeys = [];
 
+  /// Schedules an update for a user's metadata from standard relays.
+  /// 
+  /// This method adds the pubkey to the list of keys that need updating
+  /// and triggers the delayed update process.
+  /// 
+  /// @param pubkey The public key of the user to update
   void update(String pubkey) {
     if (!_needUpdatePubKeys.contains(pubkey)) {
       _needUpdatePubKeys.add(pubkey);
     }
     later(_laterCallback);
   }
+  
+  /// Forces an immediate refresh of a user's profile from reliable relays.
+  /// 
+  /// This method is useful when you need to ensure you have the latest
+  /// profile data for a user, and don't want to wait for the regular
+  /// update cycle. It queries reliable relays directly and updates
+  /// the cache and database as soon as data is received.
+  /// 
+  /// @param pubkey The public key of the user to refresh
+  /// @return A Future that resolves to true if the profile was found and updated
+  Future<bool> forceProfileRefresh(String pubkey) async {
+    // Mark the user as being handled to prevent duplicate requests
+    _handingPubkeys[pubkey] = 1;
+    
+    // Request the profile from reliable relays
+    final found = await fetchUserProfileFromReliableRelays(pubkey);
+    
+    // If not found in reliable relays, also try standard update
+    if (!found) {
+      update(pubkey);
+    }
+    
+    return found;
+  }
 
-  User? getUser(String pubkey) {
+  /// Gets a user's metadata from the cache, or schedules a fetch if not found.
+  /// 
+  /// This method first checks the in-memory cache, and if the user isn't found,
+  /// it schedules a fetch from the regular relay pool. Additionally, for users
+  /// that aren't found, it also initiates a lookup from reliable relays.
+  /// 
+  /// @param pubkey The public key of the user to fetch
+  /// @param tryReliableRelays Whether to try reliable relays if user not found
+  /// @return The user metadata if found in cache, null otherwise
+  User? getUser(String pubkey, {bool tryReliableRelays = true}) {
     final user = _userCache[pubkey];
     if (user != null) {
       return user;
     }
 
+    // Schedule regular update from user's relays
     if (!_needUpdatePubKeys.contains(pubkey) &&
         !_handingPubkeys.containsKey(pubkey)) {
       _needUpdatePubKeys.add(pubkey);
     }
     later(_laterCallback);
+    
+    // For users not found in cache, also try reliable relays
+    if (tryReliableRelays) {
+      // Launch the reliable relay lookup in the background
+      // This won't block the UI and will update the cache when data arrives
+      _initiateReliableRelayLookup(pubkey);
+    }
 
     return null;
+  }
+  
+  /// Initiates a background lookup for a user on reliable relays
+  void _initiateReliableRelayLookup(String pubkey) {
+    // Use Future.microtask to avoid blocking the UI thread
+    Future.microtask(() async {
+      // Don't start another lookup if we're already handling this pubkey
+      if (_handingPubkeys.containsKey(pubkey)) {
+        return;
+      }
+      
+      // Mark this pubkey as being handled
+      _handingPubkeys[pubkey] = 1;
+      
+      // Try to fetch the profile from reliable relays
+      await fetchUserProfileFromReliableRelays(pubkey);
+      
+      // If the lookup completes without finding anything,
+      // _handingPubkeys will be cleared in _processSingleMetadataEvent
+      // or will time out and remain in the handling state
+    });
   }
 
   int getNip05Status(String pubkey) {
@@ -403,5 +472,113 @@ class UserProvider extends ChangeNotifier with LaterFunction {
       tempRelays = nostr!.getExtralReadableRelays(relays, 3);
     }
     return tempRelays;
+  }
+  
+  /// Fetches a user's metadata (kind 0) from specific reliable relays.
+  /// 
+  /// This method is used when a user's profile is missing or needs to be refreshed.
+  /// It makes a targeted request to known reliable relays (purplepag.es and relay.nos.social)
+  /// to fetch the latest user metadata.
+  /// 
+  /// The method doesn't lock up the UI and will automatically update the user's data
+  /// in the cache and database once received.
+  /// 
+  /// @param pubkey The public key of the user whose metadata needs to be fetched
+  /// @return A Future<bool> that resolves to true if the profile was found, false otherwise
+  Future<bool> fetchUserProfileFromReliableRelays(String pubkey) async {
+    if (pubkey.isEmpty) {
+      return false;
+    }
+    
+    // Create a completer to manage the async result
+    final completer = Completer<bool>();
+    
+    // Define reliable relays that are more likely to have user metadata
+    final reliableRelays = [
+      "wss://purplepag.es",
+      "wss://relay.nos.social"
+    ];
+    
+    // Create a filter specifically for kind 0 (metadata) events from this user
+    final filters = [
+      Filter(
+        kinds: [EventKind.metadata],
+        authors: [pubkey],
+        limit: 1,
+      ).toJson()
+    ];
+    
+    var found = false;
+    
+    // Set a timeout to resolve the completer if no data comes back
+    Timer(const Duration(seconds: 10), () {
+      if (!completer.isCompleted) {
+        completer.complete(found);
+      }
+    });
+    
+    // Make the query to the specific relays
+    nostr!.query(
+      filters,
+      (event) {
+        // We found a metadata event, process it
+        if (event.kind == EventKind.metadata && event.pubkey == pubkey) {
+          found = true;
+          
+          // Process the event and update cache/DB
+          _processSingleMetadataEvent(event);
+          
+          // If we haven't completed yet, complete with success
+          if (!completer.isCompleted) {
+            completer.complete(true);
+          }
+        }
+      },
+      tempRelays: reliableRelays,
+      targetRelays: reliableRelays,
+      onComplete: () {
+        // Query completed without finding data
+        if (!completer.isCompleted) {
+          completer.complete(found);
+        }
+      },
+    );
+    
+    return completer.future;
+  }
+  
+  /// Process a single metadata event and update user data accordingly
+  void _processSingleMetadataEvent(Event event) {
+    if (event.kind != EventKind.metadata || StringUtil.isBlank(event.content)) {
+      return;
+    }
+    
+    try {
+      var jsonObj = jsonDecode(event.content);
+      var user = User.fromJson(jsonObj);
+      user.pubkey = event.pubkey;
+      user.updatedAt = event.createdAt;
+      
+      // Check if we already have this user in cache
+      final oldUser = _userCache[user.pubkey];
+      
+      if (oldUser == null) {
+        // New user, insert into DB and cache
+        UserDB.insert(user);
+        _userCache[user.pubkey!] = user;
+      } else if (oldUser.updatedAt! < user.updatedAt!) {
+        // User exists but we have newer data, update
+        UserDB.update(user);
+        _userCache[user.pubkey!] = user;
+      }
+      
+      // Remove this pubkey from the pending list
+      _handingPubkeys.remove(event.pubkey);
+      
+      // Notify listeners that we've updated user data
+      notifyListeners();
+    } catch (e) {
+      debugPrint("Error processing metadata event: $e");
+    }
   }
 }
