@@ -403,5 +403,12 @@
     "groupClosedDescription": "Requiere invitación o aprobación para unirse",
     "invitePeopleToJoin": "Invitar a personas a unirse a este grupo",
     "done": "Hecho",
-    "shareInviteDescription": "Comparte este enlace con personas que quieras invitar al grupo."
+    "shareInviteDescription": "Comparte este enlace con personas que quieras invitar al grupo.",
+    "noChats": "Aún no hay chats",
+    "startConversation": "Sé el primero en iniciar una conversación",
+    "noCommunities": "Aún no te has unido a ninguna comunidad",
+    "joinSomeCommunities": "Únete a algunas comunidades para verlas aparecer aquí",
+    "noNotes": "Aún no hay publicaciones",
+    "beFirstToPub": "Sé el primero en publicar en esta comunidad",
+    "communityNameHeader": "Nombre de la comunidad"
 }
