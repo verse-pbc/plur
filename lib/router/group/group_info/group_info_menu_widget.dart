@@ -178,6 +178,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+        backgroundColor: customColors.feedBgColor, // Add background color for theming
         title: Text(
           localization.leaveGroupQuestion,
           style: TextStyle(
@@ -205,10 +206,14 @@ class GroupInfoMenuWidget extends StatelessWidget {
             onPressed: () {
               // Leave the group
               listProvider.leaveGroup(groupId);
+              
+              // Close the dialog
               Navigator.of(context).pop();
+              
+              // Return to previous screen and then to the home screen
+              // This is safer than navigating to a potentially missing route
               Navigator.of(context).pop(); // Return to previous screen
-              // Navigate to group list
-              RouterUtil.router(context, RouterPath.groupList);
+              Navigator.of(context).popUntil((route) => route.isFirst);
             },
             child: Text(
               localization.leave,
