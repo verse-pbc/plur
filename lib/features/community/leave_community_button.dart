@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/generated/l10n.dart';
+import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/util/theme_util.dart';
 
 import '../../data/group_identifier_repository.dart';
+import '../../main.dart'; // For indexProvider
 import '../../util/router_util.dart';
 import '../../consts/router_path.dart';
 
@@ -67,13 +69,13 @@ class LeaveCommunityButton extends ConsumerWidget {
               // Execute callback if provided
               onLeft?.call();
               
-              // Navigate back to the main screen
-              // This is the safest approach to avoid routing issues
+              // Navigate back to the main index screen without creating duplicate keys
+              // Pop all the way back to first route if mounted
               if (context.mounted) {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  RouterPath.index, 
-                  (route) => false, // Remove all previous routes
-                );
+                Navigator.of(context).popUntil((route) => route.isFirst);
+                
+                // Refresh the current index in the IndexProvider to ensure we're on the main screen
+                indexProvider.setCurrentTap(0);
               }
             },
             child: Text(
