@@ -255,16 +255,10 @@ void main() {
 
     // New test cases for the helper function and integration
     group('registerUserForPushNotifications Tests', () {
-      test('returns false when nostr is null', () async {
-        final result =
-            await NotificationUtil.registerUserForPushNotifications();
-        expect(result, false);
-      });
-
       test('returns false when FCM token is null', () async {
         when(mockFirebaseMessaging.getToken()).thenAnswer((_) async => null);
         final result =
-            await NotificationUtil.registerUserForPushNotifications();
+            await NotificationUtil.registerUserForPushNotifications(mockNostr);
         expect(result, false);
       });
 
@@ -289,11 +283,8 @@ void main() {
             tempRelays: [defaultRelayUrl],
             targetRelays: [defaultRelayUrl])).thenAnswer((_) async => event);
 
-        // Set up nostr instance
-        main_lib.nostr = mockNostr;
-
         final result =
-            await NotificationUtil.registerUserForPushNotifications();
+            await NotificationUtil.registerUserForPushNotifications(mockNostr);
         expect(result, true);
       });
     });

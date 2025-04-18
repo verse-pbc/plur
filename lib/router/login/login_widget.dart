@@ -15,7 +15,6 @@ import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
-import '../../util/notification_util.dart';
 import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
 import '../../util/theme_util.dart';
@@ -376,8 +375,10 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
   Future<void> _completeSignup(String privateKey, String name) async {
     final settingsProvider =
         legacy_provider.Provider.of<SettingsProvider>(context, listen: false);
-    final relayProvider = legacy_provider.Provider.of<RelayProvider>(context, listen: false);
-    final indexProvider = legacy_provider.Provider.of<IndexProvider>(context, listen: false);
+    final relayProvider =
+        legacy_provider.Provider.of<RelayProvider>(context, listen: false);
+    final indexProvider =
+        legacy_provider.Provider.of<IndexProvider>(context, listen: false);
 
     // Clear previously selected account data if any
     _doPreLogin();
