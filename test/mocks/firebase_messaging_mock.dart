@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_messaging_platform_interface/firebase_messaging_platform_interface.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,17 +12,20 @@ import 'package:firebase_core_platform_interface/firebase_core_platform_interfac
 class MockFirebasePlatform extends Mock
     with MockPlatformInterfaceMixin
     implements FirebasePlatform {
+  // Singleton instance of MockFirebaseAppPlatform
+  final MockFirebaseAppPlatform _mockApp = MockFirebaseAppPlatform();
+
   @override
   Future<FirebaseAppPlatform> initializeApp({
     String? name,
     FirebaseOptions? options,
   }) async {
-    return MockFirebaseAppPlatform();
+    return _mockApp;
   }
 
   @override
   FirebaseAppPlatform app([String name = defaultFirebaseAppName]) {
-    return MockFirebaseAppPlatform();
+    return _mockApp;
   }
 }
 
@@ -41,19 +45,64 @@ class MockFirebaseAppPlatform extends Mock
       );
 }
 
-/// Mock implementation of FirebaseMessagingPlatform
-class MockFirebaseMessaging extends FirebaseMessagingPlatform {
-  // Controller for the onTokenRefresh stream
-  final StreamController<String> _tokenRefreshController =
-      StreamController<String>.broadcast();
+/// Mock implementation of FirebaseMessaging
+class MockFirebaseMessaging extends Mock implements FirebaseMessaging {
+  static final MockFirebaseMessaging _instance = MockFirebaseMessaging._();
+  late StreamController<String> _tokenRefreshController;
   String _mockToken = 'test_fcm_token';
   bool _autoInitEnabled = true;
 
-  MockFirebaseMessaging() : super();
-
-  static MockFirebaseMessaging get instance {
-    return FirebaseMessagingPlatform.instance as MockFirebaseMessaging;
+  MockFirebaseMessaging._() {
+    _tokenRefreshController = StreamController<String>.broadcast();
   }
+
+  static MockFirebaseMessaging get instance => _instance;
+
+  @override
+  Stream<String> get onTokenRefresh => _tokenRefreshController.stream;
+
+  @override
+  Future<String?> getToken({String? vapidKey}) async {
+    return _mockToken.isEmpty ? null : _mockToken;
+  }
+
+  void setMockToken(String token) {
+    _mockToken = token;
+  }
+
+  void simulateTokenRefresh(String newToken) {
+    _mockToken = newToken;
+    _tokenRefreshController.add(newToken);
+  }
+
+  void reset() {
+    if (!_tokenRefreshController.isClosed) {
+      _tokenRefreshController.close();
+    }
+    _tokenRefreshController = StreamController<String>.broadcast();
+    _mockToken = 'test_fcm_token';
+    _autoInitEnabled = true;
+  }
+
+  @override
+  bool get isAutoInitEnabled => _autoInitEnabled;
+}
+
+/// Mock implementation of FirebaseMessagingPlatform
+class MockFirebaseMessagingPlatform extends FirebaseMessagingPlatform {
+  final MockFirebaseMessaging _messaging = MockFirebaseMessaging.instance;
+
+  MockFirebaseMessagingPlatform() : super();
+
+  @override
+  Stream<String> get onTokenRefresh => _messaging.onTokenRefresh;
+
+  @override
+  Future<String?> getToken({String? vapidKey}) =>
+      _messaging.getToken(vapidKey: vapidKey);
+
+  @override
+  bool get isAutoInitEnabled => _messaging.isAutoInitEnabled;
 
   @override
   FirebaseMessagingPlatform delegateFor({FirebaseApp? app}) {
@@ -64,40 +113,35 @@ class MockFirebaseMessaging extends FirebaseMessagingPlatform {
   FirebaseMessagingPlatform setInitialValues({
     bool? isAutoInitEnabled,
   }) {
-    _autoInitEnabled = isAutoInitEnabled ?? true;
     return this;
   }
 
   @override
-  Future<String?> getToken({String? vapidKey}) async {
-    return _mockToken.isEmpty ? null : _mockToken;
+  Future<NotificationSettings> requestPermission({
+    bool alert = true,
+    bool announcement = false,
+    bool badge = true,
+    bool carPlay = false,
+    bool criticalAlert = false,
+    bool providesAppNotificationSettings = false,
+    bool provisional = false,
+    bool sound = true,
+  }) async {
+    return const NotificationSettings(
+      alert: AppleNotificationSetting.enabled,
+      announcement: AppleNotificationSetting.disabled,
+      authorizationStatus: AuthorizationStatus.authorized,
+      badge: AppleNotificationSetting.enabled,
+      carPlay: AppleNotificationSetting.disabled,
+      criticalAlert: AppleNotificationSetting.disabled,
+      lockScreen: AppleNotificationSetting.enabled,
+      notificationCenter: AppleNotificationSetting.enabled,
+      providesAppNotificationSettings: AppleNotificationSetting.disabled,
+      showPreviews: AppleShowPreviewSetting.always,
+      sound: AppleNotificationSetting.enabled,
+      timeSensitive: AppleNotificationSetting.disabled,
+    );
   }
-
-  // Set a custom token value (useful for testing different scenarios)
-  void setMockToken(String token) {
-    _mockToken = token;
-  }
-
-  // Allow tests to emit token refresh events
-  void simulateTokenRefresh(String newToken) {
-    _mockToken = newToken;
-    _tokenRefreshController.add(newToken);
-  }
-
-  @override
-  Stream<String> get onTokenRefresh => _tokenRefreshController.stream;
-
-  // Clean up resources
-  void dispose() {
-    _tokenRefreshController.close();
-  }
-
-  // Minimum overrides to prevent runtime errors
-  @override
-  Future<RemoteMessage?> getInitialMessage() async => null;
-
-  @override
-  bool get isAutoInitEnabled => _autoInitEnabled;
 }
 
 void setupFirebaseCoreMocks() {
@@ -147,6 +191,22 @@ void setupFirebaseMessagingMocks() {
   // Setup Firebase core mocks
   setupFirebaseCoreMocks();
 
-  // Register the mock messaging platform
-  FirebaseMessagingPlatform.instance = MockFirebaseMessaging();
+  // Reset the mock instance
+  MockFirebaseMessaging.instance.reset();
+
+  // Setup method channel mock for Firebase Messaging
+  const MethodChannel channel =
+      MethodChannel('plugins.flutter.io/firebase_messaging');
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (MethodCall call) async {
+    switch (call.method) {
+      case 'Messaging#getToken':
+        return MockFirebaseMessaging.instance._mockToken;
+      default:
+        return null;
+    }
+  });
+
+  // Register the mock messaging platform with our mock instance
+  FirebaseMessagingPlatform.instance = MockFirebaseMessagingPlatform();
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -32,7 +34,7 @@ void main() {
     tearDown(() {
       main_lib.nostr = null;
       // Clean up resources
-      mockFirebaseMessaging.dispose();
+      mockFirebaseMessaging.reset();
     });
 
     test('registerTokenWithRelay success', () async {
@@ -298,11 +300,6 @@ void main() {
 
     group('Token Refresh Handler Tests', () {
       test('registers new token on refresh when nostr is available', () async {
-        // Create a stream controller to emit token refresh events
-        final controller = StreamController<String>();
-        when(mockFirebaseMessaging.onTokenRefresh)
-            .thenAnswer((_) => controller.stream);
-
         // Set up successful event response
         final event = Event(
           TestData.alicePubkey,
@@ -326,12 +323,12 @@ void main() {
         main_lib.nostr = mockNostr;
 
         // Initialize the handler
-        NotificationUtil.setUp();
+        await NotificationUtil.setUp();
 
         // Emit a new token
-        controller.add('new_token');
+        mockFirebaseMessaging.simulateTokenRefresh('new_token');
 
-        // Wait for the async operations to complete
+        // Give the handler time to process the event
         await Future.delayed(const Duration(milliseconds: 100));
 
         // Verify the token was registered
