@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-class FakeFirebaseAppPlatform extends FirebaseAppPlatform {
-  FakeFirebaseAppPlatform({String? name, FirebaseOptions? options})
+/// Mock implementation of FirebaseAppPlatform for testing
+class MockFirebaseAppPlatform extends FirebaseAppPlatform {
+  MockFirebaseAppPlatform({String? name, FirebaseOptions? options})
       : super(name ?? '[DEFAULT]', options ?? _defaultOptions);
 
   static FirebaseOptions get _defaultOptions => const FirebaseOptions(
@@ -29,11 +30,12 @@ class FakeFirebaseAppPlatform extends FirebaseAppPlatform {
   Future<void> setAutomaticResourceManagementEnabled(bool enabled) async {}
 }
 
-class FakeFirebasePlatform extends FirebasePlatform {
-  final _app = FakeFirebaseAppPlatform();
+/// Mock implementation of FirebasePlatform for testing
+class MockFirebasePlatform extends FirebasePlatform {
+  final _app = MockFirebaseAppPlatform();
   final _apps = <FirebaseAppPlatform>[];
 
-  FakeFirebasePlatform() {
+  MockFirebasePlatform() {
     _apps.add(_app);
   }
 
@@ -63,10 +65,10 @@ class FakeFirebasePlatform extends FirebasePlatform {
   bool get isAutomaticDataCollectionEnabled => false;
 }
 
-// Setup function that registers the fake platform implementation
+/// Setup function that registers the mock implementation for Firebase Core
 Future<void> setupMockFirebase() async {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  // Register the fake implementation
-  Firebase.delegatePackingProperty = FakeFirebasePlatform();
+  // Register the mock Firebase platform implementation
+  FirebasePlatform.instance = MockFirebasePlatform();
 }
