@@ -302,7 +302,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         child: Text(
           "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
           style: TextStyle(
-            color: dimmedColor,
+            // Using primaryForegroundColor with opacity instead of dimmedColor for better readability
+            color: primaryForegroundColor.withOpacity(0.8),
             fontSize: 14,
           ),
         ),
@@ -310,7 +311,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       // Private key input field
       OutlineInputBorder textFieldBorder = OutlineInputBorder(
-        borderSide: BorderSide(color: dimmedColor),
+        borderSide: BorderSide(color: primaryForegroundColor.withOpacity(0.4)),
       );
       
       mainList.add(TextField(
@@ -319,7 +320,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           focusedBorder: textFieldBorder,
           enabledBorder: textFieldBorder,
           hintText: "nsec... / bunker:// URL / user@domain",
-          hintStyle: TextStyle(color: dimmedColor, fontSize: 16),
+          hintStyle: TextStyle(color: primaryForegroundColor.withOpacity(0.5), fontSize: 16),
           contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           // Adds an eye icon as a suffix to toggle password visibility
           suffixIcon: GestureDetector(
@@ -330,12 +331,12 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             },
             child: Icon(
               _isTextObscured ? Icons.visibility : Icons.visibility_off,
-              color: dimmedColor,
+              color: primaryForegroundColor.withOpacity(0.7),
             ),
           ),
         ),
         style: TextStyle(
-          color: dimmedColor,
+          color: primaryForegroundColor,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
