@@ -21,6 +21,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../features/communities/communities_screen.dart';
+import '../../features/create_community/create_community_dialog.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
@@ -28,7 +29,6 @@ import '../../provider/settings_provider.dart';
 import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
-import '../group/create_community_dialog.dart';
 import '../login/login_widget.dart';
 import '../search/search_widget.dart';
 import 'index_app_bar.dart';
