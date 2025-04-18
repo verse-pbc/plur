@@ -13,14 +13,17 @@ import '../widgets/response_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../models/listing_model.dart';
+import 'group_badge_widget.dart';
 
 class ListingCard extends ConsumerWidget {
   final ListingModel listing;
   final VoidCallback? onTap;
+  final bool showGroupBadge;
 
   const ListingCard({
     required this.listing,
     this.onTap,
+    this.showGroupBadge = false,
     super.key,
   });
 
@@ -471,6 +474,15 @@ class ListingCard extends ConsumerWidget {
   Widget _buildGroupInfo(WidgetRef ref) {
     if (listing.groupId == null) return const SizedBox.shrink();
     
+    // Use the GroupBadgeWidget for "all groups" view
+    if (showGroupBadge) {
+      return GroupBadgeWidget(
+        groupId: listing.groupId!,
+        fontSize: 12.0,
+      );
+    }
+    
+    // Otherwise use the text-only version for single group view
     // Extract host from group identifier format (host:id)
     String? host;
     String groupIdFormatted = listing.groupId!;

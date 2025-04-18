@@ -16,8 +16,13 @@ import '../screens/listing_detail_screen.dart';
 
 class ListingsScreen extends ConsumerStatefulWidget {
   final String? groupId;
+  final bool showAllGroups;
 
-  const ListingsScreen({this.groupId, super.key});
+  const ListingsScreen({
+    this.groupId, 
+    this.showAllGroups = false, 
+    super.key
+  });
 
   @override
   ConsumerState<ListingsScreen> createState() => _ListingsScreenState();
@@ -37,8 +42,14 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
     
-    // Load listings when screen initializes
-    ref.read(listingProvider.notifier).loadListings(groupId: widget.groupId);
+    // Load listings from all groups or a specific group
+    if (widget.showAllGroups) {
+      // Load all listings from all groups
+      ref.read(listingProvider.notifier).loadListings(groupId: null);
+    } else {
+      // Load listings from a specific group
+      ref.read(listingProvider.notifier).loadListings(groupId: widget.groupId);
+    }
   }
   
   @override
@@ -67,7 +78,13 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
   }
   
   Future<void> _refreshListings() async {
-    return ref.read(listingProvider.notifier).loadListings(groupId: widget.groupId);
+    if (widget.showAllGroups) {
+      // Refresh listings from all groups
+      return ref.read(listingProvider.notifier).loadListings(groupId: null);
+    } else {
+      // Refresh listings from a specific group
+      return ref.read(listingProvider.notifier).loadListings(groupId: widget.groupId);
+    }
   }
 
   @override
@@ -78,8 +95,13 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     
     // Group metadata if we're in a group
     Widget? groupName;
-    if (widget.groupId != null) {
+    if (widget.groupId != null && !widget.showAllGroups) {
       groupName = _buildGroupNameWidget();
+    } else if (widget.showAllGroups) {
+      groupName = Text("All Communities", style: TextStyle(
+        fontSize: 14,
+        color: customColors.secondaryForegroundColor,
+      ));
     }
 
     return Scaffold(
@@ -196,8 +218,9 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                   final filteredListings = ref.read(listingProvider.notifier).filterListings(
                     type: _selectedType,
                     status: _selectedStatus,
-                    groupId: widget.groupId,
+                    groupId: widget.showAllGroups ? null : widget.groupId,
                     searchQuery: _searchQuery,
+                    showAllGroups: widget.showAllGroups,
                   );
 
                   if (filteredListings.isEmpty) {
@@ -209,6 +232,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                     itemBuilder: (context, index) {
                       return ListingCard(
                         listing: filteredListings[index],
+                        showGroupBadge: widget.showAllGroups, // Show group badge when in all groups mode
                         onTap: () {
                           // Navigate to listing detail screen using direct navigation
                           Navigator.of(context).push(
