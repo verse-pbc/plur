@@ -210,10 +210,12 @@ class GroupInfoMenuWidget extends StatelessWidget {
               // Close the dialog
               Navigator.of(context).pop();
               
-              // Return to previous screen and then to the home screen
-              // This is safer than navigating to a potentially missing route
-              Navigator.of(context).pop(); // Return to previous screen
-              Navigator.of(context).popUntil((route) => route.isFirst);
+              // Navigate back to the main screen
+              // This is the safest approach to avoid routing issues
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                RouterPath.index, 
+                (route) => false, // Remove all previous routes
+              );
             },
             child: Text(
               localization.leave,
