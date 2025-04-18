@@ -144,6 +144,16 @@ class _UserWidgetState extends CustState<UserWidget>
         }
         var appBar = Appbar4Stack(
           title: appbarTitle,
+          actions: [
+            // Add a refresh button to manually update the user's profile
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () {
+                _refreshUserProfile();
+              },
+              tooltip: "Refresh profile",
+            ),
+          ],
         );
 
         Widget main = NestedScrollView(
@@ -261,7 +271,18 @@ class _UserWidgetState extends CustState<UserWidget>
     updateUserdata();
   }
 
+  /// Updates user data with both standard and reliable relay lookup.
+  /// 
+  /// This method attempts to fetch the latest user profile data
+  /// using both the regular update mechanism and our reliable relay lookup.
+  /// The reliable relay lookup is especially useful when the user profile
+  /// can't be found in the standard relay set.
   void updateUserdata() {
+    // Try to force a profile refresh from reliable relays
+    // This will fetch profile data in the background without blocking the UI
+    userProvider.forceProfileRefresh(pubkey!);
+    
+    // Also schedule a standard update (this is added to a queue)
     userProvider.update(pubkey!);
   }
 
@@ -295,6 +316,37 @@ class _UserWidgetState extends CustState<UserWidget>
   void unSubscribe() {
     nostr!.unsubscribe(subscribeId!);
     subscribeId = null;
+  }
+  
+  /// Refreshes the user profile data from reliable relays
+  /// and shows a notification to the user.
+  /// 
+  /// This can be triggered manually by the user via the refresh button.
+  Future<void> _refreshUserProfile() async {
+    // Show a loading indicator
+    BotToast.showLoading();
+    
+    try {
+      // Force a profile refresh from reliable relays
+      final success = await userProvider.forceProfileRefresh(pubkey!);
+      
+      // Hide the loading indicator
+      BotToast.closeAllLoading();
+      
+      // Show a success or failure message
+      if (success) {
+        BotToast.showText(text: "Profile refreshed successfully");
+      } else {
+        BotToast.showText(text: "Could not find profile on reliable relays");
+        
+        // If reliable relays didn't have the profile, try standard relays
+        userProvider.update(pubkey!);
+      }
+    } catch (e) {
+      // Hide the loading indicator and show error
+      BotToast.closeAllLoading();
+      BotToast.showText(text: "Error refreshing profile: $e");
+    }
   }
 
   @override
