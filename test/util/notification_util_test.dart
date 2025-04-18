@@ -1,21 +1,40 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/main.dart' as main_lib;
 import '../helpers/test_data.dart';
+import '../mocks/firebase_messaging_mock.dart' as firebase_mock;
 import 'notification_util_test.mocks.dart';
 
 @GenerateMocks([Nostr])
 void main() {
   group('NotificationUtil Token Registration Tests', () {
     late MockNostr mockNostr;
+    late firebase_mock.MockFirebaseMessaging mockFirebaseMessaging;
     const testToken = 'test_fcm_token';
     const testRelayUrl = 'wss://test.relay';
+    const defaultRelayUrl = 'wss://communities.nos.social';
 
     setUp(() {
       mockNostr = MockNostr();
       when(mockNostr.publicKey).thenReturn(TestData.alicePubkey);
+
+      // Setup Firebase messaging mock
+      firebase_mock.setupFirebaseMessagingMocks();
+      mockFirebaseMessaging = firebase_mock.getMockFirebaseMessaging();
+
+      // Reset nostr for each test
+      main_lib.nostr = null;
+    });
+
+    tearDown(() {
+      main_lib.nostr = null;
+      // Clean up resources
+      mockFirebaseMessaging.reset();
     });
 
     test('registerTokenWithRelay success', () async {
@@ -233,6 +252,108 @@ void main() {
           lessThan(5), // 5 second tolerance
         );
       }
+    });
+
+    group('registerUserForPushNotifications Tests', () {
+      test('returns false when FCM token is null', () async {
+        mockFirebaseMessaging.setMockToken('');
+
+        final result =
+            await NotificationUtil.registerUserForPushNotifications(mockNostr);
+
+        expect(result, false);
+      });
+
+      test('successfully registers token when all conditions are met',
+          () async {
+        const testToken = 'valid_token';
+
+        // Create a properly signed event for the mock response
+        final event = Event(
+          TestData.alicePubkey,
+          3079,
+          [
+            [
+              'expiration',
+              (DateTime.now().millisecondsSinceEpoch ~/ 1000 + 7 * 24 * 60 * 60)
+                  .toString()
+            ]
+          ],
+          testToken,
+        );
+        event.sign(TestData.aliceSecretKey);
+
+        // Set up the mock to return success for the defaultRelayUrl
+        when(mockNostr.sendEvent(any,
+            tempRelays: [defaultRelayUrl],
+            targetRelays: [defaultRelayUrl])).thenAnswer((_) async => event);
+
+        final result =
+            await NotificationUtil.registerUserForPushNotifications(mockNostr);
+        expect(result, true);
+
+        // Verify the send event was called with correct parameters
+        verify(mockNostr.sendEvent(any,
+            tempRelays: [defaultRelayUrl], targetRelays: [defaultRelayUrl]));
+      });
+    });
+
+    group('Token Refresh Handler Tests', () {
+      test('registers new token on refresh when nostr is available', () async {
+        // Set up successful event response
+        final event = Event(
+          TestData.alicePubkey,
+          3079,
+          [
+            [
+              'expiration',
+              (DateTime.now().millisecondsSinceEpoch ~/ 1000 + 7 * 24 * 60 * 60)
+                  .toString()
+            ]
+          ],
+          'new_token',
+        );
+        event.sign(TestData.aliceSecretKey);
+
+        // Create a completer to track when the token is registered
+        final tokenRegistrationCompleter = Completer<void>();
+
+        when(mockNostr.sendEvent(any,
+            tempRelays: [defaultRelayUrl],
+            targetRelays: [defaultRelayUrl])).thenAnswer((invocation) async {
+          // Complete the completer when sendEvent is called
+          tokenRegistrationCompleter.complete();
+          return event;
+        });
+
+        // Set up nostr instance
+        main_lib.nostr = mockNostr;
+
+        // Initialize the handler
+        await NotificationUtil.setUp();
+
+        // Emit a new token
+        mockFirebaseMessaging.simulateTokenRefresh('new_token');
+
+        // Wait for the token registration to complete
+        await tokenRegistrationCompleter.future;
+
+        // Verify the token was registered
+        verify(mockNostr.sendEvent(any,
+            tempRelays: [defaultRelayUrl], targetRelays: [defaultRelayUrl]));
+      });
+
+      test('token refresh handler does nothing when nostr is null', () async {
+        // Ensure nostr is null
+        main_lib.nostr = null;
+
+        // Simulate a token refresh event
+        mockFirebaseMessaging.simulateTokenRefresh(testToken);
+
+        verifyNever(mockNostr.sendEvent(any,
+            tempRelays: anyNamed('tempRelays'),
+            targetRelays: anyNamed('targetRelays')));
+      });
     });
   });
 }

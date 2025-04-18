@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/event.dart';
+import '../../main.dart';
 
 /// Utility class for handling notifications
 /// Plur may receive remote notifications from Firebase Cloud Messaging.
@@ -27,10 +28,31 @@ class NotificationUtil {
     enableLights: true,
   );
 
+  static const String _defaultRelayUrl = 'wss://communities.nos.social';
+
   static Future<void> setUp() async {
     await _setUpLocalNotifications();
     _setupForegroundMessaging();
     _setupBackgroundClickHandler(_handleBackgroundNotificationClick);
+    _setupTokenRefreshHandler();
+  }
+
+  /// Helper function to register the current user for push notifications
+  /// This includes getting the FCM token and registering it with the relay
+  /// Returns true if registration was successful, false otherwise
+  static Future<bool> registerUserForPushNotifications(Nostr nostr) async {
+    final token = await getToken();
+    if (token == null) {
+      log('Cannot register for push notifications: FCM token is null');
+      return false;
+    }
+
+    log('Registering user for push notifications with token: $token');
+    return registerTokenWithRelay(
+      token: token,
+      nostr: nostr,
+      relayUrl: _defaultRelayUrl,
+    );
   }
 
   /// Initializes _flutterLocalNotificationsPlugin with the proper configuration.
@@ -233,7 +255,6 @@ class NotificationUtil {
   /// Get the Firebase Cloud Messaging token
   static Future<String?> getToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    log('FCM Token: $token');
     return token;
   }
 
@@ -323,5 +344,19 @@ class NotificationUtil {
   /// timestamp.
   static int _registrationExpirationTimestamp() {
     return (DateTime.now().millisecondsSinceEpoch ~/ 1000) + (7 * 24 * 60 * 60);
+  }
+
+  /// Set up token refresh handler to re-register token when it changes
+  static void _setupTokenRefreshHandler() {
+    FirebaseMessaging.instance.onTokenRefresh.listen((String token) async {
+      log('FCM Token refreshed: $token');
+      if (nostr != null) {
+        await registerTokenWithRelay(
+          token: token,
+          nostr: nostr!,
+          relayUrl: _defaultRelayUrl,
+        );
+      }
+    });
   }
 }
