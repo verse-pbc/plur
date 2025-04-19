@@ -27,16 +27,13 @@ git submodule update
 
 ### Installing required tools
 
-Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used. You can use either [mise-en-place](https://mise.jdx.dev) or [Homebrew](https://brew.sh) for this.
-
-#### Using Homebrew and FVM
-Homebrew is a package manager for macOS. It allows you to install tools and use them from the command line. For Plur, FVM specifies the version of Flutter that’s required to build the app. With the Homebrew setup, the required version of Java is not specified outside of this README.
+Plur uses Flutter to build, with tools and configuration files to ensure the right versions of Flutter, Dart, and Java are used.
 
 1. Install [Homebrew](https://brew.sh)
-2. Install CocoaPods
+2. Install CocoaPods: `brew install cocoapods`
 3. Install Java 17: `brew install openjdk@17`
-4. Install [FVM](https://fvm.app), then remember to always preface Flutter commands with `fvm`.
-5. Install Flutter with FVM from the `plur` directory. The correct version is specified in `.fvmrc`. Install it with `fvm install`.
+4. Install [FVM](https://fvm.app)
+5. Install Flutter with FVM from the `plur` directory. The correct version is specified in `.fvmrc`. Install it with `fvm install`
 6. Point Flutter at the proper version of Java: `fvm flutter config --jdk-dir /opt/homebrew/opt/openjdk@17`
 7. Ensure everything is set up properly (look for green checkmarks): `fvm flutter doctor -v`
 8. If the **Android toolchain** section shows a Java version of 21.0.x (or anything other than 17), Flutter will not be able to build. Try again to set the Java version using `flutter config --jdk-dir <JAVA_DIRECTORY_HERE>`
@@ -46,18 +43,18 @@ Homebrew is a package manager for macOS. It allows you to install tools and use 
 #### Android
 
 ##### Command line
-Remember that if you’re using FVM, you always want to preface your Flutter commands with `fvm` so you can be sure you’re using the version of Flutter specified in the `.fvmrc` file. If you’re using `mise`, that’s handled internally by `mise` and the `.mise.toml` file, so you can just run `flutter` commands on their own.
+Remember to preface your Flutter commands with `fvm` so you can be sure you're using the version of Flutter specified in the `.fvmrc` file.
 
-1. Get dependencies with `[fvm] flutter pub get`
-2. Build the app with `[fvm] flutter build apk --debug`
+1. Get dependencies with `fvm flutter pub get`
+2. Build the app with `fvm flutter build apk --debug`
 
 ##### Android Studio
 1. Open the root folder (`plur`) in Android Studio.
-2. Android Studio may automatically prompt you to install the plugins for Dart and Flutter since you’ve opened a Flutter project. If so, you can install them from the prompt. Otherwise, search for them and install them from Settings > Plugins.
+2. Android Studio may automatically prompt you to install the plugins for Dart and Flutter since you've opened a Flutter project. If so, you can install them from the prompt. Otherwise, search for them and install them from Settings > Plugins.
 3. When prompted, restart Android Studio.
-4. In Android Studio, open Settings > Languages & Frameworks > Dart. Check "Enable Dart support for the project 'plur’”.
-5. Set the Dart SDK path. The location will depend on which setup you used. For mise, you run the following from your `plur` directory to copy your Dart SDK path to the clipboard: `echo $(mise where flutter)/bin/cache/dart-sdk | pbcopy`, then paste it into Android Studio (it’ll be something like `/Users/josh/.local/share/mise/installs/flutter/3.24.5-stable/bin/cache/dart-sdk`). For FVM, the path will contain your project folder and will look something like this: `/Users/josh/Code/plur/.fvm/flutter_sdk/bin/cache/dart-sdk`.
-6. In Settings > Languages & Frameworks > Flutter, ensure that the path is set properly. It should either be like `/Users/josh/.local/share/mise/installs/flutter/3.24.5-stable` or  `/Users/josh/Code/plur/.fvm/flutter_sdk`.
+4. In Android Studio, open Settings > Languages & Frameworks > Dart. Check "Enable Dart support for the project 'plur'".
+5. Set the Dart SDK path. Run the following from your `plur` directory to copy your Dart SDK path to the clipboard: `cd $(fvm flutter sdk-path)/bin/cache/dart-sdk | pbcopy`, then paste it into Android Studio.
+6. In Settings > Languages & Frameworks > Flutter, set the Flutter SDK path to the output of `fvm flutter sdk-path`.
 7. Run an Android emulator using the Device Manager in the right side bar.
 8. Select the running emulator in the top bar, then click the Run button.
 
@@ -66,8 +63,8 @@ Remember that if you’re using FVM, you always want to preface your Flutter com
 ##### Xcode
 To run the iOS or macOS app from Xcode, start in Terminal at the root of this repository:
 
-1. `flutter pub get`
-2. `flutter build ios --debug`
+1. `fvm flutter pub get`
+2. `fvm flutter build ios --debug`
 3. Open the workspace, which you can do from Terminal: `open ios/Runner.xcworkspace/`
 4. In the top middle of Xcode, Select `Runner` and choose a simulator or device.
 5. Build and run!
@@ -76,9 +73,9 @@ To run the iOS or macOS app from Xcode, start in Terminal at the root of this re
 To run the iOS app from Android Studio:
 
 1. Open the root folder (`plur`) in Android Studio.
-2. Android Studio should automatically prompt you to install the plugins for Dart and Flutter since you’ve opened a Flutter project. If not, search for them and install them from Settings > Plugins.
+2. Android Studio should automatically prompt you to install the plugins for Dart and Flutter since you've opened a Flutter project. If not, search for them and install them from Settings > Plugins.
 3. In the top bar, near the middle of the screen is the configuration selector. Ensure that `main.dart` is selected.
-4. In the Flutter Device Selection dropdown, you can choose a device or “Open iOS simulator”. After a simulator is open, you can choose it as the run destination.
+4. In the Flutter Device Selection dropdown, you can choose a device or "Open iOS simulator". After a simulator is open, you can choose it as the run destination.
 5. Click the green Run button to build and run!
 
 Building for Mac Designed for iPad is not supported from Android Studio, and macOS (desktop) does not seem to be, either. You can use Xcode to select My Mac (Designed for iPad) and run from there.
@@ -86,25 +83,25 @@ Building for Mac Designed for iPad is not supported from Android Studio, and mac
 #### Windows
 
 ```
-flutter build windows --release
+fvm flutter build windows --release
 ```
 
 #### Web
 
 ```
-flutter build web --release --web-renderer canvaskit
+fvm flutter build web --release --web-renderer canvaskit
 ```
 
 #### Linux
 
-Linux depend on ```libsqlite``` and ```libmpv```, you can try to run this script to install before it run: 
+Linux depend on `libsqlite` and `libmpv`, you can try to run this script to install before it run: 
 
 ```
 sudo apt-get -y install libsqlite3-0 libsqlite3-dev libmpv-dev mpv
 ```
 
 ```
-flutter build linux --release
+fvm flutter build linux --release
 ```
 
 ## Project Analysis
