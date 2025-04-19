@@ -108,7 +108,7 @@ class Baes64FileResponse implements FileServiceResponse {
 
   @override
   String get fileExtension {
-    // TODO this is not the real extension
+    // this is not the real extension
     return "jpeg";
   }
 }

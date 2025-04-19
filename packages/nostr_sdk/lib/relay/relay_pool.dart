@@ -262,7 +262,7 @@ class RelayPool {
         return;
       }
 
-      // notice save, TODO maybe should change code
+      // notice save, maybe should change code
       if (onNotice != null) {
         onNotice!(relay.url, json[1] as String);
       }

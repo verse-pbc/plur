@@ -14,10 +14,9 @@ class NIP95Uploader {
       {String? fileName}) async {
     var result = await uploadForEvent(nostr, filePath, fileName: fileName);
     if (result != null) {
-      // TODO Here should set relayAddrs to event.
+      // still need to set relayAddrs to event.
       return NIP19Tlv.encodeNevent(
-          Nevent(id: result.id, relays: result.sources)
-      );
+          Nevent(id: result.id, relays: result.sources));
     }
 
     return null;
@@ -56,8 +55,7 @@ class NIP95Uploader {
     ];
 
     var pubkey = nostr.publicKey;
-    var event =
-        Event(pubkey, EventKind.storageSharedFile, tags, base64Content);
+    var event = Event(pubkey, EventKind.storageSharedFile, tags, base64Content);
 
     return nostr.sendEvent(event);
   }

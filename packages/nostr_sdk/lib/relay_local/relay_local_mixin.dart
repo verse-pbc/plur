@@ -50,7 +50,7 @@ mixin RelayLocalMixin {
               if (k == "e") {
                 getRelayLocalDB().deleteEvent(pubkey, v);
               } else if (k == "a") {
-                // TODO should add support delete by aid
+                // still need to add support delete by aid
               }
             }
           }
@@ -80,7 +80,7 @@ mixin RelayLocalMixin {
     final subscriptionId = message[1];
     for (var i = 2; i < message.length; i++) {
       final filter = message[i];
-      final events = await getRelayLocalDB().doQueryEvent(filter); 
+      final events = await getRelayLocalDB().doQueryEvent(filter);
       for (var event in events) {
         callback(connId, ["EVENT", subscriptionId, event]);
       }

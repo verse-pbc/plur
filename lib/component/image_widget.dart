@@ -15,7 +15,8 @@ class ImageWidget extends StatelessWidget {
 
   final PlaceholderWidgetBuilder? placeholder;
 
-  const ImageWidget({super.key,
+  const ImageWidget({
+    super.key,
     required this.url,
     this.width,
     this.height,
@@ -27,7 +28,7 @@ class ImageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = () {
       if (PlatformUtil.isWeb()) {
-        // TODO temp handle nostr.build cors error, these should be handled later.
+        // temp handle nostr.build cors error, these should be handled later.
         if (url.startsWith("https://nostr.build/i/p/")) {
           return url.replaceFirst(
               "https://nostr.build/i/p/", "https://pfp.nostr.build/");

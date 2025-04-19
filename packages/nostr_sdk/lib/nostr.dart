@@ -183,7 +183,7 @@ class Nostr {
   /// - [sendAfterAuth] Whether to wait for relay authentication before subscribing.
   ///
   /// Returns the subscription ID that can be used to unsubscribe later
-  // TODO: Rename relay parameters globally for clarity:
+  // still need to Rename relay parameters globally for clarity:
   //  - tempRelays
   //  - targetRelays
   String subscribe(

@@ -557,7 +557,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       }
     }
 
-    // TODO reply maybe change the placeholder in editor router.
+    // later: reply maybe change the placeholder in editor router.
     var event = await EditorWidget.open(
       context,
       tags: tags,
@@ -615,8 +615,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     List<String>? relayAddrs = getGroupRelays();
 
     relayAddrs ??= [];
-    relayAddrs
-        .addAll(userProvider.getExtraRelays(widget.event.pubkey, false));
+    relayAddrs.addAll(userProvider.getExtraRelays(widget.event.pubkey, false));
 
     if (myLikeEvents == null || myLikeEvents!.isEmpty) {
       // like

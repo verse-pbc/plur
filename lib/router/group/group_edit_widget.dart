@@ -262,7 +262,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
 
   Future<String?> pickImageAndUpload() async {
     if (PlatformUtil.isWeb()) {
-      // TODO ban image update at web temp
+      // still need to ban image update at web temp
       return null;
     }
 

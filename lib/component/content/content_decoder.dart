@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/content/content_event_tag_infos.dart';
@@ -211,7 +210,7 @@ class ContentDecoder {
               handledStr = _closeHandledStr(handledStr, inlines);
               inlines.add(ContentLinkWidget(link: subStr));
             }
-            // // TODO need to handle, this is temp handle
+            // need to handle, this is temp handle
             // handledStr = _addToHandledStr(handledStr, subStr);
           } else if (pathType == "link") {
             if (!showLinkPreview) {

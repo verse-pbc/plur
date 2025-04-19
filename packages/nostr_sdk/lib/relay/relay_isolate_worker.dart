@@ -49,7 +49,8 @@ class RelayIsolateWorker {
             _closeWS(wsChannel);
             wsChannel = await handleWS();
           } else {
-            // TODO the websocket is connected, try to check or reconnect.
+            // the websocket is connected, try to check or reconnect.
+            // still need to handle this
           }
         } else if (message == RelayIsolateMsgs.disconnect) {
           _closeWS(wsChannel);
