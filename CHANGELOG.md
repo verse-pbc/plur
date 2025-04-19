@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change user-facing usage of Groups to Communities. [#326](https://github.com/verse-pbc/issues/issues/326)
 - Moved storage of private keys to Keychain/Keystore. [#324](https://github.com/verse-pbc/issues/issues/324)
 - Removed @Name from side menu. [#330](https://github.com/verse-pbc/issues/issues/330)
+- Improved leave community icon for better usability.
 
 ### Internal Changes
 - Added code to register users with the push notification service

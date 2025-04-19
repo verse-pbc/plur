@@ -14,7 +14,8 @@ class LeaveCommunityButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final leaveCommunityController = ref.watch(leaveCommunityControllerProvider.notifier);
     return IconButton(
-      icon: const Icon(Icons.group_remove_outlined),
+      icon: const Icon(Icons.exit_to_app),
+      tooltip: 'Leave community',
       onPressed: () async {
         final success = await leaveCommunityController.leaveCommunity(groupIdentifier);
         if (success) {
