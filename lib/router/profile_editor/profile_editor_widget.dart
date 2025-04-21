@@ -6,13 +6,12 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/util/router_util.dart';
 
-import '../../component/appbar4stack.dart';
+import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/uploader.dart';
-import '../../util/table_mode_util.dart';
 
 class ProfileEditorWidget extends StatefulWidget {
   const ProfileEditorWidget({super.key});
@@ -62,7 +61,6 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     }
 
     final themeData = Theme.of(context);
-    var cardColor = themeData.cardColor;
     var textColor = themeData.textTheme.bodyMedium!.color;
 
     var submitBtn = TextButton(
@@ -77,26 +75,10 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       ),
     );
 
-    Color? appbarBackgroundColor = Colors.transparent;
-    var appBar = Appbar4Stack(
-      backgroundColor: appbarBackgroundColor,
-      // title: appbarTitle,
-      action: Container(
-        margin: const EdgeInsets.only(right: Base.basePadding),
-        child: submitBtn,
-      ),
-    );
-
     var margin = const EdgeInsets.only(bottom: Base.basePadding);
     var padding = const EdgeInsets.only(left: 20, right: 20);
 
     List<Widget> list = [];
-
-    if (TableModeUtil.isTableMode()) {
-      list.add(Container(
-        height: 30,
-      ));
-    }
 
     list.add(Container(
       margin: margin,
@@ -195,30 +177,21 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     ));
 
     return Scaffold(
+      appBar: AppBar(
+        leading: const AppbarBackBtnWidget(),
+        actions: [
+          submitBtn,
+        ],
+      ),
       body: Stack(
         children: [
-          Container(
-            width: mediaDataCache.size.width,
+          SizedBox(
             height: mediaDataCache.size.height - mediaDataCache.padding.top,
-            margin: EdgeInsets.only(top: mediaDataCache.padding.top),
-            child: Container(
-              color: cardColor,
-              padding: EdgeInsets.only(
-                  top: mediaDataCache.padding.top + Base.basePadding),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: list,
-                ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: list,
               ),
-            ),
-          ),
-          Positioned(
-            top: mediaDataCache.padding.top,
-            left: 0,
-            right: 0,
-            child: Container(
-              child: appBar,
             ),
           ),
         ],
