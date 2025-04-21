@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change user-facing usage of Groups to Communities. [#326](https://github.com/verse-pbc/issues/issues/326)
 - Moved storage of private keys to Keychain/Keystore. [#324](https://github.com/verse-pbc/issues/issues/324)
 - Removed @Name from side menu. [#330](https://github.com/verse-pbc/issues/issues/330)
+- Fixed Edit Profile view navigation bar area. [#329](https://github.com/verse-pbc/issues/issues/329)
 
 ### Internal Changes
 - Standardized on FVM for Flutter version management, removing mise configuration.
