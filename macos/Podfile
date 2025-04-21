@@ -30,11 +30,18 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  flutter_install_all_macos_pods File.dirname(File.realpath(__FILE__))
-end
-
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    flutter_additional_macos_build_settings(target)
+  # Add this to force only arm64 builds
+  post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      # ✅ Exclude x86_64 to support arm64-only builds
+      target.build_configurations.each do |config|
+        config.build_settings['EXCLUDED_ARCHS[sdk=macosx*]'] = 'x86_64'
+      end
+  
+      # ✅ Apply Flutter-specific macOS build settings
+      flutter_additional_macos_build_settings(target)
+    end
   end
+
+  flutter_install_all_macos_pods File.dirname(File.realpath(__FILE__))
 end
