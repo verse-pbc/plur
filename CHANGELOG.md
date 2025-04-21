@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added code to register users with the push notification service
 - Fixed many typos.
 - Removed CODEOWNERS file to simplify repository management.
+- Enabled building for macOS.
 
 ## [0.0.5]
 
