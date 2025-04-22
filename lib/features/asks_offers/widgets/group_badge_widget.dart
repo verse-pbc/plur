@@ -6,6 +6,7 @@ import 'package:nostrmo/data/group_metadata_repository.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart' as provider_pkg;
 import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/util/group_id_util.dart';
 
 /// A widget that displays a badge for a group with its name
 class GroupBadgeWidget extends ConsumerWidget {
@@ -26,21 +27,10 @@ class GroupBadgeWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Parse the groupId into a GroupIdentifier object
-    String host;
-    String id;
-    
-    if (groupId.contains(':')) {
-      final parts = groupId.split(':');
-      host = parts[0];
-      id = parts[1];
-    } else {
-      // Fallback if no host in the format
-      host = 'relay';
-      id = groupId;
-    }
-    
-    final groupIdentifier = GroupIdentifier(host, id);
+    // First standardize the group ID to ensure consistent format
+    final standardizedGroupId = GroupIdUtil.standardizeGroupIdString(groupId);
+    // Then parse the standardized group ID into a GroupIdentifier
+    final groupIdentifier = GroupIdUtil.parseFromHTag(standardizedGroupId);
     final themeData = Theme.of(context);
     
     // Directly access the group provider for immediate group data without loading state
@@ -63,7 +53,7 @@ class GroupBadgeWidget extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: backgroundColor ?? themeData.colorScheme.primary.withOpacity(0.1),
+          color: backgroundColor ?? themeData.colorScheme.primary.withValues(alpha: 0.1 * 255),
           borderRadius: BorderRadius.circular(16),
         ),
         child: ref.watch(groupMetadataProvider(groupIdentifier)).when(
@@ -74,7 +64,7 @@ class GroupBadgeWidget extends ConsumerWidget {
             
             return _buildBadgeContent(themeData, groupName);
           },
-          loading: () => _buildBadgeContent(themeData, id), // Show ID instead of "Loading..."
+          loading: () => _buildBadgeContent(themeData, groupIdentifier.groupId), // Show ID instead of "Loading..."
           error: (_, __) => _buildBadgeContent(themeData, 'Community'),
         ),
       ),
@@ -90,7 +80,7 @@ class GroupBadgeWidget extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: backgroundColor ?? themeData.colorScheme.primary.withOpacity(0.1),
+          color: backgroundColor ?? themeData.colorScheme.primary.withValues(alpha: 0.1 * 255),
           borderRadius: BorderRadius.circular(16),
         ),
         child: _buildBadgeContent(themeData, groupName),
