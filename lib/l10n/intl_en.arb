@@ -3,6 +3,8 @@
     "Cancel": "Cancel",
     "Discard": "Discard",
     "Confirm_Discard": "Are you sure you want to discard unsaved changes?",
+    "Leave": "Leave",
+    "Confirm_Leave": "Are you sure you want to leave this group?",
     "Error": "Error",
     "Retry": "Retry",
     "Communities": "Communities",

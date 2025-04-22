@@ -90,6 +90,26 @@ class S {
     );
   }
 
+  /// `Leave`
+  String get Leave {
+    return Intl.message(
+      'Leave',
+      name: 'Leave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to leave this group?`
+  String get Confirm_Leave {
+    return Intl.message(
+      'Are you sure you want to leave this group?',
+      name: 'Confirm_Leave',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Error`
   String get Error {
     return Intl.message(
