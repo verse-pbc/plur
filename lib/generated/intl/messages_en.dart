@@ -110,6 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "Confirm_Discard": MessageLookupByLibrary.simpleMessage(
             "Are you sure you want to discard unsaved changes?"),
+        "Confirm_Leave": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to leave this group?"),
         "Connect_with_others": MessageLookupByLibrary.simpleMessage(
             "Connect with others by creating your own community or joining an existing one with an invite link."),
         "Contact": MessageLookupByLibrary.simpleMessage("Contact"),
@@ -267,6 +269,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Join_Community":
             MessageLookupByLibrary.simpleMessage("Join Community"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
+        "Leave": MessageLookupByLibrary.simpleMessage("Leave"),
         "Light": MessageLookupByLibrary.simpleMessage("Light"),
         "Lightning_Address":
             MessageLookupByLibrary.simpleMessage("Lightning Address"),

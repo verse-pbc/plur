@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
+import '../../generated/l10n.dart';
 import 'leave_community_controller.dart';
 
 class LeaveCommunityButton extends ConsumerWidget {
@@ -12,11 +13,43 @@ class LeaveCommunityButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final leaveCommunityController = ref.watch(leaveCommunityControllerProvider.notifier);
+    final localization = S.of(context);
     return IconButton(
-      icon: const Icon(Icons.group_remove_outlined),
+      icon: const Icon(Icons.group_remove),
       onPressed: () async {
-        final success = await leaveCommunityController.leaveCommunity(groupIdentifier);
+        final themeData = Theme.of(context);
+        final shouldLeave = await showDialog<bool>(
+          context: context,
+          builder: (context) =>
+              Theme(
+                data: themeData,
+                child: AlertDialog(
+                  backgroundColor: themeData.colorScheme.surface,
+                  content: Text(
+                    localization.Confirm_Leave,
+                    style: TextStyle(
+                      color: themeData.colorScheme.onSurface,
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, false),
+                      child: Text(localization.Cancel),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.pop(context, true),
+                      child: Text(localization.Leave),
+                    ),
+                  ],
+                ),
+              ),
+        );
+
+        if (shouldLeave != true) return;
+
+        final controller = ref.read(leaveCommunityControllerProvider.notifier);
+        final success = await controller.leaveCommunity(groupIdentifier);
+
         if (success) {
           onLeft?.call();
         }

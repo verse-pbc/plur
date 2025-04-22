@@ -9,8 +9,8 @@ import '../../data/group_repository.dart';
 /// A controller class that manages leaving a community.
 class LeaveCommunityController extends AutoDisposeAsyncNotifier<void> {
   @override
-  FutureOr<void> build() {
-    return null;
+  Future<void> build() async {
+    return;
   }
 
   /// Leaves the specified community.
@@ -19,19 +19,19 @@ class LeaveCommunityController extends AutoDisposeAsyncNotifier<void> {
   /// Returns `true` if the operation succeeds, otherwise `false`.
   Future<bool> leaveCommunity(GroupIdentifier groupIdentifier) async {
     state = const AsyncValue.loading();
-    try {
-      final groupRepository = ref.watch(groupRepositoryProvider);
-      final groupIdentifierRepository = ref.watch(groupIdentifierRepositoryProvider);
 
+    var success = false;
+
+    state = await AsyncValue.guard(() async {
+      final groupRepository = ref.read(groupRepositoryProvider);
+      final groupIdentifierRepository = ref.read(groupIdentifierRepositoryProvider);
       await groupRepository.leaveGroup(groupIdentifier);
       await groupIdentifierRepository.removeGroupIdentifier(groupIdentifier);
 
-      state = const AsyncValue.data(null);
-      return true;
-    } catch (exception, stackTrace) {
-      state = AsyncValue.error(exception, stackTrace);
-      return false;
-    }
+      success = true;
+    });
+
+    return success;
   }
 }
 
