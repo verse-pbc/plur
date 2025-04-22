@@ -26,8 +26,13 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
   void initState() {
     super.initState();
     
-    // Initialize listings for this group
-    _loadListings();
+    // Initialize listings for this group after the widget tree is built
+    // This prevents "Tried to modify a provider while the widget tree was building" errors
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadListings();
+      }
+    });
   }
   
   Future<void> _loadListings() async {
@@ -38,8 +43,13 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
     // Log for debugging
     debugPrint("Loading listings for group ID: $groupId");
     
-    // Load listings from provider
-    await ref.read(listingProvider.notifier).loadListings(groupId: groupId);
+    // Use Future.microtask to delay provider updates until after widget build is complete
+    // This prevents "Tried to modify a provider while the widget tree was building" errors
+    return Future.microtask(() async {
+      if (mounted) {
+        await ref.read(listingProvider.notifier).loadListings(groupId: groupId);
+      }
+    });
   }
 
   @override
@@ -98,13 +108,17 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
         Expanded(
           child: listingsState.when(
             data: (listings) {
+              // Cache provider notifier to avoid multiple accesses
+              final listingNotifier = ref.read(listingProvider.notifier);
+              
               // Filter listings based on selected type and group
-              final allListings = ref.read(listingProvider.notifier).filterListings(
+              // These operations don't update state, just filter existing data
+              final allListings = listingNotifier.filterListings(
                 type: _selectedType,
                 showAllGroups: true,
               );
               
-              final filteredListings = ref.read(listingProvider.notifier).filterListings(
+              final filteredListings = listingNotifier.filterListings(
                 type: _selectedType,
                 groupId: groupId,
                 showAllGroups: false,
