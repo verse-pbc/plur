@@ -5,6 +5,7 @@ import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/router/edit/editor_widget.dart';
+import 'package:nostrmo/router/group/group_detail_asks_offers_widget.dart';
 import 'package:nostrmo/router/group/group_detail_chat_widget.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
@@ -14,7 +15,6 @@ import 'package:nostrmo/util/theme_util.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
-import '../../features/community/leave_community_button.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
@@ -38,7 +38,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 3, vsync: this);
     
     // Listen for tab changes to update the FAB visibility
     // Only rebuild the minimum necessary parts of the UI
@@ -198,6 +198,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       tabs: [
         Tab(text: localization.posts),
         Tab(text: localization.chat),
+        Tab(text: localization.asksAndOffers),
       ],
     );
   }
@@ -265,6 +266,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
             RepaintBoundary(
               child: GroupDetailChatWidget(groupIdentifier),
             ),
+            // Asks/Offers tab
+            RepaintBoundary(
+              child: GroupDetailAsksOffersWidget(groupIdentifier),
+            ),
           ],
         ),
       ),
@@ -310,8 +315,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   Widget? _buildFloatingActionButton() {
     final themeData = Theme.of(context);
     
-    // Only show FAB on the Posts tab (index 0)
-    // Return null for Chat tab to completely remove the FAB
+    // Only show regular FAB on the Posts tab (index 0)
     if (_tabController.index == 0) {
       // Posts tab
       return FloatingActionButton(
@@ -322,7 +326,8 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       );
     }
     
-    // Return null for chat tab to completely remove the FAB
+    // Return null for chat and asks/offers tabs to completely remove the FAB
+    // The asks/offers tab has its own actions in the content
     return null;
   }
 }

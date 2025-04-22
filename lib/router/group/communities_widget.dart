@@ -87,26 +87,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     // We don't need an app bar now that the toggle is in the main header
     return Scaffold(
       body: content,
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'toggleView',
-        mini: true,
-        onPressed: () {
-          // Toggle the view mode in IndexProvider
-          indexProvider.setCommunityViewMode(
-            viewMode == CommunityViewMode.grid
-                ? CommunityViewMode.feed
-                : CommunityViewMode.grid
-          );
-        },
-        tooltip: viewMode == CommunityViewMode.grid
-            ? 'Switch to Feed View'
-            : 'Switch to Grid View',
-        child: Icon(
-          viewMode == CommunityViewMode.grid
-              ? Icons.view_list
-              : Icons.grid_view,
-        ),
-      ),
+      // No FAB at the top level view
     );
   }
 
