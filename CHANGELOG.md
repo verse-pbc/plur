@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - RSVP to events (going, interested, not going) with improved attendee lists
   - View complete lists of event attendees by RSVP status
   - Event discussion tab for community interaction about events
+  - Optimistic UI updates for instant RSVP feedback
   - Filter events by visibility and date
   - Support for both time-bounded and date-bounded events
 - Upgraded the floating action button to a speed-dial with multiple options:
@@ -57,6 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added responsive loading animation
   - Configured security headers for better protection
   - Optimized assets with proper caching strategies
+  - Implemented automatic deployment via Wrangler CLI
+  - Added deployment documentation and workflows
 - Expanded language support with improved translations:
   - Added community-related translations for Arabic, Bulgarian, Spanish, Italian, German
   - Added new Hindi language support with community features
@@ -98,6 +101,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Created conditional imports for platform-specific code
   - Modified HTTP client setup for better cross-platform support
   - Implemented web-compatible cookie handling
+  - Added Cloudflare Pages configuration with Wrangler
+  - Set up CI/CD workflow for automatic web deployments
   - Added custom Flutter web initialization with error handling
   - Created optimized loading experience with smooth transitions
 - Improved internationalization (i18n) infrastructure for adding and maintaining translations
