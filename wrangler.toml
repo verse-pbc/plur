@@ -1,0 +1,15 @@
+name = "plur-app"
+account_id = "c84e7a9bf7ed99cb41b8e73566568c75"  # Nos Verse account
+compatibility_date = "2023-01-01"
+compatibility_flags = ["streams_enable_constructors"]
+
+[site]
+bucket = "./build/web"
+pages_build_output_dir = "build/web"
+
+[env.production]
+workers_dev = false
+
+[env.staging]
+name = "plur-app-staging"
+workers_dev = true
