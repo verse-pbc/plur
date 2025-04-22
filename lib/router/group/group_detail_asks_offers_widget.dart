@@ -7,6 +7,7 @@ import 'package:nostrmo/features/asks_offers/widgets/listing_card.dart';
 import 'package:nostrmo/features/asks_offers/screens/create_edit_listing_screen.dart';
 import 'package:nostrmo/features/asks_offers/screens/listing_detail_screen.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/generated/l10n.dart';
 
 class GroupDetailAsksOffersWidget extends ConsumerStatefulWidget {
@@ -31,8 +32,8 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
   
   Future<void> _loadListings() async {
     // Format the group ID as "host:id" - specifically for asks/offers h-tag format
-    // This is different from GroupIdentifier.toString() which uses ' as separator
-    final groupId = "${widget.groupIdentifier.host}:${widget.groupIdentifier.groupId}";
+    // Use the utility function to ensure consistent format
+    final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
     
     // Log for debugging
     debugPrint("Loading listings for group ID: $groupId");
@@ -51,8 +52,8 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
     final customColors = themeData.customColors;
     final l10n = S.of(context);
     
-    // Format the group ID as "host:id" - specifically for asks/offers h-tag format
-    final groupId = "${widget.groupIdentifier.host}:${widget.groupIdentifier.groupId}";
+    // Format the group ID as "host:id" - using our utility to ensure consistency
+    final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
     
     // Get listings data
     final listingsState = ref.watch(listingProvider);
@@ -248,8 +249,8 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
   }
   
   void _navigateToCreateListing(ListingType type) {
-    // Format the group ID as "host:id" - specifically for asks/offers h-tag format
-    final groupId = "${widget.groupIdentifier.host}:${widget.groupIdentifier.groupId}";
+    // Format the group ID as "host:id" using our utility function
+    final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
     
     Navigator.of(context).push(
       MaterialPageRoute(
