@@ -58,6 +58,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Implemented empty state messages in all supported languages
 - Added reliable profile lookup feature to ensure consistent user information retrieval across relays
 - Fixed issue with asks/offers not appearing in groups due to inconsistent group ID format handling
+- Improved chat message styling to ensure readability in both light and dark modes
 
 ### Internal Changes
 - Refactored code to follow Flutter best practices with smaller, focused functions
@@ -74,6 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced group context display in Asks & Offers listings with proper navigation
 - Created utility class for standardizing group ID formats across different parts of the application
 - Fixed loading state timing issues to prevent provider modification during widget lifecycle
+- Improved theme support in chat widgets with proper color handling for light and dark modes
 - Added user information display in all listings with profile linking
 - Improved UI/UX for response options including help offers, expressions of interest, and questions
 - Added flutter_speed_dial package for multi-action floating action button
