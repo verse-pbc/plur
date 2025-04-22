@@ -137,42 +137,116 @@ Groups support multiple interaction forms:
 
 ## Calendar Feature Concept
 
-The upcoming calendar feature will enhance Plur's ability to support community coordination by providing:
+The upcoming calendar feature will enhance Plur's ability to support community organizing and coordination by creating a robust event system within groups—inspired by protest.net, Meetup, lu.ma, and Facebook Group events but built on decentralized infrastructure.
 
-1. **Event Creation and Management**
-   - Create events with title, description, date/time, location (physical or virtual)
-   - Recurring event support (daily, weekly, monthly)
-   - Public (within group) or restricted visibility options
-   - Event categorization and tagging
+### Core Calendar Functionality
 
-2. **Attendance and RSVP**
-   - RSVP functionality (going, maybe, not going)
-   - Attendance limits and waitlists
-   - Custom RSVP questions (e.g., dietary preferences, carpooling)
-   - Attendee management for organizers
+1. **Community-Focused Event Creation**
+   - Group-specific events (every event belongs to a specific group)
+   - Rich event details including:
+     - Title and description with rich text formatting
+     - Cover image/banner for visual appeal
+     - Date and time with timezone awareness
+     - Duration specification 
+     - Location details (physical address with map integration or virtual meeting link)
+     - Attendance capacity limits
+     - Cost information (if applicable)
+     - Multiple organizers and contact information
+   - Event visibility options:
+     - Group-only (visible only to group members)
+     - Public-linkable (accessible via direct link, even to non-members)
+     - Fully public (discoverable in public event listings)
+   - Event categorization with customizable tags per group
+   - Event series and recurring events (daily, weekly, monthly, custom)
+   - Draft saving and event templates for frequent event types
 
-3. **Calendar Views**
-   - Group-specific event calendar
-   - Personal calendar showing events across all joined groups
-   - Day, week, month, and agenda views
-   - Filters for event types and categories
+2. **Activist-Friendly Features**
+   - Security level settings (protest.net-inspired):
+     - Public events
+     - Semi-private (location revealed only to confirmed attendees)
+     - Private organizing events (by invitation only)
+   - Legal observer and emergency contact designation
+   - Action/event roles assignment
+   - Optional event encryption for sensitive organizing
+   - Contingency planning section
 
-4. **Integration with Asks/Offers**
-   - Event-specific resource needs (automatically create asks)
-   - Volunteer sign-up for event tasks
-   - Resource coordination for events
+3. **Social RSVP and Attendance Management**
+   - Multi-option RSVP (Going, Interested, Not Going)
+   - Private RSVP option for sensitive events
+   - Attendance tracking and check-ins
+   - Customizable attendance questions:
+     - Transportation needs/offers
+     - Dietary preferences
+     - Accessibility requirements
+     - Skills offering
+     - Equipment bringing
+   - Waitlist management with automatic promotion
+   - Guest list management with manual approval options
+   - Co-host and organizer delegation
+   - Attendance metrics and insights
 
-5. **Notifications**
-   - Upcoming event reminders
-   - RSVP deadline alerts
-   - Event changes/updates
-   - Custom notification preferences
+4. **Rich Interactive Event Pages**
+   - Dedicated event discussion threads
+   - Photo sharing for event documentation
+   - Post-event feedback and surveys
+   - Document attachments (agendas, maps, etc.)
+   - Weather integration for outdoor events
+   - Dynamic updates with change tracking
+   - Related events suggestion
 
-6. **Technical Implementation**
-   - Events stored as special event-type notes (Kind 31111) with calendar-specific tags
-   - RSVP tracked through specialized event reactions
-   - Calendar synchronization capabilities (planned)
-   - Local caching for offline viewing
+5. **Calendar Views and Discovery**
+   - Group calendar (showing all events within a group)
+   - Consolidated personal calendar (events across all joined groups)
+   - Multiple view options:
+     - List view (chronological, categorized)
+     - Calendar grid (day, week, month)
+     - Map view for geographical browsing
+     - Timeline view
+   - Saved filters and custom views (e.g., "My RSVPs", "Weekend Events")
+   - Upcoming events highlight on group home page
+   - Event recommendations based on interests and past attendance
+
+6. **Resource Coordination (Integration with Asks/Offers)**
+   - Event-specific resource needs automatically converted to asks
+   - Task assignments and volunteer sign-ups
+   - Equipment and supply tracking
+   - Ride sharing and carpooling coordination
+   - Skill-matching for event roles
+   - Budget tracking and expense sharing
+   - Post-event resource redistribution
+
+7. **Notification and Communication System**
+   - Smart notification schedule:
+     - Event announcement
+     - RSVP deadline reminders
+     - Upcoming event alerts (1 week, 1 day, same day)
+     - Event changes or updates
+     - Post-event follow-ups
+   - Multi-channel notifications (in-app, email, optional SMS)
+   - Event-specific messaging to attendees
+   - Organizer broadcast messages
+   - Weather alerts for outdoor events
+   - Custom notification preferences per event type
+   - Calendar subscription options
+
+8. **Technical Architecture**
+   - Events stored as specialized Nostr events (Kind 31111) with calendar-specific tags
+   - RSVP system using Nostr reactions with specialized RSVP metadata
+   - Group context maintained through encrypted h-tags
+   - Local caching for offline viewing of event details
+   - Incremental synchronization to minimize data usage
+   - Attendance tracking through specialized "attended" reactions
+   - Calendar export/import using standard iCal format
+   - Future integration with external calendars (Google, Apple, Outlook)
+
+### User Experience Priorities
+
+- **Simplified Creation:** Quick event creation with smart defaults based on group type
+- **Discoverability:** Easy browsing and filtering of relevant events
+- **Mobile Optimization:** Complete mobile experience for on-the-go coordination
+- **Engagement Tools:** Features that encourage participation and follow-through
+- **Privacy Controls:** Granular privacy settings recognizing the sensitivity of organizing data
+- **Organizer Insights:** Metrics and tools to help organizers improve events over time
 
 ## Target Users
 
