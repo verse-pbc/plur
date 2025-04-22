@@ -48,7 +48,6 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
   @override
   Widget doBuild(BuildContext context) {
     final themeData = Theme.of(context);
-    var textColor = themeData.textTheme.bodyMedium!.color;
     var cardColor = themeData.cardColor;
 
     final localization = S.of(context);
@@ -123,8 +122,8 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
           vertical: 8,
         ),
         color: themeData.brightness == Brightness.dark
-          ? themeData.highlightColor.withOpacity(0.2)
-          : Colors.grey.withOpacity(0.1),
+          ? themeData.highlightColor.withValues(alpha: 0.2 * 255)
+          : Colors.grey.withValues(alpha: 0.1 * 255),
         child: Row(
           children: [
             Icon(Icons.reply, 
