@@ -158,7 +158,8 @@ class ListingCard extends ConsumerWidget {
                       // Author info
                       _buildUserInfo(ref),
                       
-                      if (listing.groupId != null) ...[
+                      // Only show group info in the global view when showGroupBadge is true
+                      if (listing.groupId != null && showGroupBadge) ...[
                         const Text(' • '),
                         _buildGroupInfo(ref),
                       ],
@@ -474,68 +475,12 @@ class ListingCard extends ConsumerWidget {
   Widget _buildGroupInfo(WidgetRef ref) {
     if (listing.groupId == null) return const SizedBox.shrink();
     
-    // Use the GroupBadgeWidget for "all groups" view
-    if (showGroupBadge) {
-      return GroupBadgeWidget(
-        groupId: listing.groupId!,
-        fontSize: 12.0,
-      );
-    }
-    
-    // Otherwise use the text-only version for single group view
-    // Extract host from group identifier format (host:id)
-    String? host;
-    String groupIdFormatted = listing.groupId!;
-    
-    if (listing.groupId!.contains(':')) {
-      final parts = listing.groupId!.split(':');
-      host = parts[0];
-      groupIdFormatted = parts[1];
-    }
-    
-    // Create GroupIdentifier if both host and id are available
-    GroupIdentifier? groupIdentifier;
-    if (host != null) {
-      groupIdentifier = GroupIdentifier(host, groupIdFormatted);
-    }
-    
-    // Default widget with just the ID
-    Widget defaultWidget = Text(
-      'Group: $groupIdFormatted',
-      style: const TextStyle(
-        fontWeight: FontWeight.w500,
-      ),
+    // Always use the GroupBadgeWidget - it will show the human-readable name
+    // This handles parsing the group ID and showing the metadata for us
+    return GroupBadgeWidget(
+      groupId: listing.groupId!,
+      fontSize: 12.0,
     );
-    
-    // If we can construct a group identifier, use it to fetch metadata
-    if (groupIdentifier != null) {
-      final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier!));
-      
-      return groupMetadataAsync.when(
-        data: (metadata) {
-          if (metadata == null) return defaultWidget;
-          
-          return GestureDetector(
-            onTap: () {
-              // Navigate to group detail
-              RouterUtil.router(ref.context, RouterPath.groupDetail, groupIdentifier);
-            },
-            child: Text(
-              metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted',
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          );
-        },
-        loading: () => defaultWidget,
-        error: (_, __) => defaultWidget,
-      );
-    }
-    
-    return defaultWidget;
   }
 
   void _showResponseDialog(BuildContext context, ResponseType initialType) {

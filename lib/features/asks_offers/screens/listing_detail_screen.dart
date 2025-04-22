@@ -4,9 +4,9 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/group_identifier_repository.dart';
 import 'package:nostrmo/data/group_metadata_repository.dart';
-import 'package:nostrmo/provider/user_provider.dart';
+import 'package:nostrmo/provider/group_provider.dart';
+import 'package:provider/provider.dart' as provider_pkg;
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -328,8 +328,9 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                         ),
                       ),
                       const SizedBox(width: 8),
+                      // Use Riverpod's ConsumerWidget instead of Consumer
                       Consumer(
-                        builder: (context, ref, child) {
+                        builder: (BuildContext context, WidgetRef ref, Widget? child) {
                           final responses = ref.watch(responseProvider);
                           return Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -651,61 +652,73 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
     
-    // Extract host from group identifier format (host:id)
-    String? host;
-    String groupIdFormatted = widget.listing.groupId!;
+    // Extract host and id from the group identifier format
+    String host;
+    String groupIdFormatted;
     
     if (widget.listing.groupId!.contains(':')) {
       final parts = widget.listing.groupId!.split(':');
       host = parts[0];
       groupIdFormatted = parts[1];
+    } else {
+      // Fallback if no host in the format - try with "relay" as default
+      host = 'relay';
+      groupIdFormatted = widget.listing.groupId!;
     }
     
-    // Create GroupIdentifier if both host and id are available
-    GroupIdentifier? groupIdentifier;
-    if (host != null) {
-      groupIdentifier = GroupIdentifier(host, groupIdFormatted);
-    }
+    // Create GroupIdentifier
+    final groupIdentifier = GroupIdentifier(host, groupIdFormatted);
     
-    // Default chip with just the ID
-    Widget defaultChip = Chip(
-      label: Text('Group: $groupIdFormatted'),
-      backgroundColor: customColors.feedBgColor,
-      padding: EdgeInsets.zero,
-      visualDensity: VisualDensity.compact,
-    );
-    
-    // If we can construct a group identifier, use it to fetch metadata
-    if (groupIdentifier != null) {
-      return Consumer(
-        builder: (context, ref, child) {
-          final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier!));
-          
-          return groupMetadataAsync.when(
-            data: (metadata) {
-              if (metadata == null) return defaultChip;
-              
-              return GestureDetector(
-                onTap: () {
-                  // Navigate to group detail
-                  RouterUtil.router(context, RouterPath.groupDetail, groupIdentifier);
-                },
-                child: Chip(
-                  label: Text(metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted'),
-                  backgroundColor: customColors.feedBgColor,
-                  padding: EdgeInsets.zero,
-                  visualDensity: VisualDensity.compact,
-                ),
-              );
-            },
-            loading: () => defaultChip,
-            error: (_, __) => defaultChip,
-          );
+    // For consistent styling
+    Widget buildChip(String name) {
+      return GestureDetector(
+        onTap: () {
+          // Navigate to group detail
+          RouterUtil.router(context, RouterPath.groupDetail, groupIdentifier);
         },
+        child: Chip(
+          avatar: Icon(Icons.group_rounded, size: 16, color: themeData.colorScheme.primary),
+          label: Text(
+            name,
+            style: const TextStyle(fontWeight: FontWeight.w500),
+          ),
+          backgroundColor: customColors.feedBgColor,
+          padding: EdgeInsets.zero,
+          visualDensity: VisualDensity.compact,
+        ),
       );
     }
     
-    return defaultChip;
+    // Try each method of getting the group name in order of preference:
+    
+    // 1. First try GroupProvider's cache for immediate access
+    final groupProvider = provider_pkg.Provider.of<GroupProvider>(context, listen: false);
+    final metadata = groupProvider.getMetadata(groupIdentifier);
+    
+    if (metadata != null) {
+      final groupName = metadata.displayName ?? metadata.name ?? 'Community';
+      return buildChip(groupName);
+    }
+    
+    // 2. If not in cache, use a Consumer to watch for async data
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        // Use the async provider to get updated metadata
+        final metadataAsync = ref.watch(groupMetadataProvider(groupIdentifier));
+        
+        return metadataAsync.when(
+          data: (metadata) {
+            if (metadata == null) {
+              return buildChip('Community');
+            }
+            final groupName = metadata.displayName ?? metadata.name ?? 'Community';
+            return buildChip(groupName);
+          },
+          loading: () => buildChip('Community'), // Show generic name while loading
+          error: (_, __) => buildChip('Community'), // Show generic name on error
+        );
+      },
+    );
   }
 
   String _formatRelativeTime(DateTime date) {

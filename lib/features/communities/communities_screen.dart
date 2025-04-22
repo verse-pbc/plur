@@ -1,23 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/editor/search_mention_user_widget.dart';
-import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/router/edit/editor_widget.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
-import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
-import 'package:nostrmo/component/paste_join_link_button.dart';
-import 'package:nostrmo/util/community_join_util.dart';
-import 'package:nostrmo/util/router_util.dart';
-import 'package:bot_toast/bot_toast.dart';
 // Import Provider package with an alias to avoid conflicts
 import 'package:provider/provider.dart' as provider;
 
@@ -264,9 +253,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
               );
             },
           ),
-          // Add speed dial FAB
-          floatingActionButton: _buildSpeedDial(context, viewMode),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+          // No FAB at the top level
         );
       }
     );
@@ -276,181 +263,10 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   Widget _buildScaffold(BuildContext context, CommunityViewMode viewMode, Widget body, GroupFeedProvider feedProvider) {
     return Scaffold(
       body: body,
-      floatingActionButton: _buildSpeedDial(context, viewMode),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      // No FAB at the top level
     );
   }
   
 
-  Widget _buildSpeedDial(BuildContext context, CommunityViewMode viewMode) {
-    final themeData = Theme.of(context);
-    final primaryColor = themeData.primaryColor;
-    final accentColor = themeData.colorScheme.secondary;
-    final l10n = S.of(context);
-    final indexProvider = provider.Provider.of<IndexProvider>(context, listen: true);
-    final communityViewMode = indexProvider.communityViewMode;
-    
-    return Consumer(
-      builder: (context, ref, _) {
-        final controllerState = ref.watch(communitiesControllerProvider);
-        
-        return controllerState.maybeWhen(
-          data: (groupIds) {
-            // For empty groups, just show paste link button
-            if (groupIds.isEmpty) {
-              return const PasteJoinLinkButton();
-            }
-            
-            // Full speed dial for groups with content
-            return SpeedDial(
-              icon: Icons.add,
-              activeIcon: Icons.close,
-              backgroundColor: primaryColor,
-              foregroundColor: Colors.white,
-              overlayColor: Colors.black,
-              overlayOpacity: 0.5,
-              spacing: 15,
-              spaceBetweenChildren: 12,
-              tooltip: 'Actions',
-              visible: true,
-              direction: SpeedDialDirection.up,
-              switchLabelPosition: false,
-              children: [
-                // Post creation
-                SpeedDialChild(
-                  child: const Icon(Icons.post_add),
-                  backgroundColor: accentColor,
-                  foregroundColor: Colors.white,
-                  label: l10n.post,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  labelBackgroundColor: Colors.white,
-                  onTap: () {
-                    debugPrint("Tapped on post button");
-                    _openPostEditor(context);
-                  },
-                ),
-                // Chat creation
-                SpeedDialChild(
-                  child: const Icon(Icons.chat),
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                  label: l10n.chat,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  labelBackgroundColor: Colors.white,
-                  onTap: () {
-                    debugPrint("Tapped on chat button");
-                    _showSearchUserForDM(context);
-                  },
-                ),
-                // Asks & Offers
-                SpeedDialChild(
-                  child: const Icon(Icons.question_answer),
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.white,
-                  label: l10n.asksAndOffers,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  labelBackgroundColor: Colors.white,
-                  onTap: () {
-                    debugPrint("Tapped on asks/offers button");
-                    RouterUtil.router(context, RouterPath.listings, null);
-                  },
-                ),
-                // Create community
-                SpeedDialChild(
-                  child: const Icon(Icons.group_add),
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  label: l10n.createGroup,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  labelBackgroundColor: Colors.white,
-                  onTap: () {
-                    debugPrint("Tapped on create group button");
-                    CreateCommunityDialog.show(context);
-                  },
-                ),
-                // Toggle view
-                SpeedDialChild(
-                  child: Icon(
-                    communityViewMode == CommunityViewMode.grid
-                        ? Icons.view_list
-                        : Icons.grid_view,
-                  ),
-                  backgroundColor: Colors.purple,
-                  foregroundColor: Colors.white,
-                  label: communityViewMode == CommunityViewMode.grid
-                      ? l10n.switchToFeedView 
-                      : l10n.switchToGridView,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  labelBackgroundColor: Colors.white,
-                  onTap: () {
-                    debugPrint("Tapped on toggle view button");
-                    _toggleViewMode(indexProvider);
-                  },
-                ),
-                // Paste join link
-                SpeedDialChild(
-                  child: const Icon(Icons.content_paste),
-                  backgroundColor: Colors.teal,
-                  foregroundColor: Colors.white,
-                  label: l10n.joinGroup,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.bold),
-                  labelBackgroundColor: Colors.white,
-                  onTap: () async {
-                    // Simulate paste join link button tap
-                    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-                    final clipboardText = clipboardData?.text?.trim();
-                    
-                    if (clipboardText != null) {
-                      if (context.mounted) {
-                        CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
-                      }
-                    }
-                  },
-                ),
-              ],
-            );
-          },
-          orElse: () => const PasteJoinLinkButton(),
-        );
-      },
-    );
-  }
-  
-  // Helper methods for the speed dial FAB
-  void _openPostEditor(BuildContext context) {
-    EditorWidget.open(context).then((event) {
-      if (event != null && context.mounted) {
-        BotToast.showText(text: S.of(context).send);
-      }
-    });
-  }
-  
-  void _showSearchUserForDM(BuildContext context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => Scaffold(
-          appBar: AppBar(title: Text(S.of(context).chat)),
-          body: const SearchMentionUserWidget(),
-        ),
-      ),
-    ).then((pubkey) {
-      if (pubkey != null && pubkey is String && context.mounted) {
-        final dmProvider = provider.Provider.of<DMProvider>(context, listen: false);
-        final dmDetail = dmProvider.findOrNewADetail(pubkey);
-        RouterUtil.router(context, RouterPath.dmDetail, dmDetail);
-      }
-    });
-  }
-  
-  void _toggleViewMode(IndexProvider indexProvider) {
-    final currentMode = indexProvider.communityViewMode;
-    final newMode = currentMode == CommunityViewMode.grid
-        ? CommunityViewMode.feed
-        : CommunityViewMode.grid;
-    
-    debugPrint("👆 USER TOGGLED VIEW: Changing from ${currentMode.toString()} to ${newMode.toString()}");
-    
-    indexProvider.setCommunityViewMode(newMode);
-  }
 }
 

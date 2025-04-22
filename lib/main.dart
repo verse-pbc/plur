@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+// Import custom web plugin registrant for web platform
+import 'web_plugin_registrant_custom.dart' if (dart.library.html) 'web_plugin_registrant_custom.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_quill/translations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
@@ -301,6 +304,18 @@ Future<void> main() async {
     
     log("Starting application initialization");
     WidgetsFlutterBinding.ensureInitialized();
+    
+    // Register web plugins manually for web platform to avoid conflicts
+    if (kIsWeb) {
+      try {
+        log("Using custom web plugin registration");
+        registerPlugins();
+        log("Custom web plugin registration complete");
+      } catch (e) {
+        log("Error in custom web plugin registration: $e");
+      }
+    }
+    
     log("Flutter binding initialized");
     
     // Skip MediaKit on web - it causes issues
