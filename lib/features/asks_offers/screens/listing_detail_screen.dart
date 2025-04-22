@@ -10,6 +10,7 @@ import 'package:provider/provider.dart' as provider_pkg;
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/util/group_id_util.dart';
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
 import '../providers/listing_provider.dart';
@@ -652,22 +653,11 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
     
-    // Extract host and id from the group identifier format
-    String host;
-    String groupIdFormatted;
+    // First standardize the groupId to ensure consistent format
+    final standardizedGroupId = GroupIdUtil.standardizeGroupIdString(widget.listing.groupId!);
     
-    if (widget.listing.groupId!.contains(':')) {
-      final parts = widget.listing.groupId!.split(':');
-      host = parts[0];
-      groupIdFormatted = parts[1];
-    } else {
-      // Fallback if no host in the format - try with "relay" as default
-      host = 'relay';
-      groupIdFormatted = widget.listing.groupId!;
-    }
-    
-    // Create GroupIdentifier
-    final groupIdentifier = GroupIdentifier(host, groupIdFormatted);
+    // Then parse the standardized groupId into a GroupIdentifier
+    final groupIdentifier = GroupIdUtil.parseFromHTag(standardizedGroupId);
     
     // For consistent styling
     Widget buildChip(String name) {

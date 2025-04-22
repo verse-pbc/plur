@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
-import 'package:nostrmo/consts/router_path.dart';
-import 'package:nostrmo/data/group_identifier_repository.dart';
 import 'package:nostrmo/data/group_metadata_repository.dart';
-import 'package:nostrmo/provider/user_provider.dart';
-import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
-import 'package:nostrmo/data/user.dart';
+import 'package:nostrmo/util/group_id_util.dart';
 import '../models/listing_model.dart';
 import '../providers/listing_provider.dart';
 import '../widgets/listing_card.dart';
@@ -42,14 +38,35 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
     
-    // Load listings from all groups or a specific group
-    if (widget.showAllGroups) {
-      // Load all listings from all groups
-      ref.read(listingProvider.notifier).loadListings(groupId: null);
-    } else {
-      // Load listings from a specific group
-      ref.read(listingProvider.notifier).loadListings(groupId: widget.groupId);
-    }
+    // Use Future.microtask to delay provider updates until after the widget tree is built
+    Future.microtask(() {
+      if (mounted) {
+        // Load listings from all groups or a specific group
+        if (widget.showAllGroups) {
+          // Load all listings from all groups
+          ref.read(listingProvider.notifier).loadListings(groupId: null);
+        } else if (widget.groupId != null) {
+          // For loading listings, we need the STANDARDIZED format (with host:id) for h-tag filtering
+          String standardizedGroupId = GroupIdUtil.standardizeGroupIdString(widget.groupId!);
+          debugPrint("Loading listings for group ID: '$standardizedGroupId' (original: '${widget.groupId}')");
+          ref.read(listingProvider.notifier).loadListings(groupId: standardizedGroupId);
+        }
+      }
+    });
+  }
+  
+  // Helper method to format group ID consistently for h-tag use
+  String _formatGroupIdForHTag(String rawGroupId) {
+    // First standardize the group ID to a common format
+    final standardized = GroupIdUtil.standardizeGroupIdString(rawGroupId);
+    debugPrint("_formatGroupIdForHTag - Input: '$rawGroupId', Standardized: '$standardized'");
+    
+    // For filtering purposes, we want just the ID part to match the listing storage format
+    final idPart = GroupIdUtil.extractIdPart(standardized);
+    debugPrint("_formatGroupIdForHTag - Extracted ID part for filtering: '$idPart'");
+    
+    // Return just the ID part for filtering
+    return idPart;
   }
   
   @override
@@ -81,9 +98,12 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     if (widget.showAllGroups) {
       // Refresh listings from all groups
       return ref.read(listingProvider.notifier).loadListings(groupId: null);
-    } else {
-      // Refresh listings from a specific group
-      return ref.read(listingProvider.notifier).loadListings(groupId: widget.groupId);
+    } else if (widget.groupId != null) {
+      // For loading listings, we need the STANDARDIZED format (with host:id) for h-tag filtering
+      // This is different from local filtering where we just need the ID part
+      String standardizedGroupId = GroupIdUtil.standardizeGroupIdString(widget.groupId!);
+      debugPrint("Refreshing listings for group ID: '$standardizedGroupId' (original: '${widget.groupId}')");
+      return ref.read(listingProvider.notifier).loadListings(groupId: standardizedGroupId);
     }
   }
 
@@ -132,7 +152,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: customColors.separatorColor.withOpacity(0.3),
+                  color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
                   width: 0.5,
                 ),
               ),
@@ -215,10 +235,23 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             Expanded(
               child: listingsState.when(
                 data: (listings) {
+                  // Prepare the group ID with the correct format for filtering
+                  String? formattedGroupId;
+                  if (!widget.showAllGroups && widget.groupId != null) {
+                    // Use our helper method to format the group ID consistently
+                    formattedGroupId = _formatGroupIdForHTag(widget.groupId!);
+                  }
+                  
+                  // Enhanced debugging for filtering
+                  debugPrint("Filtering listings in ListingsScreen");
+                  debugPrint("showAllGroups: ${widget.showAllGroups}");
+                  debugPrint("Original groupId: '${widget.groupId}'");
+                  debugPrint("Formatted groupId for filtering: '$formattedGroupId'");
+                  
                   final filteredListings = ref.read(listingProvider.notifier).filterListings(
                     type: _selectedType,
                     status: _selectedStatus,
-                    groupId: widget.showAllGroups ? null : widget.groupId,
+                    groupId: widget.showAllGroups ? null : formattedGroupId,
                     searchQuery: _searchQuery,
                     showAllGroups: widget.showAllGroups,
                   );
@@ -254,7 +287,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Error loading listings'),
+                      const Text('Error loading listings'),
                       const SizedBox(height: 16),
                       ElevatedButton(
                         onPressed: () {
@@ -298,11 +331,19 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
   }
   
   void _navigateToCreateListing(ListingType type) {
+    // Format the group ID correctly for h-tag usage in listings
+    String? formattedGroupId;
+    if (widget.groupId != null) {
+      formattedGroupId = _formatGroupIdForHTag(widget.groupId!);
+      debugPrint("Creating listing with group ID: '$formattedGroupId' (original: '${widget.groupId}')");
+      debugPrint("Group ID part only: '${GroupIdUtil.extractIdPart(formattedGroupId)}'");
+    }
+    
     // Use MaterialPageRoute directly instead of router utility
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CreateEditListingScreen(
-          groupId: widget.groupId,
+          groupId: formattedGroupId,
           type: type,
         ),
       ),
@@ -319,7 +360,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             _selectedType == ListingType.offer ? Icons.local_offer_outlined : 
             Icons.swap_horiz_outlined,
             size: 72,
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withValues(alpha: 0.5 * 255),
           ),
           const SizedBox(height: 16),
           Text(
@@ -347,53 +388,43 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
   Widget _buildGroupNameWidget() {
     if (widget.groupId == null) return const SizedBox.shrink();
     
-    // Extract host from group identifier format (host:id)
-    String? host;
-    String groupIdFormatted = widget.groupId!;
+    // Parse the group ID
+    final GroupIdentifier groupIdentifier = GroupIdUtil.parseFromHTag(
+      // First standardize the group ID to ensure it's in the correct format
+      GroupIdUtil.standardizeGroupIdString(widget.groupId!)
+    );
     
-    if (widget.groupId!.contains(':')) {
-      final parts = widget.groupId!.split(':');
-      host = parts[0];
-      groupIdFormatted = parts[1];
-    }
+    // Extract the formatted part of the group ID for display purposes
+    String groupIdFormatted = groupIdentifier.groupId;
     
-    // Create GroupIdentifier if both host and id are available
-    GroupIdentifier? groupIdentifier;
-    if (host != null) {
-      groupIdentifier = GroupIdentifier(host, groupIdFormatted);
-    }
-    
-    // If we can construct a group identifier, use it to fetch metadata
-    if (groupIdentifier != null) {
-      return Consumer(
-        builder: (context, ref, child) {
-          final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier!));
-          
-          return groupMetadataAsync.when(
-            data: (metadata) {
-              if (metadata == null) return Text('Group: $groupIdFormatted');
-              
-              return GestureDetector(
-                onTap: () {
-                  // Navigate back to group detail screen
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
-            },
-            loading: () => const Text('Loading group...'),
-            error: (_, __) => Text('Group: $groupIdFormatted'),
-          );
-        },
-      );
-    }
-    
-    // Fallback if we can't construct a proper GroupIdentifier
-    return Text('Group: $groupIdFormatted');
+    // Use the group identifier to fetch metadata
+    return Consumer(
+      builder: (context, ref, child) {
+        final groupMetadataAsync = ref.watch(groupMetadataProvider(groupIdentifier));
+        
+        return groupMetadataAsync.when(
+          data: (metadata) {
+            if (metadata == null) {
+              return Text('Group: $groupIdFormatted');
+            }
+            
+            return GestureDetector(
+              onTap: () {
+                // Navigate back to group detail screen
+                Navigator.pop(context);
+              },
+              child: Text(
+                metadata.displayName ?? metadata.name ?? 'Group: $groupIdFormatted',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            );
+          },
+          loading: () => Text('Loading group...'),
+          error: (_, __) => Text('Group: $groupIdFormatted'),
+        );
+      },
+    );
   }
 
   String _buildEmptyStateText() {
@@ -438,7 +469,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withOpacity(0.3),
+                        color: Colors.grey.withValues(alpha: 0.3 * 255),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
