@@ -264,7 +264,9 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
           borderRadius: BorderRadius.circular(imageWidth / 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: themeData.brightness == Brightness.dark 
+                ? Colors.black.withOpacity(0.1)
+                : Colors.black.withOpacity(0.15),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
@@ -324,10 +326,10 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
           left: Base.basePaddingHalf,
           right: Base.basePaddingHalf,
         ),
-        child: const Icon(
+        child: Icon(
           Icons.enhanced_encryption,
           size: 14,
-          color: PlurColors.secondaryText,
+          color: PlurColors.secondaryTextColor(context),
         ),
       );
     }
@@ -350,18 +352,18 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.reply,
               size: 14,
-              color: PlurColors.secondaryText,
+              color: PlurColors.secondaryTextColor(context),
             ),
             const SizedBox(width: 4),
             Text(
               'Reply',
               style: GoogleFonts.nunito(
-                textStyle: const TextStyle(
+                textStyle: TextStyle(
                   fontSize: 12,
-                  color: PlurColors.secondaryText,
+                  color: PlurColors.secondaryTextColor(context),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -395,7 +397,11 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               left: Base.basePadding,
             ),
             decoration: BoxDecoration(
-              color: widget.isLocal ? PlurColors.buttonBackground.withOpacity(0.25) : PlurColors.cardBackground,
+              color: widget.isLocal 
+                ? (themeData.brightness == Brightness.dark 
+                    ? PlurColors.buttonBackground.withOpacity(0.25) 
+                    : PlurColors.buttonBackground.withOpacity(0.15))
+                : PlurColors.cardBg(context),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(!widget.isLocal ? 4 : 16),
                 topRight: Radius.circular(widget.isLocal ? 4 : 16),
@@ -404,7 +410,9 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: themeData.brightness == Brightness.dark 
+                    ? Colors.black.withOpacity(0.05)
+                    : Colors.black.withOpacity(0.1),
                   blurRadius: 3,
                   offset: const Offset(0, 1),
                 ),
@@ -436,23 +444,35 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                   context: context,
                   position: position,
                   items: [
-                    const PopupMenuItem(
+                    PopupMenuItem(
                       value: 'reply',
                       child: Row(
                         children: [
-                          Icon(Icons.reply),
-                          SizedBox(width: 8),
-                          Text('Reply'),
+                          Icon(Icons.reply, color: themeData.brightness == Brightness.dark 
+                            ? null 
+                            : PlurColors.lightPrimaryText),
+                          const SizedBox(width: 8),
+                          Text('Reply', style: TextStyle(
+                            color: themeData.brightness == Brightness.dark 
+                              ? null 
+                              : PlurColors.lightPrimaryText,
+                          )),
                         ],
                       ),
                     ),
-                    const PopupMenuItem(
+                    PopupMenuItem(
                       value: 'view_raw',
                       child: Row(
                         children: [
-                          Icon(Icons.code),
-                          SizedBox(width: 8),
-                          Text('View Raw Event'),
+                          Icon(Icons.code, color: themeData.brightness == Brightness.dark 
+                            ? null 
+                            : PlurColors.lightPrimaryText),
+                          const SizedBox(width: 8),
+                          Text('View Raw Event', style: TextStyle(
+                            color: themeData.brightness == Brightness.dark 
+                              ? null 
+                              : PlurColors.lightPrimaryText,
+                          )),
                         ],
                       ),
                     ),
@@ -483,8 +503,8 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                     Text(
                       displayContent,
                       style: GoogleFonts.nunito(
-                        textStyle: const TextStyle(
-                          color: PlurColors.primaryText,
+                        textStyle: TextStyle(
+                          color: PlurColors.textColor(context),
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           height: 1.35,

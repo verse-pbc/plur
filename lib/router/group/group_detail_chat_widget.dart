@@ -121,10 +121,15 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
           horizontal: Base.basePadding,
           vertical: 8,
         ),
-        color: themeData.highlightColor.withOpacity(0.2),
+        color: themeData.brightness == Brightness.dark
+          ? themeData.highlightColor.withOpacity(0.2)
+          : Colors.grey.withOpacity(0.1),
         child: Row(
           children: [
-            const Icon(Icons.reply, size: 18),
+            Icon(Icons.reply, 
+              size: 18, 
+              color: themeData.brightness == Brightness.dark ? null : PlurColors.lightSecondaryText
+            ),
             const SizedBox(width: 8),
             Expanded(
               child: Text(
@@ -133,14 +138,19 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
                   'message'}",
                 style: TextStyle(
                   fontSize: 14,
-                  color: themeData.hintColor,
+                  color: themeData.brightness == Brightness.dark 
+                    ? themeData.hintColor 
+                    : PlurColors.lightSecondaryText,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
             IconButton(
-              icon: const Icon(Icons.close, size: 18),
+              icon: Icon(Icons.close, 
+                size: 18,
+                color: themeData.brightness == Brightness.dark ? null : PlurColors.lightSecondaryText,
+              ),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
               onPressed: clearReplyToEvent,
@@ -202,8 +212,9 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
                 child: Text(
                   localization.send,
                   style: TextStyle(
-                    color: textColor,
+                    color: PlurColors.textColor(context),
                     fontSize: 16,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               )
