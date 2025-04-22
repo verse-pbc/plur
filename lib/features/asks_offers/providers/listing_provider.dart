@@ -47,13 +47,35 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       
       // Add tag filter if a group ID is specified
       if (groupId != null) {
-        // Standardize the group ID to ensure consistent format for h-tag filter
-        String processedGroupId = GroupIdUtil.standardizeGroupIdString(groupId);
+        // For better querying, we should try multiple formats of the group ID in parallel
+        List<String> groupIdFormats = [];
         
-        // Add specific h-tag filter for the group ID
-        filterJson["#h"] = [processedGroupId];
+        // Add original group ID
+        groupIdFormats.add(groupId);
+        
+        // If the group ID starts with wss://communities.nos.social:, extract the ID part
+        if (groupId.startsWith("wss://communities.nos.social:")) {
+          final idPart = groupId.split(':').last;
+          groupIdFormats.add(idPart);
+        }
+        
+        // Standardize the group ID for h-tag filter
+        String standardized = GroupIdUtil.standardizeGroupIdString(groupId);
+        if (!groupIdFormats.contains(standardized)) {
+          groupIdFormats.add(standardized);
+        }
+        
+        // Extract just the ID part to also search for that
+        String idPart = GroupIdUtil.extractIdPart(groupId);
+        if (idPart.isNotEmpty && !groupIdFormats.contains(idPart)) {
+          groupIdFormats.add(idPart);
+        }
+        
+        // Add all formats to the h-tag filter for maximum compatibility
+        filterJson["#h"] = groupIdFormats;
+        
         debugPrint("Added h-tag filter: ${filterJson["#h"]}");
-        debugPrint("Original groupId: '$groupId', Standardized for h-tag: '$processedGroupId'");
+        debugPrint("Original groupId: '$groupId', Expanded to multiple formats for search");
       }
 
       // Cancel previous subscription if exists
@@ -307,13 +329,30 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     // Debug help
     debugPrint("Comparing groupIdFilter: '$groupIdFilter' with listing.groupId: '${listing.groupId}'");
     
+    // Check string equality first
+    if (listing.groupId == groupIdFilter) {
+      debugPrint("✅ EXACT MATCH! groupIdFilter: '$groupIdFilter', listing.groupId: '${listing.groupId}'");
+      return true;
+    }
+    
+    // Check for domain-specific matching (wss://communities.nos.social:XXXX)
+    if (groupIdFilter.startsWith("wss://communities.nos.social:") && 
+        !listing.groupId!.startsWith("wss://")) {
+      // Extract the ID part from the filter
+      final communityId = groupIdFilter.split(':').last;
+      if (listing.groupId == communityId) {
+        debugPrint("✅ MATCH after domain extraction! communityId: '$communityId', listing.groupId: '${listing.groupId}'");
+        return true;
+      }
+    }
+    
     // Use GroupIdUtil for format-agnostic comparison
     // Extract ID parts separately for detailed debugging
     final filterIdPart = GroupIdUtil.extractIdPart(groupIdFilter);
     final listingIdPart = GroupIdUtil.extractIdPart(listing.groupId);
     
     // Check if ID parts match
-    final idPartsMatch = filterIdPart == listingIdPart;
+    final idPartsMatch = filterIdPart == listingIdPart && filterIdPart.isNotEmpty;
     
     // Detailed debugging
     debugPrint("Filter ID extraction: '$groupIdFilter' → '$filterIdPart'");

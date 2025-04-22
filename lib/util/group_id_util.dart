@@ -28,15 +28,30 @@ class GroupIdUtil {
   static String standardizeGroupIdString(String rawGroupId) {
     // If already in h-tag format (host:id), return as-is
     if (rawGroupId.contains(':')) {
+      // Special case: make sure the format is "wss://host:id" not just "host:id"
+      if (rawGroupId.startsWith("wss://")) {
+        return rawGroupId;
+      } else if (!rawGroupId.contains("://")) {
+        // If it has a colon but no protocol, assume it's host:id and add wss:// prefix
+        final parts = rawGroupId.split(':');
+        if (parts.length >= 2) {
+          return "wss://${parts[0]}:${parts[1]}";
+        }
+      }
       return rawGroupId;
     }
     
-    // If in GroupIdentifier.toString() format (host'id), convert to host:id
+    // If in GroupIdentifier.toString() format (host'id), convert to wss://host:id
     if (rawGroupId.contains("'")) {
       final parts = rawGroupId.split("'");
       if (parts.length >= 2) {
-        return "${parts[0]}:${parts[1]}";
+        return "wss://${parts[0]}:${parts[1]}";
       }
+    }
+    
+    // Special case: if it looks like just an ID part, add standard communities host
+    if (rawGroupId.length >= 8 && !rawGroupId.contains(":") && !rawGroupId.contains("/")) {
+      return "wss://communities.nos.social:$rawGroupId";
     }
     
     // Fallback: return as-is if we can't parse it

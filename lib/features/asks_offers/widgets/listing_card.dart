@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
-import 'package:nostrmo/data/group_identifier_repository.dart';
-import 'package:nostrmo/data/group_metadata_repository.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/provider/user_provider.dart';
 import '../models/response_model.dart';
 import '../widgets/response_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -33,13 +29,9 @@ class ListingCard extends ConsumerWidget {
     final customColors = themeData.customColors;
     final isDarkMode = themeData.brightness == Brightness.dark;
     
-    // Define colors based on theme and listing type
-    final Color askColor = isDarkMode ? Colors.blue.shade300 : Colors.blue;
-    final Color offerColor = isDarkMode ? Colors.green.shade300 : Colors.green;
-    
     // Ask header colors
     final Color askHeaderBg = isDarkMode 
-        ? Colors.blue.shade900.withOpacity(0.4) 
+        ? Colors.blue.shade900.withValues(alpha: 0.4 * 255) 
         : Colors.blue.shade50;
     final Color askTextColor = isDarkMode 
         ? Colors.blue.shade200
@@ -47,7 +39,7 @@ class ListingCard extends ConsumerWidget {
         
     // Offer header colors
     final Color offerHeaderBg = isDarkMode 
-        ? Colors.green.shade900.withOpacity(0.4) 
+        ? Colors.green.shade900.withValues(alpha: 0.4 * 255) 
         : Colors.green.shade50;
     final Color offerTextColor = isDarkMode 
         ? Colors.green.shade200
@@ -72,7 +64,7 @@ class ListingCard extends ConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: customColors.separatorColor.withOpacity(0.3),
+          color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
           width: 0.5,
         ),
       ),
@@ -90,7 +82,7 @@ class ListingCard extends ConsumerWidget {
                   : offerHeaderBg,
                 border: Border(
                   bottom: BorderSide(
-                    color: customColors.separatorColor.withOpacity(0.3),
+                    color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
                     width: 0.5,
                   ),
                 ),
@@ -212,7 +204,7 @@ class ListingCard extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: customColors.separatorColor.withOpacity(0.3),
+                    color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
                     width: 0.5,
                   ),
                 ),
@@ -266,11 +258,11 @@ class ListingCard extends ConsumerWidget {
 
     Color statusColor = getStatusColor();
     Color bgColor = isDarkMode 
-        ? statusColor.withOpacity(0.2) 
-        : statusColor.withOpacity(0.1);
+        ? statusColor.withValues(alpha: 0.2 * 255) 
+        : statusColor.withValues(alpha: 0.1 * 255);
     Color borderColor = isDarkMode 
-        ? statusColor.withOpacity(0.6) 
-        : statusColor.withOpacity(0.5);
+        ? statusColor.withValues(alpha: 0.6 * 255) 
+        : statusColor.withValues(alpha: 0.5 * 255);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -345,7 +337,7 @@ class ListingCard extends ConsumerWidget {
                 thickness: 1,
                 indent: 8,
                 endIndent: 8,
-                color: customColors.separatorColor.withOpacity(0.5),
+                color: customColors.separatorColor.withValues(alpha: 0.5 * 255),
               ),
               
               Expanded(
@@ -366,7 +358,7 @@ class ListingCard extends ConsumerWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: customColors.separatorColor.withOpacity(0.3),
+            color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
           ),
           
           TextButton.icon(
@@ -419,7 +411,6 @@ class ListingCard extends ConsumerWidget {
   }
 
   Widget _buildUserInfo(WidgetRef ref) {
-    final themeData = Theme.of(ref.context);
     final pubkey = listing.pubkey;
     
     if (pubkey.isEmpty) {
@@ -438,9 +429,9 @@ class ListingCard extends ConsumerWidget {
       );
     }
     
-    // Use the global userProvider to get user data
-    final user = userProvider.getUser(pubkey);
-    
+    // Instead of directly accessing userProvider.getUser() here,
+    // we'll let the SimpleNameWidget and UserPicWidget handle that
+    // with their own optimized provider access patterns
     return GestureDetector(
       onTap: () {
         // Navigate to user profile

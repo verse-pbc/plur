@@ -47,6 +47,21 @@ class SimpleNameWidget extends StatefulWidget {
 
 class _SimpleNameWidgetState extends State<SimpleNameWidget> {
   @override
+  void initState() {
+    super.initState();
+    // If we're not given a user, try to fetch one from reliable relays
+    // but use microtask to avoid modifying providers during build
+    if (widget.user == null) {
+      Future.microtask(() {
+        if (mounted) {
+          final provider = Provider.of<UserProvider>(context, listen: false);
+          provider.fetchUserProfileFromReliableRelays(widget.pubkey);
+        }
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     if (widget.user != null) {
       return buildWidget(widget.user);
@@ -56,6 +71,7 @@ class _SimpleNameWidgetState extends State<SimpleNameWidget> {
         builder: (context, user, child) {
       return buildWidget(user);
     }, selector: (_, provider) {
+      // This will not update the provider, just access its data
       return provider.getUser(widget.pubkey);
     });
   }
