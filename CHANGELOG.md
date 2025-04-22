@@ -38,6 +38,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Accept or decline responses as the listing creator
   - Track status of listings (active, fulfilled, cancelled, etc.)
   - Connect with community members through direct messaging
+- Added Calendar & Events for communities following NIP-52:
+  - View community events in list format (with calendar and map views coming soon)
+  - Create and manage events with detailed information (date, time, location, visibility)
+  - RSVP to events (going, interested, not going) with improved attendee lists
+  - View complete lists of event attendees by RSVP status
+  - Event discussion tab for community interaction about events
+  - Filter events by visibility and date
+  - Support for both time-bounded and date-bounded events
 - Upgraded the floating action button to a speed-dial with multiple options:
   - Create a new post
   - Start a new chat
@@ -74,6 +82,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Implemented response system using kind:31112 events for Asks & Offers following Nostr standards
 - Enhanced group context display in Asks & Offers listings with proper navigation
 - Created utility class for standardizing group ID formats across different parts of the application
+- Implemented event chat messaging model and provider for future discussion functionality
+- Enhanced event detail screen with tabbed interface for event details and discussions
+- Improved RSVP visualization with status cards showing attendance counts
 - Fixed loading state timing issues to prevent provider modification during widget lifecycle
 - Improved theme support in chat widgets with proper color handling for light and dark modes
 - Added user information display in all listings with profile linking
