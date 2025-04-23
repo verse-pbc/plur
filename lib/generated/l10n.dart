@@ -110,6 +110,16 @@ class S {
     );
   }
 
+  /// `Refresh`
+  String get refresh {
+    return Intl.message(
+      'Refresh',
+      name: 'refresh',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Communities`
   String get communities {
     return Intl.message(
@@ -3890,6 +3900,106 @@ class S {
     );
   }
 
+  /// `Asks`
+  String get asks {
+    return Intl.message(
+      'Asks',
+      name: 'asks',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Offers`
+  String get offers {
+    return Intl.message(
+      'Offers',
+      name: 'offers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Asks & Offers`
+  String get asksAndOffers {
+    return Intl.message(
+      'Asks & Offers',
+      name: 'asksAndOffers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post an Ask`
+  String get postAnAsk {
+    return Intl.message(
+      'Post an Ask',
+      name: 'postAnAsk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Post an Offer`
+  String get postAnOffer {
+    return Intl.message(
+      'Post an Offer',
+      name: 'postAnOffer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No asks posted yet.\nBe the first to ask for something!`
+  String get noAsksPostedYet {
+    return Intl.message(
+      'No asks posted yet.\nBe the first to ask for something!',
+      name: 'noAsksPostedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No offers posted yet.\nBe the first to offer something!`
+  String get noOffersPostedYet {
+    return Intl.message(
+      'No offers posted yet.\nBe the first to offer something!',
+      name: 'noOffersPostedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No asks or offers posted yet.\nGet started by posting something!`
+  String get noAsksOrOffersPostedYet {
+    return Intl.message(
+      'No asks or offers posted yet.\nGet started by posting something!',
+      name: 'noAsksOrOffersPostedYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading listings`
+  String get errorWhileLoadingListings {
+    return Intl.message(
+      'Error loading listings',
+      name: 'errorWhileLoadingListings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try Again`
+  String get tryAgain {
+    return Intl.message(
+      'Try Again',
+      name: 'tryAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Visible to everyone in the network`
   String get groupPublicDescription {
     return Intl.message(
@@ -3980,16 +4090,6 @@ class S {
     );
   }
 
-  /// `Asks & Offers`
-  String get asksAndOffers {
-    return Intl.message(
-      'Asks & Offers',
-      name: 'asksAndOffers',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Mute`
   String get mute {
     return Intl.message(
@@ -4039,6 +4139,606 @@ class S {
       args: [],
     );
   }
+
+  /// `Calendar`
+  String get calendar {
+    return Intl.message(
+      'Calendar',
+      name: 'calendar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Map`
+  String get map {
+    return Intl.message(
+      'Map',
+      name: 'map',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `List`
+  String get list {
+    return Intl.message(
+      'List',
+      name: 'list',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Past Events`
+  String get pastEvents {
+    return Intl.message(
+      'Past Events',
+      name: 'pastEvents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All Visibility`
+  String get allVisibility {
+    return Intl.message(
+      'All Visibility',
+      name: 'allVisibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlisted`
+  String get unlisted {
+    return Intl.message(
+      'Unlisted',
+      name: 'unlisted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No events found`
+  String get noEventsFound {
+    return Intl.message(
+      'No events found',
+      name: 'noEventsFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No upcoming events`
+  String get noUpcomingEvents {
+    return Intl.message(
+      'No upcoming events',
+      name: 'noUpcomingEvents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create an Event`
+  String get createAnEvent {
+    return Intl.message(
+      'Create an Event',
+      name: 'createAnEvent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Calendar View`
+  String get calendarView {
+    return Intl.message(
+      'Calendar View',
+      name: 'calendarView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Map View`
+  String get mapView {
+    return Intl.message(
+      'Map View',
+      name: 'mapView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Coming Soon`
+  String get comingSoon {
+    return Intl.message(
+      'Coming Soon',
+      name: 'comingSoon',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading events`
+  String get errorWhileLoadingEvents {
+    return Intl.message(
+      'Error loading events',
+      name: 'errorWhileLoadingEvents',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Event`
+  String get createEvent {
+    return Intl.message(
+      'Create Event',
+      name: 'createEvent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Event`
+  String get editEvent {
+    return Intl.message(
+      'Edit Event',
+      name: 'editEvent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Event created successfully`
+  String get eventCreated {
+    return Intl.message(
+      'Event created successfully',
+      name: 'eventCreated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Event updated successfully`
+  String get eventUpdated {
+    return Intl.message(
+      'Event updated successfully',
+      name: 'eventUpdated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Event deleted successfully`
+  String get eventDeleted {
+    return Intl.message(
+      'Event deleted successfully',
+      name: 'eventDeleted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error deleting event`
+  String get errorDeletingEvent {
+    return Intl.message(
+      'Error deleting event',
+      name: 'errorDeletingEvent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this event?`
+  String get deleteEventConfirmation {
+    return Intl.message(
+      'Are you sure you want to delete this event?',
+      name: 'deleteEventConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Event`
+  String get deleteEvent {
+    return Intl.message(
+      'Delete Event',
+      name: 'deleteEvent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Title`
+  String get title {
+    return Intl.message(
+      'Title',
+      name: 'title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a title for your event`
+  String get eventTitleHint {
+    return Intl.message(
+      'Add a title for your event',
+      name: 'eventTitleHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Describe what your event is about`
+  String get eventDescriptionHint {
+    return Intl.message(
+      'Describe what your event is about',
+      name: 'eventDescriptionHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date & Time`
+  String get dateAndTime {
+    return Intl.message(
+      'Date & Time',
+      name: 'dateAndTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Date`
+  String get startDate {
+    return Intl.message(
+      'Start Date',
+      name: 'startDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Time`
+  String get startTime {
+    return Intl.message(
+      'Start Time',
+      name: 'startTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End Date`
+  String get endDate {
+    return Intl.message(
+      'End Date',
+      name: 'endDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End Time`
+  String get endTime {
+    return Intl.message(
+      'End Time',
+      name: 'endTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Include end date/time`
+  String get includeEndDateTime {
+    return Intl.message(
+      'Include end date/time',
+      name: 'includeEndDateTime',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get location {
+    return Intl.message(
+      'Location',
+      name: 'location',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add a location or virtual meeting link`
+  String get eventLocationHint {
+    return Intl.message(
+      'Add a location or virtual meeting link',
+      name: 'eventLocationHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Visibility`
+  String get visibility {
+    return Intl.message(
+      'Visibility',
+      name: 'visibility',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Additional Info`
+  String get additionalInfo {
+    return Intl.message(
+      'Additional Info',
+      name: 'additionalInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cover Image URL`
+  String get coverImageUrl {
+    return Intl.message(
+      'Cover Image URL',
+      name: 'coverImageUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Capacity`
+  String get capacity {
+    return Intl.message(
+      'Capacity',
+      name: 'capacity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cost`
+  String get cost {
+    return Intl.message(
+      'Cost',
+      name: 'cost',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Event Tags`
+  String get eventTags {
+    return Intl.message(
+      'Event Tags',
+      name: 'eventTags',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No tags added`
+  String get noTagsAdded {
+    return Intl.message(
+      'No tags added',
+      name: 'noTagsAdded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Tag`
+  String get addTag {
+    return Intl.message(
+      'Add Tag',
+      name: 'addTag',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tag Name`
+  String get tagName {
+    return Intl.message(
+      'Tag Name',
+      name: 'tagName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Changes`
+  String get saveChanges {
+    return Intl.message(
+      'Save Changes',
+      name: 'saveChanges',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End time must be after start time`
+  String get endTimeMustBeAfterStart {
+    return Intl.message(
+      'End time must be after start time',
+      name: 'endTimeMustBeAfterStart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a title`
+  String get pleaseEnterTitle {
+    return Intl.message(
+      'Please enter a title',
+      name: 'pleaseEnterTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a description`
+  String get pleaseEnterDescription {
+    return Intl.message(
+      'Please enter a description',
+      name: 'pleaseEnterDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred`
+  String get errorOccurred {
+    return Intl.message(
+      'An error occurred',
+      name: 'errorOccurred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error loading responses`
+  String get errorLoadingResponses {
+    return Intl.message(
+      'Error loading responses',
+      name: 'errorLoadingResponses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Responses`
+  String get responses {
+    return Intl.message(
+      'Responses',
+      name: 'responses',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No responses yet`
+  String get noResponsesYet {
+    return Intl.message(
+      'No responses yet',
+      name: 'noResponsesYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `RSVP submitted`
+  String get rsvpSubmitted {
+    return Intl.message(
+      'RSVP submitted',
+      name: 'rsvpSubmitted',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error submitting RSVP`
+  String get errorSubmittingRSVP {
+    return Intl.message(
+      'Error submitting RSVP',
+      name: 'errorSubmittingRSVP',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Organizers`
+  String get organizers {
+    return Intl.message(
+      'Organizers',
+      name: 'organizers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendees`
+  String get attendees {
+    return Intl.message(
+      'Attendees',
+      name: 'attendees',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `View All`
+  String get viewAll {
+    return Intl.message(
+      'View All',
+      name: 'viewAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Going`
+  String get going {
+    return Intl.message(
+      'Going',
+      name: 'going',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Interested`
+  String get interested {
+    return Intl.message(
+      'Interested',
+      name: 'interested',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Can't Go`
+  String get notGoing {
+    return Intl.message(
+      'Can\'t Go',
+      name: 'notGoing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You`
+  String get you {
+    return Intl.message(
+      'You',
+      name: 'you',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Link`
+  String get openLink {
+    return Intl.message(
+      'Open Link',
+      name: 'openLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Report`
+  String get report {
+    return Intl.message(
+      'Report',
+      name: 'report',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
@@ -4057,6 +4757,7 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
       Locale.fromSubtags(languageCode: 'et'),
       Locale.fromSubtags(languageCode: 'fi'),
       Locale.fromSubtags(languageCode: 'fr'),
+      Locale.fromSubtags(languageCode: 'hi'),
       Locale.fromSubtags(languageCode: 'hu'),
       Locale.fromSubtags(languageCode: 'it'),
       Locale.fromSubtags(languageCode: 'ja'),

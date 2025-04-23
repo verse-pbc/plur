@@ -19,9 +19,7 @@ class ContentLinkWidget extends StatelessWidget {
     // Use the title if provided, otherwise format the URL nicely
     final displayText = title != null ? title! : link;
     
-    // Make URLs slightly more compact if they're direct links (no title)
-    final isDirectUrlDisplay = title == null;
-    
+    // Direct URL display is handled by ContentStrLinkWidget
     return ContentStrLinkWidget(
       str: displayText,
       onTap: () {

@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
@@ -73,7 +72,7 @@ class _EventListWidgetState extends State<EventListWidget> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.08),
+              color: Colors.black.withAlpha(20),
               blurRadius: 6,
               offset: const Offset(0, 2),
             ),
@@ -106,7 +105,7 @@ class _EventListWidgetState extends State<EventListWidget> {
             // Optional separator line
             Container(
               height: 1,
-              color: themeData.customColors.separatorColor.withOpacity(0.4),
+              color: themeData.customColors.separatorColor.withAlpha(102),
             ),
           ],
         ),

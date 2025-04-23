@@ -69,8 +69,8 @@ class GroupAvatar extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            themeData.colorScheme.primary.withOpacity(0.7),
-            themeData.colorScheme.secondary.withOpacity(0.5),
+            themeData.colorScheme.primary.withAlpha(179),
+            themeData.colorScheme.secondary.withAlpha(128),
           ],
         ),
       ),
