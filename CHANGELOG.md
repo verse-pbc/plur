@@ -15,6 +15,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improve code quality with context.mounted handling for BotToast messages
 - Update deprecated color API usage throughout the app to use withAlpha instead of withOpacity
 - Enhance async error handling in UI components for better stability
+- Consolidate macOS build scripts and document comprehensive build process
+- Create unified solution for cryptography_flutter architecture compatibility issues on macOS
+- Improve build documentation with detailed troubleshooting steps for all platforms
 
 ### Release Notes
 - Completely redesigned onboarding flow with 4-step process:
