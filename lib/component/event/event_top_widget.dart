@@ -86,7 +86,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                   shape: BoxShape.circle,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withAlpha(26),
                       blurRadius: 4,
                       offset: const Offset(0, 2),
                     ),
@@ -125,12 +125,10 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                           ),
                           
                           // Time stamp with theme-adaptive styling
-                          Container(
-                            child: RelativeDateWidget(
-                              widget.event.createdAt,
-                              style: GoogleFonts.nunito(
-                                textStyle: PlurColors.timestampStyle(context),
-                              ),
+                          RelativeDateWidget(
+                            widget.event.createdAt,
+                            style: GoogleFonts.nunito(
+                              textStyle: PlurColors.timestampStyle(context),
                             ),
                           ),
                         ],

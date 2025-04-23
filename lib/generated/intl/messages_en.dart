@@ -45,6 +45,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Add photos to your posts to see them here."),
         "addPollOption":
             MessageLookupByLibrary.simpleMessage("add poll option"),
+        "addTag": MessageLookupByLibrary.simpleMessage("Add Tag"),
         "addThisRelayToLocal":
             MessageLookupByLibrary.simpleMessage("Add this relay to local?"),
         "addToKnownList":
@@ -54,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "addToPublicBookmark":
             MessageLookupByLibrary.simpleMessage("Add to public bookmark"),
         "addUser": MessageLookupByLibrary.simpleMessage("Add User"),
+        "additionalInfo":
+            MessageLookupByLibrary.simpleMessage("Additional Info"),
         "address": MessageLookupByLibrary.simpleMessage("Address"),
         "addressCantBeNull":
             MessageLookupByLibrary.simpleMessage("Address can\'t be null."),
@@ -66,8 +69,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Are you over 16 years old?"),
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
+        "allVisibility": MessageLookupByLibrary.simpleMessage("All Visibility"),
         "any": MessageLookupByLibrary.simpleMessage("Any"),
+        "asks": MessageLookupByLibrary.simpleMessage("Asks"),
         "asksAndOffers": MessageLookupByLibrary.simpleMessage("Asks & Offers"),
+        "attendees": MessageLookupByLibrary.simpleMessage("Attendees"),
         "authenticatNeed":
             MessageLookupByLibrary.simpleMessage("Authenticat need"),
         "auto": MessageLookupByLibrary.simpleMessage("Auto"),
@@ -94,7 +100,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Buy me a coffee!"),
         "cache": MessageLookupByLibrary.simpleMessage("Cache"),
         "cacheRelay": MessageLookupByLibrary.simpleMessage("Cache Relay"),
+        "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
+        "calendarView": MessageLookupByLibrary.simpleMessage("Calendar View"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "capacity": MessageLookupByLibrary.simpleMessage("Capacity"),
         "changesSaved":
             MessageLookupByLibrary.simpleMessage("Changes saved successfully"),
         "chat": MessageLookupByLibrary.simpleMessage("Chat"),
@@ -108,6 +117,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "closed": MessageLookupByLibrary.simpleMessage("Closed"),
         "closedGroup": MessageLookupByLibrary.simpleMessage("Closed group"),
         "closedType": MessageLookupByLibrary.simpleMessage("closed"),
+        "comingSoon": MessageLookupByLibrary.simpleMessage("Coming Soon"),
         "communities": MessageLookupByLibrary.simpleMessage("Communities"),
         "communityGuidelines":
             MessageLookupByLibrary.simpleMessage("Community Guidelines"),
@@ -139,6 +149,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyNotePubkey":
             MessageLookupByLibrary.simpleMessage("Copy Note Pubkey"),
         "copySuccess": MessageLookupByLibrary.simpleMessage("Copy success!"),
+        "cost": MessageLookupByLibrary.simpleMessage("Cost"),
+        "coverImageUrl":
+            MessageLookupByLibrary.simpleMessage("Cover Image URL"),
+        "createAnEvent":
+            MessageLookupByLibrary.simpleMessage("Create an Event"),
+        "createEvent": MessageLookupByLibrary.simpleMessage("Create Event"),
         "createGroup": MessageLookupByLibrary.simpleMessage("Create Group"),
         "createYourCommunity":
             MessageLookupByLibrary.simpleMessage("Create your community"),
@@ -152,6 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "data": MessageLookupByLibrary.simpleMessage("Data"),
         "dataLength": MessageLookupByLibrary.simpleMessage("Data Length"),
         "dataSyncMode": MessageLookupByLibrary.simpleMessage("Data Sync Mode"),
+        "dateAndTime": MessageLookupByLibrary.simpleMessage("Date & Time"),
         "defaultColor": MessageLookupByLibrary.simpleMessage("Default Color"),
         "defaultFontFamily":
             MessageLookupByLibrary.simpleMessage("Default Font Family"),
@@ -162,6 +179,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteAccount": MessageLookupByLibrary.simpleMessage("Delete Account"),
         "deleteAccountTips": MessageLookupByLibrary.simpleMessage(
             "We will try to delete you infomation. When you login with this Key again, you will lose your data."),
+        "deleteEvent": MessageLookupByLibrary.simpleMessage("Delete Event"),
+        "deleteEventConfirmation": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to delete this event?"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "detail": MessageLookupByLibrary.simpleMessage("Detail"),
         "development": MessageLookupByLibrary.simpleMessage("Development"),
@@ -177,11 +197,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "download": MessageLookupByLibrary.simpleMessage("Download"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "editDetails": MessageLookupByLibrary.simpleMessage("Edit Details"),
+        "editEvent": MessageLookupByLibrary.simpleMessage("Edit Event"),
         "editGroup": MessageLookupByLibrary.simpleMessage("Edit Group"),
         "editName": MessageLookupByLibrary.simpleMessage("Edit name"),
         "emoji": MessageLookupByLibrary.simpleMessage("Emoji"),
         "emptyTextMayBeBanByRelays": MessageLookupByLibrary.simpleMessage(
             "Empty text may be ban by relays."),
+        "endDate": MessageLookupByLibrary.simpleMessage("End Date"),
+        "endTime": MessageLookupByLibrary.simpleMessage("End Time"),
+        "endTimeMustBeAfterStart": MessageLookupByLibrary.simpleMessage(
+            "End time must be after start time"),
         "enterCommunityDescription": MessageLookupByLibrary.simpleMessage(
             "Enter a description of your community"),
         "enterCommunityGuidelines": MessageLookupByLibrary.simpleMessage(
@@ -189,8 +214,33 @@ class MessageLookup extends MessageLookupByLibrary {
         "enterCommunityName": MessageLookupByLibrary.simpleMessage(
             "Enter a name for your community"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
+        "errorDeletingEvent":
+            MessageLookupByLibrary.simpleMessage("Error deleting event"),
+        "errorLoadingResponses":
+            MessageLookupByLibrary.simpleMessage("Error loading responses"),
+        "errorOccurred":
+            MessageLookupByLibrary.simpleMessage("An error occurred"),
+        "errorSubmittingRSVP":
+            MessageLookupByLibrary.simpleMessage("Error submitting RSVP"),
+        "errorWhileLoadingEvents":
+            MessageLookupByLibrary.simpleMessage("Error loading events"),
+        "errorWhileLoadingListings":
+            MessageLookupByLibrary.simpleMessage("Error loading listings"),
+        "eventCreated":
+            MessageLookupByLibrary.simpleMessage("Event created successfully"),
+        "eventDeleted":
+            MessageLookupByLibrary.simpleMessage("Event deleted successfully"),
+        "eventDescriptionHint": MessageLookupByLibrary.simpleMessage(
+            "Describe what your event is about"),
+        "eventLocationHint": MessageLookupByLibrary.simpleMessage(
+            "Add a location or virtual meeting link"),
         "eventSignCheck":
             MessageLookupByLibrary.simpleMessage("Event Sign Check"),
+        "eventTags": MessageLookupByLibrary.simpleMessage("Event Tags"),
+        "eventTitleHint":
+            MessageLookupByLibrary.simpleMessage("Add a title for your event"),
+        "eventUpdated":
+            MessageLookupByLibrary.simpleMessage("Event updated successfully"),
         "events": MessageLookupByLibrary.simpleMessage("Events"),
         "face": MessageLookupByLibrary.simpleMessage("Face"),
         "fastMode": MessageLookupByLibrary.simpleMessage("Fast Mode"),
@@ -228,6 +278,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "global": MessageLookupByLibrary.simpleMessage("Global"),
         "goalAmountInSats":
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
+        "going": MessageLookupByLibrary.simpleMessage("Going"),
         "group": MessageLookupByLibrary.simpleMessage("Group"),
         "groupClosedDescription": MessageLookupByLibrary.simpleMessage(
             "Requires invitation or approval to join"),
@@ -264,6 +315,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "imageUploadFailed":
             MessageLookupByLibrary.simpleMessage("Image upload failed"),
         "importNotes": MessageLookupByLibrary.simpleMessage("Import notes"),
+        "includeEndDateTime":
+            MessageLookupByLibrary.simpleMessage("Include end date/time"),
         "input": MessageLookupByLibrary.simpleMessage("Input"),
         "inputAccountPrivateKey":
             MessageLookupByLibrary.simpleMessage("Input account private key"),
@@ -284,6 +337,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "inputSatsNumToGenLightningInvoice":
             MessageLookupByLibrary.simpleMessage(
                 "Input Sats num to gen lightning invoice"),
+        "interested": MessageLookupByLibrary.simpleMessage("Interested"),
         "invite": MessageLookupByLibrary.simpleMessage("Invite"),
         "invitePeopleToJoin": MessageLookupByLibrary.simpleMessage(
             "Invite people to join this group"),
@@ -308,10 +362,12 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Limit Note Height"),
         "linkPreview": MessageLookupByLibrary.simpleMessage("Link preview"),
         "links": MessageLookupByLibrary.simpleMessage("Links"),
+        "list": MessageLookupByLibrary.simpleMessage("List"),
         "lnurlAndLud16CantFound": MessageLookupByLibrary.simpleMessage(
             "Lnurl and Lud16 can\'t found."),
         "loading": MessageLookupByLibrary.simpleMessage("loading"),
         "localRelay": MessageLookupByLibrary.simpleMessage("Local Relay"),
+        "location": MessageLookupByLibrary.simpleMessage("Location"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginFail": MessageLookupByLibrary.simpleMessage("Login fail"),
         "loginWithAndroidSigner":
@@ -320,6 +376,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Login With NIP07 Extension"),
         "lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
         "manage": MessageLookupByLibrary.simpleMessage("Manage"),
+        "map": MessageLookupByLibrary.simpleMessage("Map"),
+        "mapView": MessageLookupByLibrary.simpleMessage("Map View"),
         "maxSubNotes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
         "maxZapNum": MessageLookupByLibrary.simpleMessage("max zap num"),
         "media": MessageLookupByLibrary.simpleMessage("Media"),
@@ -354,12 +412,26 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Lightning payment"),
         "nip07SignEvent": MessageLookupByLibrary.simpleMessage("Sign Event"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
+        "noAsksOrOffersPostedYet": MessageLookupByLibrary.simpleMessage(
+            "No asks or offers posted yet.\nGet started by posting something!"),
+        "noAsksPostedYet": MessageLookupByLibrary.simpleMessage(
+            "No asks posted yet.\nBe the first to ask for something!"),
+        "noEventsFound":
+            MessageLookupByLibrary.simpleMessage("No events found"),
         "noMediaFound": MessageLookupByLibrary.simpleMessage("No Media found"),
+        "noOffersPostedYet": MessageLookupByLibrary.simpleMessage(
+            "No offers posted yet.\nBe the first to offer something!"),
+        "noResponsesYet":
+            MessageLookupByLibrary.simpleMessage("No responses yet"),
+        "noTagsAdded": MessageLookupByLibrary.simpleMessage("No tags added"),
+        "noUpcomingEvents":
+            MessageLookupByLibrary.simpleMessage("No upcoming events"),
         "normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "nostrmoDevelopersWillNeverRequireAKeyFromYou":
             MessageLookupByLibrary.simpleMessage(
                 "Nostrmo developers will never require a key from you."),
         "notFound": MessageLookupByLibrary.simpleMessage("not found"),
+        "notGoing": MessageLookupByLibrary.simpleMessage("Can\'t Go"),
         "noteId": MessageLookupByLibrary.simpleMessage("Note Id"),
         "noteLoading": MessageLookupByLibrary.simpleMessage("Note loading..."),
         "notes": MessageLookupByLibrary.simpleMessage("Notes"),
@@ -372,6 +444,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "nwcTip1": MessageLookupByLibrary.simpleMessage(
             "NWC is Nostr Wallet Connect, with NWC Setting you zap within the app."),
         "nwcTip2": MessageLookupByLibrary.simpleMessage("NWC URL is like"),
+        "offers": MessageLookupByLibrary.simpleMessage("Offers"),
         "onboardingNameInputHint":
             MessageLookupByLibrary.simpleMessage("Your name or nickname"),
         "onboardingNameInputTitle":
@@ -382,6 +455,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "openGroup": MessageLookupByLibrary.simpleMessage("Open group"),
         "openInBrowser":
             MessageLookupByLibrary.simpleMessage("Open in browser"),
+        "openLink": MessageLookupByLibrary.simpleMessage("Open Link"),
         "openNoteDetail":
             MessageLookupByLibrary.simpleMessage("Open Note detail"),
         "openPrivateDM":
@@ -390,8 +464,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "opened": MessageLookupByLibrary.simpleMessage("Opened"),
         "optional": MessageLookupByLibrary.simpleMessage("Optional"),
         "or": MessageLookupByLibrary.simpleMessage("or"),
+        "organizers": MessageLookupByLibrary.simpleMessage("Organizers"),
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "pastEvents": MessageLookupByLibrary.simpleMessage("Past Events"),
         "pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "picture": MessageLookupByLibrary.simpleMessage("Picture"),
         "places": MessageLookupByLibrary.simpleMessage("Places"),
@@ -408,6 +484,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseDoNotDiscloseOrShareTheKeyToAnyone":
             MessageLookupByLibrary.simpleMessage(
                 "Please do not disclose or share the key to anyone."),
+        "pleaseEnterDescription":
+            MessageLookupByLibrary.simpleMessage("Please enter a description"),
+        "pleaseEnterTitle":
+            MessageLookupByLibrary.simpleMessage("Please enter a title"),
         "pleaseInput": MessageLookupByLibrary.simpleMessage("Please input"),
         "pleaseInputEventId":
             MessageLookupByLibrary.simpleMessage("Please input event id"),
@@ -437,6 +517,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("poll option info"),
         "popularUsers": MessageLookupByLibrary.simpleMessage("Popular Users"),
         "post": MessageLookupByLibrary.simpleMessage("Post"),
+        "postAnAsk": MessageLookupByLibrary.simpleMessage("Post an Ask"),
+        "postAnOffer": MessageLookupByLibrary.simpleMessage("Post an Offer"),
         "postingTo": MessageLookupByLibrary.simpleMessage("Posting to"),
         "posts": MessageLookupByLibrary.simpleMessage("Posts"),
         "postsAndReplies":
@@ -457,6 +539,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "readonlyLoginTip": MessageLookupByLibrary.simpleMessage(
             "You are logged in in read-only mode."),
         "recovery": MessageLookupByLibrary.simpleMessage("Recovery"),
+        "refresh": MessageLookupByLibrary.simpleMessage("Refresh"),
         "relay": MessageLookupByLibrary.simpleMessage("Relay"),
         "relayInfo": MessageLookupByLibrary.simpleMessage("Relay Info"),
         "relayMode": MessageLookupByLibrary.simpleMessage("Relay Mode"),
@@ -468,9 +551,13 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Remove from public bookmark"),
         "replied": MessageLookupByLibrary.simpleMessage("replied"),
         "replying": MessageLookupByLibrary.simpleMessage("Replying"),
+        "report": MessageLookupByLibrary.simpleMessage("Report"),
         "request": MessageLookupByLibrary.simpleMessage("Request"),
+        "responses": MessageLookupByLibrary.simpleMessage("Responses"),
         "retry": MessageLookupByLibrary.simpleMessage("Retry"),
+        "rsvpSubmitted": MessageLookupByLibrary.simpleMessage("RSVP submitted"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
+        "saveChanges": MessageLookupByLibrary.simpleMessage("Save Changes"),
         "saveError":
             MessageLookupByLibrary.simpleMessage("Error saving changes"),
         "saveFailed": MessageLookupByLibrary.simpleMessage(
@@ -508,8 +595,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Split and Transfer Zap"),
         "splitZapTip": MessageLookupByLibrary.simpleMessage(
             "The support client will split and transfer zaps to the users you had added."),
+        "startDate": MessageLookupByLibrary.simpleMessage("Start Date"),
         "startOrJoinACommunity":
             MessageLookupByLibrary.simpleMessage("Start or join a community"),
+        "startTime": MessageLookupByLibrary.simpleMessage("Start Time"),
         "subject": MessageLookupByLibrary.simpleMessage("Subject"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "switchToFeedView":
@@ -517,6 +606,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "switchToGridView":
             MessageLookupByLibrary.simpleMessage("Switch to Grid View"),
         "syncUpload": MessageLookupByLibrary.simpleMessage("Sync Upload"),
+        "tagName": MessageLookupByLibrary.simpleMessage("Tag Name"),
         "takePhoto": MessageLookupByLibrary.simpleMessage("Take photo"),
         "takeVideo": MessageLookupByLibrary.simpleMessage("Take video"),
         "tempRelays": MessageLookupByLibrary.simpleMessage("Temp Relays"),
@@ -537,6 +627,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "This operation cannot be undo"),
         "threadMode": MessageLookupByLibrary.simpleMessage("Thread Mode"),
         "timeline": MessageLookupByLibrary.simpleMessage("Timeline"),
+        "title": MessageLookupByLibrary.simpleMessage("Title"),
         "topic": MessageLookupByLibrary.simpleMessage("Topic"),
         "topics": MessageLookupByLibrary.simpleMessage("Topics"),
         "traceMode": MessageLookupByLibrary.simpleMessage("Trace Mode"),
@@ -545,6 +636,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Translate Source Language"),
         "translateTargetLanguage":
             MessageLookupByLibrary.simpleMessage("Translate Target Language"),
+        "tryAgain": MessageLookupByLibrary.simpleMessage("Try Again"),
+        "unlisted": MessageLookupByLibrary.simpleMessage("Unlisted"),
         "updateImage": MessageLookupByLibrary.simpleMessage("Update Image"),
         "uploadFail": MessageLookupByLibrary.simpleMessage("Upload fail."),
         "uploadNum": MessageLookupByLibrary.simpleMessage("Upload num"),
@@ -559,7 +652,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "version": MessageLookupByLibrary.simpleMessage("Version"),
         "videoPreviewInList":
             MessageLookupByLibrary.simpleMessage("Video preview in list"),
+        "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
         "viewKey": MessageLookupByLibrary.simpleMessage("view key"),
+        "visibility": MessageLookupByLibrary.simpleMessage("Visibility"),
         "wear": MessageLookupByLibrary.simpleMessage("Wear"),
         "webRTCPermission":
             MessageLookupByLibrary.simpleMessage("WebRTC Permission"),
@@ -577,6 +672,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "wrongPrivateKeyFormat":
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
+        "you": MessageLookupByLibrary.simpleMessage("You"),
         "youHadVotedWith":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
         "yourGroups": MessageLookupByLibrary.simpleMessage("Your Groups"),

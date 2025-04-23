@@ -17,9 +17,9 @@ class ColorList {
   static MaterialColor getThemeColor(int colorValue) {
     var i = 0;
     Color checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFF3E5F5),
           100: const Color(0xFFE1BEE7),
@@ -36,9 +36,9 @@ class ColorList {
     }
 
     checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFE3F2FD),
           100: const Color(0xFFBBDEFB),
@@ -55,9 +55,9 @@ class ColorList {
     }
 
     checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFE0F7FA),
           100: const Color(0xFFB2EBF2),
@@ -74,9 +74,9 @@ class ColorList {
     }
 
     checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFE8F5E9),
           100: const Color(0xFFC8E6C9),
@@ -93,9 +93,9 @@ class ColorList {
     }
 
     checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFFFFDE7),
           100: const Color(0xFFFFF9C4),
@@ -112,9 +112,9 @@ class ColorList {
     }
 
     checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFFFF3E0),
           100: const Color(0xFFFFE0B2),
@@ -131,9 +131,9 @@ class ColorList {
     }
 
     checkedColor = allColor[i++];
-    if (colorValue == checkedColor.value) {
+    if (colorValue == checkedColor.toARGB32()) {
       return MaterialColor(
-        checkedColor.value,
+        checkedColor.toARGB32(),
         <int, Color>{
           50: const Color(0xFFFFEBEE),
           100: const Color(0xFFFFCDD2),
@@ -151,7 +151,7 @@ class ColorList {
 
     // Default
     return MaterialColor(
-      checkedColor.value,
+      checkedColor.toARGB32(),
       <int, Color>{
         50: const Color(0xFFE8F5E9),
         100: const Color(0xFFC8E6C9),

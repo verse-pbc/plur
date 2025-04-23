@@ -273,7 +273,7 @@ mixin EditorMixin {
         height: 24,
         width: 1,
         margin: const EdgeInsets.symmetric(horizontal: 8),
-        color: themeData.dividerColor.withOpacity(0.5),
+        color: themeData.dividerColor.withAlpha(128),
       );
     }
 
@@ -534,11 +534,15 @@ mixin EditorMixin {
 
   bool baseInputCheck(BuildContext context, String value) {
     if (value.contains(" ")) {
-      BotToast.showText(text: S.of(context).textCantContainBlankSpace);
+      if (context.mounted) {
+        BotToast.showText(text: S.of(context).textCantContainBlankSpace);
+      }
       return false;
     }
     if (value.contains("\n")) {
-      BotToast.showText(text: S.of(context).textCantContainNewLine);
+      if (context.mounted) {
+        BotToast.showText(text: S.of(context).textCantContainNewLine);
+      }
       return false;
     }
     return true;
@@ -631,7 +635,9 @@ mixin EditorMixin {
 
                 value = imagePath;
               } else {
-                BotToast.showText(text: S.of(context).uploadFail);
+                if (context.mounted) {
+                  BotToast.showText(text: S.of(context).uploadFail);
+                }
                 return null;
               }
             }
@@ -653,7 +659,7 @@ mixin EditorMixin {
 
           value = m["tag"];
           if (StringUtil.isNotBlank(value)) {
-            result = handleInlineValue(result, "#" + value);
+            result = handleInlineValue(result, "#$value");
             tags.add(["t", value]);
             continue;
           }

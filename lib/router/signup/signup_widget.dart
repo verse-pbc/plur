@@ -536,9 +536,9 @@ class _SignupWidgetState extends State<SignupWidget> {
                     borderRadius: BorderRadius.zero,
                   ),
                   backgroundColor: accentColor,
-                  disabledBackgroundColor: accentColor.withOpacity(0.4),
+                  disabledBackgroundColor: accentColor.withAlpha(102),
                   foregroundColor: buttonTextColor,
-                  disabledForegroundColor: buttonTextColor.withOpacity(0.4),
+                  disabledForegroundColor: buttonTextColor.withAlpha(102),
                 ),
                 child: Text(
                   _emailController.text.isEmpty ? "Skip" : "Continue",

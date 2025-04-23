@@ -64,15 +64,9 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final localization = S.of(context);
     final themeData = Theme.of(context);
     var hintColor = themeData.hintColor;
-    var fontSize = themeData.textTheme.bodyMedium!.fontSize!;
     var mainColor = themeData.primaryColor;
-    var mediumFontSize = themeData.textTheme.bodyMedium!.fontSize;
-    var popFontStyle = TextStyle(
-      fontSize: mediumFontSize,
-    );
     readOnly = nostr!.isReadOnly();
 
     return Selector<EventReactionsProvider, EventReactions?>(

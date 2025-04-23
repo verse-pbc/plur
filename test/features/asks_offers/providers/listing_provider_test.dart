@@ -91,18 +91,18 @@ void main() {
       when(mockNostr.queryEvents(any)).thenAnswer((_) async => []);
       
       // For subscribe
-      when(mockNostr.subscribe(any, any, id: anyNamed('id'))).thenReturn(null);
+      when(mockNostr.subscribe(any, any, id: anyNamed('id'))).thenReturn("test_subscription_id");
       
       // For sign event
       when(mockNostr.signEvent(any)).thenAnswer((invocation) {
         final event = invocation.positionalArguments[0] as Event;
         event.id = testId; // Set a test ID
         event.sig = 'test_sig';
-        return null;
+        return Future.value();
       });
       
       // For send event
-      when(mockNostr.sendEvent(any)).thenAnswer((_) async => null);
+      when(mockNostr.sendEvent(any)).thenAnswer((_) async => Event("", 0, [], ""));
       
       // Create a provider container with mocked Nostr
       container = ProviderContainer(
@@ -335,7 +335,7 @@ void main() {
           final event = invocation.positionalArguments[0] as Event;
           event.id = 'new_id'; // Set a test ID for the new event
           event.sig = 'new_sig';
-          return null;
+          return Future.value();
         });
         
         // Now call createListing
@@ -365,7 +365,7 @@ void main() {
           // Keep the same ID for update
           event.id = 'update_id';
           event.sig = 'updated_sig';
-          return null;
+          return Future.value();
         });
         
         // Now call updateListing with modified listing
