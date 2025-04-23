@@ -1,74 +1,57 @@
-# BotToast, Layout, and Test Group Joining Fixes
+# Code Quality and Localization Update for Calendar Feature
 
 ## Summary
-This PR addresses several critical issues from the CHANGELOG causing blank screens, layout errors, and improves the user experience. It implements error handling improvements, fixes layout constraints, makes the Test Users Group joining optional, and addresses iOS/macOS compatibility issues.
+This PR addresses code quality issues and fixes missing localization that was causing test failures. It improves type safety, error handling, and follows Flutter's latest best practices for color manipulation and context safety.
 
 ## Implements CHANGELOG Items
 
-### From Release Notes Section
-- ✅ **"Made test group joining optional with confirmation dialog"**
-- ✅ **"Fixed blank screen issues when creating and joining communities"**
-- ✅ **"Improved invitation and group creation workflow with better error handling"**
-
-### From Internal Changes Section  
-- ✅ **"Fixed AVIF image loading issues that caused crashes"**
-- ✅ **"Improved BotToast error handling to prevent blank screens"**
-- ✅ **"Fixed issues with unbounded constraints in layout of community screens"**
-- ✅ **"Enhanced error logging and recovery to improve app stability"**
+### From Internal Changes Section
+- ✅ **"Fix localization issues in calendar events feature"**
+- ✅ **"Improve code quality with context handling for BotToast messages"**
+- ✅ **"Update deprecated color API usage throughout the app"**
+- ✅ **"Enhance async error handling in UI components"**
 
 ## Technical Changes
 
-### BotToast Error Handling
-- Fixed `LateInitializationError: Local 'cancelFunc' has not been initialized` errors
-- Added proper toast function tracking and cleanup to prevent memory leaks
-- Improved error recovery when toasts fail to display
-- Added periodic toast cleanup in SystemTimer
+### Localization Fixes
+- Added missing 'refresh' string to localization resources
+- Fixed missing string reference in the group_detail_events_widget.dart file
+- Regenerated localization files with intl_utils
+- Ensured all calendar event UI elements use proper localization
 
-### Layout and Rendering Fixes
-- Fixed "Cannot hit test a render box with no size" errors in InvitePeopleWidget
-- Fixed MouseTracker assertion errors with safer async state management
-- Resolved unbounded height constraints with proper layout constraints
-- Used LayoutBuilder, SingleChildScrollView, and ConstrainedBox for proper sizing
-- Added _isDisposed flag for safer widget lifecycle management
+### BuildContext and Async Safety
+- Added context.mounted checks before accessing BuildContext in async operations
+- Fixed potential BuildContext usage errors in paste_join_link_button and editor_mixin
+- Improved editor error handling to safely display errors only when context is valid
+- Enhanced state management for async operations
 
-### UI Improvements
-- Enhanced "Join Plur Test Users Group" dialog with Plur design system colors
-- Improved button layout and responsiveness in dialogs
-- Used proper localization instead of hardcoded text
+### Color API Modernization
+- Updated deprecated .withOpacity() usage to modern .withAlpha() for better precision
+- Fixed color value retrieval with .toARGB32() instead of the deprecated .value getter
+- Updated all core UI components including buttons, cards, and dialogs
+- Ensured consistent use of theme colors throughout the app
 
-### User Experience Enhancements
-- Made Test Users Group joining optional instead of automatic
-- Improved error recovery throughout the app
-- Enhanced state management to prevent updates during critical phases
-
-### Sentry and BlurHash Changes
-- Added helper files for better Sentry error reporting compatibility on iOS/macOS
-- Fixed BlurHash issues on iOS by providing empty implementations when needed
-- Improved error logging and recovery to improve app stability
-
-### Test Improvements
-- Fixed test failures related to SettingsProvider LateInitializationError:
-  - Added proper test instance management in SettingsProvider with setTestInstance/clearTestInstance methods
-  - Fixed tab_switching_performance_test.dart to use proper mocks for settings
-  - Simplified problematic tests that were encountering HTTP client mocking issues
-- Fixed EventKind constants usage in tests:
-  - Updated constants to use the actual names from the SDK (groupMetadata, groupMembers, groupNote)
-  - Fixed mock objects for testing
-  - Improved test robustness
+### Code Quality Improvements
+- Removed unused local variables across several components
+- Eliminated unnecessary imports in multiple files
+- Improved string concatenation with proper string interpolation
+- Fixed an unnecessary Container nesting in event_top_widget.dart
+- Updated test mocks to handle null safety properly
 
 ## Testing
-- Verified that the app no longer shows blank screens when errors occur
-- Confirmed that new users aren't automatically joined to test groups
-- Tested that the UI properly renders on different screen sizes without layout errors
-- Confirmed proper localization is working for all text elements
-- Fixed all failing tests to ensure CI pipeline passes:
-  - Fixed mock settings provider initialization in tests
-  - Updated test structure to work with the latest SDK constants
-  - Simplified complex tests with HTTP client mocking to improve stability
+- Fixed failing tests that were relying on missing localization strings
+- Verified all our changes using the Flutter analyzer tool
+- Fixed color-related deprecation warnings
+- Ran and passed tests for group_feed_provider_test.dart, group_provider_test.dart, and group_metadata_repository_test.dart
+- Ensured backward compatibility with existing code
 
-## Screenshots
-*Before: Join Test Users dialog with incorrect color scheme*
-[See attached screenshots in PR]
+## Benefits
+- Improved type safety with nullable context handling
+- Reduced deprecation warnings for Flutter 3.16+ compatibility
+- Fixed test failures related to missing localization resources
+- Better error handling with context verification
+- Cleaner codebase with fewer unused variables and imports
+- More efficient color handling with modern APIs
 
-*After: Join Test Users dialog with Plur color scheme*
-[See attached screenshots in PR]
+## Impact 
+The changes primarily focus on code maintenance and quality. Users won't see visible differences, but the app will be more stable, especially when handling async operations. Tests will pass more reliably, and the codebase is now better prepared for future Flutter updates.
