@@ -88,12 +88,12 @@ class GroupEventListWidget extends StatelessWidget {
                 color: themeData.colorScheme.surface,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: themeData.dividerColor.withOpacity(0.3),
+                  color: themeData.dividerColor.withAlpha(77),
                   width: 0.5, 
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: themeData.shadowColor.withOpacity(0.1),
+                    color: themeData.shadowColor.withAlpha(26),
                     blurRadius: 2,
                     offset: const Offset(0, 1),
                   ),
@@ -120,7 +120,7 @@ class GroupEventListWidget extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
-                        color: themeData.colorScheme.onSurface.withOpacity(0.8),
+                        color: themeData.colorScheme.onSurface.withAlpha(204),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

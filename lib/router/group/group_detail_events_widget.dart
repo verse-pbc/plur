@@ -57,20 +57,38 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
   }
   
   Future<void> _loadEvents() async {
-    // Format the group ID as "host:id" for the filter
-    final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
-    
-    // Log for debugging
-    debugPrint("Loading events for group ID: $groupId");
-    
-    // Use Future.microtask to delay provider updates until after widget build is complete
-    return Future.microtask(() async {
-      if (mounted) {
-        // Load events and RSVPs
-        await ref.read(eventProvider.notifier).loadEvents(groupId: groupId);
-        await ref.read(eventRSVPProvider.notifier).loadRSVPs(groupId: groupId);
-      }
-    });
+    try {
+      // Format the group ID as "host:id" for the filter
+      final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
+      
+      // Log for debugging
+      debugPrint("Loading events for group ID: $groupId");
+      
+      // Use Future.microtask to delay provider updates until after widget build is complete
+      return Future.microtask(() async {
+        if (mounted) {
+          try {
+            // Load events first
+            await ref.read(eventProvider.notifier).loadEvents(groupId: groupId);
+            
+            // Then load RSVPs - catch errors separately to avoid one failure affecting the other
+            try {
+              await ref.read(eventRSVPProvider.notifier).loadRSVPs(groupId: groupId);
+            } catch (rsvpError, rsvpStack) {
+              debugPrint("Error loading RSVPs: $rsvpError");
+              // Continue without RSVPs if they fail to load
+            }
+          } catch (error, stack) {
+            debugPrint("Error loading events: $error");
+            // We'll handle display of errors in the UI, so we don't rethrow
+          }
+        }
+      });
+    } catch (e, stack) {
+      debugPrint("Fatal error in _loadEvents: $e");
+      debugPrint("Stack trace: $stack");
+      // Continue without crashing the app
+    }
   }
   
   @override
@@ -79,81 +97,158 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    final themeData = Theme.of(context);
-    final l10n = S.of(context);
     
-    // Format the group ID for filtering
-    final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
-    
-    // Get events data
-    final eventsState = ref.watch(eventProvider);
-    
-    return Stack(
-      children: [
-        // Main content
-        Column(
-          children: [
-            // View mode and filter toolbar
-            _buildToolbar(themeData, l10n),
-            
-            // Events content based on selected view
-            Expanded(
-              child: eventsState.when(
-                data: (events) {
-                  // Filter events based on current filters
-                  final filteredEvents = ref.read(eventProvider.notifier).filterEvents(
-                    groupId: groupId,
-                    visibility: _selectedVisibility,
-                    showPastEvents: _showPastEvents,
-                  );
-                  
-                  if (filteredEvents.isEmpty) {
-                    return _buildEmptyState(themeData, l10n);
-                  }
-                  
-                  // Display events based on current view mode
-                  switch (_viewMode) {
-                    case EventViewMode.list:
-                      return _buildListView(filteredEvents, themeData);
-                    case EventViewMode.calendar:
-                      return _buildCalendarView(groupId, themeData, l10n);
-                    case EventViewMode.map:
-                      return _buildMapView(filteredEvents, themeData, l10n);
-                  }
-                  
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (error, stackTrace) => Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(l10n.errorWhileLoadingEvents),
-                      const SizedBox(height: 16),
-                      ElevatedButton(
-                        onPressed: _loadEvents,
-                        child: Text(l10n.tryAgain),
-                      ),
-                    ],
+    try {
+      final themeData = Theme.of(context);
+      final l10n = S.of(context);
+      
+      // Format the group ID for filtering
+      String groupId;
+      try {
+        groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
+      } catch (e) {
+        // Use a fallback if the group ID can't be formatted
+        debugPrint("Error formatting group ID: $e");
+        groupId = widget.groupIdentifier.toString();
+      }
+      
+      // Get events data using try-catch to handle potential provider errors
+      AsyncValue<List<EventModel>> eventsState;
+      try {
+        eventsState = ref.watch(eventProvider);
+      } catch (e) {
+        debugPrint("Error watching event provider: $e");
+        // Use loading state as fallback when the provider watch fails
+        eventsState = const AsyncValue.loading();
+      }
+      
+      return Stack(
+        children: [
+          // Main content
+          Column(
+            children: [
+              // View mode and filter toolbar
+              _buildToolbar(themeData, l10n),
+              
+              // Events content based on selected view
+              Expanded(
+                child: eventsState.when(
+                  data: (events) {
+                    try {
+                      // Filter events based on current filters
+                      List<EventModel> filteredEvents;
+                      try {
+                        filteredEvents = ref.read(eventProvider.notifier).filterEvents(
+                          groupId: groupId,
+                          visibility: _selectedVisibility,
+                          showPastEvents: _showPastEvents,
+                        );
+                      } catch (filterError) {
+                        debugPrint("Error filtering events: $filterError");
+                        // Use empty list as fallback if filtering fails
+                        filteredEvents = [];
+                      }
+                      
+                      if (filteredEvents.isEmpty) {
+                        return _buildEmptyState(themeData, l10n);
+                      }
+                      
+                      // Display events based on current view mode
+                      switch (_viewMode) {
+                        case EventViewMode.list:
+                          return _buildListView(filteredEvents, themeData);
+                        case EventViewMode.calendar:
+                          return _buildCalendarView(groupId, themeData, l10n);
+                        case EventViewMode.map:
+                          return _buildMapView(filteredEvents, themeData, l10n);
+                      }
+                      
+                    } catch (e, stack) {
+                      debugPrint("Error rendering events: $e");
+                      debugPrint("Stack trace: $stack");
+                      return _buildErrorState(l10n);
+                    }
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  error: (error, stackTrace) => Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(l10n.errorWhileLoadingEvents),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: _loadEvents,
+                          child: Text(l10n.tryAgain),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
+            ],
+          ),
+          
+          // FAB
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: _createEvent,
+              backgroundColor: themeData.customColors.accentColor,
+              child: const Icon(Icons.add, color: Colors.white),
             ),
-          ],
-        ),
-        
-        // FAB
-        Positioned(
-          bottom: 16,
-          right: 16,
-          child: FloatingActionButton(
-            onPressed: _createEvent,
-            backgroundColor: themeData.customColors.accentColor,
-            child: const Icon(Icons.add, color: Colors.white),
+          ),
+        ],
+      );
+    } catch (e, stack) {
+      // Ultimate fallback - return a simple error widget that won't crash
+      debugPrint("Critical error in events build method: $e");
+      debugPrint("Stack trace: $stack");
+      
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.error_outline, size: 48, color: Colors.red),
+              const SizedBox(height: 16),
+              const Text("There was a problem loading events"),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: () {
+                  try {
+                    _loadEvents();
+                  } catch (e) {
+                    // Ignore errors in the fallback
+                  }
+                },
+                child: const Text("Try Again"),
+              ),
+            ],
           ),
         ),
-      ],
+      );
+    }
+  }
+  
+  Widget _buildErrorState(S l10n) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.error_outline, size: 36, color: Colors.orange),
+          const SizedBox(height: 16),
+          Text(l10n.errorWhileLoadingEvents),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: _loadEvents,
+            child: Text(l10n.tryAgain),
+          ),
+        ],
+      ),
     );
   }
   
@@ -377,45 +472,107 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
   }
   
   Widget _buildCalendarView(String groupId, ThemeData themeData, S l10n) {
-    // TODO: Implement proper calendar view
-    // For now, just show a simple placeholder
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.calendarView,
-            style: themeData.textTheme.headlineSmall,
+    try {
+      // TODO: Implement proper calendar view with table_calendar package
+      // For now, show a placeholder that won't crash
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.calendarView,
+              style: themeData.textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.comingSoon,
+              style: themeData.textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _loadEvents,
+              child: Text(l10n.tryAgain),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      // Provide absolute fallback in case of any errors
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.calendar_month,
+                size: 48,
+                color: Colors.grey,
+              ),
+              const SizedBox(height: 16),
+              Text("Calendar View Coming Soon"),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _loadEvents,
+                child: Text("Try Again"),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.comingSoon,
-            style: themeData.textTheme.bodyLarge,
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
   }
   
   Widget _buildMapView(List<EventModel> events, ThemeData themeData, S l10n) {
-    // TODO: Implement proper map view
-    // For now, just show a simple placeholder
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            l10n.mapView,
-            style: themeData.textTheme.headlineSmall,
+    try {
+      // TODO: Implement proper map view in the future
+      // For now, show a simple placeholder
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              l10n.mapView,
+              style: themeData.textTheme.headlineSmall,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              l10n.comingSoon,
+              style: themeData.textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: _loadEvents,
+              child: Text(l10n.refresh),
+            ),
+          ],
+        ),
+      );
+    } catch (e) {
+      // Provide absolute fallback in case of any errors
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.map,
+                size: 48,
+                color: Colors.grey,
+              ),
+              const SizedBox(height: 16),
+              Text("Map View Coming Soon"),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _loadEvents,
+                child: Text("Refresh"),
+              ),
+            ],
           ),
-          const SizedBox(height: 16),
-          Text(
-            l10n.comingSoon,
-            style: themeData.textTheme.bodyLarge,
-          ),
-        ],
-      ),
-    );
+        ),
+      );
+    }
   }
   
   Widget _buildEventCard(EventModel event, ThemeData themeData) {
