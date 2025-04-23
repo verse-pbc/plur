@@ -147,6 +147,11 @@ class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
 
   Future<void> onLoginTap(int index) async {
     if (settingsProvider.privateKeyIndex != index) {
+      // Deregister push notifications for current account before switching
+      if (nostr != null) {
+        await NotificationUtil.deregisterUserFromPushNotifications(nostr!);
+      }
+
       clearCurrentMemInfo(ref);
       nostr!.close();
       nostr = null;
