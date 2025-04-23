@@ -201,7 +201,7 @@ class AndroidNostrSigner implements NostrSigner {
 
   @override
   Future<Map?> getRelays() async {
-    // TODO: implement getRelays
+    // still need to implement getRelays
     throw UnimplementedError();
   }
 

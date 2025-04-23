@@ -47,7 +47,8 @@ class SettingsWidget extends ConsumerStatefulWidget {
   }
 }
 
-class _SettingsWidgetState extends ConsumerState<SettingsWidget> with WhenStopFunction {
+class _SettingsWidgetState extends ConsumerState<SettingsWidget>
+    with WhenStopFunction {
   void resetTheme() {
     widget.indexReload();
   }
@@ -58,7 +59,8 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> with WhenStopFu
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     var titleFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    var settingsProvider = legacy_provider.Provider.of<SettingsProvider>(context);
+    var settingsProvider =
+        legacy_provider.Provider.of<SettingsProvider>(context);
     var hintColor = themeData.hintColor;
     var cardColor = themeData.cardColor;
 
@@ -363,7 +365,7 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> with WhenStopFu
       resetTheme();
       Future.delayed(const Duration(seconds: 1), () {
         setState(() {
-          // TODO others setting enumObjList
+          // still need to handle others setting enumObjList
           i18nList = null;
         });
       });
@@ -545,16 +547,14 @@ class _SettingsWidgetState extends ConsumerState<SettingsWidget> with WhenStopFu
       imageServiceList = [];
       imageServiceList!
           .add(EnumObj(ImageServices.nostrBuild, ImageServices.nostrBuild));
-      imageServiceList!.add(
-          EnumObj(ImageServices.pomf2LainLa, ImageServices.pomf2LainLa));
+      imageServiceList!
+          .add(EnumObj(ImageServices.pomf2LainLa, ImageServices.pomf2LainLa));
       imageServiceList!
           .add(EnumObj(ImageServices.nostore, ImageServices.nostore));
       imageServiceList!
           .add(EnumObj(ImageServices.voidCat, ImageServices.voidCat));
-      imageServiceList!
-          .add(EnumObj(ImageServices.nip95, ImageServices.nip95));
-      imageServiceList!
-          .add(EnumObj(ImageServices.nip96, ImageServices.nip96));
+      imageServiceList!.add(EnumObj(ImageServices.nip95, ImageServices.nip95));
+      imageServiceList!.add(EnumObj(ImageServices.nip96, ImageServices.nip96));
       imageServiceList!
           .add(EnumObj(ImageServices.blossom, ImageServices.blossom));
     }

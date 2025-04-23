@@ -409,7 +409,7 @@ class _InAppWebViewWidgetState extends CustState<WebViewWidget> {
             }
 
             var eventResultStr = jsonEncode(event.toJson());
-            // TODO this method to handle " may be error
+            // later: this method to handle " may be error
             eventResultStr = eventResultStr.replaceAll("\"", "\\\"");
             var script =
                 "window.nostr.callback(\"$resultId\", JSON.parse(\"$eventResultStr\"));";

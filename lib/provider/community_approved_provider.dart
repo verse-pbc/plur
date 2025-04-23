@@ -44,7 +44,7 @@ class CommunityApprovedProvider extends ChangeNotifier with LaterFunction {
       for (var e in pendingEvents) {
         var eid = getEId(e);
         if (eid != null) {
-          // TODO need to check pubkey is Moderated or not.
+          // later: need to check pubkey is Moderated or not.
           if (_approvedMap[eid] == null) {
             updated = true;
           }
