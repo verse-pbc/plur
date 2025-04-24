@@ -28,7 +28,8 @@ class GroupRepository {
       nostr!.publicKey,
       EventKind.groupCreateGroup,
       [
-        ["h", groupId]
+        ["h", groupId],
+        ["broadcast"]
       ],
       "",
     );
