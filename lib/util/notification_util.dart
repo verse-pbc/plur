@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:nostr_sdk/nostr.dart';
-import 'package:nostr_sdk/event.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import '../../main.dart';
 
 /// Utility class for handling notifications
@@ -47,8 +46,29 @@ class NotificationUtil {
       return false;
     }
 
-    log('Registering user for push notifications with token: $token');
+    final npub = Nip19.encodePubKey(nostr.publicKey);
+    log('Registering user $npub for push notifications with token: $token');
     return registerTokenWithRelay(
+      token: token,
+      nostr: nostr,
+      relayUrl: _defaultRelayUrl,
+    );
+  }
+
+  /// Helper function to deregister the current user from push notifications
+  /// This includes getting the current FCM token and deregistering it with the
+  /// relay.
+  /// Returns true if deregistration was successful, false otherwise
+  static Future<bool> deregisterUserFromPushNotifications(Nostr nostr) async {
+    final token = await getToken();
+    if (token == null) {
+      log('Cannot deregister from push notifications: FCM token is null');
+      return false;
+    }
+
+    final npub = Nip19.encodePubKey(nostr.publicKey);
+    log('Deregistering user $npub from push notifications with token: $token');
+    return deregisterTokenWithRelay(
       token: token,
       nostr: nostr,
       relayUrl: _defaultRelayUrl,
