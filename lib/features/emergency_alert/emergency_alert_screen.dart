@@ -24,20 +24,27 @@ class EmergencyAlertScreen extends ConsumerWidget {
     final messageController = ref.watch(messageProvider);
     final isEmergency = ref.watch(isEmergencyProvider);
     final themeData = Theme.of(context);
+    final cardColor = themeData.cardColor;
+    final textColor = themeData.textTheme.bodyMedium!.color;
 
     return Container(
       padding: EdgeInsets.only(
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
+      color: cardColor,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           AppBar(
-            title: const Text('Sending Emergency Alert'),
+            backgroundColor: cardColor,
+            title: Text(
+              'Sending Emergency Alert',
+              style: TextStyle(color: textColor),
+            ),
             automaticallyImplyLeading: false,
             actions: [
               IconButton(
-                icon: const Icon(Icons.close),
+                icon: Icon(Icons.close, color: textColor),
                 onPressed: () => Navigator.pop(context),
               ),
             ],
@@ -53,23 +60,42 @@ class EmergencyAlertScreen extends ConsumerWidget {
                   onChanged: (value) => ref
                       .read(isEmergencyProvider.notifier)
                       .state = value ?? true,
-                  title: const Text('This is an emergency'),
+                  title: Text(
+                    'This is an emergency',
+                    style: TextStyle(color: textColor),
+                  ),
                   controlAffinity: ListTileControlAffinity.leading,
                 ),
                 const SizedBox(height: 16),
-                const Text(
+                Text(
                   'Message:',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: textColor,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 TextField(
                   controller: messageController,
                   maxLines: 5,
+                  style: TextStyle(color: textColor),
                   decoration: InputDecoration(
                     hintText: 'Enter emergency message...',
+                    hintStyle: TextStyle(color: themeData.hintColor),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: themeData.dividerColor),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(color: themeData.primaryColor),
+                    ),
+                    filled: true,
+                    fillColor: cardColor,
                   ),
                 ),
                 const SizedBox(height: 16),
