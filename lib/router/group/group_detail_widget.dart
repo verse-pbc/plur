@@ -18,6 +18,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import 'group_detail_note_list_widget.dart';
 import '../../component/appbar_bottom_border.dart';
+import '../../features/emergency_alert/emergency_alert_screen.dart';
 
 class GroupDetailWidget extends StatefulWidget {
   static bool showTooltipOnGroupCreation = false;
@@ -154,11 +155,33 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
             ),
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _jumpToAddNote,
-          backgroundColor: themeData.customColors.accentColor,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 29),
+        floatingActionButton: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            if (isAdmin)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: FloatingActionButton(
+                  heroTag: 'emergency_alert',
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) => const EmergencyAlertScreen(),
+                    );
+                  },
+                  backgroundColor: Colors.red,
+                  child: const Icon(Icons.warning_amber, color: Colors.white),
+                ),
+              ),
+            FloatingActionButton(
+              heroTag: 'add_note',
+              onPressed: _jumpToAddNote,
+              backgroundColor: themeData.customColors.accentColor,
+              shape: const CircleBorder(),
+              child: const Icon(Icons.add, color: Colors.white, size: 29),
+            ),
+          ],
         ));
   }
 
