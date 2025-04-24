@@ -68,6 +68,15 @@ class EmergencyAlertScreen extends ConsumerWidget {
                     return;
                   }
 
+                  if (!isEmergency) {
+                    BotToast.showText(
+                      text:
+                          'If this is not an emergency please go back and post a normal announcement using the + button.',
+                      duration: const Duration(seconds: 4),
+                    );
+                    return;
+                  }
+
                   try {
                     await ref
                         .read(emergencyAlertControllerProvider)
