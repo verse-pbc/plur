@@ -103,6 +103,7 @@ class GroupMetadataRepository {
     final picture = metadata.picture;
     final about = metadata.about;
     final communityGuidelines = metadata.communityGuidelines;
+
     tags.add(["h", groupId]);
     if (name != null && name != "") {
       tags.add(["name", name]);
@@ -110,6 +111,20 @@ class GroupMetadataRepository {
     if (picture != null && picture != "") {
       tags.add(["picture", picture]);
     }
+
+    // Add privacy tags based on metadata flags
+    if (metadata.public == true) {
+      tags.add(["public"]);
+    } else if (metadata.public == false) {
+      tags.add(["private"]);
+    }
+    if (metadata.open == true) {
+      tags.add(["open"]);
+    } else if (metadata.open == false) {
+      tags.add(["closed"]);
+    }
+
+    // Add about and guidelines
     const marker = _communityGuidelinesMarker;
     if (about != null && about != "") {
       if (communityGuidelines != null && communityGuidelines != "") {
@@ -120,6 +135,7 @@ class GroupMetadataRepository {
     } else if (communityGuidelines != null && communityGuidelines != "") {
       tags.add(["about", "$marker\n\n$communityGuidelines"]);
     }
+
     final event = Event(
       nostr!.publicKey,
       EventKind.groupEditMetadata,
