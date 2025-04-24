@@ -12,18 +12,24 @@ class EmergencyAlertController {
 
   EmergencyAlertController(this._ref);
 
-  Future<Event> sendEmergencyAlert(String message, String groupId) async {
+  Future<Event> sendEmergencyAlert(
+      String message, GroupIdentifier groupIdentifier) async {
     final event = Event(
       nostr!.publicKey,
       EventKind.groupNote,
       [
-        ["h", groupId],
+        ["h", groupIdentifier.groupId],
+        ["broadcast"]
       ],
       message,
     );
 
-    final sentEvent = await nostr!
-        .sendEvent(event, targetRelays: [groupId], tempRelays: [groupId]);
+    final groupRelays = [groupIdentifier.host];
+    final sentEvent = await nostr!.sendEvent(
+      event,
+      targetRelays: groupRelays,
+      tempRelays: groupRelays,
+    );
     if (sentEvent == null) {
       throw Exception('Failed to send emergency alert');
     }

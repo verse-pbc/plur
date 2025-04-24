@@ -123,7 +123,7 @@ class EmergencyAlertScreen extends ConsumerWidget {
                             .read(emergencyAlertControllerProvider)
                             .sendEmergencyAlert(
                               message,
-                              groupIdentifier.groupId,
+                              groupIdentifier,
                             );
                         messageController.clear();
                         if (!context.mounted) return;
