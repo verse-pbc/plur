@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:nostr_sdk/nostr.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostr_sdk/event.dart';
 import '../../main.dart';
 
 /// Utility class for handling notifications
