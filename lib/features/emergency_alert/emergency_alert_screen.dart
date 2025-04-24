@@ -119,7 +119,7 @@ class EmergencyAlertScreen extends ConsumerWidget {
                       }
 
                       try {
-                        await ref
+                        final event = await ref
                             .read(emergencyAlertControllerProvider)
                             .sendEmergencyAlert(
                               message,
@@ -127,7 +127,7 @@ class EmergencyAlertScreen extends ConsumerWidget {
                             );
                         messageController.clear();
                         if (!context.mounted) return;
-                        Navigator.of(context).pop();
+                        Navigator.of(context).pop(event);
                       } catch (e) {
                         BotToast.showText(
                             text: 'Failed to send alert: ${e.toString()}');

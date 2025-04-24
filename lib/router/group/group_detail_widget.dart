@@ -170,7 +170,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
                       builder: (context) => EmergencyAlertScreen(
                         groupIdentifier: groupIdentifier,
                       ),
-                    );
+                    ).then((event) {
+                      if (event != null &&
+                          _groupDetailProvider.isGroupNote(event)) {
+                        _groupDetailProvider.handleDirectEvent(event);
+                      }
+                    });
                   },
                   backgroundColor: Colors.red,
                   child: const Icon(Icons.warning_amber, color: Colors.white),
