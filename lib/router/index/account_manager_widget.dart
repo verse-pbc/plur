@@ -13,6 +13,7 @@ import 'package:nostrmo/data/user.dart';
 import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/util/notification_util.dart';
 import 'package:provider/provider.dart' as legacy_provider;
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -36,7 +37,8 @@ class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
-    final settingsProvider = legacy_provider.Provider.of<SettingsProvider>(context);
+    final settingsProvider =
+        legacy_provider.Provider.of<SettingsProvider>(context);
     var privateKeyMap = settingsProvider.privateKeyMap;
 
     final themeData = Theme.of(context);
@@ -145,6 +147,11 @@ class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
 
   Future<void> onLoginTap(int index) async {
     if (settingsProvider.privateKeyIndex != index) {
+      // Deregister push notifications for current account before switching
+      if (nostr != null) {
+        await NotificationUtil.deregisterUserFromPushNotifications(nostr!);
+      }
+
       clearCurrentMemInfo(ref);
       nostr!.close();
       nostr = null;
@@ -171,6 +178,12 @@ class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
   static Future<void> onLogoutTap(int index, WidgetRef ref,
       {bool routerBack = true, BuildContext? context}) async {
     var oldIndex = settingsProvider.privateKeyIndex;
+
+    // Deregister push notifications before clearing data
+    if (oldIndex == index && nostr != null) {
+      await NotificationUtil.deregisterUserFromPushNotifications(nostr!);
+    }
+
     clearLocalData(index);
 
     if (oldIndex == index) {
