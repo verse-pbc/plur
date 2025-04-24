@@ -27,6 +27,71 @@ class LoginSignupWidget extends ConsumerStatefulWidget {
   /// Creates an instance of [LoginSignupWidget].
   const LoginSignupWidget({super.key});
 
+  /// Static method to navigate to onboarding
+  static Future<void> navigateToOnboarding(BuildContext context) async {
+    final name =
+        await Navigator.of(context).pushNamed(RouterPath.onboarding) as String?;
+    if (name != null) {
+      final privateKey = generatePrivateKey();
+      if (context.mounted) {
+        await _completeSignup(context, privateKey, name);
+      }
+    }
+  }
+
+  static Future<void> _completeSignup(
+      BuildContext context, String privateKey, String name) async {
+    final settingsProvider =
+        legacy_provider.Provider.of<SettingsProvider>(context, listen: false);
+    final relayProvider =
+        legacy_provider.Provider.of<RelayProvider>(context, listen: false);
+    final indexProvider =
+        legacy_provider.Provider.of<IndexProvider>(context, listen: false);
+
+    if (nostr != null) {
+      nostr!.close();
+      nostr = null;
+    }
+
+    settingsProvider.addAndChangePrivateKey(privateKey);
+    nostr = await relayProvider.genNostrWithKey(privateKey);
+
+    await _publishMetadata(name);
+
+    firstLogin = true;
+    if (context.mounted) {
+      indexProvider.setCurrentTap(0);
+      RouterUtil.router(context, RouterPath.index);
+    }
+  }
+
+  static Future<void> _publishMetadata(String name) async {
+    if (nostr != null) {
+      try {
+        var metadata = {
+          "name": name,
+          "display_name": name,
+        };
+        var event = Event(
+          nostr!.publicKey,
+          EventKind.metadata,
+          [],
+          jsonEncode(metadata),
+        );
+        await nostr!.sendEvent(event);
+
+        await Sentry.configureScope((scope) {
+          scope.setUser(SentryUser(
+            id: nostr!.publicKey,
+            username: name,
+          ));
+        });
+      } catch (e, stackTrace) {
+        await Sentry.captureException(e, stackTrace: stackTrace);
+      }
+    }
+  }
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _LoginSignupState();
@@ -113,60 +178,42 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
 
     List<Widget> mainList = [];
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
-    mainList.add(Expanded(child: Container()));
-
-    // Adds a logo image to `mainList` for branding.
-    mainList.add(Image.asset(
-      "assets/imgs/landing/logo.png",
-      width: 162,
-      height: 82,
-    ));
-
-    // Adds a title text "Communities" inside a `Container` with bottom margin.
-    mainList.add(Container(
-      margin: const EdgeInsets.only(
-        bottom: 40,
-      ),
-      child: Text(
-        localization.Communities,
-        style: TextStyle(
-          color: themeData.customColors.primaryForegroundColor,
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ));
-
-    // Adds a tappable "Signup" button to `mainList`.
-    mainList.add(SizedBox(
-      width: double.infinity,
-      child: FilledButton(
-        key: const Key('signup_button'),
-        // Calls `_navigateToSignup` when tapped.
-        onPressed: _navigateToOnboarding,
-        style: FilledButton.styleFrom(
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          backgroundColor: themeData.customColors.accentColor,
-        ),
-        child: Text(
-          localization.Signup,
-          style: TextStyle(
-            color: themeData.customColors.buttonTextColor,
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+    // Add cancel button
+      mainList.add(
+        Align(
+          alignment: Alignment.centerLeft,
+          child: TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(
+              textStyle: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.w500,
+              ),
+              foregroundColor: themeData.customColors.accentColor,
+            ),
+            child: Text(localization.Cancel),
           ),
         ),
+      );
+
+    // Add welcome text at the top with proper spacing
+    mainList.add(const SizedBox(height: 64));
+    mainList.add(
+      Text(
+        localization.Welcome_to_plur,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: themeData.customColors.primaryForegroundColor,
+          fontSize: 40,
+          fontWeight: FontWeight.w500,
+        ),
       ),
-    ));
+    );
 
-    // Adds an expandable empty space to `mainList`, filling available space
-    // in a flex container.
-    mainList.add(Expanded(child: Container()));
+    // Add space before the centered login form
+    mainList.add(const Spacer());
 
-    // Define a re-usable text field border to be used in enabled and focused
-    // states.
+    // Define a re-usable text field border to be used in enabled and focused states.
     OutlineInputBorder textFieldBorder = OutlineInputBorder(
       borderSide: BorderSide(color: dimmedColor),
     );
@@ -230,6 +277,7 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
     ));
 
     if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
+      mainList.add(const SizedBox(height: 10));
       mainList.add(SizedBox(
         width: double.infinity,
         child: FilledButton(
@@ -254,6 +302,7 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
         ),
       ));
     } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
+      mainList.add(const SizedBox(height: 10));
       mainList.add(SizedBox(
         width: double.infinity,
         child: FilledButton(
@@ -279,153 +328,66 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
       ));
     }
 
-    // Adds an expandable section with a centered terms-of-service link to
-    // `mainList`.
-    mainList.add(Expanded(
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        GestureDetector(
-          onTap: () {
-            WebViewWidget.open(context, Base.privacyLink);
-          },
-          child: StyledText(
-              text: localization.Accept_terms_of_service,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: themeData.customColors.primaryForegroundColor,
-                fontSize: 15,
-              ),
-              tags: {
-                'accent': StyledTextTag(
-                  style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      decorationColor: themeData.customColors.accentColor,
-                      color: themeData.customColors.accentColor),
-                )
-              }),
-        )
-      ]),
+    // Add space after the login form
+    mainList.add(const Spacer());
+
+    // Add terms of service at the bottom
+    mainList.add(GestureDetector(
+      onTap: () {
+        WebViewWidget.open(context, Base.privacyLink);
+      },
+      child: StyledText(
+        text: localization.Accept_terms_of_service,
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          color: themeData.customColors.primaryForegroundColor,
+          fontSize: 15,
+        ),
+        tags: {
+          'accent': StyledTextTag(
+            style: TextStyle(
+              decoration: TextDecoration.underline,
+              decorationColor: themeData.customColors.accentColor,
+              color: themeData.customColors.accentColor,
+            ),
+          )
+        },
+      ),
     ));
+
+    mainList.add(const SizedBox(height: 32));
 
     return Scaffold(
       // Sets the background color for the login screen.
       backgroundColor: themeData.customColors.loginBgColor,
-      body: SizedBox(
-        // Expands to the full width of the screen.
-        width: double.maxFinite,
-        // Expands to the full height of the screen.
-        height: double.maxFinite,
-        // Uses a `Stack` to position elements, centering them within the
-        // available space.
-        child: Stack(
-          alignment: AlignmentDirectional.center,
-          children: [
-            if (backAfterLogin)
-              SafeArea(
-                child: Stack(
-                  children: [
-                    Positioned(
-                      top: 4,
-                      left: 4,
-                      child: TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: TextButton.styleFrom(
-                          textStyle: const TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                          foregroundColor: themeData.customColors.accentColor,
-                        ),
-                        child: Text(localization.Cancel),
-                      ),
-                    ),
-                  ],
+      body: SafeArea(
+        child: SizedBox(
+          // Expands to the full width of the screen.
+          width: double.maxFinite,
+          // Expands to the full height of the screen.
+          height: double.maxFinite,
+          // Uses a `Stack` to position elements, centering them within the
+          // available space.
+          child: Stack(
+            alignment: AlignmentDirectional.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: SizedBox(
+                  // A `SizedBox` that constrains the width of the content.
+                  width: mainWidth,
+                  // Adds padding to the content to ensure spacing on the sides.
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: mainList,
+                  ),
                 ),
               ),
-            SizedBox(
-              // A `SizedBox` that constrains the width of the content.
-              width: mainWidth,
-              // Adds padding to the content to ensure spacing on the sides.
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: Base.basePadding * 2,
-                ),
-                // Column that holds the main content of the screen.
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: mainList,
-                ),
-              ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  /// Navigates to the Onboarding screen.
-  Future<void> _navigateToOnboarding() async {
-    final name =
-        await Navigator.of(context).pushNamed(RouterPath.onboarding) as String?;
-    if (name != null) {
-      final privateKey = generatePrivateKey();
-      await _completeSignup(privateKey, name);
-    }
-  }
-
-  Future<void> _completeSignup(String privateKey, String name) async {
-    final settingsProvider =
-        legacy_provider.Provider.of<SettingsProvider>(context, listen: false);
-    final relayProvider =
-        legacy_provider.Provider.of<RelayProvider>(context, listen: false);
-    final indexProvider =
-        legacy_provider.Provider.of<IndexProvider>(context, listen: false);
-
-    // Clear previously selected account data if any
-    _doPreLogin();
-
-    // Set up the private key and nostr client
-    settingsProvider.addAndChangePrivateKey(privateKey);
-    nostr = await relayProvider.genNostrWithKey(privateKey);
-    ref.invalidate(groupIdentifierRepositoryProvider);
-
-    // Publish metadata event with user's name
-    await _publishMetadata(name);
-
-    // Set first login flag and navigate
-    firstLogin = true;
-    // Set home tab and navigate to index
-    if (mounted) {
-      indexProvider.setCurrentTap(0); // Set the home tab
-      RouterUtil.router(context, RouterPath.index); // Navigate to home page
-    }
-  }
-
-  Future<void> _publishMetadata(String name) async {
-    if (nostr != null) {
-      try {
-        var metadata = {
-          "name": name,
-          "display_name": name,
-        };
-        var event = Event(
-          nostr!.publicKey,
-          EventKind.metadata,
-          [],
-          jsonEncode(metadata),
-        );
-        await nostr!.sendEvent(event);
-
-        // Identify user in Sentry
-        await Sentry.configureScope((scope) {
-          scope.setUser(SentryUser(
-            id: nostr!.publicKey,
-            username: name,
-          ));
-        });
-      } catch (e, stackTrace) {
-        await Sentry.captureException(e, stackTrace: stackTrace);
-      }
-    }
   }
 
   /// Asynchronous function to handle login when the button is pressed
