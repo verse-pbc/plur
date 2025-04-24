@@ -125,6 +125,7 @@ class EmergencyAlertScreen extends ConsumerWidget {
                               message,
                               groupIdentifier.groupId,
                             );
+                        messageController.clear();
                         if (!context.mounted) return;
                         Navigator.of(context).pop();
                       } catch (e) {
