@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../../generated/l10n.dart';
 enum CommunityPrivacy {
   discoverable,
   inviteOnly,
@@ -17,27 +17,26 @@ class PrivacySelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localization = S.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Choose Privacy Setting'
-        ),
+        Text(localization.Choose_privacy_setting),
         const SizedBox(height: 20),
         _privacyOption(
           context,
           CommunityPrivacy.discoverable,
-          'We want to be discovered',
-          'Your community will be visible in search results',
+          localization.Be_discovered_title,
+          localization.Be_discovered_description,
           Icons.search,
         ),
         const SizedBox(height: 20),
         _privacyOption(
           context,
           CommunityPrivacy.inviteOnly,
-          'We want to be invite only',
-          'Your community will only be accessible through invite links',
+          localization.Invite_only_title,
+          localization.Invite_only_description,
           Icons.lock,
         ),
       ],
