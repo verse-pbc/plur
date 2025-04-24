@@ -3649,6 +3649,46 @@ class S {
       args: [],
     );
   }
+
+  /// `Welcome to Plur`
+  String get Welcome_to_plur {
+    return Intl.message(
+      'Welcome to Plur',
+      name: 'Welcome_to_plur',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a Profile`
+  String get Create_a_profile {
+    return Intl.message(
+      'Create a Profile',
+      name: 'Create_a_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login with Bluesky`
+  String get Login_with_bluesky {
+    return Intl.message(
+      'Login with Bluesky',
+      name: 'Login_with_bluesky',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already a user?`
+  String get Already_a_user {
+    return Intl.message(
+      'Already a user?',
+      name: 'Already_a_user',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
