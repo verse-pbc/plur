@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
@@ -14,17 +17,11 @@ class NoteProvider {
       throw Exception('Nostr client not initialized');
     }
 
-    final timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-
-    // Create the event
-    final event = Event(nostr!.publicKey, kind, tags, content);
-
     try {
-      // Sign and publish the event
-      await nostr!.signEvent(event);
-      await nostr!.sendEvent(event);
+      final event = Event(nostr!.publicKey, kind, tags, content);
+      final publishedEvent = await nostr!.sendEvent(event);
+      log(jsonEncode(publishedEvent?.toJson()));
     } catch (e) {
-      // Handle any errors during signing or sending
       rethrow;
     }
   }

@@ -9,14 +9,15 @@ class EmergencyAlertController {
 
   EmergencyAlertController(this.ref);
 
-  Future<void> sendEmergencyAlert(String message) async {
-    // Create a kind 11 note with broadcast tag
+  Future<void> sendEmergencyAlert(String message, String groupId) async {
+    // Create a kind 11 note with broadcast and group tags
     final noteSender = ref.read(noteProvider);
     await noteSender.sendNote(
       content: message,
       kind: 11,
       tags: [
         ["broadcast", "emergency"],
+        ["h", groupId],
       ],
     );
   }

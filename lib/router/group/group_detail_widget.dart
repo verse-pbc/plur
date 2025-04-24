@@ -167,7 +167,9 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> {
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      builder: (context) => const EmergencyAlertScreen(),
+                      builder: (context) => EmergencyAlertScreen(
+                        groupIdentifier: groupIdentifier,
+                      ),
                     );
                   },
                   backgroundColor: Colors.red,

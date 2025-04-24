@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:nostrmo/router/edit/editor_widget.dart';
-import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
+import 'package:nostrmo/features/emergency_alert/emergency_alert_controller.dart';
 
 final isEmergencyProvider = StateProvider<bool>((ref) => true);
 final messageProvider = StateProvider<TextEditingController>((ref) {
@@ -13,14 +12,17 @@ final messageProvider = StateProvider<TextEditingController>((ref) {
 });
 
 class EmergencyAlertScreen extends ConsumerWidget {
-  const EmergencyAlertScreen({super.key});
+  final GroupIdentifier groupIdentifier;
+
+  const EmergencyAlertScreen({
+    super.key,
+    required this.groupIdentifier,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final messageController = ref.watch(messageProvider);
     final isEmergency = ref.watch(isEmergencyProvider);
-    final groupIdentifier =
-        GroupIdentifierInheritedWidget.of(context)?.groupIdentifier;
 
     return Scaffold(
       appBar: AppBar(
@@ -60,34 +62,24 @@ class EmergencyAlertScreen extends ConsumerWidget {
               width: double.infinity,
               child: FilledButton(
                 onPressed: () async {
-                  if (groupIdentifier == null) {
-                    BotToast.showText(text: 'Group not found');
-                    return;
-                  }
-
                   final message = messageController.text;
                   if (message.isEmpty) {
                     BotToast.showText(text: 'Please enter a message');
                     return;
                   }
 
-                  final event = await EditorWidget.open(
-                    context,
-                    tags: [],
-                    tagsAddedWhenSend: [
-                      ["broadcast", "emergency"],
-                    ],
-                    tagPs: [],
-                    groupIdentifier: groupIdentifier,
-                    groupEventKind: EventKind.groupNote,
-                  );
-
-                  if (!context.mounted) return;
-
-                  if (event != null) {
+                  try {
+                    await ref
+                        .read(emergencyAlertControllerProvider)
+                        .sendEmergencyAlert(
+                          message,
+                          groupIdentifier.groupId,
+                        );
+                    if (!context.mounted) return;
                     Navigator.of(context).pop();
-                  } else {
-                    BotToast.showText(text: 'Failed to send alert');
+                  } catch (e) {
+                    BotToast.showText(
+                        text: 'Failed to send alert: ${e.toString()}');
                   }
                 },
                 style: FilledButton.styleFrom(
