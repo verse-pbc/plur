@@ -4,14 +4,10 @@ import 'package:nostrmo/main.dart';
 import 'dart:developer';
 
 final emergencyAlertControllerProvider = Provider((ref) {
-  return EmergencyAlertController(ref);
+  return EmergencyAlertController();
 });
 
 class EmergencyAlertController {
-  final Ref _ref;
-
-  EmergencyAlertController(this._ref);
-
   Future<Event> sendEmergencyAlert(
       String message, GroupIdentifier groupIdentifier) async {
     final event = Event(
