@@ -147,7 +147,7 @@ class RelayProvider extends ChangeNotifier {
   }
 
   Future<Nostr?> genNostr(NostrSigner signer) async {
-    var pubkey = await signer.getPublicKey();
+    final pubkey = await signer.getPublicKey();
     if (pubkey == null) {
       return null;
     }
@@ -157,6 +157,7 @@ class RelayProvider extends ChangeNotifier {
     log("nostr init over");
 
     // add initQuery
+    dmProvider.initDMSessions(nostr.publicKey);
     contactListProvider.reload(targetNostr: nostr);
     contactListProvider.query(targetNostr: nostr);
     followEventProvider.doQuery(targetNostr: nostr, initQuery: true);

@@ -19,49 +19,38 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
 
   List<DMSessionDetail> get unknownList => _unknownList;
 
-  DMSessionDetail? getSessionDetail(String pubkey) {
-    return _sessionDetails[pubkey];
-  }
+  DMSessionDetail? sessionDetailFor(String pubkey) =>
+      _sessionDetails[pubkey];
 
-  DMSessionDetail findOrNewADetail(String pubkey) {
-    for (var detail in knownList) {
-      if (detail.dmSession.pubkey == pubkey) {
-        return detail;
-      }
-    }
+  DMSessionDetail findOrNewADetail(String pubkey) => [
+        ...knownList,
+        ..._unknownList,
+      ].firstWhere(
+        (detail) => detail.dmSession.pubkey == pubkey,
+        orElse: () => DMSessionDetail(DMSession(pubkey: pubkey))
+          ..info = DMSessionInfo(pubkey: pubkey, readedTime: 0),
+      );
 
-    for (var detail in _unknownList) {
-      if (detail.dmSession.pubkey == pubkey) {
-        return detail;
-      }
-    }
+  void updateReadTime(DMSessionDetail detail) {
+    var info = detail.info;
+    final newestCreatedAt = detail.dmSession.newestEvent?.createdAt;
+    if (info == null || newestCreatedAt == null) return;
 
-    var dmSession = DMSession(pubkey: pubkey);
-    DMSessionDetail detail = DMSessionDetail(dmSession);
-    detail.info = DMSessionInfo(pubkey: pubkey, readedTime: 0);
-
-    return detail;
-  }
-
-  void updateReadTime(DMSessionDetail? detail) {
-    if (detail != null &&
-        detail.info != null &&
-        detail.dmSession.newestEvent != null) {
-      detail.info!.readedTime = detail.dmSession.newestEvent!.createdAt;
-      DMSessionInfoDB.update(detail.info!);
-      notifyListeners();
-    }
+    info.readedTime = newestCreatedAt;
+    DMSessionInfoDB.update(info);
+    notifyListeners();
   }
 
   void addEventAndUpdateReadTime(DMSessionDetail detail, Event event) {
     pendingEvents.add(event);
-    eventLaterHandle(pendingEvents, updateUI: false);
+    _eventLaterHandle(pendingEvents, updateUI: false);
     updateReadTime(detail);
   }
 
   Future<DMSessionDetail> addDmSessionToKnown(DMSessionDetail detail) async {
-    var keyIndex = settingsProvider.privateKeyIndex!;
-    var pubkey = detail.dmSession.pubkey;
+    final keyIndex = settingsProvider.privateKeyIndex!;
+    final pubkey = detail.dmSession.pubkey;
+
     DMSessionInfo o = DMSessionInfo(pubkey: pubkey);
     o.keyIndex = keyIndex;
     o.readedTime = detail.dmSession.newestEvent!.createdAt;
@@ -109,13 +98,13 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
 
     Map<String, DMSessionInfo> infoMap = {};
     var infos = await DMSessionInfoDB.all(keyIndex);
-    for (var info in infos) {
+    for (final info in infos) {
       infoMap[info.pubkey!] = info;
     }
 
-    for (var entry in eventListMap.entries) {
-      var pubkey = entry.key;
-      var list = entry.value;
+    for (final entry in eventListMap.entries) {
+      final pubkey = entry.key;
+      final list = entry.value;
 
       var session = DMSession(pubkey: pubkey);
       session.addEvents(list);
@@ -144,12 +133,6 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
       return detail1.dmSession.newestEvent!.createdAt -
           detail0.dmSession.newestEvent!.createdAt;
     });
-
-    // // copy to a new list for provider update
-    // var length = detailList.length;
-    // List<DMSessionDetail> newlist =
-    //     List.generate(length, (index) => detailList[index]);
-    // return newlist;
   }
 
   String? _getPubkey(String localPubkey, Event event) {
@@ -181,7 +164,7 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
       _unknownList.add(sessionDetail);
     }
 
-    var addResult = sessionDetail.dmSession.addEvent(event);
+    final addResult = sessionDetail.dmSession.addEvent(event);
     if (addResult) {
       _sortDetailList();
     }
@@ -209,24 +192,23 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
     if (initQuery) {
       targetNostr.addInitQuery([filter0.toJson(), filter1.toJson()], onEvent);
     } else {
-      // targetNostr.pool.subscribe([filter0.toJson(), filter1.toJson()], onEvent);
       targetNostr.query([filter0.toJson(), filter1.toJson()], onEvent);
     }
   }
 
-  // void handleEventImmediately(Event event) {
-  //   pendingEvents.add(event);
-  //   eventLaterHandle(pendingEvents);
-  // }
-
   void onEvent(Event event) {
-    later(event, eventLaterHandle, null);
+    later(event, _eventLaterHandle, null);
   }
 
-  void eventLaterHandle(List<Event> events, {bool updateUI = true}) {
+  void _eventLaterHandle(List<Event> events, {bool updateUI = true}) {
+    final pubkey = localPubkey;
+    if (pubkey == null) {
+      return;
+    }
+
     bool updated = false;
-    for (var event in events) {
-      var addResult = _addEvent(localPubkey!, event);
+    for (final event in events) {
+      final addResult = _addEvent(pubkey, event);
       // save to local
       if (addResult) {
         updated = true;
@@ -253,12 +235,12 @@ class DMProvider extends ChangeNotifier with PendingEventsLaterFunction {
 }
 
 class DMSessionDetail {
-  DMSession dmSession;
+  final DMSession dmSession;
   DMSessionInfo? info;
 
   DMSessionDetail(this.dmSession, {this.info});
 
-  bool hasNewMessage() {
+  bool get hasNewMessage {
     if (info == null) {
       return true;
     } else if (dmSession.newestEvent != null &&

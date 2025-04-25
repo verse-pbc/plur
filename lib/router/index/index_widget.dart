@@ -6,12 +6,9 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/component/music/music_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
 import 'package:nostrmo/component/pc_router_fake.dart';
-import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/provider/music_provider.dart';
 import 'package:nostrmo/provider/pc_router_fake_provider.dart';
 import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +23,9 @@ import '../../util/auth_util.dart';
 import '../../util/table_mode_util.dart';
 import '../dm/dm_widget.dart';
 import '../login/login_widget.dart';
-import '../search/search_widget.dart';
 import 'index_app_bar.dart';
+import 'index_bottom_bar.dart';
 import 'index_drawer_content.dart';
-import 'index_tab_item_widget.dart';
 
 /// Main navigation hub of the application that manages different sections including:
 /// * Groups
@@ -169,7 +165,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
       fontWeight: FontWeight.bold,
       color: titleTextColor,
     );
-    Color? indicatorColor = themeData.primaryColor;
 
     // Build app bar content based on current tab
     Widget? appBarCenter;
@@ -182,108 +177,40 @@ class _IndexWidgetState extends CustState<IndexWidget>
         ),
       );
     } else if (indexProvider.currentTap == 1) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.Notes,
-            titleTextStyle,
-            omitText: "N",
-          ),
-          IndexTabItemWidget(
-            localization.Users,
-            titleTextStyle,
-            omitText: "U",
-          ),
-          IndexTabItemWidget(
-            localization.Topics,
-            titleTextStyle,
-            omitText: "T",
-          ),
-        ],
-        controller: globalsTabController,
-      );
-    } else if (indexProvider.currentTap == 2) {
       appBarCenter = Center(
         child: Text(
-          localization.Search,
+          localization.Messages,
           style: titleTextStyle,
         ),
       );
-    } else if (indexProvider.currentTap == 3) {
-      appBarCenter = TabBar(
-        indicatorColor: indicatorColor,
-        indicatorWeight: 3,
-        indicatorSize: TabBarIndicatorSize.tab,
-        dividerHeight: 0,
-        tabs: [
-          IndexTabItemWidget(
-            localization.DMs,
-            titleTextStyle,
-            omitText: "DM",
-          ),
-          IndexTabItemWidget(
-            localization.Request,
-            titleTextStyle,
-            omitText: "R",
-          ),
-        ],
-        controller: dmTabController,
-      );
     }
 
-    var mainCenterWidget = MediaQuery.removePadding(
-      context: context,
-      removeTop: true,
-      child: Expanded(
-          child: IndexedStack(
-        index: indexProvider.currentTap,
-        children: [
-          const CommunitiesScreen(),
-          const SearchWidget(),
-          DMWidget(
-            tabController: dmTabController,
-          ),
-        ],
-      )),
-    );
-
-    List<Widget> mainIndexList = [
-      Column(
-        children: [
-          IndexAppBar(
-            center: appBarCenter,
-            right: appBarRight,
-          ),
-          mainCenterWidget,
-        ],
-      ),
-      Positioned(
-        bottom: Base.basePadding,
-        left: 0,
-        right: 0,
-        child: Selector<MusicProvider, MusicInfo?>(
-          builder: ((context, musicInfo, child) {
-            if (musicInfo != null) {
-              return MusicWidget(
-                musicInfo,
-                clearable: true,
-              );
-            }
-
-            return Container();
-          }),
-          selector: (_, provider) {
-            return provider.musicInfo;
-          },
-        ),
-      )
-    ];
     Widget mainIndex = Stack(
-      children: mainIndexList,
+      children: [
+        Column(
+          children: [
+            IndexAppBar(
+              center: appBarCenter,
+              right: appBarRight,
+            ),
+            MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              child: Expanded(
+                  child: IndexedStack(
+                index: indexProvider.currentTap,
+                children: [
+                  const CommunitiesScreen(),
+                  DMWidget(
+                    tabController: dmTabController,
+                  ),
+                ],
+              )),
+            ),
+            const IndexBottomBar(),
+          ],
+        ),
+      ],
     );
 
     if (TableModeUtil.isTableMode()) {
@@ -298,8 +225,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
       }
 
       var mainScaffold = Scaffold(
-        // floatingActionButton: addBtn,
-        // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Row(children: [
           IndexPcDrawerWrapper(
             fixWidth: column0Width,

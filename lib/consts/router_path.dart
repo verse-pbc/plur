@@ -6,6 +6,9 @@ class RouterPath {
   /// The root path of the application.
   static const String index = "/";
 
+  /// The route path for the Welcome screen.
+  static const String welcome = "/welcome";
+
   /// The route path for the Login screen.
   static const String login = "/login";
 

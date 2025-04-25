@@ -8,6 +8,7 @@ class PrimaryButtonWidget extends StatelessWidget {
   final bool enabled;
   final double height;
   final double borderRadius;
+  final Color? color;
   const PrimaryButtonWidget({
     super.key,
     required this.text,
@@ -15,12 +16,13 @@ class PrimaryButtonWidget extends StatelessWidget {
     this.enabled = true,
     this.height = 40,
     this.borderRadius = 0,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final buttonColor = themeData.customColors.accentColor;
+    final buttonColor = color ?? themeData.customColors.accentColor;
     final buttonTextColor = themeData.customColors.buttonTextColor;
 
     return ClipRRect(

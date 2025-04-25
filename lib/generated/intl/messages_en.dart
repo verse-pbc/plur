@@ -60,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Are you over 16 years old?"),
         "All_media_public": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
+        "Already_a_user":
+            MessageLookupByLibrary.simpleMessage("Already a user?"),
         "Any": MessageLookupByLibrary.simpleMessage("Any"),
         "Authenticat_need":
             MessageLookupByLibrary.simpleMessage("Authenticat need"),
@@ -141,6 +143,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Copy_success": MessageLookupByLibrary.simpleMessage("Copy success!"),
         "Create_Community":
             MessageLookupByLibrary.simpleMessage("Create Community"),
+        "Create_a_profile":
+            MessageLookupByLibrary.simpleMessage("Create a Profile"),
         "Create_your_community":
             MessageLookupByLibrary.simpleMessage("Create your community"),
         "Creator": MessageLookupByLibrary.simpleMessage("Creator"),
@@ -297,12 +301,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "Login_With_NIP07_Extension":
             MessageLookupByLibrary.simpleMessage("Login With NIP07 Extension"),
         "Login_fail": MessageLookupByLibrary.simpleMessage("Login fail"),
+        "Login_with_bluesky":
+            MessageLookupByLibrary.simpleMessage("Login with Bluesky"),
         "Lud16": MessageLookupByLibrary.simpleMessage("Lud16"),
         "Max_Sub_Notes": MessageLookupByLibrary.simpleMessage("Max Sub Notes"),
         "Member": MessageLookupByLibrary.simpleMessage("Member"),
         "Members": MessageLookupByLibrary.simpleMessage("Members"),
         "Mention_User": MessageLookupByLibrary.simpleMessage("Mention User"),
         "Mentions": MessageLookupByLibrary.simpleMessage("Mentions"),
+        "Messages": MessageLookupByLibrary.simpleMessage("Messages"),
         "Metadata_can_not_be_found":
             MessageLookupByLibrary.simpleMessage("Metadata can not be found."),
         "Method": MessageLookupByLibrary.simpleMessage("Method"),
@@ -511,6 +518,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("WebRTC Permission"),
         "Web_Utils": MessageLookupByLibrary.simpleMessage("Web Utils"),
         "Website": MessageLookupByLibrary.simpleMessage("Website"),
+        "Welcome_to_plur":
+            MessageLookupByLibrary.simpleMessage("Welcome to Plur"),
         "What_s_happening":
             MessageLookupByLibrary.simpleMessage("What\'s happening?"),
         "Word_can_t_be_null":
