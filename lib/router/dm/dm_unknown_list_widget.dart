@@ -14,6 +14,17 @@ class DMUnknownListWidget extends StatefulWidget {
 }
 
 class _DMUnknownListWidgetState extends State<DMUnknownListWidget> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final dmProvider = Provider.of<DMProvider>(context, listen: false);
+      dmProvider.query(queryAll: true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var dmProvider = Provider.of<DMProvider>(context);

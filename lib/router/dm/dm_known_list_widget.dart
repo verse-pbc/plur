@@ -12,12 +12,22 @@ class DMKnownListWidget extends StatefulWidget {
   const DMKnownListWidget({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return _DMKnownListWidgetState();
-  }
+  State<StatefulWidget> createState() =>
+      _DMKnownListWidgetState();
 }
 
 class _DMKnownListWidgetState extends State<DMKnownListWidget> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final dmProvider = Provider.of<DMProvider>(context, listen: false);
+      dmProvider.query(queryAll: true);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final settingsProvider = Provider.of<SettingsProvider>(context);

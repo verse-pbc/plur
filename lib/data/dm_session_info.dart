@@ -3,7 +3,7 @@ class DMSessionInfo {
 
   String? pubkey;
 
-  /// the last readed event created at
+  /// the last read event's created date
   int? readedTime;
 
   String? value1;

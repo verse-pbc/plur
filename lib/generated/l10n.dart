@@ -630,6 +630,16 @@ class S {
     );
   }
 
+  /// `Messages`
+  String get Messages {
+    return Intl.message(
+      'Messages',
+      name: 'Messages',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Write a message`
   String get Write_a_message {
     return Intl.message(

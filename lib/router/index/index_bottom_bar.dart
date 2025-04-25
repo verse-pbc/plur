@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/add_btn_wrapper_widget.dart';
+import '../../generated/l10n.dart';
 import '../../main.dart';
 
 class IndexBottomBar extends StatefulWidget {
@@ -20,6 +20,7 @@ class _IndexBottomBar extends State<IndexBottomBar> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
+    final localization = S.of(context);
     var indexProvider = Provider.of<IndexProvider>(context);
     var currentTap = indexProvider.currentTap;
 
@@ -29,9 +30,10 @@ class _IndexBottomBar extends State<IndexBottomBar> {
 
     list.add(Expanded(
       child: IndexBottomBarButton(
-        iconData: Icons.home_rounded,
+        iconData: Icons.view_comfy_alt,
         index: current,
         selected: current == currentTap,
+        title: localization.Communities,
         onDoubleTap: () {
           indexProvider.followScrollToTop();
         },
@@ -39,26 +41,12 @@ class _IndexBottomBar extends State<IndexBottomBar> {
     ));
     current++;
 
-    if (!nostr!.isReadOnly()) {
-      list.add(Expanded(
-        child: AddBtnWrapperWidget(
-          child: IndexBottomBarButton(
-            iconData: Icons.add_circle_outline_rounded, // notifications_active
-            index: -1,
-            selected: false,
-            bigFont: true,
-            onTap: (value) {
-            },
-          ),
-        ),
-      ));
-    }
-
     list.add(Expanded(
       child: IndexBottomBarButton(
-        iconData: Icons.mail_rounded,
+        iconData: Icons.sms,
         index: current,
         selected: current == currentTap,
+        title: localization.Messages,
       ),
     ));
     current++;
@@ -95,6 +83,7 @@ class IndexBottomBarButton extends StatelessWidget {
   final IconData iconData;
   final int index;
   final bool selected;
+  final String? title;
   final Function(int)? onTap;
   final bool bigFont;
   final Function? onDoubleTap;
@@ -104,6 +93,7 @@ class IndexBottomBarButton extends StatelessWidget {
     required this.iconData,
     required this.index,
     required this.selected,
+    this.title,
     this.onTap,
     this.onDoubleTap,
     this.bigFont = false,
@@ -133,10 +123,21 @@ class IndexBottomBarButton extends StatelessWidget {
       },
       child: SizedBox(
         height: IndexBottomBar.height,
-        child: Icon(
-          iconData,
-          color: selected ? selectedColor : null,
-          size: bigFont ? 40 : null,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              iconData,
+              color: selected ? selectedColor : null,
+              size: bigFont ? 40 : null,
+            ),
+            if (title != null)
+              Text(title!,
+                  style: TextStyle(
+                    color: selected ? selectedColor : null,
+                    fontSize: 12,
+                  ))
+          ],
         ),
       ),
     );
