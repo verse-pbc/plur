@@ -3649,6 +3649,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Choose Privacy Setting`
+  String get Choose_privacy_setting {
+    return Intl.message(
+      'Choose Privacy Setting',
+      name: 'Choose_privacy_setting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We want to be discovered`
+  String get Be_discovered_title {
+    return Intl.message(
+      'We want to be discovered',
+      name: 'Be_discovered_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your community will be visible in search results`
+  String get Be_discovered_description {
+    return Intl.message(
+      'Your community will be visible in search results',
+      name: 'Be_discovered_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We want to be invite only`
+  String get Invite_only_title {
+    return Intl.message(
+      'We want to be invite only',
+      name: 'Invite_only_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your community will only be accessible through invite links`
+  String get Invite_only_description {
+    return Intl.message(
+      'Your community will only be accessible through invite links',
+      name: 'Invite_only_description',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

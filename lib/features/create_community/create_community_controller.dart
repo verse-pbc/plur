@@ -7,6 +7,7 @@ import '../../data/group_identifier_repository.dart';
 import '../../data/group_repository.dart';
 import '../../data/group_metadata_repository.dart';
 import '../../util/string_code_generator.dart';
+import 'privacy_selection_widget.dart';
 
 typedef CreateCommunityModel = (GroupIdentifier, String);
 
@@ -21,10 +22,10 @@ class CreateCommunityController
     return null;
   }
 
-  /// Creates a new community with the specified [name].
+  /// Creates a new community with the specified [name] and [privacy] setting.
   ///
   /// Returns `true` if the community is successfully created, otherwise `false`.
-  Future<bool> createCommunity(String name) async {
+  Future<bool> createCommunity(String name, CommunityPrivacy privacy) async {
     state = const AsyncValue<CreateCommunityModel?>.loading();
     final groupIdentifier = await _createGroup();
     if (groupIdentifier == null) {
@@ -33,7 +34,7 @@ class CreateCommunityController
     }
     try {
       await _saveGroupIdentifier(groupIdentifier);
-      await _setGroupName(groupIdentifier, name);
+      await _setGroupMetadata(groupIdentifier, name, privacy);
       final inviteLink = await _generateInviteLink(groupIdentifier);
       state = AsyncValue<CreateCommunityModel?>.data((
         groupIdentifier,
@@ -65,17 +66,23 @@ class CreateCommunityController
     await repository.addGroupIdentifier(groupIdentifier);
   }
 
-  /// Sets the name of the group.
+  /// Sets the metadata of the group.
   ///
   /// Updates the metadata of the group identified by [groupIdentifier] with
-  /// the specified [name].
-  Future<void> _setGroupName(
-      GroupIdentifier groupIdentifier, String name) async {
+  /// the specified [name] and [privacy] setting.
+  Future<void> _setGroupMetadata(GroupIdentifier groupIdentifier, String name,
+      CommunityPrivacy privacy) async {
     final groupId = groupIdentifier.groupId;
     final host = groupIdentifier.host;
     final groupMetadataProvider = groupMetadataRepositoryProvider;
     final groupMetadataRepository = ref.watch(groupMetadataProvider);
-    GroupMetadata groupMetadata = GroupMetadata(groupId, 0, name: name);
+    GroupMetadata groupMetadata = GroupMetadata(
+      groupId,
+      0,
+      name: name,
+      public: privacy == CommunityPrivacy.discoverable,
+      open: privacy == CommunityPrivacy.discoverable,
+    );
     await groupMetadataRepository.setGroupMetadata(groupMetadata, host);
     // Add delay to give the cache enough time to update the db
     await Future.delayed(const Duration(seconds: 1));
