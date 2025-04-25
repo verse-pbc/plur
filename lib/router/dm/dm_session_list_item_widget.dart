@@ -64,7 +64,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
 
         var lastEvent = dmSession.newestEvent!;
 
-        bool hasNewMessage = widget.detail.hasNewMessage();
+        bool hasNewMessage = widget.detail.hasNewMessage;
 
         List<Widget> contentList = [
           Expanded(

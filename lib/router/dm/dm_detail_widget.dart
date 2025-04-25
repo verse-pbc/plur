@@ -59,7 +59,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
     detail = arg as DMSessionDetail;
 
     var dmProvider = Provider.of<DMProvider>(context);
-    var newDetail = dmProvider.getSessionDetail(detail!.dmSession.pubkey);
+    var newDetail = dmProvider.sessionDetailFor(detail!.dmSession.pubkey);
     if (newDetail != null) {
       detail = newDetail;
     }
@@ -270,22 +270,16 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
 
   @override
   Future<void> onReady(BuildContext context) async {
-    if (detail != null &&
-        detail!.info != null &&
-        detail!.dmSession.newestEvent != null) {
-      dmProvider.updateReadTime(detail);
+    if (detail != null) {
+      dmProvider.updateReadTime(detail!);
     }
   }
 
   @override
-  BuildContext getContext() {
-    return context;
-  }
+  BuildContext getContext() => context;
 
   @override
-  String? getPubkey() {
-    return detail!.dmSession.pubkey;
-  }
+  String? getPubkey() => detail!.dmSession.pubkey;
 
   @override
   List getTags() {
