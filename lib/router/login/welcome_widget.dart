@@ -17,6 +17,37 @@ class WelcomeWidget extends ConsumerWidget {
     Navigator.of(context).pushNamed(RouterPath.login);
   }
 
+  void _showComingSoonAlert(BuildContext context) {
+    final themeData = Theme.of(context);
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: themeData.customColors.cardBgColor,
+        content: Text(
+          "This feature is coming soon",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+            color: themeData.customColors.primaryForegroundColor,
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(
+              "Ok",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w400,
+                color: themeData.customColors.accentColor,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = Theme.of(context);
@@ -48,7 +79,7 @@ class WelcomeWidget extends ConsumerWidget {
               ),
               const SizedBox(height: 16),
               PrimaryButtonWidget(
-                onTap: () => {},
+                onTap: () => _showComingSoonAlert(context),
                 text: localization.Login_with_bluesky,
                 borderRadius: 8,
                 color: themeData.customColors.secondaryButtonColor,
