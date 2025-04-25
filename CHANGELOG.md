@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed @Name from side menu. [#330](https://github.com/verse-pbc/issues/issues/330)
 - Fixed Edit Profile view navigation bar area. [#329](https://github.com/verse-pbc/issues/issues/329)
 - Added confirmation prompt when leaving a group. [#331](https://github.com/verse-pbc/issues/issues/331)
+- Added prominent create community button to the group list view.
 
 ### Internal Changes
 - Standardized on FVM for Flutter version management, removing mise configuration.
