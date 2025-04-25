@@ -37,6 +37,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.tabsBgColor,
     required this.tooltipText,
     required this.tooltipBackground,
+    required this.secondaryButtonColor,
   });
 
   final Color accentColor;
@@ -54,6 +55,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color tabsBgColor;
   final Color tooltipText;
   final Color tooltipBackground;
+  final Color secondaryButtonColor;
 
   /// Light theme values
   static const CustomColors light = CustomColors(
@@ -72,6 +74,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     tabsBgColor: Color(0xFFFFFFFF),
     tooltipText: Color(0xFFF5EFF7),
     tooltipBackground: Color(0xFF594946),
+    secondaryButtonColor: Color(0xFF8D7EAB),
   );
 
   /// Dark theme values
@@ -91,6 +94,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     tabsBgColor: Color(0xFF160F24),
     tooltipText: Color(0xFFFFFFFF),
     tooltipBackground: Color(0xFF8D7EAB),
+    secondaryButtonColor: Color(0xFF8D7EAB),
   );
 
   /// Copy with optional overrides
@@ -111,6 +115,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? tabsBgColor,
     Color? tooltipText,
     Color? tooltipBackground,
+    Color? secondaryButtonColor,
   }) {
     return CustomColors(
       accentColor: accentColor ?? this.accentColor,
@@ -130,6 +135,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       tabsBgColor: tabsBgColor ?? this.tabsBgColor,
       tooltipText: tooltipText ?? this.tooltipText,
       tooltipBackground: tooltipBackground ?? this.tooltipBackground,
+      secondaryButtonColor: secondaryButtonColor ?? this.secondaryButtonColor,
     );
   }
 
@@ -166,6 +172,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
       tooltipBackground:
           Color.lerp(tooltipBackground, other.tooltipBackground, t) ??
               tooltipBackground,
+      secondaryButtonColor: Color.lerp(
+              secondaryButtonColor, other.secondaryButtonColor, t) ??
+          secondaryButtonColor,
     );
   }
 }
