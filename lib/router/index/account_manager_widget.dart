@@ -338,9 +338,12 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
 
       list.add(Container(
         margin: const EdgeInsets.only(left: 5, right: 5),
+        width: 120,
         child: NameWidget(
           pubkey: pubkey,
           user: user,
+          maxLines: 1,
+          textOverflow: TextOverflow.ellipsis,
         ),
       ));
 
