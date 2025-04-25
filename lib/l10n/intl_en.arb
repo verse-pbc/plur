@@ -378,4 +378,9 @@
     "Create_a_profile": "Create a Profile",
     "Login_with_bluesky": "Login with Bluesky",
     "Already_a_user": "Already a user?"
+    "Choose_privacy_setting": "Choose Privacy Setting",
+    "Be_discovered_title": "We want to be discovered",
+    "Be_discovered_description": "Your community will be visible in search results",
+    "Invite_only_title": "We want to be invite only",
+    "Invite_only_description": "Your community will only be accessible through invite links"
 }

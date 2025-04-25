@@ -73,6 +73,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Backup my notes"),
         "Banner": MessageLookupByLibrary.simpleMessage("Banner"),
         "Base_Mode": MessageLookupByLibrary.simpleMessage("Base Mode"),
+        "Be_discovered_description": MessageLookupByLibrary.simpleMessage(
+            "Your community will be visible in search results"),
+        "Be_discovered_title":
+            MessageLookupByLibrary.simpleMessage("We want to be discovered"),
         "Begin_to_download_translate_model":
             MessageLookupByLibrary.simpleMessage(
                 "Begin to download translate model"),
@@ -90,6 +94,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Cache_Relay": MessageLookupByLibrary.simpleMessage("Cache Relay"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Chat": MessageLookupByLibrary.simpleMessage("Chat"),
+        "Choose_privacy_setting":
+            MessageLookupByLibrary.simpleMessage("Choose Privacy Setting"),
         "Clear_All_Data":
             MessageLookupByLibrary.simpleMessage("Clear All Data"),
         "Clear_Not_My_Data":
@@ -270,6 +276,10 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Input parse error"),
         "Input_relay_address":
             MessageLookupByLibrary.simpleMessage("Input relay address."),
+        "Invite_only_description": MessageLookupByLibrary.simpleMessage(
+            "Your community will only be accessible through invite links"),
+        "Invite_only_title":
+            MessageLookupByLibrary.simpleMessage("We want to be invite only"),
         "Join_Community":
             MessageLookupByLibrary.simpleMessage("Join Community"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),

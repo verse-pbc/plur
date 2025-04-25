@@ -7,6 +7,7 @@ import 'package:nostrmo/util/theme_util.dart';
 import '../../generated/l10n.dart';
 import 'create_community_controller.dart';
 import 'create_community_widget.dart';
+import 'privacy_selection_widget.dart';
 
 class CreateCommunityDialog extends ConsumerStatefulWidget {
   const CreateCommunityDialog({super.key});
@@ -105,9 +106,10 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
     );
   }
 
-  void _onCreateCommunity(String communityName) async {
+  void _onCreateCommunity(
+      String communityName, CommunityPrivacy privacy) async {
     final controller = ref.read(createCommunityControllerProvider.notifier);
-    final result = await controller.createCommunity(communityName);
+    final result = await controller.createCommunity(communityName, privacy);
     if (!mounted) return;
     final localization = S.of(context);
     if (!result) {
@@ -122,7 +124,7 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
               child: Text(localization.Retry),
               onPressed: () {
                 Navigator.of(context).pop();
-                _onCreateCommunity(communityName);
+                _onCreateCommunity(communityName, privacy);
               },
             ),
             TextButton(

@@ -5,7 +5,7 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - emergency-alerts
   # Enable manual run
   workflow_dispatch:
 

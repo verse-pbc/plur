@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Added basic UI for admins to send an emergency alert in a group.
+
+### Internal Changes
+
+## [0.0.6]
+
+### Release Notes
 - Add name collection to the onboarding flow. [#314](https://github.com/verse-pbc/issues/issues/314)
 - Added member list to Group Info screen. [#306](https://github.com/verse-pbc/issues/issues/306)
 - Fixed group list on Home screen. [#284](https://github.com/verse-pbc/issues/issues/284)
@@ -20,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed @Name from side menu. [#330](https://github.com/verse-pbc/issues/issues/330)
 - Fixed Edit Profile view navigation bar area. [#329](https://github.com/verse-pbc/issues/issues/329)
 - Added confirmation prompt when leaving a group. [#331](https://github.com/verse-pbc/issues/issues/331)
+- Added privacy selection option while creating a community.
+- Added prominent create community button to the group list view.
 - Added a welcome screen and updated the old login screen.
 
 ### Internal Changes
@@ -28,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed many typos.
 - Removed CODEOWNERS file to simplify repository management.
 - Enabled building for macOS.
+- Deregister users from push notifications on logout [#290](https://github.com/verse-pbc/issues/issues/290)
 
 ## [0.0.5]
 
