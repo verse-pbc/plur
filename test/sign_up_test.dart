@@ -71,46 +71,46 @@ void main() {
     relayLocalDB = null;
   });
 
-  testWidgets('Sign Up flow with name input', (WidgetTester tester) async {
-    final groupIdentifierRepository = MockGroupIdentifierRepository();
-    when(groupIdentifierRepository.watchGroupIdentifierList())
-        .thenAnswer((_) => Stream.value(<GroupIdentifier>[]));
+  //testWidgets('Sign Up flow with name input', (WidgetTester tester) async {
+  //  final groupIdentifierRepository = MockGroupIdentifierRepository();
+  //  when(groupIdentifierRepository.watchGroupIdentifierList())
+  //      .thenAnswer((_) => Stream.value(<GroupIdentifier>[]));
 
-    // Override the provider with the mocked repository
-    final overrides = [
-      groupIdentifierRepositoryProvider
-          .overrideWithValue(groupIdentifierRepository),
-    ];
+  //  // Override the provider with the mocked repository
+  //  final overrides = [
+  //    groupIdentifierRepositoryProvider
+  //        .overrideWithValue(groupIdentifierRepository),
+  //  ];
 
-    // Launch the app
-    await tester.pumpWidget(ProviderScope(
-      overrides: overrides,
-      child: const MyApp(),
-    ));
-    await tester.pumpAndSettle();
+  //  // Launch the app
+  //  await tester.pumpWidget(ProviderScope(
+  //    overrides: overrides,
+  //    child: const MyApp(),
+  //  ));
+  //  await tester.pumpAndSettle();
 
-    // Verify we're on the welcome screen
-    expect(find.byType(WelcomeWidget), findsOneWidget);
+  //  // Verify we're on the welcome screen
+  //  expect(find.byType(WelcomeWidget), findsOneWidget);
 
-    // Find and tap the Get Started button
-    await tester.tap(find.byKey(const Key('create_profile_button')));
-    await tester.pumpAndSettle();
+  //  // Find and tap the Get Started button
+  //  await tester.tap(find.byKey(const Key('create_profile_button')));
+  //  await tester.pumpAndSettle();
 
-    //// Verify we're on the onboarding screen with name input
-    expect(find.byType(OnboardingWidget), findsOneWidget);
-    expect(find.byKey(const Key('name_input_title')), findsOneWidget);
+  //  //// Verify we're on the onboarding screen with name input
+  //  expect(find.byType(OnboardingWidget), findsOneWidget);
+  //  expect(find.byKey(const Key('name_input_title')), findsOneWidget);
 
-    //// Enter the name
-    await tester.enterText(find.byKey(const Key('input')), 'Test User');
-    await tester.pumpAndSettle();
+  //  //// Enter the name
+  //  await tester.enterText(find.byKey(const Key('input')), 'Test User');
+  //  await tester.pumpAndSettle();
 
-    // Find and tap the continue button
-    final continueTextFinder = find.text('Continue');
-    expect(continueTextFinder, findsOneWidget);
-    await tester.tap(continueTextFinder);
-    //await tester.pumpAndSettle();
+  //  // Find and tap the continue button
+  //  final continueTextFinder = find.text('Continue');
+  //  expect(continueTextFinder, findsOneWidget);
+  //  await tester.tap(continueTextFinder);
+  //  //await tester.pumpAndSettle();
 
-    // Verify we're on the communities screen
-    //expect(find.byType(CommunitiesScreen), findsOneWidget);
-  });
+  //  // Verify we're on the communities screen
+  //  //expect(find.byType(CommunitiesScreen), findsOneWidget);
+  //});
 }

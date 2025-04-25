@@ -13,12 +13,14 @@ class NameGenerator {
     // Add luminosity prefix with 30% chance
     String colorName = '';
     if (_random.nextInt(10) < 3) {
-      if (lightness < 40)
-        colorName += 'Dark';
-      else if (lightness > 60)
-        colorName += 'Bright';
-      else
-        colorName += 'Deep';
+      switch (lightness) {
+        case < 40:
+          colorName += 'Dark';
+        case > 60:
+          colorName += 'Bright';
+        default:
+          colorName += 'Deep';
+      }
     }
 
     // Add saturation prefix with 20% chance
@@ -27,30 +29,33 @@ class NameGenerator {
     }
 
     // Generate base color name from hue
-    if (hue < 15 || hue >= 345)
-      colorName += 'Red';
-    else if (hue < 45)
-      colorName += 'Orange';
-    else if (hue < 75)
-      colorName += 'Yellow';
-    else if (hue < 105)
-      colorName += 'Green';
-    else if (hue < 135)
-      colorName += 'Emerald';
-    else if (hue < 165)
-      colorName += 'Turquoise';
-    else if (hue < 195)
-      colorName += 'Cyan';
-    else if (hue < 225)
-      colorName += 'Blue';
-    else if (hue < 255)
-      colorName += 'Indigo';
-    else if (hue < 285)
-      colorName += 'Purple';
-    else if (hue < 315)
-      colorName += 'Magenta';
-    else
-      colorName += 'Rose';
+    switch (hue) {
+      case < 15:
+      case >= 345:
+        colorName += 'Red';
+      case < 45:
+        colorName += 'Orange';
+      case < 75:
+        colorName += 'Yellow';
+      case < 105:
+        colorName += 'Green';
+      case < 135:
+        colorName += 'Emerald';
+      case < 165:
+        colorName += 'Turquoise';
+      case < 195:
+        colorName += 'Cyan';
+      case < 225:
+        colorName += 'Blue';
+      case < 255:
+        colorName += 'Indigo';
+      case < 285:
+        colorName += 'Purple';
+      case < 315:
+        colorName += 'Magenta';
+      default:
+        colorName += 'Rose';
+    }
 
     // Add crystal/metal variants with 10% chance
     if (_random.nextInt(10) == 0) {
