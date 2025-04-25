@@ -181,12 +181,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
           style: titleTextStyle,
         ),
       );
-      appBarRight = GestureDetector(
-        onTap: () {
-          CreateCommunityDialog.show(context);
-        },
-        child: const Icon(Icons.group_add),
-      );
     } else if (indexProvider.currentTap == 1) {
       appBarCenter = TabBar(
         indicatorColor: indicatorColor,
