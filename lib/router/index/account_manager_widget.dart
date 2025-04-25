@@ -114,7 +114,7 @@ class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
 
   Future<void> addAccount() async {
     RouterUtil.back(context);
-    await RouterUtil.router(context, RouterPath.login, true);
+    await RouterUtil.router(context, RouterPath.welcome, true);
     settingsProvider.notify();
   }
 
@@ -219,7 +219,24 @@ class AccountManagerWidgetState extends ConsumerState<AccountManagerWidget> {
     relayProvider.clear();
     listProvider.clear();
 
+    if (nostr != null) {
+      nostr!.close();
+      nostr = null;
+    }
+
+    // Remove the current private key
+    if (settingsProvider.privateKeyIndex != null) {
+      settingsProvider.removeKey(settingsProvider.privateKeyIndex!);
+    }
     ref.read(groupIdentifierRepositoryProvider).clear();
+
+    // Navigate to welcome screen only if no accounts left
+    if (settingsProvider.privateKeyMap.isEmpty) {
+      final context = MyApp.navigatorKey.currentContext;
+      if (context != null) {
+        RouterUtil.router(context, RouterPath.welcome);
+      }
+    }
   }
 
   static void clearLocalData(int index) {

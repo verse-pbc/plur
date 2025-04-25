@@ -3660,12 +3660,32 @@ class S {
     );
   }
 
+  /// `Welcome to Plur`
+  String get Welcome_to_plur {
+    return Intl.message(
+      'Welcome to Plur',
+      name: 'Welcome_to_plur',
+        desc: '',
+      args: [],
+    );
+  }
+
   /// `Choose Privacy Setting`
   String get Choose_privacy_setting {
     return Intl.message(
       'Choose Privacy Setting',
       name: 'Choose_privacy_setting',
       desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a Profile`
+  String get Create_a_profile {
+    return Intl.message(
+      'Create a Profile',
+      name: 'Create_a_profile',
+        desc: '',
       args: [],
     );
   }
@@ -3680,12 +3700,32 @@ class S {
     );
   }
 
+  /// `Login with Bluesky`
+  String get Login_with_bluesky {
+    return Intl.message(
+      'Login with Bluesky',
+      name: 'Login_with_bluesky',
+        desc: '',
+      args: [],
+    );
+  }
+
   /// `Your community will be visible in search results`
   String get Be_discovered_description {
     return Intl.message(
       'Your community will be visible in search results',
       name: 'Be_discovered_description',
       desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already a user?`
+  String get Already_a_user {
+    return Intl.message(
+      'Already a user?',
+      name: 'Already_a_user',
+        desc: '',
       args: [],
     );
   }

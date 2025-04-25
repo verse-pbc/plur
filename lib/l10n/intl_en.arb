@@ -375,6 +375,10 @@
     "onboarding_name_input_title": "What should we call you?",
     "onboarding_name_input_hint": "Your name or nickname",
     "Continue": "Continue",
+    "Welcome_to_plur": "Welcome to Plur",
+    "Create_a_profile": "Create a Profile",
+    "Login_with_bluesky": "Login with Bluesky",
+    "Already_a_user": "Already a user?"
     "Choose_privacy_setting": "Choose Privacy Setting",
     "Be_discovered_title": "We want to be discovered",
     "Be_discovered_description": "Your community will be visible in search results",

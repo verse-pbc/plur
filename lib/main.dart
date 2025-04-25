@@ -32,6 +32,7 @@ import 'package:nostrmo/router/group/group_detail_widget.dart';
 import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/router/login/welcome_widget.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
@@ -463,6 +464,11 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
 
     routes = {
       RouterPath.index: (context) => IndexWidget(reload: reload),
+      RouterPath.welcome: (context) => WelcomeWidget(
+            onSignupTap: () {
+              LoginSignupWidget.navigateToOnboarding(context);
+            },
+          ),
       RouterPath.login: (context) => const LoginSignupWidget(),
       RouterPath.onboarding: (context) => const OnboardingWidget(),
       RouterPath.donate: (context) => const DonateWidget(),
@@ -618,7 +624,7 @@ class _MyApp extends riverpod.ConsumerState<MyApp> {
           supportedLocales: S.delegate.supportedLocales,
           theme: defaultTheme,
           darkTheme: defaultDarkTheme,
-          initialRoute: RouterPath.index,
+          initialRoute: nostr != null ? RouterPath.index : RouterPath.welcome,
           routes: routes,
           onGenerateRoute: (settings) {
             final groupId = settings.arguments as GroupIdentifier?;
