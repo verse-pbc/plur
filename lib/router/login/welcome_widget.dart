@@ -51,7 +51,7 @@ class WelcomeWidget extends ConsumerWidget {
                 onTap: () => {},
                 text: localization.Login_with_bluesky,
                 borderRadius: 8,
-                color: themeData.customColors.secondaryForegroundColor,
+                color: themeData.customColors.secondaryButtonColor,
               ),
               const Spacer(),
               GestureDetector(
