@@ -183,7 +183,7 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
         Align(
           alignment: Alignment.centerLeft,
           child: TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.maybePop(context),
             style: TextButton.styleFrom(
               textStyle: const TextStyle(
                 fontSize: 16.0,
@@ -378,7 +378,7 @@ class _LoginSignupState extends ConsumerState<LoginSignupWidget> {
                   width: mainWidth,
                   // Adds padding to the content to ensure spacing on the sides.
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.max,
                     children: mainList,
                   ),
                 ),
