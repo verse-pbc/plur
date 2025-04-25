@@ -52,3 +52,6 @@ app.*.map.json
 
 # Fastlane
 fastlane/report.xml
+
+# Vibe Tools
+@vibe-tools.mdc

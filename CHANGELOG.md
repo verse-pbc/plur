@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed CODEOWNERS file to simplify repository management.
 - Enabled building for macOS.
 - Deregister users from push notifications on logout [#290](https://github.com/verse-pbc/issues/issues/290)
+- Added "reusable" tag when generating invites.
 
 ## [0.0.5]
 
