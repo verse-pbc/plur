@@ -103,7 +103,8 @@ class GroupRepository {
   }) async {
     final tags = [
       ["h", group.groupId],
-      ["code", inviteCode]
+      ["code", inviteCode],
+      ["reusable"]
     ];
     if (roles != null && roles.isNotEmpty) {
       tags.add(["roles", ...roles]);

@@ -333,12 +333,13 @@ class ListProvider extends ChangeNotifier {
 
     notifyListeners();
   }
-  
+
   String createInviteLink(GroupIdentifier group, String inviteCode,
       {List<String>? roles}) {
     final tags = [
       ["h", group.groupId],
       ["code", inviteCode],
+      ["reusable"],
     ];
 
     // Add roles if provided, default to "member"
@@ -453,9 +454,9 @@ class ListProvider extends ChangeNotifier {
     if (event.kind == EventKind.groupEditMetadata) {
       _extractGroupIdentifiersFromTags(event, tagPrefix: "h")
           .forEach((groupId) {
-            groupProvider.onEvent(groupId, event);
-            _queryGroupMetadata(groupId);
-          });
+        groupProvider.onEvent(groupId, event);
+        _queryGroupMetadata(groupId);
+      });
       notifyListeners();
     }
   }
