@@ -87,6 +87,8 @@ class _NameWidgetState extends State<NameWidget> {
               fontSize: smallTextSize,
               color: hintColor,
             ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
         ),
       ));

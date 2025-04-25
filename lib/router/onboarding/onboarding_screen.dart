@@ -25,10 +25,6 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
   }
 
   late final List<Widget> _steps = [
-    AgeVerificationStep(
-      onVerified: _nextPage,
-      onDenied: _onAgeDenied,
-    ),
     NameInputStepWidget(
       onContinue: (name) {
         _userName = name;

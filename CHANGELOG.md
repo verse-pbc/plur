@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added basic UI for admins to send an emergency alert in a group.
 - Added privacy selection option while creating a community.
 - Added DMs with tabbed interface. [#338](https://github.com/verse-pbc/issues/issues/338)
+- Added prominent create community button to the group list view.
+- Added a welcome screen and updated the old login screen.
+- Added the generated nickname screen while onboarding.
 
 ### Internal Changes
 
@@ -29,8 +32,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed @Name from side menu. [#330](https://github.com/verse-pbc/issues/issues/330)
 - Fixed Edit Profile view navigation bar area. [#329](https://github.com/verse-pbc/issues/issues/329)
 - Added confirmation prompt when leaving a group. [#331](https://github.com/verse-pbc/issues/issues/331)
-- Added prominent create community button to the group list view.
-- Added a welcome screen and updated the old login screen.
 
 ### Internal Changes
 - Standardized on FVM for Flutter version management, removing mise configuration.
