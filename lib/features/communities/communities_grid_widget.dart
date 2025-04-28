@@ -17,23 +17,36 @@ class CommunitiesGridWidget extends StatelessWidget {
     // Log that this widget is being built/displayed
     debugPrint("🔍 SCREEN DISPLAYED: CommunitiesGridWidget (Communities grid)");
     
-    return GridView.builder(
-      padding: const EdgeInsets.only(top: 52, bottom: 80), // Increased bottom padding
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 0.0,
-        mainAxisSpacing: 40.0, // Increased to give more vertical space
-        childAspectRatio: 0.9, // Adjusted to make cells taller than they are wide
-      ),
-      itemCount: groupIds.length,
-      itemBuilder: (context, index) {
-        final groupIdentifier = groupIds[index];
-        return InkWell(
-          onTap: () {
-            RouterUtil.router(
-                context, RouterPath.groupDetail, groupIdentifier);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Calculate cross axis count based on width
+        int crossAxisCount = 2; // Default for mobile
+        if (constraints.maxWidth > 800) {
+          crossAxisCount = 3; // Medium sized screens
+        }
+        if (constraints.maxWidth > 1200) {
+          crossAxisCount = 4; // Large screens
+        }
+        
+        return GridView.builder(
+          padding: const EdgeInsets.only(top: 52, bottom: 80), // Increased bottom padding
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: 0.0,
+            mainAxisSpacing: 40.0, // Increased to give more vertical space
+            childAspectRatio: 0.9, // Adjusted to make cells taller than they are wide
+          ),
+          itemCount: groupIds.length,
+          itemBuilder: (context, index) {
+            final groupIdentifier = groupIds[index];
+            return InkWell(
+              onTap: () {
+                RouterUtil.router(
+                    context, RouterPath.groupDetail, groupIdentifier);
+              },
+              child: CommunityWidget(groupIdentifier),
+            );
           },
-          child: CommunityWidget(groupIdentifier),
         );
       },
     );
