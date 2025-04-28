@@ -16,13 +16,13 @@ class CommunityTitleWidget extends StatelessWidget {
     final themeData = Theme.of(context);
     if (metadata == null) {
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
             width: double.infinity,
             height: 24,
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: themeData.colorScheme.primary.withAlpha(51),
               borderRadius: BorderRadius.circular(16),
             ),
           ),

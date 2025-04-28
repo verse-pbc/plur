@@ -50,6 +50,7 @@ class GroupAvatar extends StatelessWidget {
                     height: imageSize,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => _buildDefaultImage(context, iconSize),
+                    fadeInDuration: const Duration(milliseconds: 100),
                     errorWidget: (context, url, error) => _buildDefaultImage(context, iconSize),
                   )
                 : _buildDefaultImage(context, iconSize),
