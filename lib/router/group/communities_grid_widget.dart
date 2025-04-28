@@ -25,6 +25,17 @@ class CommunitiesGridWidget extends StatefulWidget {
 class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidget>
     with PendingEventsLaterFunction {
   final subscribeId = StringUtil.rndNameStr(16);
+  
+  int _calculateCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width > 1200) {
+      return 4; // Large screens
+    } else if (width > 800) {
+      return 3; // Medium sized screens
+    } else {
+      return 2; // Default for mobile
+    }
+  }
 
   @override
   Widget doBuild(BuildContext context) {
@@ -40,8 +51,8 @@ class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidg
               onRefresh: refresh,
               child: GridView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _calculateCrossAxisCount(context),
                   crossAxisSpacing: 12.0,
                   mainAxisSpacing: 24.0,
                   childAspectRatio: 1,

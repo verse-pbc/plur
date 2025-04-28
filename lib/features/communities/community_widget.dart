@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
-import '../../component/shimmer/shimmer_loading.dart';
 import '../../data/group_metadata_repository.dart';
 import 'community_title_widget.dart';
 import 'community_image_widget.dart';
@@ -22,6 +21,9 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
   @override
   void initState() {
     super.initState();
+    // Immediately fetch the data on init to prevent loading delay
+    ref.read(cachedGroupMetadataProvider(widget.groupIdentifier));
+    
     // Schedule the invalidation for the next frame to avoid build-time issues
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) {
@@ -63,10 +65,7 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
               width: imageSize,
               child: SizedBox(
                 height: 70, // Increased height to accommodate text
-                child: ShimmerLoading(
-                  isLoading: true,
-                  child: CommunityTitleWidget(groupId, null),
-                ),
+                child: CommunityTitleWidget(groupId, null),
               ),
             ),
           ],
