@@ -32,11 +32,14 @@ platform :ios do
     xcode_version = File.read("../ios/.xcode-version").strip
     xcodes(version: xcode_version)
     
-    app_store_connect_api_key(
-      key_id: asc_key_id,
-      issuer_id: asc_issuer_id,
-      key_content: asc_key_content
-    )
+    if asc_key_id && asc_issuer_id && asc_key_content
+      app_store_connect_api_key(
+        key_id: asc_key_id,
+        issuer_id: asc_issuer_id,
+        key_content: asc_key_content
+      )
+    end
+    
     if is_ci 
       # Create a keychain because Github Action machines don't come with one
       create_keychain(
@@ -70,10 +73,24 @@ platform :ios do
       build_number: build_number,
       xcodeproj: "ios/Runner.xcodeproj"
     )
-    gym(
-      scheme: options[:scheme], 
-      workspace: "ios/Runner.xcworkspace"
-    )
+    
+    # Use the specified configuration if provided, otherwise default to the scheme
+    build_configuration = options[:configuration] || nil
+    gym_options = {
+      scheme: options[:scheme],
+      workspace: "ios/Runner.xcworkspace",
+      export_options: {
+        method: "app-store",
+        provisioningProfiles: {
+          options[:appidentifier] => "match AppStore #{options[:appidentifier]}"
+        }
+      }
+    }
+    
+    # Add configuration if specified
+    gym_options[:configuration] = build_configuration if build_configuration
+    
+    gym(gym_options)
 
     testflight_groups = options[:distribution_groups] || []
     upload_to_testflight(
@@ -106,11 +123,13 @@ platform :ios do
 
   desc "Push a new Plur staging build to TestFlight"
   lane :deploy_staging do
+    ENV["XCODE_XCCONFIG_FILE"] = "#{Dir.pwd}/../ios/Flutter/Staging.xcconfig"
     push_build(
       scheme: "Runner-Staging",
       appidentifier: "app.verse.prototype.plur-staging",
       appstoreconnect: "https://appstoreconnect.apple.com/apps/6742746068/testflight/ios",
-      distribution_groups: []
+      distribution_groups: [],
+      configuration: "Release-Runner-Staging"
     )
   end
 
