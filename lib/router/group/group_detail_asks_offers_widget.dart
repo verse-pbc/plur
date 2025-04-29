@@ -222,7 +222,7 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
             _selectedType == ListingType.offer ? Icons.local_offer_outlined : 
             Icons.swap_horiz_outlined,
             size: 72,
-            color: Colors.grey.withValues(red: 158, green: 158, blue: 158, alpha: 128),
+            color: Colors.grey.shade500.withAlpha(128),
           ),
           const SizedBox(height: 16),
           Text(
