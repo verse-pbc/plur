@@ -360,7 +360,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             _selectedType == ListingType.offer ? Icons.local_offer_outlined : 
             Icons.swap_horiz_outlined,
             size: 72,
-            color: Colors.grey.withValues(alpha: 0.5 * 255),
+            color: Colors.grey.withAlpha((0.5 * 255).toInt()),
           ),
           const SizedBox(height: 16),
           Text(
@@ -469,7 +469,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                       width: 40,
                       height: 4,
                       decoration: BoxDecoration(
-                        color: Colors.grey.withValues(alpha: 0.3 * 255),
+                        color: Colors.grey.withAlpha((0.3 * 255).toInt()),
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
