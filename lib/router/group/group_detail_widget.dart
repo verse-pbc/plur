@@ -7,6 +7,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/router/edit/editor_widget.dart';
 import 'package:nostrmo/router/group/group_detail_asks_offers_widget.dart';
 import 'package:nostrmo/router/group/group_detail_chat_widget.dart';
+import 'package:nostrmo/router/group/group_detail_events_widget.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
@@ -38,7 +39,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     
     // Listen for tab changes to update the FAB visibility
     // Only rebuild the minimum necessary parts of the UI
@@ -195,10 +196,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       indicatorWeight: 3.0,
       indicatorSize: TabBarIndicatorSize.label,
       padding: const EdgeInsets.symmetric(horizontal: 8),
+      isScrollable: true, // Allow scrolling for more tabs
       tabs: [
         Tab(text: localization.posts),
         Tab(text: localization.chat),
         Tab(text: localization.asksAndOffers),
+        Tab(text: localization.events),
       ],
     );
   }
@@ -270,6 +273,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
             RepaintBoundary(
               child: GroupDetailAsksOffersWidget(groupIdentifier),
             ),
+            // Events tab
+            RepaintBoundary(
+              child: GroupDetailEventsWidget(groupIdentifier),
+            ),
           ],
         ),
       ),
@@ -315,19 +322,22 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   Widget? _buildFloatingActionButton() {
     final themeData = Theme.of(context);
     
-    // Only show regular FAB on the Posts tab (index 0)
-    if (_tabController.index == 0) {
-      // Posts tab
-      return FloatingActionButton(
-        onPressed: _jumpToAddNote,
-        backgroundColor: themeData.customColors.accentColor,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white, size: 29),
-      );
+    switch (_tabController.index) {
+      case 0:
+        // Posts tab - show add note button
+        return FloatingActionButton(
+          onPressed: _jumpToAddNote,
+          backgroundColor: themeData.customColors.accentColor,
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add, color: Colors.white, size: 29),
+        );
+        
+      // Tabs 1 and 2 (Chat and Asks/Offers) don't need FAB
+      // The Events tab (index 3) has its own FAB inside its widget
+      
+      default:
+        // Hide FAB for other tabs
+        return null;
     }
-    
-    // Return null for chat and asks/offers tabs to completely remove the FAB
-    // The asks/offers tab has its own actions in the content
-    return null;
   }
 }

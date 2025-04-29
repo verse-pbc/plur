@@ -4,15 +4,10 @@ platform :ios, '15.5'
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
-# Use git source instead of CDN due to connection issues
-source 'https://github.com/CocoaPods/Specs.git'
-
 project 'Runner', {
-  'Debug-Runner-Staging' => :debug,
   'Debug' => :debug,
   'Profile' => :release,
   'Release' => :release,
-  'Release-Runner-Staging' => :release,
 }
 
 def flutter_root
@@ -35,12 +30,7 @@ flutter_ios_podfile_setup
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
-  
-  # Explicitly add Firebase dependencies
-  pod 'Firebase/Core'
-  pod 'Firebase/Messaging'
-  
-  # Just install all the pods
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
@@ -48,30 +38,26 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     
-    # Fix deployment target issues
+    # Architecture compatibility settings
     target.build_configurations.each do |config|
-      # Add preprocessor macros to disable Sentry
-      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
-      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'SENTRY_DISABLED=1'
+      # Ensure proper deployment target
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.5'
       
-      # Set minimum deployment target to 15.5 for all pods
-      if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.5
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.5'
+      # Support both architectures for the simulator
+      if config.build_settings['SDKROOT'] == 'iphonesimulator'
+        config.build_settings['ARCHS'] = 'arm64 x86_64'
+        config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] = ''
+        config.build_settings['ONLY_ACTIVE_ARCH'] = 'NO'
       end
       
-      # For Xcode 16+ compatibility
-      if config.build_settings['MACOSX_DEPLOYMENT_TARGET'].to_f < 10.15
-        config.build_settings['MACOSX_DEPLOYMENT_TARGET'] = '10.15'
-      end
-      
-      # Explicitly set the build active architecture only for debug
-      config.build_settings['ENABLE_BITCODE'] = 'NO'
-      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
+      # Fix build settings that might cause issues
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+        'PERMISSION_CAMERA=1', # Add permissions needed by your app
+        'PERMISSION_PHOTOS=1',
+        'PERMISSION_MICROPHONE=1',
+        'PERMISSION_NOTIFICATIONS=1'
+      ]
     end
-  end
-  
-  # For Xcode 15+ compatibility
-  installer.pods_project.build_configurations.each do |config|
-    config.build_settings["DEAD_CODE_STRIPPING"] = "YES"
   end
 end

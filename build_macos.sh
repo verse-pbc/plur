@@ -115,33 +115,86 @@ EOF
 echo "🔧 Fixing permissions..."
 chmod -R +w "$PROJ_DIR/macos/Flutter"
 
-# Step 8: Modify GeneratedPluginRegistrant.swift
-echo "🔧 Patching GeneratedPluginRegistrant.swift..."
+# Step 8: Create a custom GeneratedPluginRegistrant.swift without cryptography_flutter
+echo "🔧 Creating custom GeneratedPluginRegistrant.swift..."
 PLUGIN_REG_FILE="$PROJ_DIR/macos/Flutter/GeneratedPluginRegistrant.swift"
 if [ -f "$PLUGIN_REG_FILE" ]; then
   # Make backup
   cp "$PLUGIN_REG_FILE" "$PLUGIN_REG_FILE.bak"
-  
-  # Remove cryptography_flutter references
-  sed -i '' '/import cryptography_flutter/d' "$PLUGIN_REG_FILE"
-  sed -i '' '/CryptographyFlutterPlugin/d' "$PLUGIN_REG_FILE"
-  
-  echo "✅ Successfully patched GeneratedPluginRegistrant.swift"
-else
-  echo "⚠️ Warning: GeneratedPluginRegistrant.swift not found. Creating with 'flutter pub get'..."
-  flutter pub get
-  
-  if [ -f "$PLUGIN_REG_FILE" ]; then
-    # Remove cryptography_flutter references
-    sed -i '' '/import cryptography_flutter/d' "$PLUGIN_REG_FILE"
-    sed -i '' '/CryptographyFlutterPlugin/d' "$PLUGIN_REG_FILE"
-    echo "✅ Successfully patched newly generated GeneratedPluginRegistrant.swift"
-  else
-    echo "❌ Error: GeneratedPluginRegistrant.swift still not found! Build will likely fail."
-  fi
 fi
 
-# Step 9: Update web_plugin_registrant_custom.dart to avoid web build issues
+# Create a new file without cryptography_flutter
+cat > "$PLUGIN_REG_FILE" << 'EOF'
+//
+//  Generated file. Do not edit.
+//
+
+import FlutterMacOS
+import Foundation
+
+import device_info_plus
+import emoji_picker_flutter
+import file_saver
+import file_selector_macos
+import firebase_core
+import firebase_messaging
+import flutter_image_compress_macos
+import flutter_inappwebview_macos
+import flutter_local_notifications
+import flutter_secure_storage_macos
+import local_auth_darwin
+import media_kit_libs_macos_video
+import media_kit_video
+import package_info_plus
+import path_provider_foundation
+import photo_manager
+import screen_brightness_macos
+import screen_retriever
+import sentry_flutter
+import share_plus
+import shared_preferences_foundation
+import sqflite
+import url_launcher_macos
+import video_player_avfoundation
+import wakelock_plus
+import window_manager
+
+func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
+  // The CryptographyFlutterPlugin is handled separately with a local implementation
+  DeviceInfoPlusMacosPlugin.register(with: registry.registrar(forPlugin: "DeviceInfoPlusMacosPlugin"))
+  EmojiPickerFlutterPlugin.register(with: registry.registrar(forPlugin: "EmojiPickerFlutterPlugin"))
+  FileSaverPlugin.register(with: registry.registrar(forPlugin: "FileSaverPlugin"))
+  FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
+  FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
+  FLTFirebaseMessagingPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseMessagingPlugin"))
+  FlutterImageCompressMacosPlugin.register(with: registry.registrar(forPlugin: "FlutterImageCompressMacosPlugin"))
+  InAppWebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "InAppWebViewFlutterPlugin"))
+  FlutterLocalNotificationsPlugin.register(with: registry.registrar(forPlugin: "FlutterLocalNotificationsPlugin"))
+  FlutterSecureStoragePlugin.register(with: registry.registrar(forPlugin: "FlutterSecureStoragePlugin"))
+  FLALocalAuthPlugin.register(with: registry.registrar(forPlugin: "FLALocalAuthPlugin"))
+  MediaKitLibsMacosVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitLibsMacosVideoPlugin"))
+  MediaKitVideoPlugin.register(with: registry.registrar(forPlugin: "MediaKitVideoPlugin"))
+  FPPPackageInfoPlusPlugin.register(with: registry.registrar(forPlugin: "FPPPackageInfoPlusPlugin"))
+  PathProviderPlugin.register(with: registry.registrar(forPlugin: "PathProviderPlugin"))
+  PhotoManagerPlugin.register(with: registry.registrar(forPlugin: "PhotoManagerPlugin"))
+  ScreenBrightnessMacosPlugin.register(with: registry.registrar(forPlugin: "ScreenBrightnessMacosPlugin"))
+  ScreenRetrieverPlugin.register(with: registry.registrar(forPlugin: "ScreenRetrieverPlugin"))
+  SentryFlutterPlugin.register(with: registry.registrar(forPlugin: "SentryFlutterPlugin"))
+  SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
+  SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
+  SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
+  UrlLauncherPlugin.register(with: registry.registrar(forPlugin: "UrlLauncherPlugin"))
+  FVPVideoPlayerPlugin.register(with: registry.registrar(forPlugin: "FVPVideoPlayerPlugin"))
+  WakelockPlusMacosPlugin.register(with: registry.registrar(forPlugin: "WakelockPlusMacosPlugin"))
+  WindowManagerPlugin.register(with: registry.registrar(forPlugin: "WindowManagerPlugin"))
+}
+EOF
+
+# Step 9: Make the file read-only to prevent Flutter from modifying it
+echo "🔧 Making GeneratedPluginRegistrant.swift read-only..."
+chmod -w "$PLUGIN_REG_FILE"
+
+# Step 10: Update web_plugin_registrant_custom.dart to avoid web build issues
 echo "🔧 Updating web plugin registrant..."
 WEB_PLUGIN_FILE="$PROJ_DIR/lib/web_plugin_registrant_custom.dart"
 cat > "$WEB_PLUGIN_FILE" << 'EOF'
@@ -170,13 +223,13 @@ void registerPlugins([final dynamic pluginRegistrar]) {
 }
 EOF
 
-# Step 10: Build macOS app with --no-tree-shake-icons flag
-echo "🏗️ Building macOS app..."
-flutter build macos --debug --no-tree-shake-icons
+# Step 11: Run flutter build with the special --no-tree-shake-icons flag
+echo "🏗️ Building macOS app with --no-tree-shake-icons flag..."
+flutter build macos --no-tree-shake-icons
 
 echo "✅ macOS build process completed successfully!"
 echo ""
 echo "To run the app: flutter run -d macos"
-echo "To build for release: flutter build macos --release (run this script again after)"
+echo "To build for release: flutter build macos --release --no-tree-shake-icons"
 echo ""
-echo "If you update dependencies, run this script again to ensure compatibility."
+echo "Important: If you update dependencies, run this script again to ensure compatibility."

@@ -4,5 +4,11 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:rabble.communities</string>
+		<string>applinks:rabble.community</string>
+		<string>webcredentials:rabble.community</string>
+	</array>
 </dict>
 </plist>
