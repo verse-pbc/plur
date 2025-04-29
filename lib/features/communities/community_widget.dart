@@ -24,12 +24,8 @@ class _CommunityWidgetState extends ConsumerState<CommunityWidget> {
     // Immediately fetch the data on init to prevent loading delay
     ref.read(cachedGroupMetadataProvider(widget.groupIdentifier));
     
-    // Schedule the invalidation for the next frame to avoid build-time issues
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        ref.invalidate(cachedGroupMetadataProvider(widget.groupIdentifier));
-      }
-    });
+    // We don't need to invalidate the cache immediately, as this prevents proper caching
+    // Instead, we'll rely on the cache auto-disposal mechanism
   }
 
   @override
