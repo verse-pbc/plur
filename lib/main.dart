@@ -8,8 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-// Import custom web plugin registrant for web platform
-import 'web_plugin_registrant_custom.dart' if (dart.library.html) 'web_plugin_registrant_custom.dart';
+// Import custom web plugin registrant - will gracefully handle non-web platforms
+import 'web_plugin_registrant_custom.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_quill/translations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
@@ -24,6 +24,7 @@ import 'package:nostrmo/component/styled_bot_toast.dart';
 import 'package:nostrmo/util/error_logger.dart';
 import 'package:nostrmo/util/notification_util.dart';
 import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_builder.dart';
+import 'package:nostrmo/component/link_router_util.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/provider/badge_definition_provider.dart';
@@ -500,17 +501,6 @@ class _MyApp extends State<MyApp> {
     NotificationUtil.setUp();
   }
 
-  void _joinGroup(
-    BuildContext context,
-    String host,
-    String groupId,
-    String? code,
-  ) {
-    final listProvider = Provider.of<ListProvider>(context, listen: false);
-    final groupIdentifier = JoinGroupParameters(host, groupId, code: code);
-    listProvider.joinGroup(groupIdentifier, context: context);
-  }
-
   Future<void> _handleDeepLink(MethodCall call) async {
     if (nostr == null) {
       log('nostr is null; the user is probably not logged in. aborting.',
@@ -976,24 +966,13 @@ class _MyApp extends State<MyApp> {
 
     log('Processing deep link: $link', name: 'DeepLink');
 
-    Uri uri = Uri.parse(link);
-    if (uri.scheme.toLowerCase() == 'plur' && uri.host == 'join-community') {
-      String? groupId = uri.queryParameters['group-id'];
-      String? code = uri.queryParameters['code'];
-
-      if (groupId == null || groupId.isEmpty) {
-        log('Group ID is null or empty, aborting.', name: 'DeepLink');
-        return;
-      }
-
-      final context = MyApp.navigatorKey.currentContext;
-      if (context != null) {
-        _joinGroup(
-            context, RelayProvider.defaultGroupsRelayAddress, groupId, code);
-      } else {
-        log('Context still null after initialization - this is unexpected',
-            name: 'DeepLink');
-      }
+    final context = MyApp.navigatorKey.currentContext;
+    if (context != null) {
+      // Use the LinkRouterUtil to handle both custom schemes and Universal Links
+      LinkRouterUtil.router(context, link);
+    } else {
+      log('Context still null after initialization - this is unexpected',
+          name: 'DeepLink');
     }
   }
 

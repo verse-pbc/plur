@@ -1,0 +1,5 @@
+// Configuration for x86_64 simulator on Apple Silicon
+EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64
+ARCHS[sdk=iphonesimulator*] = x86_64
+ONLY_ACTIVE_ARCH = NO
+FLUTTER_SIMULATOR_ARCHS = x86_64

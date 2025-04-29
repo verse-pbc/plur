@@ -1,0 +1,38 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "GZCZBKH7MY.app.verse.prototype.plur",
+        "paths": [
+          "/i/*", 
+          "/join/*", 
+          "/join-community*",
+          "/g/*"
+        ],
+        "appIDs": ["GZCZBKH7MY.app.verse.prototype.plur"],
+        "components": [
+          {
+            "/": "/i/*",
+            "comment": "Matches any URL with a path that starts with /i/"
+          },
+          {
+            "/": "/join/*",
+            "comment": "Matches any URL with a path that starts with /join/"
+          },
+          {
+            "/": "/join-community*",
+            "comment": "Matches any URL with a path that starts with /join-community"
+          },
+          {
+            "/": "/g/*",
+            "comment": "Matches any URL with a path that starts with /g/"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["GZCZBKH7MY.app.verse.prototype.plur"]
+  }
+}

@@ -1,0 +1,6 @@
+// Universal binary for macOS builds
+ARCHS = arm64 x86_64
+VALID_ARCHS = arm64 x86_64
+EXCLUDED_ARCHS = 
+ONLY_ACTIVE_ARCH = NO
+MACOSX_DEPLOYMENT_TARGET = 10.14
