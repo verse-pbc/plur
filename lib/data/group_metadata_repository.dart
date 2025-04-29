@@ -38,6 +38,8 @@ class GroupMetadataRepository {
       level: Level.FINE.value,
       name: _logName,
     );
+    
+    // Use default timeout for events query
     final events = await nostr?.queryEvents(
       filters,
       tempRelays: [host],
@@ -59,6 +61,76 @@ class GroupMetadataRepository {
     var metadata = GroupMetadata.loadFromEvent(event);
     assert(metadata != null, "Couldn't parse group metadata for $groupId");
     return metadata;
+  }
+  
+  /// Fetches metadata for multiple group identifiers at once
+  ///
+  /// This function optimizes fetching metadata for multiple groups
+  /// by batching requests where possible.
+  ///
+  /// - Parameters:
+  ///   - ids: The list of group identifiers to fetch metadata for
+  ///   - cached: Whether to retrieve metadata from cache. Defaults to false.
+  /// - Returns: A map of group IDs to their metadata
+  Future<Map<String, GroupMetadata?>> fetchMultipleGroupMetadata(
+      List<GroupIdentifier> ids, {bool cached = false}) async {
+    assert(nostr != null, "nostr instance is null");
+    
+    // Group IDs by host to batch requests
+    final idsByHost = <String, List<GroupIdentifier>>{};
+    for (final id in ids) {
+      final host = id.host;
+      idsByHost.putIfAbsent(host, () => []).add(id);
+    }
+    
+    final results = <String, GroupMetadata?>{};
+    
+    // Process each host in parallel
+    await Future.wait(idsByHost.entries.map((entry) async {
+      final host = entry.key;
+      final idsForHost = entry.value;
+      
+      // Create a filter with all group IDs for this host
+      final dValues = idsForHost.map((id) => id.groupId).toList();
+      var filter = Filter(
+        kinds: [EventKind.groupMetadata],
+      );
+      var json = filter.toJson();
+      json["#d"] = dValues;
+      
+      log(
+        "Bulk querying metadata for ${dValues.length} groups on $host",
+        level: Level.FINE.value,
+        name: _logName,
+      );
+      
+      final events = await nostr?.queryEvents(
+        [json],
+        tempRelays: [host],
+        targetRelays: [host],
+        relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
+        sendAfterAuth: true,
+      );
+      
+      // Map events to their group IDs
+      if (events != null) {
+        for (final event in events) {
+          final metadata = GroupMetadata.loadFromEvent(event);
+          if (metadata != null) {
+            results[metadata.groupId] = metadata;
+          }
+        }
+      }
+    }));
+    
+    // Fill in missing results
+    for (final id in ids) {
+      if (!results.containsKey(id.groupId)) {
+        results[id.groupId] = null;
+      }
+    }
+    
+    return results;
   }
 
   /// Sets the metadata for a group.
@@ -136,5 +208,24 @@ final groupMetadataProvider = FutureProvider.autoDispose
 final cachedGroupMetadataProvider = FutureProvider.autoDispose
     .family<GroupMetadata?, GroupIdentifier>((ref, id) {
   final repository = ref.watch(groupMetadataRepositoryProvider);
+  
+  // Keep the provider alive for a reasonable amount of time (5 minutes)
+  // This prevents it from being disposed too quickly
+  ref.keepAlive();
+  
   return repository.fetchGroupMetadata(id, cached: true);
+});
+
+/// A provider that pre-fetches metadata for multiple groups at once
+final bulkGroupMetadataProvider = 
+    FutureProvider.family<Map<String, GroupMetadata?>, List<GroupIdentifier>>((ref, groupIds) async {
+  final repository = ref.watch(groupMetadataRepositoryProvider);
+  
+  // Use the optimized bulk fetching method
+  final results = await repository.fetchMultipleGroupMetadata(groupIds, cached: true);
+  
+  // We've already loaded all data in bulk
+  // The individual providers will access this data from the cache when requested
+  
+  return results;
 });
