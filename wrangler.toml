@@ -6,8 +6,6 @@ compatibility_flags = ["streams_enable_constructors"]
 pages_build_output_dir = "build/web"
 
 [env.production]
-route = ""
 
 [env.preview]
 name = "plur-app-preview"
-route = ""

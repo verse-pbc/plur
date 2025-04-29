@@ -1,0 +1,40 @@
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - main  # or your deployment branch
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.5'
+          channel: 'stable'
+          
+      - name: Install dependencies
+        run: flutter pub get
+        
+      - name: Build web app
+        run: flutter build web --release
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+        
+      - name: Install Wrangler
+        run: npm install -g wrangler
+        
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler pages deploy build/web --project-name=plur-app
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: c84e7a9bf7ed99cb41b8e73566568c75

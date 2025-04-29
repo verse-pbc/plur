@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 
 import '../../consts/router_path.dart';
+import '../../data/group_metadata_repository.dart';
 import '../../util/router_util.dart';
 import 'community_widget.dart';
 
 /// A widget that displays a grid of communities.
-class CommunitiesGridWidget extends StatelessWidget {
+class CommunitiesGridWidget extends ConsumerWidget {
   /// List of group identifiers to be displayed in the grid.
   final List<GroupIdentifier> groupIds;
 
   const CommunitiesGridWidget({super.key, required this.groupIds});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // Log that this widget is being built/displayed
     debugPrint("🔍 SCREEN DISPLAYED: CommunitiesGridWidget (Communities grid)");
+    
+    // Pre-fetch metadata for all communities immediately
+    // This will trigger a single batch of requests instead of loading one by one
+    final bulkLoadingState = ref.watch(bulkGroupMetadataProvider(groupIds));
     
     return LayoutBuilder(
       builder: (context, constraints) {
