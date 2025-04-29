@@ -19,7 +19,7 @@ ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60"
 CHANGELOG_PATH = "CHANGELOG.md"
 
 platform :ios do
-  asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n")
+  asc_key_content = ENV["APP_STORE_CONNECT_API_KEY_CONTENT"] ? ENV["APP_STORE_CONNECT_API_KEY_CONTENT"].gsub('\n', "\n") : nil
   asc_issuer_id = ENV["APP_STORE_CONNECT_ISSUER_ID"]
   asc_key_id = ENV["APP_STORE_CONNECT_API_KEY_ID"]
   keychain_pass = ENV["KEYCHAIN_PASS"]
@@ -131,21 +131,25 @@ platform :ios do
 
   desc "Refresh certificates in the match repo"
   lane :certs do
-    app_store_connect_api_key(
-      key_id: asc_key_id,
-      issuer_id: asc_issuer_id,
-      key_content: asc_key_content
-    )
-    match(type: "appstore", app_identifier: ["app.verse.prototype.plur"])
+    if asc_key_id && asc_issuer_id && asc_key_content
+      app_store_connect_api_key(
+        key_id: asc_key_id,
+        issuer_id: asc_issuer_id,
+        key_content: asc_key_content
+      )
+    end
+    match(type: "appstore", app_identifier: ["app.verse.prototype.plur", "app.verse.prototype.plur-staging", "app.verse.prototype.plur-dev"])
   end
 
   desc "Clean App Store Connect of certificates"
   lane :nuke_certs do
-    app_store_connect_api_key(
-      key_id: asc_key_id,
-      issuer_id: asc_issuer_id,
-      key_content: asc_key_content
-    )
+    if asc_key_id && asc_issuer_id && asc_key_content
+      app_store_connect_api_key(
+        key_id: asc_key_id,
+        issuer_id: asc_issuer_id,
+        key_content: asc_key_content
+      )
+    end
     match_nuke(type: "appstore")
   end
 end
