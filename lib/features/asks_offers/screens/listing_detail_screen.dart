@@ -131,11 +131,11 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
               decoration: BoxDecoration(
                 color: widget.listing.type == ListingType.ask 
-                  ? Colors.blue.withOpacity(0.1) // TODO: Replace with withValues() once determined
-                  : Colors.green.withOpacity(0.1), // TODO: Replace with withValues() once determined
+                  ? Colors.blue.withOpacity(0.1)
+                  : Colors.green.withOpacity(0.1),
                 border: Border(
                   bottom: BorderSide(
-                    color: customColors.separatorColor.withOpacity(0.3), // TODO: Replace with withValues() once determined
+                    color: customColors.separatorColor.withOpacity(0.3),
                     width: 0.5,
                   ),
                 ),

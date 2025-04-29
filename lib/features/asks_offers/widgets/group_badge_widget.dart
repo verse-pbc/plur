@@ -53,7 +53,7 @@ class GroupBadgeWidget extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: backgroundColor ?? themeData.colorScheme.primary.withValues(alpha: 0.1 * 255),
+          color: backgroundColor ?? themeData.colorScheme.primary.withAlpha((0.1 * 255).toInt()),
           borderRadius: BorderRadius.circular(16),
         ),
         child: ref.watch(groupMetadataProvider(groupIdentifier)).when(
@@ -80,7 +80,7 @@ class GroupBadgeWidget extends ConsumerWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: backgroundColor ?? themeData.colorScheme.primary.withValues(alpha: 0.1 * 255),
+          color: backgroundColor ?? themeData.colorScheme.primary.withAlpha((0.1 * 255).toInt()),
           borderRadius: BorderRadius.circular(16),
         ),
         child: _buildBadgeContent(themeData, groupName),

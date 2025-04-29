@@ -152,7 +152,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
+                  color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
                   width: 0.5,
                 ),
               ),
