@@ -4,7 +4,7 @@ storage_mode("git")
 
 type("appstore") # The default type, can be: appstore, adhoc, enterprise or development
 
-app_identifier("app.verse.prototype.plur")
+app_identifier(["app.verse.prototype.plur", "app.verse.prototype.plur-staging", "app.verse.prototype.plur-dev"])
 
 # For all available options run `fastlane match --help`
 # Remove the # in the beginning of the line to enable the other options
