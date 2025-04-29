@@ -122,8 +122,8 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
           vertical: 8,
         ),
         color: themeData.brightness == Brightness.dark
-          ? themeData.highlightColor.withValues(alpha: 0.2 * 255)
-          : Colors.grey.withValues(alpha: 0.1 * 255),
+          ? themeData.highlightColor.withAlpha((0.2 * 255).toInt())
+          : Colors.grey.withAlpha((0.1 * 255).toInt()),
         child: Row(
           children: [
             Icon(Icons.reply, 

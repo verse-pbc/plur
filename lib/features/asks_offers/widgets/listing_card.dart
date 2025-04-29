@@ -31,7 +31,7 @@ class ListingCard extends ConsumerWidget {
     
     // Ask header colors
     final Color askHeaderBg = isDarkMode 
-        ? Colors.blue.shade900.withValues(alpha: 0.4 * 255) 
+        ? Colors.blue.shade900.withAlpha((0.4 * 255).toInt()) 
         : Colors.blue.shade50;
     final Color askTextColor = isDarkMode 
         ? Colors.blue.shade200
@@ -39,7 +39,7 @@ class ListingCard extends ConsumerWidget {
         
     // Offer header colors
     final Color offerHeaderBg = isDarkMode 
-        ? Colors.green.shade900.withValues(alpha: 0.4 * 255) 
+        ? Colors.green.shade900.withAlpha((0.4 * 255).toInt()) 
         : Colors.green.shade50;
     final Color offerTextColor = isDarkMode 
         ? Colors.green.shade200
@@ -64,7 +64,7 @@ class ListingCard extends ConsumerWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
+          color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
           width: 0.5,
         ),
       ),
@@ -82,7 +82,7 @@ class ListingCard extends ConsumerWidget {
                   : offerHeaderBg,
                 border: Border(
                   bottom: BorderSide(
-                    color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
+                    color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
                     width: 0.5,
                   ),
                 ),
@@ -204,7 +204,7 @@ class ListingCard extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
+                    color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
                     width: 0.5,
                   ),
                 ),
@@ -258,11 +258,11 @@ class ListingCard extends ConsumerWidget {
 
     Color statusColor = getStatusColor();
     Color bgColor = isDarkMode 
-        ? statusColor.withValues(alpha: 0.2 * 255) 
-        : statusColor.withValues(alpha: 0.1 * 255);
+        ? statusColor.withAlpha((0.2 * 255).toInt()) 
+        : statusColor.withAlpha((0.1 * 255).toInt());
     Color borderColor = isDarkMode 
-        ? statusColor.withValues(alpha: 0.6 * 255) 
-        : statusColor.withValues(alpha: 0.5 * 255);
+        ? statusColor.withAlpha((0.6 * 255).toInt()) 
+        : statusColor.withAlpha((0.5 * 255).toInt());
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -337,7 +337,7 @@ class ListingCard extends ConsumerWidget {
                 thickness: 1,
                 indent: 8,
                 endIndent: 8,
-                color: customColors.separatorColor.withValues(alpha: 0.5 * 255),
+                color: customColors.separatorColor.withAlpha((0.5 * 255).toInt()),
               ),
               
               Expanded(
@@ -358,7 +358,7 @@ class ListingCard extends ConsumerWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: customColors.separatorColor.withValues(alpha: 0.3 * 255),
+            color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
           ),
           
           TextButton.icon(
