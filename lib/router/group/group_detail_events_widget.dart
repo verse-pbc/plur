@@ -10,6 +10,7 @@ import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 /// View modes for events
 enum EventViewMode {
@@ -490,7 +491,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
             ),
             const SizedBox(height: 24),
             ElevatedButton(
-              onPressed: _loadEvents,
+              onPressed: () => _loadEvents(),
               child: Text(l10n.tryAgain),
             ),
           ],
@@ -513,7 +514,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
               Text("Calendar View Coming Soon"),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: _loadEvents,
+                onPressed: () => _loadEvents(),
                 child: Text("Try Again"),
               ),
             ],

@@ -7,6 +7,7 @@ import 'package:nostrmo/features/events/models/event_rsvp_model.dart';
 import 'package:nostrmo/features/events/nostr_event_kinds.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/group_id_util.dart';
+import 'package:nostrmo/util/error_logger.dart';
 
 /// Provider for accessing event data
 final eventProvider =
@@ -70,18 +71,23 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
         return;
       }
       
-      final eventModel = EventModel.fromEvent(event);
-      final key = '${eventModel.pubkey}:${eventModel.d}';
-      
-      // Check if this is a newer version of an existing event
-      final existingEvent = _latestEvents[key];
-      if (existingEvent == null || 
-          event.createdAt > existingEvent.createdAt.millisecondsSinceEpoch ~/ 1000) {
-        _latestEvents[key] = eventModel;
+      try {
+        final eventModel = EventModel.fromEvent(event);
+        final key = '${eventModel.pubkey}:${eventModel.d}';
+        
+        // Check if this is a newer version of an existing event
+        final existingEvent = _latestEvents[key];
+        if (existingEvent == null || 
+            event.createdAt > existingEvent.createdAt.millisecondsSinceEpoch ~/ 1000) {
+          _latestEvents[key] = eventModel;
+        }
+      } catch (modelError, modelStack) {
+        ErrorLogger.logError('Error creating event model from event', modelError, modelStack);
+        // Continue processing other events, don't rethrow
       }
     } catch (e, stack) {
-      debugPrint('Error processing event: $e');
-      debugPrint('Stack trace: $stack');
+      ErrorLogger.logError('Error processing event', e, stack);
+      // Continue without crashing
     }
   }
 
@@ -96,7 +102,8 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
   Future<void> loadEvents({String? groupId}) async {
     // Check if Nostr client is initialized
     if (nostr == null) {
-      debugPrint('Warning: Nostr client not initialized when loading events');
+      ErrorLogger.logError('Warning: Nostr client not initialized when loading events', 
+        'NullNostrClient', StackTrace.current);
       state = AsyncValue.data([]);
       return;
     }
@@ -111,36 +118,51 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       final timeFilter = Filter(kinds: [EventKindExtension.timeBoundedEvent]);
       
       // Convert filters to JSON to add custom tags
-      final dateFilterJson = dateFilter.toJson();
-      final timeFilterJson = timeFilter.toJson();
+      dynamic dateFilterJson;
+      dynamic timeFilterJson;
+      
+      try {
+        dateFilterJson = dateFilter.toJson();
+        timeFilterJson = timeFilter.toJson();
+      } catch (filterError, filterStack) {
+        ErrorLogger.logError('Error converting filters to JSON', filterError, filterStack);
+        // Create basic JSON filters if conversion fails
+        dateFilterJson = {"kinds": [EventKindExtension.dateBoundedEvent]};
+        timeFilterJson = {"kinds": [EventKindExtension.timeBoundedEvent]};
+      }
       
       // Add group filter if specified
       if (groupId != null) {
-        // For better querying, we'll try multiple formats of the group ID
-        List<String> groupIdFormats = [];
-        
-        // Add original group ID
-        groupIdFormats.add(groupId);
-        
-        // If the group ID starts with wss://, extract the ID part
-        if (groupId.startsWith("wss://")) {
-          final idPart = GroupIdUtil.extractIdPart(groupId);
-          if (idPart.isNotEmpty) {
-            groupIdFormats.add(idPart);
+        try {
+          // For better querying, we'll try multiple formats of the group ID
+          List<String> groupIdFormats = [];
+          
+          // Add original group ID
+          groupIdFormats.add(groupId);
+          
+          // If the group ID starts with wss://, extract the ID part
+          if (groupId.startsWith("wss://")) {
+            final idPart = GroupIdUtil.extractIdPart(groupId);
+            if (idPart.isNotEmpty) {
+              groupIdFormats.add(idPart);
+            }
           }
+          
+          // Standardize the group ID
+          String standardized = GroupIdUtil.standardizeGroupIdString(groupId);
+          if (!groupIdFormats.contains(standardized)) {
+            groupIdFormats.add(standardized);
+          }
+          
+          // Add h-tag filter to both filters
+          dateFilterJson["#h"] = groupIdFormats;
+          timeFilterJson["#h"] = groupIdFormats;
+          
+          debugPrint("Added h-tag filter: ${dateFilterJson["#h"]}");
+        } catch (groupIdError, groupIdStack) {
+          ErrorLogger.logError('Error processing group ID for events', groupIdError, groupIdStack);
+          // Continue without group filtering if it fails
         }
-        
-        // Standardize the group ID
-        String standardized = GroupIdUtil.standardizeGroupIdString(groupId);
-        if (!groupIdFormats.contains(standardized)) {
-          groupIdFormats.add(standardized);
-        }
-        
-        // Add h-tag filter to both filters
-        dateFilterJson["#h"] = groupIdFormats;
-        timeFilterJson["#h"] = groupIdFormats;
-        
-        debugPrint("Added h-tag filter: ${dateFilterJson["#h"]}");
       }
       
       // Cancel previous subscription if exists
@@ -157,8 +179,9 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       try {
         // Query both date and time bounded events
         initialEvents = await nostr!.queryEvents([dateFilterJson, timeFilterJson]);
-      } catch (e) {
-        debugPrint("Error querying events: $e");
+      } catch (queryError, queryStack) {
+        ErrorLogger.logError("Error querying events", queryError, queryStack);
+        // Continue with an empty list if query fails
       }
       
       // Process initial events
@@ -166,20 +189,33 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
         _processEvent(event);
       }
       
-      // Update state after initial load
-      state = AsyncValue.data(_latestEvents.values.toList()
-        ..sort((a, b) => a.startAt.compareTo(b.startAt)));
+      // Update state after initial load (with empty list fallback)
+      try {
+        state = AsyncValue.data(_latestEvents.values.toList()
+          ..sort((a, b) => a.startAt.compareTo(b.startAt)));
+      } catch (sortError, sortStack) {
+        ErrorLogger.logError('Error sorting events', sortError, sortStack);
+        // Fallback to unsorted list if sorting fails
+        state = AsyncValue.data(_latestEvents.values.toList());
+      }
       
       // Subscribe to future events
-      _subscriptionId = "events_${DateTime.now().millisecondsSinceEpoch}";
-      nostr!.subscribe(
-        [dateFilterJson, timeFilterJson],
-        _handleSubscriptionEvent,
-        id: _subscriptionId,
-      );
+      try {
+        _subscriptionId = "events_${DateTime.now().millisecondsSinceEpoch}";
+        nostr!.subscribe(
+          [dateFilterJson, timeFilterJson],
+          _handleSubscriptionEvent,
+          id: _subscriptionId,
+        );
+      } catch (subscribeError, subscribeStack) {
+        ErrorLogger.logError('Error subscribing to events', subscribeError, subscribeStack);
+        // Continue without subscription if it fails
+      }
       
     } catch (error, stackTrace) {
-      state = AsyncValue.error(error, stackTrace);
+      ErrorLogger.logError('Error loading events', error, stackTrace);
+      // Set state to error but with an empty list so the UI can still function
+      state = AsyncValue.data([]);
     }
   }
 
@@ -405,32 +441,38 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
   
   /// Get events for a specific day
   List<EventModel> getEventsForDay(DateTime day, {String? groupId}) {
-    final startOfDay = DateTime(day.year, day.month, day.day);
-    final endOfDay = DateTime(day.year, day.month, day.day, 23, 59, 59);
-    
-    final filtered = filterEvents(
-      groupId: groupId,
-      fromDate: startOfDay,
-      toDate: endOfDay,
-      showPastEvents: true,
-    );
-    
-    // Also include multi-day events that span this day
-    if (state.hasValue) {
-      for (final event in state.value!) {
-        if (event.endAt != null && 
-            event.startAt.isBefore(startOfDay) && 
-            event.endAt!.isAfter(startOfDay)) {
-          // This is a multi-day event that spans the target day
-          if (!filtered.contains(event) && 
-              (groupId == null || GroupIdUtil.doGroupIdsMatch(groupId, event.groupId))) {
-            filtered.add(event);
+    try {
+      final startOfDay = DateTime(day.year, day.month, day.day);
+      final endOfDay = DateTime(day.year, day.month, day.day, 23, 59, 59);
+      
+      final filtered = filterEvents(
+        groupId: groupId,
+        fromDate: startOfDay,
+        toDate: endOfDay,
+        showPastEvents: true,
+      );
+      
+      // Also include multi-day events that span this day
+      if (state.hasValue) {
+        for (final event in state.value!) {
+          if (event.endAt != null && 
+              event.startAt.isBefore(startOfDay) && 
+              event.endAt!.isAfter(startOfDay)) {
+            // This is a multi-day event that spans the target day
+            if (!filtered.contains(event) && 
+                (groupId == null || GroupIdUtil.doGroupIdsMatch(groupId, event.groupId))) {
+              filtered.add(event);
+            }
           }
         }
       }
+      
+      return filtered..sort((a, b) => a.startAt.compareTo(b.startAt));
+    } catch (e, stack) {
+      debugPrint('Error getting events for day: $e');
+      debugPrint('Stack trace: $stack');
+      return [];
     }
-    
-    return filtered..sort((a, b) => a.startAt.compareTo(b.startAt));
   }
   
   /// Get an event by ID
@@ -531,18 +573,23 @@ class EventRSVPNotifier extends StateNotifier<AsyncValue<List<EventRSVPModel>>> 
         return;
       }
       
-      final rsvpModel = EventRSVPModel.fromEvent(event);
-      final key = '${rsvpModel.pubkey}:${rsvpModel.eventDTag}';
-      
-      // Check if this is a newer version of an existing RSVP
-      final existingRSVP = _latestRSVPs[key];
-      if (existingRSVP == null || 
-          event.createdAt > existingRSVP.createdAt.millisecondsSinceEpoch ~/ 1000) {
-        _latestRSVPs[key] = rsvpModel;
+      try {
+        final rsvpModel = EventRSVPModel.fromEvent(event);
+        final key = '${rsvpModel.pubkey}:${rsvpModel.eventDTag}';
+        
+        // Check if this is a newer version of an existing RSVP
+        final existingRSVP = _latestRSVPs[key];
+        if (existingRSVP == null || 
+            event.createdAt > existingRSVP.createdAt.millisecondsSinceEpoch ~/ 1000) {
+          _latestRSVPs[key] = rsvpModel;
+        }
+      } catch (modelError, modelStack) {
+        ErrorLogger.logError('Error creating RSVP model from event', modelError, modelStack);
+        // Continue processing other events, don't rethrow
       }
     } catch (e, stack) {
-      debugPrint('Error processing RSVP event: $e');
-      debugPrint('Stack trace: $stack');
+      ErrorLogger.logError('Error processing RSVP event', e, stack);
+      // Continue without crashing
     }
   }
 
