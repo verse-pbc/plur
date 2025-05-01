@@ -31,7 +31,29 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  # Run our patch script before installing pods
+  system('ruby', File.join(File.dirname(File.realpath(__FILE__)), 'mobile_scanner_podspec_patch.rb'))
+  
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+  
+  # Force specific version for GoogleMLKit/MLKitCore
+  pod 'GoogleMLKit/MLKitCore', '7.0.0'
+end
+
+# Add a pre-install hook to modify the specifications before installation
+pre_install do |installer|
+  # Override the dependency requirements to force a specific version
+  # This is a more direct approach to resolve version conflicts
+  installer.pod_targets.each do |pod|
+    if pod.name.include?('GoogleMLKit') || pod.name.include?('MLKit')
+      # Force all GoogleMLKit dependencies to accept version 7.0.0 of MLKitCore
+      pod.root_spec.dependencies.each do |dependency|
+        if dependency.name.include?('MLKitCore')
+          dependency.requirement = Gem::Requirement.new('= 7.0.0')
+        end
+      end
+    end
+  end
 end
 
 post_install do |installer|
@@ -58,27 +80,6 @@ post_install do |installer|
         'PERMISSION_MICROPHONE=1',
         'PERMISSION_NOTIFICATIONS=1'
       ]
-    end
-  end
-  
-  # Fix for GoogleMLKit/MLKitCore version conflict
-  # Force all pods to use the same version of GoogleMLKit/MLKitCore
-  installer.pods_project.targets.each do |target|
-    if target.name == 'GoogleMLKit-MLKitCore'
-      target.build_configurations.each do |config|
-        # Force the version to 7.0.0 which is required by google_mlkit_translation
-        config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'com.google.mlkit.core'
-      end
-    end
-  end
-  
-  # Fix dependencies that might be using the wrong version
-  installer.pods_project.dependency_targets.each do |target|
-    if target.name.include?('GoogleMLKit') || target.name.include?('MLKit')
-      target.build_configurations.each do |config|
-        # Ensure all MLKit dependencies use the same base
-        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-      end
     end
   end
 end
