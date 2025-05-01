@@ -381,6 +381,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "linkPreview": MessageLookupByLibrary.simpleMessage("Link preview"),
         "links": MessageLookupByLibrary.simpleMessage("Links"),
         "list": MessageLookupByLibrary.simpleMessage("List"),
+        "lnbc": MessageLookupByLibrary.simpleMessage("Lightning Invoice"),
         "lnurlAndLud16CantFound": MessageLookupByLibrary.simpleMessage(
             "Lnurl and Lud16 can\'t found."),
         "loading": MessageLookupByLibrary.simpleMessage("loading"),

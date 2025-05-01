@@ -11,7 +11,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 // Import custom web plugin registrant - will gracefully handle non-web platforms
 import 'web_plugin_registrant_custom.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
 import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -526,7 +526,7 @@ class _MyApp extends State<MyApp> {
   Widget build(BuildContext context) {
     Locale? locale;
     if (StringUtil.isNotBlank(settingsProvider.i18n)) {
-      for (var item in S.delegate.supportedLocales) {
+      for (var item in S.supportedLocales) {
         if (item.languageCode == settingsProvider.i18n &&
             item.countryCode == settingsProvider.i18nCC) {
           locale = Locale(settingsProvider.i18n!, settingsProvider.i18nCC);
@@ -702,112 +702,13 @@ class _MyApp extends State<MyApp> {
         child: MaterialApp(
           navigatorKey: MyApp.navigatorKey,
           builder: (context, child) {
-            try {
-              // Wrap in a try-catch to ensure app continues even if BotToast fails
-              final botToastBuilder = BotToastInit();
-              final botToastChild = botToastBuilder(context, child);
-              
-              // Clean up any existing BotToast cancel functions to prevent memory leaks
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                try {
-                  StyledBotToast.cleanUp();
-                } catch (e) {
-                  debugPrint("Error cleaning up toast: $e");
-                }
-              });
-              
-              // Wrap app in global error boundary
-              return ErrorBoundary(
-                errorBuilder: (error, stackTrace) {
-                  // Suppress image encoding errors completely by checking the error message
-                  final errorMessage = error.toString();
-                  if (errorMessage.contains("EncodingError") || 
-                      errorMessage.contains("source image cannot be decoded")) {
-                    // For image encoding errors, just return the original content without showing an error
-                    // This prevents the error boundary from displaying the error UI for image issues
-                    try {
-                      return botToastChild;
-                    } catch (e) {
-                      // If there's any issue, use an empty container as absolute fallback
-                      return const SizedBox();
-                    }
-                  }
-                  
-                  // For non-image errors, show the custom error view
-                  return Scaffold(
-                    appBar: AppBar(
-                      title: const Text('Error Encountered'),
-                      backgroundColor: Colors.red[700],
-                    ),
-                    body: Container(
-                      padding: const EdgeInsets.all(16.0),
-                      child: ListView(
-                        children: [
-                          const Text(
-                            'An unexpected error occurred',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Text(
-                            error.toString(),
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                          const SizedBox(height: 8),
-                          if (stackTrace != null)
-                            Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Text(
-                                stackTrace.toString(),
-                                style: const TextStyle(
-                                  fontFamily: 'monospace',
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamedAndRemoveUntil(
-                                RouterPath.index,
-                                (route) => false,
-                              );
-                            },
-                            child: const Text('Return to Home'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-                child: botToastChild,
-              );
-            } catch (e, stack) {
-              // If BotToast initialization fails, continue without it
-              log(
-                'Error initializing BotToast: $e',
-                name: 'AppBuilder',
-                error: e,
-                stackTrace: stack,
-              );
-              
-              // Return the child wrapped in error boundary - ensure child is non-null
-              return ErrorBoundary(
-                child: child ?? const SizedBox(),
-              );
-            }
+            final botToastBuilder = BotToastInit();
+            return botToastBuilder(context, child);
           },
           navigatorObservers: [
             BotToastNavigatorObserver(),
             webViewProvider.webviewNavigatorObserver,
           ],
-          // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
           locale: locale,
           title: Base.appName,
@@ -818,7 +719,7 @@ class _MyApp extends State<MyApp> {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: S.delegate.supportedLocales,
+          supportedLocales: S.supportedLocales,
           theme: defaultTheme,
           darkTheme: defaultDarkTheme,
           themeMode: settingsProvider.themeStyle == ThemeStyle.light
@@ -1145,7 +1046,7 @@ AppBarTheme _appBarTheme({
       ),
     );
 
-TabBarTheme _tabBarTheme() => TabBarTheme(
+TabBarThemeData _tabBarTheme() => TabBarThemeData(
       indicatorColor: Colors.white,
       indicatorSize: TabBarIndicatorSize.tab,
       dividerHeight: 0,

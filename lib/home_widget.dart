@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/main.dart';
@@ -68,7 +68,7 @@ class _HomeWidgetState extends State<HomeWidget> {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: S.delegate.supportedLocales,
+      supportedLocales: S.supportedLocales,
       theme: widget.theme,
       home: Stack(
         children: [

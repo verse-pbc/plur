@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:quill_native_bridge/quill_native_bridge.dart';
 import 'package:intl/intl.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/editor/lnbc_embed_builder.dart';
@@ -365,7 +366,7 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
 
     Widget quillWidget = QuillEditor(
       controller: editorController,
-      configurations: QuillEditorConfigurations(
+      config: QuillEditorConfig(
         placeholder: localization.whatSHappening,
         embedBuilders: [
           MentionUserEmbedBuilder(),
@@ -379,11 +380,11 @@ class _EditorWidgetState extends CustState<EditorWidget> with EditorMixin {
         scrollable: true,
         autoFocus: false,
         expands: false,
-        // padding: EdgeInsets.zero,
         padding: const EdgeInsets.only(
           left: Base.basePadding,
           right: Base.basePadding,
         ),
+        maxHeight: 300,
       ),
       scrollController: ScrollController(),
       focusNode: focusNode,

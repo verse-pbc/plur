@@ -508,5 +508,6 @@
     "expired": "Expired",
     "inviteExpired": "This invite has expired",
     "joinCommunity": "Join Community",
-    "expiringNow": "Expiring now"
+    "expiringNow": "Expiring now",
+    "lnbc": "Lightning Invoice"
 }

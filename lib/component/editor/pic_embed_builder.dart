@@ -9,9 +9,8 @@ import '../image_widget.dart';
 
 class PicEmbedBuilder extends EmbedBuilder {
   @override
-  Widget build(BuildContext context, QuillController controller, Embed node,
-      bool readOnly, bool inline, TextStyle textStyle) {
-    var imageUrl = node.value.data as String;
+  Widget build(BuildContext context, EmbedContext embedContext) {
+    var imageUrl = embedContext.node.value.data as String;
     
     Widget child;
     if (imageUrl.indexOf("http") == 0 || imageUrl.indexOf(BASE64.prefix) == 0) {
