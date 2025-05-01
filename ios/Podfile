@@ -36,9 +36,9 @@ target 'Runner' do
   
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
-  # Use consistent versions of MLKit packages
-  pod 'GoogleMLKit/BarcodeScanning', '8.0.0'
-  pod 'GoogleMLKit/Translate', '~> 7.0.0'
+  # Use available versions of MLKit packages
+  pod 'GoogleMLKit/BarcodeScanning', '4.0.0'
+  pod 'GoogleMLKit/Translate', '7.0.0'
 end
 
 # Add source for GoogleMLKit pods
@@ -46,18 +46,24 @@ source 'https://github.com/CocoaPods/Specs.git'
 source 'https://cdn.cocoapods.org/'
 
 pre_install do |installer|
-  # Force consistent versions for all MLKit dependencies
+  # Handle version conflicts by allowing different versions for different packages
+  # This is necessary because BarcodeScanning and Translate use different MLKit versions
   installer.pod_targets.each do |pod|
-    if pod.name.include?('GoogleMLKit') || pod.name.include?('MLKit')
+    if pod.name.include?('GoogleMLKit/BarcodeScanning') || pod.name.include?('MLKit/BarcodeScanning')
       pod.root_spec.dependencies.each do |dependency|
         if dependency.name.include?('MLKitCore')
-          dependency.requirement = Gem::Requirement.new('= 8.0.0')
+          dependency.requirement = Gem::Requirement.new('= 4.0.0')
         end
         if dependency.name.include?('MLKitVision')
-          dependency.requirement = Gem::Requirement.new('= 8.0.0')
+          dependency.requirement = Gem::Requirement.new('= 4.0.0')
         end
-        if dependency.name.include?('MLKitCommon')
-          dependency.requirement = Gem::Requirement.new('= 9.0.0')
+      end
+    end
+    
+    if pod.name.include?('GoogleMLKit/Translate') || pod.name.include?('MLKit/Translate')
+      pod.root_spec.dependencies.each do |dependency|
+        if dependency.name.include?('MLKitCore')
+          dependency.requirement = Gem::Requirement.new('= 7.0.0')
         end
       end
     end
