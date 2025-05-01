@@ -23,11 +23,19 @@ def patch_podspec(podspec_path)
   
   # Check if we need to update the BarcodeScanning dependency
   if content.include?('GoogleMLKit/BarcodeScanning')
-    # Keep the original version since it's compatible
+    # Replace all references to 8.0.0 with 4.0.0
     patched_content = content.gsub(
-      /s\.dependency 'GoogleMLKit\/BarcodeScanning', '~> 4\.0\.0'/,
-      "s.dependency 'GoogleMLKit/BarcodeScanning', '4.0.0'"
+      /s\.dependency 'GoogleMLKit\/BarcodeScanning',.*8\.0\.0.*\)/,
+      "s.dependency 'GoogleMLKit/BarcodeScanning', '4.0.0')"
     )
+
+    # If no changes were made, fall back to existing logic
+    if patched_content == content
+      patched_content = content.gsub(
+        /s\.dependency 'GoogleMLKit\/BarcodeScanning', '~> 4\.0\.0'/,
+        "s.dependency 'GoogleMLKit/BarcodeScanning', '4.0.0'"
+      )
+    end
   elsif content.include?('MLKit/BarcodeScanning')
     # Replace MLKit/BarcodeScanning with GoogleMLKit/BarcodeScanning
     patched_content = content.gsub(
