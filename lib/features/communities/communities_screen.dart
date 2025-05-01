@@ -14,6 +14,7 @@ import '../../component/shimmer/shimmer.dart';
 import '../../util/theme_util.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
+import 'communities_list_widget.dart';
 
 class CommunitiesScreen extends ConsumerStatefulWidget {
   const CommunitiesScreen({super.key});
@@ -93,6 +94,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   
   // Persistent cached widgets that survive rebuild cycles
   static Widget? _cachedGridWidget;
+  static Widget? _cachedListWidget;
   static Widget? _cachedFeedWidget;
   static Widget? _cachedEmptyWidget;
   
@@ -178,14 +180,22 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
         // Check if we have cached widgets to show immediately
         if (!viewModeChanged && 
             ((viewMode == CommunityViewMode.feed && _cachedFeedWidget != null) || 
-             (viewMode == CommunityViewMode.grid && _cachedGridWidget != null))) {
+             (viewMode == CommunityViewMode.grid && _cachedGridWidget != null) ||
+             (viewMode == CommunityViewMode.list && _cachedListWidget != null))) {
           // Return cached widget immediately
+          Widget cachedWidget;
+          if (viewMode == CommunityViewMode.feed) {
+            cachedWidget = _cachedFeedWidget!;
+          } else if (viewMode == CommunityViewMode.list) {
+            cachedWidget = _cachedListWidget!;
+          } else {
+            cachedWidget = _cachedGridWidget!;
+          }
+          
           return _buildScaffold(
             context, 
             viewMode,
-            viewMode == CommunityViewMode.feed 
-                ? _cachedFeedWidget!
-                : _cachedGridWidget!,
+            cachedWidget,
             feedProvider
           );
         }
@@ -218,6 +228,9 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   }
                   
                   // Choose content based on view mode with persistent caching
+                  // Create a copy of the list to sort
+                  final sortedGroupIds = List<GroupIdentifier>.from(groupIds);
+                  
                   if (viewMode == CommunityViewMode.feed) {
                     // Only create feed widget if not already cached
                     if (_cachedFeedWidget == null) {
@@ -230,13 +243,23 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                       debugPrint("♻️ REUSING CACHED FEED WIDGET");
                     }
                     return _cachedFeedWidget!;
+                  } else if (viewMode == CommunityViewMode.list) {
+                    // Only create list widget if not already cached
+                    if (_cachedListWidget == null || viewModeChanged) {
+                      debugPrint("🏗️ CREATING CACHED LIST WIDGET: first time=${_cachedListWidget == null}, viewModeChanged=$viewModeChanged");
+                      
+                      _cachedListWidget = Shimmer(
+                        linearGradient: shimmerGradient,
+                        child: CommunitiesListWidget(groupIds: sortedGroupIds),
+                      );
+                    } else {
+                      debugPrint("♻️ REUSING CACHED LIST WIDGET");
+                    }
+                    return _cachedListWidget!;
                   } else {
                     // Only create grid widget if not already cached
                     if (_cachedGridWidget == null || viewModeChanged) {
                       debugPrint("🏗️ CREATING CACHED GRID WIDGET: first time=${_cachedGridWidget == null}, viewModeChanged=$viewModeChanged");
-                      
-                      // Create a copy of the list to sort (no-op for now, sorting will be added in a future PR)
-                      final sortedGroupIds = List<GroupIdentifier>.from(groupIds);
                       
                       _cachedGridWidget = Shimmer(
                         linearGradient: shimmerGradient,
