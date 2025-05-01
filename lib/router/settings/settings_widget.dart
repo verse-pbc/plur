@@ -329,7 +329,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     if (i18nList == null) {
       i18nList = [];
       i18nList!.add(EnumObj("", localization.auto));
-      for (var item in S.delegate.supportedLocales) {
+      for (var item in S.supportedLocales) {
         var key = LocaleUtil.getLocaleKey(item);
         i18nList!.add(EnumObj(key, key));
       }
@@ -352,7 +352,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       if (resultEnumObj.value == "") {
         settingsProvider.setI18n(null, null);
       } else {
-        for (var item in S.delegate.supportedLocales) {
+        for (var item in S.supportedLocales) {
           var key = LocaleUtil.getLocaleKey(item);
           if (resultEnumObj.value == key) {
             settingsProvider.setI18n(item.languageCode, item.countryCode);
