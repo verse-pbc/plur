@@ -42,6 +42,7 @@ import 'package:nostrmo/router/group/group_edit_widget.dart';
 import 'package:nostrmo/router/group/group_members/group_members_screen.dart';
 import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
+import 'package:nostrmo/router/group/invite_by_name_widget.dart';
 import 'package:nostrmo/router/group/group_media_grid_widget.dart';
 // Media screen import temporarily commented out until file is created
 // import 'package:nostrmo/router/group/group_media_screen.dart';
@@ -296,6 +297,7 @@ Future<void> initializeProviders({bool isTesting = false}) async {
     log("Stack trace: $stackTrace");
   }
 }
+
 
 Future<void> main() async {
   try {
@@ -896,6 +898,20 @@ class _MyApp extends State<MyApp> {
                     value: mediaGroupId,
                     // TODO: Implement GroupMediaScreen
                     child: const Text("Group Media Screen not implemented yet"),
+                  ),
+                );
+                
+              case RouterPath.inviteByName:
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesScreen(),
+                  );
+                }
+                
+                final groupId = settings.arguments as GroupIdentifier;
+                return MaterialPageRoute(
+                  builder: (context) => InviteByNameWidget(
+                    groupIdentifier: groupId,
                   ),
                 );
                 

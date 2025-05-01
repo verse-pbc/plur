@@ -22,7 +22,7 @@ class CommunityTitleWidget extends StatelessWidget {
             width: double.infinity,
             height: 24,
             decoration: BoxDecoration(
-              color: themeData.colorScheme.primary.withAlpha(51),
+              color: themeData.colorScheme.primary.withAlpha(51), // 51 is approx 20% opacity
               borderRadius: BorderRadius.circular(16),
             ),
           ),

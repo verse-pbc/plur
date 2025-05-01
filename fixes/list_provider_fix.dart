@@ -18,12 +18,15 @@ import '../util/router_util.dart';
 import '../provider/relay_provider.dart';
 import '../provider/group_feed_provider.dart';
 
+// Define a callback type for the refresh method
+typedef GroupFeedRefreshCallback = void Function();
+
 /// Standard list provider.
 /// These list usually publish by user himself and the provider will hold the newest one.
 class ListProvider extends ChangeNotifier {
-  // Reference to the GroupFeedProvider for coordination
-  // This will be set by the GroupFeedProvider when it's created
-  static GroupFeedProvider? groupFeedProvider;
+  // Replace the static reference with a callback-based approach
+  GroupFeedRefreshCallback? onGroupsChanged;
+  
   // holder, hold the events.
   // key - "kind:pubkey", value - event
   final Map<String, Event> _holder = {};
@@ -716,13 +719,12 @@ class ListProvider extends ChangeNotifier {
       await nostr!.sendEvent(updateGroupListEvent);
       log("Successfully sent updated group list event", name: "ListProvider");
       
-      // Force GroupFeedProvider to refresh if it exists
-      log("Attempting to refresh GroupFeedProvider...", name: "ListProvider");
-      if (groupFeedProvider != null) {
-        log("Refreshing GroupFeedProvider to show new groups", name: "ListProvider");
-        groupFeedProvider!.refresh();
+      // Use the callback instead of direct static reference
+      if (onGroupsChanged != null) {
+        log("Notifying feed provider through callback", name: "ListProvider");
+        onGroupsChanged!();
       } else {
-        log("GroupFeedProvider not available, can't refresh", name: "ListProvider");
+        log("No callback registered, can't notify feed provider", name: "ListProvider");
       }
     } catch (e) {
       log("Error updating groups list: $e", name: "ListProvider");
@@ -809,10 +811,10 @@ class ListProvider extends ChangeNotifier {
         inviteLink = createInviteLink(newGroup, inviteCode);
         log("Created invite link: $inviteLink", name: "ListProvider");
         
-        // Force refresh group data
-        if (groupFeedProvider != null) {
-          log("Refreshing GroupFeedProvider to show new group", name: "ListProvider");
-          groupFeedProvider!.refresh();
+        // Use the callback mechanism to notify feed providers
+        if (onGroupsChanged != null) {
+          log("Notifying feed provider through callback", name: "ListProvider");
+          onGroupsChanged!();
         }
         
         // Notify listeners to update UI
@@ -1252,6 +1254,18 @@ class ListProvider extends ChangeNotifier {
     });
     
     return completer.future;
+  }
+  
+  /// Register a callback to be notified when groups change
+  void registerGroupsChangedCallback(GroupFeedRefreshCallback callback) {
+    onGroupsChanged = callback;
+    log("Registered GroupFeedRefreshCallback", name: "ListProvider");
+  }
+  
+  /// Unregister the callback when no longer needed
+  void unregisterGroupsChangedCallback() {
+    onGroupsChanged = null;
+    log("Unregistered GroupFeedRefreshCallback", name: "ListProvider");
   }
 }
 

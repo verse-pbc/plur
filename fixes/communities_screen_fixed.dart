@@ -2,21 +2,22 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/provider/group_feed_provider.dart';
-import 'package:nostrmo/provider/group_read_status_provider.dart';
-import 'package:nostrmo/provider/index_provider.dart';
-import 'package:nostrmo/provider/list_provider.dart';
-import 'package:nostrmo/router/group/communities_feed_widget.dart';
-import 'package:nostrmo/router/group/no_communities_widget.dart';
-// Import Provider package with an alias to avoid conflicts
 import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
 import '../../util/theme_util.dart';
+import '../provider/group_feed_provider.dart';
+import '../provider/group_read_status_provider.dart';
+import '../provider/index_provider.dart';
+import '../provider/list_provider.dart';
+import '../router/group/communities_feed_widget.dart';
+import '../router/group/no_communities_widget.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';
 
+/// This is an improved implementation of the CommunitiesScreen that ensures
+/// proper provider initialization order and avoids static references.
 class CommunitiesScreen extends ConsumerStatefulWidget {
   const CommunitiesScreen({super.key});
 
@@ -27,10 +28,6 @@ class CommunitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with AutomaticKeepAliveClientMixin {
-  // Cached instances to ensure provider stability
-  GroupReadStatusProvider? _readStatusProvider;
-  GroupFeedProvider? _feedProvider;
-  
   // Persistent cached widgets that survive rebuild cycles
   static Widget? _cachedGridWidget;
   static Widget? _cachedListWidget;
@@ -45,58 +42,6 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   
   @override
   bool get wantKeepAlive => true;
-
-  @override
-  void initState() {
-    super.initState();
-    
-    // Initialize the providers on startup
-    _createProviders();
-  }
-
-  // Create providers that will live for the lifetime of this widget
-  void _createProviders() {
-    // Create providers only if they don't exist yet
-    if (_readStatusProvider == null) {
-      _readStatusProvider = GroupReadStatusProvider();
-      _readStatusProvider!.init();
-    }
-    
-    if (_feedProvider == null) {
-      // We'll get the ListProvider in didChangeDependencies
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {
-            // This will trigger didChangeDependencies which will complete setup
-          });
-        }
-      });
-    }
-  }
-  
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    
-    // Complete provider setup when context is available
-    if (_feedProvider == null && _readStatusProvider != null) {
-      try {
-        // Get the list provider from context
-        final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
-        
-        // Create the feed provider with both dependencies
-        _feedProvider = GroupFeedProvider(listProvider, _readStatusProvider);
-        
-        // Initialize feed provider
-        _feedProvider!.subscribe();
-        if (_feedProvider!.notesBox.isEmpty()) {
-          _feedProvider!.doQuery(null);
-        }
-      } catch (e) {
-        debugPrint("Error getting list provider: $e");
-      }
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,7 +72,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
         }
         _lastViewMode = viewMode;
         
-        // Build UI with local providers
+        // Create the providers for groups
         return _buildProviderTree(
           context,
           child: Consumer(
@@ -206,32 +151,53 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     );
   }
 
-  /// Build the provider tree with local providers
+  /// Build the provider tree with proper dependencies
   Widget _buildProviderTree(BuildContext context, {required Widget child}) {
-    // Make sure providers are created
-    if (_readStatusProvider == null || _feedProvider == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    
-    // Provide the local providers to the child widgets
     return provider.MultiProvider(
       providers: [
-        provider.ChangeNotifierProvider<GroupReadStatusProvider>.value(
-          value: _readStatusProvider!,
+        provider.ChangeNotifierProvider(
+          create: (context) {
+            // Create a new instance of GroupReadStatusProvider
+            final readStatusProvider = GroupReadStatusProvider();
+            
+            // Initialize it immediately
+            Future.microtask(() {
+              readStatusProvider.init();
+            });
+            
+            return readStatusProvider;
+          },
         ),
-        provider.ChangeNotifierProvider<GroupFeedProvider>.value(
-          value: _feedProvider!,
+        provider.Consumer<GroupReadStatusProvider>(
+          builder: (context, readStatusProvider, _) {
+            // Get the ListProvider from higher in the tree
+            final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
+            
+            // Now create the GroupFeedProvider with correct dependencies
+            return provider.ChangeNotifierProvider(
+              create: (context) {
+                // Create with both dependencies
+                final feedProvider = GroupFeedProvider(listProvider, readStatusProvider);
+                
+                // Schedule post-frame initialization to ensure counts are updated
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  // Initialize the feed provider
+                  if (feedProvider.notesBox.isEmpty()) {
+                    feedProvider.subscribe();
+                    feedProvider.doQuery(null);
+                  } else {
+                    // Update counts from existing data
+                    feedProvider.updateAllGroupReadCounts();
+                  }
+                });
+                
+                return feedProvider;
+              },
+              child: child,
+            );
+          },
         ),
       ],
-      child: child,
     );
-  }
-  
-  @override
-  void dispose() {
-    // No need to dispose providers here - they'll be disposed automatically
-    super.dispose();
   }
 }

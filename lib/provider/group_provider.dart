@@ -9,12 +9,17 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, GroupAdmins> groupAdmins = {};
 
   Map<String, GroupMembers> groupMembers = {};
+  
+  // Track pending invites: map of group key to list of invite events
+  Map<String, List<Event>> pendingInvites = {};
 
   final Map<String, int> _handlingMetadataIds = {};
 
   final Map<String, int> _handlingAdminsIds = {};
 
   final Map<String, int> _handlingMembersIds = {};
+  
+  final Map<String, int> _handlingInviteIds = {};
 
   int now() {
     return DateTime.now().millisecondsSinceEpoch ~/ 1000;
@@ -27,6 +32,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     _handlingMetadataIds[key] = t;
     _handlingAdminsIds[key] = t;
     _handlingMembersIds[key] = t;
+    _handlingInviteIds[key] = t;
   }
 
   void deleteEvent(GroupIdentifier groupIdentifier, String eventId) {
@@ -89,6 +95,43 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
 
   int getMemberCount(GroupIdentifier groupIdentifier) =>
       getMembers(groupIdentifier)?.members?.length ?? 0;
+      
+  // Pending invite methods
+  
+  /// Extract invite details from an event
+  (String, List<String>) getInviteDetails(Event inviteEvent) {
+    String inviteCode = "";
+    List<String> roles = ["member"];
+    
+    for (final tag in inviteEvent.tags) {
+      if (tag.length > 1) {
+        if (tag[0] == "code") {
+          inviteCode = tag[1].toString();
+        } else if (tag[0] == "roles" && tag.length > 1) {
+          roles = tag.sublist(1).map((role) => role.toString()).toList().cast<String>();
+        }
+      }
+    }
+    
+    return (inviteCode, roles);
+  }
+      
+  /// Returns the list of pending invite events for a group
+  List<Event> getPendingInvites(GroupIdentifier groupIdentifier) {
+    var key = groupIdentifier.toString();
+    var invites = pendingInvites[key];
+    if (invites != null) {
+      return invites;
+    }
+    
+    // If no pending invites cached, return empty list for now
+    // In a real implementation, this would query the relay for invite events
+    return [];
+  }
+  
+  /// Get the count of pending invites for a group
+  int getPendingInviteCount(GroupIdentifier groupIdentifier) =>
+      getPendingInvites(groupIdentifier).length;
 
   void _updateMember(GroupIdentifier groupIdentifier) {
     var membersJsonMap =
@@ -168,6 +211,37 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
       relayTypes: RelayType.tempAndLocal,
       sendAfterAuth: true,
     );
+    
+    // Also query for pending invites
+    queryInvites(groupIdentifier);
+  }
+  
+  /// Query for pending invites for this group
+  void queryInvites(GroupIdentifier groupIdentifier) {
+    final groupId = groupIdentifier.groupId;
+    final host = groupIdentifier.host;
+    
+    // Filter to get all group create invite events for this group
+    final filter = Filter(
+      kinds: [EventKind.groupCreateInvite],
+      authors: [nostr!.publicKey], // Only get invites created by the current user
+    );
+    final filterMap = filter.toJson();
+    filterMap["#h"] = [groupId]; // Filter for our group ID in the "h" tag
+    
+    if (nostr == null) {
+      Sentry.captureMessage("nostr is null", level: SentryLevel.error);
+      return;
+    }
+    
+    nostr!.query(
+      [filterMap],
+      (e) => onInviteEvent(groupIdentifier, e),
+      tempRelays: [host],
+      targetRelays: [host],
+      relayTypes: RelayType.tempAndLocal,
+      sendAfterAuth: true,
+    );
   }
 
   void onEvent(GroupIdentifier groupIdentifier, Event e) {
@@ -184,12 +258,61 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     } else if (e.kind == EventKind.groupEditMetadata) {
       updated = handleEvent(
           groupMetadatas, groupIdentifier, GroupMetadata.loadFromEvent(e));
+    } else if (e.kind == EventKind.groupCreateInvite) {
+      updated = handleInviteEvent(groupIdentifier, e);
     }
 
     if (updated) {
       notifyListeners();
     }
   }
+  
+  /// Handler for group invite events
+  void onInviteEvent(GroupIdentifier groupIdentifier, Event e) {
+    if (e.kind == EventKind.groupCreateInvite) {
+      bool updated = handleInviteEvent(groupIdentifier, e);
+      if (updated) {
+        notifyListeners();
+      }
+    }
+  }
+  
+  /// Process invite events and check if they've been accepted
+  bool handleInviteEvent(GroupIdentifier groupIdentifier, Event inviteEvent) {
+    final groupKey = groupIdentifier.toString();
+    
+    // Extract the invite code (we'll need it to check if it was accepted)
+    String? inviteCode;
+    for (var tag in inviteEvent.tags) {
+      if (tag is List && tag.length > 1 && tag[0] == "code") {
+        inviteCode = tag[1];
+        break;
+      }
+    }
+    
+    if (inviteCode == null) {
+      // Not a valid invite event
+      return false;
+    }
+    
+    // Initialize the pending invites list if it doesn't exist for this group
+    if (!pendingInvites.containsKey(groupKey)) {
+      pendingInvites[groupKey] = [];
+    }
+    
+    // Check if we already have this event
+    bool alreadyHave = pendingInvites[groupKey]!.any((e) => e.id == inviteEvent.id);
+    if (alreadyHave) {
+      return false;
+    }
+    
+    // Add the invite event to our list
+    pendingInvites[groupKey]!.add(inviteEvent);
+    return true;
+  }
+  
+  // Method removed to fix duplicate declaration
+  // The getInviteDetails method is already defined at line 102
 
   /// Updates the given Map with the new data contained in groupIdentifier and
   /// groupObject with some validation to filter out bad data.

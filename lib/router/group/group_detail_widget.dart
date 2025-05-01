@@ -3,7 +3,9 @@ import 'package:nostr_sdk/event.dart' as nostr_event;
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event_delete_callback.dart';
 import 'package:nostrmo/component/group_identifier_inherited_widget.dart';
+import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/group_provider.dart';
+import 'package:nostrmo/provider/group_providers.dart';
 import 'package:nostrmo/router/edit/editor_widget.dart';
 import 'package:nostrmo/router/group/group_detail_asks_offers_widget.dart';
 import 'package:nostrmo/router/group/group_detail_chat_widget.dart';
@@ -84,22 +86,38 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
     final groupAdmins = groupProvider.getAdmins(groupIdentifier);
     final isAdmin = groupAdmins?.containsUser(nostr!.publicKey) ?? false;
 
-    return Scaffold(
-      body: EventDeleteCallback(
-        onDeleteCallback: _onEventDelete,
-        child: GroupIdentifierInheritedWidget(
-          key: Key("GD_${groupIdentifier.toString()}"),
-          groupIdentifier: groupIdentifier,
-          groupAdmins: groupAdmins,
-          child: CustomScrollView(
-            slivers: [
-              _buildAppBar(context, groupIdentifier, groupMetadata, isAdmin),
-              _buildMainContent(context, groupIdentifier, groupMetadata),
-            ],
-          ),
-        ),
+    // Wrap in GroupProviders to ensure access to read status tracking
+    return GroupProviders(
+      child: Builder(
+        builder: (providerContext) {
+          // Schedule marking the group as viewed after the build is complete
+          // This avoids the "setState during build" error
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (providerContext.mounted) {
+              final feedProvider = Provider.of<GroupFeedProvider>(providerContext, listen: false);
+              feedProvider.markGroupViewed(groupIdentifier);
+            }
+          });
+          
+          return Scaffold(
+            body: EventDeleteCallback(
+              onDeleteCallback: _onEventDelete,
+              child: GroupIdentifierInheritedWidget(
+                key: Key("GD_${groupIdentifier.toString()}"),
+                groupIdentifier: groupIdentifier,
+                groupAdmins: groupAdmins,
+                child: CustomScrollView(
+                  slivers: [
+                    _buildAppBar(providerContext, groupIdentifier, groupMetadata, isAdmin),
+                    _buildMainContent(providerContext, groupIdentifier, groupMetadata),
+                  ],
+                ),
+              ),
+            ),
+            floatingActionButton: _buildFloatingActionButton(),
+          );
+        },
       ),
-      floatingActionButton: _buildFloatingActionButton(),
     );
   }
 
@@ -213,12 +231,76 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   ) {
     final actions = <Widget>[];
     
+    // Add "Mark All as Read" button
+    actions.add(
+      IconButton(
+        icon: const Icon(Icons.mark_email_read),
+        tooltip: "Mark All as Read",
+        onPressed: () {
+          try {
+            // Get the GroupFeedProvider and mark all posts as read
+            final feedProvider = Provider.of<GroupFeedProvider>(context, listen: false);
+            feedProvider.markGroupRead(groupIdentifier);
+            
+            // Show a confirmation message
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text("Marked all as read"),
+                duration: Duration(seconds: 2),
+              ),
+            );
+          } catch (e) {
+            // Show error message if there's an issue
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("${S.of(context).error}: $e"),
+                duration: const Duration(seconds: 3),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+      ),
+    );
+    
     if (isAdmin) {
+      // Create a popup menu for invite options
       actions.add(
-        IconButton(
+        PopupMenuButton<String>(
           icon: const Icon(Icons.person_add),
-          tooltip: 'Invite to Community',
-          onPressed: () => _showInviteDialog(context, groupIdentifier),
+          tooltip: S.of(context).invite,
+          itemBuilder: (context) => [
+            PopupMenuItem<String>(
+              value: 'link',
+              child: Row(
+                children: [
+                  const Icon(Icons.link),
+                  const SizedBox(width: 8),
+                  Text(S.of(context).inviteLink),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'name',
+              child: Row(
+                children: [
+                  const Icon(Icons.search),
+                  const SizedBox(width: 8),
+                  Text(S.of(context).inviteByName),
+                ],
+              ),
+            ),
+          ],
+          onSelected: (value) {
+            switch (value) {
+              case 'link':
+                _showInviteDialog(context, groupIdentifier);
+                break;
+              case 'name':
+                _showInviteByNameScreen(context, groupIdentifier);
+                break;
+            }
+          },
         ),
       );
     }
@@ -240,6 +322,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       groupIdentifier: groupIdentifier,
       listProvider: listProvider,
     );
+  }
+  
+  void _showInviteByNameScreen(BuildContext context, GroupIdentifier groupIdentifier) {
+    RouterUtil.router(context, RouterPath.inviteByName, groupIdentifier);
   }
 
   SliverFillRemaining _buildMainContent(
@@ -326,6 +412,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       case 0:
         // Posts tab - show add note button
         return FloatingActionButton(
+          heroTag: 'group_detail_add_note_fab',
           onPressed: _jumpToAddNote,
           backgroundColor: themeData.customColors.accentColor,
           shape: const CircleBorder(),

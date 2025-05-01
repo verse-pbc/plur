@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/group_feed_provider.dart';
+import 'package:nostrmo/provider/group_providers.dart';
 import 'package:nostrmo/provider/group_read_status_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
@@ -13,9 +15,9 @@ import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
 import '../../util/theme_util.dart';
-import 'communities_controller.dart';
-import 'communities_grid_widget.dart';
-import 'communities_list_widget.dart';
+import '../features/communities/communities_controller.dart';
+import '../features/communities/communities_grid_widget.dart';
+import '../features/communities/communities_list_widget.dart';
 
 class CommunitiesScreen extends ConsumerStatefulWidget {
   const CommunitiesScreen({super.key});
@@ -27,9 +29,59 @@ class CommunitiesScreen extends ConsumerStatefulWidget {
 }
 
 class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with AutomaticKeepAliveClientMixin {
-  // Cached instances to ensure provider stability
-  GroupReadStatusProvider? _readStatusProvider;
-  GroupFeedProvider? _feedProvider;
+  final subscribeId = StringUtil.rndNameStr(16);
+  
+  // Cache for view mode state
+  static CommunityViewMode? _lastViewMode;
+  
+  // Flag to prevent duplicate initialization 
+  static bool _globalInitializationDone = false;
+  
+
+  @override
+  void dispose() {
+    // We don't need to clean up provider references as we're using the Provider
+    // system properly, which will handle disposal for us
+    super.dispose();
+  }
+  
+  // Properly initialize feed provider with appropriate provider tree
+  void _initializeFeedProvider() {
+    // Safely initialize using proper provider dependency mechanisms
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        try {
+          // First access the ListProvider from context
+          final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
+          
+          // Access the GroupReadStatusProvider from context
+          final readStatusProvider = context.read<GroupReadStatusProvider>();
+          
+          // Ensure the read status provider is initialized
+          readStatusProvider.init().then((_) {
+            // Get the GroupFeedProvider
+            final feedProvider = provider.Provider.of<GroupFeedProvider>(context, listen: false);
+            
+            // Initialize the group feed provider only if needed
+            if (feedProvider.notesBox.isEmpty()) {
+              debugPrint("🔄 Initializing feed provider - subscribing and querying");
+              feedProvider.subscribe();
+              feedProvider.doQuery(null);
+            } else {
+              debugPrint("🔄 Feed provider has data - updating counts");
+              // Update counts from existing data
+              feedProvider.updateAllGroupReadCounts();
+            }
+            
+            // Always mark as initialized
+            _globalInitializationDone = true;
+          });
+        } catch (e) {
+          debugPrint("Error getting providers: $e");
+        }
+      }
+    });
+  }
   
   // Persistent cached widgets that survive rebuild cycles
   static Widget? _cachedGridWidget;
@@ -37,63 +89,30 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   static Widget? _cachedFeedWidget;
   static Widget? _cachedEmptyWidget;
   
-  // Cache for view mode state
-  static CommunityViewMode? _lastViewMode;
-  
   // Pre-built loading widget for faster display
   final Widget _loadingWidget = const Center(child: CircularProgressIndicator());
   
   @override
   bool get wantKeepAlive => true;
-
+  
   @override
   void initState() {
     super.initState();
     
-    // Initialize the providers on startup
-    _createProviders();
-  }
-
-  // Create providers that will live for the lifetime of this widget
-  void _createProviders() {
-    // Create providers only if they don't exist yet
-    if (_readStatusProvider == null) {
-      _readStatusProvider = GroupReadStatusProvider();
-      _readStatusProvider!.init();
-    }
-    
-    if (_feedProvider == null) {
-      // We'll get the ListProvider in didChangeDependencies
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) {
-          setState(() {
-            // This will trigger didChangeDependencies which will complete setup
-          });
-        }
-      });
-    }
+    // Always preload on init to ensure data is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _preloadData();
+    });
   }
   
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    
-    // Complete provider setup when context is available
-    if (_feedProvider == null && _readStatusProvider != null) {
+  // Initialize on first build
+  void _preloadData() {
+    if (context.mounted && !_globalInitializationDone) {
       try {
-        // Get the list provider from context
-        final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
-        
-        // Create the feed provider with both dependencies
-        _feedProvider = GroupFeedProvider(listProvider, _readStatusProvider);
-        
         // Initialize feed provider
-        _feedProvider!.subscribe();
-        if (_feedProvider!.notesBox.isEmpty()) {
-          _feedProvider!.doQuery(null);
-        }
+        _initializeFeedProvider();
       } catch (e) {
-        debugPrint("Error getting list provider: $e");
+        // Ignore provider errors during initialization
       }
     }
   }
@@ -124,13 +143,51 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
         if (viewModeChanged) {
           // Log view mode change for debugging
           debugPrint("🔄 VIEW MODE CHANGED: from ${_lastViewMode?.toString() ?? 'null'} to ${viewMode.toString()}");
+          
+          // When view mode changes, this is a good time to ensure counts are updated
+          // Will only run in debug mode
+          if (kDebugMode) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted) {
+                try {
+                  // Get the feed provider
+                  final feedProvider = context.read<GroupFeedProvider>();
+                  // Force update counts
+                  feedProvider.forceUpdateAllReadCounts(log: false);
+                } catch (e) {
+                  // Ignore errors during this debugging operation
+                }
+              }
+            });
+          }
         }
         _lastViewMode = viewMode;
         
-        // Build UI with local providers
-        return _buildProviderTree(
-          context,
-          child: Consumer(
+        // Check if we have cached widgets to show immediately
+        if (!viewModeChanged && 
+            ((viewMode == CommunityViewMode.feed && _cachedFeedWidget != null) || 
+             (viewMode == CommunityViewMode.grid && _cachedGridWidget != null) ||
+             (viewMode == CommunityViewMode.list && _cachedListWidget != null))) {
+          // Return cached widget immediately
+          Widget cachedWidget;
+          if (viewMode == CommunityViewMode.feed) {
+            cachedWidget = _cachedFeedWidget!;
+          } else if (viewMode == CommunityViewMode.list) {
+            cachedWidget = _cachedListWidget!;
+          } else {
+            cachedWidget = _cachedGridWidget!;
+          }
+          
+          return _buildScaffold(
+            context, 
+            viewMode,
+            cachedWidget,
+          );
+        }
+        
+        // Use Scaffold directly for better layout management
+        return Scaffold(
+          body: Consumer(
             builder: (context, ref, child) {
               // Use a less reactive watch pattern
               final controller = ref.watch(communitiesControllerProvider);
@@ -161,9 +218,9 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   
                   if (viewMode == CommunityViewMode.feed) {
                     // Only create feed widget if not already cached
-                    if (_cachedFeedWidget == null || viewModeChanged) {
+                    if (_cachedFeedWidget == null) {
                       debugPrint("🏗️ CREATING CACHED FEED WIDGET for the first time");
-                      _cachedFeedWidget = const CommunitiesFeedWidget();
+                      _cachedFeedWidget = const CommunitiesFeedWidget().withGroupProviders();
                     } else {
                       debugPrint("♻️ REUSING CACHED FEED WIDGET");
                     }
@@ -173,10 +230,11 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     if (_cachedListWidget == null || viewModeChanged) {
                       debugPrint("🏗️ CREATING CACHED LIST WIDGET: first time=${_cachedListWidget == null}, viewModeChanged=$viewModeChanged");
                       
+                      // Wrap with our providers to ensure GroupReadStatusProvider is available
                       _cachedListWidget = Shimmer(
                         linearGradient: shimmerGradient,
                         child: CommunitiesListWidget(groupIds: sortedGroupIds),
-                      );
+                      ).withGroupProviders();
                     } else {
                       debugPrint("♻️ REUSING CACHED LIST WIDGET");
                     }
@@ -189,7 +247,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                       _cachedGridWidget = Shimmer(
                         linearGradient: shimmerGradient,
                         child: CommunitiesGridWidget(groupIds: sortedGroupIds),
-                      );
+                      ).withGroupProviders();
                     } else {
                       debugPrint("♻️ REUSING CACHED GRID WIDGET");
                     }
@@ -201,37 +259,18 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
               );
             },
           ),
+          // No FAB at the top level
         );
-      },
-    );
-  }
-
-  /// Build the provider tree with local providers
-  Widget _buildProviderTree(BuildContext context, {required Widget child}) {
-    // Make sure providers are created
-    if (_readStatusProvider == null || _feedProvider == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-    
-    // Provide the local providers to the child widgets
-    return provider.MultiProvider(
-      providers: [
-        provider.ChangeNotifierProvider<GroupReadStatusProvider>.value(
-          value: _readStatusProvider!,
-        ),
-        provider.ChangeNotifierProvider<GroupFeedProvider>.value(
-          value: _feedProvider!,
-        ),
-      ],
-      child: child,
+      }
     );
   }
   
-  @override
-  void dispose() {
-    // No need to dispose providers here - they'll be disposed automatically
-    super.dispose();
+  // Separated widget building methods to improve maintainability
+  Widget _buildScaffold(BuildContext context, CommunityViewMode viewMode, Widget body) {
+    // Wrap the scaffold with our group providers to ensure they're available
+    return Scaffold(
+      body: body.withGroupProviders(),
+      // No FAB at the top level
+    );
   }
 }
