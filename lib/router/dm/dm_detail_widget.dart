@@ -128,7 +128,7 @@ class _DMDetailWidgetState extends CustState<DMDetailWidget> with EditorMixin {
           Expanded(
             child: quill.QuillEditor(
               controller: editorController,
-              configurations: quill.QuillEditorConfigurations(
+              config: quill.QuillEditorConfig(
                 placeholder: localization.whatSHappening,
                 embedBuilders: [
                   MentionUserEmbedBuilder(),

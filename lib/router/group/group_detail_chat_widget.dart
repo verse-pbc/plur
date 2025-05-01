@@ -180,7 +180,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
               Expanded(
                 child: quill.QuillEditor(
                   controller: editorController,
-                  configurations: quill.QuillEditorConfigurations(
+                  config: quill.QuillEditorConfig(
                     placeholder: replyToEvent != null ? 
                       "Write a reply..." : 
                       localization.whatSHappening,

@@ -19,6 +19,7 @@ import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/sendbox/sendbox.dart';
 import 'package:provider/provider.dart';
 import 'package:image/image.dart' as img;
+import 'package:quill_native_bridge/quill_native_bridge.dart';
 
 import '../../consts/base.dart';
 import '../../data/custom_emoji.dart';
@@ -114,132 +115,113 @@ mixin EditorMixin {
     
     // DM encryption button
     if (isDM() && groupIdentifier == null) {
-      otherButtons.add(quill.QuillToolbarIconButton(
+      otherButtons.add(IconButton(
         onPressed: changePrivateDM,
-        icon: Icon(Icons.enhanced_encryption,
-            color: openPrivateDM ? mainColor : null),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.enhanced_encryption),
         tooltip: openPrivateDM
             ? localization.closePrivateDM
             : localization.openPrivateDM,
+        style: IconButton.styleFrom(
+          foregroundColor: openPrivateDM ? mainColor : null,
+        ),
       ));
     }
     
     // Media buttons
-    mediaButtons.add(quill.QuillToolbarIconButton(
+    mediaButtons.add(IconButton(
       onPressed: pickImage,
-      icon: const Icon(Icons.image),
-      isSelected: false,
-      iconTheme: null,
+      icon: Icon(Icons.image),
       tooltip: localization.imageOrVideo,
     ));
+    
     if (!PlatformUtil.isPC() && !PlatformUtil.isWeb()) {
-      mediaButtons.add(quill.QuillToolbarIconButton(
+      mediaButtons.add(IconButton(
         onPressed: takeAPhoto,
-        icon: const Icon(Icons.camera),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.camera),
         tooltip: localization.takePhoto,
       ));
-      mediaButtons.add(quill.QuillToolbarIconButton(
+      
+      mediaButtons.add(IconButton(
         onPressed: tackAVideo,
-        icon: const Icon(Icons.video_call),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.video_call),
         tooltip: localization.takeVideo,
       ));
     }
     
     // Emoji buttons
     if (!isLongForm()) {
-      emojiButtons.add(quill.QuillToolbarIconButton(
+      emojiButtons.add(IconButton(
         onPressed: customEmojiSelect,
-        icon: const Icon(Icons.add_reaction_outlined),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.add_reaction_outlined),
         tooltip: localization.customEmoji,
       ));
-      emojiButtons.add(quill.QuillToolbarIconButton(
+      emojiButtons.add(IconButton(
         onPressed: emojiBeginToSelect,
-        icon: const Icon(Icons.tag_faces),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.tag_faces),
         tooltip: localization.emoji,
       ));
     }
     
     // Mention buttons
-    mentionButtons.add(quill.QuillToolbarIconButton(
+    mentionButtons.add(IconButton(
       onPressed: _inputMentionUser,
-      icon: const Icon(Icons.alternate_email_sharp),
-      isSelected: false,
-      iconTheme: null,
+      icon: Icon(Icons.alternate_email_sharp),
       tooltip: localization.mentionUser,
     ));
-    mentionButtons.add(quill.QuillToolbarIconButton(
+    mentionButtons.add(IconButton(
       onPressed: _inputMentionEvent,
-      icon: const Icon(Icons.format_quote),
-      isSelected: false,
-      iconTheme: null,
+      icon: Icon(Icons.format_quote),
       tooltip: localization.quote,
     ));
-    mentionButtons.add(quill.QuillToolbarIconButton(
+    mentionButtons.add(IconButton(
       onPressed: _inputTag,
-      icon: const Icon(Icons.tag),
-      isSelected: false,
-      iconTheme: null,
+      icon: Icon(Icons.tag),
       tooltip: localization.hashtag,
     ));
 
     // Format buttons
-    formatButtons.add(quill.QuillToolbarIconButton(
+    formatButtons.add(IconButton(
       onPressed: _inputLnbc,
-      icon: const Icon(Icons.bolt),
-      isSelected: false,
-      iconTheme: null,
-      tooltip: localization.lightningInvoice,
+      icon: Icon(Icons.bolt),
+      tooltip: localization.lnbc,
     ));
 
     if (!isDM()) {
-      formatButtons.add(quill.QuillToolbarIconButton(
+      formatButtons.add(IconButton(
         onPressed: openZapSplitTap,
-        icon: ZapSplitIconWidget(
-          themeData.textTheme.bodyLarge!.fontSize!,
-          color: openZapSplit ? mainColor : null,
-        ),
-        isSelected: false,
-        iconTheme: null,
-        tooltip: localization.splitAndTransferZap,
+        icon: Icon(Icons.bolt),
+        tooltip: localization.lightningInvoice,
       ));
 
       formatButtons.add(
-        quill.QuillToolbarIconButton(
+        IconButton(
           onPressed: _addWarning,
-          icon: Icon(Icons.warning, color: showWarning ? Colors.red : null),
-          isSelected: false,
-          iconTheme: null,
+          icon: Icon(Icons.warning),
           tooltip: localization.sensitiveContent,
+          style: IconButton.styleFrom(
+            foregroundColor: showWarning ? Colors.red : null,
+          ),
         ),
       );
       if (!isLongForm()) {
-        formatButtons.add(quill.QuillToolbarIconButton(
+        formatButtons.add(IconButton(
           onPressed: _addTitle,
-          icon: Icon(Icons.title, color: showTitle ? mainColor : null),
-          isSelected: false,
-          iconTheme: null,
+          icon: Icon(Icons.title),
           tooltip: localization.subject,
+          style: IconButton.styleFrom(
+            foregroundColor: showTitle ? mainColor : null,
+          ),
         ));
       }
 
       if (groupIdentifier == null && !isLongForm()) {
-        otherButtons.add(quill.QuillToolbarIconButton(
+        otherButtons.add(IconButton(
           onPressed: selectedTime,
-          icon: Icon(Icons.timer_outlined,
-              color: publishAt != null ? mainColor : null),
-          isSelected: false,
-          iconTheme: null,
+          icon: Icon(Icons.timer_outlined),
           tooltip: localization.delaySend,
+          style: IconButton.styleFrom(
+            foregroundColor: publishAt != null ? mainColor : null,
+          ),
         ));
       }
     }
@@ -250,20 +232,21 @@ mixin EditorMixin {
         getTagsAddedWhenSend().isEmpty &&
         groupIdentifier == null &&
         !isLongForm()) {
-      // isn't dm and reply and longForm
-      otherButtons.add(quill.QuillToolbarIconButton(
+      otherButtons.add(IconButton(
         onPressed: _inputPoll,
-        icon: Icon(Icons.poll, color: inputPoll ? mainColor : null),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.poll),
         tooltip: localization.poll,
+        style: IconButton.styleFrom(
+          foregroundColor: inputPoll ? mainColor : null,
+        ),
       ));
-      otherButtons.add(quill.QuillToolbarIconButton(
+      otherButtons.add(IconButton(
         onPressed: _inputGoal,
-        icon: Icon(Icons.trending_up, color: inputZapGoal ? mainColor : null),
-        isSelected: false,
-        iconTheme: null,
+        icon: Icon(Icons.monetization_on),
         tooltip: localization.zapGoals,
+        style: IconButton.styleFrom(
+          foregroundColor: inputZapGoal ? mainColor : null,
+        ),
       ));
     }
 
