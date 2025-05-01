@@ -67,6 +67,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "For legal reasons, we need to make sure you\'re over this age to use Plur."),
         "ageVerificationQuestion":
             MessageLookupByLibrary.simpleMessage("Are you over 16 years old?"),
+        "alertsAvailable":
+            MessageLookupByLibrary.simpleMessage("ICE WATCH ALERTS"),
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(
             "All media is publicly accessible to anyone with the URL."),
         "allVisibility": MessageLookupByLibrary.simpleMessage("All Visibility"),
@@ -121,6 +123,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "communities": MessageLookupByLibrary.simpleMessage("Communities"),
         "communityGuidelines":
             MessageLookupByLibrary.simpleMessage("Community Guidelines"),
+        "communityInvite":
+            MessageLookupByLibrary.simpleMessage("Community Invite"),
         "communityName": MessageLookupByLibrary.simpleMessage("community name"),
         "communityNameHeader":
             MessageLookupByLibrary.simpleMessage("Community Name"),
@@ -144,6 +148,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "copyHexKey": MessageLookupByLibrary.simpleMessage("Copy Hex Key"),
         "copyInitUrl": MessageLookupByLibrary.simpleMessage("Copy init Url"),
         "copyKey": MessageLookupByLibrary.simpleMessage("Copy Key"),
+        "copyLink": MessageLookupByLibrary.simpleMessage("Copy Link"),
         "copyNoteId": MessageLookupByLibrary.simpleMessage("Copy Note Id"),
         "copyNoteJson": MessageLookupByLibrary.simpleMessage("Copy Note Json"),
         "copyNotePubkey":
@@ -242,6 +247,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "eventUpdated":
             MessageLookupByLibrary.simpleMessage("Event updated successfully"),
         "events": MessageLookupByLibrary.simpleMessage("Events"),
+        "expired": MessageLookupByLibrary.simpleMessage("Expired"),
+        "expires": MessageLookupByLibrary.simpleMessage("Expires"),
+        "expiringNow": MessageLookupByLibrary.simpleMessage("Expiring now"),
         "face": MessageLookupByLibrary.simpleMessage("Face"),
         "fastMode": MessageLookupByLibrary.simpleMessage("Fast Mode"),
         "fileIsTooBigForNIP95":
@@ -286,6 +294,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "groupInfo": MessageLookupByLibrary.simpleMessage("Group Info"),
         "groupMember": m0,
         "groupMembers": m1,
+        "groupNotFound":
+            MessageLookupByLibrary.simpleMessage("Group not found"),
         "groupOpenDescription": MessageLookupByLibrary.simpleMessage(
             "Anyone can join without approval"),
         "groupPrivateDescription": MessageLookupByLibrary.simpleMessage(
@@ -339,10 +349,18 @@ class MessageLookup extends MessageLookupByLibrary {
                 "Input Sats num to gen lightning invoice"),
         "interested": MessageLookupByLibrary.simpleMessage("Interested"),
         "invite": MessageLookupByLibrary.simpleMessage("Invite"),
+        "inviteByName": MessageLookupByLibrary.simpleMessage("Invite by Name"),
+        "inviteExpired":
+            MessageLookupByLibrary.simpleMessage("This invite has expired"),
+        "inviteLink": MessageLookupByLibrary.simpleMessage("Invite Link"),
         "invitePeopleToJoin": MessageLookupByLibrary.simpleMessage(
             "Invite people to join this group"),
+        "inviteSent":
+            MessageLookupByLibrary.simpleMessage("Invite sent successfully"),
         "isSending": MessageLookupByLibrary.simpleMessage("is sending"),
+        "joinCommunity": MessageLookupByLibrary.simpleMessage("Join Community"),
         "joinGroup": MessageLookupByLibrary.simpleMessage("Join Group"),
+        "joined": MessageLookupByLibrary.simpleMessage("Joined"),
         "keyHasBeenCopy":
             MessageLookupByLibrary.simpleMessage("The key has been copied!"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
@@ -386,6 +404,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mentionUser": MessageLookupByLibrary.simpleMessage("Mention User"),
         "mentions": MessageLookupByLibrary.simpleMessage("Mentions"),
         "menu": MessageLookupByLibrary.simpleMessage("Menu"),
+        "messages": MessageLookupByLibrary.simpleMessage("Messages"),
         "metadataCanNotBeFound":
             MessageLookupByLibrary.simpleMessage("Metadata can not be found."),
         "method": MessageLookupByLibrary.simpleMessage("Method"),
@@ -400,6 +419,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "network": MessageLookupByLibrary.simpleMessage("Network"),
         "networkTakeEffectTip": MessageLookupByLibrary.simpleMessage(
             "The network will take effect the next time the app is launched"),
+        "never": MessageLookupByLibrary.simpleMessage("Never"),
         "newCommunity": MessageLookupByLibrary.simpleMessage("New Community"),
         "newPost": MessageLookupByLibrary.simpleMessage("New Post"),
         "nip05": MessageLookupByLibrary.simpleMessage("Nip05"),
@@ -416,16 +436,21 @@ class MessageLookup extends MessageLookupByLibrary {
             "No asks or offers posted yet.\nGet started by posting something!"),
         "noAsksPostedYet": MessageLookupByLibrary.simpleMessage(
             "No asks posted yet.\nBe the first to ask for something!"),
+        "noEventsForSelectedDay":
+            MessageLookupByLibrary.simpleMessage("No events for selected day"),
         "noEventsFound":
             MessageLookupByLibrary.simpleMessage("No events found"),
         "noMediaFound": MessageLookupByLibrary.simpleMessage("No Media found"),
         "noOffersPostedYet": MessageLookupByLibrary.simpleMessage(
             "No offers posted yet.\nBe the first to offer something!"),
+        "noRecentPosts":
+            MessageLookupByLibrary.simpleMessage("No recent posts..."),
         "noResponsesYet":
             MessageLookupByLibrary.simpleMessage("No responses yet"),
         "noTagsAdded": MessageLookupByLibrary.simpleMessage("No tags added"),
         "noUpcomingEvents":
             MessageLookupByLibrary.simpleMessage("No upcoming events"),
+        "noUsersFound": MessageLookupByLibrary.simpleMessage("No users found"),
         "normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "nostrmoDevelopersWillNeverRequireAKeyFromYou":
             MessageLookupByLibrary.simpleMessage(
@@ -449,6 +474,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Your name or nickname"),
         "onboardingNameInputTitle":
             MessageLookupByLibrary.simpleMessage("What should we call you?"),
+        "oneDay": MessageLookupByLibrary.simpleMessage("1 Day"),
+        "oneMonth": MessageLookupByLibrary.simpleMessage("1 Month"),
+        "oneWeek": MessageLookupByLibrary.simpleMessage("1 Week"),
         "open": MessageLookupByLibrary.simpleMessage("Open"),
         "openEventFromCache":
             MessageLookupByLibrary.simpleMessage("Open Event from cache"),
@@ -555,6 +583,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "request": MessageLookupByLibrary.simpleMessage("Request"),
         "responses": MessageLookupByLibrary.simpleMessage("Responses"),
         "retry": MessageLookupByLibrary.simpleMessage("Retry"),
+        "reusable": MessageLookupByLibrary.simpleMessage("Reusable"),
+        "role": MessageLookupByLibrary.simpleMessage("Role"),
         "rsvpSubmitted": MessageLookupByLibrary.simpleMessage("RSVP submitted"),
         "save": MessageLookupByLibrary.simpleMessage("Save"),
         "saveChanges": MessageLookupByLibrary.simpleMessage("Save Changes"),
@@ -563,6 +593,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveFailed": MessageLookupByLibrary.simpleMessage(
             "An error occurred while trying to save your data."),
         "search": MessageLookupByLibrary.simpleMessage("Search"),
+        "searchContacts":
+            MessageLookupByLibrary.simpleMessage("Search contacts"),
+        "searchContactsToInvite":
+            MessageLookupByLibrary.simpleMessage("Search contacts to invite"),
         "searchForPublicGroups":
             MessageLookupByLibrary.simpleMessage("Search for public groups"),
         "searchNoteContent":
@@ -576,6 +610,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "send": MessageLookupByLibrary.simpleMessage("Publish"),
         "sendFail": MessageLookupByLibrary.simpleMessage("Publish failed"),
         "sendInterval": MessageLookupByLibrary.simpleMessage("Send interval"),
+        "sendInvite": MessageLookupByLibrary.simpleMessage("Send Invite"),
         "sensitiveContent":
             MessageLookupByLibrary.simpleMessage("Sensitive Content"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),

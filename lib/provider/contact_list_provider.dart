@@ -8,6 +8,18 @@ import '../main.dart';
 import 'data_util.dart';
 
 class ContactListProvider extends ChangeNotifier {
+  /// Returns a list of all contact pubkeys in the user's contact list
+  List<String> getContactPubkeys() {
+    if (_contactList == null || _event == null) {
+      return [];
+    }
+    
+    return _event!.tags
+        .where((tag) => tag.length > 1 && tag[0] == "p")
+        .map((tag) => tag[1].toString())
+        .toList();
+  }
+  
   static ContactListProvider? _contactListProvider;
 
   Event? _event;

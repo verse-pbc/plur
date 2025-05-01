@@ -196,6 +196,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
+              heroTag: 'group_detail_create_event_fab',
               onPressed: _createEvent,
               backgroundColor: themeData.customColors.accentColor,
               child: const Icon(Icons.add, color: Colors.white),
@@ -260,7 +261,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
         color: themeData.customColors.feedBgColor,
         border: Border(
           bottom: BorderSide(
-            color: themeData.customColors.separatorColor.withOpacity(0.3),
+            color: themeData.customColors.separatorColor.withAlpha(77), // 0.3 * 255 = 77
             width: 0.5,
           ),
         ),
@@ -317,7 +318,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                     _showPastEvents = selected;
                   });
                 },
-                selectedColor: themeData.customColors.accentColor.withOpacity(0.2),
+                selectedColor: themeData.customColors.accentColor.withAlpha(51), // 0.2 * 255 = 51
                 checkmarkColor: themeData.customColors.accentColor,
               ),
               
@@ -437,7 +438,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
           Icon(
             Icons.event_available,
             size: 72,
-            color: Colors.grey.withOpacity(0.5),
+            color: Colors.grey.withAlpha(128), // 0.5 * 255 = 128
           ),
           const SizedBox(height: 16),
           Text(
@@ -598,7 +599,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: customColors.separatorColor.withOpacity(0.3),
+          color: customColors.separatorColor.withAlpha(77), // 0.3 * 255 = 77
           width: 0.5,
         ),
       ),
@@ -620,7 +621,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       height: 120,
-                      color: customColors.accentColor.withOpacity(0.1),
+                      color: customColors.accentColor.withAlpha(26), // 0.1 * 255 = 26
                       child: const Center(
                         child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey),
                       ),
@@ -641,7 +642,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: statusColor.withOpacity(0.1),
+                          color: statusColor.withAlpha(26), // 0.1 * 255 = 26
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Row(
@@ -663,7 +664,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: statusColor.withOpacity(0.1),
+                          color: statusColor.withAlpha(26), // 0.1 * 255 = 26
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Row(
@@ -855,7 +856,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: themeData.customColors.separatorColor.withOpacity(0.3),
+            color: themeData.customColors.separatorColor.withAlpha(77), // 0.3 * 255 = 77
             width: 0.5,
           ),
         ),
@@ -884,7 +885,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 backgroundColor: userStatus == RSVPStatus.going
-                    ? Colors.green.withOpacity(0.1)
+                    ? Colors.green.withAlpha(26) // 0.1 * 255 = 26
                     : Colors.transparent,
               ),
             ),
@@ -894,7 +895,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
           Container(
             height: 24,
             width: 1,
-            color: themeData.customColors.separatorColor.withOpacity(0.5),
+            color: themeData.customColors.separatorColor.withAlpha(128), // 0.5 * 255 = 128
           ),
           
           // Interested button
@@ -919,7 +920,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 backgroundColor: userStatus == RSVPStatus.interested
-                    ? Colors.orange.withOpacity(0.1)
+                    ? Colors.orange.withAlpha(26) // 0.1 * 255 = 26
                     : Colors.transparent,
               ),
             ),
@@ -929,7 +930,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
           Container(
             height: 24,
             width: 1,
-            color: themeData.customColors.separatorColor.withOpacity(0.5),
+            color: themeData.customColors.separatorColor.withAlpha(128), // 0.5 * 255 = 128
           ),
           
           // Can't go button
@@ -954,7 +955,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 backgroundColor: userStatus == RSVPStatus.notGoing
-                    ? Colors.red.withOpacity(0.1)
+                    ? Colors.red.withAlpha(26) // 0.1 * 255 = 26
                     : Colors.transparent,
               ),
             ),

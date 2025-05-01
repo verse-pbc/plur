@@ -26,9 +26,9 @@ class CommunitiesListWidget extends ConsumerWidget {
     final themeData = Theme.of(context);
     final localization = S.of(context);
     
-    // Make sure we always have access to the group feed provider
+    // Access the GroupFeedProvider which is provided by the parent widget
     // This allows us to display the most recent posts in each community
-    final groupFeedProvider = provider.Provider.of<GroupFeedProvider>(context, listen: false);
+    final groupFeedProvider = provider.Provider.of<GroupFeedProvider>(context);
     
     // Pre-fetch metadata for all communities immediately
     // This will trigger a single batch of requests instead of loading one by one

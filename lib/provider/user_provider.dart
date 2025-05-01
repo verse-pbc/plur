@@ -14,6 +14,15 @@ import '../data/user_db.dart';
 import '../main.dart';
 
 class UserProvider extends ChangeNotifier with LaterFunction {
+  /// Get user metadata for a specific pubkey
+  /// Returns null if user not found or not loaded yet
+  User? getUserMeta(String pubkey) {
+    if (_userCache.containsKey(pubkey)) {
+      return _userCache[pubkey];
+    }
+    return null;
+  }
+  
   final Map<String, RelayListMetadata> _relayListMetadataCache = {};
 
   final Map<String, User> _userCache = {};
