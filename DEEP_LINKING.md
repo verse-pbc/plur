@@ -13,7 +13,9 @@ Plur supports multiple deep linking mechanisms to facilitate seamless sharing an
 ## URL Formats
 
 ### Universal Links
-- `https://rabble.community/i/{CODE}` - Short code that resolves through API
+- `https://rabble.community/i/{CODE}` - Standard invite that resolves through API
+- `https://rabble.community/j/{SHORT_CODE}` - Short URL invite that redirects to a full invite
+- `https://rabble.community/join/{CODE}` - Web invite with rich metadata display
 - `https://rabble.community/i/plur://join-community?group-id=X&code=Y&relay=Z` - Universal link with embedded protocol
 - `https://rabble.community/join/{GROUP_ID}?code=Y&relay=Z` - Path-based group join
 - `https://rabble.community/join-community?group-id=X&code=Y&relay=Z` - Query parameter join
@@ -130,8 +132,9 @@ Host this at `https://rabble.community/.well-known/apple-app-site-association`:
 }
 ```
 
-### 2. Server API Endpoint
+### 2. Server API Endpoints
 
+#### Standard Invite Resolution
 Implement an endpoint at `https://rabble.community/api/invite/{code}` that returns:
 
 ```json
@@ -139,6 +142,30 @@ Implement an endpoint at `https://rabble.community/api/invite/{code}` that retur
   "groupId": "R6PCSLSWB45E",
   "code": "8Z4K7JMV",
   "relay": "wss://communities.nos.social"
+}
+```
+
+#### Web Invite Resolution
+Implement an endpoint at `https://rabble.community/api/invite/web/{code}` that returns:
+
+```json
+{
+  "groupId": "R6PCSLSWB45E",
+  "code": "8Z4K7JMV",
+  "relay": "wss://communities.nos.social",
+  "name": "My Community Group",
+  "description": "A group for discussing important topics",
+  "avatar": "https://example.com/avatar.jpg",
+  "createdAt": 1713745631000
+}
+```
+
+#### Short URL Resolution
+Implement an endpoint at `https://rabble.community/api/invite/short/{shortCode}` that returns:
+
+```json
+{
+  "code": "8Z4K7JMV"
 }
 ```
 

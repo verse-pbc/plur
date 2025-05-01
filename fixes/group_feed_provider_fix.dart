@@ -35,8 +35,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   GroupFeedProvider(this._listProvider, [this._readStatusProvider]) {
     _initTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     
-    // Set the reference in ListProvider so it can coordinate with us
-    ListProvider.groupFeedProvider = this;
+    // Register our refresh callback with ListProvider instead of using static reference
+    _listProvider.registerGroupsChangedCallback(refresh);
     
     // Initialize read status provider if provided
     if (_readStatusProvider != null) {
@@ -75,6 +75,8 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
 
   @override
   void dispose() {
+    // Unregister our callback from ListProvider
+    _listProvider.unregisterGroupsChangedCallback();
     _unsubscribe();
     disposeLater();
     super.dispose();

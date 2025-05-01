@@ -6,7 +6,8 @@ import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
 
 class DB {
-  static const _version = 1;
+  // Update version to 2 to trigger database migration
+  static const _version = 2;
 
   static const _dbName = "nostrmo.db";
 
@@ -21,14 +22,22 @@ class DB {
     }
 
     try {
-      _database =
-          await openDatabase(path, version: _version, onCreate: _onCreate);
+      _database = await openDatabase(
+        path, 
+        version: _version, 
+        onCreate: _onCreate,
+        onUpgrade: _onUpgrade,
+      );
     } catch (e) {
       if (Platform.isLinux) {
         // maybe it need install sqlite first, but this command need run by root.
         await run('sudo apt-get -y install libsqlite3-0 libsqlite3-dev');
-        _database =
-            await openDatabase(path, version: _version, onCreate: _onCreate);
+        _database = await openDatabase(
+          path, 
+          version: _version, 
+          onCreate: _onCreate,
+          onUpgrade: _onUpgrade,
+        );
       }
     }
   }
@@ -49,6 +58,49 @@ class DB {
         "create table dm_session_info(key_index  INTEGER, pubkey      text    not null,readed_time integer not null,value1      text,value2      text,value3      text);");
     db.execute(
         "create unique index dm_session_info_uindex on dm_session_info (key_index, pubkey);");
+        
+    // Add group_read_info table for tracking group activity
+    db.execute(
+        "create table group_read_info("
+        "key_index INTEGER, "
+        "group_id TEXT NOT NULL, "
+        "host TEXT NOT NULL, "
+        "last_read_time INTEGER NOT NULL, "
+        "post_count INTEGER DEFAULT 0, "
+        "unread_count INTEGER DEFAULT 0, "
+        "last_viewed_at INTEGER NOT NULL, "
+        "PRIMARY KEY (key_index, group_id, host)"
+        ");");
+    db.execute(
+        "create index group_read_info_key_index on group_read_info (key_index);");
+    db.execute(
+        "create index group_read_info_group_id on group_read_info (group_id);");
+  }
+  
+  // Handle database migrations
+  static Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      // Add group_read_info table for existing installations
+      try {
+        await db.execute(
+          "create table if not exists group_read_info("
+          "key_index INTEGER, "
+          "group_id TEXT NOT NULL, "
+          "host TEXT NOT NULL, "
+          "last_read_time INTEGER NOT NULL, "
+          "post_count INTEGER DEFAULT 0, "
+          "unread_count INTEGER DEFAULT 0, "
+          "last_viewed_at INTEGER NOT NULL, "
+          "PRIMARY KEY (key_index, group_id, host)"
+          ");");
+        await db.execute(
+          "create index if not exists group_read_info_key_index on group_read_info (key_index);");
+        await db.execute(
+          "create index if not exists group_read_info_group_id on group_read_info (group_id);");
+      } catch (e) {
+        print("Error during migration to v2: $e");
+      }
+    }
   }
 
   static Future<Database> getCurrentDatabase() async {

@@ -6,8 +6,10 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart' as provider;
 
 import '../../component/user/user_pic_widget.dart';
+import '../../component/group/group_avatar_widget.dart';
 import '../../data/group_metadata_repository.dart';
 import '../../provider/group_feed_provider.dart';
+import '../../provider/group_read_status_provider.dart';
 import '../../util/theme_util.dart';
 import '../../generated/l10n.dart';
 
@@ -36,14 +38,84 @@ class CommunityListItemWidget extends ConsumerWidget {
     final customColors = themeData.customColors;
     final localization = S.of(context);
     
-    // Get the GroupFeedProvider using Provider package (not Riverpod) since it's registered that way
-    final groupFeedProvider = provider.Provider.of<GroupFeedProvider>(context, listen: false);
+    // Get the GroupFeedProvider and GroupReadStatusProvider
+    GroupFeedProvider? feedProvider;
+    GroupReadStatusProvider? readStatusProvider;
+    
+    try {
+      feedProvider = provider.Provider.of<GroupFeedProvider>(context, listen: true);
+    } catch (e) {
+      debugPrint("GroupFeedProvider not available: ${e.toString()}");
+    }
+    
+    try {
+      readStatusProvider = provider.Provider.of<GroupReadStatusProvider>(context, listen: true);
+    } catch (e) {
+      debugPrint("GroupReadStatusProvider not available: ${e.toString()}");
+    }
     
     return controller.when(
       data: (metadata) {
-        // Get the latest post content from the group using real data
-        final latestPostInfo = _getLatestPostInfo(groupFeedProvider, metadata);
-        final notificationCount = _getNotificationCount(groupFeedProvider, metadata);
+        // Default values if providers are not available
+        LatestPostInfo latestPostInfo = LatestPostInfo(content: "", pubkey: null);
+        int postCount = 0;
+        int unreadCount = 0;
+        bool hasUnread = false;
+        
+        // Get data if providers are available
+        if (feedProvider != null) {
+          latestPostInfo = _getLatestPostInfo(feedProvider, metadata);
+          
+          // Handle read status
+          if (readStatusProvider != null) {
+            // Skip the warning about mismatched providers since we're now
+            // manually managing providers in CommunitiesScreen
+            
+            // Get the counts from the provider
+            postCount = readStatusProvider.getPostCount(groupIdentifier);
+            unreadCount = readStatusProvider.getUnreadCount(groupIdentifier);
+            hasUnread = readStatusProvider.hasUnread(groupIdentifier);
+            
+            // If the post count is 0 but we have posts in the feed, force an update
+            if (postCount == 0) {
+              int actualCount = _getNotificationCount(feedProvider, metadata);
+              if (actualCount > 0) {
+                debugPrint("⚙️ Forcing count update for ${groupIdentifier.groupId}: found $actualCount posts");
+                // Try to trigger an update of counts
+                Future.microtask(() {
+                  // Get posts from feedProvider and update counts in readStatusProvider directly
+                  final posts = _getPostsForGroup(feedProvider!, groupIdentifier);
+                  final lastReadTime = readStatusProvider!.getLastReadTime(groupIdentifier) ?? 0;
+                  
+                  int realUnreadCount = 0;
+                  for (final event in posts) {
+                    if (event.createdAt > lastReadTime) {
+                      realUnreadCount++;
+                    }
+                  }
+                  
+                  // Update the counts
+                  readStatusProvider.updateCounts(
+                    groupIdentifier, 
+                    posts.length, 
+                    realUnreadCount
+                  );
+                });
+                
+                // Use the actual count for this render
+                postCount = actualCount;
+                unreadCount = actualCount; // Assume all unread for now, will be updated on next render
+                hasUnread = actualCount > 0;
+              }
+            }
+          } else {
+            // Fall back to old method of counting posts
+            postCount = _getNotificationCount(feedProvider, metadata);
+            // With the old method, all posts are treated as unread
+            unreadCount = postCount;
+            hasUnread = postCount > 0;
+          }
+        }
         
         return Container(
           decoration: BoxDecoration(
@@ -57,26 +129,15 @@ class CommunityListItemWidget extends ConsumerWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Index column on the left
+              // Group avatar on the left
               Container(
-                width: 40,
+                width: 60,
                 height: 80,
                 alignment: Alignment.center,
-                child: Container(
-                  width: 32,
-                  height: 32,
-                  decoration: BoxDecoration(
-                    color: index == 3 ? Colors.orange[200] : Colors.grey[300],
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    index.toString(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54,
-                    ),
-                  ),
+                child: GroupAvatar(
+                  imageUrl: metadata?.picture,
+                  size: 40,
+                  borderWidth: 2.0,
                 ),
               ),
               
@@ -148,28 +209,27 @@ class CommunityListItemWidget extends ConsumerWidget {
                 ),
               ),
               
-              // Notification count on the right (if there are any)
-              if (notificationCount > 0)
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0, right: 16.0),
-                  child: Container(
-                    width: 24,
-                    height: 24,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Text(
-                      notificationCount.toString(),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
+              // Post count on the right (always visible)
+              Padding(
+                padding: const EdgeInsets.only(top: 16.0, right: 16.0),
+                child: Container(
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: hasUnread ? Colors.red : Colors.grey[300],
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    postCount.toString(),
+                    style: TextStyle(
+                      color: hasUnread ? Colors.white : Colors.black54,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
                     ),
                   ),
                 ),
+              ),
             ],
           ),
         );
@@ -194,14 +254,12 @@ class CommunityListItemWidget extends ConsumerWidget {
       child: Row(
         children: [
           Container(
-            width: 32,
-            height: 32,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(4),
+              shape: BoxShape.circle,
             ),
-            alignment: Alignment.center,
-            child: Text(index.toString()),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -249,14 +307,18 @@ class CommunityListItemWidget extends ConsumerWidget {
       child: Row(
         children: [
           Container(
-            width: 32,
-            height: 32,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
-              color: Colors.grey[300],
-              borderRadius: BorderRadius.circular(4),
+              color: Colors.red[100],
+              shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: Text(index.toString()),
+            child: const Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 24,
+            ),
           ),
           const SizedBox(width: 16),
           const Expanded(
@@ -319,10 +381,43 @@ class CommunityListItemWidget extends ConsumerWidget {
     }
   }
   
-  // Get notification count with estimated unread messages
+  // Get all posts for a specific group
+  List<Event> _getPostsForGroup(GroupFeedProvider feedProvider, GroupIdentifier groupId) {
+    try {
+      // Get all posts from the main box
+      final result = <Event>[];
+      final allPosts = feedProvider.notesBox.all();
+      
+      // Also check any posts in the new box
+      final newPosts = feedProvider.newNotesBox.all();
+      
+      // Combine both lists
+      final combinedPosts = [...allPosts, ...newPosts];
+      
+      // Filter for this specific group
+      for (final event in combinedPosts) {
+        // Check for this group's tag
+        for (var tag in event.tags) {
+          if (tag is List && tag.isNotEmpty && tag.length > 1 && 
+              tag[0] == "h" && tag[1] == groupId.groupId) {
+            // Make sure we don't add duplicates
+            if (!result.any((e) => e.id == event.id)) {
+              result.add(event);
+            }
+            break;
+          }
+        }
+      }
+      
+      return result;
+    } catch (e) {
+      debugPrint("Error getting posts for group: $e");
+      return [];
+    }
+  }
+
+  // Get total post count for this community
   int _getNotificationCount(GroupFeedProvider feedProvider, GroupMetadata? metadata) {
-    // For now, we'll use a simplified approach for notifications
-    // In a real implementation, you'd track last-read timestamps per group
     try {
       // Get all posts from the feed
       final allPosts = feedProvider.notesBox.all();
@@ -340,20 +435,10 @@ class CommunityListItemWidget extends ConsumerWidget {
         return false;
       }).toList();
       
-      // If no posts for this group, no notifications
-      if (groupPosts.isEmpty) return 0;
-      
-      // For now, use a simple formula based on recent posts
-      // In a real app, you'd compare to the last read timestamp
-      final currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
-      final recentPosts = groupPosts.where((event) {
-        // Posts in the last hour are "recent"
-        return currentTime - event.createdAt < 3600;
-      }).length;
-      
-      return recentPosts;
+      // Return total post count
+      return groupPosts.length;
     } catch (e) {
-      debugPrint("Error getting notification count: $e");
+      debugPrint("Error getting post count: $e");
       return 0;
     }
   }

@@ -37,6 +37,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.tabsBgColor,
     required this.tooltipText,
     required this.tooltipBackground,
+    this.scaffoldBgColor,
+    this.dividerColor,
+    this.disabledColor,
   });
 
   final Color accentColor;
@@ -48,6 +51,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color loginBgColor;
   final Color navBgColor;
   final Color notesBgColor;
+  final Color? scaffoldBgColor;
+  final Color? dividerColor;
+  final Color? disabledColor;
   final Color primaryForegroundColor;
   final Color secondaryForegroundColor;
   final Color separatorColor;
@@ -72,6 +78,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     tabsBgColor: Color(0xFFFFFFFF),
     tooltipText: Color(0xFFFFFFFF),
     tooltipBackground: Color(0xFF7445FE), // Plur purple for tooltips
+    scaffoldBgColor: Color(0xFFFFFFFF),
+    dividerColor: Color(0xFFE5DBFF),
+    disabledColor: Color(0xFFA7A7A7),
   );
 
   /// Dark theme values based on design specs in doc/screenshots/colors_right.png
@@ -91,6 +100,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     tabsBgColor: Color(0xFF190F28),
     tooltipText: Color(0xFFECE2FD), // Highlight text color
     tooltipBackground: Color(0xFF27193D),
+    scaffoldBgColor: Color(0xFF150F23),
+    dividerColor: Color(0xFF27193D),
+    disabledColor: Color(0xFF514A66),
   );
 
   /// Copy with optional overrides
@@ -111,6 +123,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
     Color? tabsBgColor,
     Color? tooltipText,
     Color? tooltipBackground,
+    Color? scaffoldBgColor,
+    Color? dividerColor,
+    Color? disabledColor,
   }) {
     return CustomColors(
       accentColor: accentColor ?? this.accentColor,
@@ -130,6 +145,9 @@ class CustomColors extends ThemeExtension<CustomColors> {
       tabsBgColor: tabsBgColor ?? this.tabsBgColor,
       tooltipText: tooltipText ?? this.tooltipText,
       tooltipBackground: tooltipBackground ?? this.tooltipBackground,
+      scaffoldBgColor: scaffoldBgColor ?? this.scaffoldBgColor,
+      dividerColor: dividerColor ?? this.dividerColor,
+      disabledColor: disabledColor ?? this.disabledColor,
     );
   }
 
@@ -166,6 +184,15 @@ class CustomColors extends ThemeExtension<CustomColors> {
       tooltipBackground:
           Color.lerp(tooltipBackground, other.tooltipBackground, t) ??
               tooltipBackground,
+      scaffoldBgColor: other.scaffoldBgColor != null && scaffoldBgColor != null
+          ? Color.lerp(scaffoldBgColor, other.scaffoldBgColor, t)
+          : scaffoldBgColor ?? other.scaffoldBgColor,
+      dividerColor: other.dividerColor != null && dividerColor != null
+          ? Color.lerp(dividerColor, other.dividerColor, t)
+          : dividerColor ?? other.dividerColor,
+      disabledColor: other.disabledColor != null && disabledColor != null
+          ? Color.lerp(disabledColor, other.disabledColor, t)
+          : disabledColor ?? other.disabledColor,
     );
   }
 }

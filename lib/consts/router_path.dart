@@ -57,6 +57,7 @@ class RouterPath {
   static const String groupInfo = "/groupInfo";
   static const String groupMedia = "/groupMedia";
   static const String inviteToGroup = "/inviteToGroup";
+  static const String inviteByName = "/inviteByName";
   static const String pushNotificationTest = "/pushNotificationTest";
   static const String listings = "/listings";
   static const String listingCreateEdit = "/listingCreateEdit";

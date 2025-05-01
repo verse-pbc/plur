@@ -240,6 +240,36 @@ class S {
     );
   }
 
+  /// `ICE WATCH ALERTS`
+  String get alertsAvailable {
+    return Intl.message(
+      'ICE WATCH ALERTS',
+      name: 'alertsAvailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No recent posts...`
+  String get noRecentPosts {
+    return Intl.message(
+      'No recent posts...',
+      name: 'noRecentPosts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Messages`
+  String get messages {
+    return Intl.message(
+      'Messages',
+      name: 'messages',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Dark`
   String get dark {
     return Intl.message(
@@ -4220,6 +4250,16 @@ class S {
     );
   }
 
+  /// `No events for selected day`
+  String get noEventsForSelectedDay {
+    return Intl.message(
+      'No events for selected day',
+      name: 'noEventsForSelectedDay',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Create an Event`
   String get createAnEvent {
     return Intl.message(
@@ -4735,6 +4775,226 @@ class S {
     return Intl.message(
       'Report',
       name: 'report',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite Link`
+  String get inviteLink {
+    return Intl.message(
+      'Invite Link',
+      name: 'inviteLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite by Name`
+  String get inviteByName {
+    return Intl.message(
+      'Invite by Name',
+      name: 'inviteByName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Group not found`
+  String get groupNotFound {
+    return Intl.message(
+      'Group not found',
+      name: 'groupNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invite sent successfully`
+  String get inviteSent {
+    return Intl.message(
+      'Invite sent successfully',
+      name: 'inviteSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search contacts`
+  String get searchContacts {
+    return Intl.message(
+      'Search contacts',
+      name: 'searchContacts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search contacts to invite`
+  String get searchContactsToInvite {
+    return Intl.message(
+      'Search contacts to invite',
+      name: 'searchContactsToInvite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No users found`
+  String get noUsersFound {
+    return Intl.message(
+      'No users found',
+      name: 'noUsersFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Role`
+  String get role {
+    return Intl.message(
+      'Role',
+      name: 'role',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expires`
+  String get expires {
+    return Intl.message(
+      'Expires',
+      name: 'expires',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never`
+  String get never {
+    return Intl.message(
+      'Never',
+      name: 'never',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Day`
+  String get oneDay {
+    return Intl.message(
+      '1 Day',
+      name: 'oneDay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Week`
+  String get oneWeek {
+    return Intl.message(
+      '1 Week',
+      name: 'oneWeek',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `1 Month`
+  String get oneMonth {
+    return Intl.message(
+      '1 Month',
+      name: 'oneMonth',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reusable`
+  String get reusable {
+    return Intl.message(
+      'Reusable',
+      name: 'reusable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Invite`
+  String get sendInvite {
+    return Intl.message(
+      'Send Invite',
+      name: 'sendInvite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy Link`
+  String get copyLink {
+    return Intl.message(
+      'Copy Link',
+      name: 'copyLink',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Joined`
+  String get joined {
+    return Intl.message(
+      'Joined',
+      name: 'joined',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Community Invite`
+  String get communityInvite {
+    return Intl.message(
+      'Community Invite',
+      name: 'communityInvite',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expired`
+  String get expired {
+    return Intl.message(
+      'Expired',
+      name: 'expired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This invite has expired`
+  String get inviteExpired {
+    return Intl.message(
+      'This invite has expired',
+      name: 'inviteExpired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Join Community`
+  String get joinCommunity {
+    return Intl.message(
+      'Join Community',
+      name: 'joinCommunity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expiring now`
+  String get expiringNow {
+    return Intl.message(
+      'Expiring now',
+      name: 'expiringNow',
       desc: '',
       args: [],
     );

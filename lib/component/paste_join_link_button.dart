@@ -57,6 +57,7 @@ class _PasteJoinLinkButtonState extends State<PasteJoinLinkButton> {
       child: Visibility(
         visible: _hasValidLink,
         child: FloatingActionButton.extended(
+          heroTag: 'paste_join_link_fab',
           backgroundColor: primaryColor,
           foregroundColor: Colors.white,
           icon: const Icon(Icons.content_paste),

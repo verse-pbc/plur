@@ -2,6 +2,9 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 
 /// Extension to add calendar-related event kinds to the Nostr SDK's EventKind enum
 extension EventKindExtension on EventKind {
+  /// Group invite accept (NIP-28) - Kind 43
+  static const int groupInviteAccept = 43;
+  
   /// Date-bounded event (NIP-52) - Kind 31922
   static const int dateBoundedEvent = 31922;
   

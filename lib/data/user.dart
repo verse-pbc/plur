@@ -1,4 +1,18 @@
 class User {
+  /// Gets the best available name for the user
+  /// Returns display name if available, otherwise name, or a shortened pubkey
+  String getName() {
+    if (displayName != null && displayName!.isNotEmpty) {
+      return displayName!;
+    } else if (name != null && name!.isNotEmpty) {
+      return name!;
+    } else if (pubkey != null) {
+      return pubkey!.substring(0, 8) + '...';
+    } else {
+      return '???';
+    }
+  }
+  
   String? pubkey;
   String? name;
   String? displayName;
