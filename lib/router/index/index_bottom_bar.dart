@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../component/add_btn_wrapper_widget.dart';
+import '../../generated/l10n.dart';
 import '../../main.dart';
 
 class IndexBottomBar extends StatefulWidget {
@@ -25,43 +25,38 @@ class _IndexBottomBar extends State<IndexBottomBar> {
 
     List<Widget> list = [];
 
-    int current = 0;
-
+    // Communities icon - for groups/communities tab
     list.add(Expanded(
       child: IndexBottomBarButton(
-        iconData: Icons.home_rounded,
-        index: current,
-        selected: current == currentTap,
+        iconData: Icons.group_rounded,
+        index: 0, // Using absolute index instead of counter for stability
+        selected: 0 == currentTap,
+        label: S.of(context).communities,
         onDoubleTap: () {
           indexProvider.followScrollToTop();
         },
       ),
     ));
-    current++;
 
-    if (!nostr!.isReadOnly()) {
-      list.add(Expanded(
-        child: AddBtnWrapperWidget(
-          child: IndexBottomBarButton(
-            iconData: Icons.add_circle_outline_rounded, // notifications_active
-            index: -1,
-            selected: false,
-            bigFont: true,
-            onTap: (value) {
-            },
-          ),
-        ),
-      ));
-    }
-
+    // Messages icon (DMs)
     list.add(Expanded(
       child: IndexBottomBarButton(
-        iconData: Icons.mail_rounded,
-        index: current,
-        selected: current == currentTap,
+        iconData: Icons.message_rounded,
+        index: 1, // Using absolute index instead of counter
+        selected: 1 == currentTap,
+        label: S.of(context).messages,
       ),
     ));
-    current++;
+    
+    // Search icon
+    list.add(Expanded(
+      child: IndexBottomBarButton(
+        iconData: Icons.search_rounded,
+        index: 2, // Using absolute index
+        selected: 2 == currentTap,
+        label: S.of(context).search,
+      ),
+    ));
 
     return Container(
       decoration: BoxDecoration(
@@ -98,6 +93,7 @@ class IndexBottomBarButton extends StatelessWidget {
   final Function(int)? onTap;
   final bool bigFont;
   final Function? onDoubleTap;
+  final String? label; // Added label for text under the icon
 
   const IndexBottomBarButton({
     super.key, 
@@ -107,6 +103,7 @@ class IndexBottomBarButton extends StatelessWidget {
     this.onTap,
     this.onDoubleTap,
     this.bigFont = false,
+    this.label,
   });
 
   @override
@@ -133,10 +130,23 @@ class IndexBottomBarButton extends StatelessWidget {
       },
       child: SizedBox(
         height: IndexBottomBar.height,
-        child: Icon(
-          iconData,
-          color: selected ? selectedColor : null,
-          size: bigFont ? 40 : null,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              iconData,
+              color: selected ? selectedColor : null,
+              size: bigFont ? 32 : 24,
+            ),
+            if (label != null)
+              Text(
+                label!,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: selected ? selectedColor : themeData.textTheme.bodyMedium?.color,
+                ),
+              ),
+          ],
         ),
       ),
     );

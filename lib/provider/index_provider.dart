@@ -3,17 +3,18 @@ import 'package:flutter/foundation.dart';
 
 import '../consts/index_taps.dart';
 
-// Community view modes - grid or feed
+// Community view modes - grid, list, or feed
 enum CommunityViewMode {
   grid,
+  list,
   feed
 }
 
 class IndexProvider extends ChangeNotifier {
   int _currentTap = IndexTaps.follow;
   
-  // Default to grid view for communities
-  CommunityViewMode _communityViewMode = CommunityViewMode.grid;
+  // Default to list view for communities
+  CommunityViewMode _communityViewMode = CommunityViewMode.list;
   
   @override
   void dispose() {
@@ -31,6 +32,13 @@ class IndexProvider extends ChangeNotifier {
   static void setGlobalViewModeToGrid() {
     if (_instance != null) {
       _instance!._communityViewMode = CommunityViewMode.grid;
+      _instance!.notifyListeners();
+    }
+  }
+  
+  static void setGlobalViewModeToList() {
+    if (_instance != null) {
+      _instance!._communityViewMode = CommunityViewMode.list;
       _instance!.notifyListeners();
     }
   }
