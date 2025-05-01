@@ -15,23 +15,34 @@ def find_podspec
   end
 end
 
-# Patch the podspec file to use MLKit instead of GoogleMLKit
+# Patch the podspec file to use the latest MLKit version
 def patch_podspec(podspec_path)
   return false unless podspec_path && File.exist?(podspec_path)
   
   content = File.read(podspec_path)
   
-  # Replace GoogleMLKit/BarcodeScanning with MLKit/BarcodeScanning
-  # MLKit is the newer name for the same package
-  patched_content = content.gsub(
-    /s\.dependency 'GoogleMLKit\/BarcodeScanning', '~> 4\.0\.0'/,
-    "s.dependency 'MLKit/BarcodeScanning', '~> 4.0.0'"
-  )
+  # First check if we need to update from GoogleMLKit to MLKit
+  if content.include?('GoogleMLKit/BarcodeScanning')
+    # Replace GoogleMLKit/BarcodeScanning with MLKit/BarcodeScanning
+    patched_content = content.gsub(
+      /s\.dependency 'GoogleMLKit\/BarcodeScanning', '~> 4\.0\.0'/,
+      "s.dependency 'MLKit/BarcodeScanning', '~> 7.0.0'"
+    )
+  elsif content.include?('MLKit/BarcodeScanning')
+    # Update the version if it's already using MLKit
+    patched_content = content.gsub(
+      /s\.dependency 'MLKit\/BarcodeScanning', '~> 4\.0\.0'/,
+      "s.dependency 'MLKit/BarcodeScanning', '~> 7.0.0'"
+    )
+  else
+    puts "Could not find BarcodeScanning dependency in podspec"
+    return false
+  end
   
   # Only write if changes were made
   if content != patched_content
     File.write(podspec_path, patched_content)
-    puts "Successfully patched mobile_scanner.podspec to use MLKit/BarcodeScanning"
+    puts "Successfully patched mobile_scanner.podspec to use MLKit/BarcodeScanning ~> 7.0.0"
     return true
   else
     puts "No changes needed for mobile_scanner.podspec"
