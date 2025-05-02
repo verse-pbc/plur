@@ -1,3 +1,4 @@
+source 'https://cdn.cocoapods.org/'
 # Uncomment this line to define a global platform for your project
 platform :ios, '15.5'
 
@@ -38,8 +39,6 @@ target 'Runner' do
   pod 'GoogleMLKit/Translate', '7.0.0'
 end
 
-# Do not duplicate sources; use only the main CocoaPods specs repo
-source 'https://github.com/CocoaPods/Specs.git'
 
 
 post_install do |installer|
