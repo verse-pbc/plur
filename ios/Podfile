@@ -57,6 +57,8 @@ post_install do |installer|
     if target.name == 'cryptography_flutter'
       target.build_configurations.each do |config|
         config.build_settings['DEFINES_MODULE'] = 'YES'
+        config.build_settings['CLANG_ENABLE_MODULES'] = 'YES'
+        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
       end
     end
     
