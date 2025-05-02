@@ -31,9 +31,6 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  # Run our patch script before installing pods
-  system('ruby', File.join(File.dirname(File.realpath(__FILE__)), 'mobile_scanner_podspec_patch.rb'))
-  
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
   # Use available versions of MLKit packages
@@ -41,8 +38,8 @@ target 'Runner' do
   pod 'GoogleMLKit/Translate', '7.0.0'
 end
 
-# Only using the official CocoaPods source
-source 'https://cdn.cocoapods.org/'
+# Do not duplicate sources; use only the main CocoaPods specs repo
+source 'https://github.com/CocoaPods/Specs.git'
 
 
 post_install do |installer|
