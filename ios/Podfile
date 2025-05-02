@@ -2,6 +2,12 @@ source 'https://cdn.cocoapods.org/'
 # Uncomment this line to define a global platform for your project
 platform :ios, '15.5'
 
+# add this line:
+$iOSVersion = '15.5'
+
+# Suppress master specs repo warning
+install! 'cocoapods', :warn_for_unused_master_specs_repo => false
+
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
@@ -35,20 +41,23 @@ target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
   # Use available versions of MLKit packages
-  pod 'GoogleMLKit/BarcodeScanning', '8.0.0'
   pod 'GoogleMLKit/Translate', '7.0.0'
 end
 
-
-
 post_install do |installer|
+  installer.pods_project.build_configurations.each do |config|
+    config.build_settings["EXCLUDED_ARCHS[sdk=*]"] = "armv7"
+    config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+  end
+
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     
     # Architecture compatibility settings
     target.build_configurations.each do |config|
-      # Ensure proper deployment target
-      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.5'
+      if Gem::Version.new($iOSVersion) > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
+      end
       
       # Support both architectures for the simulator
       if config.build_settings['SDKROOT'] == 'iphonesimulator'
