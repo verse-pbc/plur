@@ -25,7 +25,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           flutter-version-file: pubspec.yaml
-          channel: 'stable'
+          channel: 'dev'
       - name: Install Flutter Dependencies
         run: flutter pub get
       - name: Build Flutter .app
