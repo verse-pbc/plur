@@ -1,7 +1,6 @@
-```markdown
 ## Calendar & Events
 
-_Add a new “Events” module in each Group, alongside Chat, Posts/Notes, and Asks & Offers._
+_Add a new "Events" module in each Group, alongside Chat, Posts/Notes, and Asks & Offers._
 
 ### 1. Objective  
 Enable communities to create, discover, RSVP to, and manage events—either scoped privately to the group or made public—using decentralized Nostr standards.
@@ -13,8 +12,8 @@ Enable communities to create, discover, RSVP to, and manage events—either scop
 - **As a Group Member**, I want to create events with title, description, date/time, location, so that I can organize meetups and activities.  
 - **As a Group Admin**, I want to choose whether an event is private (group‑only), unlisted (public_link), or fully public, so I can control visibility.  
 - **As a Member**, I want to RSVP (Going, Interested, Not Going) and see who else is attending.  
-- **As a Visitor**, I want to browse public events from groups I don’t belong to.  
-- **As an Organizer**, I want reminder notifications (1 week, 1 day, same‑day) for my upcoming events.  
+- **As a Visitor**, I want to browse public events from groups I don't belong to.  
+- **As an Organizer**, I want reminder notifications (1 week, 1 day, same‑day) for my upcoming events.  
 - **As a Group**, I want recurring events (weekly, monthly) and event templates for common activities.
 
 ---
@@ -41,13 +40,13 @@ Enable communities to create, discover, RSVP to, and manage events—either scop
 - **Optional tags**: `["location", …]`, `["p", …]` (organizers), `["t", …]` (category), recurrence rules.
 
 #### 3.3 RSVP & Attendance  
-- Clicking an RSVP button publishes a kind 31925 reaction with `["l","status"]`, plus the same `h` + `v` tags.  
+- Clicking an RSVP button publishes a kind 31925 reaction with `["l","status"]`, plus the same `h` + `v` tags.  
 - Display counts and attendee list in event details.
 
 #### 3.4 Event Listing & Discovery  
 - **Group Calendar View**:  
   - List, Month, Week, Map views  
-  - Filters: “My RSVPs”, Tags, Date range  
+  - Filters: "My RSVPs", Tags, Date range  
 - **Global Events Feed**:  
   - Shows events with `v=public`  
   - Search by keyword, location radius, date.  
@@ -65,15 +64,15 @@ Enable communities to create, discover, RSVP to, and manage events—either scop
 - **Encryption**: All `v=private` events must use NIP‑44 payload encryption.  
 - **Offline Support**: Cache upcoming events locally for offline viewing.  
 - **Relay Efficiency**: Use tag filters (`#h`, `#v`, kinds) to minimize data.  
-- **Accessibility**: WCAG 2.1 AA compliance for date pickers, forms, and maps.  
-- **Performance**: Load monthly calendar in under 200 ms on 4G.
+- **Accessibility**: WCAG 2.1 AA compliance for date pickers, forms, and maps.  
+- **Performance**: Load monthly calendar in under 200 ms on 4G.
 
 ---
 
 ### 5. UI/UX Flow
 
-1. **Group Home → “Events” Tab**  
-2. **Event List** (with toolbar: “Create”, Filter dropdown, Search bar)  
+1. **Group Home → "Events" Tab**  
+2. **Event List** (with toolbar: "Create", Filter dropdown, Search bar)  
 3. **Event Detail Page** (title, banner, details, map embed, RSVP buttons, attendee avatars)  
 4. **Create/Edit Modal** (multi‑step wizard or single page with anchors)  
 5. **Public Events**: `/g/<group-id>/events/public` route for SEO and sharing.
