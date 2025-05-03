@@ -45,7 +45,11 @@ class EventDB {
     jsonObj.remove("sig");
     jsonObj["key_index"] = keyIndex;
     try {
-      return await db.insert("event", jsonObj);
+      return await db.insert(
+        "event", 
+        jsonObj,
+        conflictAlgorithm: ConflictAlgorithm.replace
+      );
     } catch (e) {
       return 0;
     }

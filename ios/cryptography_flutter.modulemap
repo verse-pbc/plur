@@ -1,0 +1,5 @@
+module cryptography_flutter {
+  umbrella header "CryptographyFlutterPlugin.h"
+  export *
+  module * { export * }
+} 

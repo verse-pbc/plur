@@ -21,7 +21,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>LSApplicationCategoryType</key>
-	<string>FLUTTER_BUILD_NAME</string>
+	<string>public.app-category.social-networking</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
