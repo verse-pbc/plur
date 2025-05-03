@@ -1,4 +1,3 @@
-
 import 'package:nostrmo/data/dm_session_info.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -23,7 +22,11 @@ class DMSessionInfoDB {
   static Future<int> insert(DMSessionInfo o, {DatabaseExecutor? db}) async {
     db = await DB.getDB(db);
     var jsonObj = o.toJson();
-    return await db.insert("dm_session_info", jsonObj);
+    return await db.insert(
+      "dm_session_info", 
+      jsonObj,
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
   static Future<int> update(DMSessionInfo o, {DatabaseExecutor? db}) async {

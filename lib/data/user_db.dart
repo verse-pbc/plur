@@ -28,7 +28,11 @@ class UserDB {
 
   static Future<int> insert(User o, {DatabaseExecutor? db}) async {
     db = await DB.getDB(db);
-    return await db.insert("metadata", o.toFullJson());
+    return await db.insert(
+      "metadata", 
+      o.toFullJson(),
+      conflictAlgorithm: ConflictAlgorithm.replace
+    );
   }
 
   static Future update(User o, {DatabaseExecutor? db}) async {

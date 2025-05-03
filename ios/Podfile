@@ -38,7 +38,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'cryptography_flutter', :path => '.symlinks/plugins/cryptography_flutter/ios'
+  # Remove explicit cryptography_flutter pod and let Flutter handle it
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
   # Use available versions of MLKit packages
@@ -54,26 +54,17 @@ post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
     
-    if target.name == 'cryptography_flutter'
-      target.build_configurations.each do |config|
-        config.build_settings['DEFINES_MODULE'] = 'YES'
-        config.build_settings['CLANG_ENABLE_MODULES'] = 'YES'
-        config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
-      end
-      # Copy module map into the cryptography_flutter source directory to ensure module availability.
-      require 'fileutils'
-      module_map_src = File.join(File.dirname(__FILE__), 'cryptography_flutter.modulemap')
-      module_map_dest = File.join(target.pod_target_srcroot, 'module.modulemap')
-      if File.exist?(module_map_src)
-        FileUtils.cp(module_map_src, module_map_dest)
-        puts "Copied cryptography_flutter.modulemap to #{module_map_dest}"
-      else
-        puts "cryptography_flutter.modulemap not found at #{module_map_src}"
-      end
-    end
-    
-    # Architecture compatibility settings
+    # Configure all targets to use frameworks
     target.build_configurations.each do |config|
+      config.build_settings['BUILD_LIBRARY_FOR_DISTRIBUTION'] = 'YES'
+      config.build_settings['ENABLE_BITCODE'] = 'NO'
+      config.build_settings['SWIFT_VERSION'] = '5.0'
+      config.build_settings['DEFINES_MODULE'] = 'YES'
+      config.build_settings['CLANG_ENABLE_MODULES'] = 'YES'
+      config.build_settings['SWIFT_INSTALL_OBJC_HEADER'] = 'YES'
+      config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
+      
+      # Architecture compatibility settings
       if Gem::Version.new($iOSVersion) > Gem::Version.new(config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'])
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = $iOSVersion
       end
@@ -88,7 +79,7 @@ post_install do |installer|
       # Fix build settings that might cause issues
       config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
         '$(inherited)',
-        'PERMISSION_CAMERA=1', # Add permissions needed by your app
+        'PERMISSION_CAMERA=1',
         'PERMISSION_PHOTOS=1',
         'PERMISSION_MICROPHONE=1',
         'PERMISSION_NOTIFICATIONS=1'
