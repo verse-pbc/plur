@@ -15,7 +15,9 @@
 
 # Work around
 # https://github.com/fastlane/fastlane/issues/20919
-ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "60" 
+ENV["FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT"] = "120" 
+ENV["FASTLANE_XCODE_LIST_TIMEOUT"] = "120"
+ENV["FASTLANE_XCODEBUILD_SETTINGS_RETRIES"] = "5"
 CHANGELOG_PATH = "CHANGELOG.md"
 
 platform :ios do
@@ -84,12 +86,34 @@ platform :ios do
         provisioningProfiles: {
           options[:appidentifier] => "match AppStore #{options[:appidentifier]}"
         }
-      }
+      },
+      clean: true,
+      silent: false,
+      xcargs: "-allowProvisioningUpdates FLUTTER_BUILD_MODE=release",
+      export_xcargs: "-allowProvisioningUpdates",
+      skip_profile_detection: true,
+      output_directory: "build/ios/ipa",
+      output_name: "Plur",
+      include_bitcode: false,
+      include_symbols: true,
+      derived_data_path: "build/ios/derivedData"
     }
     
     # Add configuration if specified
     gym_options[:configuration] = build_configuration if build_configuration
     
+    # Set timeout for build
+    ENV["GYM_BUILD_TIMEOUT"] = "3600" # 1 hour timeout
+    
+    # Ensure the Flutter build is done first
+    sh("cd .. && flutter build ios --release --flavor Runner-Staging --dart-define=ENVIRONMENT=\"staging\" --no-codesign")
+    
+    # Debug info
+    UI.important("Building with scheme: #{options[:scheme]}")
+    UI.important("Configuration: #{build_configuration}")
+    UI.important("App identifier: #{options[:appidentifier]}")
+    
+    # Run the build
     gym(gym_options)
 
     testflight_groups = options[:distribution_groups] || []
@@ -123,7 +147,30 @@ platform :ios do
 
   desc "Push a new Plur staging build to TestFlight"
   lane :deploy_staging do
+    # Set environment variables for staging build
     ENV["XCODE_XCCONFIG_FILE"] = "#{Dir.pwd}/../ios/Flutter/Staging.xcconfig"
+    
+    # Check if Runner-Staging scheme exists, create it if not
+    scheme_path = "../ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner-Staging.xcscheme"
+    unless File.exist?(scheme_path)
+      UI.important("Creating Runner-Staging scheme from Runner scheme")
+      sh("cp ../ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme #{scheme_path}")
+      sh("sed -i '' 's/buildConfiguration = \"Debug\"/buildConfiguration = \"Debug-Runner-Staging\"/g' #{scheme_path}")
+      sh("sed -i '' 's/buildConfiguration = \"Release\"/buildConfiguration = \"Release-Runner-Staging\"/g' #{scheme_path}")
+    end
+    
+    # Ensure Flutter packages are up to date
+    sh("cd .. && flutter pub get")
+    
+    # Update the provisioning profiles and certificates
+    match(
+      type: "appstore",
+      app_identifier: "app.verse.prototype.plur-staging",
+      readonly: is_ci,
+      force_for_new_devices: true
+    )
+    
+    # Push the build to TestFlight
     push_build(
       scheme: "Runner-Staging",
       appidentifier: "app.verse.prototype.plur-staging",

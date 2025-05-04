@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Consolidate macOS build scripts and document comprehensive build process
 - Create unified solution for cryptography_flutter architecture compatibility issues on macOS
 - Improve build documentation with detailed troubleshooting steps for all platforms
+- Fix iOS GitHub Actions deployment with enhanced fastlane configuration 
+- Improve CI build reliability with detailed error reporting and proper timeout settings
+- Update Flutter flavor handling in CI for more reliable TestFlight deployments
 
 ### Release Notes
 - Completely redesigned onboarding flow with 4-step process:
