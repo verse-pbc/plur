@@ -20,11 +20,15 @@ jobs:
         uses: actions/checkout@main
         with:
           submodules: 'recursive'
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version-file: pubspec.yaml
-          channel: 'dev'
+      - name: Clone Flutter SDK
+        run: |
+          git clone --branch dev https://github.com/flutter/flutter.git flutter
+          cd flutter
+          git fetch --tags --depth=1
+          git checkout 3.32.0-0.3.pre
+          ./bin/flutter precache --ios
+      - name: Add Flutter to PATH
+        run: echo "${{ github.workspace }}/flutter/bin" >> $GITHUB_PATH
       - name: Install Flutter Dependencies
         run: flutter pub get
       - name: Build Flutter .app
