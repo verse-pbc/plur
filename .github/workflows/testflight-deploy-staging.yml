@@ -17,7 +17,7 @@ jobs:
     runs-on: macOS-15
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
         with:
           submodules: 'recursive'
           fetch-depth: 0  # Fetch all history for all tags and branches
@@ -63,55 +63,25 @@ jobs:
             sed -i '' 's/buildConfiguration = "Release"/buildConfiguration = "Release-Runner-Staging"/g' "$SCHEME_PATH"
           fi
       
-      # Set Xcode version
-      - uses: nomasystems/action-xcode-select@v0.1
-        with:
-          version: "16.3.0"
-      
-      # Install pods with manual direct patching for Sentry C++ files
-      - name: Install pods with direct C++ file patching
-        run: |
-          # First install pods
-          cd ios
-          pod install
-          cd ..
-          
-          # Directly create working stub CPPException.cpp file without dependencies
-          echo "// Stub implementation that avoids all dependencies
-#ifdef __cplusplus
-extern \"C\" {
-#endif
-
-void sentrycrashcm_register_cpp_exception_handler(void) {}
-void sentrycrashcm_deregister_cpp_exception_handler(void) {}
-void sentrycrashcm_handleException(int foo) {}
-void* sentrycrashcm_cppexception_getAPI(void) { return 0; }
-
-#ifdef __cplusplus
-}
-#endif" > ios/Pods/Sentry/Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_CPPException.cpp
-          
-          # Disable thread profiling in SentryProfilingConditionals.h
-          echo "#ifndef SentryProfilingConditionals_h
-#define SentryProfilingConditionals_h
-#define SENTRY_TARGET_PROFILING_SUPPORTED 0
-#endif" > ios/Pods/Sentry/Sources/Sentry/Public/SentryProfilingConditionals.h
-          
-          echo "Pods installed and Sentry C++ files directly patched"
-      
-      # Moved preliminary build after Sentry patch for C++ compatibility
+      # Do a preliminary build to set up configurations
       - name: Preliminary Flutter build
-        run: |
-          echo "Building after Sentry patch applied"
-          flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging"
+        run: flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging"
         env:
           SENTRY_DSN: ${{secrets.SENTRY_DSN}}
       
+      # Skip main building - let fastlane handle the build
+      - uses: nomasystems/action-xcode-select@v0.1
+        with:
+          version: "16.3.0"
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
+      - name: Install cocoapods
+        run: |
+          cd ios
+          pod install --repo-update
       
       - name: Check Xcode project structure
         run: |
@@ -144,7 +114,7 @@ void* sentrycrashcm_cppexception_getAPI(void) { return 0; }
       
       - name: Upload build logs if failed
         if: failure()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: fastlane-logs
           path: |
