@@ -73,15 +73,19 @@ jobs:
       - uses: nomasystems/action-xcode-select@v0.1
         with:
           version: "16.3.0"
+      
+      # Pre-install pods to apply Sentry C++ fixes early
+      - name: Install pods with Sentry fixes
+        run: |
+          cd ios
+          pod install
+          echo "Pods installed with Sentry C++ compatibility fixes"
+      
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
-      - name: Install cocoapods
-        run: |
-          cd ios
-          pod install --repo-update
       
       - name: Check Xcode project structure
         run: |
