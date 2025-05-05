@@ -68,19 +68,36 @@ jobs:
         with:
           version: "16.3.0"
       
-      # Install pods with automatic Sentry patching
-      - name: Install pods with Sentry patching
+      # Install pods with manual direct patching for Sentry C++ files
+      - name: Install pods with direct C++ file patching
         run: |
-          # The fix_sentry.sh script will be automatically run by the post_install hook in Podfile
+          # First install pods
           cd ios
           pod install
           cd ..
           
-          # Extra safety - run the script again directly to ensure all fixes are applied
-          chmod +x ios/fix_sentry.sh
-          ./ios/fix_sentry.sh
+          # Directly create working stub CPPException.cpp file without dependencies
+          echo "// Stub implementation that avoids all dependencies
+#ifdef __cplusplus
+extern \"C\" {
+#endif
+
+void sentrycrashcm_register_cpp_exception_handler(void) {}
+void sentrycrashcm_deregister_cpp_exception_handler(void) {}
+void sentrycrashcm_handleException(int foo) {}
+void* sentrycrashcm_cppexception_getAPI(void) { return 0; }
+
+#ifdef __cplusplus
+}
+#endif" > ios/Pods/Sentry/Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_CPPException.cpp
           
-          echo "Pods installed and Sentry patched for C++ compatibility"
+          # Disable thread profiling in SentryProfilingConditionals.h
+          echo "#ifndef SentryProfilingConditionals_h
+#define SentryProfilingConditionals_h
+#define SENTRY_TARGET_PROFILING_SUPPORTED 0
+#endif" > ios/Pods/Sentry/Sources/Sentry/Public/SentryProfilingConditionals.h
+          
+          echo "Pods installed and Sentry C++ files directly patched"
       
       # Moved preliminary build after Sentry patch for C++ compatibility
       - name: Preliminary Flutter build
