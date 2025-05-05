@@ -68,43 +68,18 @@ jobs:
         with:
           version: "16.3.0"
       
-      # Create a patch script for Sentry and install pods
-      - name: Create Sentry patch and install pods
+      # Install pods and patch Sentry sources for C++ compatibility
+      - name: Install pods and patch Sentry
         run: |
-          # Create a patch script to modify Sentry source directly
-          cat > ios/patch_sentry.sh << 'EOL'
-          #!/bin/bash
-          
-          # Find Sentry sources
-          SENTRY_DIR="ios/Pods/Sentry"
-          if [ -d "$SENTRY_DIR" ]; then
-            echo "Found Sentry at $SENTRY_DIR"
-            
-            # Disable thread profiling by creating a header file with the define
-            echo "#define SENTRY_NO_THREAD_PROFILING 1" > ios/Pods/Sentry/Sources/Sentry/include/SentryDisableThreadProfiling.h
-            
-            # Include the header in main Sentry header
-            sed -i.bak '1i\
-            #include "SentryDisableThreadProfiling.h"
-            ' ios/Pods/Sentry/Sources/Sentry/include/Sentry.h
-            
-            echo "Sentry patched to disable thread profiling"
-          else
-            echo "Could not find Sentry directory"
-            exit 1
-          fi
-          EOL
-          
-          # Make the script executable
-          chmod +x ios/patch_sentry.sh
-          
-          # Install pods
+          # First, install the pods
           cd ios
           pod install
-          
-          # Run the Sentry patch
           cd ..
-          ./ios/patch_sentry.sh
+          
+          # Run the enhanced Sentry patch script that completely disables thread profiling
+          # and provides stub implementations for problematic C++ code
+          chmod +x ios/fix_sentry.sh
+          ./ios/fix_sentry.sh
           
           echo "Pods installed and Sentry patched for C++ compatibility"
       
