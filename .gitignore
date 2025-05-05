@@ -58,3 +58,5 @@ fastlane/report.xml
 
 **/.claude/settings.local.json
 .aider*
+
+local.properties
