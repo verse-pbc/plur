@@ -68,16 +68,15 @@ jobs:
         with:
           version: "16.3.0"
       
-      # Install pods and patch Sentry sources for C++ compatibility
-      - name: Install pods and patch Sentry
+      # Install pods with automatic Sentry patching
+      - name: Install pods with Sentry patching
         run: |
-          # First, install the pods
+          # The fix_sentry.sh script will be automatically run by the post_install hook in Podfile
           cd ios
           pod install
           cd ..
           
-          # Run the enhanced Sentry patch script that completely disables thread profiling
-          # and provides stub implementations for problematic C++ code
+          # Extra safety - run the script again directly to ensure all fixes are applied
           chmod +x ios/fix_sentry.sh
           ./ios/fix_sentry.sh
           
