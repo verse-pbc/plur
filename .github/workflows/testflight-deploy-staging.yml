@@ -14,115 +14,72 @@ concurrency:
 
 jobs:
   fastlane-deploy:
-    runs-on: macOS-15
+    runs-on: macOS-15 # Use a runner known to have multiple Xcode versions
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4 # Use stable version tag
         with:
           submodules: 'recursive'
-          fetch-depth: 0  # Fetch all history for all tags and branches
       
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+      # Add step to select specific Xcode version
+      - name: Select Xcode 16.2
+        uses: maxim-lobanov/setup-xcode@v1
         with:
-          ruby-version: '3.2.2'
-          bundler-cache: true
-      
+          xcode-version: '16.2' # Pinning to known working version
+
+      # Keep Flutter SDK setup via cloning for specific version
       - name: Clone Flutter SDK
         run: |
           git clone --branch dev https://github.com/flutter/flutter.git flutter
           cd flutter
           git fetch --tags --depth=1
-          git checkout 3.32.0-0.3.pre
+          git checkout 3.32.0-0.3.pre # Your specific pre-release tag
           ./bin/flutter precache --ios
-      
       - name: Add Flutter to PATH
         run: echo "${{ github.workspace }}/flutter/bin" >> $GITHUB_PATH
-      
+
       - name: Install Flutter Dependencies
-        run: |
-          flutter pub get
-          flutter clean
-          flutter pub get
+        run: flutter pub get
       
-      # Ensure Xcode 16.3 is selected
-      - name: Select Xcode version
-        run: sudo xcode-select -s /Applications/Xcode_16.3.app
-      
-      - name: Xcode version check
-        run: xcodebuild -version
-      
-      # Create runner-staging scheme if it doesn't exist
-      - name: Setup Xcode scheme
-        run: |
-          SCHEME_PATH="ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner-Staging.xcscheme"
-          if [ ! -f "$SCHEME_PATH" ]; then
-            echo "Creating Runner-Staging scheme from Runner scheme"
-            cp ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme "$SCHEME_PATH"
-            sed -i '' 's/buildConfiguration = "Debug"/buildConfiguration = "Debug-Runner-Staging"/g' "$SCHEME_PATH"
-            sed -i '' 's/buildConfiguration = "Release"/buildConfiguration = "Release-Runner-Staging"/g' "$SCHEME_PATH"
-          fi
-      
-      # Do a preliminary build to set up configurations
-      - name: Preliminary Flutter build
-        run: flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging"
+      # Use the standard flutter build command 
+      - name: Build Flutter .app
         env:
           SENTRY_DSN: ${{secrets.SENTRY_DSN}}
+        run: flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging" --dart-define=SENTRY_DSN="$SENTRY_DSN"
       
-      # Skip main building - let fastlane handle the build
-      - uses: nomasystems/action-xcode-select@v0.1
-        with:
-          version: "16.3.0"
+      # Removed nomasystems/action-xcode-select as we now use maxim-lobanov/setup-xcode
+      # - uses: nomasystems/action-xcode-select@v0.1 
+
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ Secrets.SSH_KEY }}
-          known_hosts: ${{ Secrets.KNOWN_HOSTS }}
-      - name: Install cocoapods and apply Sentry fixes
-        run: |
-          cd ios
-          pod install --repo-update
-          cd ..
-          # Apply direct Sentry fixes for CI environment
-          ./ios/fix_sentry_ci.sh
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: ${{ secrets.KNOWN_HOSTS }}
       
-      - name: Check Xcode project structure
+      # Ensure bundler is installed and run pod install before fastlane
+      - name: Setup Ruby and Install Pods
+        working-directory: ./ios
         run: |
-          echo "Checking Xcode project structure..."
-          ls -la ios/Runner.xcodeproj/xcshareddata/xcschemes/
-          echo "Checking flutter build configurations..."
-          ls -la ios/Flutter/
-          
+          gem install bundler
+          bundle install
+          bundle exec pod install --repo-update
+      
       - name: Fastlane build and deploy
         working-directory: ./fastlane
         run: |
-          gem install bundler:2.4.22
-          bundle install
-          echo "Running fastlane with verbose output"
-          bundle exec fastlane ios deploy_staging --verbose
+          # bundle install should already be done by previous step
+          bundle exec fastlane ios deploy_staging
         env:
-          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
-          APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY_ID: ${{ Secrets.APP_STORE_CONNECT_API_KEY_ID }}
-          MATCH_PASSWORD: ${{ Secrets.MATCH_PASSWORD }}
-          KEYCHAIN_PASS: ${{ Secrets.KEYCHAIN_PASS }}
-          SENTRY_AUTH: ${{ Secrets.SENTRY_AUTH }}
-          APP_SECRETS: ${{ Secrets.APP_SECRETS }}
+          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          KEYCHAIN_PASS: ${{ secrets.KEYCHAIN_PASS }}
+          SENTRY_AUTH: ${{ secrets.SENTRY_AUTH }}
+          APP_SECRETS: ${{ secrets.APP_SECRETS }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
-          FASTLANE_XCODE_LIST_TIMEOUT: 120
-          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
-          GYM_BUILD_TIMEOUT: 3600
           CI: true
-      
-      - name: Upload build logs if failed
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: fastlane-logs
-          path: |
-            ~/Library/Logs/gym/*.log
-            ~/Library/Logs/fastlane/*
+          
       - name: Upload debug symbols to Sentry
         env:
           SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
