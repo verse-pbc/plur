@@ -63,23 +63,58 @@ jobs:
             sed -i '' 's/buildConfiguration = "Release"/buildConfiguration = "Release-Runner-Staging"/g' "$SCHEME_PATH"
           fi
       
-      # Do a preliminary build to set up configurations
-      - name: Preliminary Flutter build
-        run: flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging"
-        env:
-          SENTRY_DSN: ${{secrets.SENTRY_DSN}}
-      
-      # Skip main building - let fastlane handle the build
+      # Set Xcode version
       - uses: nomasystems/action-xcode-select@v0.1
         with:
           version: "16.3.0"
       
-      # Pre-install pods to apply Sentry C++ fixes early
-      - name: Install pods with Sentry fixes
+      # Create a patch script for Sentry and install pods
+      - name: Create Sentry patch and install pods
         run: |
+          # Create a patch script to modify Sentry source directly
+          cat > ios/patch_sentry.sh << 'EOL'
+          #!/bin/bash
+          
+          # Find Sentry sources
+          SENTRY_DIR="ios/Pods/Sentry"
+          if [ -d "$SENTRY_DIR" ]; then
+            echo "Found Sentry at $SENTRY_DIR"
+            
+            # Disable thread profiling by creating a header file with the define
+            echo "#define SENTRY_NO_THREAD_PROFILING 1" > ios/Pods/Sentry/Sources/Sentry/include/SentryDisableThreadProfiling.h
+            
+            # Include the header in main Sentry header
+            sed -i.bak '1i\
+            #include "SentryDisableThreadProfiling.h"
+            ' ios/Pods/Sentry/Sources/Sentry/include/Sentry.h
+            
+            echo "Sentry patched to disable thread profiling"
+          else
+            echo "Could not find Sentry directory"
+            exit 1
+          fi
+          EOL
+          
+          # Make the script executable
+          chmod +x ios/patch_sentry.sh
+          
+          # Install pods
           cd ios
           pod install
-          echo "Pods installed with Sentry C++ compatibility fixes"
+          
+          # Run the Sentry patch
+          cd ..
+          ./ios/patch_sentry.sh
+          
+          echo "Pods installed and Sentry patched for C++ compatibility"
+      
+      # Moved preliminary build after Sentry patch for C++ compatibility
+      - name: Preliminary Flutter build
+        run: |
+          echo "Building after Sentry patch applied"
+          flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging"
+        env:
+          SENTRY_DSN: ${{secrets.SENTRY_DSN}}
       
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
