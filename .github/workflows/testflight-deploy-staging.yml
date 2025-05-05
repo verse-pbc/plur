@@ -17,7 +17,7 @@ jobs:
     runs-on: macOS-15
     steps:
       - name: Checkout
-        uses: actions/checkout@main
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
           fetch-depth: 0  # Fetch all history for all tags and branches
@@ -78,10 +78,13 @@ jobs:
         with:
           key: ${{ Secrets.SSH_KEY }}
           known_hosts: ${{ Secrets.KNOWN_HOSTS }}
-      - name: Install cocoapods
+      - name: Install cocoapods and apply Sentry fixes
         run: |
           cd ios
           pod install --repo-update
+          cd ..
+          # Apply direct Sentry fixes for CI environment
+          ./ios/fix_sentry_ci.sh
       
       - name: Check Xcode project structure
         run: |
@@ -114,7 +117,7 @@ jobs:
       
       - name: Upload build logs if failed
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: fastlane-logs
           path: |
