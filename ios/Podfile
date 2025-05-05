@@ -41,6 +41,9 @@ target 'Runner' do
   # Remove explicit cryptography_flutter pod and let Flutter handle it
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
   
+  # Pin to a specific Sentry version known to work with Xcode 16.3 & iOS 18.4 SDK
+  pod 'Sentry', '~> 8.15.0'
+  
   # Use available versions of MLKit packages
   pod 'GoogleMLKit/Translate', '7.0.0'
 end
@@ -73,6 +76,7 @@ post_install do |installer|
       if target.name.include?('Sentry') || target.name.include?('sentry')
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)']
         config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'SENTRY_NO_THREAD_PROFILING=1'
+        config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] << 'SENTRY_TARGET_PROFILING_SUPPORTED=0'
         config.build_settings['OTHER_CPLUSPLUSFLAGS'] = "$(OTHER_CFLAGS) -Wno-error=deprecated-builtins -Wno-error=deprecated-declarations -Wno-c++17-extensions -Wno-nullability-completeness -Wno-expansion-to-defined"
         config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
         config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
@@ -100,4 +104,10 @@ post_install do |installer|
       ]
     end
   end
+  
+  # Run the Sentry fix script after pods are installed
+  system("chmod +x #{__dir__}/fix_sentry.sh")
+  system("#{__dir__}/fix_sentry.sh")
+  
+  puts "✅ All pods installed and Sentry fixed for C++ compatibility!"
 end
