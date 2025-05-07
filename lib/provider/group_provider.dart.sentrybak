@@ -1,9 +1,7 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
-// Sentry has been removed
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class GroupProvider extends ChangeNotifier with LaterFunction {
   Map<String, GroupMetadata> groupMetadatas = {};
@@ -202,7 +200,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     var membersJsonMap = genFilter(groupId, EventKind.groupMembers);
     final filters = [metadataJsonMap, adminsJsonMap, membersJsonMap];
     if (nostr == null) {
-      log("nostr is null");
+      Sentry.captureMessage("nostr is null", level: SentryLevel.error);
       return;
     }
     nostr!.query(
@@ -232,7 +230,7 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     filterMap["#h"] = [groupId]; // Filter for our group ID in the "h" tag
     
     if (nostr == null) {
-      log("nostr is null");
+      Sentry.captureMessage("nostr is null", level: SentryLevel.error);
       return;
     }
     

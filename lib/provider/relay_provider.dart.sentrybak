@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-// Sentry has been removed
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../consts/client_connected.dart';
 import '../main.dart';
@@ -134,7 +134,7 @@ class RelayProvider extends ChangeNotifier {
       try {
         nostrSigner = LocalNostrSigner(key);
       } catch (exception, stackTrace) {
-        log("Relay provider exception: $exception\n$stackTrace");
+        await Sentry.captureException(exception, stackTrace: stackTrace);
       }
     }
 

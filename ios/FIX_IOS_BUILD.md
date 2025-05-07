@@ -1,6 +1,6 @@
 # iOS Build Fix Guide
 
-The iOS build issues are related to CocoaPods and deployment target compatibility. Follow these steps to fix them:
+The iOS build issues are related to CocoaPods, deployment target compatibility, and Sentry C++ code. Sentry has been completely removed from the project to solve compatibility issues with newer iOS SDK versions. Follow these steps to fix build issues:
 
 ## 1. Update your Ruby environment
 
@@ -82,6 +82,8 @@ post_install do |installer|
       if config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'].to_f < 15.5
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.5'
       end
+      
+      # Note: Sentry has been completely removed from the project
       
       # For Xcode 16+ compatibility
       if config.build_settings['MACOSX_DEPLOYMENT_TARGET'].to_f < 10.15

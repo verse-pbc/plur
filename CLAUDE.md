@@ -24,6 +24,7 @@ If iOS build fails, check the following common issues:
 2. **Ruby/CocoaPods version**: Use rbenv with Ruby 3.2.2+ and CocoaPods 1.12+
 3. **Missing localization files**: If errors about missing messages_*.dart files appear, check lib/generated/intl/messages_all.dart
 4. **Xcode configuration**: Make sure xcconfig files include the proper CocoaPods configurations
+5. **Sentry**: Sentry has been completely removed from this project to avoid C++ compatibility issues with newer iOS SDK versions
 
 See `ios/FIX_IOS_BUILD.md` for detailed iOS build troubleshooting steps.
 

@@ -104,7 +104,6 @@ dependencies:
   super_tooltip: ^2.0.9
   intl_utils: ^2.8.8
   styled_text: ^8.1.0
-  sentry_flutter: ^8.13.0
   path_provider: ^2.1.4
   package_info_plus: ^8.3.0
   logging: ^1.3.0
@@ -139,10 +138,6 @@ dev_dependencies:
   mockito: ^5.0.17
   build_runner: ^2.4.0
   flutter_lints: ^2.0.0
-
-  # A Dart Build Plugin that uploads debug symbols for Android, iOS/macOS and 
-  # source maps for Web to Sentry via sentry-cli.
-  sentry_dart_plugin: ^2.0.0
 dependency_overrides:
   photo_manager: ^3.5.0
   extended_image: ^8.3.0
@@ -206,9 +201,3 @@ flutter_native_splash:
 
 flutter_intl:
   enabled: true
-
-sentry:
-  project: "plur"
-  org: "verse"
-  url: "https://sentry.nos.social"
-  ignore_missing: true
