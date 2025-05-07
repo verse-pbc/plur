@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix iOS GitHub Actions deployment with enhanced fastlane configuration 
 - Improve CI build reliability with detailed error reporting and proper timeout settings
 - Update Flutter flavor handling in CI for more reliable TestFlight deployments
+- Remove Sentry completely to fix iOS 18 build compatibility issues
+- Fix iOS build process for App Store submissions with updated exportOptions.plist
 
 ### Release Notes
 - Completely redesigned onboarding flow with 4-step process:
