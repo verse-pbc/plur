@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'dart:developer';
 
 import '../signer/nostr_signer.dart';
 import '../utils/string_util.dart';
@@ -77,7 +76,7 @@ class NostrRemoteRequest {
         }
       }
     } catch (exception, stackTrace) {
-      await Sentry.captureException(exception, stackTrace: stackTrace);
+      log("Remote request exception: $exception\n$stackTrace");
     }
 
     return null;

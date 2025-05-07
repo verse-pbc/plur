@@ -1,0 +1,294 @@
+name: TestFlight Staging Deployment (Improved)
+permissions:
+  contents: write  # This is needed for tag pushing
+on:
+  # Enable manual run
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  fastlane-deploy:
+    runs-on: macOS-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'recursive'
+          fetch-depth: 0  # Fetch all history for all tags and branches
+      
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2.2'
+          bundler-cache: true
+      
+      - name: Clone Flutter SDK
+        run: |
+          git clone --branch dev https://github.com/flutter/flutter.git flutter
+          cd flutter
+          git fetch --tags --depth=1
+          git checkout 3.32.0-0.3.pre
+          ./bin/flutter precache --ios
+      
+      - name: Add Flutter to PATH
+        run: echo "${{ github.workspace }}/flutter/bin" >> $GITHUB_PATH
+      
+      - name: Install Flutter Dependencies
+        run: |
+          flutter pub get
+          flutter clean
+          flutter pub get
+      
+      # Ensure Xcode 16.3 is selected
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app
+      
+      - name: Xcode version check
+        run: xcodebuild -version
+      
+      # Create runner-staging scheme if it doesn't exist
+      - name: Setup Xcode scheme
+        run: |
+          SCHEME_PATH="ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner-Staging.xcscheme"
+          if [ ! -f "$SCHEME_PATH" ]; then
+            echo "Creating Runner-Staging scheme from Runner scheme"
+            cp ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme "$SCHEME_PATH"
+            sed -i '' 's/buildConfiguration = "Debug"/buildConfiguration = "Debug-Runner-Staging"/g' "$SCHEME_PATH"
+            sed -i '' 's/buildConfiguration = "Release"/buildConfiguration = "Release-Runner-Staging"/g' "$SCHEME_PATH"
+          fi
+      
+      # Create stub for Sentry to prevent import in Dart code
+      - name: Create Sentry Stub for iOS
+        run: |
+          echo "Creating Sentry stub files to avoid iOS/macOS compatibility issues"
+          cat > lib/sentry_import_helper.dart << 'EOL'
+          // This file is loaded on non-iOS/macOS platforms
+          // It imports the real Sentry package
+          
+          import 'package:sentry_flutter/sentry_flutter.dart';
+          
+          // Re-export Sentry to make it available to main.dart
+          export 'package:sentry_flutter/sentry_flutter.dart';
+          
+          class SentryStub {
+            static const bool isSentryAvailable = true;
+          }
+          
+          // Function to initialize Sentry
+          Future<void> initSentry(void Function() appRunner) async {
+            if (const bool.hasEnvironment("SENTRY_DSN")) {
+              try {
+                await SentryFlutter.init(
+                  (options) {
+                    // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+                    options.environment = const String.fromEnvironment('ENVIRONMENT',
+                        defaultValue: 'production');
+                  },
+                  appRunner: appRunner,
+                );
+              } catch (e) {
+                print("Error initializing Sentry: $e");
+                appRunner();
+              }
+            } else {
+              appRunner();
+            }
+          }
+          EOL
+          
+          echo "Creating Sentry stub for iOS/macOS"
+          cat > lib/sentry_import_helper_stub.dart << 'EOL'
+          // Empty stub for iOS/macOS that doesn't import Sentry
+          // This file is loaded on iOS/macOS platforms
+          
+          // Export the stub to be used in place of real Sentry
+          export 'sentry_stub.dart';
+          
+          // Define fallback functions that do nothing
+          Future<void> initSentry(void Function() appRunner) async {
+            // Just run the app directly without Sentry
+            appRunner();
+          }
+          
+          class SentryStub {
+            static const bool isSentryAvailable = false;
+          }
+          EOL
+          
+          echo "Creating Sentry main stub"
+          cat > lib/sentry_stub.dart << 'EOL'
+          // Stub implementation of Sentry to prevent compile errors on iOS/macOS
+          // This provides empty implementations of the Sentry classes and methods we use
+          
+          class SentryFlutter {
+            static Future<void> init(
+              Function(dynamic options) optionsConfiguration, {
+              required void Function() appRunner,
+            }) async {
+              // Just run the app without Sentry
+              appRunner();
+            }
+          }
+          
+          class SentryOptions {
+            String? environment;
+          }
+          EOL
+          
+          echo "✅ Sentry stub files created"
+      
+      # Do a preliminary build to set up configurations
+      - name: Preliminary Flutter build
+        run: flutter build ios --release --no-codesign --flavor Runner-Staging --dart-define=ENVIRONMENT="staging"
+        env:
+          SENTRY_DSN: ${{secrets.SENTRY_DSN}}
+      
+      # Skip main building - let fastlane handle the build
+      - uses: nomasystems/action-xcode-select@v0.1
+        with:
+          version: "16.3.0"
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ Secrets.SSH_KEY }}
+          known_hosts: ${{ Secrets.KNOWN_HOSTS }}
+      
+      # Create advanced fix script for Sentry
+      - name: Create Advanced Sentry Fix Script
+        run: |
+          # Copy our fix script to the ios directory
+          cp ios/fix_sentry_advanced.sh ios/fix_sentry_ci.sh
+          chmod +x ios/fix_sentry_ci.sh
+          
+          # Update Podfile to use our advanced fix script
+          PODFILE="ios/Podfile"
+          if [ -f "$PODFILE" ]; then
+            echo "Adding fix_sentry_ci.sh to Podfile post_install hook"
+            sed -i.bak '/post_install do |installer|/a\
+              # Run the CI Sentry fix script \
+              system("chmod +x #{__dir__}/fix_sentry_ci.sh") \
+              system("#{__dir__}/fix_sentry_ci.sh")
+            ' "$PODFILE"
+            
+            # Also add compiler flags
+            sed -i.bak2 '/post_install do |installer|/a\
+              # Add global compiler flags to force disable problematic Sentry features \
+              installer.pods_project.targets.each do |target| \
+                if target.name.include?("Sentry") \
+                  target.build_configurations.each do |config| \
+                    config.build_settings["GCC_PREPROCESSOR_DEFINITIONS"] ||= ["$(inherited)"] \
+                    config.build_settings["GCC_PREPROCESSOR_DEFINITIONS"] << "SENTRY_NO_EXCEPTIONS=1" \
+                    config.build_settings["GCC_PREPROCESSOR_DEFINITIONS"] << "SENTRY_NO_THREAD_PROFILING=1" \
+                    config.build_settings["GCC_PREPROCESSOR_DEFINITIONS"] << "SENTRY_TARGET_PROFILING_SUPPORTED=0" \
+                    config.build_settings["CLANG_CXX_LANGUAGE_STANDARD"] = "c++17" \
+                    config.build_settings["CLANG_CXX_LIBRARY"] = "libc++" \
+                  end \
+                end \
+              end
+            ' "$PODFILE"
+            
+            echo "✅ Podfile updated to run fix script and add compiler flags"
+          else
+            echo "❌ Podfile not found at ios/Podfile"
+          fi
+      
+      - name: Install cocoapods and run fix script
+        run: |
+          cd ios
+          pod install --repo-update
+          
+          # Run our fix script again to be extra sure
+          chmod +x fix_sentry_ci.sh
+          ./fix_sentry_ci.sh
+          
+          # Verify key files exist and have our patches
+          echo "Verifying patches were applied correctly:"
+          
+          CPP_EXCEPTION_FILE="Pods/Sentry/Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_CPPException.cpp"
+          if [ -f "$CPP_EXCEPTION_FILE" ]; then
+            echo "----- CPPException.cpp -----"
+            cat "$CPP_EXCEPTION_FILE"
+          else
+            echo "❌ CPPException.cpp not found!"
+          fi
+          
+          CPP_EXCEPTION_HEADER="Pods/Sentry/Sources/SentryCrash/Recording/Monitors/SentryCrashMonitor_CPPException.h"
+          if [ -f "$CPP_EXCEPTION_HEADER" ]; then
+            echo "----- CPPException.h -----"
+            cat "$CPP_EXCEPTION_HEADER"
+          else
+            echo "❌ CPPException.h not found!"
+          fi
+          
+          MONITOR_TYPE_FILE="Pods/Sentry/Sources/SentryCrash/Recording/Monitors/SentryCrashMonitorType.h"
+          if [ -f "$MONITOR_TYPE_FILE" ]; then
+            echo "----- MonitorType.h -----"
+            cat "$MONITOR_TYPE_FILE"
+          else
+            echo "❌ MonitorType.h not found!"
+          fi
+          
+          PROFILING_CONDITIONALS="Pods/Sentry/Sources/Sentry/Public/SentryProfilingConditionals.h"
+          if [ -f "$PROFILING_CONDITIONALS" ]; then
+            echo "----- ProfilingConditionals.h -----"
+            cat "$PROFILING_CONDITIONALS"
+          else
+            echo "❌ ProfilingConditionals.h not found!"
+          fi
+          
+          DISABLE_HEADER="Pods/Sentry/Sources/Sentry/include/SentryDisableFeatures.h"
+          if [ -f "$DISABLE_HEADER" ]; then
+            echo "----- SentryDisableFeatures.h -----"
+            cat "$DISABLE_HEADER"
+          else
+            echo "❌ SentryDisableFeatures.h not found!"
+          fi
+          
+          cd ..
+      
+      - name: Check Xcode project structure
+        run: |
+          echo "Checking Xcode project structure..."
+          ls -la ios/Runner.xcodeproj/xcshareddata/xcschemes/
+          echo "Checking flutter build configurations..."
+          ls -la ios/Flutter/
+          
+      - name: Fastlane build and deploy
+        working-directory: ./fastlane
+        run: |
+          gem install bundler:2.4.22
+          bundle install
+          echo "Running fastlane with verbose output"
+          bundle exec fastlane ios deploy_staging --verbose
+        env:
+          APP_STORE_CONNECT_API_KEY_CONTENT: ${{ Secrets.APP_STORE_CONNECT_API_KEY_CONTENT }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ Secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY_ID: ${{ Secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          MATCH_PASSWORD: ${{ Secrets.MATCH_PASSWORD }}
+          KEYCHAIN_PASS: ${{ Secrets.KEYCHAIN_PASS }}
+          SENTRY_AUTH: ${{ Secrets.SENTRY_AUTH }}
+          APP_SECRETS: ${{ Secrets.APP_SECRETS }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FASTLANE_XCODEBUILD_SETTINGS_TIMEOUT: 120
+          FASTLANE_XCODE_LIST_TIMEOUT: 120
+          FASTLANE_XCODEBUILD_SETTINGS_RETRIES: 5
+          GYM_BUILD_TIMEOUT: 3600
+          CI: true
+      
+      - name: Upload build logs if failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fastlane-logs
+          path: |
+            ~/Library/Logs/gym/*.log
+            ~/Library/Logs/fastlane/*
+            ios/Pods/Sentry/Sources/SentryCrash/Recording/Monitors/*
+      
+      - name: Upload debug symbols to Sentry
+        env:
+          SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
+        run: dart run sentry_dart_plugin --sentry-define=auth_token="$SENTRY_AUTH_TOKEN"

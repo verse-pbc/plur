@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,7 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/util/router_util.dart';
-// Sentry has been removed
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:styled_text/styled_text.dart';
 
 import '../../consts/base.dart';
@@ -543,7 +542,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         } catch (e, stackTrace) {
           // Show error message
           StyledBotToast.show(context, text: "Account creation failed: ${e.toString()}");
-          log("Login exception: $e\n$stackTrace");
+          await Sentry.captureException(e, stackTrace: stackTrace);
         } finally {
           // Hide loading indicator
           cancelLoading.call();
@@ -571,7 +570,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         try {
           pubkey = await Nip05Validator.getPubkey(pk);
         } catch (exception, stackTrace) {
-          log("Login exception: $exception\n$stackTrace");
+          await Sentry.captureException(exception, stackTrace: stackTrace);
         } finally {
           cancelFunc.call();
         }

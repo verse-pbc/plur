@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:sentry_flutter/sentry_flutter.dart';
+import 'dart:developer';
 
 import '../nip19/nip19.dart';
 import '../relay/client_connected.dart';
@@ -97,7 +96,7 @@ class NostrRemoteSigner extends NostrSigner {
           }
         }
       } catch (exception, stackTrace) {
-        await Sentry.captureException(exception, stackTrace: stackTrace);
+        log("Remote signer exception: $exception\n$stackTrace");
       }
     }
   }
