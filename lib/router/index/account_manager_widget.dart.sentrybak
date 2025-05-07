@@ -12,7 +12,7 @@ import 'package:nostrmo/provider/user_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-// Sentry has been removed
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../../consts/base.dart';
 import '../../data/dm_session_info_db.dart';
@@ -275,7 +275,7 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
         pubkey = getPublicKey(widget.accountKey);
       } catch (exception, stackTrace) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          log("Account manager exception: $exception\n$stackTrace");
+          Sentry.captureException(exception, stackTrace: stackTrace);
         });
       }
       loginTag = "";

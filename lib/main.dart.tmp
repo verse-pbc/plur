@@ -67,7 +67,10 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 import 'package:window_manager/window_manager.dart';
 
+// Conditionally import Sentry only on supported platforms
+// This prevents compile-time errors on iOS/macOS
 import 'dart:async';
+import 'sentry_import_helper.dart' if (dart.library.io) 'sentry_import_helper_stub.dart';
 
 import 'component/content/trie_text_matcher/trie_text_matcher.dart';
 import 'consts/base.dart';
@@ -439,9 +442,43 @@ Future<void> main() async {
     log("Application started");
   }
 
-  // Sentry has been completely removed from the project
-  log("Starting app without Sentry");
-  startApp();
+  // Skip Sentry on iOS and macOS to avoid build issues
+  bool skipSentry = false;
+  
+  try {
+    // Check if we're on iOS or macOS
+    if (kIsWeb) {
+      skipSentry = true;
+      log("Skipping Sentry initialization on web");
+    } else if (Platform.isIOS || Platform.isMacOS) {
+      skipSentry = true;
+      log("Skipping Sentry initialization on iOS/macOS");
+    }
+  } catch (e) {
+    // If Platform is not available, assume web
+    skipSentry = true;
+    log("Error checking platform: $e - assuming web platform");
+  }
+  
+  if (!skipSentry && const bool.hasEnvironment("SENTRY_DSN")) {
+    try {
+      await SentryFlutter.init(
+        (options) {
+          // environment can also be set with SENTRY_ENVIRONMENT in our secret .env files
+          options.environment = const String.fromEnvironment('ENVIRONMENT',
+              defaultValue: 'production');
+        },
+        appRunner: () {
+          startApp();
+        },
+      );
+    } catch (e) {
+      log("Error initializing Sentry: $e");
+      startApp();
+    }
+  } else {
+    startApp();
+  }
 }
 
 class MyApp extends StatefulWidget {
