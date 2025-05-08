@@ -9,6 +9,10 @@
 		<string>applinks:rabble.communities</string>
 		<string>applinks:rabble.community</string>
 		<string>webcredentials:rabble.community</string>
+		<string>webcredentials:chus.me</string>
+		<string>applinks:chus.me</string>
+		<string>webcredentials:chusme.social</string>
+		<string>applinks:chusme.social</string>
 	</array>
 </dict>
 </plist>

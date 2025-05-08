@@ -34,6 +34,30 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="plur" />
             </intent-filter>
+
+            <!-- Intent filter for chus.me standard invites -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="chus.me" android:pathPattern="/i/.*" />
+            </intent-filter>
+
+            <!-- Intent filter for chus.me web invites -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="chus.me" android:pathPattern="/join/.*" />
+            </intent-filter>
+
+            <!-- Intent filter for chus.me short URL invites -->
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="chus.me" android:pathPattern="/j/.*" />
+            </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
