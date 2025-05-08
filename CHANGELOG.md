@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update Flutter flavor handling in CI for more reliable TestFlight deployments
 - Remove Sentry completely to fix iOS 18 build compatibility issues
 - Fix iOS build process for App Store submissions with updated exportOptions.plist
+- Added support for chus.me invite links with universal/app links for seamless group joining
 
 ### Release Notes
 - Completely redesigned onboarding flow with 4-step process:

@@ -13,13 +13,19 @@ Plur supports multiple deep linking mechanisms to facilitate seamless sharing an
 ## URL Formats
 
 ### Universal Links
-- `https://rabble.community/i/{CODE}` - Standard invite that resolves through API
-- `https://rabble.community/j/{SHORT_CODE}` - Short URL invite that redirects to a full invite
-- `https://rabble.community/join/{CODE}` - Web invite with rich metadata display
-- `https://rabble.community/i/plur://join-community?group-id=X&code=Y&relay=Z` - Universal link with embedded protocol
-- `https://rabble.community/join/{GROUP_ID}?code=Y&relay=Z` - Path-based group join
-- `https://rabble.community/join-community?group-id=X&code=Y&relay=Z` - Query parameter join
-- `https://rabble.community/g/{GROUP_ID}?relay=Z` - Direct group navigation
+- **`rabble.community` Domain:**
+  - `https://rabble.community/i/{CODE}` - Standard invite that resolves through API
+  - `https://rabble.community/j/{SHORT_CODE}` - Short URL invite that redirects to a full invite
+  - `https://rabble.community/join/{CODE}` - Web invite with rich metadata display
+  - `https://rabble.community/i/plur://join-community?group-id=X&code=Y&relay=Z` - Universal link with embedded protocol
+  - `https://rabble.community/join/{GROUP_ID}?code=Y&relay=Z` - Path-based group join
+  - `https://rabble.community/join-community?group-id=X&code=Y&relay=Z` - Query parameter join
+  - `https://rabble.community/g/{GROUP_ID}?relay=Z` - Direct group navigation
+
+- **`chus.me` Domain:**
+  - `https://chus.me/i/{CODE}` - Standard invite that resolves through API
+  - `https://chus.me/j/{SHORT_CODE}` - Short URL invite that redirects to a full invite
+  - `https://chus.me/join/{CODE}` - Web invite with rich metadata display
 
 ### Custom URL Schemes
 - `plur://join-community?group-id=X&code=Y&relay=Z` - Direct join with parameters
@@ -39,7 +45,7 @@ Plur supports multiple deep linking mechanisms to facilitate seamless sharing an
   - Add URL Types for custom schemes
 
 - **Apple App Site Association (AASA) File**
-  - Host at `/.well-known/apple-app-site-association` on your domain
+  - Host at `/.well-known/apple-app-site-association` on your domains
   
 - **AppDelegate.swift**
   - Universal Links handler (NSUserActivity processing)
@@ -87,7 +93,9 @@ The Flutter implementation is structured as follows:
 
 ## Configuration
 
-### 1. Apple App Site Association File
+### 1. Apple App Site Association Files
+
+#### For rabble.community
 
 Host this at `https://rabble.community/.well-known/apple-app-site-association`:
 
@@ -132,7 +140,132 @@ Host this at `https://rabble.community/.well-known/apple-app-site-association`:
 }
 ```
 
-### 2. Server API Endpoints
+#### For chus.me
+
+Host this at `https://chus.me/.well-known/apple-app-site-association`:
+
+```json
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "GZCZBKH7MY.app.verse.prototype.plur",
+        "paths": [
+          "/i/*", 
+          "/join/*", 
+          "/j/*",
+          "/join-community*",
+          "/g/*"
+        ],
+        "components": [
+          {
+            "/": "/i/*",
+            "comment": "Matches any URL with a path that starts with /i/"
+          },
+          {
+            "/": "/join/*",
+            "comment": "Matches any URL with a path that starts with /join/"
+          },
+          {
+            "/": "/j/*",
+            "comment": "Matches any URL with a path that starts with /j/ (short URL)"
+          },
+          {
+            "/": "/join-community*",
+            "comment": "Matches any URL with a path that starts with /join-community"
+          },
+          {
+            "/": "/g/*",
+            "comment": "Matches any URL with a path that starts with /g/"
+          }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["GZCZBKH7MY.app.verse.prototype.plur"]
+  }
+}
+```
+
+### 2. Android App Links Configuration
+
+#### assetlinks.json for rabble.community
+
+Host this at `https://rabble.community/.well-known/assetlinks.json`:
+
+```json
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.verse.prototype.plur",
+    "sha256_cert_fingerprints":
+    ["6F:36:C3:68:74:18:5E:03:B4:79:3D:82:EF:54:CE:34:26:ED:6E:C8:12:B7:CD:E2:F4:FA:9C:81:2F:C7:14:F4"]
+  }
+}]
+```
+
+#### assetlinks.json for chus.me
+
+Host this at `https://chus.me/.well-known/assetlinks.json`:
+
+```json
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "app.verse.prototype.plur",
+    "sha256_cert_fingerprints":
+    ["6F:36:C3:68:74:18:5E:03:B4:79:3D:82:EF:54:CE:34:26:ED:6E:C8:12:B7:CD:E2:F4:FA:9C:81:2F:C7:14:F4"]
+  }
+}]
+```
+
+### 3. Android Manifest Intent Filters
+
+Add these to the main activity in `AndroidManifest.xml`:
+
+```xml
+<!-- Intent filters for rabble.community -->
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" android:host="rabble.community" android:pathPattern="/i/.*" />
+</intent-filter>
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" android:host="rabble.community" android:pathPattern="/join/.*" />
+</intent-filter>
+
+<!-- Intent filters for chus.me -->
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" android:host="chus.me" android:pathPattern="/i/.*" />
+</intent-filter>
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" android:host="chus.me" android:pathPattern="/join/.*" />
+</intent-filter>
+<intent-filter android:autoVerify="true">
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:scheme="https" android:host="chus.me" android:pathPattern="/j/.*" />
+</intent-filter>
+```
+
+### 4. Server API Endpoints
+
+For more details about the `chus.me` API endpoints, please see the dedicated [INVITE_LINK_SERVICE.md](./INVITE_LINK_SERVICE.md) documentation.
 
 #### Standard Invite Resolution
 Implement an endpoint at `https://rabble.community/api/invite/{code}` that returns:
@@ -172,7 +305,7 @@ Implement an endpoint at `https://rabble.community/api/invite/short/{shortCode}`
 ## Testing
 
 ### 1. Universal Links
-- Create a test link with `GroupInviteLinkUtil.generateShareableLink()`
+- Create test links for both domains (`rabble.community` and `chus.me`)
 - Share via message/email to a device with the app installed
 - Click link and verify app opens with correct parameters
 
@@ -188,8 +321,8 @@ Implement an endpoint at `https://rabble.community/api/invite/short/{shortCode}`
 ## Troubleshooting
 
 ### Universal Links Not Working
-- Verify AASA file is properly hosted and accessible
-- Check it's served with content-type: application/json
+- Verify AASA files are properly hosted and accessible for both domains
+- Check they're served with content-type: application/json
 - Ensure the Team ID and Bundle ID match your app
 - Associated Domains capability must be enabled
 - The app must be installed from TestFlight/App Store for testing
@@ -200,12 +333,20 @@ Implement an endpoint at `https://rabble.community/api/invite/short/{shortCode}`
 - Test with proper encoding of special characters
 
 ### API Integration
-- Verify your server endpoint is reachable
+- Verify your server endpoints are reachable
 - Check error handling in the app
 - Validate JSON format
+
+## iOS Runtime Verification (For Debugging)
+
+On an iOS device, you can verify your app is properly registered for universal links using the Settings app:
+1. Go to Settings > Developer
+2. Scroll down to find "Universal Links"
+3. Check that your app is registered for both domains
 
 ## Additional Resources
 
 - [Apple Documentation: Universal Links](https://developer.apple.com/documentation/xcode/supporting-universal-links-in-your-app)
 - [Apple Developer Tool: AASA Validator](https://search.developer.apple.com/appsearch-validation-tool/)
+- [Android App Links Documentation](https://developer.android.com/training/app-links)
 - [Generate Random Codes](https://www.random.org/strings/)

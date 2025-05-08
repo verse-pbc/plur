@@ -19,8 +19,8 @@ class LinkRouterUtil {
   static void router(BuildContext context, String link) {
     log('Router processing link: $link', name: 'DeepLink');
     
-    // Handle Universal Links from rabble.communities or rabble.community domain
-    if (link.startsWith("https://rabble.communities") || link.startsWith("https://rabble.community")) {
+    // Handle Universal Links from chus.me, rabble.communities, or rabble.community domain
+    if (link.startsWith("https://chus.me") || link.startsWith("https://rabble.communities") || link.startsWith("https://rabble.community")) {
       _handleCommunityLink(context, link);
       return;
     }
