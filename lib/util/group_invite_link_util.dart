@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 /// deep linking implementation.
 class GroupInviteLinkUtil {
   // API configuration
-  static const String _apiBaseUrl = 'https://rabble.community/api';
+  static const String _apiBaseUrl = 'https://chus.me/api';
   static const String _inviteApiKey = 'YOUR_INVITE_TOKEN'; // Replace with actual token
   
   /// Generates a direct protocol URL with full parameters
@@ -33,7 +33,7 @@ class GroupInviteLinkUtil {
   static String generateStandardInviteUrl(String code) {
     try {
       // Use the standard invite URL format
-      return "https://rabble.community/i/$code";
+      return "https://chus.me/i/$code";
     } catch (e) {
       log('Error generating standard invite URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -44,7 +44,7 @@ class GroupInviteLinkUtil {
   static String generateWebInviteUrl(String code) {
     try {
       // Use the web invite URL format
-      return "https://rabble.community/join/$code";
+      return "https://chus.me/join/$code";
     } catch (e) {
       log('Error generating web invite URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -70,7 +70,7 @@ class GroupInviteLinkUtil {
       }
       
       // Use the short URL format
-      String url = "https://rabble.community/j/$shortCode";
+      String url = "https://chus.me/j/$shortCode";
       log('Generated short URL: $url', name: 'GroupInviteLinkUtil');
       return url;
     } catch (e) {
@@ -90,7 +90,7 @@ class GroupInviteLinkUtil {
       String protocolUrl = generateDirectProtocolUrl(groupId, code, relay);
       
       // Embed it in a universal link
-      return "https://rabble.community/i/$protocolUrl";
+      return "https://chus.me/i/$protocolUrl";
     } catch (e) {
       log('Error generating universal link: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -104,7 +104,7 @@ class GroupInviteLinkUtil {
       String encodedRelay = Uri.encodeComponent(relay);
       
       // Web URL format with /join/{groupId} path format
-      return "https://rabble.community/join/$groupId?code=$code&relay=$encodedRelay";
+      return "https://chus.me/join/$groupId?code=$code&relay=$encodedRelay";
     } catch (e) {
       log('Error generating join web URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -118,7 +118,7 @@ class GroupInviteLinkUtil {
       String encodedRelay = Uri.encodeComponent(relay);
       
       // Web URL format with query parameters
-      return "https://rabble.community/join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
+      return "https://chus.me/join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
     } catch (e) {
       log('Error generating web URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -129,7 +129,7 @@ class GroupInviteLinkUtil {
   static String generateGroupUrl(String groupId, String? relay) {
     try {
       // Group URL format
-      String baseUrl = "https://rabble.community/g/$groupId";
+      String baseUrl = "https://chus.me/g/$groupId";
       
       // Add relay parameter if provided
       if (relay != null && relay.isNotEmpty) {
