@@ -330,8 +330,8 @@ class GroupInviteLinkUtil {
   /// 
   /// This is the recommended method to call when generating invite links.
   static String generateShareableLink(String groupId, String code, String relay) {
-    // Use the universal link with embedded protocol URL approach as it's the most versatile
-    return generateUniversalLink(groupId, code, relay);
+    // Use the standard invite URL format which works with the chus.me service
+    return generateStandardInviteUrl(code);
   }
   
   /// Creates a new standard invite with a random code and returns the shareable link
