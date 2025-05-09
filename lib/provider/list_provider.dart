@@ -950,8 +950,8 @@ class ListProvider extends ChangeNotifier {
     
     // For web-friendly links, we'll use our GroupInviteLinkUtil
     try {
-      // Try to create a short URL if possible
-      final webLink = GroupInviteLinkUtil.generateUniversalLink(
+      // Use the standard format that works with chus.me service
+      final webLink = GroupInviteLinkUtil.generateShareableLink(
         group.groupId,
         inviteCode,
         group.host
