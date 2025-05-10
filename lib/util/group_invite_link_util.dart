@@ -8,7 +8,17 @@ import 'package:http/http.dart' as http;
 class GroupInviteLinkUtil {
   // API configuration
   static const String _apiBaseUrl = 'https://chus.me/api';
+  // TODO: This is a placeholder. For production, replace with your actual API key provided by the chus.me service.
+  // Without a valid API key, API operations like registerStandardInvite will fail.
   static const String _inviteApiKey = 'YOUR_INVITE_TOKEN'; // Replace with actual token
+  
+  // Helper to check API key status for debugging
+  static String getApiKeyPlaceholderStatus() {
+    if (_inviteApiKey == 'YOUR_INVITE_TOKEN' || _inviteApiKey.isEmpty) {
+      return "PLACEHOLDER_KEY (YOUR_INVITE_TOKEN)";
+    }
+    return "Custom Key Set (ending with ...${_inviteApiKey.substring(_inviteApiKey.length - Math.min(4, _inviteApiKey.length))})";
+  }
   
   /// Generates a direct protocol URL with full parameters
   /// 
