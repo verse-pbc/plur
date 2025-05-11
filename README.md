@@ -115,6 +115,13 @@ sudo apt-get -y install libsqlite3-0 libsqlite3-dev libmpv-dev mpv
 flutter build linux --release
 ```
 
+## Documentation
+
+Additional documentation on specific features can be found in the `doc/features` directory:
+
+- [Invite Link Service](./doc/features/invite_link_service.md) - Details on how community invite links work
+- [Testing Invite Links](./doc/features/testing_invite_links.md) - Guide for testing invite functionality
+
 ## Project Analysis
 
 This project uses `flutter test` and `flutter analyze` during CI, where regressions and code-quality concerns are caught as a part of the PR process. It is possible to use these tools locally, as well, alongside Dart's auto-remediation command (`dart fix`):

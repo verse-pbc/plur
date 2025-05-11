@@ -1032,7 +1032,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     final groupId = RouterUtil.routerArgs(context) as GroupIdentifier;
     final listProvider = Provider.of<ListProvider>(context, listen: false);
     
-    // Generate invite link
+    // Generate invite link (will use direct protocol URL by default)
     final inviteLink = listProvider.createInviteLink(groupId, inviteCode);
     
     showDialog(
@@ -1124,7 +1124,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     final groupId = RouterUtil.routerArgs(context) as GroupIdentifier;
     final listProvider = Provider.of<ListProvider>(context, listen: false);
     
-    // Generate invite link
+    // Generate invite link (will use direct protocol URL by default)
     final inviteLink = listProvider.createInviteLink(groupId, inviteCode);
     
     showDialog(
