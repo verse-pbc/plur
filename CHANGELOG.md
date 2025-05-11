@@ -20,15 +20,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Consolidate macOS build scripts and document comprehensive build process
 - Create unified solution for cryptography_flutter architecture compatibility issues on macOS
 - Improve build documentation with detailed troubleshooting steps for all platforms
-- Fix iOS GitHub Actions deployment with enhanced fastlane configuration 
+- Fix iOS GitHub Actions deployment with enhanced fastlane configuration
 - Improve CI build reliability with detailed error reporting and proper timeout settings
 - Update Flutter flavor handling in CI for more reliable TestFlight deployments
 - Remove Sentry completely to fix iOS 18 build compatibility issues
 - Fix iOS build process for App Store submissions with updated exportOptions.plist
 - Added support for chus.me invite links with universal/app links for seamless group joining
-- Integrate chus.me invite link system: app now supports universal/app links for `https://chus.me/i/<code>`, `/join/<code>`, and `/j/<shortCode>`, all redirecting to deep links handled by the app.
-- Fix bug in invite link generation: app now generates correct chus.me invite links (no longer embeds the entire deep link as the code).
-- Update documentation: added/updated `INVITE_LINK_SERVICE.md` and `DEEP_LINKING.md` to reflect new invite system and platform configuration steps.
+- Integrate chus.me invite link system: app now supports universal/app links for `https://chus.me/i/<code>`, `/join/<code>`, and `/j/<shortCode>`, all redirecting to deep links handled by the app
+- Fix bug in invite link generation: app now generates correct chus.me invite links (no longer embeds the entire deep link as the code)
+- Update documentation: added/updated `INVITE_LINK_SERVICE.md` and `DEEP_LINKING.md` to reflect new invite system and platform configuration steps
+- Optimize invite link system to prioritize direct protocol URLs (plur://) for maximum reliability and performance instead of relying on chus.me URL shortening service
+- Added comprehensive documentation on invite link system in `doc/features/invite_link_service.md`
+- Enhanced invite UI to show all four link types (direct protocol, universal, short, and nostr) in all invite screens
+- Added "Invite by Name" button to the invite link page for easier access to direct contact invitation
+- Fixed the universal link format to use the correct pattern: chus.me/invite/[protocol-url]
+- Fixed the nostr protocol link format to properly implement the NIP-29 specification
 
 ### Release Notes
 - Completely redesigned onboarding flow with 4-step process:
