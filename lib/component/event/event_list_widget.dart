@@ -68,15 +68,25 @@ class _EventListWidgetState extends State<EventListWidget> {
           vertical: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: themeData.customColors.cardBgColor, // Use theme extension for card background
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withAlpha(20),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF150F23) // Figma dark card color
+              : themeData.customColors.cardBgColor, // fallback for light mode
+          borderRadius: BorderRadius.circular(30), // Figma: 30px
+          boxShadow: Theme.of(context).brightness == Brightness.dark
+              ? [
+                  const BoxShadow(
+                    color: Color(0xFF27193D), // Figma shadow color
+                    blurRadius: 2,
+                    offset: Offset(0, 2),
+                  ),
+                ]
+              : [
+                  BoxShadow(
+                    color: Colors.black.withAlpha(20),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
         ),
         clipBehavior: Clip.antiAlias, // Ensures content respects border radius
         child: Column(

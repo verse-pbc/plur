@@ -944,28 +944,13 @@ class ListProvider extends ChangeNotifier {
       }
     }
 
-    // Generate both the direct protocol link and the web-friendly link
-    final directLink = 'plur://join-community?group-id=${group.groupId}&code=$inviteCode&relay=${Uri.encodeComponent(group.host)}';
+    // Generate the direct protocol link using the utility method for consistency
+    final directLink = GroupInviteLinkUtil.generateDirectProtocolUrl(group.groupId, inviteCode, group.host);
     log("Generated direct protocol link: $directLink", name: "ListProvider");
-    
-    // For web-friendly links, we'll use our GroupInviteLinkUtil
-    try {
-      // Use the standard format that works with chus.me service
-      final webLink = GroupInviteLinkUtil.generateShareableLink(
-        group.groupId,
-        inviteCode,
-        group.host
-      );
-      
-      log("Generated web-friendly link: $webLink", name: "ListProvider");
-      
-      // Return the web-friendly link as the primary link
-      return webLink;
-    } catch (e) {
-      log("Error generating web link, falling back to direct protocol: $e", name: "ListProvider");
-      // Fall back to direct protocol link if web link generation fails
-      return directLink;
-    }
+
+    // Always use the direct protocol link as primary since it's more reliable
+    log("Using direct protocol link as primary link", name: "ListProvider");
+    return directLink;
   }
 
   void clear() {

@@ -649,10 +649,39 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       ),
     ));
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: eventAllList,
+    // Detect if this is a reply (based on eventRelation or event type)
+    final isReply = eventRelation.replyId != null && eventRelation.replyId != eventRelation.id;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    Widget content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ...eventAllList,
+      ],
     );
+
+    // Apply Figma Reply - M style for replies in dark mode
+    if (isReply && isDark) {
+      return Container(
+        margin: const EdgeInsets.only(left: 16, right: 8, top: 8, bottom: 8),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF150F23), // Figma reply card color
+          borderRadius: BorderRadius.circular(30),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0xFF27193D),
+              blurRadius: 2,
+              offset: Offset(0, 2),
+            ),
+          ],
+        ),
+        child: content,
+      );
+    }
+
+    // Default: no extra wrapper (top-level post or light mode)
+    return content;
   }
 
   bool hideLongContent = false;

@@ -12,9 +12,11 @@ import 'package:nostrmo/router/group/group_detail_chat_widget.dart';
 import 'package:nostrmo/router/group/group_detail_events_widget.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
+import 'package:nostrmo/router/group/invite_debug_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
@@ -290,6 +292,18 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
                 ],
               ),
             ),
+            // Add debug option in debug mode
+            if (kDebugMode)
+              PopupMenuItem<String>(
+                value: 'debug',
+                child: Row(
+                  children: [
+                    const Icon(Icons.bug_report, color: Colors.orange),
+                    const SizedBox(width: 8),
+                    Text('Debug Invite Links', style: TextStyle(color: Colors.orange)),
+                  ],
+                ),
+              ),
           ],
           onSelected: (value) {
             switch (value) {
@@ -298,6 +312,9 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
                 break;
               case 'name':
                 _showInviteByNameScreen(context, groupIdentifier);
+                break;
+              case 'debug':
+                InviteDebugDialog.show(context);
                 break;
             }
           },
