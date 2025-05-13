@@ -35,6 +35,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added "Invite by Name" button to the invite link page for easier access to direct contact invitation
 - Fixed the universal link format to use the correct pattern: chus.me/invite/[protocol-url]
 - Fixed the nostr protocol link format to properly implement the NIP-29 specification
+- Fixed event list loading and rendering performance issues
+- Improved group detail screen with better error handling and performance optimizations
+- Fixed list provider to correctly handle subscription updates and prevent duplicates
+- Added debugging tools for group invite link troubleshooting
+- Added documentation for moderation and reporting processes
 
 ### Release Notes
 - Completely redesigned onboarding flow with 4-step process:
