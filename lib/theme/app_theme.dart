@@ -25,10 +25,12 @@ class AppTheme {
         backgroundColor: colors.navBackground,
         foregroundColor: colors.primaryText,
         elevation: 0,
-        titleTextStyle: GoogleFonts.nunito(
+        titleTextStyle: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: colors.primaryText,
           fontSize: fontSize + 4,
           fontWeight: FontWeight.bold,
+          height: 1.2,
         ),
       ),
       dividerColor: colors.divider,
@@ -106,10 +108,12 @@ class AppTheme {
         backgroundColor: colors.navBackground,
         foregroundColor: colors.primaryText,
         elevation: 0,
-        titleTextStyle: GoogleFonts.nunito(
+        titleTextStyle: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: colors.primaryText,
           fontSize: fontSize + 4,
           fontWeight: FontWeight.bold,
+          height: 1.2,
         ),
       ),
       dividerColor: colors.divider,
@@ -171,77 +175,101 @@ class AppTheme {
     required Color foregroundColor,
   }) {
     return TextTheme(
-      displayLarge: GoogleFonts.nunito(
+      displayLarge: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 12,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      displayMedium: GoogleFonts.nunito(
+      displayMedium: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 8,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      displaySmall: GoogleFonts.nunito(
+      displaySmall: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 6,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      headlineLarge: GoogleFonts.nunito(
+      headlineLarge: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 6,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      headlineMedium: GoogleFonts.nunito(
+      headlineMedium: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 4,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      headlineSmall: GoogleFonts.nunito(
+      headlineSmall: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 2,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      titleLarge: GoogleFonts.nunito(
+      titleLarge: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 4,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      titleMedium: GoogleFonts.nunito(
+      titleMedium: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 2,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
-      titleSmall: GoogleFonts.nunito(
+      titleSmall: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
+        height: 1.2,
       ),
       bodyLarge: GoogleFonts.nunito(
         fontSize: baseFontSize + 2,
         color: foregroundColor,
+        height: 1.4,
       ),
       bodyMedium: GoogleFonts.nunito(
         fontSize: baseFontSize,
         color: foregroundColor,
+        height: 1.4,
       ),
       bodySmall: GoogleFonts.nunito(
         fontSize: baseFontSize - 2,
         color: foregroundColor,
+        height: 1.4,
       ),
       labelLarge: GoogleFonts.nunito(
         fontSize: baseFontSize,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
+        height: 1.4,
       ),
       labelMedium: GoogleFonts.nunito(
         fontSize: baseFontSize - 1,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
+        height: 1.4,
       ),
       labelSmall: GoogleFonts.nunito(
         fontSize: baseFontSize - 2,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
+        height: 1.4,
       ),
     );
   }

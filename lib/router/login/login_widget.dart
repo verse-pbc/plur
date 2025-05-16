@@ -131,9 +131,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Text(
         "Bring your people together",
         style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: buttonTextColor,
           fontSize: 48,
-          fontWeight: FontWeight.w700,
+          fontWeight: FontWeight.bold,
           height: 1.2,
         ),
         textAlign: TextAlign.center,
