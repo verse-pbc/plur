@@ -20,7 +20,7 @@ import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
 import 'user_statistics_widget.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 
 class UserWidget extends StatefulWidget {
   const UserWidget({super.key});
@@ -213,10 +213,10 @@ class _UserWidgetState extends CustState<UserWidget>
             child: Container(
               padding: EdgeInsets.only(top: paddingTop),
               decoration: BoxDecoration(
-                color: themeData.customColors.navBgColor,
+                color: context.colors.navBgColor,
                 border: Border(
                   bottom:
-                      BorderSide(color: themeData.customColors.separatorColor),
+                      BorderSide(color: context.colors.separatorColor),
                 ),
               ),
               child: SizedBox(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
 import 'package:nostrmo/util/group_invite_link_util.dart';
 import 'package:nostrmo/provider/list_provider.dart';
@@ -206,7 +206,6 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
     bool disabled = false,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     final isSelected = selectedLinkType == type;
     
@@ -222,13 +221,13 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected 
-            ? customColors.accentColor.withAlpha(25)
+            ? context.colors.accent.withAlpha(25)
             : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected 
-              ? customColors.accentColor 
-              : customColors.secondaryForegroundColor.withAlpha(76),
+              ? context.colors.accent 
+              : context.colors.secondaryText.withAlpha(76),
             width: 1.0,
           ),
         ),
@@ -242,15 +241,15 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        customColors.accentColor,
+                        context.colors.accent,
                       ),
                     ),
                   )
                 : Icon(
                     icon,
                     color: disabled 
-                        ? customColors.secondaryForegroundColor.withAlpha(128) 
-                        : (isSelected ? customColors.accentColor : customColors.secondaryForegroundColor),
+                        ? context.colors.secondaryText.withAlpha(128) 
+                        : (isSelected ? context.colors.accent : context.colors.secondaryText),
                     size: 20,
                   ),
             const SizedBox(height: 4),
@@ -259,8 +258,8 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
               style: TextStyle(
                 fontSize: 12,
                 color: disabled
-                    ? customColors.secondaryForegroundColor.withAlpha(128) 
-                    : (isSelected ? customColors.accentColor : customColors.secondaryForegroundColor),
+                    ? context.colors.secondaryText.withAlpha(128) 
+                    : (isSelected ? context.colors.accent : context.colors.secondaryText),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
@@ -273,11 +272,10 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
 
     return Scaffold(
-      backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
+      backgroundColor: (themeData.textTheme.bodyMedium!.color ?? Colors.black).withAlpha(51),
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -295,7 +293,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: customColors.feedBgColor,
+                    color: context.colors.feedBackground,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -310,13 +308,13 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: customColors.primaryForegroundColor,
+                              color: context.colors.primaryText,
                             ),
                           ),
                           IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: customColors.primaryForegroundColor,
+                              color: context.colors.primaryText,
                             ),
                             onPressed: () => RouterUtil.back(context),
                           ),
@@ -326,16 +324,16 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: customColors.accentColor.withOpacity(0.1),
+                          color: context.colors.accent.withAlpha(25),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: customColors.accentColor.withOpacity(0.3)),
+                          border: Border.all(color: context.colors.accent.withAlpha(76)),
                         ),
                         child: Text(
                           "Choose an invite link type below:",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                         ),
                       ),
@@ -456,10 +454,10 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                           return Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
-                              color: customColors.feedBgColor,
+                              color: context.colors.feedBackground,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: customColors.accentColor.withAlpha(76),
+                                color: context.colors.accent.withAlpha(76),
                                 width: 1.0,
                               ),
                             ),
@@ -470,7 +468,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                                     activeLink,
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: customColors.primaryForegroundColor,
+                                      color: context.colors.primaryText,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -478,7 +476,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                                 IconButton(
                                   icon: Icon(
                                     Icons.copy,
-                                    color: customColors.accentColor,
+                                    color: context.colors.accent,
                                   ),
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(text: activeLink));
@@ -500,7 +498,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                             'Generating MOCKED short link...',
                             style: TextStyle(
                               fontSize: 12, 
-                              color: customColors.secondaryForegroundColor,
+                              color: context.colors.secondaryText,
                               fontStyle: FontStyle.italic
                             ),
                           ),
@@ -515,7 +513,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                             child: Text(
                               localization.done,
                               style: TextStyle(
-                                color: customColors.accentColor,
+                                color: context.colors.accent,
                               ),
                             ),
                           ),

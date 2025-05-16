@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 /// Configuration for a popup menu item.
 ///
@@ -41,7 +41,7 @@ class StyledPopupMenu extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: PopupMenuButton<String>(
-        color: themeData.customColors.feedBgColor,
+        color: context.colors.feedBackground,
         offset: const Offset(0, 40),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
@@ -49,7 +49,7 @@ class StyledPopupMenu extends StatelessWidget {
         icon: Icon(
           Icons.more_horiz,
           size: 30,
-          color: themeData.customColors.dimmedColor,
+          color: context.colors.dimmed,
         ),
         itemBuilder: (context) => [
           for (var i = 0; i < items.length; i++) ...[
@@ -62,7 +62,7 @@ class StyledPopupMenu extends StatelessWidget {
                   Text(items[i].text, style: themeData.textTheme.bodyMedium!),
                   Icon(items[i].icon,
                       size: 20,
-                      color: themeData.customColors.primaryForegroundColor),
+                      color: context.colors.primaryText),
                 ],
               ),
             ),

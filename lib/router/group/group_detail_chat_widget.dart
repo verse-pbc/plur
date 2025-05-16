@@ -2,7 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/no_chats_widget.dart';
 import 'package:nostrmo/util/load_more_event.dart';
@@ -128,7 +128,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
           children: [
             Icon(Icons.reply, 
               size: 18, 
-              color: themeData.brightness == Brightness.dark ? null : PlurColors.lightSecondaryText
+              color: themeData.brightness == Brightness.dark ? null : context.colors.secondaryText
             ),
             const SizedBox(width: 8),
             Expanded(
@@ -140,7 +140,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
                   fontSize: 14,
                   color: themeData.brightness == Brightness.dark 
                     ? themeData.hintColor 
-                    : PlurColors.lightSecondaryText,
+                    : context.colors.secondaryText,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -149,7 +149,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
             IconButton(
               icon: Icon(Icons.close, 
                 size: 18,
-                color: themeData.brightness == Brightness.dark ? null : PlurColors.lightSecondaryText,
+                color: themeData.brightness == Brightness.dark ? null : context.colors.secondaryText,
               ),
               padding: EdgeInsets.zero,
               constraints: const BoxConstraints(),
@@ -212,7 +212,7 @@ class GroupDetailChatWidgetState extends KeepAliveCustState<GroupDetailChatWidge
                 child: Text(
                   localization.send,
                   style: TextStyle(
-                    color: PlurColors.textColor(context),
+                    color: context.colors.primaryText,
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),

@@ -15,7 +15,7 @@ import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
 import 'package:nostrmo/router/group/invite_debug_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:flutter/foundation.dart' show kDebugMode;
 
 import '../../component/appbar_back_btn_widget.dart';
@@ -173,14 +173,14 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
             borderRadius: BorderRadius.circular(10),
           ),
           padding: EdgeInsets.zero,
-          backgroundColor: themeData.customColors.feedBgColor,
+          backgroundColor: context.colors.feedBackground,
         ),
         child: Text(
           title,
           style: TextStyle(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: themeData.customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
           ),
         ),
       ),
@@ -202,9 +202,9 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   TabBar _buildTabBar(ThemeData themeData, S localization) {
     return TabBar(
       controller: _tabController,
-      indicatorColor: themeData.customColors.accentColor,
-      labelColor: themeData.customColors.primaryForegroundColor,
-      unselectedLabelColor: themeData.customColors.secondaryForegroundColor,
+      indicatorColor: context.colors.accent,
+      labelColor: context.colors.primaryText,
+      unselectedLabelColor: context.colors.secondaryText,
       labelStyle: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.bold,
@@ -431,7 +431,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
         return FloatingActionButton(
           heroTag: 'group_detail_add_note_fab',
           onPressed: _jumpToAddNote,
-          backgroundColor: themeData.customColors.accentColor,
+          backgroundColor: context.colors.accent,
           shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 29),
         );

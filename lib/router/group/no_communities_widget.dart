@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/features/create_community/create_community_dialog.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
 import 'package:nostrmo/util/community_join_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -71,7 +71,6 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
     final localization = S.of(context);
     
     // If dialog is dismissed and not forced to show, return empty
@@ -88,7 +87,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
             margin: const EdgeInsets.all(30.0),
             child: Card(
               elevation: 4,
-              color: themeData.customColors.cardBgColor,
+              color: context.colors.cardBackground,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -101,7 +100,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                     child: IconButton(
                       icon: Icon(
                         Icons.close,
-                        color: themeData.customColors.secondaryForegroundColor,
+                        color: context.colors.secondaryText,
                       ),
                       onPressed: _dismissDialog,
                     ),
@@ -119,7 +118,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                           style: TextStyle(
                             fontSize: 24.0,
                             fontWeight: FontWeight.bold,
-                            color: themeData.customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -131,12 +130,12 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       height: 180,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: themeData.customColors.dimmedColor.withOpacity(0.5),
+                        color: context.colors.dimmed.withAlpha((255 * 0.5).round()),
                       ),
                       child: Center(
                         child: ColorFiltered(
                           colorFilter: ColorFilter.mode(
-                            themeData.customColors.dimmedColor,
+                            context.colors.dimmed,
                             BlendMode.srcIn,
                           ),
                           child: Image.asset(
@@ -147,7 +146,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                               return Icon(
                                 Icons.group,
                                 size: 120,
-                                color: themeData.customColors.dimmedColor,
+                                color: context.colors.dimmed,
                               );
                             },
                           ),
@@ -162,7 +161,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       style: TextStyle(
                         fontSize: 20.0,
                         fontWeight: FontWeight.bold,
-                        color: themeData.customColors.primaryForegroundColor,
+                        color: context.colors.primaryText,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -171,7 +170,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       localization.connectWithOthers,
                       style: TextStyle(
                         fontSize: 16.0,
-                        color: themeData.customColors.primaryForegroundColor,
+                        color: context.colors.primaryText,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -184,7 +183,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       child: _isCreatingCommunity
                           ? Center(
                               child: CircularProgressIndicator(
-                                color: themeData.customColors.accentColor,
+                                color: context.colors.accent,
                               ),
                             )
                           : PrimaryButtonWidget(
@@ -202,7 +201,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       child: OutlinedButton(
                         onPressed: _joinTestUsersGroup,
                         style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: themeData.customColors.accentColor),
+                          side: BorderSide(color: context.colors.accent),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -210,7 +209,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                         child: Text(
                           "Join Plur Test Users",
                           style: TextStyle(
-                            color: themeData.customColors.accentColor,
+                            color: context.colors.accent,
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
                           ),
@@ -232,14 +231,14 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                             style: TextStyle(
                               fontSize: 14.0,
                               fontStyle: FontStyle.italic,
-                              color: themeData.customColors.dimmedColor,
+                              color: context.colors.dimmed,
                             ),
                             textAlign: TextAlign.center,
                           ),
                           Icon(
                             Icons.content_paste,
                             size: 16,
-                            color: themeData.customColors.accentColor,
+                            color: context.colors.accent,
                           ),
                         ],
                       ),
@@ -313,22 +312,18 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
-        // Get colors from Plur theme
-        final plurBackground = const Color(0xFF231F32); // PlurColors.cardBackground
-        final plurPurple = const Color(0xFF7445FE);     // PlurColors.primaryPurple
-        final plurPrimaryText = const Color(0xFFB5A0E1); // PlurColors.primaryText
-        final plurHighlightText = const Color(0xFFECE2FD); // PlurColors.highlightText
-        final plurSecondaryText = const Color(0xFF63518E); // PlurColors.secondaryText
+        // Get colors from the theme
+        final colors = Theme.of(context).extension<AppColors>()!;
         
         return AlertDialog(
-          backgroundColor: plurBackground,
+          backgroundColor: colors.cardBackground,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
             "Join Plur Test Users Group",
             style: TextStyle(
-              color: plurHighlightText,
+              color: colors.primaryText,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -337,7 +332,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
             "Would you like to join the Plur Test Users community? "
             "This is a public group for testing features and connecting with other users.",
             style: TextStyle(
-              color: plurPrimaryText,
+              color: colors.primaryText,
               fontSize: 16,
             ),
           ),
@@ -349,7 +344,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
               child: Text(
                 "Cancel",
                 style: TextStyle(
-                  color: plurSecondaryText,
+                  color: colors.secondaryText,
                   fontSize: 16,
                 ),
               ),
@@ -363,7 +358,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                   SnackBar(
                     content: const Text("Joining Plur Test Users group..."),
                     duration: const Duration(seconds: 1),
-                    backgroundColor: plurPurple.withOpacity(0.9),
+                    backgroundColor: colors.primary.withAlpha((255 * 0.9).round()),
                   ),
                 );
                 
@@ -381,7 +376,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                 }
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: plurPurple,
+                backgroundColor: colors.primary,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 shape: RoundedRectangleBorder(

@@ -6,7 +6,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/relative_date_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -116,7 +116,13 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                               Text(
                                 displayName,
                                 style: GoogleFonts.nunito(
-                                  textStyle: PlurColors.usernameStyle(context),
+                                  textStyle: TextStyle(
+                                    color: context.colors.highlightText,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                    height: 1.29,
+                                    letterSpacing: 0.68,
+                                  ),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -128,7 +134,13 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                           RelativeDateWidget(
                             widget.event.createdAt,
                             style: GoogleFonts.nunito(
-                              textStyle: PlurColors.timestampStyle(context),
+                              textStyle: TextStyle(
+                                color: context.colors.secondaryText,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                                height: 1.33,
+                                letterSpacing: 0.60,
+                              ),
                             ),
                           ),
                         ],
@@ -141,7 +153,13 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                             child: Text(
                               nip05Text,
                               style: GoogleFonts.nunito(
-                                textStyle: PlurColors.handleStyle(context),
+                                textStyle: TextStyle(
+                                  color: context.colors.secondaryText,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500,
+                                  height: 1.33,
+                                  letterSpacing: 0.60,
+                                ),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

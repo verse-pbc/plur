@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../util/router_util.dart';
-import '../../consts/plur_colors.dart';
+import '../../theme/app_colors.dart';
 import '../../component/primary_button_widget.dart';
 
 /// Dialog to show when user is under 16 years old.
@@ -24,7 +24,7 @@ class AgeVerificationDialog extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(28),
         decoration: BoxDecoration(
-          color: PlurColors.cardBackground,
+          color: context.colors.cardBackground,
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -59,8 +59,8 @@ class AgeVerificationDialog extends StatelessWidget {
               key: const Key('age_dialog_title'),
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
-                textStyle: const TextStyle(
-                  color: PlurColors.highlightText,
+                textStyle: TextStyle(
+                  color: context.colors.highlightText,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 0.3,
@@ -76,8 +76,8 @@ class AgeVerificationDialog extends StatelessWidget {
               key: const Key('age_requirement_message'),
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
-                textStyle: const TextStyle(
-                  color: PlurColors.primaryText,
+                textStyle: TextStyle(
+                  color: context.colors.primaryText,
                   fontSize: 16,
                   height: 1.5,
                   letterSpacing: 0.2,

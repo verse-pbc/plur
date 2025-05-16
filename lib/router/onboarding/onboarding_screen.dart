@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import '../../consts/plur_colors.dart';
+import '../../theme/app_colors.dart';
 import 'age_verification_step.dart';
 import 'age_verification_dialog_widget.dart';
 import 'name_input_step_widget.dart';
@@ -49,17 +49,17 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
     // Define theme-adaptive colors
-    final backgroundColor = isDarkMode ? PlurColors.appBackground : Colors.white;
-    final gradientEndColor = isDarkMode ? PlurColors.appBackground : Colors.white.withAlpha(245);
-    final gradientStartColor = PlurColors.primaryPurple.withAlpha(isDarkMode ? 64 : 38);
-    final logoColor = isDarkMode ? PlurColors.highlightText : PlurColors.primaryPurple;
-    final indicatorActiveColor = PlurColors.primaryPurple;
+    final backgroundColor = isDarkMode ? context.colors.background : Colors.white;
+    final gradientEndColor = isDarkMode ? context.colors.background : Colors.white.withAlpha(245);
+    final gradientStartColor = context.colors.primary.withAlpha(isDarkMode ? 64 : 38);
+    final logoColor = isDarkMode ? context.colors.highlightText : context.colors.primary;
+    final indicatorActiveColor = context.colors.primary;
     final indicatorInactiveColor = isDarkMode 
-        ? PlurColors.secondaryText.withAlpha(128) 
-        : PlurColors.secondaryText.withAlpha(102);
+        ? context.colors.secondaryText.withAlpha(128) 
+        : context.colors.secondaryText.withAlpha(102);
     final versionColor = isDarkMode 
-        ? PlurColors.secondaryText.withAlpha(179) 
-        : PlurColors.secondaryText;
+        ? context.colors.secondaryText.withAlpha(179) 
+        : context.colors.secondaryText;
     
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -168,10 +168,10 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
             // Loading overlay
             if (_isLoading)
               Container(
-                color: PlurColors.appBackground.withAlpha(179),
-                child: const Center(
+                color: context.colors.background.withAlpha(179),
+                child: Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(PlurColors.primaryPurple),
+                    valueColor: AlwaysStoppedAnimation<Color>(context.colors.primary),
                   ),
                 ),
               ),

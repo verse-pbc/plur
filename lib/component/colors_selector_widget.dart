@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../consts/base.dart';
-import '../consts/colors.dart';
+import '../theme/app_colors.dart';
 import '../util/router_util.dart';
 
 class ColorSelectorWidget extends StatelessWidget {
@@ -20,8 +20,19 @@ class ColorSelectorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [];
-    for (var i = 0; i < ColorList.allColor.length; i++) {
-      var c = ColorList.allColor[i];
+    // Define available theme colors for selection
+    final themeColors = [
+      Colors.purple[700]!,
+      Colors.blue[700]!,
+      Colors.cyan[700]!,
+      const Color(0xff519495),  // Custom teal
+      Colors.yellow[700]!,
+      Colors.orange[700]!,
+      Colors.red[700]!,
+    ];
+    
+    for (var i = 0; i < themeColors.length; i++) {
+      var c = themeColors[i];
       widgets.add(SliverToBoxAdapter(
         child: ColorSelectorItemWidget(
           color: c,
@@ -38,9 +49,9 @@ class ColorSelectorWidget extends StatelessWidget {
           top: Base.basePaddingHalf,
           bottom: Base.basePaddingHalf,
         ),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          color: Colors.white,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
+          color: context.colors.surface,
         ),
         child: CustomScrollView(
           scrollDirection: Axis.horizontal,
@@ -48,7 +59,7 @@ class ColorSelectorWidget extends StatelessWidget {
         ));
 
     return Scaffold(
-      backgroundColor: Colors.black.withAlpha(51),
+      backgroundColor: Colors.black.withAlpha((255 * 0.2).round()),
       body: FocusScope(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostrmo/consts/base.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 class InfoMessageWidget extends StatelessWidget {
   final IconData icon;
@@ -36,14 +36,14 @@ class InfoMessageWidget extends StatelessWidget {
           Icon(
             icon,
             size: iconSize,
-            color: iconColor ?? themeData.customColors.primaryForegroundColor,
+            color: iconColor ?? context.colors.primaryText,
           ),
           const SizedBox(width: 8),
           Expanded(
             child: Text(
               message,
               style: TextStyle(
-                color: textColor ?? themeData.customColors.dimmedColor,
+                color: textColor ?? context.colors.dimmed,
                 fontSize: fontSize ?? themeData.textTheme.bodyMedium!.fontSize,
               ),
             ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/base_consts.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../data/user.dart';
@@ -93,7 +93,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(widget.width / 2),
-        color: themeData.customColors.accentColor,
+        color: context.colors.accent,
       ),
       child: Container(
         width: widget.width - imageBorder * 2,

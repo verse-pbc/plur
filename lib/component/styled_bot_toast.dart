@@ -3,7 +3,7 @@ import 'dart:developer' as developer;
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import '../theme/app_colors.dart';
 
 /// Styled toast widget that uses BotToast to show a toast message.
 /// Includes better error handling to prevent app crashes.
@@ -31,13 +31,13 @@ class StyledBotToast {
     if (context is StatefulElement && !context.state.mounted) return;
     
     try {
-      // Get theme data
-      final themeData = Theme.of(context).customColors;
+      // Get theme colors
+      final colors = context.colors;
       
       // Show toast with proper error handling
       _safeShowToast(
         text,
-        contentColor: themeData.secondaryForegroundColor,
+        contentColor: colors.secondaryText,
       );
     } catch (e) {
       // Log errors but don't crash the app

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../util/theme_util.dart';
+import '../theme/app_colors.dart';
 
 /// A widget that adds a bottom border to an AppBar.
 ///
@@ -20,13 +20,11 @@ class AppBarBottomBorder extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-
     return Container(
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: themeData.customColors.separatorColor,
+            color: context.colors.divider,
             width: 1.0,
           ),
         ),

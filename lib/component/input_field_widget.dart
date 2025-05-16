@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../consts/plur_colors.dart';
+import '../theme/app_colors.dart';
 
 /// Custom input field that is used to take input from the user.
 class InputFieldWidget extends StatelessWidget {
@@ -29,11 +29,12 @@ class InputFieldWidget extends StatelessWidget {
     // If isDarkMode is not provided, determine it from the context
     final inDarkMode = isDarkMode ?? Theme.of(context).brightness == Brightness.dark;
     
-    // Adaptive colors based on theme
-    final fillColor = inDarkMode ? PlurColors.primaryDark : Colors.grey[100];
-    final borderColor = inDarkMode ? PlurColors.separator : Colors.grey[300]!;
-    final hintColor = inDarkMode ? PlurColors.secondaryText : Colors.grey[600]!;
-    final textColor = inDarkMode ? PlurColors.highlightText : PlurColors.primaryDark;
+    // Get colors from theme
+    final colors = context.colors;
+    final fillColor = colors.surface;
+    final borderColor = colors.divider;
+    final hintColor = colors.secondaryText;
+    final textColor = colors.primaryText;
     
     return SizedBox(
       height: 48,
@@ -62,13 +63,13 @@ class InputFieldWidget extends StatelessWidget {
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
-              color: PlurColors.primaryPurple,
+              color: colors.primary,
               width: 1.5,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        cursorColor: PlurColors.primaryPurple,
+        cursorColor: colors.primary,
         style: GoogleFonts.nunito(
           textStyle: TextStyle(
             color: textColor,

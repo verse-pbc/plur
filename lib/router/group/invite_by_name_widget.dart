@@ -4,7 +4,7 @@ import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/contact_list_provider.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/user_provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/direct_invite_util.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
@@ -33,7 +33,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
     
     // If no profile picture or no user data, show default icon
     if (user?.picture == null || user!.picture!.isEmpty) {
-      return Icon(Icons.person, color: Theme.of(context).customColors.secondaryForegroundColor);
+      return Icon(Icons.person, color: context.colors.secondaryText);
     }
     
     // Use ClipOval to ensure the image stays within bounds even during loading/errors
@@ -41,7 +41,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
       child: Container(
         width: 40,
         height: 40,
-        color: Theme.of(context).customColors.feedBgColor,
+        color: context.colors.feedBackground,
         child: Builder(
           builder: (context) {
             // Use try-catch to handle any image loading issues
@@ -53,7 +53,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   // On error, show the default icon
-                  return Icon(Icons.person, color: Theme.of(context).customColors.secondaryForegroundColor);
+                  return Icon(Icons.person, color: context.colors.secondaryText);
                 },
                 loadingBuilder: (context, child, loadingProgress) {
                   if (loadingProgress == null) return child;
@@ -61,14 +61,14 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                   return Container(
                     width: 40,
                     height: 40,
-                    color: Theme.of(context).customColors.feedBgColor,
+                    color: context.colors.feedBackground,
                     child: Center(
                       child: SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          color: Theme.of(context).customColors.secondaryForegroundColor.withAlpha(100),
+                          color: context.colors.secondaryText.withAlpha(100),
                           value: loadingProgress.expectedTotalBytes != null
                               ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
                               : null,
@@ -80,7 +80,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
               );
             } catch (e) {
               // Catch any unexpected errors in image loading and show default
-              return Icon(Icons.person, color: Theme.of(context).customColors.secondaryForegroundColor);
+              return Icon(Icons.person, color: context.colors.secondaryText);
             }
           }
         ),
@@ -218,24 +218,23 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
   
   Widget _buildUserSearchField() {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return TextFormField(
       key: _searchFormKey,
       controller: _searchController,
       decoration: InputDecoration(
         hintText: S.of(context).searchContacts,
-        prefixIcon: Icon(Icons.search, color: customColors.secondaryForegroundColor),
+        prefixIcon: Icon(Icons.search, color: context.colors.secondaryText),
         suffix: _searchController.text.isNotEmpty
             ? IconButton(
-                icon: Icon(Icons.clear, color: customColors.secondaryForegroundColor),
+                icon: Icon(Icons.clear, color: context.colors.secondaryText),
                 onPressed: () {
                   _searchController.clear();
                 },
               )
             : null,
         filled: true,
-        fillColor: customColors.feedBgColor,
+        fillColor: context.colors.feedBackground,
         contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -247,14 +246,14 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(color: customColors.accentColor, width: 1),
+          borderSide: BorderSide(color: context.colors.accent, width: 1),
         ),
       ),
       style: TextStyle(
-        color: customColors.primaryForegroundColor,
+        color: context.colors.primaryText,
         fontSize: 16,
       ),
-      cursorColor: customColors.accentColor,
+      cursorColor: context.colors.accent,
     );
   }
 
@@ -268,7 +267,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
         child: Text(
           S.of(context).searchContactsToInvite,
           style: TextStyle(
-            color: Theme.of(context).customColors.secondaryForegroundColor,
+            color: context.colors.secondaryText,
           ),
         ),
       );
@@ -279,7 +278,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
         child: Text(
           S.of(context).noUsersFound,
           style: TextStyle(
-            color: Theme.of(context).customColors.secondaryForegroundColor,
+            color: context.colors.secondaryText,
           ),
         ),
       );
@@ -298,7 +297,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             decoration: BoxDecoration(
               color: isSelected 
-                ? Theme.of(context).customColors.accentColor.withAlpha(26)
+                ? context.colors.accent.withAlpha(26)
                 : Colors.transparent,
               border: Border(
                 bottom: BorderSide(
@@ -317,7 +316,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                         margin: const EdgeInsets.only(right: 12),
                         child: CircleAvatar(
                           radius: 20,
-                          backgroundColor: Theme.of(context).customColors.feedBgColor,
+                          backgroundColor: context.colors.feedBackground,
                           child: _buildUserAvatar(context, pubkey),
                         ),
                       ),
@@ -327,7 +326,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                           Provider.of<UserProvider>(context, listen: false)
                                   .getUserMeta(pubkey)?.getName() ?? pubkey.substring(0, 8),
                           style: TextStyle(
-                            color: Theme.of(context).customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -340,7 +339,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                 if (isSelected)
                   Icon(
                     Icons.check_circle,
-                    color: Theme.of(context).customColors.accentColor,
+                    color: context.colors.accent,
                   ),
               ],
             ),
@@ -352,14 +351,13 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
   
   Widget _buildRoleDropdown() {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return DropdownButtonFormField<String>(
       value: _role,
       decoration: InputDecoration(
         labelText: S.of(context).role,
         filled: true,
-        fillColor: customColors.feedBgColor,
+        fillColor: context.colors.feedBackground,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -367,10 +365,10 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
         ),
       ),
       style: TextStyle(
-        color: customColors.primaryForegroundColor,
+        color: context.colors.primaryText,
         fontSize: 16,
       ),
-      dropdownColor: customColors.feedBgColor,
+      dropdownColor: context.colors.feedBackground,
       items: [
         DropdownMenuItem(
           value: 'member',
@@ -393,14 +391,13 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
   
   Widget _buildExpiryDatePicker() {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return DropdownButtonFormField<String>(
       value: _expiryDate == null ? 'never' : 'custom',
       decoration: InputDecoration(
         labelText: S.of(context).expires,
         filled: true,
-        fillColor: customColors.feedBgColor,
+        fillColor: context.colors.feedBackground,
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
@@ -408,10 +405,10 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
         ),
       ),
       style: TextStyle(
-        color: customColors.primaryForegroundColor,
+        color: context.colors.primaryText,
         fontSize: 16,
       ),
-      dropdownColor: customColors.feedBgColor,
+      dropdownColor: context.colors.feedBackground,
       items: [
         DropdownMenuItem(
           value: 'never',
@@ -455,12 +452,11 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
   
   Widget _buildReusableToggle() {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: customColors.feedBgColor,
+        color: context.colors.feedBackground,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -469,7 +465,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
           Text(
             S.of(context).reusable,
             style: TextStyle(
-              color: customColors.primaryForegroundColor,
+              color: context.colors.primaryText,
               fontSize: 16,
             ),
           ),
@@ -480,7 +476,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                 _isReusable = value;
               });
             },
-            activeColor: customColors.accentColor,
+            activeColor: context.colors.accent,
           ),
         ],
       ),
@@ -490,7 +486,6 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     
     final groupId = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
@@ -504,7 +499,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
         title: Text(
           localization.inviteByName,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -544,7 +539,7 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                     ElevatedButton(
                       onPressed: _isSending ? null : _sendInvite,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: customColors.accentColor,
+                        backgroundColor: context.colors.accent,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),

@@ -4,7 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
 import 'package:nostrmo/util/group_invite_link_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
@@ -226,9 +226,6 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
     bool isLoading = false,
     bool disabled = false,
   }) {
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-
     final isSelected = selectedLinkType == type;
 
     return InkWell(
@@ -243,13 +240,13 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected
-            ? customColors.accentColor.withAlpha(25)
+            ? context.colors.accent.withAlpha(25)
             : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected
-              ? customColors.accentColor
-              : customColors.secondaryForegroundColor.withAlpha(76),
+              ? context.colors.accent
+              : context.colors.secondaryText.withAlpha(76),
             width: 1.0,
           ),
         ),
@@ -263,15 +260,15 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        customColors.accentColor,
+                        context.colors.accent,
                       ),
                     ),
                   )
                 : Icon(
                     icon,
                     color: disabled
-                        ? customColors.secondaryForegroundColor.withAlpha(128)
-                        : (isSelected ? customColors.accentColor : customColors.secondaryForegroundColor),
+                        ? context.colors.secondaryText.withAlpha(128)
+                        : (isSelected ? context.colors.accent : context.colors.secondaryText),
                     size: 20,
                   ),
             const SizedBox(height: 4),
@@ -280,8 +277,8 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
               style: TextStyle(
                 fontSize: 12,
                 color: disabled
-                    ? customColors.secondaryForegroundColor.withAlpha(128)
-                    : (isSelected ? customColors.accentColor : customColors.secondaryForegroundColor),
+                    ? context.colors.secondaryText.withAlpha(128)
+                    : (isSelected ? context.colors.accent : context.colors.secondaryText),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
@@ -293,8 +290,6 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
 
     final groupId = widget.groupIdentifier ?? RouterUtil.routerArgs(context);
@@ -311,7 +306,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
         title: Text(
           localization.invite,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -343,7 +338,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: customColors.primaryForegroundColor,
+                              color: context.colors.primaryText,
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -352,16 +347,16 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: customColors.accentColor.withAlpha(25),
+                              color: context.colors.accent.withAlpha(25),
                               borderRadius: BorderRadius.circular(8),
-                              border: Border.all(color: customColors.accentColor.withAlpha(76)),
+                              border: Border.all(color: context.colors.accent.withAlpha(76)),
                             ),
                             child: Text(
                               "Choose an invite link type below:",
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: customColors.primaryForegroundColor,
+                                color: context.colors.primaryText,
                               ),
                             ),
                           ),
@@ -432,10 +427,10 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                 constraints: const BoxConstraints(minHeight: 56),
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 decoration: BoxDecoration(
-                                  color: customColors.feedBgColor,
+                                  color: context.colors.feedBackground,
                                   borderRadius: BorderRadius.circular(8),
                                   border: Border.all(
-                                    color: customColors.accentColor.withAlpha(76),
+                                    color: context.colors.accent.withAlpha(76),
                                     width: 1.0,
                                   ),
                                 ),
@@ -447,7 +442,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                         activeLink.isNotEmpty ? activeLink : localization.loading,
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: customColors.primaryForegroundColor,
+                                          color: context.colors.primaryText,
                                         ),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 2,
@@ -457,7 +452,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                     IconButton(
                                       icon: Icon(
                                         Icons.copy,
-                                        color: customColors.accentColor,
+                                        color: context.colors.accent,
                                       ),
                                       onPressed: activeLink.isNotEmpty ? () {
                                         Clipboard.setData(ClipboardData(text: activeLink));
@@ -479,7 +474,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                 'Generating short link...',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: customColors.secondaryForegroundColor,
+                                  color: context.colors.secondaryText,
                                   fontStyle: FontStyle.italic
                                 ),
                               ),
@@ -490,7 +485,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                             localization.shareInviteDescription,
                             style: TextStyle(
                               fontSize: 14,
-                              color: customColors.secondaryForegroundColor,
+                              color: context.colors.secondaryText,
                             ),
                           ),
 
@@ -499,10 +494,10 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                           Container(
                             padding: const EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: customColors.feedBgColor,
+                              color: context.colors.feedBackground,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: customColors.accentColor.withAlpha(50),
+                                color: context.colors.accent.withAlpha(50),
                               ),
                             ),
                             child: Column(
@@ -512,7 +507,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                   children: [
                                     Icon(
                                       Icons.person_search,
-                                      color: customColors.accentColor,
+                                      color: context.colors.accent,
                                     ),
                                     const SizedBox(width: 12),
                                     Expanded(
@@ -521,7 +516,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
-                                          color: customColors.primaryForegroundColor,
+                                          color: context.colors.primaryText,
                                         ),
                                       ),
                                     ),
@@ -532,7 +527,7 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                   "You can also invite people directly from your contacts",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: customColors.secondaryForegroundColor,
+                                    color: context.colors.secondaryText,
                                   ),
                                 ),
                                 const SizedBox(height: 12),
@@ -541,12 +536,12 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                     RouterUtil.router(context, RouterPath.inviteByName, groupId);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: customColors.accentColor.withAlpha(25),
-                                    foregroundColor: customColors.accentColor,
+                                    backgroundColor: context.colors.accent.withAlpha(25),
+                                    foregroundColor: context.colors.accent,
                                     elevation: 0,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide(color: customColors.accentColor),
+                                      side: BorderSide(color: context.colors.accent),
                                     ),
                                   ),
                                   icon: const Icon(Icons.person_add),
@@ -571,8 +566,8 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                     RouterUtil.router(context, RouterPath.groupDetail, groupId);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: themeData.primaryColor,
-                                    foregroundColor: customColors.buttonTextColor,
+                                    backgroundColor: context.colors.primary,
+                                    foregroundColor: context.colors.buttonText,
                                     padding: const EdgeInsets.symmetric(vertical: 12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8),

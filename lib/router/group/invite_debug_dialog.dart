@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/group_invite_link_util.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'dart:developer' as dev;
@@ -163,10 +163,9 @@ class _InviteDebugDialogState extends State<InviteDebugDialog> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Scaffold(
-      backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
+      backgroundColor: (themeData.textTheme.bodyMedium!.color ?? Colors.black).withAlpha(51),
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -180,7 +179,7 @@ class _InviteDebugDialogState extends State<InviteDebugDialog> {
                 margin: const EdgeInsets.symmetric(horizontal: 16),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: customColors.feedBgColor,
+                  color: context.colors.feedBackground,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
@@ -196,14 +195,14 @@ class _InviteDebugDialogState extends State<InviteDebugDialog> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                         ),
                         const Spacer(),
                         IconButton(
                           icon: Icon(
                             Icons.close,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                           onPressed: () => RouterUtil.back(context),
                         ),
@@ -216,46 +215,46 @@ class _InviteDebugDialogState extends State<InviteDebugDialog> {
                       controller: _groupIdController,
                       decoration: InputDecoration(
                         labelText: 'Group ID',
-                        labelStyle: TextStyle(color: customColors.secondaryForegroundColor),
+                        labelStyle: TextStyle(color: context.colors.secondaryText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       ),
-                      style: TextStyle(color: customColors.primaryForegroundColor),
+                      style: TextStyle(color: context.colors.primaryText),
                     ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: _codeController,
                       decoration: InputDecoration(
                         labelText: 'Invite Code',
-                        labelStyle: TextStyle(color: customColors.secondaryForegroundColor),
+                        labelStyle: TextStyle(color: context.colors.secondaryText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       ),
-                      style: TextStyle(color: customColors.primaryForegroundColor),
+                      style: TextStyle(color: context.colors.primaryText),
                     ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: _relayController,
                       decoration: InputDecoration(
                         labelText: 'Relay URL',
-                        labelStyle: TextStyle(color: customColors.secondaryForegroundColor),
+                        labelStyle: TextStyle(color: context.colors.secondaryText),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       ),
-                      style: TextStyle(color: customColors.primaryForegroundColor),
+                      style: TextStyle(color: context.colors.primaryText),
                     ),
                     const SizedBox(height: 16),
                     
                     ElevatedButton(
                       onPressed: _generateLinks,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: customColors.accentColor,
+                        backgroundColor: context.colors.accent,
                         foregroundColor: Colors.white,
                       ),
                       child: const Text('Generate Links'),
@@ -326,7 +325,7 @@ class _InviteDebugDialogState extends State<InviteDebugDialog> {
                           child: Text(
                             'Close',
                             style: TextStyle(
-                              color: customColors.accentColor,
+                              color: context.colors.accent,
                             ),
                           ),
                         ),

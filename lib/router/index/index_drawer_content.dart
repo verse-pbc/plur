@@ -17,7 +17,7 @@ import '../../main.dart';
 import '../../provider/user_provider.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 
 /// A drawer widget that displays user information and navigation options.
 class IndexDrawerContent extends ConsumerStatefulWidget {
@@ -309,7 +309,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     final theme = Theme.of(context);
     showModalBottomSheet(
       isScrollControlled: false,
-      backgroundColor: theme.customColors.feedBgColor,
+      backgroundColor: context.colors.feedBackground,
       context: context,
       builder: (BuildContext context) {
         return const AccountManagerWidget();

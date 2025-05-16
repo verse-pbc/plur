@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/index_provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 import '../../data/group_identifier_repository.dart';
 import '../../main.dart'; // For indexProvider
@@ -27,25 +27,23 @@ class LeaveCommunityButton extends ConsumerWidget {
   }
   
   void _showLeaveConfirmation(BuildContext context, GroupIdentifierRepository controller) {
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: customColors.feedBgColor,
+        backgroundColor: context.colors.feedBackground,
         title: Text(
           localization.leaveGroupQuestion,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: Text(
           localization.leaveGroupConfirmation,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
           ),
         ),
         actions: [
@@ -54,7 +52,7 @@ class LeaveCommunityButton extends ConsumerWidget {
             child: Text(
               localization.cancel,
               style: TextStyle(
-                color: customColors.primaryForegroundColor,
+                color: context.colors.primaryText,
               ),
             ),
           ),

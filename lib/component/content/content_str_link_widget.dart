@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 class ContentStrLinkWidget extends StatelessWidget {
   final bool showUnderline;
@@ -22,7 +22,7 @@ class ContentStrLinkWidget extends StatelessWidget {
     
     // According to feed_m_styles design, interactive elements should use the "Highlight" color
     // This ensures hashtags, mentions, and links use the correct off-white/light purple color
-    const linkColor = PlurColors.highlightText;
+    final linkColor = context.colors.highlightText;
 
     return GestureDetector(
       onTap: () {

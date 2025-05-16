@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
@@ -70,7 +70,7 @@ class _EventListWidgetState extends State<EventListWidget> {
         decoration: BoxDecoration(
           color: Theme.of(context).brightness == Brightness.dark
               ? const Color(0xFF150F23) // Figma dark card color
-              : themeData.customColors.cardBgColor, // fallback for light mode
+              : context.colors.cardBackground, // fallback for light mode
           borderRadius: BorderRadius.circular(30), // Figma: 30px
           boxShadow: Theme.of(context).brightness == Brightness.dark
               ? [
@@ -115,7 +115,7 @@ class _EventListWidgetState extends State<EventListWidget> {
             // Optional separator line
             Container(
               height: 1,
-              color: themeData.customColors.separatorColor.withAlpha(102),
+              color: context.colors.divider.withAlpha(102),
             ),
           ],
         ),

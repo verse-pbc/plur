@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 /// A circular avatar widget for displaying group images.
 /// Shows a nice default community image when no image is provided or when image loading fails.
@@ -36,7 +36,7 @@ class GroupAvatar extends StatelessWidget {
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           border: Border.all(
-            color: themeData.customColors.dimmedColor,
+            color: context.colors.dimmed,
             width: borderWidth,
           ),
         ),

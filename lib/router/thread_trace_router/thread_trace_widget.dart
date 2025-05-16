@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/router/thread_trace_router/event_trace_info.dart';
@@ -115,7 +115,7 @@ class _ThreadTraceWidgetState extends State<ThreadTraceWidget>
                 left: 28,
                 child: Container(
                   width: 2,
-                  color: PlurColors.separatorColor(context).withAlpha(64),
+                  color: context.colors.divider.withAlpha(64),
                 ),
               ),
               Column(

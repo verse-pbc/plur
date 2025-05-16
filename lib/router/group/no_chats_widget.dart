@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../consts/base.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import '../../generated/l10n.dart';
 
 /// Widget displayed when there are no chat messages in a group yet
@@ -17,7 +17,6 @@ class NoChatsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     
     return RefreshIndicator(
@@ -35,7 +34,7 @@ class NoChatsWidget extends StatelessWidget {
                 Icon(
                   Icons.chat_bubble_outline,
                   size: 64,
-                  color: customColors.dimmedColor,
+                  color: context.colors.dimmed,
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -43,7 +42,7 @@ class NoChatsWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: customColors.primaryForegroundColor,
+                    color: context.colors.primaryText,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -56,7 +55,7 @@ class NoChatsWidget extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 14,
-                      color: customColors.dimmedColor,
+                      color: context.colors.dimmed,
                     ),
                   ),
                 ),
@@ -66,8 +65,8 @@ class NoChatsWidget extends StatelessWidget {
                   icon: const Icon(Icons.refresh),
                   label: const Text("Refresh"),
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: customColors.buttonTextColor,
-                    backgroundColor: customColors.accentColor,
+                    foregroundColor: context.colors.buttonText,
+                    backgroundColor: context.colors.accent,
                   ),
                 ),
               ],

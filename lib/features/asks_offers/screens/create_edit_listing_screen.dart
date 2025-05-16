@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostrmo/main.dart'; // Import main to access global nostr
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import '../models/listing_model.dart';
 import '../providers/listing_provider.dart';
 
@@ -145,12 +145,11 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final isDarkMode = themeData.brightness == Brightness.dark;
     
     // Create text style for form inputs with high contrast
     final inputStyle = TextStyle(
-      color: customColors.primaryForegroundColor,
+      color: context.colors.primaryText,
       fontSize: 16,
     );
     
@@ -159,12 +158,12 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
       return InputDecoration(
         labelText: label,
         labelStyle: TextStyle(
-          color: customColors.secondaryForegroundColor,
+          color: context.colors.secondaryText,
           fontWeight: FontWeight.w500,
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: customColors.separatorColor,
+            color: context.colors.divider,
             width: 1.5,
           ),
           borderRadius: BorderRadius.circular(8),
@@ -191,7 +190,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
           borderRadius: BorderRadius.circular(8),
         ),
         filled: true,
-        fillColor: customColors.feedBgColor,
+        fillColor: context.colors.feedBackground,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16, 
           vertical: 16,
@@ -203,9 +202,9 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
       appBar: AppBar(
         title: Text(
           widget.listing == null ? 'Create Listing' : 'Edit Listing',
-          style: TextStyle(color: customColors.primaryForegroundColor),
+          style: TextStyle(color: context.colors.primaryText),
         ),
-        iconTheme: IconThemeData(color: customColors.primaryForegroundColor),
+        iconTheme: IconThemeData(color: context.colors.primaryText),
       ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -221,7 +220,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: customColors.separatorColor, 
+                          color: context.colors.divider, 
                           width: 1.5,
                         ),
                       ),

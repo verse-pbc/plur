@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 import '../../component/user/user_pic_widget.dart';
 import '../../consts/base.dart';
@@ -74,7 +74,7 @@ class _IndexAppBar extends State<IndexAppBar> {
         border: Border(
           bottom: BorderSide(
             width: 1,
-            color: themeData.customColors.separatorColor,
+            color: context.colors.divider,
           ),
         ),
       ),

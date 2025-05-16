@@ -1,5 +1,6 @@
 import 'dart:developer';
-import 'dart:io';
+// Unused import removed
+// import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -17,7 +18,8 @@ import 'package:flutter_socks_proxy/socks_proxy.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
-import 'package:google_fonts/google_fonts.dart';
+// Google fonts now handled by AppTheme
+// import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/styled_bot_toast.dart';
@@ -83,6 +85,7 @@ import 'util/firebase_options.dart';
 import 'generated/l10n.dart';
 import 'home_widget.dart';
 import 'provider/badge_provider.dart';
+import 'theme/app_theme.dart';
 import 'provider/community_approved_provider.dart';
 import 'provider/contact_list_provider.dart';
 import 'provider/data_util.dart';
@@ -131,11 +134,8 @@ import 'system_timer.dart';
 import 'util/image/cache_manager_builder.dart';
 import 'util/locale_util.dart';
 import 'util/media_data_cache.dart';
-import 'util/theme_util.dart';
-import 'package:nostrmo/features/asks_offers/screens/create_edit_listing_screen.dart';
-import 'package:nostrmo/features/asks_offers/screens/listing_detail_screen.dart';
-import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
-import 'package:nostrmo/features/asks_offers/models/listing_model.dart';
+// Theme util removed - using new theme system
+// import 'util/theme_util.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -506,8 +506,8 @@ class _MyApp extends State<MyApp> {
       baseFontSize += 4.0;
     }
     
-    var lightTheme = getLightTheme(baseFontSize: baseFontSize);
-    var darkTheme = getDarkTheme(baseFontSize: baseFontSize);
+    var lightTheme = AppTheme.lightTheme(fontSize: baseFontSize);
+    var darkTheme = AppTheme.darkTheme(fontSize: baseFontSize);
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
     
@@ -863,6 +863,8 @@ class _MyApp extends State<MyApp> {
     }
   }
 
+  // Theme functions moved to lib/theme/app_theme.dart
+  /* OLD THEME FUNCTIONS - Now in lib/theme/app_theme.dart
   ThemeData getLightTheme({double? baseFontSize}) {
     const CustomColors light = CustomColors.light;
     double fontSize = baseFontSize ?? settingsProvider.fontSize;
@@ -1025,6 +1027,7 @@ TabBarThemeData _tabBarTheme() => TabBarThemeData(
     );
 
 IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
+  */ // END OLD THEME FUNCTIONS
 
 void setGetTimeAgoDefaultLocale(Locale? locale) {
   String? localeName = Intl.defaultLocale;
@@ -1060,3 +1063,4 @@ final Map<String, int> _timeAgoSupportLocale = {
   'ur': 1,
   'vi': 1,
 };
+}

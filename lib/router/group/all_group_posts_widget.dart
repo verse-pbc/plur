@@ -11,7 +11,7 @@ import 'package:nostrmo/provider/group_feed_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class AllGroupPostsWidget extends StatefulWidget {
@@ -324,7 +324,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     // If events haven't changed and we have a cached widget, return it
     if (!hasEventsChanged && _cachedContentWidget != null) {
       return Container(
-        color: themeData.customColors.feedBgColor,
+        color: context.colors.feedBackground,
         child: _cachedContentWidget!,
       );
     }
@@ -462,7 +462,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     _cachedContentWidget = content;
 
     return Container(
-      color: themeData.customColors.feedBgColor,
+      color: context.colors.feedBackground,
       child: content,
     );
   }

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/util/community_join_util.dart';
@@ -48,12 +48,10 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
   
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     
     if (_joined) {
-      return _buildJoinedCard(customColors, localization);
+      return _buildJoinedCard(localization);
     }
     
     return Card(
@@ -61,7 +59,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      color: customColors.feedBgColor,
+      color: context.colors.feedBackground,
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -80,12 +78,12 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       height: 48,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return _buildAvatarFallback(customColors);
+                        return _buildAvatarFallback();
                       },
                     ),
                   )
                 else
-                  _buildAvatarFallback(customColors),
+                  _buildAvatarFallback(),
                 
                 const SizedBox(width: 16),
                 
@@ -97,7 +95,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       Text(
                         groupName,
                         style: TextStyle(
-                          color: customColors.primaryForegroundColor,
+                          color: context.colors.primaryText,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -108,7 +106,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       Text(
                         localization.communityInvite,
                         style: TextStyle(
-                          color: customColors.secondaryForegroundColor,
+                          color: context.colors.secondaryText,
                           fontSize: 14,
                         ),
                       ),
@@ -123,14 +121,12 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
             Row(
               children: [
                 _buildInfoChip(
-                  customColors,
                   Icons.person,
                   role == 'admin' ? localization.admin : localization.member,
                 ),
                 const SizedBox(width: 8),
                 if (expiresAt > 0)
                   _buildInfoChip(
-                    customColors,
                     Icons.timer,
                     isExpired
                         ? localization.expired
@@ -145,13 +141,13 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
             ElevatedButton(
               onPressed: isExpired || _joining ? null : _joinGroup,
               style: ElevatedButton.styleFrom(
-                backgroundColor: customColors.accentColor,
+                backgroundColor: context.colors.accent,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
-                disabledBackgroundColor: customColors.disabledColor,
+                disabledBackgroundColor: context.colors.disabled,
               ),
               child: _joining
                   ? SizedBox(
@@ -182,7 +178,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                 child: TextButton(
                   onPressed: _copyInviteLink,
                   style: TextButton.styleFrom(
-                    foregroundColor: customColors.secondaryForegroundColor,
+                    foregroundColor: context.colors.secondaryText,
                   ),
                   child: Text(localization.copyLink),
                 ),
@@ -193,12 +189,12 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
     );
   }
   
-  Widget _buildAvatarFallback(CustomColors customColors) {
+  Widget _buildAvatarFallback() {
     return Container(
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: customColors.accentColor,
+        color: Theme.of(context).extension<AppColors>()!.accent,
         borderRadius: BorderRadius.circular(24),
       ),
       child: Center(
@@ -215,15 +211,15 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
   }
   
   Widget _buildInfoChip(
-    CustomColors customColors,
     IconData icon,
     String text, {
     bool isError = false,
   }) {
+    final colors = Theme.of(context).extension<AppColors>()!;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: customColors.secondaryForegroundColor.withOpacity(0.1),
+        color: colors.secondaryText.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
@@ -232,14 +228,14 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
           Icon(
             icon,
             size: 14,
-            color: isError ? Colors.red : customColors.secondaryForegroundColor,
+            color: isError ? Colors.red : colors.secondaryText,
           ),
           const SizedBox(width: 4),
           Text(
             text,
             style: TextStyle(
               fontSize: 12,
-              color: isError ? Colors.red : customColors.secondaryForegroundColor,
+              color: isError ? Colors.red : colors.secondaryText,
             ),
           ),
         ],
@@ -247,13 +243,13 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
     );
   }
   
-  Widget _buildJoinedCard(CustomColors customColors, S localization) {
+  Widget _buildJoinedCard(S localization) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
-      color: customColors.feedBgColor,
+      color: context.colors.feedBackground,
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -272,12 +268,12 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       height: 48,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return _buildAvatarFallback(customColors);
+                        return _buildAvatarFallback();
                       },
                     ),
                   )
                 else
-                  _buildAvatarFallback(customColors),
+                  _buildAvatarFallback(),
                 
                 const SizedBox(width: 16),
                 
@@ -289,7 +285,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       Text(
                         groupName,
                         style: TextStyle(
-                          color: customColors.primaryForegroundColor,
+                          color: context.colors.primaryText,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -325,7 +321,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
             OutlinedButton(
               onPressed: _openGroup,
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: customColors.accentColor),
+                side: BorderSide(color: context.colors.accent),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -334,7 +330,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
               child: Text(
                 localization.open,
                 style: TextStyle(
-                  color: customColors.accentColor,
+                  color: context.colors.accent,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

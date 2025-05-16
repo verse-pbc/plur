@@ -6,14 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:google_fonts/google_fonts.dart';
-import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/like_select_type.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -197,7 +196,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             bottom: Base.basePaddingHalf,
           ),
           decoration: BoxDecoration(
-            color: themeData.customColors.cardBgColor, // Use ThemeData extension for card background
+            color: context.colors.cardBackground, // Use ThemeData extension for card background
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Column(
@@ -306,8 +305,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     
     // Choose color based on active state
     final buttonColor = isActive 
-        ? PlurColors.primaryPurple // Active buttons always use primary color
-        : PlurColors.secondaryTextColor(context); // Non-active buttons use secondary text color
+        ? context.colors.primary // Active buttons always use primary color
+        : context.colors.secondaryText; // Non-active buttons use secondary text color
     
     return Material(
       color: Colors.transparent,

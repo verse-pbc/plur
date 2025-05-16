@@ -13,7 +13,7 @@ import 'package:provider/provider.dart' as provider;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../component/shimmer/shimmer.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';
@@ -113,9 +113,9 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     // Must call super for AutomaticKeepAliveClientMixin
     super.build(context);
     
-    final themeData = Theme.of(context);
-    final appBgColor = themeData.customColors.appBgColor;
-    final separatorColor = themeData.customColors.separatorColor;
+    final colors = context.colors;
+    final appBgColor = colors.background;
+    final separatorColor = colors.divider;
     final shimmerGradient = LinearGradient(
       colors: [separatorColor, appBgColor, separatorColor],
       stops: const [0.1, 0.3, 0.4],

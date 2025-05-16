@@ -15,7 +15,7 @@ import '../../features/communities/communities_grid_widget.dart';
 import 'communities_feed_widget.dart';
 import '../../provider/relay_provider.dart';
 import '../../util/time_util.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 
 class CommunitiesWidget extends StatefulWidget {
   const CommunitiesWidget({super.key});
@@ -39,8 +39,8 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     final indexProvider = Provider.of<IndexProvider>(context);
     final groupIds = listProvider.groupIdentifiers;
     final themeData = Theme.of(context);
-    final appBgColor = themeData.customColors.appBgColor;
-    final separatorColor = themeData.customColors.separatorColor;
+    final appBgColor = context.colors.background;
+    final separatorColor = context.colors.divider;
     final shimmerGradient = LinearGradient(
       colors: [separatorColor, appBgColor, separatorColor],
       stops: const [0.1, 0.3, 0.4],

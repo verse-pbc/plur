@@ -16,7 +16,7 @@ import '../../main.dart';
 import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
@@ -101,11 +101,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     localization = S.of(context);
     
     // Save some colors for later
-    final themeData = Theme.of(context);
-    final dimmedColor = themeData.customColors.dimmedColor;
-    final buttonTextColor = themeData.customColors.buttonTextColor;
-    final accentColor = themeData.customColors.accentColor;
-    final primaryForegroundColor = themeData.customColors.primaryForegroundColor;
+    final colors = context.colors;
+    final dimmedColor = colors.dimmed;
+    final buttonTextColor = colors.buttonText;
+    final accentColor = colors.accent;
+    final primaryForegroundColor = colors.primaryText;
 
     var maxWidth = mediaDataCache.size.width;
     var mainWidth = maxWidth * 0.8;
@@ -201,7 +201,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               color: Colors.transparent,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: primaryForegroundColor.withOpacity(0.3),
+                color: primaryForegroundColor.withAlpha((255 * 0.3).round()),
                 width: 2,
               ),
             ),
@@ -236,7 +236,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: accentColor.withOpacity(0.3),
+                  color: accentColor.withAlpha((255 * 0.3).round()),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
@@ -304,7 +304,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
           style: TextStyle(
             // Using primaryForegroundColor with opacity instead of dimmedColor for better readability
-            color: primaryForegroundColor.withOpacity(0.8),
+            color: primaryForegroundColor.withAlpha((255 * 0.8).round()),
             fontSize: 14,
           ),
         ),
@@ -312,7 +312,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       // Private key input field
       OutlineInputBorder textFieldBorder = OutlineInputBorder(
-        borderSide: BorderSide(color: primaryForegroundColor.withOpacity(0.4)),
+        borderSide: BorderSide(color: primaryForegroundColor.withAlpha((255 * 0.4).round())),
       );
       
       mainList.add(TextField(
@@ -321,7 +321,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           focusedBorder: textFieldBorder,
           enabledBorder: textFieldBorder,
           hintText: "nsec... / bunker:// URL / user@domain",
-          hintStyle: TextStyle(color: primaryForegroundColor.withOpacity(0.5), fontSize: 16),
+          hintStyle: TextStyle(color: primaryForegroundColor.withAlpha((255 * 0.5).round()), fontSize: 16),
           contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
           // Adds an eye icon as a suffix to toggle password visibility
           suffixIcon: GestureDetector(
@@ -332,7 +332,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             },
             child: Icon(
               _isTextObscured ? Icons.visibility : Icons.visibility_off,
-              color: primaryForegroundColor.withOpacity(0.7),
+              color: primaryForegroundColor.withAlpha((255 * 0.7).round()),
             ),
           ),
         ),
@@ -353,9 +353,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           style: FilledButton.styleFrom(
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             backgroundColor: accentColor,
-            disabledBackgroundColor: accentColor.withOpacity(0.4),
+            disabledBackgroundColor: accentColor.withAlpha((255 * 0.4).round()),
             foregroundColor: buttonTextColor,
-            disabledForegroundColor: buttonTextColor.withOpacity(0.4),
+            disabledForegroundColor: buttonTextColor.withAlpha((255 * 0.4).round()),
           ),
           child: const Text(
             "Login to Account",
@@ -445,7 +445,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     return Scaffold(
       // Sets the background color for the login screen.
-      backgroundColor: themeData.customColors.loginBgColor,
+      backgroundColor: colors.loginBackground,
       body: SizedBox(
         // Expands to the full width of the screen.
         width: double.maxFinite,
