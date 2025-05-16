@@ -146,7 +146,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Text(
         "Start meaningful exchanges with people you trust. Holis is communities built for depth, not noise.",
         style: TextStyle(
-          color: primaryForegroundColor.withAlpha((255 * 0.8).round()),
+          color: colors.secondaryText,
           fontSize: 18,
           fontWeight: FontWeight.w400,
           height: 1.5,
@@ -392,7 +392,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           text: "By continuing, you accept our <accent>Terms of Service</accent>",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: primaryForegroundColor.withAlpha((255 * 0.6).round()),
+            color: colors.secondaryText,
             fontSize: 16,
             height: 1.5,
           ),

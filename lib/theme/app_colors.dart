@@ -19,7 +19,7 @@ abstract class AppColorPalette {
   
   // Text colors
   static const Color darkPrimaryText = Color(0xFFB6A0E1);
-  static const Color darkSecondaryText = Color(0xFF6352BE);
+  static const Color darkSecondaryText = Color(0xFF93A5B7);
   static const Color darkHighlightText = Color(0xFFECE2FD);
   
   static const Color lightPrimaryText = Color(0xFF4B3997);
