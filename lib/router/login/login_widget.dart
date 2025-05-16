@@ -133,7 +133,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         style: TextStyle(
           fontFamily: 'SF Pro Rounded',
           color: buttonTextColor,
-          fontSize: 48,
+          fontSize: 46,
           fontWeight: FontWeight.bold,
           height: 1.2,
         ),
