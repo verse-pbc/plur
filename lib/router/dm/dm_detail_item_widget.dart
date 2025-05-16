@@ -226,9 +226,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     // Get cached data or process it now
     final settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
     final themeData = Theme.of(context);
-    final mainColor = themeData.primaryColor;
     final smallTextSize = themeData.textTheme.bodySmall!.fontSize;
-    final hintColor = themeData.hintColor;
     
     // Get time string
     final timeStr = GetTimeAgo.parse(

@@ -6,7 +6,7 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import '../../component/appbar_bottom_border.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'group_info/group_info_header_widget.dart';
 import 'group_info/group_info_popupmenu_widget.dart';
@@ -36,7 +36,6 @@ class _GroupMediaScreenState extends State<GroupMediaScreen> {
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
 
     final argIntf = RouterUtil.routerArgs(context);
@@ -61,7 +60,7 @@ class _GroupMediaScreenState extends State<GroupMediaScreen> {
         title: Text(
           localization.media,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -89,14 +88,14 @@ class _GroupMediaScreenState extends State<GroupMediaScreen> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: customColors.primaryForegroundColor,
+                    color: context.colors.primaryText,
                   ),
                 ),
                 const Spacer(),
                 IconButton(
                   icon: Icon(
                     Icons.refresh,
-                    color: customColors.accentColor,
+                    color: context.colors.accent,
                   ),
                   onPressed: () {
                     // Refresh media

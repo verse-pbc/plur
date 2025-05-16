@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
 import '../providers/response_provider.dart';
@@ -88,7 +88,6 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -145,7 +144,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: customColors.feedBgColor,
+                fillColor: context.colors.feedBackground,
               ),
             ),
             
@@ -166,7 +165,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: customColors.feedBgColor,
+                      fillColor: context.colors.feedBackground,
                     ),
                   ),
                 
@@ -181,7 +180,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     filled: true,
-                    fillColor: customColors.feedBgColor,
+                    fillColor: context.colors.feedBackground,
                   ),
                 ),
                 
@@ -196,7 +195,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     filled: true,
-                    fillColor: customColors.feedBgColor,
+                    fillColor: context.colors.feedBackground,
                   ),
                 ),
               ],

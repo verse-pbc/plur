@@ -7,7 +7,7 @@ import 'package:easy_image_viewer/easy_image_viewer.dart';
 import '../../component/image_preview_dialog.dart';
 import '../../component/content/content_image_widget.dart';
 import '../../provider/group_media_provider.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import '../../generated/l10n.dart';
 
 /// Instagram-style grid view for displaying media posts from a group
@@ -70,7 +70,6 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
   /// Build the empty state message when no media is found
   Widget _buildEmptyState(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     
     return Center(
@@ -80,13 +79,13 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
           Icon(
             Icons.photo_library_outlined,
             size: 48,
-            color: customColors.dimmedColor,
+            color: context.colors.dimmed,
           ),
           const SizedBox(height: 16),
           Text(
             localization.noMediaFound,
             style: TextStyle(
-              color: customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               fontSize: 16,
             ),
           ),
@@ -95,7 +94,7 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
             localization.addPhotosToYourPosts,
             textAlign: TextAlign.center,
             style: TextStyle(
-              color: customColors.dimmedColor,
+              color: context.colors.dimmed,
               fontSize: 14,
             ),
           ),
@@ -202,10 +201,9 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
   /// Build a loading placeholder for images
   Widget _buildLoadingPlaceholder(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Container(
-      color: customColors.navBgColor,
+      color: context.colors.primary,
       child: const Center(
         child: SizedBox(
           width: 24,
@@ -221,15 +219,14 @@ class _GroupMediaGridWidgetState extends State<GroupMediaGridWidget> {
   /// Build a placeholder for items without valid images
   Widget _buildPlaceholder(BuildContext context, Event event) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Container(
-      color: customColors.navBgColor,
+      color: context.colors.primary,
       child: Center(
         child: Icon(
           Icons.image_not_supported_outlined,
           size: 24,
-          color: customColors.dimmedColor,
+          color: context.colors.dimmed,
         ),
       ),
     );

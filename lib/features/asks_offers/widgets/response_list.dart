@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
 import '../providers/response_provider.dart';
@@ -23,7 +23,6 @@ class ResponseList extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final responsesAsync = ref.watch(responseProvider);
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
 
     return responsesAsync.when(
       data: (responses) {
@@ -47,7 +46,6 @@ class ResponseList extends ConsumerWidget {
               context,
               response,
               themeData,
-              customColors,
             );
           },
         );
@@ -85,7 +83,6 @@ class ResponseList extends ConsumerWidget {
     BuildContext context,
     ResponseModel response,
     ThemeData themeData,
-    CustomColors customColors,
   ) {
     // Determine color based on response type
     Color getTypeColor() {
@@ -189,7 +186,7 @@ class ResponseList extends ConsumerWidget {
                         Text(
                           getTypeText(),
                           style: TextStyle(
-                            color: customColors.secondaryForegroundColor,
+                            color: context.colors.secondaryText,
                             fontSize: 12,
                           ),
                         ),
@@ -197,7 +194,7 @@ class ResponseList extends ConsumerWidget {
                         Text(
                           _formatRelativeTime(response.createdAt),
                           style: TextStyle(
-                            color: customColors.secondaryForegroundColor,
+                            color: context.colors.secondaryText,
                             fontSize: 12,
                           ),
                         ),

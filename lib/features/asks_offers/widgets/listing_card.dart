@@ -7,7 +7,7 @@ import 'package:nostrmo/main.dart';
 import '../models/response_model.dart';
 import '../widgets/response_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import '../models/listing_model.dart';
 import 'group_badge_widget.dart';
 
@@ -26,7 +26,6 @@ class ListingCard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final isDarkMode = themeData.brightness == Brightness.dark;
     
     // Ask header colors
@@ -60,11 +59,11 @@ class ListingCard extends ConsumerWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
       clipBehavior: Clip.antiAlias,
       elevation: isDarkMode ? 1.0 : 0.5,
-      color: customColors.feedBgColor,
+      color: context.colors.feedBackground,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
+          color: context.colors.divider.withAlpha(77),
           width: 0.5,
         ),
       ),
@@ -82,7 +81,7 @@ class ListingCard extends ConsumerWidget {
                   : offerHeaderBg,
                 border: Border(
                   bottom: BorderSide(
-                    color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
+                    color: context.colors.divider.withAlpha(77),
                     width: 0.5,
                   ),
                 ),
@@ -179,7 +178,7 @@ class ListingCard extends ConsumerWidget {
                         color: listing.expiresAt != null && 
                               listing.expiresAt!.isBefore(DateTime.now())
                           ? Colors.red
-                          : customColors.secondaryForegroundColor,
+                          : context.colors.secondaryText,
                       ),
                     ),
                   ],
@@ -204,7 +203,7 @@ class ListingCard extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border(
                   top: BorderSide(
-                    color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
+                    color: context.colors.divider.withAlpha(77),
                     width: 0.5,
                   ),
                 ),
@@ -287,14 +286,13 @@ class ListingCard extends ConsumerWidget {
 
   Widget _buildActionButtons(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final isDarkMode = themeData.brightness == Brightness.dark;
     
     // Define action button colors based on theme
     final Color askActionColor = isDarkMode ? Colors.blue.shade300 : Colors.blue;
     final Color offerActionColor = isDarkMode ? Colors.green.shade300 : Colors.green;
     final Color messageColor = isDarkMode 
-        ? customColors.primaryForegroundColor 
+        ? context.colors.primaryText 
         : themeData.primaryColor;
     final Color thanksColor = isDarkMode ? Colors.red.shade300 : Colors.red;
     
@@ -337,7 +335,7 @@ class ListingCard extends ConsumerWidget {
                 thickness: 1,
                 indent: 8,
                 endIndent: 8,
-                color: customColors.separatorColor.withAlpha((0.5 * 255).toInt()),
+                color: context.colors.divider.withAlpha(128),
               ),
               
               Expanded(
@@ -358,7 +356,7 @@ class ListingCard extends ConsumerWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
+            color: context.colors.divider.withAlpha(77),
           ),
           
           TextButton.icon(
@@ -402,7 +400,7 @@ class ListingCard extends ConsumerWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 13,
-            color: customColors.secondaryForegroundColor,
+            color: context.colors.secondaryText,
             fontStyle: FontStyle.italic,
           ),
         ),

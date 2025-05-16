@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -61,7 +61,6 @@ class GroupInfoMenuWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     final groupProvider = Provider.of<GroupProvider>(context);
     
@@ -79,13 +78,13 @@ class GroupInfoMenuWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: customColors.primaryForegroundColor,
+              color: context.colors.primaryText,
             ),
           ),
           const SizedBox(height: 8),
           // Menu items in a card
           Material(
-            color: customColors.feedBgColor,
+            color: context.colors.feedBackground,
             clipBehavior: Clip.antiAlias,
             borderRadius: BorderRadius.circular(12),
             elevation: 0,
@@ -98,7 +97,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
                 return Divider(
                   height: 1,
                   indent: 56, // Align divider with text, not icon
-                  color: customColors.separatorColor.withAlpha(128), // Using withAlpha instead of deprecated withOpacity
+                  color: context.colors.divider.withAlpha(128),
                 );
               },
               itemBuilder: (context, index) {
@@ -109,7 +108,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
                   onTap: () => _handleMenuItemTap(context, item),
                   textColor: item == GroupInfoMenuItem.leave 
                     ? Colors.red 
-                    : customColors.primaryForegroundColor,
+                    : context.colors.primaryText,
                 );
               },
             ),
@@ -172,24 +171,23 @@ class GroupInfoMenuWidget extends StatelessWidget {
 
   void _showLeaveConfirmation(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: customColors.feedBgColor, // Add background color for theming
+        backgroundColor: context.colors.feedBackground,
         title: Text(
           localization.leaveGroupQuestion,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontWeight: FontWeight.bold,
           ),
         ),
         content: Text(
           localization.leaveGroupConfirmation,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
           ),
         ),
         actions: [
@@ -198,7 +196,7 @@ class GroupInfoMenuWidget extends StatelessWidget {
             child: Text(
               localization.cancel,
               style: TextStyle(
-                color: customColors.primaryForegroundColor,
+                color: context.colors.primaryText,
               ),
             ),
           ),

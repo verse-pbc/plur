@@ -213,10 +213,10 @@ class _UserWidgetState extends CustState<UserWidget>
             child: Container(
               padding: EdgeInsets.only(top: paddingTop),
               decoration: BoxDecoration(
-                color: context.colors.navBgColor,
+                color: context.colors.navBackground,
                 border: Border(
                   bottom:
-                      BorderSide(color: context.colors.separatorColor),
+                      BorderSide(color: context.colors.divider),
                 ),
               ),
               child: SizedBox(

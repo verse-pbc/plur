@@ -273,7 +273,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                               if (states.contains(MaterialState.selected)) {
                                 return _type == ListingType.ask ? Colors.blue : Colors.green;
                               }
-                              return customColors.feedBgColor;
+                              return context.colors.feedBackground;
                             },
                           ),
                         ),
@@ -322,15 +322,15 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                         ),
                         iconColor: themeData.primaryColor,
-                        collapsedIconColor: customColors.secondaryForegroundColor,
+                        collapsedIconColor: context.colors.secondaryText,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                           side: BorderSide(
-                            color: customColors.separatorColor,
+                            color: context.colors.divider,
                             width: 1.5,
                           ),
                         ),
@@ -366,11 +366,11 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                                 
                                 Card(
                                   elevation: 0,
-                                  color: customColors.feedBgColor,
+                                  color: context.colors.feedBackground,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
                                     side: BorderSide(
-                                      color: customColors.separatorColor,
+                                      color: context.colors.divider,
                                       width: 1.5,
                                     ),
                                   ),
@@ -382,7 +382,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                                     title: Text(
                                       'Expiration Date',
                                       style: TextStyle(
-                                        color: customColors.primaryForegroundColor,
+                                        color: context.colors.primaryText,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
@@ -391,7 +391,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                                         ? '${_expiresAt!.year}-${_expiresAt!.month.toString().padLeft(2, '0')}-${_expiresAt!.day.toString().padLeft(2, '0')}'
                                         : 'No expiration date set',
                                       style: TextStyle(
-                                        color: customColors.secondaryForegroundColor,
+                                        color: context.colors.secondaryText,
                                       ),
                                     ),
                                     trailing: IconButton(
@@ -410,7 +410,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                                     'Images',
                                     style: TextStyle(
                                       fontSize: 16,
-                                      color: customColors.primaryForegroundColor,
+                                      color: context.colors.primaryText,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -418,10 +418,10 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                                   Container(
                                     height: 120,
                                     decoration: BoxDecoration(
-                                      color: customColors.feedBgColor,
+                                      color: context.colors.feedBackground,
                                       borderRadius: BorderRadius.circular(8),
                                       border: Border.all(
-                                        color: customColors.separatorColor,
+                                        color: context.colors.divider,
                                         width: 1.5,
                                       ),
                                     ),
@@ -437,7 +437,7 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(8),
                                                 border: Border.all(
-                                                  color: customColors.separatorColor,
+                                                  color: context.colors.divider,
                                                   width: 1,
                                                 ),
                                                 boxShadow: [

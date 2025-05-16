@@ -9,7 +9,7 @@ import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../util/table_mode_util.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import '../../util/dirtywords_util.dart';
 
 /// A widget for user sign-up with multi-step onboarding.
@@ -142,12 +142,11 @@ class _SignupWidgetState extends State<SignupWidget> {
     
     // Save some colors for later
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-    final dimmedColor = customColors.dimmedColor;
-    final buttonTextColor = customColors.buttonTextColor;
-    final accentColor = customColors.accentColor;
-    final primaryForegroundColor = customColors.primaryForegroundColor;
-    final appBgColor = customColors.appBgColor;
+    final dimmedColor = context.colors.dimmed;
+    final buttonTextColor = context.colors.buttonText;
+    final accentColor = context.colors.accent;
+    final primaryForegroundColor = context.colors.primaryText;
+    final appBgColor = context.colors.background;
 
     // Calculate content width
     final maxWidth = mediaDataCache.size.width;

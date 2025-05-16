@@ -24,6 +24,6 @@ class ColorsUtil {
   }
 
   static String colorToHex(Color color) {
-    return "#${color.red.toRadixString(16)}${color.green.toRadixString(16)}${color.blue.toRadixString(16)}";
+    return "#${color.r.toInt().toRadixString(16).padLeft(2, '0')}${color.g.toInt().toRadixString(16).padLeft(2, '0')}${color.b.toInt().toRadixString(16).padLeft(2, '0')}";
   }
 }

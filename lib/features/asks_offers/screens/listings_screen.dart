@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/data/group_metadata_repository.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import '../models/listing_model.dart';
 import '../providers/listing_provider.dart';
@@ -111,7 +111,6 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
   Widget build(BuildContext context) {
     final listingsState = ref.watch(listingProvider);
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     // Group metadata if we're in a group
     Widget? groupName;
@@ -120,7 +119,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
     } else if (widget.showAllGroups) {
       groupName = Text("All Communities", style: TextStyle(
         fontSize: 14,
-        color: customColors.secondaryForegroundColor,
+        color: context.colors.secondaryText,
       ));
     }
 
@@ -134,7 +133,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
               DefaultTextStyle(
                 style: TextStyle(
                   fontSize: 14,
-                  color: customColors.secondaryForegroundColor,
+                  color: context.colors.secondaryText,
                 ),
                 child: Row(
                   children: [
@@ -152,7 +151,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
+                  color: context.colors.divider.withAlpha(77),
                   width: 0.5,
                 ),
               ),
@@ -160,7 +159,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             child: TabBar(
               controller: _tabController,
               labelColor: themeData.primaryColor,
-              unselectedLabelColor: customColors.secondaryForegroundColor,
+              unselectedLabelColor: context.colors.secondaryText,
               indicatorColor: themeData.primaryColor,
               tabs: const [
                 Tab(text: 'ALL'),
@@ -192,7 +191,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                   hintText: 'Search asks & offers...',
                   prefixIcon: const Icon(Icons.search),
                   filled: true,
-                  fillColor: customColors.feedBgColor,
+                  fillColor: context.colors.feedBackground,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide.none,
@@ -443,12 +442,11 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
   
   void _showFilterBottomSheet(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: customColors.feedBgColor,
+      backgroundColor: context.colors.feedBackground,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -507,7 +505,7 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
                           Text(
                             'STATUS',
                             style: themeData.textTheme.labelLarge?.copyWith(
-                              color: customColors.secondaryForegroundColor,
+                              color: context.colors.secondaryText,
                             ),
                           ),
                           const SizedBox(height: 8),

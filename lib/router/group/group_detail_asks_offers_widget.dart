@@ -6,7 +6,7 @@ import 'package:nostrmo/features/asks_offers/providers/listing_provider.dart';
 import 'package:nostrmo/features/asks_offers/widgets/listing_card.dart';
 import 'package:nostrmo/features/asks_offers/screens/create_edit_listing_screen.dart';
 import 'package:nostrmo/features/asks_offers/screens/listing_detail_screen.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/generated/l10n.dart';
 
@@ -59,7 +59,6 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
   Widget build(BuildContext context) {
     super.build(context);
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final l10n = S.of(context);
     
     // Format the group ID as "host:id" - using our utility to ensure consistency
@@ -74,7 +73,7 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
         Container(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           decoration: BoxDecoration(
-            color: customColors.feedBgColor,
+            color: context.colors.feedBackground,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -201,7 +200,7 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
         child: Text(
           label,
           style: TextStyle(
-            color: isSelected ? Colors.white : themeData.customColors.secondaryForegroundColor,
+            color: isSelected ? Colors.white : context.colors.secondaryText,
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
           ),
         ),

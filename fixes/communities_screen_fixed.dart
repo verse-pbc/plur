@@ -5,7 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
-import '../../util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import '../provider/group_feed_provider.dart';
 import '../provider/group_read_status_provider.dart';
 import '../provider/index_provider.dart';
@@ -49,8 +49,8 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     super.build(context);
     
     final themeData = Theme.of(context);
-    final appBgColor = themeData.customColors.appBgColor;
-    final separatorColor = themeData.customColors.separatorColor;
+    final appBgColor = context.colors.background;
+    final separatorColor = context.colors.divider;
     final shimmerGradient = LinearGradient(
       colors: [separatorColor, appBgColor, separatorColor],
       stops: const [0.1, 0.3, 0.4],

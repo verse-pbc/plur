@@ -552,14 +552,14 @@ class _InviteByNameWidgetState extends State<InviteByNameWidget> {
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  customColors.buttonTextColor,
+                                  context.colors.buttonText,
                                 ),
                               ),
                             )
                           : Text(
                               localization.sendInvite,
                               style: TextStyle(
-                                color: customColors.buttonTextColor,
+                                color: context.colors.buttonText,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
                               ),

@@ -4,7 +4,7 @@ import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 import '../../../data/user.dart';
 import 'group_member_info_widget.dart';
@@ -43,7 +43,7 @@ class GroupMemberItemWidget extends StatelessWidget {
               top: Base.basePaddingHalf,
               bottom: Base.basePaddingHalf,
             ),
-            color: themeData.customColors.loginBgColor,
+            color: context.colors.feedBackground,
             child: Row(
               children: [
                 Container(
@@ -61,10 +61,10 @@ class GroupMemberItemWidget extends StatelessWidget {
             ),
           ),
           Container(
-            color: themeData.customColors.loginBgColor,
+            color: context.colors.feedBackground,
             child: Divider(
               height: 1,
-              color: themeData.customColors.feedBgColor,
+              color: context.colors.feedBackground,
             ),
           ),
         ],

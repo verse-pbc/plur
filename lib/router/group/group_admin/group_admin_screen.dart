@@ -3,7 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostr_sdk/nip29/group_metadata.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 import '../../../component/group/group_avatar_widget.dart';
@@ -85,20 +85,20 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
       border: OutlineInputBorder(
         borderRadius: borderRadius,
         borderSide:
-        BorderSide(color: themeData.customColors.secondaryForegroundColor),
+        BorderSide(color: context.colors.secondaryText),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: borderRadius,
         borderSide:
-        BorderSide(color: themeData.customColors.secondaryForegroundColor),
+        BorderSide(color: context.colors.secondaryText),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: borderRadius,
         borderSide: BorderSide(
-            color: themeData.customColors.secondaryForegroundColor, width: 2),
+            color: context.colors.secondaryText, width: 2),
       ),
       labelStyle:
-          TextStyle(color: themeData.customColors.primaryForegroundColor),
+          TextStyle(color: context.colors.primaryText),
     );
 
     return Scaffold(
@@ -108,7 +108,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
           child: Text(
             localization.cancel,
             style: TextStyle(
-              color: themeData.customColors.accentColor,
+              color: context.colors.accent,
               fontSize: 16.0,
               fontWeight: FontWeight.w500,
             ),
@@ -120,7 +120,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
         title: Text(
           localization.edit,
           style: TextStyle(
-            color: themeData.customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -136,7 +136,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    themeData.customColors.accentColor,
+                    context.colors.accent,
                   ),
                 ),
               ),
@@ -149,7 +149,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                 localization.save,
                 style: TextStyle(
                   color: _hasChanges
-                      ? themeData.customColors.accentColor
+                      ? context.colors.accent
                       : Colors.grey,
                   fontSize: 18,
                 ),
@@ -177,7 +177,7 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                   fontSize: 16.0,
                   fontWeight: FontWeight.w500,
                 ),
-                foregroundColor: themeData.customColors.accentColor,
+                foregroundColor: context.colors.accent,
               ),
               child: Text(localization.updateImage),
             ),
@@ -353,21 +353,21 @@ class _NavigationRow extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        color: themeData.customColors.feedBgColor,
+        color: context.colors.feedBackground,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
               title,
               style: TextStyle(
-                color: themeData.customColors.primaryForegroundColor,
+                color: context.colors.primaryText,
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
               ),
             ),
             Icon(
               Icons.chevron_right,
-              color: themeData.customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               size: 24,
             ),
           ],

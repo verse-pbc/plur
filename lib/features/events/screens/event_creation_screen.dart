@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:nostrmo/features/events/models/event_model.dart';
 import 'package:nostrmo/features/events/providers/event_provider.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 
 /// Screen for creating or editing an event
@@ -122,14 +122,13 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.existingEvent != null ? "Edit Event" : "Create an Event"),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: customColors.feedBgColor,
+        backgroundColor: context.colors.feedBackground,
         foregroundColor: themeData.primaryColor,
       ),
       body: GestureDetector(
@@ -249,7 +248,7 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
                         }
                       });
                     },
-                    activeColor: customColors.accentColor,
+                    activeColor: context.colors.accent,
                   ),
                   Text(
                     "Include end date/time",
@@ -421,7 +420,7 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
                             Text(
                               "No tags added",
                               style: TextStyle(
-                                color: customColors.secondaryForegroundColor,
+                                color: context.colors.secondaryText,
                                 fontStyle: FontStyle.italic,
                               ),
                             ),

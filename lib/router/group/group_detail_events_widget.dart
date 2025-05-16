@@ -6,7 +6,7 @@ import 'package:nostrmo/features/events/models/event_rsvp_model.dart';
 import 'package:nostrmo/features/events/providers/event_provider.dart';
 import 'package:nostrmo/features/events/screens/event_creation_screen.dart';
 import 'package:nostrmo/features/events/screens/event_detail_screen.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
@@ -198,7 +198,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
             child: FloatingActionButton(
               heroTag: 'group_detail_create_event_fab',
               onPressed: _createEvent,
-              backgroundColor: themeData.customColors.accentColor,
+              backgroundColor: context.colors.accent,
               child: const Icon(Icons.add, color: Colors.white),
             ),
           ),
@@ -258,10 +258,10 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: themeData.customColors.feedBgColor,
+        color: context.colors.feedBackground,
         border: Border(
           bottom: BorderSide(
-            color: themeData.customColors.separatorColor.withAlpha(77), // 0.3 * 255 = 77
+            color: context.colors.divider.withAlpha(77),
             width: 0.5,
           ),
         ),
@@ -318,8 +318,8 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                     _showPastEvents = selected;
                   });
                 },
-                selectedColor: themeData.customColors.accentColor.withAlpha(51), // 0.2 * 255 = 51
-                checkmarkColor: themeData.customColors.accentColor,
+                selectedColor: context.colors.accent.withAlpha(51),
+                checkmarkColor: context.colors.accent,
               ),
               
               const SizedBox(width: 8),
@@ -397,7 +397,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
               icon,
               color: isSelected 
                   ? Colors.white 
-                  : themeData.customColors.secondaryForegroundColor,
+                  : context.colors.secondaryText,
               size: 20,
             ),
             const SizedBox(height: 4),
@@ -406,7 +406,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
               style: TextStyle(
                 color: isSelected 
                     ? Colors.white 
-                    : themeData.customColors.secondaryForegroundColor,
+                    : context.colors.secondaryText,
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
@@ -578,7 +578,6 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
   }
   
   Widget _buildEventCard(EventModel event, ThemeData themeData) {
-    final customColors = themeData.customColors;
     final now = DateTime.now();
     final isUpcoming = event.startAt.isAfter(now);
     
@@ -591,7 +590,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
     
     // Calculate event status color
     final statusColor = isUpcoming 
-        ? themeData.customColors.accentColor
+        ? context.colors.accent
         : Colors.grey;
     
     return Card(
@@ -599,7 +598,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
         side: BorderSide(
-          color: customColors.separatorColor.withAlpha(77), // 0.3 * 255 = 77
+          color: context.colors.divider.withAlpha(77),
           width: 0.5,
         ),
       ),
@@ -621,7 +620,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                   errorBuilder: (context, error, stackTrace) {
                     return Container(
                       height: 120,
-                      color: customColors.accentColor.withAlpha(26), // 0.1 * 255 = 26
+                      color: context.colors.accent.withAlpha(26),
                       child: const Center(
                         child: Icon(Icons.image_not_supported, size: 48, color: Colors.grey),
                       ),
@@ -719,7 +718,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                         Icon(
                           Icons.location_on_outlined,
                           size: 16,
-                          color: customColors.secondaryForegroundColor,
+                          color: context.colors.secondaryText,
                         ),
                         const SizedBox(width: 4),
                         Expanded(
@@ -728,7 +727,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: customColors.secondaryForegroundColor,
+                              color: context.colors.secondaryText,
                             ),
                           ),
                         ),
@@ -856,7 +855,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
-            color: themeData.customColors.separatorColor.withAlpha(77), // 0.3 * 255 = 77
+            color: context.colors.divider.withAlpha(77),
             width: 0.5,
           ),
         ),
@@ -872,14 +871,14 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                 size: 16,
                 color: userStatus == RSVPStatus.going
                     ? Colors.green
-                    : themeData.customColors.secondaryForegroundColor,
+                    : context.colors.secondaryText,
               ),
               label: Text(
                 'Going',
                 style: TextStyle(
                   color: userStatus == RSVPStatus.going
                       ? Colors.green
-                      : themeData.customColors.secondaryForegroundColor,
+                      : context.colors.secondaryText,
                 ),
               ),
               style: TextButton.styleFrom(
@@ -895,7 +894,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
           Container(
             height: 24,
             width: 1,
-            color: themeData.customColors.separatorColor.withAlpha(128), // 0.5 * 255 = 128
+            color: context.colors.divider.withAlpha(128),
           ),
           
           // Interested button
@@ -907,14 +906,14 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                 size: 16,
                 color: userStatus == RSVPStatus.interested
                     ? Colors.orange
-                    : themeData.customColors.secondaryForegroundColor,
+                    : context.colors.secondaryText,
               ),
               label: Text(
                 'Interested',
                 style: TextStyle(
                   color: userStatus == RSVPStatus.interested
                       ? Colors.orange
-                      : themeData.customColors.secondaryForegroundColor,
+                      : context.colors.secondaryText,
                 ),
               ),
               style: TextButton.styleFrom(
@@ -930,7 +929,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
           Container(
             height: 24,
             width: 1,
-            color: themeData.customColors.separatorColor.withAlpha(128), // 0.5 * 255 = 128
+            color: context.colors.divider.withAlpha(128),
           ),
           
           // Can't go button
@@ -942,14 +941,14 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                 size: 16,
                 color: userStatus == RSVPStatus.notGoing
                     ? Colors.red
-                    : themeData.customColors.secondaryForegroundColor,
+                    : context.colors.secondaryText,
               ),
               label: Text(
                 'Can\'t Go',
                 style: TextStyle(
                   color: userStatus == RSVPStatus.notGoing
                       ? Colors.red
-                      : themeData.customColors.secondaryForegroundColor,
+                      : context.colors.secondaryText,
                 ),
               ),
               style: TextButton.styleFrom(

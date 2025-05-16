@@ -62,6 +62,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color tooltipText;
   final Color tooltipBackground;
   final Color buttonText;
+  final Color modalBackground;
   
   const AppColors._({
     required this.primary,
@@ -87,6 +88,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.tooltipText,
     required this.tooltipBackground,
     required this.buttonText,
+    required this.modalBackground,
   });
   
   /// Light theme colors
@@ -114,6 +116,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipText: AppColorPalette.white,
     tooltipBackground: AppColorPalette.primaryPurple,
     buttonText: AppColorPalette.white,
+    modalBackground: AppColorPalette.lightBackground,
   );
   
   /// Dark theme colors
@@ -141,6 +144,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipText: AppColorPalette.darkHighlightText,
     tooltipBackground: AppColorPalette.darkDivider,
     buttonText: AppColorPalette.white,
+    modalBackground: AppColorPalette.darkBackground,
   );
   
   @override
@@ -168,6 +172,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? tooltipText,
     Color? tooltipBackground,
     Color? buttonText,
+    Color? modalBackground,
   }) {
     return AppColors._(
       primary: primary ?? this.primary,
@@ -193,6 +198,7 @@ class AppColors extends ThemeExtension<AppColors> {
       tooltipText: tooltipText ?? this.tooltipText,
       tooltipBackground: tooltipBackground ?? this.tooltipBackground,
       buttonText: buttonText ?? this.buttonText,
+      modalBackground: modalBackground ?? this.modalBackground,
     );
   }
   
@@ -225,6 +231,7 @@ class AppColors extends ThemeExtension<AppColors> {
       tooltipText: Color.lerp(tooltipText, other.tooltipText, t) ?? tooltipText,
       tooltipBackground: Color.lerp(tooltipBackground, other.tooltipBackground, t) ?? tooltipBackground,
       buttonText: Color.lerp(buttonText, other.buttonText, t) ?? buttonText,
+      modalBackground: Color.lerp(modalBackground, other.modalBackground, t) ?? modalBackground,
     );
   }
 }

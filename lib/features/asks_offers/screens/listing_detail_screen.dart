@@ -9,7 +9,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:provider/provider.dart' as provider_pkg;
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
@@ -77,7 +77,6 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Scaffold(
       appBar: AppBar(
@@ -135,7 +134,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                   : Colors.green.withOpacity(0.1),
                 border: Border(
                   bottom: BorderSide(
-                    color: customColors.separatorColor.withOpacity(0.3),
+                    color: context.colors.divider.withAlpha(77),
                     width: 0.5,
                   ),
                 ),
@@ -217,7 +216,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                           Text(
                             'Posted ${_formatRelativeTime(widget.listing.createdAt)}',
                             style: themeData.textTheme.bodySmall?.copyWith(
-                              color: customColors.secondaryForegroundColor,
+                              color: context.colors.secondaryText,
                             ),
                           ),
                         ],
@@ -243,7 +242,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
                   // Details list
                   Card(
                     elevation: 0,
-                    color: customColors.feedBgColor,
+                    color: context.colors.feedBackground,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -651,7 +650,6 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
     if (widget.listing.groupId == null) return const SizedBox.shrink();
     
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     // First standardize the groupId to ensure consistent format
     final standardizedGroupId = GroupIdUtil.standardizeGroupIdString(widget.listing.groupId!);
@@ -672,7 +670,7 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
             name,
             style: const TextStyle(fontWeight: FontWeight.w500),
           ),
-          backgroundColor: customColors.feedBgColor,
+          backgroundColor: context.colors.feedBackground,
           padding: EdgeInsets.zero,
           visualDensity: VisualDensity.compact,
         ),

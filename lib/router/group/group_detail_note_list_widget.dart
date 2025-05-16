@@ -13,7 +13,7 @@ import '../../consts/base.dart';
 import '../../consts/base_consts.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import '../../util/time_util.dart';
 import '../../provider/relay_provider.dart';
 
@@ -102,7 +102,7 @@ class _GroupDetailNoteListWidgetState
     // If we have a cached widget and events haven't changed, return it
     if (!hasEventsChanged && _cachedContentWidget != null) {
       return Container(
-        color: themeData.customColors.feedBgColor,
+        color: context.colors.feedBackground,
         child: _cachedContentWidget!,
       );
     }
@@ -178,7 +178,7 @@ class _GroupDetailNoteListWidgetState
     _cachedContentWidget = content;
 
     return Container(
-      color: themeData.customColors.feedBgColor,
+      color: context.colors.feedBackground,
       child: content,
     );
   }

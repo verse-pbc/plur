@@ -17,7 +17,6 @@ import '../../main.dart';
 import '../../provider/user_provider.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
-import '../../theme/app_colors.dart';
 
 /// A drawer widget that displays user information and navigation options.
 class IndexDrawerContent extends ConsumerStatefulWidget {

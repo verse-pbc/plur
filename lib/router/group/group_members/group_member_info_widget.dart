@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 import '../../../component/group/admin_tag_widget.dart';
 import '../../../data/user.dart';
@@ -42,7 +42,7 @@ class GroupMemberInfoWidget extends StatelessWidget {
                 user?.nip05 ?? "",
                 style: TextStyle(
                   fontSize: themeData.textTheme.bodySmall!.fontSize,
-                  color: themeData.customColors.dimmedColor,
+                  color: context.colors.dimmed,
                 ),
               ),
             ],

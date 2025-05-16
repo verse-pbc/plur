@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import '../../../component/group/group_avatar_widget.dart';
 
 /// Displays the header of the group info screen with improved styling.
@@ -18,7 +18,6 @@ class GroupInfoHeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
 
     return Container(
@@ -29,8 +28,8 @@ class GroupInfoHeaderWidget extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            customColors.feedBgColor,
-            customColors.appBgColor,
+            context.colors.feedBackground,
+            context.colors.background,
           ],
         ),
       ),
@@ -44,7 +43,7 @@ class GroupInfoHeaderWidget extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: customColors.accentColor.withOpacity(0.1),
+                color: context.colors.accent.withAlpha(26),
                 width: 2,
               ),
               boxShadow: [
@@ -67,7 +66,7 @@ class GroupInfoHeaderWidget extends StatelessWidget {
             style: TextStyle(
               fontSize: 24, // Larger font size
               fontWeight: FontWeight.bold,
-              color: customColors.primaryForegroundColor,
+              color: context.colors.primaryText,
             ),
             textAlign: TextAlign.center,
           ),
@@ -79,13 +78,13 @@ class GroupInfoHeaderWidget extends StatelessWidget {
               Icon(
                 metadata.open ?? false ? Icons.lock_open_outlined : Icons.lock_outlined,
                 size: 16,
-                color: customColors.dimmedColor,
+                color: context.colors.dimmed,
               ),
               const SizedBox(width: 4),
               Text(
                 metadata.open ?? false ? localization.openGroup : localization.closedGroup,
                 style: TextStyle(
-                  color: customColors.dimmedColor,
+                  color: context.colors.dimmed,
                   fontSize: 14,
                 ),
               ),
@@ -94,7 +93,7 @@ class GroupInfoHeaderWidget extends StatelessWidget {
                 width: 4,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: customColors.dimmedColor,
+                  color: context.colors.dimmed,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -102,7 +101,7 @@ class GroupInfoHeaderWidget extends StatelessWidget {
               Icon(
                 Icons.people_outline,
                 size: 16,
-                color: customColors.dimmedColor,
+                color: context.colors.dimmed,
               ),
               const SizedBox(width: 4),
               Text(
@@ -110,7 +109,7 @@ class GroupInfoHeaderWidget extends StatelessWidget {
                     ? localization.groupMember(memberCount) 
                     : localization.groupMembers(memberCount),
                 style: TextStyle(
-                  color: customColors.dimmedColor,
+                  color: context.colors.dimmed,
                   fontSize: 14,
                 ),
               ),

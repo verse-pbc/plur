@@ -13,7 +13,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 
 import '../../provider/uploader.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 
 class GroupEditWidget extends StatefulWidget {
   const GroupEditWidget({super.key});
@@ -45,7 +45,6 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     groupIdentifier = arg;
     
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
     final groupProvider = Provider.of<GroupProvider>(context);
 
@@ -73,7 +72,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
         title: Text(
           localization.editGroup,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -93,7 +92,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   Container(
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: customColors.feedBgColor,
+                      color: context.colors.feedBackground,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
@@ -104,7 +103,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -133,7 +132,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: customColors.primaryForegroundColor,
+                      color: context.colors.primaryText,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -174,7 +173,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: customColors.primaryForegroundColor,
+                      color: context.colors.primaryText,
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -217,7 +216,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                     child: ElevatedButton(
                       onPressed: isLoading ? null : doSave,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: customColors.accentColor,
+                        backgroundColor: context.colors.accent,
                         minimumSize: const Size.fromHeight(48),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
@@ -228,7 +227,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: customColors.buttonTextColor,
+                          color: context.colors.buttonText,
                         ),
                       ),
                     ),
@@ -240,7 +239,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                     localization.allMediaPublic,
                     style: TextStyle(
                       fontSize: 12,
-                      color: customColors.secondaryForegroundColor,
+                      color: context.colors.secondaryText,
                       fontStyle: FontStyle.italic,
                     ),
                     textAlign: TextAlign.center,
@@ -261,7 +260,6 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     bool isImportant = false,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -272,7 +270,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
               label,
               style: TextStyle(
                 fontSize: 14,
-                color: customColors.secondaryForegroundColor,
+                color: context.colors.secondaryText,
               ),
             ),
             if (isImportant) ...[
@@ -282,7 +280,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                 style: TextStyle(
                   fontSize: 12,
                   fontStyle: FontStyle.italic,
-                  color: customColors.dimmedColor,
+                  color: context.colors.dimmed,
                 ),
               ),
             ],
@@ -296,7 +294,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                 value,
                 style: TextStyle(
                   fontSize: 15,
-                  color: customColors.primaryForegroundColor,
+                  color: context.colors.primaryText,
                 ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -304,7 +302,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
             IconButton(
               icon: Icon(
                 Icons.copy,
-                color: customColors.accentColor,
+                color: context.colors.accent,
                 size: 20,
               ),
               onPressed: () {
@@ -329,7 +327,6 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     int? maxLength,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -338,7 +335,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
           label,
           style: TextStyle(
             fontSize: 14,
-            color: customColors.secondaryForegroundColor,
+            color: context.colors.secondaryText,
           ),
         ),
         const SizedBox(height: 8),
@@ -349,21 +346,21 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: TextStyle(
-              color: customColors.dimmedColor,
+              color: context.colors.dimmed,
             ),
             filled: true,
-            fillColor: customColors.feedBgColor,
+            fillColor: context.colors.feedBackground,
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),
               borderSide: BorderSide.none,
             ),
             counterStyle: TextStyle(
-              color: customColors.dimmedColor,
+              color: context.colors.dimmed,
             ),
           ),
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
           ),
         ),
       ],
@@ -377,7 +374,6 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     required VoidCallback onTap,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final hasImage = controller.text.isNotEmpty;
     
     return Column(
@@ -387,7 +383,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
           label,
           style: TextStyle(
             fontSize: 14,
-            color: customColors.secondaryForegroundColor,
+            color: context.colors.secondaryText,
           ),
         ),
         const SizedBox(height: 8),
@@ -397,10 +393,10 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
             height: 120,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: customColors.feedBgColor,
+              color: context.colors.feedBackground,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: customColors.separatorColor.withOpacity(0.3),
+                color: context.colors.divider.withAlpha(77),
                 width: 1,
               ),
             ),
@@ -412,13 +408,13 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                       Icon(
                         Icons.add_photo_alternate_outlined,
                         size: 32,
-                        color: customColors.accentColor,
+                        color: context.colors.accent,
                       ),
                       const SizedBox(height: 8),
                       Text(
                         S.of(context).updateImage,
                         style: TextStyle(
-                          color: customColors.accentColor,
+                          color: context.colors.accent,
                         ),
                       ),
                     ],
@@ -434,7 +430,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   controller.text,
                   style: TextStyle(
                     fontSize: 12,
-                    color: customColors.dimmedColor,
+                    color: context.colors.dimmed,
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -504,12 +500,11 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
     required ValueChanged<bool> onChanged,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: customColors.feedBgColor,
+        color: context.colors.feedBackground,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -523,7 +518,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: customColors.primaryForegroundColor,
+                    color: context.colors.primaryText,
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -531,7 +526,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
                   subtitle,
                   style: TextStyle(
                     fontSize: 12,
-                    color: customColors.secondaryForegroundColor,
+                    color: context.colors.secondaryText,
                   ),
                 ),
               ],
@@ -540,7 +535,7 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: customColors.accentColor,
+            activeColor: context.colors.accent,
           ),
         ],
       ),

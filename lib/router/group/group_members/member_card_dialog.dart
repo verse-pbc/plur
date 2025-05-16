@@ -7,7 +7,7 @@ import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/provider/dm_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:nostrmo/provider/user_provider.dart';
 
@@ -50,7 +50,6 @@ class MemberCardDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final userProvider = Provider.of<UserProvider>(context);
     final user = userProvider.getUser(pubkey);
     final localization = S.of(context);
@@ -70,7 +69,7 @@ class MemberCardDialog extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 320),
         decoration: BoxDecoration(
-          color: customColors.cardBgColor,
+          color: context.colors.modalBackground,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -115,7 +114,7 @@ class MemberCardDialog extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -134,7 +133,7 @@ class MemberCardDialog extends StatelessWidget {
                       nip05,
                       style: TextStyle(
                         fontSize: 14,
-                        color: customColors.dimmedColor,
+                        color: context.colors.dimmed,
                       ),
                     ),
                   ],
@@ -146,7 +145,7 @@ class MemberCardDialog extends StatelessWidget {
                       about,
                       style: TextStyle(
                         fontSize: 14,
-                        color: customColors.secondaryForegroundColor,
+                        color: context.colors.secondaryText,
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 3,
@@ -160,7 +159,7 @@ class MemberCardDialog extends StatelessWidget {
             // Action buttons
             Container(
               decoration: BoxDecoration(
-                color: customColors.feedBgColor,
+                color: context.colors.feedBackground,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16),
@@ -197,7 +196,7 @@ class MemberCardDialog extends StatelessWidget {
                   Container(
                     height: 40,
                     width: 1,
-                    color: customColors.separatorColor,
+                    color: context.colors.divider,
                   ),
                   
                   // Message user button
@@ -249,7 +248,6 @@ class MemberCardDialog extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return InkWell(
       onTap: onTap,
@@ -261,13 +259,13 @@ class MemberCardDialog extends StatelessWidget {
             Icon(
               icon,
               size: 20,
-              color: customColors.accentColor,
+              color: context.colors.accent,
             ),
             const SizedBox(width: 8),
             Text(
               label,
               style: TextStyle(
-                color: customColors.accentColor,
+                color: context.colors.accent,
                 fontWeight: FontWeight.bold,
               ),
             ),

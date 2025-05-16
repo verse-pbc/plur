@@ -6,7 +6,7 @@ import 'package:nostrmo/features/events/models/event_rsvp_model.dart';
 import 'package:nostrmo/features/events/providers/event_provider.dart';
 import 'package:nostrmo/features/events/screens/event_creation_screen.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/main.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -84,7 +84,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final l10n = S.of(context);
     
     return DefaultTabController(
@@ -104,24 +103,24 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
-                              color: customColors.accentColor.withOpacity(0.1),
+                              color: context.colors.accent.withAlpha(26),
                               child: Center(
                                 child: Icon(
                                   Icons.event,
                                   size: 64,
-                                  color: customColors.secondaryForegroundColor.withOpacity(0.5),
+                                  color: context.colors.secondaryText.withAlpha(128),
                                 ),
                               ),
                             );
                           },
                         )
                       : Container(
-                          color: customColors.accentColor.withOpacity(0.1),
+                          color: context.colors.accent.withAlpha(26),
                           child: Center(
                             child: Icon(
                               Icons.event,
                               size: 64,
-                              color: customColors.secondaryForegroundColor.withOpacity(0.5),
+                              color: context.colors.secondaryText.withAlpha(128),
                             ),
                           ),
                         ),
@@ -157,8 +156,8 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                       text: l10n.responses,
                     ),
                   ],
-                  indicatorColor: customColors.accentColor,
-                  labelColor: customColors.accentColor,
+                  indicatorColor: context.colors.accent,
+                  labelColor: context.colors.accent,
                 ),
               ),
             ];
@@ -166,10 +165,10 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           body: TabBarView(
             children: [
               // Details tab
-              _buildDetailsTab(themeData, customColors, l10n),
+              _buildDetailsTab(themeData, l10n),
               
               // Discussion tab
-              _buildDiscussionTab(themeData, customColors, l10n),
+              _buildDiscussionTab(themeData, l10n),
             ],
           ),
         ),
@@ -197,7 +196,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                   label: Text(l10n.going),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    backgroundColor: customColors.accentColor,
+                    backgroundColor: context.colors.accent,
                     foregroundColor: Colors.white,
                   ),
                 ),
@@ -210,7 +209,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   }
   
   // Details tab containing event information and RSVPs
-  Widget _buildDetailsTab(ThemeData themeData, CustomColors customColors, S l10n) {
+  Widget _buildDetailsTab(ThemeData themeData, S l10n) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -230,7 +229,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                     children: [
                       Icon(
                         Icons.event,
-                        color: customColors.accentColor,
+                        color: context.colors.accent,
                         size: 24,
                       ),
                       const SizedBox(width: 16),
@@ -264,7 +263,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                       children: [
                         Icon(
                           Icons.location_on,
-                          color: customColors.accentColor,
+                          color: context.colors.accent,
                           size: 24,
                         ),
                         const SizedBox(width: 16),
@@ -291,7 +290,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                                     child: Text(
                                       l10n.openLink,
                                       style: TextStyle(
-                                        color: customColors.accentColor,
+                                        color: context.colors.accent,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
@@ -359,7 +358,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                     Icon(
                       Icons.people,
                       size: 16,
-                      color: customColors.secondaryForegroundColor,
+                      color: context.colors.secondaryText,
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -379,7 +378,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                     Icon(
                       Icons.monetization_on,
                       size: 16,
-                      color: customColors.secondaryForegroundColor,
+                      color: context.colors.secondaryText,
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -399,7 +398,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                     Icon(
                       Icons.tag,
                       size: 16,
-                      color: customColors.secondaryForegroundColor,
+                      color: context.colors.secondaryText,
                     ),
                     const SizedBox(width: 8),
                     Text(
@@ -414,9 +413,9 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                 runSpacing: 8,
                 children: widget.event.tags.map((tag) => Chip(
                   label: Text(tag),
-                  backgroundColor: customColors.accentColor.withOpacity(0.1),
+                  backgroundColor: context.colors.accent.withAlpha(26),
                   labelStyle: TextStyle(
-                    color: customColors.accentColor,
+                    color: context.colors.accent,
                   ),
                 )).toList(),
               ),
@@ -426,7 +425,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           ],
           
           // RSVP summary section with improved UI
-          _buildRSVPSummary(themeData, customColors, l10n),
+          _buildRSVPSummary(themeData, l10n),
           
           const SizedBox(height: 32),
         ],
@@ -435,7 +434,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   }
 
   // Widget that shows RSVP summary with direct access to full lists
-  Widget _buildRSVPSummary(ThemeData themeData, CustomColors customColors, S l10n) {
+  Widget _buildRSVPSummary(ThemeData themeData, S l10n) {
     final rsvpsState = ref.watch(eventRSVPProvider);
     
     if (!rsvpsState.hasValue) {
@@ -483,7 +482,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
               child: Text(
                 l10n.noResponsesYet,
                 style: TextStyle(
-                  color: customColors.secondaryForegroundColor,
+                  color: context.colors.secondaryText,
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -498,7 +497,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
               Expanded(
                 child: _buildRSVPStatusCard(
                   themeData,
-                  customColors,
                   label: l10n.going,
                   count: counts[RSVPStatus.going] ?? 0,
                   icon: Icons.check_circle_outline,
@@ -512,7 +510,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
               Expanded(
                 child: _buildRSVPStatusCard(
                   themeData,
-                  customColors,
                   label: l10n.interested,
                   count: counts[RSVPStatus.interested] ?? 0,
                   icon: Icons.star_outline,
@@ -526,7 +523,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
               Expanded(
                 child: _buildRSVPStatusCard(
                   themeData,
-                  customColors,
                   label: l10n.notGoing,
                   count: counts[RSVPStatus.notGoing] ?? 0,
                   icon: Icons.cancel_outlined,
@@ -543,7 +539,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   // RSVP status card with count and tap to view
   Widget _buildRSVPStatusCard(
     ThemeData themeData,
-    CustomColors customColors, {
+    {
     required String label,
     required int count,
     required IconData icon,
@@ -749,7 +745,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           child: Text(
             l10n.noResponsesYet,
             style: TextStyle(
-              color: themeData.customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -768,10 +764,10 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
         
         return ListTile(
           leading: CircleAvatar(
-            backgroundColor: themeData.customColors.accentColor.withOpacity(0.2),
+            backgroundColor: context.colors.accent.withAlpha(51),
             child: Icon(
               Icons.person,
-              color: themeData.customColors.accentColor,
+              color: context.colors.accent,
             ),
           ),
           title: Text(shortPubkey),
@@ -786,19 +782,19 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   }
   
   // Discussion tab for event chat/posts
-  Widget _buildDiscussionTab(ThemeData themeData, CustomColors customColors, S l10n) {
+  Widget _buildDiscussionTab(ThemeData themeData, S l10n) {
     return Column(
       children: [
         Expanded(
-          child: _buildEventDiscussionList(themeData, customColors, l10n),
+          child: _buildEventDiscussionList(themeData, l10n),
         ),
-        _buildEventDiscussionInput(themeData, customColors, l10n),
+        _buildEventDiscussionInput(themeData, l10n),
       ],
     );
   }
   
   // Event discussion message list
-  Widget _buildEventDiscussionList(ThemeData themeData, CustomColors customColors, S l10n) {
+  Widget _buildEventDiscussionList(ThemeData themeData, S l10n) {
     // For now, display a placeholder while we implement the actual functionality
     // In the future, we'll use the eventChatProvider here to display real messages
     return Center(
@@ -808,7 +804,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           Icon(
             Icons.chat_bubble_outline,
             size: 64,
-            color: customColors.secondaryForegroundColor.withOpacity(0.5),
+            color: context.colors.secondaryText.withAlpha(128),
           ),
           const SizedBox(height: 16),
           Text(
@@ -840,7 +836,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   }
   
   // Event discussion input field
-  Widget _buildEventDiscussionInput(ThemeData themeData, CustomColors customColors, S l10n) {
+  Widget _buildEventDiscussionInput(ThemeData themeData, S l10n) {
     final messageController = TextEditingController();
     
     return Padding(
@@ -857,7 +853,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: customColors.feedBgColor,
+                fillColor: context.colors.feedBackground,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
               minLines: 1,
@@ -881,10 +877,10 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor: customColors.accentColor.withOpacity(0.2),
+                backgroundColor: context.colors.accent.withAlpha(51),
                 child: Icon(
                   Icons.send,
-                  color: customColors.accentColor.withOpacity(0.5),
+                  color: context.colors.accent.withAlpha(128),
                 ),
               ),
             ),
@@ -979,7 +975,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   Widget _buildChatMessageItem(EventChatModel message) {
     final isMyMessage = nostr?.publicKey == message.pubkey;
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     // Format timestamp
     final now = DateTime.now();
@@ -1001,11 +996,11 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           if (!isMyMessage)
             CircleAvatar(
               radius: 16,
-              backgroundColor: customColors.accentColor.withOpacity(0.2),
+              backgroundColor: context.colors.accent.withAlpha(51),
               child: Icon(
                 Icons.person,
                 size: 16,
-                color: customColors.accentColor,
+                color: context.colors.accent,
               ),
             ),
           
@@ -1016,8 +1011,8 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: isMyMessage 
-                    ? customColors.accentColor.withOpacity(0.2)
-                    : customColors.feedBgColor,
+                    ? context.colors.accent.withAlpha(51)
+                    : context.colors.feedBackground,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -1031,7 +1026,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: customColors.secondaryForegroundColor,
+                          color: context.colors.secondaryText,
                         ),
                       ),
                     ),
@@ -1046,7 +1041,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                         formattedTime,
                         style: TextStyle(
                           fontSize: 10,
-                          color: customColors.secondaryForegroundColor,
+                          color: context.colors.secondaryText,
                         ),
                       ),
                     ),
@@ -1062,11 +1057,11 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           if (isMyMessage)
             CircleAvatar(
               radius: 16,
-              backgroundColor: customColors.accentColor.withOpacity(0.2),
+              backgroundColor: context.colors.accent.withAlpha(51),
               child: Icon(
                 Icons.person,
                 size: 16,
-                color: customColors.accentColor,
+                color: context.colors.accent,
               ),
             ),
         ],
@@ -1077,7 +1072,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   
   Widget _buildMoreOptionsMenu(BuildContext context, S l10n) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return PopupMenuButton<String>(
       onSelected: (value) {
@@ -1107,7 +1101,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
               value: 'edit',
               child: Row(
                 children: [
-                  Icon(Icons.edit, size: 18, color: customColors.secondaryForegroundColor),
+                  Icon(Icons.edit, size: 18, color: context.colors.secondaryText),
                   const SizedBox(width: 12),
                   Text(l10n.edit),
                 ],
@@ -1137,7 +1131,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
             value: 'report',
             child: Row(
               children: [
-                Icon(Icons.flag, size: 18, color: customColors.secondaryForegroundColor),
+                Icon(Icons.flag, size: 18, color: context.colors.secondaryText),
                 const SizedBox(width: 12),
                 Text(l10n.report),
               ],
@@ -1162,10 +1156,10 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
       
       return ListTile(
         leading: CircleAvatar(
-          backgroundColor: themeData.customColors.accentColor.withOpacity(0.2),
+          backgroundColor: context.colors.accent.withAlpha(51),
           child: Icon(
             Icons.person,
-            color: themeData.customColors.accentColor,
+            color: context.colors.accent,
           ),
         ),
         title: Text(shortPubkey),
@@ -1180,7 +1174,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
   // This method remains for backward compatibility but now uses _buildRSVPSummary
   Widget _buildRSVPSection(BuildContext context, S l10n) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final rsvpsState = ref.watch(eventRSVPProvider);
     
     if (rsvpsState.isLoading || _isLoading) {
@@ -1204,13 +1197,12 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
         ),
       );
     } else {
-      return _buildRSVPSummary(themeData, customColors, l10n);
+      return _buildRSVPSummary(themeData, l10n);
     }
   }
   
   Widget _buildRSVPList(BuildContext context, List<EventRSVPModel> rsvps, S l10n) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     // Filter RSVPs for this event
     final eventRSVPs = rsvps.where((rsvp) => rsvp.eventId == widget.event.id).toList();
@@ -1222,7 +1214,7 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           child: Text(
             l10n.noResponsesYet,
             style: TextStyle(
-              color: customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -1325,10 +1317,10 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
           
           return ListTile(
             leading: CircleAvatar(
-              backgroundColor: themeData.customColors.accentColor.withOpacity(0.2),
+              backgroundColor: context.colors.accent.withAlpha(51),
               child: Icon(
                 Icons.person,
-                color: themeData.customColors.accentColor,
+                color: context.colors.accent,
               ),
             ),
             title: Text(shortPubkey),
@@ -1394,10 +1386,10 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
                   
                   return ListTile(
                     leading: CircleAvatar(
-                      backgroundColor: themeData.customColors.accentColor.withOpacity(0.2),
+                      backgroundColor: context.colors.accent.withAlpha(51),
                       child: Icon(
                         Icons.person,
-                        color: themeData.customColors.accentColor,
+                        color: context.colors.accent,
                       ),
                     ),
                     title: Text(shortPubkey),

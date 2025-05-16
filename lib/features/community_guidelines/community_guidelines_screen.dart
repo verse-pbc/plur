@@ -6,7 +6,7 @@ import '../../component/appbar_back_btn_widget.dart';
 import '../../component/appbar_bottom_border.dart';
 import '../../generated/l10n.dart';
 import '../../util/router_util.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import 'community_guidelines_controller.dart';
 
 /// A screen that displays and allows editing of the community guidelines for a
@@ -28,11 +28,10 @@ class _CommunityGuidelinesScreenState
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-    final accentColor = customColors.accentColor;
-    final dimmedColor  = customColors.dimmedColor;
-    final primaryForegroundColor = customColors.primaryForegroundColor;
-    final secondaryForegroundColor = customColors.secondaryForegroundColor;
+    final accentColor = context.colors.accent;
+    final dimmedColor  = context.colors.dimmed;
+    final primaryForegroundColor = context.colors.primaryText;
+    final secondaryForegroundColor = context.colors.secondaryText;
     const double cornerRadius = 8;
     const borderRadius = BorderRadius.all(Radius.circular(cornerRadius));
     final borderSide = BorderSide(color: secondaryForegroundColor);
