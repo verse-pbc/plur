@@ -360,7 +360,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
       builder: (BuildContext context) {
         return FractionallySizedBox(
-          heightFactor: 0.85,
+          heightFactor: 0.5,
           child: Container(
             decoration: BoxDecoration(
               color: context.colors.loginBackground,
@@ -407,12 +407,12 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                        color: dimmedColor.withAlpha((255 * 0.2).round()),
+                        color: buttonTextColor.withAlpha((255 * 0.1).round()),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.close,
-                        color: primaryForegroundColor,
+                        color: buttonTextColor,
                         size: 20,
                       ),
                     ),
@@ -426,7 +426,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   "Login with Existing Account",
                   style: TextStyle(
                     fontFamily: 'SF Pro Rounded',
-                    color: primaryForegroundColor,
+                    color: buttonTextColor,
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
                     height: 1.2,
@@ -440,7 +440,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
                   style: TextStyle(
                     fontFamily: 'SF Pro Rounded',
-                    color: primaryForegroundColor.withAlpha((255 * 0.8).round()),
+                    color: colors.secondaryText,
                     fontSize: 14,
                     height: 1.4,
                   ),
@@ -495,24 +495,32 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 // Login button
                 SizedBox(
                   width: double.infinity,
-                  child: FilledButton(
-                    onPressed: _isLoginButtonEnabled ? _doLogin : null,
-                    style: FilledButton.styleFrom(
-                      backgroundColor: accentColor,
-                      disabledBackgroundColor: accentColor.withAlpha((255 * 0.4).round()),
-                      foregroundColor: buttonTextColor,
-                      disabledForegroundColor: buttonTextColor.withAlpha((255 * 0.4).round()),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
+                  child: GestureDetector(
+                    onTap: _isLoginButtonEnabled ? _doLogin : null,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 18),
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
                         borderRadius: BorderRadius.circular(32),
+                        border: Border.all(
+                          color: _isLoginButtonEnabled 
+                            ? buttonTextColor.withAlpha((255 * 0.3).round())
+                            : buttonTextColor.withAlpha((255 * 0.15).round()),
+                          width: 2,
+                        ),
                       ),
-                    ),
-                    child: const Text(
-                      "Login to Account",
-                      style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Login to Account",
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: _isLoginButtonEnabled
+                            ? buttonTextColor
+                            : buttonTextColor.withAlpha((255 * 0.4).round()),
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: 0.2,
+                        ),
                       ),
                     ),
                   ),
