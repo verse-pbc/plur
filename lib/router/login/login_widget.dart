@@ -148,7 +148,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         "Start meaningful exchanges with people you trust.\nHolis is communities built for depth, not noise.",
         style: TextStyle(
           color: colors.secondaryText,
-          fontSize: 18,
+          fontSize: 17,
           fontWeight: FontWeight.w400,
           height: 1.5,
         ),
