@@ -390,7 +390,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 40),
         child: StyledText(
-          text: "By continuing, you accept our <accent>Terms of Service</accent>",
+          text: "By continuing, you accept our\n<accent>Terms of Service</accent>",
           textAlign: TextAlign.center,
           style: TextStyle(
             color: colors.secondaryText,
