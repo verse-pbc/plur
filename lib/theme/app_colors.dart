@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 abstract class AppColorPalette {
   // Brand colors
   static const Color primaryPurple = Color(0xFF7445FE);
-  static const Color accentOrange = Color(0xFFFF5F44);
+  static const Color accentTeal = Color(0xFF009994);
   
   // Dark mode base colors
   static const Color darkBackground = Color(0xFF150F23);
@@ -94,7 +94,7 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Light theme colors
   static const AppColors light = AppColors._(
     primary: AppColorPalette.primaryPurple,
-    accent: AppColorPalette.primaryPurple,
+    accent: AppColorPalette.accentTeal,
     background: AppColorPalette.lightBackground,
     surface: AppColorPalette.lightSurface,
     surfaceVariant: AppColorPalette.lightSurface,
@@ -122,7 +122,7 @@ class AppColors extends ThemeExtension<AppColors> {
   /// Dark theme colors
   static const AppColors dark = AppColors._(
     primary: AppColorPalette.primaryPurple,
-    accent: AppColorPalette.accentOrange,
+    accent: AppColorPalette.accentTeal,
     background: AppColorPalette.darkBackground,
     surface: AppColorPalette.darkSurface,
     surfaceVariant: AppColorPalette.darkSurfaceVariant,
