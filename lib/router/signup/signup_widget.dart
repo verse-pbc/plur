@@ -346,8 +346,9 @@ class _SignupWidgetState extends State<SignupWidget> {
             child: const Text(
               "Continue",
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -444,8 +445,9 @@ class _SignupWidgetState extends State<SignupWidget> {
             child: const Text(
               "Continue",
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -542,8 +544,9 @@ class _SignupWidgetState extends State<SignupWidget> {
                 child: Text(
                   _emailController.text.isEmpty ? "Skip" : "Continue",
                   style: const TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -703,8 +706,9 @@ class _SignupWidgetState extends State<SignupWidget> {
             child: Text(
               localization.copyAndContinue,
               style: const TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

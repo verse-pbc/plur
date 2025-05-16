@@ -323,8 +323,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           child: const Text(
             "Login to Account",
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               fontSize: 16,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -345,9 +346,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             child: Text(
               localization.loginWithAndroidSigner,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 color: primaryForegroundColor,
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -366,9 +368,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             child: Text(
               localization.loginWithNIP07Extension,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 color: primaryForegroundColor,
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),

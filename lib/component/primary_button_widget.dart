@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_colors.dart';
 
 /// Button used for primary actions throughout the app.
@@ -41,13 +40,12 @@ class PrimaryButtonWidget extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           text,
-          style: GoogleFonts.nunito(
-            textStyle: TextStyle(
-              color: enabled ? context.colors.buttonText : context.colors.buttonText.withAlpha(179),
-              fontSize: 16,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 0.5,
-            ),
+          style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
+            color: enabled ? context.colors.buttonText : context.colors.buttonText.withAlpha(179),
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.5,
           ),
         ),
       ),

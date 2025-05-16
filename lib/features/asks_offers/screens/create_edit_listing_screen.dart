@@ -531,8 +531,9 @@ class _CreateEditListingScreenState extends ConsumerState<CreateEditListingScree
                       child: Text(
                         widget.listing == null ? 'Create Listing' : 'Update Listing',
                         style: const TextStyle(
+                          fontFamily: 'SF Pro Rounded',
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
