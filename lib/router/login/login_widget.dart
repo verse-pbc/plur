@@ -53,9 +53,6 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   bool backAfterLogin = false;
 
-  // Added to track if we're showing the login form
-  bool _showingLoginForm = false;
-
   late S localization;
 
   @override
@@ -155,229 +152,64 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       ),
     ));
 
-    if (!_showingLoginForm) {
-      // Show main landing page with two options
-      
-      // Create a Profile button (primary action)
-      mainList.add(SizedBox(
-        width: double.infinity,
-        child: GestureDetector(
-          onTap: _navigateToSignup,
-          child: Container(
-            key: const Key('signup_button'),
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            decoration: BoxDecoration(
-              color: accentColor,
-              borderRadius: BorderRadius.circular(32),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              "Create a Profile",
-              style: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: buttonTextColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.2,
-              ),
-            ),
+    // Create a Profile button (primary action)
+    mainList.add(SizedBox(
+      width: double.infinity,
+      child: GestureDetector(
+        onTap: _navigateToSignup,
+        child: Container(
+          key: const Key('signup_button'),
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          decoration: BoxDecoration(
+            color: accentColor,
+            borderRadius: BorderRadius.circular(32),
           ),
-        ),
-      ));
-
-      mainList.add(const SizedBox(height: 16));
-
-      // Login with Nostr button (secondary action) 
-      mainList.add(SizedBox(
-        width: double.infinity,
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              _showingLoginForm = true;
-            });
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(32),
-              border: Border.all(
-                color: buttonTextColor.withAlpha((255 * 0.3).round()),
-                width: 2,
-              ),
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              "Login with Nostr",
-              style: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: buttonTextColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.2,
-              ),
-            ),
-          ),
-        ),
-      ));
-    } else {
-      // Show login form
-      
-      // Back button
-      mainList.add(Container(
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.only(bottom: 20),
-        child: TextButton.icon(
-          onPressed: () {
-            setState(() {
-              _showingLoginForm = false;
-              _controller.clear();
-            });
-          },
-          icon: Icon(Icons.arrow_back, color: primaryForegroundColor),
-          label: Text(
-            "Back",
-            style: TextStyle(
-              color: primaryForegroundColor,
-              fontSize: 16,
-            ),
-          ),
-        ),
-      ));
-
-      // Login form title
-      mainList.add(Container(
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.only(bottom: 10),
-        child: Text(
-          "Login with Existing Account",
-          style: TextStyle(
-            color: primaryForegroundColor,
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ));
-      
-      // Login options explainer
-      mainList.add(Container(
-        alignment: Alignment.centerLeft,
-        margin: const EdgeInsets.only(bottom: 20),
-        child: Text(
-          "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
-          style: TextStyle(
-            // Using primaryForegroundColor with opacity instead of dimmedColor for better readability
-            color: primaryForegroundColor.withAlpha((255 * 0.8).round()),
-            fontSize: 14,
-          ),
-        ),
-      ));
-
-      // Private key input field
-      OutlineInputBorder textFieldBorder = OutlineInputBorder(
-        borderSide: BorderSide(color: primaryForegroundColor.withAlpha((255 * 0.4).round())),
-      );
-      
-      mainList.add(TextField(
-        controller: _controller,
-        decoration: InputDecoration(
-          focusedBorder: textFieldBorder,
-          enabledBorder: textFieldBorder,
-          hintText: "nsec... / bunker:// URL / user@domain",
-          hintStyle: TextStyle(color: primaryForegroundColor.withAlpha((255 * 0.5).round()), fontSize: 16),
-          contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-          // Adds an eye icon as a suffix to toggle password visibility
-          suffixIcon: GestureDetector(
-            onTap: () {
-              setState(() {
-                _isTextObscured = !_isTextObscured;
-              });
-            },
-            child: Icon(
-              _isTextObscured ? Icons.visibility : Icons.visibility_off,
-              color: primaryForegroundColor.withAlpha((255 * 0.7).round()),
-            ),
-          ),
-        ),
-        style: TextStyle(
-          color: primaryForegroundColor,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-        obscureText: _isTextObscured,
-      ));
-
-      // Login button
-      mainList.add(Container(
-        margin: const EdgeInsets.only(top: 20, bottom: 20),
-        width: double.infinity,
-        child: FilledButton(
-          onPressed: _isLoginButtonEnabled ? _doLogin : null,
-          style: FilledButton.styleFrom(
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-            backgroundColor: accentColor,
-            disabledBackgroundColor: accentColor.withAlpha((255 * 0.4).round()),
-            foregroundColor: buttonTextColor,
-            disabledForegroundColor: buttonTextColor.withAlpha((255 * 0.4).round()),
-          ),
-          child: const Text(
-            "Login to Account",
+          alignment: Alignment.center,
+          child: Text(
+            "Create a Profile",
             style: TextStyle(
               fontFamily: 'SF Pro Rounded',
-              fontSize: 16,
+              color: buttonTextColor,
+              fontSize: 18,
               fontWeight: FontWeight.w600,
+              letterSpacing: 0.2,
             ),
           ),
         ),
-      ));
+      ),
+    ));
 
-      // External signer options
-      if (PlatformUtil.isAndroid() && existAndroidNostrSigner) {
-        mainList.add(Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          width: double.infinity,
-          child: OutlinedButton(
-            onPressed: _loginByAndroidSigner,
-            style: OutlinedButton.styleFrom(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-              side: BorderSide(color: dimmedColor),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-            child: Text(
-              localization.loginWithAndroidSigner,
-              style: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: primaryForegroundColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+    mainList.add(const SizedBox(height: 16));
+
+    // Login with Nostr button (secondary action) 
+    mainList.add(SizedBox(
+      width: double.infinity,
+      child: GestureDetector(
+        onTap: _showLoginSheet,
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 18),
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(32),
+            border: Border.all(
+              color: buttonTextColor.withAlpha((255 * 0.3).round()),
+              width: 2,
             ),
           ),
-        ));
-      } else if (PlatformUtil.isWeb() && existWebNostrSigner) {
-        mainList.add(Container(
-          margin: const EdgeInsets.only(bottom: 10),
-          width: double.infinity,
-          child: OutlinedButton(
-            onPressed: _loginWithWebSigner,
-            style: OutlinedButton.styleFrom(
-              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-              side: BorderSide(color: dimmedColor),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-            child: Text(
-              localization.loginWithNIP07Extension,
-              style: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: primaryForegroundColor,
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
+          alignment: Alignment.center,
+          child: Text(
+            "Login with Nostr",
+            style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
+              color: buttonTextColor,
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 0.2,
             ),
           ),
-        ));
-      }
-    }
+        ),
+      ),
+    ));
 
     // Bottom spacing and terms
     mainList.add(Expanded(flex: 1, child: Container()));
@@ -517,6 +349,239 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         }
       }
     }
+  }
+
+  /// Shows the login sheet
+  void _showLoginSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.85,
+          child: Container(
+            decoration: BoxDecoration(
+              color: context.colors.loginBackground,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              child: _buildLoginSheet(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Builds the login sheet content
+  Widget _buildLoginSheet() {
+    AppColorsExtension colors = context.colors;
+    Color primaryForegroundColor = colors.primaryText;
+    Color accentColor = colors.accent;
+    Color buttonTextColor = colors.buttonText;
+    Color dimmedColor = colors.secondaryText;
+
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setSheetState) {
+        return Padding(
+          padding: const EdgeInsets.all(24),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Close button
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: dimmedColor.withAlpha((255 * 0.2).round()),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.close,
+                        color: primaryForegroundColor,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Login form title
+                Text(
+                  "Login with Existing Account",
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    color: primaryForegroundColor,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w700,
+                    height: 1.2,
+                  ),
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Login options explainer
+                Text(
+                  "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    color: primaryForegroundColor.withAlpha((255 * 0.8).round()),
+                    fontSize: 14,
+                    height: 1.4,
+                  ),
+                ),
+                
+                const SizedBox(height: 24),
+                
+                // Private key input field
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: dimmedColor.withAlpha((255 * 0.3).round()),
+                      width: 1,
+                    ),
+                  ),
+                  child: TextField(
+                    controller: _controller,
+                    autofocus: true,
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: primaryForegroundColor,
+                      fontSize: 16,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'nsec...',
+                      hintStyle: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: dimmedColor,
+                        fontSize: 16,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: const EdgeInsets.all(16),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isTextObscured ? Icons.visibility : Icons.visibility_off,
+                          color: dimmedColor,
+                        ),
+                        onPressed: () {
+                          setSheetState(() {
+                            _isTextObscured = !_isTextObscured;
+                          });
+                        },
+                      ),
+                    ),
+                    obscureText: _isTextObscured,
+                  ),
+                ),
+                
+                const SizedBox(height: 24),
+                
+                // Login button
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: _isLoginButtonEnabled ? _doLogin : null,
+                    style: FilledButton.styleFrom(
+                      backgroundColor: accentColor,
+                      disabledBackgroundColor: accentColor.withAlpha((255 * 0.4).round()),
+                      foregroundColor: buttonTextColor,
+                      disabledForegroundColor: buttonTextColor.withAlpha((255 * 0.4).round()),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(32),
+                      ),
+                    ),
+                    child: const Text(
+                      "Login to Account",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+                
+                // External signer options
+                if (PlatformUtil.isAndroid() && existAndroidNostrSigner) ...[
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: _loginByAndroidSigner,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        side: BorderSide(
+                          color: dimmedColor.withAlpha((255 * 0.3).round()),
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(
+                        localization.loginWithAndroidSigner,
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: primaryForegroundColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+                
+                if (PlatformUtil.isWeb() && existWebNostrSigner) ...[
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: _loginWithWebSigner,
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        side: BorderSide(
+                          color: dimmedColor.withAlpha((255 * 0.3).round()),
+                          width: 2,
+                        ),
+                      ),
+                      child: Text(
+                        localization.loginWithNIP07Extension,
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: primaryForegroundColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   /// Asynchronous function to handle login when the button is pressed
