@@ -13,8 +13,8 @@ enum CommunityViewMode {
 class IndexProvider extends ChangeNotifier {
   int _currentTap = IndexTaps.follow;
   
-  // Default to list view for communities
-  CommunityViewMode _communityViewMode = CommunityViewMode.list;
+  // Default to grid view for communities (list view disabled for now)
+  CommunityViewMode _communityViewMode = CommunityViewMode.grid;
   
   @override
   void dispose() {

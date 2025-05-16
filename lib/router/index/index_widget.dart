@@ -72,83 +72,15 @@ class _IndexWidgetState extends CustState<IndexWidget>
   late TabController globalsTabController;
   late TabController dmTabController;
   
-  // Build the toggle switch for community view modes
+  // Build the communities header without view toggle - only grid view supported now
   Widget _buildCommunityViewToggle(IndexProvider indexProvider, ThemeData themeData) {
     return Center(
-      child: Container(
-        // Make container more compact
-        width: 120, // Reduced width
-        height: 28, // Reduced height
-        decoration: BoxDecoration(
-          color: themeData.cardColor,
-          borderRadius: BorderRadius.circular(14), // Adjusted for smaller height
-          border: Border.all(
-            color: themeData.dividerColor,
-            width: 0.5, // Thinner border
-          ),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  debugPrint("👆 USER CLICKED: Grid tab selector");
-                  indexProvider.setCommunityViewMode(CommunityViewMode.grid);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: indexProvider.communityViewMode == CommunityViewMode.grid
-                        ? themeData.colorScheme.primary
-                        : Colors.transparent,
-                    borderRadius: const BorderRadius.horizontal(
-                      left: Radius.circular(14), // Adjusted for smaller height
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Groups',
-                    style: TextStyle(
-                      color: indexProvider.communityViewMode == CommunityViewMode.grid
-                          ? themeData.colorScheme.onPrimary
-                          : themeData.textTheme.bodyMedium?.color,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11, // Smaller font size
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Expanded(
-              child: GestureDetector(
-                onTap: () {
-                  debugPrint("👆 USER CLICKED: Feed tab selector");
-                  indexProvider.setCommunityViewMode(CommunityViewMode.feed);
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: indexProvider.communityViewMode == CommunityViewMode.feed
-                        ? themeData.colorScheme.primary
-                        : Colors.transparent,
-                    borderRadius: const BorderRadius.horizontal(
-                      right: Radius.circular(14), // Adjusted for smaller height
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Feed',
-                    style: TextStyle(
-                      color: indexProvider.communityViewMode == CommunityViewMode.feed
-                          ? themeData.colorScheme.onPrimary
-                          : themeData.textTheme.bodyMedium?.color,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11, // Smaller font size
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+      child: Text(
+        'Your Communities',
+        style: TextStyle(
+          color: themeData.textTheme.titleLarge?.color,
+          fontWeight: FontWeight.bold,
+          fontSize: 20, // Match title size
         ),
       ),
     );

@@ -9,6 +9,8 @@
 		<string>applinks:rabble.communities</string>
 		<string>applinks:rabble.community</string>
 		<string>webcredentials:rabble.community</string>
+		<string>webcredentials:hol.is</string>
+		<string>applinks:hol.is</string>
 	</array>
 </dict>
 </plist>

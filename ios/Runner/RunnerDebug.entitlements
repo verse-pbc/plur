@@ -13,6 +13,10 @@
 		<string>applinks:chus.me</string>
 		<string>webcredentials:chusme.social</string>
 		<string>applinks:chusme.social</string>
+		<string>webcredentials:hol.is</string>
+		<string>webcredentials:holis.social</string>
+		<string>applinks:hol.is</string>
+		<string>applinks:holis.social</string>
 	</array>
 </dict>
 </plist>
