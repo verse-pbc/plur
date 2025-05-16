@@ -178,7 +178,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 textStyle: TextStyle(
                   color: buttonTextColor,
                   fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   letterSpacing: 0.2,
                 ),
               ),
@@ -215,7 +215,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 textStyle: TextStyle(
                   color: buttonTextColor,
                   fontSize: 18,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
                   letterSpacing: 0.2,
                 ),
               ),
