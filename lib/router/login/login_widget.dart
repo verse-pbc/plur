@@ -125,59 +125,31 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Top spacing
     mainList.add(Expanded(flex: 1, child: Container()));
 
-    // Logo with fallback
-    mainList.add(
-      SizedBox(
-        width: 162,
-        height: 82,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Image.asset(
-              "assets/imgs/landing/logo.png",
-              width: 162,
-              height: 82,
-              errorBuilder: (context, error, stackTrace) {
-                // Fallback text if image fails to load
-                return Center(
-                  child: Text(
-                    "PLUR",
-                    style: TextStyle(
-                      color: accentColor,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-
-    // Title text "Communities"
+    // Main title
     mainList.add(Container(
-      margin: const EdgeInsets.only(bottom: 20),
+      margin: const EdgeInsets.only(bottom: 40),
       child: Text(
-        localization.communities,
+        "Bring your people together",
         style: TextStyle(
-          color: primaryForegroundColor,
-          fontSize: 28,
+          color: buttonTextColor,
+          fontSize: 48,
           fontWeight: FontWeight.w700,
+          height: 1.2,
         ),
+        textAlign: TextAlign.center,
       ),
     ));
 
-    // Welcome message
+    // Subtitle message
     mainList.add(Container(
-      margin: const EdgeInsets.only(bottom: 50),
+      margin: const EdgeInsets.only(bottom: 80),
       child: Text(
-        "Connect with communities and topics you care about.",
+        "Start meaningful exchanges with people you trust. Holis is communities built for depth, not noise.",
         style: TextStyle(
-          color: primaryForegroundColor,
-          fontSize: 16,
+          color: primaryForegroundColor.withAlpha((255 * 0.8).round()),
+          fontSize: 18,
           fontWeight: FontWeight.w400,
+          height: 1.5,
         ),
         textAlign: TextAlign.center,
       ),
@@ -186,7 +158,37 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     if (!_showingLoginForm) {
       // Show main landing page with two options
       
-      // Login button (opens login form)
+      // Create a Profile button (primary action)
+      mainList.add(SizedBox(
+        width: double.infinity,
+        child: GestureDetector(
+          onTap: _navigateToSignup,
+          child: Container(
+            key: const Key('signup_button'),
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            decoration: BoxDecoration(
+              color: accentColor,
+              borderRadius: BorderRadius.circular(32),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "Create a Profile",
+              style: GoogleFonts.nunito(
+                textStyle: TextStyle(
+                  color: buttonTextColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.2,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ));
+
+      mainList.add(const SizedBox(height: 16));
+
+      // Login with Bluesky button (secondary action) 
       mainList.add(SizedBox(
         width: double.infinity,
         child: GestureDetector(
@@ -196,61 +198,24 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             });
           },
           child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: const EdgeInsets.symmetric(vertical: 18),
             decoration: BoxDecoration(
               color: Colors.transparent,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(32),
               border: Border.all(
-                color: primaryForegroundColor.withAlpha((255 * 0.3).round()),
+                color: buttonTextColor.withAlpha((255 * 0.3).round()),
                 width: 2,
               ),
             ),
             alignment: Alignment.center,
             child: Text(
-              "Login with existing account",
-              style: GoogleFonts.nunito(
-                textStyle: TextStyle(
-                  color: primaryForegroundColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.5,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ));
-
-      mainList.add(const SizedBox(height: 20));
-
-      // Create new account button (signup)
-      mainList.add(SizedBox(
-        width: double.infinity,
-        child: GestureDetector(
-          onTap: _navigateToSignup,
-          child: Container(
-            key: const Key('signup_button'),
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: BoxDecoration(
-              color: accentColor,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: accentColor.withAlpha((255 * 0.3).round()),
-                  blurRadius: 8,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            alignment: Alignment.center,
-            child: Text(
-              "Create New Account",
+              "Login with Bluesky",
               style: GoogleFonts.nunito(
                 textStyle: TextStyle(
                   color: buttonTextColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 0.5,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 0.2,
                 ),
               ),
             ),
@@ -422,13 +387,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         WebViewWidget.open(context, Base.privacyLink);
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: 40),
         child: StyledText(
-          text: localization.acceptTermsOfService,
+          text: "By continuing, you accept our <accent>Terms of Service</accent>",
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: primaryForegroundColor,
-            fontSize: 15,
+            color: primaryForegroundColor.withAlpha((255 * 0.6).round()),
+            fontSize: 16,
+            height: 1.5,
           ),
           tags: {
             'accent': StyledTextTag(
