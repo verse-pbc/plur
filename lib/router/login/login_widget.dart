@@ -145,7 +145,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(Container(
       margin: const EdgeInsets.only(bottom: 80),
       child: Text(
-        "Start meaningful exchanges with people you trust. Holis is communities built for depth, not noise.",
+        "Start meaningful exchanges with people you trust.\nHolis is communities built for depth, not noise.",
         style: TextStyle(
           color: colors.secondaryText,
           fontSize: 18,
