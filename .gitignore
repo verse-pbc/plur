@@ -63,3 +63,8 @@ fastlane/report.xml
 .aider*
 
 local.properties
+
+# Debug Symbols
+**/*.dSYM/
+**/*.framework.dSYM/
+**/Runner.xcarchive/dSYMs/
