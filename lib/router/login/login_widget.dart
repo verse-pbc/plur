@@ -500,14 +500,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 18),
                       decoration: BoxDecoration(
-                        color: Colors.transparent,
+                        color: _isLoginButtonEnabled 
+                          ? accentColor
+                          : accentColor.withAlpha((255 * 0.4).round()),
                         borderRadius: BorderRadius.circular(32),
-                        border: Border.all(
-                          color: _isLoginButtonEnabled 
-                            ? buttonTextColor.withAlpha((255 * 0.3).round())
-                            : buttonTextColor.withAlpha((255 * 0.15).round()),
-                          width: 2,
-                        ),
                       ),
                       alignment: Alignment.center,
                       child: Text(
