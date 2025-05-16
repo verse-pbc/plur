@@ -359,8 +359,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
       builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.5,
+        return AnimatedPadding(
+          padding: MediaQuery.of(context).viewInsets,
+          duration: const Duration(milliseconds: 100),
           child: Container(
             decoration: BoxDecoration(
               color: context.colors.loginBackground,
@@ -369,10 +370,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 topRight: Radius.circular(24),
               ),
             ),
-            child: Padding(
-              padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
-              ),
+            child: IntrinsicHeight(
               child: _buildLoginSheet(),
             ),
           ),
@@ -391,62 +389,63 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter setSheetState) {
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: SingleChildScrollView(
+        return SafeArea(
+          bottom: true,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Close button
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                      width: 32,
-                      height: 32,
-                      decoration: BoxDecoration(
-                        color: buttonTextColor.withAlpha((255 * 0.1).round()),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.close,
-                        color: buttonTextColor,
-                        size: 20,
-                      ),
+              // Close button
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: Container(
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      color: buttonTextColor.withAlpha((255 * 0.1).round()),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: buttonTextColor,
+                      size: 20,
                     ),
                   ),
                 ),
-                
-                const SizedBox(height: 16),
-                
-                // Login form title
-                Text(
-                  "Login with Existing Account",
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Rounded',
-                    color: buttonTextColor,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w700,
-                    height: 1.2,
-                  ),
+              ),
+              
+              const SizedBox(height: 24),
+              
+              // Login form title
+              Text(
+                "Login with Existing Account",
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: buttonTextColor,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  height: 1.2,
                 ),
-                
-                const SizedBox(height: 16),
-                
-                // Login options explainer
-                Text(
-                  "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Rounded',
-                    color: colors.secondaryText,
-                    fontSize: 14,
-                    height: 1.4,
-                  ),
+              ),
+              
+              const SizedBox(height: 20),
+              
+              // Login options explainer
+              Text(
+                "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: colors.secondaryText,
+                  fontSize: 14,
+                  height: 1.4,
                 ),
-                
-                const SizedBox(height: 24),
+              ),
+              
+              const SizedBox(height: 32),
                 
                 // Private key input field
                 Container(
@@ -490,7 +489,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   ),
                 ),
                 
-                const SizedBox(height: 24),
+                const SizedBox(height: 32),
                 
                 // Login button
                 SizedBox(
