@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 class AppTheme {
@@ -238,34 +237,40 @@ class AppTheme {
         color: foregroundColor,
         height: 1.2,
       ),
-      bodyLarge: GoogleFonts.nunito(
+      bodyLarge: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize + 2,
         color: foregroundColor,
         height: 1.4,
       ),
-      bodyMedium: GoogleFonts.nunito(
+      bodyMedium: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize,
         color: foregroundColor,
         height: 1.4,
       ),
-      bodySmall: GoogleFonts.nunito(
+      bodySmall: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize - 2,
         color: foregroundColor,
         height: 1.4,
       ),
-      labelLarge: GoogleFonts.nunito(
+      labelLarge: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
         height: 1.4,
       ),
-      labelMedium: GoogleFonts.nunito(
+      labelMedium: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize - 1,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
         height: 1.4,
       ),
-      labelSmall: GoogleFonts.nunito(
+      labelSmall: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: baseFontSize - 2,
         fontWeight: FontWeight.w500,
         color: foregroundColor,

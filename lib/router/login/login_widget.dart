@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
 import 'package:nostrmo/data/join_group_parameters.dart';
@@ -174,13 +173,12 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             alignment: Alignment.center,
             child: Text(
               "Create a Profile",
-              style: GoogleFonts.nunito(
-                textStyle: TextStyle(
-                  color: buttonTextColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.2,
-                ),
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: buttonTextColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.2,
               ),
             ),
           ),
@@ -211,13 +209,12 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             alignment: Alignment.center,
             child: Text(
               "Login with Nostr",
-              style: GoogleFonts.nunito(
-                textStyle: TextStyle(
-                  color: buttonTextColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.2,
-                ),
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: buttonTextColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.2,
               ),
             ),
           ),
