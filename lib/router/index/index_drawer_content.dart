@@ -17,6 +17,7 @@ import '../../main.dart';
 import '../../provider/user_provider.dart';
 import '../../util/table_mode_util.dart';
 import 'account_manager_widget.dart';
+import '../../theme/app_colors.dart';
 
 /// A drawer widget that displays user information and navigation options.
 class IndexDrawerContent extends ConsumerStatefulWidget {
@@ -304,16 +305,20 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
   }
 
   /// Displays the account manager modal bottom sheet.
-  void _showBasicModalBottomSheet(context) async {
-    final theme = Theme.of(context);
-    showModalBottomSheet(
-      isScrollControlled: false,
-      backgroundColor: context.colors.feedBackground,
-      context: context,
-      builder: (BuildContext context) {
-        return const AccountManagerWidget();
-      },
-    );
+  void _showBasicModalBottomSheet(BuildContext context) async {
+    print('DEBUG: _showBasicModalBottomSheet called');
+    try {
+      await showModalBottomSheet(
+        isScrollControlled: false,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        context: context,
+        builder: (BuildContext innerContext) {
+          return const AccountManagerWidget();
+        },
+      );
+    } catch (e) {
+      print('ERROR showing modal: $e');
+    }
   }
 
   /// Toggles between compact and expanded drawer modes.
