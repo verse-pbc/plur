@@ -383,7 +383,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
   /// Builds the login sheet content
   Widget _buildLoginSheet() {
-    AppColorsExtension colors = context.colors;
+    final colors = context.colors;
     Color primaryForegroundColor = colors.primaryText;
     Color accentColor = colors.accent;
     Color buttonTextColor = colors.buttonText;
