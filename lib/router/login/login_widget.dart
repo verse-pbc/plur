@@ -189,7 +189,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
       mainList.add(const SizedBox(height: 16));
 
-      // Login with Bluesky button (secondary action) 
+      // Login with Nostr button (secondary action) 
       mainList.add(SizedBox(
         width: double.infinity,
         child: GestureDetector(
@@ -210,7 +210,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
             ),
             alignment: Alignment.center,
             child: Text(
-              "Login with Bluesky",
+              "Login with Nostr",
               style: GoogleFonts.nunito(
                 textStyle: TextStyle(
                   color: buttonTextColor,
