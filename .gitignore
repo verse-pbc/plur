@@ -68,3 +68,8 @@ local.properties
 **/*.dSYM/
 **/*.framework.dSYM/
 **/Runner.xcarchive/dSYMs/
+
+# Debug Symbols
+**/*.dSYM/
+**/*.framework.dSYM/
+**/Runner.xcarchive/dSYMs/
