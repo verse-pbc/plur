@@ -38,6 +38,9 @@ packages/nostr_sdk/build/**
 Plur.ipa
 Plur.app.dSYM.zip
 
+# Secrets
+secrets/android-keys.env
+
 # Symbolication related
 app.*.symbols
 

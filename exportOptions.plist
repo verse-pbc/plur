@@ -3,17 +3,20 @@
 <plist version="1.0">
 <dict>
     <key>method</key>
-    <string>ad-hoc</string>
+    <string>app-store</string>
     <key>teamID</key>
     <string>GZCZBKH7MY</string>
+    <key>signingStyle</key>
+    <string>automatic</string>
     <key>uploadSymbols</key>
     <true/>
+    <key>uploadBitcode</key>
+    <false/>
     <key>compileBitcode</key>
     <false/>
-    <key>provisioningProfiles</key>
-    <dict>
-        <key>app.verse.prototype.plur</key>
-        <string>Plur App Store</string>
-    </dict>
+    <key>LSApplicationCategoryType</key>
+    <string>public.app-category.social-networking</string>
+    <key>destination</key>
+    <string>upload</string>
 </dict>
 </plist>

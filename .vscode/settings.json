@@ -1,5 +1,13 @@
 {
     "dart.flutterSdkPath": ".fvm/flutter_sdk",
     "dart.sdkPath": ".fvm/flutter_sdk/bin/cache/dart-sdk",
-    "java.configuration.updateBuildConfiguration": "automatic"
+    "java.configuration.updateBuildConfiguration": "automatic",
+    "mcpServers": {
+        "playwright": {
+            "command": "npx",
+            "args": [
+                "@playwright/mcp@latest"
+            ]
+        }
+    }
 }

@@ -499,8 +499,15 @@ class _MyApp extends State<MyApp> {
     }
     setGetTimeAgoDefaultLocale(locale);
 
-    var lightTheme = getLightTheme();
-    var darkTheme = getDarkTheme();
+    // Adjust font size for web platform
+    double baseFontSize = settingsProvider.fontSize;
+    if (kIsWeb) {
+      // Increase font size for web platform by 4 points
+      baseFontSize += 4.0;
+    }
+    
+    var lightTheme = getLightTheme(baseFontSize: baseFontSize);
+    var darkTheme = getDarkTheme(baseFontSize: baseFontSize);
     ThemeData defaultTheme;
     ThemeData? defaultDarkTheme;
     
@@ -856,12 +863,12 @@ class _MyApp extends State<MyApp> {
     }
   }
 
-  ThemeData getLightTheme() {
+  ThemeData getLightTheme({double? baseFontSize}) {
     const CustomColors light = CustomColors.light;
-    double baseFontSize = settingsProvider.fontSize;
+    double fontSize = baseFontSize ?? settingsProvider.fontSize;
 
     var textTheme = _textTheme(
-      baseFontSize: baseFontSize,
+      baseFontSize: fontSize,
       foregroundColor: light.primaryForegroundColor,
     );
     var titleTextStyle = _titleTextStyle(
@@ -894,12 +901,12 @@ class _MyApp extends State<MyApp> {
     );
   }
 
-  ThemeData getDarkTheme() {
+  ThemeData getDarkTheme({double? baseFontSize}) {
     const CustomColors dark = CustomColors.dark;
-    double baseFontSize = settingsProvider.fontSize;
+    double fontSize = baseFontSize ?? settingsProvider.fontSize;
 
     var textTheme = _textTheme(
-      baseFontSize: baseFontSize,
+      baseFontSize: fontSize,
       foregroundColor: dark.primaryForegroundColor,
     );
     var titleTextStyle = _titleTextStyle(

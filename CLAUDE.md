@@ -12,11 +12,92 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Auto fix: `dart fix --apply`
 - Generate localizations: `flutter pub run intl_utils:generate`
 
+## Android Build Instructions
+- Setup environment:
+  ```bash
+  flutter clean
+  flutter pub get
+  ```
+- For debug builds:
+  ```bash
+  flutter build apk --debug
+  ```
+- For release builds:
+  ```bash
+  # First update the key.properties file with actual passwords
+  # in the android/key.properties file:
+  # storePassword=actual_store_password
+  # keyPassword=actual_key_password
+  # keyAlias=plur
+  # storeFile=app/key.jks
+
+  # Then build the app bundle
+  flutter build appbundle --release
+  ```
+- App bundle location: `build/app/outputs/bundle/release/app-release.aab`
+- Debug APK location: `build/app/outputs/apk/debug/app-debug.apk`
+
+### Android Build Troubleshooting
+1. **Flutter Engine Dependencies**: If you encounter errors related to missing Flutter engine dependencies (like arm64_v8a_release), try:
+   ```bash
+   flutter clean
+   (cd android && ./gradlew clean)
+   flutter pub get
+   flutter build apk
+   ```
+2. **Java Version**: The project is set up to use Java 17, but newer Android Studio versions may bundle Java 21. If you encounter Java compatibility issues, try adding these JVM args to `android/gradle.properties`:
+   ```
+   org.gradle.jvmargs=-Xmx1536M -Dkotlin.daemon.jvm.options="-Xmx1536M" --add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-exports=jdk.unsupported/sun.misc=ALL-UNNAMED
+   ```
+3. **Gradle Version**: Make sure you're using Gradle 8.1.1 or later, which can be specified in `android/build.gradle`
+
 ## iOS Build Instructions
 - Initialize rbenv: `eval "$(rbenv init -)"` (requires Ruby 3.2.2+)
 - Clean Flutter: `flutter clean && flutter pub get`
 - Install pods: `cd ios && pod install`
-- Build iOS: `flutter build ios --no-codesign`
+- For development builds: `flutter build ios --no-codesign` (only for local testing)
+- **IMPORTANT: ALL RELEASE BUILDS MUST BE SIGNED**
+
+### Release Build and TestFlight Distribution
+The app requires Associated Domains capability which complicates automated builds. The recommended approach for TestFlight distribution is:
+
+#### Method 1: Using Xcode (Recommended)
+1. Build a release version of the app:
+   ```bash
+   flutter build ios --release
+   ```
+
+2. Archive the app in Xcode:
+   ```bash
+   cd ios
+   xcodebuild -workspace Runner.xcworkspace -scheme Runner -configuration Release -destination 'generic/platform=iOS' -archivePath "$(pwd)/build/Runner.xcarchive" archive
+   ```
+
+3. Open Xcode and distribute manually:
+   - Open Xcode
+   - Go to Window > Organizer
+   - Select the archive at `/Users/rabble/code/verse/plur/ios/build/Runner.xcarchive`
+   - Click "Distribute App"
+   - Select "App Store Connect"
+   - Choose "Automatically manage signing" when prompted
+   - Complete the upload process
+
+#### Method 2: Using Fastlane (Requires Associated Domains Profile)
+1. Ensure certificates and profiles are properly set up:
+   ```bash
+   bundle exec fastlane match repair
+   ```
+
+2. Deploy to TestFlight using fastlane:
+   ```bash
+   bundle exec fastlane ios release
+   ```
+
+#### Important Notes About Certificates
+- The Apple Distribution certificate (ID: EDAC61F4388139A236294D33CB2F128D8B64D95D) must be used for release builds
+- Never use `--no-codesign` for release builds
+- The iOS Distribution certificate is stored in the private GitHub repository: `git@github.com:verse-pbc/fastlane_certs.git`
+- The provisioning profile MUST include the Associated Domains capability for the app to work properly
 
 ### iOS Build Troubleshooting
 If iOS build fails, check the following common issues:
@@ -25,6 +106,8 @@ If iOS build fails, check the following common issues:
 3. **Missing localization files**: If errors about missing messages_*.dart files appear, check lib/generated/intl/messages_all.dart
 4. **Xcode configuration**: Make sure xcconfig files include the proper CocoaPods configurations
 5. **Sentry**: Sentry has been completely removed from this project to avoid C++ compatibility issues with newer iOS SDK versions
+6. **Code Signing**: If code signing fails for release builds, run `bundle exec fastlane match appstore --readonly` to install the certificates
+7. **Associated Domains**: If you get provisioning profile errors related to Associated Domains, use Xcode manually to create a profile with the correct entitlements
 
 See `ios/FIX_IOS_BUILD.md` for detailed iOS build troubleshooting steps.
 
@@ -69,12 +152,15 @@ For each file you plan to modify, explain:
    - Potential regressions to watch for
 
 ## Important Process Rules
-- ALWAYS run `flutter analyze` after making code changes to check for syntax and type errors
+- ALWAYS run `flutter analyze` before completing any task to ensure there are no compiler errors, warnings, or lint issues
+- ALWAYS verify that code compiles and passes static analysis checks before considering a task complete
+- After making code changes, run `flutter analyze` to check for syntax and type errors - this is mandatory for every change
 - After significant changes, run the relevant tests to ensure nothing broke
 - When working on a complex feature, test each part as you implement it
-- When fixing one issue, verify you don't introduce new ones
+- When fixing one issue, verify you don't introduce new ones by running the analyzer
 - Ensure UI transitions are smooth and don't cause performance issues
 - Profile the application when making performance-related changes
+- When running bash commands, never use `cd ..` or attempt to navigate to parent directories as this is blocked by Claude Code security measures - use subshells or absolute paths instead
 
 ## Code Style Guidelines
 - Follow Flutter's standard linting rules (package:flutter_lints/flutter.yaml)

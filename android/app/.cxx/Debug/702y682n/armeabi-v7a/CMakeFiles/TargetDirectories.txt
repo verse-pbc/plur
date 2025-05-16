@@ -1,0 +1,2 @@
+/Users/rabble/code/verse/plur/android/app/.cxx/Debug/702y682n/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/rabble/code/verse/plur/android/app/.cxx/Debug/702y682n/armeabi-v7a/CMakeFiles/rebuild_cache.dir

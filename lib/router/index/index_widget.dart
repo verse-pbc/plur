@@ -21,7 +21,9 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../features/communities/communities_screen.dart';
-import '../../features/create_community/create_community_dialog.dart';
+// We still need CreateCommunityDialog import because it's used in CommunityOptionsDialog
+import '../../features/create_community/create_community_dialog.dart'; 
+import '../../features/create_community/community_options_dialog.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
@@ -307,9 +309,12 @@ class _IndexWidgetState extends CustState<IndexWidget>
         // Build the toggle control for switching between grid and feed views
         center = _buildCommunityViewToggle(indexProvider, themeData);
         
-        // Create community button
+        // Create community button with options
         right = GestureDetector(
-          onTap: () => CreateCommunityDialog.show(context),
+          onTap: () {
+            // Show the community options dialog instead of directly creating a community
+            CommunityOptionsDialog.show(context);
+          },
           child: const Icon(Icons.group_add),
         );
         break;
@@ -364,7 +369,10 @@ class _IndexWidgetState extends CustState<IndexWidget>
 
   Widget _buildCreateGroupButton(BuildContext context) {
     return GestureDetector(
-      onTap: () => CreateCommunityDialog.show(context),
+      onTap: () {
+        // Show the community options dialog instead of directly creating a community
+        CommunityOptionsDialog.show(context);
+      },
       child: const Icon(Icons.group_add),
     );
   }

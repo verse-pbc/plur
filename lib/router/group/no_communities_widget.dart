@@ -5,9 +5,29 @@ import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
 import 'package:nostrmo/util/community_join_util.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Used for logging
+import 'dart:developer' as developer;
 
 class NoCommunitiesWidget extends StatefulWidget {
-  const NoCommunitiesWidget({super.key});
+  /// If forceShow is true, this dialog will be shown even if the user dismissed it before
+  final bool forceShow;
+  
+  const NoCommunitiesWidget({
+    super.key, 
+    this.forceShow = false,
+  });
+  
+  /// Checks if the no communities dialog should be shown
+  /// Returns true if the dialog should be shown, false otherwise
+  static Future<bool> shouldShowDialog() async {
+    final prefs = await SharedPreferences.getInstance();
+    // If the user has already dismissed the dialog, don't show it again
+    final dismissed = prefs.getBool(_NoCommunitiesWidgetState._dismissedDialogKey) ?? false;
+    developer.log("shouldShowDialog: dismissed=$dismissed", name: "NoCommunitiesWidget");
+    return !dismissed;
+  }
 
   @override
   State<NoCommunitiesWidget> createState() => _NoCommunitiesWidgetState();
@@ -15,11 +35,52 @@ class NoCommunitiesWidget extends StatefulWidget {
 
 class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   bool _isCreatingCommunity = false;
+  // Key used to store whether the user has dismissed this dialog
+  static const String _dismissedDialogKey = 'community_intro_dismissed';
+  
+  // Method to save state when user dismisses the dialog
+  Future<void> _dismissDialog() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_dismissedDialogKey, true);
+    
+    // Pop the dialog if in a dialog, otherwise just hide this widget
+    if (mounted) {
+      Navigator.of(context).canPop() 
+          ? Navigator.of(context).pop() 
+          : setState(() {}); // Force refresh
+    }
+  }
 
+  bool _dialogDismissed = false;
+  
+  @override
+  void initState() {
+    super.initState();
+    // Check if dialog was previously dismissed
+    if (!widget.forceShow) {
+      SharedPreferences.getInstance().then((prefs) {
+        if (mounted) {
+          final dismissed = prefs.getBool(_dismissedDialogKey) ?? false;
+          setState(() {
+            _dialogDismissed = dismissed;
+          });
+        }
+      });
+    }
+  }
+  
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     final localization = S.of(context);
+    
+    // If dialog is dismissed and not forced to show, return empty
+    if (_dialogDismissed && !widget.forceShow) {
+      developer.log("Dialog dismissed, returning empty widget", name: "NoCommunitiesWidget");
+      return const SizedBox.shrink();
+    }
+    
+    developer.log("Showing dialog, dismissed=$_dialogDismissed, forceShow=${widget.forceShow}", name: "NoCommunitiesWidget");
 
     return Center(
         child: SingleChildScrollView(
@@ -31,22 +92,37 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    // Title section
-                    Text(
-                      localization.communities,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                        color: themeData.customColors.primaryForegroundColor,
+              child: Stack(
+                children: [
+                  // Close button
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.close,
+                        color: themeData.customColors.secondaryForegroundColor,
                       ),
-                      textAlign: TextAlign.center,
+                      onPressed: _dismissDialog,
                     ),
+                  ),
+                  // Main content
+                  Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Title section
+                        Text(
+                          localization.communities,
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontWeight: FontWeight.bold,
+                            color: themeData.customColors.primaryForegroundColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                     const SizedBox(height: 24),
 
                     // Image section
@@ -168,12 +244,14 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                         ],
                       ),
                     ),
-                  ],
-                ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-      ),
+        ),
     );
   }
 

@@ -115,6 +115,33 @@
       right: 0;
     }
   </style>
+  <!-- Custom font size adjustment for the web version -->
+  <style id="web-font-adjustment">
+    /* This makes the text bigger on web platforms */
+    :root {
+      font-size: 18px;
+    }
+    
+    /* Increase font size on Flutter canvas elements */
+    flt-glass-pane * {
+      font-size: 1.2em !important;
+    }
+    
+    /* Make sure text on the login page is more visible */
+    p, h1, h2, h3, h4, h5, h6, span, div {
+      font-size: larger;
+    }
+    
+    /* Target Flutter-specific text elements */
+    flt-text-editing {
+      font-size: 1.2em !important;
+    }
+    
+    /* Adjust input fields for better visibility */
+    input, textarea, button {
+      font-size: 1.1em !important;
+    }
+  </style>
   <script id="splash-screen-script">
     function removeSplashFromWeb() {
       document.getElementById("splash")?.remove();
@@ -197,10 +224,10 @@
         }
       });
       
-      // Simplified loader that follows the Flutter docs exactly
+      // Simplified loader that follows the updated Flutter docs
       _flutter = {
         loader: {
-          loadEntrypoint: function(options) {
+          load: function(options) {
             return Promise.resolve().then(function () {
               var entrypointUrl = options && options.entrypointUrl || "main.dart.js";
               return _loadScriptAsync(entrypointUrl).then(function (entrypoint) {
@@ -223,8 +250,8 @@
         });
       }
       
-      // Try initializing Flutter
-      _flutter.loader.loadEntrypoint({
+      // Try initializing Flutter using the updated load method
+      _flutter.loader.load({
         onEntrypointLoaded: function(engineInitializer) {
           console.log("Flutter entrypoint loaded");
           engineInitializer.initializeEngine().then(function(appRunner) {

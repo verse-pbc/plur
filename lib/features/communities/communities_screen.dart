@@ -10,12 +10,16 @@ import 'package:nostrmo/router/group/communities_feed_widget.dart';
 import 'package:nostrmo/router/group/no_communities_widget.dart';
 // Import Provider package with an alias to avoid conflicts
 import 'package:provider/provider.dart' as provider;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../component/shimmer/shimmer.dart';
 import '../../util/theme_util.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';
+
+// Used for logging
+import 'dart:developer' as developer;
 
 class CommunitiesScreen extends ConsumerStatefulWidget {
   const CommunitiesScreen({super.key});
@@ -42,6 +46,12 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   
   // Pre-built loading widget for faster display
   final Widget _loadingWidget = const Center(child: CircularProgressIndicator());
+  
+  // Track whether the component has loaded to avoid shimmer flickering
+  bool _hasLoaded = false;
+  
+  // Track whether we've ever seen groups to prevent showing empty state incorrectly
+  static bool _hasEverSeenGroups = false;
   
   @override
   bool get wantKeepAlive => true;
@@ -147,12 +157,47 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
               
               return controller.when(
                 data: (groupIds) {
-                  if (groupIds.isEmpty) {
-                    // Cache empty state widget
-                    _cachedEmptyWidget ??= const Center(
-                      child: NoCommunitiesWidget(),
-                    );
+                  // Set hasLoaded to true after first successful load
+                  if (!_hasLoaded) {
+                    debugPrint("🔄 MARKING COMMUNITIES SCREEN AS LOADED");
+                    _hasLoaded = true;
+                  }
+                  
+                  // Store original group IDs list length for debugging
+                  final int originalGroupCount = groupIds.length;
+                  developer.log("📊 RECEIVED ${originalGroupCount} COMMUNITIES FROM CONTROLLER", name: "CommunitiesScreen");
+                  
+                  // Keep track if we've ever seen groups to prevent flashing the empty state
+                  if (originalGroupCount > 0) {
+                    _hasEverSeenGroups = true;
+                    developer.log("🔔 MARKED HAS_EVER_SEEN_GROUPS=true because we found $originalGroupCount groups", name: "CommunitiesScreen");
+                  }
+                  
+                  // CRITICAL: Once we've had groups, don't show the empty state unless
+                  // explicitly requested, to prevent false emptiness during data refreshes
+                  if (groupIds.isEmpty && !_hasEverSeenGroups) {
+                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state dialog", name: "CommunitiesScreen");
+                    // Show the empty state dialog when no communities exist
+                    if (_cachedEmptyWidget == null) {
+                      developer.log("🏗️ CREATING CACHED EMPTY WIDGET for the first time", name: "CommunitiesScreen");
+                      _cachedEmptyWidget = const Center(
+                        child: NoCommunitiesWidget(),
+                      );
+                    } else {
+                      developer.log("♻️ REUSING CACHED EMPTY WIDGET", name: "CommunitiesScreen");
+                    }
                     return _cachedEmptyWidget!;
+                  } else if (groupIds.isEmpty && (_hasEverSeenGroups || _cachedGridWidget != null)) {
+                    // If we had groups before but now they're empty, use the last cached view
+                    // This prevents flickering when groups are temporarily not available
+                    developer.log("⚠️ WARNING: Group list is empty but using cached view to prevent flickering", name: "CommunitiesScreen");
+                    if (viewMode == CommunityViewMode.feed && _cachedFeedWidget != null) {
+                      return _cachedFeedWidget!;
+                    } else if (viewMode == CommunityViewMode.list && _cachedListWidget != null) {
+                      return _cachedListWidget!;
+                    } else if (_cachedGridWidget != null) {
+                      return _cachedGridWidget!;
+                    }
                   }
                   
                   // Choose content based on view mode with persistent caching
@@ -173,10 +218,18 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     if (_cachedListWidget == null || viewModeChanged) {
                       debugPrint("🏗️ CREATING CACHED LIST WIDGET: first time=${_cachedListWidget == null}, viewModeChanged=$viewModeChanged");
                       
-                      _cachedListWidget = Shimmer(
-                        linearGradient: shimmerGradient,
-                        child: CommunitiesListWidget(groupIds: sortedGroupIds),
-                      );
+                      // Apply Shimmer effect only if this is the first load
+                      // This prevents the flickering issue when switching views
+                      if (!_hasLoaded) {
+                        debugPrint("🏗️ CREATING LIST WIDGET WITH SHIMMER for first load");
+                        _cachedListWidget = Shimmer(
+                          linearGradient: shimmerGradient,
+                          child: CommunitiesListWidget(groupIds: sortedGroupIds),
+                        );
+                      } else {
+                        debugPrint("🏗️ CREATING LIST WIDGET WITHOUT SHIMMER for subsequent loads");
+                        _cachedListWidget = CommunitiesListWidget(groupIds: sortedGroupIds);
+                      }
                     } else {
                       debugPrint("♻️ REUSING CACHED LIST WIDGET");
                     }
@@ -186,10 +239,18 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     if (_cachedGridWidget == null || viewModeChanged) {
                       debugPrint("🏗️ CREATING CACHED GRID WIDGET: first time=${_cachedGridWidget == null}, viewModeChanged=$viewModeChanged");
                       
-                      _cachedGridWidget = Shimmer(
-                        linearGradient: shimmerGradient,
-                        child: CommunitiesGridWidget(groupIds: sortedGroupIds),
-                      );
+                      // Apply Shimmer effect only if this is the first load
+                      // This prevents the flickering issue when switching views
+                      if (!_hasLoaded) {
+                        debugPrint("🏗️ CREATING GRID WIDGET WITH SHIMMER for first load");
+                        _cachedGridWidget = Shimmer(
+                          linearGradient: shimmerGradient,
+                          child: CommunitiesGridWidget(groupIds: sortedGroupIds),
+                        );
+                      } else {
+                        debugPrint("🏗️ CREATING GRID WIDGET WITHOUT SHIMMER for subsequent loads");
+                        _cachedGridWidget = CommunitiesGridWidget(groupIds: sortedGroupIds);
+                      }
                     } else {
                       debugPrint("♻️ REUSING CACHED GRID WIDGET");
                     }

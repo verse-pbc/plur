@@ -13,9 +13,9 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-// def keystorePropertiesFile = rootProject.file("key.properties")
-// def keystoreProperties = new Properties()
-// keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
@@ -28,9 +28,12 @@ def flutterVersionName = '0.1.0'
 android {
     namespace 'app.verse.prototype.plur'
     compileSdkVersion 34
-    ndkVersion "27.0.11902837"
+    ndkVersion "25.1.8937393"
 
     compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        // Sets Java compatibility to Java 17
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -41,6 +44,9 @@ android {
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
+        // Exclude the generated plugin registrant which has issues with the modified Flutter environment
+        main.java.exclude "**/io/flutter/plugins/GeneratedPluginRegistrant.java"
+        main.java.exclude "**/com/github/haorendashu/nostrmo/**"
     }
 
     defaultConfig {
@@ -49,39 +55,74 @@ android {
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        
+        // Set specific ABI targets to avoid Flutter engine binding issues
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a"
+        }
+        
+        // Enable multidex to handle method limit
+        multiDexEnabled true
     }
 
-    // signingConfigs {
-    //     release {
-    //         keyAlias keystoreProperties['keyAlias']
-    //         keyPassword keystoreProperties['keyPassword']
-    //         storeFile file(keystoreProperties['storeFile'])
-    //         storePassword keystoreProperties['storePassword']
-    //     }
-    // }
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // Using debug signing config temporarily for testing
             signingConfig signingConfigs.debug
-
-            // signingConfig signingConfigs.release
-            // minifyEnabled true
-            // proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            minifyEnabled false
+            shrinkResources false
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
         }
     }
+    
+    // Disable pre-dexing when building APKs to avoid OOM errors
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+}
+
+
+dependencies {
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    
+    // Required for multidex support
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
+    
+    // AndroidX
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.activity:activity:1.9.0'
+    implementation 'androidx.fragment:fragment:1.6.2'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.7.0')
+    implementation 'com.google.firebase:firebase-messaging'
+    implementation 'com.google.firebase:firebase-analytics'
+    
+    // Required for apps targeting API level 33+ (Android 13) for proper notification display
+    implementation "androidx.core:core:1.12.0"
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+    
+    // Required for Android lifecycle events
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.6.2'
+    implementation 'androidx.annotation:annotation:1.7.1'
 }
 
 flutter {
     source '../..'
-}
-
-dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'com.android.support:multidex:1.0.3'
-    implementation 'androidx.activity:activity:1.9.0'
-    implementation platform('com.google.firebase:firebase-bom:32.7.0')
-    implementation 'com.google.firebase:firebase-messaging'
-    implementation 'com.google.firebase:firebase-analytics'
 }
