@@ -175,11 +175,13 @@ flutter:
   fonts:
     - family: "SF Pro Rounded"
       fonts:
-        - asset: assets/fonts/SFProRounded-Regular.ttf
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Regular.otf
           weight: 400
-        - asset: assets/fonts/SFProRounded-Medium.ttf
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Medium.otf
           weight: 500
-        - asset: assets/fonts/SFProRounded-Bold.ttf
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Bold.otf
           weight: 700
 
 flutter_launcher_icons:
