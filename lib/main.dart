@@ -136,6 +136,8 @@ import 'package:nostrmo/features/asks_offers/screens/create_edit_listing_screen.
 import 'package:nostrmo/features/asks_offers/screens/listing_detail_screen.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/features/asks_offers/models/listing_model.dart';
+import 'package:nostrmo/util/log_test_screen.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -301,6 +303,9 @@ Future<void> main() async {
     // Initialize our comprehensive error logger
     ErrorLogger.init();
     log("Error logger initialized");
+    
+    // Add this line to show we're using the new logger
+    logger.i("Application starting with structured logging");
     
     log("Starting application initialization");
     WidgetsFlutterBinding.ensureInitialized();
@@ -564,6 +569,8 @@ class _MyApp extends State<MyApp> {
       RouterPath.communityGuidelines: (context) => const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
+      RouterPath.logTestScreen: (context) => const LogTestScreen(),
+      RouterPath.logTest: (context) => const LogTestScreen(),
       RouterPath.listings: (context) {
         final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
         final String? groupId = args?['groupId'];

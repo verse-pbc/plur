@@ -1,8 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:bot_toast/bot_toast.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';
 import 'package:local_auth/local_auth.dart';
@@ -10,6 +12,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/consts/thread_mode.dart';
 import 'package:nostrmo/router/index/account_manager_widget.dart';
+import 'package:nostrmo/util/log_filter_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/store_util.dart';
 import 'package:provider/provider.dart';
@@ -260,6 +263,74 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         RouterUtil.router(context, RouterPath.pushNotificationTest);
       },
     ));
+    
+    // Add link to logger test screen for developers
+    list.add(SettingsGroupItemWidget(
+      name: "Logging Test & Configuration",
+      onTap: () {
+        RouterUtil.router(context, RouterPath.logTestScreen);
+      },
+    ));
+    
+    // Add log filter dialog option
+    list.add(SettingsGroupItemWidget(
+      name: "Log Filters",
+      onTap: () {
+        LogFilterDialog.show(context);
+      },
+    ));
+    
+    // Add logging pre-commit hook installation option (debug mode only)
+    if (kDebugMode) {
+      list.add(SettingsGroupItemWidget(
+        name: "Install Logging Pre-commit Hook",
+        onTap: () async {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("Installing pre-commit hook..."),
+              duration: Duration(seconds: 1),
+            ),
+          );
+          
+          try {
+            final result = await Process.run(
+              'bash', 
+              ['scripts/install_hooks.sh'],
+              runInShell: true,
+            );
+            
+            if (result.exitCode == 0) {
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text("Pre-commit hook installed successfully!"),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              }
+            } else {
+              if (mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Error: ${result.stderr}"),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            }
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Error: $e"),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+          }
+        },
+      ));
+    }
 
     list.add(SettingsGroupTitleWidget(
         iconData: Icons.source, title: localization.data));

@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/features/events/nostr_event_kinds.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// RSVP status options for events
 enum RSVPStatus {
@@ -172,7 +173,7 @@ class EventRSVPModel {
       try {
         content = customResponses.toString();
       } catch (e) {
-        debugPrint('Error converting custom responses to string: $e');
+        logger.w('Error converting custom responses to string: $e');
       }
     }
     
@@ -246,7 +247,7 @@ class EventRSVPModel {
           'responses': event.content,
         };
       } catch (e) {
-        debugPrint('Error parsing RSVP custom responses: $e');
+        logger.w('Error parsing RSVP custom responses: $e');
       }
     }
     
@@ -279,8 +280,7 @@ class EventRSVPModel {
       id: event.id,
     );
     } catch (e, stack) {
-      debugPrint('Error creating RSVP from Event: $e');
-      debugPrint('Stack trace: $stack');
+      logger.e('Error creating RSVP from Event', e, stack);
       rethrow;
     }
   }

@@ -4,6 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 import 'db.dart';
 import 'group_read_info.dart';
+import '../util/app_logger.dart';
 
 /// Database access class for GroupReadInfo
 class GroupReadInfoDB {
@@ -66,7 +67,7 @@ class GroupReadInfoDB {
         conflictAlgorithm: ConflictAlgorithm.replace,
       );
     } catch (e) {
-      debugPrint("Error inserting group read info: $e");
+      logger.e("Error inserting group read info", e);
     }
   }
 
@@ -87,7 +88,7 @@ class GroupReadInfoDB {
         whereArgs: [keyIndex, groupId, host],
       );
     } catch (e) {
-      debugPrint("Error updating last read time: $e");
+      logger.e("Error updating last read time", e);
     }
   }
 
@@ -108,7 +109,7 @@ class GroupReadInfoDB {
         whereArgs: [keyIndex, groupId, host],
       );
     } catch (e) {
-      debugPrint("Error updating last viewed at: $e");
+      logger.e("Error updating last viewed at", e);
     }
   }
 
@@ -133,7 +134,7 @@ class GroupReadInfoDB {
         whereArgs: [keyIndex, groupId, host],
       );
     } catch (e) {
-      debugPrint("Error updating counts: $e");
+      logger.e("Error updating counts", e);
     }
   }
 
@@ -158,7 +159,7 @@ class GroupReadInfoDB {
         whereArgs: [keyIndex, groupId, host],
       );
     } catch (e) {
-      debugPrint("Error marking group as read: $e");
+      logger.e("Error marking group as read", e);
     }
   }
   
@@ -181,7 +182,7 @@ class GroupReadInfoDB {
         whereArgs: [keyIndex]
       );
     } catch (e) {
-      debugPrint("Error deleting all group read info: $e");
+      logger.e("Error deleting all group read info", e);
     }
   }
   
@@ -200,7 +201,7 @@ class GroupReadInfoDB {
         whereArgs: [keyIndex, groupId, host],
       );
     } catch (e) {
-      debugPrint("Error deleting group read info: $e");
+      logger.e("Error deleting group read info", e);
     }
   }
   

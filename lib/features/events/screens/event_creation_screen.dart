@@ -6,6 +6,7 @@ import 'package:nostrmo/features/events/providers/event_provider.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/group_id_util.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Screen for creating or editing an event
 class EventCreationScreen extends ConsumerStatefulWidget {
@@ -658,7 +659,7 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
     }
     
     try {
-      debugPrint('Submitting event form...');
+      logger.d('Submitting event form...');
       setState(() {
         _isSubmitting = true;
       });
@@ -745,8 +746,7 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
         }
       }
     } catch (e, stack) {
-      debugPrint('Error creating event: $e');
-      debugPrint('Stack trace: $stack');
+      logger.e('Error creating event', e, stack);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error occurred: $e')),

@@ -63,6 +63,12 @@ class RouterPath {
   static const String listingCreateEdit = "/listingCreateEdit";
   static const String listingDetail = "/listingDetail";
 
+  /// The route path for the Logging Test screen (developer use only)
+  static const String logTestScreen = "/logTestScreen";
+  
+  /// The route path for the Log Test screen
+  static const String logTest = "/logTest";
+
   static String getThreadDetailPath() {
     if (settingsProvider.threadMode == ThreadMode.fullMode) {
       return threadDetail;

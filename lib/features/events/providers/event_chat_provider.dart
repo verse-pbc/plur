@@ -5,6 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/features/events/models/event_chat_model.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/group_id_util.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Provider for accessing event chat messages
 final eventChatProvider =
@@ -88,8 +89,7 @@ class EventChatNotifier extends StateNotifier<AsyncValue<List<EventChatModel>>> 
       // Store in our messages map
       _latestMessages[event.id] = chatModel;
     } catch (e, stack) {
-      debugPrint('Error processing event chat message: $e');
-      debugPrint('Stack trace: $stack');
+      logger.e('Error processing event chat message', e, stack);
     }
   }
 
@@ -103,13 +103,13 @@ class EventChatNotifier extends StateNotifier<AsyncValue<List<EventChatModel>>> 
   Future<void> loadEventChat({required String eventId, String? eventDTag, String? groupId}) async {
     // Check if Nostr client is initialized
     if (nostr == null) {
-      debugPrint('Warning: Nostr client not initialized when loading event chat');
+      logger.w('Warning: Nostr client not initialized when loading event chat');
       state = AsyncValue.data([]);
       return;
     }
     
     try {
-      debugPrint("Loading event chat for event ID: $eventId");
+      logger.d("Loading event chat for event ID: $eventId");
       state = const AsyncValue.loading();
       _latestMessages.clear(); // Clear previous messages
       _currentEventId = eventId; // Set current event ID
@@ -164,7 +164,7 @@ class EventChatNotifier extends StateNotifier<AsyncValue<List<EventChatModel>>> 
       try {
         initialEvents = await nostr!.queryEvents([filterJson]);
       } catch (e) {
-        debugPrint("Error querying event chat messages: $e");
+        logger.e("Error querying event chat messages", e);
       }
       
       // Process initial events

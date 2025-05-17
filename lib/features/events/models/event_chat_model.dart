@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/group_id_util.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Model representing a chat message in an event discussion
 class EventChatModel {
@@ -209,8 +210,7 @@ class EventChatModel {
         createdAt: DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000),
       );
     } catch (e, stack) {
-      debugPrint('Error creating EventChatModel from Event: $e');
-      debugPrint('Stack trace: $stack');
+      logger.e('Error creating EventChatModel from Event', e, stack);
       rethrow;
     }
   }

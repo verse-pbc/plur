@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/features/events/nostr_event_kinds.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Enumeration of event visibility options
 enum EventVisibility {
@@ -260,10 +261,16 @@ class EventModel {
     }
     
     // Add event tags/categories
-    debugPrint('Adding tag categories, tag count: ${this.tags.length}');
-    for (final tag in this.tags) {
-      debugPrint('Adding tag: $tag');
-      tags.add(['t', tag]);
+    if (kDebugMode) {
+      logger.d('Adding tag categories, tag count: ${this.tags.length}');
+      for (final tag in this.tags) {
+        logger.d('Adding tag: $tag');
+        tags.add(['t', tag]);
+      }
+    } else {
+      for (final tag in this.tags) {
+        tags.add(['t', tag]);
+      }
     }
     
     // Add recurrence rule if provided
@@ -282,7 +289,9 @@ class EventModel {
     
     // Create the Nostr event
     try {
-      debugPrint('Creating Event with kind: $kind, tags count: ${tags.length}');
+      if (kDebugMode) {
+        logger.d('Creating Event with kind: $kind, tags count: ${tags.length}');
+      }
       return Event.create(
         kind: kind,
         pubkey: pubkey,
@@ -291,7 +300,7 @@ class EventModel {
         createdAt: DateTime.now().millisecondsSinceEpoch ~/ 1000,
       );
     } catch (e) {
-      debugPrint('Error creating Nostr event: $e');
+      logger.e('Error creating Nostr event', e);
       rethrow;
     }
   }
@@ -336,7 +345,7 @@ class EventModel {
       try {
         contentJson = jsonDecode(event.content);
       } catch (e) {
-        debugPrint('Error parsing event content as JSON: $e');
+        logger.w('Error parsing event content as JSON: $e');
         contentJson = {'description': event.content};
       }
     }
@@ -355,7 +364,7 @@ class EventModel {
       try {
         startAt = DateTime.fromMillisecondsSinceEpoch(int.parse(startStr) * 1000);
       } catch (e) {
-        debugPrint('Error parsing start timestamp: $e');
+        logger.w('Error parsing start timestamp: $e');
       }
     }
     
@@ -363,7 +372,7 @@ class EventModel {
       try {
         endAt = DateTime.fromMillisecondsSinceEpoch(int.parse(endStr) * 1000);
       } catch (e) {
-        debugPrint('Error parsing end timestamp: $e');
+        logger.w('Error parsing end timestamp: $e');
       }
     }
     
@@ -402,8 +411,7 @@ class EventModel {
       recurrenceRule: recurrenceRule,
     );
     } catch (e, stack) {
-      debugPrint('Error creating EventModel from Event: $e');
-      debugPrint('Stack trace: $stack');
+      logger.e('Error creating EventModel from Event: $e', e, stack);
       rethrow;
     }
   }

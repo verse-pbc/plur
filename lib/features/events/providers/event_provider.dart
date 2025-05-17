@@ -8,6 +8,7 @@ import 'package:nostrmo/features/events/nostr_event_kinds.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/util/error_logger.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Provider for accessing event data
 final eventProvider =
@@ -61,13 +62,13 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       // First check if this is an event of the correct kind
       if (event.kind != EventKindExtension.dateBoundedEvent && 
           event.kind != EventKindExtension.timeBoundedEvent) {
-        debugPrint('Skipping event of wrong kind: ${event.kind}');
+        logger.d('Skipping event of wrong kind: ${event.kind}');
         return;
       }
       
       // Add basic validation for event structure
       if (event.tags.isEmpty) {
-        debugPrint('Skipping event with empty tags');
+        logger.d('Skipping event with empty tags');
         return;
       }
       
@@ -109,7 +110,7 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
     }
     
     try {
-      debugPrint("Loading events with groupId: $groupId");
+      logger.d("Loading events with groupId: $groupId");
       state = const AsyncValue.loading();
       _latestEvents.clear(); // Clear previous events
       
@@ -158,7 +159,7 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
           dateFilterJson["#h"] = groupIdFormats;
           timeFilterJson["#h"] = groupIdFormats;
           
-          debugPrint("Added h-tag filter: ${dateFilterJson["#h"]}");
+          logger.d("Added h-tag filter: ${dateFilterJson["#h"]}");
         } catch (groupIdError, groupIdStack) {
           ErrorLogger.logError('Error processing group ID for events', groupIdError, groupIdStack);
           // Continue without group filtering if it fails
@@ -235,10 +236,10 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
     List<String> organizers = const [],
     String? recurrenceRule,
   }) async {
-    debugPrint('Creating event with title: $title, tags: $tags');
+    logger.d('Creating event with title: $title, tags: $tags');
     
     if (nostr == null) {
-      debugPrint('ERROR: Nostr client not initialized when creating event');
+      logger.e('ERROR: Nostr client not initialized when creating event');
       throw Exception('Nostr client not initialized');
     }
     
@@ -372,7 +373,7 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       
       return true;
     } catch (error) {
-      debugPrint('Error deleting event: $error');
+      logger.e('Error deleting event', error);
       return false;
     }
   }
@@ -469,8 +470,7 @@ class EventNotifier extends StateNotifier<AsyncValue<List<EventModel>>> {
       
       return filtered..sort((a, b) => a.startAt.compareTo(b.startAt));
     } catch (e, stack) {
-      debugPrint('Error getting events for day: $e');
-      debugPrint('Stack trace: $stack');
+      logger.e('Error getting events for day', e, stack);
       return [];
     }
   }
@@ -563,13 +563,13 @@ class EventRSVPNotifier extends StateNotifier<AsyncValue<List<EventRSVPModel>>> 
     try {
       // First check if this is an RSVP event
       if (event.kind != EventKindExtension.eventRSVP) {
-        debugPrint('Skipping RSVP event of wrong kind: ${event.kind}');
+        logger.d('Skipping RSVP event of wrong kind: ${event.kind}');
         return;
       }
       
       // Add basic validation for event structure
       if (event.tags.isEmpty) {
-        debugPrint('Skipping RSVP event with empty tags');
+        logger.d('Skipping RSVP event with empty tags');
         return;
       }
       
@@ -607,7 +607,7 @@ class EventRSVPNotifier extends StateNotifier<AsyncValue<List<EventRSVPModel>>> 
     }
     
     try {
-      debugPrint("Loading RSVPs with eventId: $eventId, groupId: $groupId");
+      logger.d("Loading RSVPs with eventId: $eventId, groupId: $groupId");
       
       // Create filter for RSVP events
       final filter = Filter(kinds: [EventKindExtension.eventRSVP]);
@@ -643,7 +643,7 @@ class EventRSVPNotifier extends StateNotifier<AsyncValue<List<EventRSVPModel>>> 
         // Add h-tag filter
         filterJson["#h"] = groupIdFormats;
         
-        debugPrint("Added h-tag filter for RSVPs: ${filterJson["#h"]}");
+        logger.d("Added h-tag filter for RSVPs: ${filterJson["#h"]}");
       }
       
       // Cancel previous subscription if exists
@@ -666,7 +666,7 @@ class EventRSVPNotifier extends StateNotifier<AsyncValue<List<EventRSVPModel>>> 
       try {
         initialEvents = await nostr!.queryEvents([filterJson]);
       } catch (e) {
-        debugPrint("Error querying RSVP events: $e");
+        logger.e("Error querying RSVP events", e);
       }
       
       // Process initial events

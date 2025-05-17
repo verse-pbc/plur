@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'app_logger.dart';
 
 /// Utility functions for working with group identifiers in different formats
 class GroupIdUtil {
@@ -102,14 +103,18 @@ class GroupIdUtil {
     final id2 = extractIdPart(groupId2);
     
     // Debug log the extraction results
-    debugPrint("doGroupIdsMatch DEBUG - ID extraction:");
-    debugPrint("  groupId1: '$groupId1' → id1: '$id1'");
-    debugPrint("  groupId2: '$groupId2' → id2: '$id2'");
+    if (kDebugMode) {
+      logger.d("doGroupIdsMatch DEBUG - ID extraction:");
+      logger.d("  groupId1: '$groupId1' → id1: '$id1'");
+      logger.d("  groupId2: '$groupId2' → id2: '$id2'");
+      
+      // Only match if both extracted IDs are non-empty and equal
+      final matches = id1.isNotEmpty && id2.isNotEmpty && id1 == id2;
+      logger.d("  Match result: $matches");
+      
+      return matches;
+    }
     
-    // Only match if both extracted IDs are non-empty and equal
-    final matches = id1.isNotEmpty && id2.isNotEmpty && id1 == id2;
-    debugPrint("  Match result: $matches");
-    
-    return matches;
+    return id1.isNotEmpty && id2.isNotEmpty && id1 == id2;
   }
 }

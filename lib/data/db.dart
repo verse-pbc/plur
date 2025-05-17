@@ -4,6 +4,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:process_run/shell_run.dart';
+import '../util/app_logger.dart';
 
 class DB {
   // Update version to 2 to trigger database migration
@@ -98,7 +99,7 @@ class DB {
         await db.execute(
           "create index if not exists group_read_info_group_id on group_read_info (group_id);");
       } catch (e) {
-        print("Error during migration to v2: $e");
+        logger.e("Error during migration to v2", e);
       }
     }
   }

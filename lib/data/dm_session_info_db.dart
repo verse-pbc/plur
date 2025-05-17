@@ -1,5 +1,6 @@
 import 'package:nostrmo/data/dm_session_info.dart';
 import 'package:sqflite/sqflite.dart';
+import '../util/app_logger.dart';
 
 import 'db.dart';
 
@@ -32,7 +33,7 @@ class DMSessionInfoDB {
   static Future<int> update(DMSessionInfo o, {DatabaseExecutor? db}) async {
     // Check if keyIndex and pubkey are not null before updating
     if (o.keyIndex == null || o.pubkey == null) {
-      print("Error: Cannot update DMSessionInfo with null keyIndex or pubkey");
+      logger.w("Cannot update DMSessionInfo with null keyIndex or pubkey");
       return 0; // Return 0 rows affected
     }
     
