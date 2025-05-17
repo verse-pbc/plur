@@ -513,5 +513,10 @@
     "joinCommunity": "Join Community",
     "expiringNow": "Expiring now",
     "lnbc": "Lightning Invoice",
-    "youAreBannedFromThisGroup": "You are banned from this group and cannot post content"
+    "youAreBannedFromThisGroup": "You are banned from this group and cannot post content",
+    "cannotAccessClipboard": "Cannot access clipboard. Please interact with the page first or use the 'Join Community' option.",
+    "noValidCommunityLink": "No valid community link in clipboard",
+    "noCommunitiesYet": "No communities yet",
+    "createCommunity": "Create a community",
+    "pasteInviteLink": "Paste Invite Link"
 }

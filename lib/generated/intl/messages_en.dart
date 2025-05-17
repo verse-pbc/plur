@@ -85,6 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Backup and Safety tips"),
         "backupMyNotes":
             MessageLookupByLibrary.simpleMessage("Backup my notes"),
+        "banUser": MessageLookupByLibrary.simpleMessage("Ban User"),
         "banner": MessageLookupByLibrary.simpleMessage("Banner"),
         "baseMode": MessageLookupByLibrary.simpleMessage("Base Mode"),
         "beginToDownloadTranslateModel": MessageLookupByLibrary.simpleMessage(
@@ -105,6 +106,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "calendar": MessageLookupByLibrary.simpleMessage("Calendar"),
         "calendarView": MessageLookupByLibrary.simpleMessage("Calendar View"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "cannotAccessClipboard": MessageLookupByLibrary.simpleMessage(
+            "Cannot access clipboard. Please interact with the page first or use the \'Join Community\' option."),
         "capacity": MessageLookupByLibrary.simpleMessage("Capacity"),
         "changesSaved":
             MessageLookupByLibrary.simpleMessage("Changes saved successfully"),
@@ -159,6 +162,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Cover Image URL"),
         "createAnEvent":
             MessageLookupByLibrary.simpleMessage("Create an Event"),
+        "createCommunity":
+            MessageLookupByLibrary.simpleMessage("Create a community"),
         "createEvent": MessageLookupByLibrary.simpleMessage("Create Event"),
         "createGroup": MessageLookupByLibrary.simpleMessage("Create Group"),
         "createYourCommunity":
@@ -288,6 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Goal Amount In Sats"),
         "going": MessageLookupByLibrary.simpleMessage("Going"),
         "group": MessageLookupByLibrary.simpleMessage("Group"),
+        "groupAdmin": MessageLookupByLibrary.simpleMessage("Group Admin"),
         "groupClosedDescription": MessageLookupByLibrary.simpleMessage(
             "Requires invitation or approval to join"),
         "groupId": MessageLookupByLibrary.simpleMessage("GroupId"),
@@ -437,6 +443,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "No asks or offers posted yet.\nGet started by posting something!"),
         "noAsksPostedYet": MessageLookupByLibrary.simpleMessage(
             "No asks posted yet.\nBe the first to ask for something!"),
+        "noCommunitiesYet":
+            MessageLookupByLibrary.simpleMessage("No communities yet"),
         "noEventsForSelectedDay":
             MessageLookupByLibrary.simpleMessage("No events for selected day"),
         "noEventsFound":
@@ -452,6 +460,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "noUpcomingEvents":
             MessageLookupByLibrary.simpleMessage("No upcoming events"),
         "noUsersFound": MessageLookupByLibrary.simpleMessage("No users found"),
+        "noValidCommunityLink": MessageLookupByLibrary.simpleMessage(
+            "No valid community link in clipboard"),
         "normal": MessageLookupByLibrary.simpleMessage("Normal"),
         "nostrmoDevelopersWillNeverRequireAKeyFromYou":
             MessageLookupByLibrary.simpleMessage(
@@ -497,6 +507,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "owner": MessageLookupByLibrary.simpleMessage("Owner"),
         "password": MessageLookupByLibrary.simpleMessage("Password"),
         "pastEvents": MessageLookupByLibrary.simpleMessage("Past Events"),
+        "pasteInviteLink":
+            MessageLookupByLibrary.simpleMessage("Paste Invite Link"),
         "pay": MessageLookupByLibrary.simpleMessage("Pay"),
         "picture": MessageLookupByLibrary.simpleMessage("Picture"),
         "places": MessageLookupByLibrary.simpleMessage("Places"),
@@ -578,6 +590,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "Remove from private bookmark"),
         "removeFromPublicBookmark":
             MessageLookupByLibrary.simpleMessage("Remove from public bookmark"),
+        "removeUser": MessageLookupByLibrary.simpleMessage("Remove User"),
         "replied": MessageLookupByLibrary.simpleMessage("replied"),
         "replying": MessageLookupByLibrary.simpleMessage("Replying"),
         "report": MessageLookupByLibrary.simpleMessage("Report"),
@@ -709,6 +722,8 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Wrong Private Key format"),
         "yes": MessageLookupByLibrary.simpleMessage("Yes"),
         "you": MessageLookupByLibrary.simpleMessage("You"),
+        "youAreBannedFromThisGroup": MessageLookupByLibrary.simpleMessage(
+            "You are banned from this group and cannot post content"),
         "youHadVotedWith":
             MessageLookupByLibrary.simpleMessage("You had voted with"),
         "yourGroups": MessageLookupByLibrary.simpleMessage("Your Groups"),
@@ -720,16 +735,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "zapNumCanNotSmallerThen": MessageLookupByLibrary.simpleMessage(
             "Zap num can not smaller then"),
         "zapNumberNotEnough":
-            MessageLookupByLibrary.simpleMessage("Zap number not enough"),
-        "removeUser": MessageLookupByLibrary.simpleMessage("Remove User"),
-        "removeUserTitle": MessageLookupByLibrary.simpleMessage("Remove User from Group"),
-        "removeUserConfirmation": MessageLookupByLibrary.simpleMessage(
-            "Are you sure you want to remove this user from the group?"),
-        "reasonOptional": MessageLookupByLibrary.simpleMessage("Reason (Optional)"),
-        "reasonHint": MessageLookupByLibrary.simpleMessage("Optional explanation for why this user is being removed..."),
-        "sendNotificationToUser": MessageLookupByLibrary.simpleMessage("Send notification to user"),
-        "userRemovedSuccessfully": MessageLookupByLibrary.simpleMessage("User removed successfully"),
-        "errorRemovingUser": MessageLookupByLibrary.simpleMessage("Error removing user"),
-        "message": MessageLookupByLibrary.simpleMessage("Message")
+            MessageLookupByLibrary.simpleMessage("Zap number not enough")
       };
 }
