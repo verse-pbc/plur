@@ -50,6 +50,9 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   // Track whether we've ever seen groups to prevent showing empty state incorrectly
   static bool _hasEverSeenGroups = false;
   
+  // Track if we've shown the sheet to prevent duplicate instances
+  static bool _hasShownNoCommunitiesSheet = false;
+  
   @override
   bool get wantKeepAlive => true;
 
@@ -175,9 +178,12 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   if (groupIds.isEmpty && !_hasEverSeenGroups) {
                     developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state sheet", name: "CommunitiesScreen");
                     // Show the no communities sheet when no communities exist
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _showNoCommunitiesSheet();
-                    });
+                    if (!_hasShownNoCommunitiesSheet) {
+                      _hasShownNoCommunitiesSheet = true;
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _showNoCommunitiesSheet();
+                      });
+                    }
                     // Return an empty scaffold while the sheet is being shown
                     return Container(
                       color: context.colors.background,
@@ -292,23 +298,28 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   }
   
   /// Shows the no communities bottom sheet
+  bool _isSheetShowing = false;
+  
   void _showNoCommunitiesSheet() {
+    // Prevent multiple instances
+    if (_isSheetShowing) return;
+    
+    _isSheetShowing = true;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      isDismissible: true,
-      enableDrag: true,
-      builder: (sheetContext) => GestureDetector(
-        onTap: () => Navigator.of(sheetContext).pop(),
-        child: Container(
-          color: Colors.transparent,
-          child: GestureDetector(
-            onTap: () {}, // Prevent taps from propagating to dismiss
-            child: const NoCommunitiesSheet(),
-          ),
-        ),
+      isDismissible: false, // Prevent dismissing by tapping outside
+      enableDrag: false, // Prevent dismissing by dragging
+      builder: (sheetContext) => const PopScope(
+        canPop: false, // Prevent back button dismissal
+        child: NoCommunitiesSheet(),
       ),
-    );
+    ).then((_) {
+      // Reset flags when sheet is closed (if it ever closes)
+      _isSheetShowing = false;
+      _hasShownNoCommunitiesSheet = false;
+    });
   }
 }

@@ -5,6 +5,8 @@ import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import '../../theme/app_colors.dart';
 import 'package:nostrmo/util/community_join_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import '../../provider/list_provider.dart';
 
 // Used for logging
 import 'dart:developer' as developer;
@@ -36,6 +38,42 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
   bool _isCreatingCommunity = false;
   // Key used to store whether the user has dismissed this dialog
   static const String _dismissedDialogKey = 'community_intro_dismissed';
+  
+  @override
+  void initState() {
+    super.initState();
+    // Listen for changes to the list provider to detect when user joins/creates a community
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final listProvider = Provider.of<ListProvider>(context, listen: false);
+        listProvider.addListener(_checkForCommunities);
+      }
+    });
+  }
+  
+  @override
+  void dispose() {
+    // Remove listener when widget is disposed
+    try {
+      final listProvider = Provider.of<ListProvider>(context, listen: false);
+      listProvider.removeListener(_checkForCommunities);
+    } catch (_) {
+      // Ignore errors if provider is not available
+    }
+    super.dispose();
+  }
+  
+  void _checkForCommunities() {
+    // Check if user now has communities
+    if (mounted) {
+      final listProvider = Provider.of<ListProvider>(context, listen: false);
+      if (listProvider.groupIdentifiers.isNotEmpty) {
+        developer.log("User now has communities, closing sheet", name: "NoCommunitiesSheet");
+        // Close the sheet since user now has communities
+        Navigator.of(context).pop();
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
