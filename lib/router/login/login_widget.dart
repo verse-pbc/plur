@@ -509,9 +509,10 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 wrapResponsive(
                   Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
+                      color: const Color(0xFF11171F),
+                      borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: dimmedColor.withAlpha((255 * 0.3).round()),
+                        color: const Color(0xFF2E4052),
                         width: 1,
                       ),
                     ),
@@ -520,14 +521,14 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                       autofocus: true,
                       style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
-                        color: primaryForegroundColor,
+                        color: colors.primaryText,
                         fontSize: 16,
                       ),
                       decoration: InputDecoration(
-                        hintText: 'nsec...',
+                        hintText: 'nsec',
                         hintStyle: TextStyle(
                           fontFamily: 'SF Pro Rounded',
-                          color: dimmedColor,
+                          color: colors.secondaryText,
                           fontSize: 16,
                         ),
                         border: InputBorder.none,
@@ -535,7 +536,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                         suffixIcon: IconButton(
                           icon: Icon(
                             _isTextObscured ? Icons.visibility : Icons.visibility_off,
-                            color: dimmedColor,
+                            color: colors.secondaryText,
                           ),
                           onPressed: () {
                             setSheetState(() {
