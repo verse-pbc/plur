@@ -58,6 +58,9 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     super.initState();
     // Check if dialog was previously dismissed
     if (!widget.forceShow) {
+      // Temporarily disable SharedPreferences check to always show widget
+      // TODO: Re-enable this for production
+      /*
       SharedPreferences.getInstance().then((prefs) {
         if (mounted) {
           final dismissed = prefs.getBool(_dismissedDialogKey) ?? false;
@@ -66,6 +69,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
           });
         }
       });
+      */
     }
   }
   
