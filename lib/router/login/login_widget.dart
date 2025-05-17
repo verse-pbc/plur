@@ -525,6 +525,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                         fontSize: 16,
                       ),
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: const Color(0xFF11171F),
                         hintText: 'nsec',
                         hintStyle: TextStyle(
                           fontFamily: 'SF Pro Rounded',
@@ -532,6 +534,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                           fontSize: 16,
                         ),
                         border: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
                         contentPadding: const EdgeInsets.all(16),
                         suffixIcon: IconButton(
                           icon: Icon(
