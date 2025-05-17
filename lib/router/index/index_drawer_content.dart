@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/image_widget.dart';
+import 'package:nostrmo/component/qrcode_dialog.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
@@ -485,8 +486,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     final themeData = Theme.of(context);
     final mainColor = themeData.primaryColor;
     final hintColor = themeData.hintColor;
-    final largeFontSize = themeData.textTheme.bodyLarge!.fontSize;
-    final fontSize = themeData.textTheme.bodyMedium!.fontSize;
     
     String displayName = "";
     String? name;
@@ -506,67 +505,153 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       displayName = Nip19.encodeSimplePubKey(pubkey);
     }
     
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    String nip19PubKey = Nip19.encodePubKey(pubkey);
+    
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // User avatar
-        UserPicWidget(
-          pubkey: pubkey,
-          width: 80,
-          user: user,
+        // First row with avatar and QR buttons
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                // User avatar
+                UserPicWidget(
+                  pubkey: pubkey,
+                  width: 80,
+                  user: user,
+                ),
+                // QR buttons positioned to the right of the avatar
+                Positioned(
+                  left: 85,
+                  top: 10,
+                  child: Column(
+                    children: [
+                      // QR Scanner button (square pattern)
+                      Container(
+                        width: 40,
+                        height: 40,
+                        margin: const EdgeInsets.only(bottom: 8),
+                        decoration: BoxDecoration(
+                          color: mainColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: mainColor, width: 1.5),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.qr_code_scanner, color: mainColor, size: 20),
+                          onPressed: () {
+                            // Handle QR scanner
+                          },
+                          padding: EdgeInsets.zero,
+                        ),
+                      ),
+                      // QR Code button (grid pattern)
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: mainColor.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: mainColor, width: 1.5),
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.qr_code, color: mainColor, size: 20),
+                          onPressed: () {
+                            // Handle QR code display
+                            QrcodeDialog.show(context, pubkey);
+                          },
+                          padding: EdgeInsets.zero,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        const SizedBox(width: Base.basePadding),
-        // User name and nip05
-        Expanded(
+        const SizedBox(height: Base.basePadding),
+        // Name section
+        Container(
+          width: double.infinity,
+          alignment: Alignment.centerLeft,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 displayName,
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
-                  fontSize: largeFontSize,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
+                  color: mainColor,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              if (name != null)
+              if (name != null && name != displayName)
                 Text(
                   '@$name',
                   style: TextStyle(
                     fontFamily: 'SF Pro Rounded',
-                    fontSize: fontSize,
+                    fontSize: 16,
                     color: hintColor,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+              const SizedBox(height: Base.basePadding),
+              // Public key
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: hintColor.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(
+                  '${nip19PubKey.substring(0, 20)}...',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: hintColor,
+                    fontFamily: 'monospace',
+                  ),
+                ),
+              ),
+              const SizedBox(height: Base.basePadding),
+              // NIP-05 identifier
               if (user?.nip05 != null)
                 Padding(
-                  padding: const EdgeInsets.only(top: 4),
+                  padding: const EdgeInsets.only(bottom: 8),
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.verified,
-                        size: 16,
-                        color: mainColor,
-                      ),
-                      const SizedBox(width: 4),
-                      Expanded(
-                        child: Text(
-                          user!.nip05!,
-                          style: TextStyle(
-                            fontSize: fontSize,
-                            color: mainColor,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                      Icon(Icons.link, size: 16, color: mainColor),
+                      const SizedBox(width: 8),
+                      Text(
+                        user!.nip05!,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: mainColor,
                         ),
                       ),
                     ],
                   ),
+                ),
+              // Lightning address
+              if (user?.lud16 != null)
+                Row(
+                  children: [
+                    const Icon(Icons.bolt, size: 16, color: Colors.orange),
+                    const SizedBox(width: 8),
+                    Text(
+                      user!.lud16!,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ],
                 ),
             ],
           ),
