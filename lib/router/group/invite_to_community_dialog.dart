@@ -2,19 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/util/string_code_generator.dart';
 import 'package:nostrmo/util/group_invite_link_util.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:provider/provider.dart';
+import 'dart:developer' as dev;
 
 // Link type options
 enum LinkType {
-  universal,
-  short,
-  direct
+  universal,  // chus.me standard link
+  short,      // chus.me/j/ short link
+  direct,     // direct plur:// link
+  nostr       // nostr NIP-29 groups join
 }
 
 class InviteToCommunityDialog extends StatefulWidget {
@@ -50,28 +52,56 @@ class InviteToCommunityDialog extends StatefulWidget {
 
 class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
   late final String inviteCode;
-  late String inviteLink;
-  late String shortLink;
+  late String standardChusmeLink;         // chus.me/i/CODE link
+  late String directInChusmeLink;         // chus.me/i/plur://...full link option
+  late String generatedShortLink;         // chus.me/j/CODE short link
+  late String directPlurLink;             // direct plur:// protocol link
+  late String nostrNip29Link;             // nostr: protocol link for NIP-29
+
   bool isGeneratingShortUrl = false;
-  bool hasShortUrl = false;
+  bool hasGeneratedShortUrl = false;
+  String shortUrlApiCallAttempt = "Not attempted yet.";
+  String registrationApiResponse = "No response yet";
   final ValueNotifier<String> activeLinkNotifier = ValueNotifier<String>('');
-  
-  LinkType selectedLinkType = LinkType.universal;
+
+  LinkType selectedLinkType = LinkType.direct;
 
   @override
   void initState() {
     super.initState();
     inviteCode = StringCodeGenerator.generateInviteCode();
-    print('Generated invite code: $inviteCode'); // Debug print
+    dev.log('Generated invite code: $inviteCode', name: 'InviteDebug');
     final listProvider = Provider.of<ListProvider>(context, listen: false);
-    
-    // Generate the initial universal link
-    inviteLink = listProvider.createInviteLink(widget.groupIdentifier!, inviteCode);
-    print('Generated invite link: $inviteLink'); // Debug print
-    activeLinkNotifier.value = inviteLink;
-    
-    // Start the process of generating a short URL
-    _generateShortUrl();
+
+    // Generate the direct protocol link (most reliable)
+    // Generate the direct protocol link first (this is the primary/default one)
+    directPlurLink = GroupInviteLinkUtil.generateDirectProtocolUrl(widget.groupIdentifier!.groupId, inviteCode, widget.groupIdentifier!.host);
+    dev.log('Direct plur:// link: $directPlurLink', name: 'InviteDebug');
+
+    // Generate the standard chus.me link
+    standardChusmeLink = GroupInviteLinkUtil.generateStandardInviteUrl(inviteCode);
+    dev.log('Standard chus.me/i/ link: $standardChusmeLink', name: 'InviteDebug');
+
+    // Generate the chus.me link with embedded plur:// URI
+    directInChusmeLink = GroupInviteLinkUtil.generateUniversalLink(widget.groupIdentifier!.groupId, inviteCode, widget.groupIdentifier!.host);
+    dev.log('Universal chus.me link with embedded protocol: $directInChusmeLink', name: 'InviteDebug');
+
+    // Generate proper Nostr NIP-29 protocol link using the utility method
+    nostrNip29Link = GroupInviteLinkUtil.generateNostrProtocolLink(
+      widget.groupIdentifier!.groupId,
+      inviteCode,
+      widget.groupIdentifier!.host
+    );
+    dev.log('Nostr NIP-29 link: $nostrNip29Link', name: 'InviteDebug');
+
+    // Default to the direct link as it's more reliable
+    activeLinkNotifier.value = directPlurLink;
+
+    // Start the process of generating a short URL (which is currently mocked)
+    _generateMockedShortUrl();
+
+    // Try registering with chus.me API for debugging standard invite registration
+    _testChusmeStandardInviteRegistration();
   }
   
   @override
@@ -80,73 +110,93 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
     super.dispose();
   }
   
-  // Generate a short URL from the standard invite
-  Future<void> _generateShortUrl() async {
-    // Only try to generate if we have a valid group identifier
-    if (widget.groupIdentifier == null) return;
-    
-    print('Generating short URL for code: $inviteCode'); // Debug print
-    
+  Future<void> _testChusmeStandardInviteRegistration() async {
     setState(() {
-      isGeneratingShortUrl = true;
+      registrationApiResponse = "Registering standard invite with chus.me/api/invite...";
     });
     
     try {
-      // Use the GroupInviteLinkUtil to create a short URL
-      final result = await GroupInviteLinkUtil.createShortInviteUrl(inviteCode);
-      print('createShortInviteUrl result: $result'); // Debug print
+      // This call might fail if _inviteApiKey is a placeholder
+      final result = await GroupInviteLinkUtil.registerStandardInvite(
+        widget.groupIdentifier!.groupId,
+        widget.groupIdentifier!.host
+      );
       
-      // If successful, update the shortLink variable
+      setState(() {
+        if (result != null) {
+          registrationApiResponse = "✅ Standard Invite API Success: $result";
+        } else {
+          registrationApiResponse = "❌ Standard Invite API returned null (Likely due to placeholder API Key: ${GroupInviteLinkUtil.getApiKeyPlaceholderStatus()})";
+        }
+      });
+      dev.log('Standard Invite API Response: $result', name: 'InviteDebug');
+    } catch (e) {
+      setState(() {
+        registrationApiResponse = "❌ Standard Invite API Error: $e (Likely due to placeholder API Key: ${GroupInviteLinkUtil.getApiKeyPlaceholderStatus()})";
+      });
+      dev.log('Standard Invite API Error: $e', name: 'InviteDebug');
+    }
+  }
+  
+  Future<void> _generateMockedShortUrl() async {
+    if (widget.groupIdentifier == null) return;
+    
+    dev.log('Attempting to generate MOCKED short URL for code: $inviteCode', name: 'InviteDebug');
+    
+    setState(() {
+      isGeneratingShortUrl = true;
+      shortUrlApiCallAttempt = "Using GroupInviteLinkUtil.createShortInviteUrl (CURRENTLY MOCKED - NOT A REAL API CALL)...";
+    });
+    
+    try {
+      // This uses the local/mocked implementation in GroupInviteLinkUtil
+      final result = await GroupInviteLinkUtil.createShortInviteUrl(inviteCode);
+      dev.log('Mocked createShortInviteUrl result: $result', name: 'InviteDebug');
+      
       if (result != null) {
         setState(() {
-          shortLink = result;
-          hasShortUrl = true;
-          isGeneratingShortUrl = false;
-          print('Short link set to: $shortLink'); // Debug print
-          
-          // If short link type was selected, update the active link
+          generatedShortLink = result;
+          hasGeneratedShortUrl = true;
+          shortUrlApiCallAttempt += "\nSuccess (mocked): $result";
           if (selectedLinkType == LinkType.short) {
-            activeLinkNotifier.value = shortLink;
-            print('Active link updated to short link: ${activeLinkNotifier.value}'); // Debug print
+            activeLinkNotifier.value = generatedShortLink;
           }
         });
       } else {
-        print('Short link generation returned null'); // Debug print
-        setState(() {
-          isGeneratingShortUrl = false;
-        });
+        shortUrlApiCallAttempt += "\nReturned null (mocked).";
+        dev.log('Mocked short link generation returned null', name: 'InviteDebug');
       }
     } catch (e) {
-      print('Error generating short link: $e'); // Debug print
+      shortUrlApiCallAttempt += "\nError (mocked): $e";
+      dev.log('Error in mocked short link generation: $e', name: 'InviteDebug');
+    } finally {
       setState(() {
         isGeneratingShortUrl = false;
       });
     }
   }
   
-  // Update the currently displayed link based on the selected type
   void _updateActiveLink() {
     switch (selectedLinkType) {
-      case LinkType.universal:
-        activeLinkNotifier.value = inviteLink;
+      case LinkType.universal: // Standard chus.me/i/ link
+        activeLinkNotifier.value = standardChusmeLink;
         break;
-      case LinkType.short:
-        if (hasShortUrl) {
-          activeLinkNotifier.value = shortLink;
+      case LinkType.short: // Short chus.me/j/ link
+        if (hasGeneratedShortUrl) {
+          activeLinkNotifier.value = generatedShortLink;
         } else {
-          // If short URL isn't available yet, fall back to universal
-          activeLinkNotifier.value = inviteLink;
+          activeLinkNotifier.value = standardChusmeLink; // Fallback to standard link
         }
         break;
-      case LinkType.direct:
-        // Generate the direct protocol link
-        final directLink = 'plur://join-community?group-id=${widget.groupIdentifier!.groupId}&code=$inviteCode&relay=${Uri.encodeComponent(widget.groupIdentifier!.host)}';
-        activeLinkNotifier.value = directLink;
+      case LinkType.direct: // Direct plur:// protocol link
+        activeLinkNotifier.value = directPlurLink;
+        break;
+      case LinkType.nostr: // Nostr NIP-29 protocol link
+        activeLinkNotifier.value = nostrNip29Link;
         break;
     }
   }
 
-  /// Builds a button for selecting the link type
   Widget _buildLinkTypeButton(
     BuildContext context, {
     required LinkType type,
@@ -156,7 +206,6 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
     bool disabled = false,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     final isSelected = selectedLinkType == type;
     
@@ -172,13 +221,13 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: isSelected 
-            ? customColors.accentColor.withAlpha(25) // 0.1 * 255 = 25
+            ? context.colors.accent.withAlpha(25)
             : Colors.transparent,
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected 
-              ? customColors.accentColor 
-              : customColors.secondaryForegroundColor.withAlpha(76), // 0.3 * 255 = 76
+              ? context.colors.accent 
+              : context.colors.secondaryText.withAlpha(76),
             width: 1.0,
           ),
         ),
@@ -192,15 +241,15 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                       valueColor: AlwaysStoppedAnimation<Color>(
-                        customColors.accentColor,
+                        context.colors.accent,
                       ),
                     ),
                   )
                 : Icon(
                     icon,
                     color: disabled 
-                        ? customColors.secondaryForegroundColor.withAlpha(128) // 0.5 * 255 = 128
-                        : (isSelected ? customColors.accentColor : customColors.secondaryForegroundColor),
+                        ? context.colors.secondaryText.withAlpha(128) 
+                        : (isSelected ? context.colors.accent : context.colors.secondaryText),
                     size: 20,
                   ),
             const SizedBox(height: 4),
@@ -209,8 +258,8 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
               style: TextStyle(
                 fontSize: 12,
                 color: disabled
-                    ? customColors.secondaryForegroundColor.withAlpha(128) // 0.5 * 255 = 128
-                    : (isSelected ? customColors.accentColor : customColors.secondaryForegroundColor),
+                    ? context.colors.secondaryText.withAlpha(128) 
+                    : (isSelected ? context.colors.accent : context.colors.secondaryText),
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
               ),
             ),
@@ -223,11 +272,10 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
 
     return Scaffold(
-      backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
+      backgroundColor: (themeData.textTheme.bodyMedium!.color ?? Colors.black).withAlpha(51),
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -245,7 +293,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: customColors.feedBgColor,
+                    color: context.colors.feedBackground,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
@@ -260,68 +308,156 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: customColors.primaryForegroundColor,
+                              color: context.colors.primaryText,
                             ),
                           ),
                           IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: customColors.primaryForegroundColor,
+                              color: context.colors.primaryText,
                             ),
                             onPressed: () => RouterUtil.back(context),
                           ),
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Text(
-                        localization.invitePeopleToJoin,
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: customColors.primaryForegroundColor,
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: context.colors.accent.withAlpha(25),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: context.colors.accent.withAlpha(76)),
+                        ),
+                        child: Text(
+                          "Choose an invite link type below:",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: context.colors.primaryText,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 16),
                       
-                      // Link type selector
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // DEBUGGING SECTION
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: Colors.yellowAccent,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              "🐛 AVAILABLE LINK FORMATS (plur:// preferred) 🐛",
+                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.yellowAccent),
+                            ),
+                            const SizedBox(height: 6),
+                            _DebugInfoRow(label: "Invite Code:", value: inviteCode, valueColor: Colors.lightGreenAccent),
+                            _DebugInfoRow(label: "1. Direct plur:// Link:", value: directPlurLink, isLink: true),
+                            _DebugInfoRow(label: "2. Standard chus.me/i Link:", value: standardChusmeLink, isLink: true),
+                            _DebugInfoRow(label: "3. chus.me Universal:", value: directInChusmeLink, isLink: true),
+                            _DebugInfoRow(label: "4. Nostr NIP-29 Link:", value: nostrNip29Link, isLink: true),
+                            const Divider(color: Colors.grey),
+                            const Text("chus.me Standard Invite Registration:", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyanAccent, fontSize: 12)),
+                            Text(registrationApiResponse, style: TextStyle(fontSize: 11, color: registrationApiResponse.contains("✅") ? Colors.greenAccent : Colors.redAccent)),
+                            TextButton(
+                              onPressed: _testChusmeStandardInviteRegistration,
+                              child: const Text("Retry Standard Registration", style: TextStyle(color: Colors.blueAccent, fontSize: 11)),
+                            ),
+                            const Divider(color: Colors.grey),
+                            const Text("chus.me Short Link Generation (/j/):", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyanAccent, fontSize: 12)),
+                            Text(
+                                "Status: ${isGeneratingShortUrl ? 'Generating (mocked)...' : (hasGeneratedShortUrl ? 'Generated (mocked)' : 'Not generated/Error (mocked)')}", 
+                                style: TextStyle(fontSize: 11, color: hasGeneratedShortUrl ? Colors.greenAccent : Colors.orangeAccent)
+                            ),
+                            Text(
+                              "Note: Current short link generation (createShortInviteUrl) is MOCKED and does NOT call a real API.",
+                              style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.yellowAccent.withOpacity(0.8)),
+                            ),
+                            if (hasGeneratedShortUrl)
+                              _DebugInfoRow(label: "Mocked Short Link:", value: generatedShortLink, isLink: true),
+                            _DebugInfoRow(label: "API Call Detail (Mocked Shortener):", value: shortUrlApiCallAttempt, wrap: true),
+                            Text(
+                                "If real API (createShortUrl) were used: POST to https://chus.me/api/invite/short with body: {\'code\': '$inviteCode'} and X-Invite-Token: ${GroupInviteLinkUtil.getApiKeyPlaceholderStatus()}", 
+                                style: TextStyle(fontSize: 10, fontStyle: FontStyle.italic, color: Colors.white70)
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      
+                      // Simple list of buttons - easier to display on all screen sizes
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          _buildLinkTypeButton(
-                            context,
-                            type: LinkType.universal,
-                            icon: Icons.language, 
-                            label: 'Web Link'
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: _buildLinkTypeButton(
+                                  context,
+                                  type: LinkType.direct,
+                                  icon: Icons.smartphone,
+                                  label: 'plur://'
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: _buildLinkTypeButton(
+                                  context,
+                                  type: LinkType.universal,
+                                  icon: Icons.language,
+                                  label: 'chus.me/invite'
+                                ),
+                              ),
+                            ],
                           ),
-                          _buildLinkTypeButton(
-                            context,
-                            type: LinkType.short,
-                            icon: Icons.link, 
-                            label: 'Short Link',
-                            isLoading: isGeneratingShortUrl,
-                            disabled: !hasShortUrl && !isGeneratingShortUrl,
-                          ),
-                          _buildLinkTypeButton(
-                            context,
-                            type: LinkType.direct,
-                            icon: Icons.smartphone, 
-                            label: 'Direct Link'
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: _buildLinkTypeButton(
+                                  context,
+                                  type: LinkType.short,
+                                  icon: Icons.link,
+                                  label: 'Short',
+                                  isLoading: isGeneratingShortUrl,
+                                  disabled: !hasGeneratedShortUrl && !isGeneratingShortUrl,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: _buildLinkTypeButton(
+                                  context,
+                                  type: LinkType.nostr,
+                                  icon: Icons.settings_ethernet,
+                                  label: 'Nostr'
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
                       
                       const SizedBox(height: 20),
                       
-                      // Link display
                       ValueListenableBuilder<String>(
                         valueListenable: activeLinkNotifier,
                         builder: (context, activeLink, child) {
                           return Container(
                             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             decoration: BoxDecoration(
-                              color: customColors.feedBgColor,
+                              color: context.colors.feedBackground,
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(
-                                color: customColors.accentColor.withAlpha(76), // 0.3 * 255 = 76
+                                color: context.colors.accent.withAlpha(76),
                                 width: 1.0,
                               ),
                             ),
@@ -332,7 +468,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                                     activeLink,
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: customColors.primaryForegroundColor,
+                                      color: context.colors.primaryText,
                                     ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -340,7 +476,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                                 IconButton(
                                   icon: Icon(
                                     Icons.copy,
-                                    color: customColors.accentColor,
+                                    color: context.colors.accent,
                                   ),
                                   onPressed: () {
                                     Clipboard.setData(ClipboardData(text: activeLink));
@@ -355,15 +491,14 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                         }
                       ),
                       
-                      // Status text for short link
                       if (selectedLinkType == LinkType.short && isGeneratingShortUrl)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: Text(
-                            'Generating short link...',
+                            'Generating MOCKED short link...',
                             style: TextStyle(
                               fontSize: 12, 
-                              color: customColors.secondaryForegroundColor,
+                              color: context.colors.secondaryText,
                               fontStyle: FontStyle.italic
                             ),
                           ),
@@ -378,7 +513,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                             child: Text(
                               localization.done,
                               style: TextStyle(
-                                color: customColors.accentColor,
+                                color: context.colors.accent,
                               ),
                             ),
                           ),
@@ -390,6 +525,62 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+// Helper widget for consistent debug info rows
+class _DebugInfoRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color labelColor;
+  final Color valueColor;
+  final bool isLink;
+  final bool wrap;
+
+  const _DebugInfoRow({
+    required this.label,
+    required this.value,
+    this.labelColor = Colors.white,
+    this.valueColor = Colors.white70,
+    this.isLink = false,
+    this.wrap = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0),
+      child: Row(
+        crossAxisAlignment: wrap ? CrossAxisAlignment.start : CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 100,
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: labelColor),
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 11, color: valueColor, decoration: isLink ? TextDecoration.underline : TextDecoration.none),
+              softWrap: wrap,
+              overflow: wrap ? TextOverflow.visible : TextOverflow.ellipsis,
+            ),
+          ),
+          if (isLink)
+            IconButton(
+              icon: Icon(Icons.copy, size: 14, color: Colors.grey.shade400),
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: value));
+                BotToast.showText(text: 'Copied: $label');
+              },
+            )
         ],
       ),
     );

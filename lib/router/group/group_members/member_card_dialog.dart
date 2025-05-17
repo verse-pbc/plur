@@ -5,13 +5,9 @@ import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/group/admin_tag_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/dm_provider.dart';
-import 'package:nostrmo/provider/group_provider.dart';
-import 'package:nostrmo/router/group/group_members/user_ban_dialog.dart';
-import 'package:nostrmo/router/group/group_members/user_remove_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:nostrmo/provider/user_provider.dart';
 
@@ -19,7 +15,6 @@ class MemberCardDialog extends StatelessWidget {
   final String pubkey;
   final GroupIdentifier groupId;
   final bool isAdmin;
-  final bool isCurrentUserAdmin;
   final BuildContext? parentContext;
 
   const MemberCardDialog({
@@ -27,7 +22,6 @@ class MemberCardDialog extends StatelessWidget {
     required this.pubkey,
     required this.groupId,
     this.isAdmin = false,
-    this.isCurrentUserAdmin = false,
     this.parentContext,
   }) : super(key: key);
 
@@ -40,11 +34,6 @@ class MemberCardDialog extends StatelessWidget {
     // Store the original context for proper navigation after dialog is closed
     final originalContext = context;
     
-    // Check if current user is an admin of this group
-    final groupProvider = Provider.of<GroupProvider>(context, listen: false);
-    final currentUserIsAdmin = nostr != null && 
-        groupProvider.isAdmin(nostr!.publicKey, groupId);
-    
     await showDialog<void>(
       context: context,
       builder: (BuildContext dialogContext) {
@@ -52,23 +41,15 @@ class MemberCardDialog extends StatelessWidget {
           pubkey: pubkey,
           groupId: groupId,
           isAdmin: isAdmin,
-          isCurrentUserAdmin: currentUserIsAdmin,
           parentContext: originalContext,
         );
       },
     );
   }
 
-  // Check if this is showing the current user
-  bool get _isCurrentUser => nostr != null && pubkey == nostr!.publicKey;
-
-  // Check if moderation actions should be shown
-  bool get _canShowModerationActions => isCurrentUserAdmin && !_isCurrentUser;
-
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final userProvider = Provider.of<UserProvider>(context);
     final user = userProvider.getUser(pubkey);
     final localization = S.of(context);
@@ -88,7 +69,7 @@ class MemberCardDialog extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: 320),
         decoration: BoxDecoration(
-          color: customColors.cardBgColor,
+          color: context.colors.modalBackground,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -133,7 +114,7 @@ class MemberCardDialog extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -152,7 +133,7 @@ class MemberCardDialog extends StatelessWidget {
                       nip05,
                       style: TextStyle(
                         fontSize: 14,
-                        color: customColors.dimmedColor,
+                        color: context.colors.dimmed,
                       ),
                     ),
                   ],
@@ -164,7 +145,7 @@ class MemberCardDialog extends StatelessWidget {
                       about,
                       style: TextStyle(
                         fontSize: 14,
-                        color: customColors.secondaryForegroundColor,
+                        color: context.colors.secondaryText,
                       ),
                       textAlign: TextAlign.center,
                       maxLines: 3,
@@ -178,122 +159,79 @@ class MemberCardDialog extends StatelessWidget {
             // Action buttons
             Container(
               decoration: BoxDecoration(
-                color: customColors.feedBgColor,
+                color: context.colors.feedBackground,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(16),
                   bottomRight: Radius.circular(16),
                 ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Row(
                 children: [
-                  // Standard actions (View Profile, Message)
-                  Row(
-                    children: [
-                      // View profile button
-                      Expanded(
-                        child: _buildActionButton(
-                          context: context,
-                          icon: Icons.person_outline,
-                          label: localization.openUserPage,
-                          onTap: () {
-                            Navigator.of(context).pop(); // Close dialog
-                            
-                            // Use parentContext if available, otherwise use current context
-                            final navigationContext = parentContext ?? context;
-                            
-                            // Add a small delay to ensure dialog is fully closed
-                            Future.delayed(const Duration(milliseconds: 100), () {
-                              try {
-                                RouterUtil.router(navigationContext, RouterPath.user, pubkey);
-                              } catch (e) {
-                                // Show error toast if profile navigation fails
-                                BotToast.showText(text: "Failed to open profile: $e");
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                      
-                      // Vertical divider between buttons
-                      Container(
-                        height: 40,
-                        width: 1,
-                        color: customColors.separatorColor,
-                      ),
-                      
-                      // Message user button
-                      Expanded(
-                        child: _buildActionButton(
-                          context: context,
-                          icon: Icons.message_outlined,
-                          label: localization.dms,
-                          onTap: () {
-                            Navigator.of(context).pop(); // Close dialog
-                            
-                            // Use parentContext if available, otherwise use current context
-                            final navigationContext = parentContext ?? context;
-                            
-                            // Add a small delay to ensure dialog is fully closed
-                            Future.delayed(const Duration(milliseconds: 100), () {
-                              try {
-                                // Create a DM session and navigate to it
-                                final dmProvider = Provider.of<DMProvider>(navigationContext, listen: false);
-                                final dmSessionDetail = dmProvider.findOrNewADetail(pubkey);
-                                
-                                // Navigate to DM detail with the session
-                                RouterUtil.router(
-                                  navigationContext,
-                                  RouterPath.dmDetail,
-                                  dmSessionDetail,
-                                );
-                              } catch (e) {
-                                // Show error toast if DM navigation fails
-                                BotToast.showText(text: "Failed to open conversation: $e");
-                              }
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                  // View profile button
+                  Expanded(
+                    child: _buildActionButton(
+                      context: context,
+                      icon: Icons.person_outline,
+                      label: localization.openUserPage,
+                      onTap: () {
+                        Navigator.of(context).pop(); // Close dialog
+                        
+                        // Use parentContext if available, otherwise use current context
+                        final navigationContext = parentContext ?? context;
+                        
+                        // Add a small delay to ensure dialog is fully closed
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          try {
+                            RouterUtil.router(navigationContext, RouterPath.user, pubkey);
+                          } catch (e) {
+                            // Show error toast if profile navigation fails
+                            BotToast.showText(text: "Failed to open profile: $e");
+                          }
+                        });
+                      },
+                    ),
                   ),
                   
-                  // Admin Moderation actions (if current user is admin and this is not them)
-                  if (_canShowModerationActions) ...[
-                    Divider(height: 1, color: customColors.separatorColor),
-                    Row(
-                      children: [
-                        // Remove User button
-                        Expanded(
-                          child: _buildActionButton(
-                            context: context,
-                            icon: Icons.person_remove,
-                            label: "Remove",
-                            color: Colors.red,
-                            onTap: () => _showRemoveUserDialog(context),
-                          ),
-                        ),
+                  // Vertical divider between buttons
+                  Container(
+                    height: 40,
+                    width: 1,
+                    color: context.colors.divider,
+                  ),
+                  
+                  // Message user button
+                  Expanded(
+                    child: _buildActionButton(
+                      context: context,
+                      icon: Icons.message_outlined,
+                      label: localization.dms,
+                      onTap: () {
+                        Navigator.of(context).pop(); // Close dialog
                         
-                        // Vertical divider between buttons
-                        Container(
-                          height: 40,
-                          width: 1,
-                          color: customColors.separatorColor,
-                        ),
+                        // Use parentContext if available, otherwise use current context
+                        final navigationContext = parentContext ?? context;
                         
-                        // Ban User button
-                        Expanded(
-                          child: _buildActionButton(
-                            context: context,
-                            icon: Icons.block,
-                            label: "Ban",
-                            color: Colors.red,
-                            onTap: () => _showBanUserDialog(context),
-                          ),
-                        ),
-                      ],
+                        // Add a small delay to ensure dialog is fully closed
+                        Future.delayed(const Duration(milliseconds: 100), () {
+                          try {
+                            // Create a DM session and navigate to it
+                            final dmProvider = Provider.of<DMProvider>(navigationContext, listen: false);
+                            final dmSessionDetail = dmProvider.findOrNewADetail(pubkey);
+                            
+                            // Navigate to DM detail with the session
+                            RouterUtil.router(
+                              navigationContext,
+                              RouterPath.dmDetail,
+                              dmSessionDetail,
+                            );
+                          } catch (e) {
+                            // Show error toast if DM navigation fails
+                            BotToast.showText(text: "Failed to open conversation: $e");
+                          }
+                        });
+                      },
                     ),
-                  ],
+                  ),
                 ],
               ),
             ),
@@ -303,70 +241,13 @@ class MemberCardDialog extends StatelessWidget {
     );
   }
 
-  void _showRemoveUserDialog(BuildContext context) async {
-    // Close the member card dialog first
-    Navigator.of(context).pop();
-    
-    // Use parentContext if available, otherwise use current context
-    final navigationContext = parentContext ?? context;
-    
-    // Small delay to ensure dialog is closed
-    Future.delayed(const Duration(milliseconds: 100), () async {
-      final result = await UserRemoveDialog.show(
-        navigationContext,
-        groupId,
-        pubkey,
-        userName: null, // Will use what's available from the user profile
-      );
-      
-      if (result == true) {
-        // Show success message
-        BotToast.showText(text: "User removed successfully");
-        
-        // Refresh the group data if needed
-        Provider.of<GroupProvider>(navigationContext, listen: false)
-            .refreshGroup(groupId);
-      }
-    });
-  }
-  
-  void _showBanUserDialog(BuildContext context) async {
-    // Close the member card dialog first
-    Navigator.of(context).pop();
-    
-    // Use parentContext if available, otherwise use current context
-    final navigationContext = parentContext ?? context;
-    
-    // Small delay to ensure dialog is closed
-    Future.delayed(const Duration(milliseconds: 100), () async {
-      final result = await UserBanDialog.show(
-        navigationContext,
-        groupId,
-        pubkey,
-        userName: null, // Will use what's available from the user profile
-      );
-      
-      if (result == true) {
-        // Show success message
-        BotToast.showText(text: "User banned successfully");
-        
-        // Refresh the group data if needed
-        Provider.of<GroupProvider>(navigationContext, listen: false)
-            .refreshGroup(groupId);
-      }
-    });
-  }
-
   Widget _buildActionButton({
     required BuildContext context,
     required IconData icon,
     required String label,
     required VoidCallback onTap,
-    Color? color,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-    final buttonColor = color ?? customColors.accentColor;
     
     return InkWell(
       onTap: onTap,
@@ -378,13 +259,13 @@ class MemberCardDialog extends StatelessWidget {
             Icon(
               icon,
               size: 20,
-              color: buttonColor,
+              color: context.colors.accent,
             ),
             const SizedBox(width: 8),
             Text(
               label,
               style: TextStyle(
-                color: buttonColor,
+                color: context.colors.accent,
                 fontWeight: FontWeight.bold,
               ),
             ),

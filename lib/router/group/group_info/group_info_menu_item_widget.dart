@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 /// Displays a menu item in the group info screen with leading icon and improved styling.
 class GroupInfoMenuItemWidget extends StatelessWidget {
@@ -23,10 +23,8 @@ class GroupInfoMenuItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-    
-    final effectiveTextColor = textColor ?? customColors.primaryForegroundColor;
-    final effectiveIconColor = iconColor ?? customColors.accentColor;
+    final effectiveTextColor = textColor ?? context.colors.primaryText;
+    final effectiveIconColor = iconColor ?? context.colors.accent;
 
     return InkWell(
       onTap: onTap,
@@ -61,7 +59,7 @@ class GroupInfoMenuItemWidget extends StatelessWidget {
               Icon(
                 trailingIcon,
                 size: 20,
-                color: customColors.dimmedColor,
+                color: context.colors.dimmed,
               ),
           ],
         ),

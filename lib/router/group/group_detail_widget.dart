@@ -12,9 +12,11 @@ import 'package:nostrmo/router/group/group_detail_chat_widget.dart';
 import 'package:nostrmo/router/group/group_detail_events_widget.dart';
 import 'package:nostrmo/router/group/group_detail_provider.dart';
 import 'package:nostrmo/router/group/invite_to_community_dialog.dart';
+import 'package:nostrmo/router/group/invite_debug_dialog.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
+import 'package:flutter/foundation.dart' show kDebugMode;
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../consts/router_path.dart';
@@ -171,14 +173,15 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
             borderRadius: BorderRadius.circular(10),
           ),
           padding: EdgeInsets.zero,
-          backgroundColor: themeData.customColors.feedBgColor,
+          backgroundColor: context.colors.feedBackground,
         ),
         child: Text(
           title,
           style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: themeData.customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
           ),
         ),
       ),
@@ -200,14 +203,16 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   TabBar _buildTabBar(ThemeData themeData, S localization) {
     return TabBar(
       controller: _tabController,
-      indicatorColor: themeData.customColors.accentColor,
-      labelColor: themeData.customColors.primaryForegroundColor,
-      unselectedLabelColor: themeData.customColors.secondaryForegroundColor,
+      indicatorColor: context.colors.accent,
+      labelColor: context.colors.primaryText,
+      unselectedLabelColor: context.colors.secondaryText,
       labelStyle: const TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
       unselectedLabelStyle: const TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
@@ -290,6 +295,21 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
                 ],
               ),
             ),
+            // Add debug option in debug mode
+            if (kDebugMode)
+              PopupMenuItem<String>(
+                value: 'debug',
+                child: Row(
+                  children: [
+                    const Icon(Icons.bug_report, color: Colors.orange),
+                    const SizedBox(width: 8),
+                    Text('Debug Invite Links', style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: Colors.orange,
+                    )),
+                  ],
+                ),
+              ),
           ],
           onSelected: (value) {
             switch (value) {
@@ -298,6 +318,9 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
                 break;
               case 'name':
                 _showInviteByNameScreen(context, groupIdentifier);
+                break;
+              case 'debug':
+                InviteDebugDialog.show(context);
                 break;
             }
           },
@@ -414,7 +437,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
         return FloatingActionButton(
           heroTag: 'group_detail_add_note_fab',
           onPressed: _jumpToAddNote,
-          backgroundColor: themeData.customColors.accentColor,
+          backgroundColor: context.colors.accent,
           shape: const CircleBorder(),
           child: const Icon(Icons.add, color: Colors.white, size: 29),
         );

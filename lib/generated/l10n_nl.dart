@@ -1546,4 +1546,20 @@ class SNl extends S {
   @override
   String get youAreBannedFromThisGroup =>
       'You are banned from this group and cannot post content';
+
+  @override
+  String get cannotAccessClipboard =>
+      'Cannot access clipboard. Please interact with the page first or use the \'Join Community\' option.';
+
+  @override
+  String get noValidCommunityLink => 'No valid community link in clipboard';
+
+  @override
+  String get noCommunitiesYet => 'No communities yet';
+
+  @override
+  String get createCommunity => 'Create a community';
+
+  @override
+  String get pasteInviteLink => 'Paste Invite Link';
 }

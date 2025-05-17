@@ -14,7 +14,7 @@ import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import '../../../component/appbar_bottom_border.dart';
-import '../../../util/theme_util.dart';
+import '../../../theme/app_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'group_info_header_widget.dart';
 import 'group_info_menu_widget.dart';
@@ -79,7 +79,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     
     final groupProvider = Provider.of<GroupProvider>(context);
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final localization = S.of(context);
 
     final argIntf = RouterUtil.routerArgs(context);
@@ -117,7 +116,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
         title: Text(
           localization.groupInfo,
           style: TextStyle(
-            color: customColors.primaryForegroundColor,
+            color: context.colors.primaryText,
             fontSize: 16,
             fontWeight: FontWeight.bold,
           ),
@@ -150,7 +149,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: customColors.primaryForegroundColor,
+                            color: context.colors.primaryText,
                           ),
                         ),
                         const SizedBox(height: 8),
@@ -176,7 +175,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: customColors.primaryForegroundColor,
+                          color: context.colors.primaryText,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -236,7 +235,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
-                              color: customColors.primaryForegroundColor,
+                              color: context.colors.primaryText,
                             ),
                           ),
                           TextButton(
@@ -246,7 +245,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                             child: Text(
                               "See All",
                               style: TextStyle(
-                                color: customColors.accentColor,
+                                color: context.colors.accent,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -275,7 +274,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     bool isDisabled = false,
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Expanded(
       child: InkWell(
@@ -284,7 +282,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: customColors.feedBgColor,
+            color: context.colors.feedBackground,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Column(
@@ -292,7 +290,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
             children: [
               Icon(
                 icon,
-                color: isDisabled ? customColors.dimmedColor : customColors.accentColor,
+                color: isDisabled ? context.colors.dimmed : context.colors.accent,
                 size: 24,
               ),
               const SizedBox(height: 4),
@@ -300,7 +298,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                 label,
                 style: TextStyle(
                   fontSize: 14,
-                  color: isDisabled ? customColors.dimmedColor : customColors.primaryForegroundColor,
+                  color: isDisabled ? context.colors.dimmed : context.colors.primaryText,
                 ),
               ),
               if (isDisabled)
@@ -308,7 +306,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                   "Coming soon",
                   style: TextStyle(
                     fontSize: 9,
-                    color: customColors.dimmedColor,
+                    color: context.colors.dimmed,
                     fontStyle: FontStyle.italic,
                   ),
                 ),
@@ -321,7 +319,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   
   Widget _buildEmptyTabContent(BuildContext context, String tabName) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return Center(
       child: Column(
@@ -330,13 +327,13 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
           Icon(
             Icons.construction_outlined,
             size: 48,
-            color: customColors.dimmedColor,
+            color: context.colors.dimmed,
           ),
           const SizedBox(height: 16),
           Text(
             "Coming Soon",
             style: TextStyle(
-              color: customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
@@ -345,7 +342,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
           Text(
             "$tabName feature is under development",
             style: TextStyle(
-              color: customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               fontSize: 16,
             ),
           ),
@@ -356,7 +353,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   
   Widget _buildMembersWithTabs(BuildContext context, GroupIdentifier groupId) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final groupProvider = Provider.of<GroupProvider>(context);
     final localization = S.of(context);
     
@@ -372,7 +368,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
         Container(
           height: 40,
           decoration: BoxDecoration(
-            color: customColors.feedBgColor.withAlpha((255 * 0.5).round()),
+            color: context.colors.feedBackground.withAlpha((255 * 0.5).round()),
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -389,7 +385,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: _selectedTab == 0 
-                          ? customColors.feedBgColor 
+                          ? context.colors.feedBackground 
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -397,8 +393,8 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                       localization.members,
                       style: TextStyle(
                         color: _selectedTab == 0
-                            ? customColors.primaryForegroundColor
-                            : customColors.secondaryForegroundColor,
+                            ? context.colors.primaryText
+                            : context.colors.secondaryText,
                         fontWeight: _selectedTab == 0 
                             ? FontWeight.bold 
                             : FontWeight.normal,
@@ -419,7 +415,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       color: _selectedTab == 1 
-                          ? customColors.feedBgColor 
+                          ? context.colors.feedBackground 
                           : Colors.transparent,
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -430,8 +426,8 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                           "Invites", // Use a hardcoded string for now since localization.invites isn't available
                           style: TextStyle(
                             color: _selectedTab == 1
-                                ? customColors.primaryForegroundColor
-                                : customColors.secondaryForegroundColor,
+                                ? context.colors.primaryText
+                                : context.colors.secondaryText,
                             fontWeight: _selectedTab == 1 
                                 ? FontWeight.bold 
                                 : FontWeight.normal,
@@ -460,7 +456,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   
   Widget _buildMembersTabContent(BuildContext context, GroupIdentifier groupId) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final groupProvider = Provider.of<GroupProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     
@@ -474,7 +469,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
         child: Center(
           child: Text(
             "No members found",
-            style: TextStyle(color: customColors.secondaryForegroundColor),
+            style: TextStyle(color: context.colors.secondaryText),
           ),
         ),
       );
@@ -524,7 +519,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     
     return Container(
       decoration: BoxDecoration(
-        color: customColors.feedBgColor,
+        color: context.colors.feedBackground,
         borderRadius: BorderRadius.circular(12),
       ),
       padding: const EdgeInsets.all(16),
@@ -554,7 +549,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   
   Widget _buildInvitesTabContent(BuildContext context, GroupIdentifier groupId) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final groupProvider = Provider.of<GroupProvider>(context);
     
     // Get pending invites
@@ -566,7 +560,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
         child: Center(
           child: Text(
             "No pending invites",
-            style: TextStyle(color: customColors.secondaryForegroundColor),
+            style: TextStyle(color: context.colors.secondaryText),
           ),
         ),
       );
@@ -630,7 +624,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: customColors.feedBgColor,
+            color: context.colors.feedBackground,
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.all(16),
@@ -667,7 +661,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
             "Dotted border = pending invites",
             style: TextStyle(
               fontSize: 12,
-              color: customColors.secondaryForegroundColor,
+              color: context.colors.secondaryText,
               fontStyle: FontStyle.italic,
             ),
           ),
@@ -678,7 +672,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   
   Widget _buildMembersList(BuildContext context, GroupIdentifier groupId) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final groupProvider = Provider.of<GroupProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
     final localization = S.of(context);
@@ -698,7 +691,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
         child: Center(
           child: Text(
             "No members found",
-            style: TextStyle(color: customColors.secondaryForegroundColor),
+            style: TextStyle(color: context.colors.secondaryText),
           ),
         ),
       );
@@ -837,7 +830,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: customColors.feedBgColor,
+            color: context.colors.feedBackground,
             borderRadius: BorderRadius.circular(12),
           ),
           padding: const EdgeInsets.all(16),
@@ -889,7 +882,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
               "Dotted border = pending invites",
               style: TextStyle(
                 fontSize: 12,
-                color: customColors.secondaryForegroundColor,
+                color: context.colors.secondaryText,
                 fontStyle: FontStyle.italic,
               ),
             ),
@@ -908,7 +901,6 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     String inviteLabel = 'Invite',
   }) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     return GestureDetector(
       onTap: () {
@@ -925,7 +917,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
               // Dotted border circle for indicating pending status
               DottedBorder(
                 borderType: BorderType.Circle,
-                color: customColors.accentColor.withAlpha(180),
+                color: context.colors.accent.withAlpha(180),
                 strokeWidth: 1.5,
                 dashPattern: const [3, 3],
                 padding: const EdgeInsets.all(2),
@@ -1028,11 +1020,10 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     List<String> roles
   ) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final groupId = RouterUtil.routerArgs(context) as GroupIdentifier;
     final listProvider = Provider.of<ListProvider>(context, listen: false);
     
-    // Generate invite link
+    // Generate invite link (will use direct protocol URL by default)
     final inviteLink = listProvider.createInviteLink(groupId, inviteCode);
     
     showDialog(
@@ -1040,7 +1031,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
       builder: (context) => AlertDialog(
         title: Text(
           "Pending Invite", 
-          style: TextStyle(color: customColors.primaryForegroundColor),
+          style: TextStyle(color: context.colors.primaryText),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1048,7 +1039,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
           children: [
             Text(
               "This is a pending invite for a ${roles.contains('admin') ? 'Admin' : 'Member'}.",
-              style: TextStyle(color: customColors.primaryForegroundColor),
+              style: TextStyle(color: context.colors.primaryText),
             ),
             const SizedBox(height: 12),
             
@@ -1056,7 +1047,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: customColors.feedBgColor,
+                color: context.colors.feedBackground,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -1066,7 +1057,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                       inviteLink,
                       style: TextStyle(
                         fontSize: 12,
-                        color: customColors.primaryForegroundColor,
+                        color: context.colors.primaryText,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -1074,7 +1065,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                   IconButton(
                     icon: Icon(
                       Icons.copy,
-                      color: customColors.accentColor,
+                      color: context.colors.accent,
                       size: 16,
                     ),
                     onPressed: () {
@@ -1091,7 +1082,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
               "Created: ${_formatTimestamp(inviteEvent.createdAt)}",
               style: TextStyle(
                 fontSize: 12,
-                color: customColors.secondaryForegroundColor,
+                color: context.colors.secondaryText,
               ),
             ),
           ],
@@ -1101,11 +1092,11 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               "Close", 
-              style: TextStyle(color: customColors.accentColor),
+              style: TextStyle(color: context.colors.accent),
             ),
           ),
         ],
-        backgroundColor: customColors.feedBgColor,
+        backgroundColor: context.colors.feedBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
@@ -1120,11 +1111,10 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     {String invitee = ''}
   ) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     final groupId = RouterUtil.routerArgs(context) as GroupIdentifier;
     final listProvider = Provider.of<ListProvider>(context, listen: false);
     
-    // Generate invite link
+    // Generate invite link (will use direct protocol URL by default)
     final inviteLink = listProvider.createInviteLink(groupId, inviteCode);
     
     showDialog(
@@ -1132,7 +1122,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
       builder: (context) => AlertDialog(
         title: Text(
           "Pending Invite", 
-          style: TextStyle(color: customColors.primaryForegroundColor),
+          style: TextStyle(color: context.colors.primaryText),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -1142,7 +1132,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
               invitee.isNotEmpty 
                 ? "This is a pending invite for $invitee (${isAdmin ? 'Admin' : 'Member'})."
                 : "This is a pending invite for a ${isAdmin ? 'Admin' : 'Member'}.",
-              style: TextStyle(color: customColors.primaryForegroundColor),
+              style: TextStyle(color: context.colors.primaryText),
             ),
             const SizedBox(height: 12),
             
@@ -1150,7 +1140,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
-                color: customColors.feedBgColor,
+                color: context.colors.feedBackground,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
@@ -1160,7 +1150,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                       inviteLink,
                       style: TextStyle(
                         fontSize: 12,
-                        color: customColors.primaryForegroundColor,
+                        color: context.colors.primaryText,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -1168,7 +1158,7 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
                   IconButton(
                     icon: Icon(
                       Icons.copy,
-                      color: customColors.accentColor,
+                      color: context.colors.accent,
                       size: 16,
                     ),
                     onPressed: () {
@@ -1186,11 +1176,11 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
             onPressed: () => Navigator.of(context).pop(),
             child: Text(
               "Close", 
-              style: TextStyle(color: customColors.accentColor),
+              style: TextStyle(color: context.colors.accent),
             ),
           ),
         ],
-        backgroundColor: customColors.feedBgColor,
+        backgroundColor: context.colors.feedBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );
@@ -1346,11 +1336,10 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
     User? user, 
     double size
   ) {
-    final customColors = Theme.of(context).customColors;
     
     return DottedBorder(
       borderType: BorderType.Circle,
-      color: customColors.accentColor.withAlpha(180),
+      color: context.colors.accent.withAlpha(180),
       strokeWidth: 1.5,
       dashPattern: const [3, 3],
       padding: const EdgeInsets.all(2),
@@ -1379,34 +1368,33 @@ class _GroupInfoWidgetState extends State<GroupInfoWidget> {
   
   void _showPendingInviteInfo(BuildContext context, String inviteePubkey) {
     final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
     
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Pending Invite", style: TextStyle(color: customColors.primaryForegroundColor)),
+        title: Text("Pending Invite", style: TextStyle(color: context.colors.primaryText)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "This user has been invited but hasn't accepted yet.",
-              style: TextStyle(color: customColors.primaryForegroundColor),
+              style: TextStyle(color: context.colors.primaryText),
             ),
             const SizedBox(height: 8),
             Text(
               "You can remind them about the invitation or send a new invite link.",
-              style: TextStyle(color: customColors.secondaryForegroundColor, fontSize: 14),
+              style: TextStyle(color: context.colors.secondaryText, fontSize: 14),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(),
-            child: Text("Close", style: TextStyle(color: customColors.accentColor)),
+            child: Text("Close", style: TextStyle(color: context.colors.accent)),
           ),
         ],
-        backgroundColor: customColors.feedBgColor,
+        backgroundColor: context.colors.feedBackground,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     );

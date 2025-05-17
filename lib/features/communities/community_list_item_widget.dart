@@ -10,7 +10,7 @@ import '../../component/group/group_avatar_widget.dart';
 import '../../data/group_metadata_repository.dart';
 import '../../provider/group_feed_provider.dart';
 import '../../provider/group_read_status_provider.dart';
-import '../../util/theme_util.dart';
+import '../../theme/app_colors.dart';
 import '../../generated/l10n.dart';
 
 // Class to hold latest post information
@@ -34,8 +34,7 @@ class CommunityListItemWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // Get group metadata using Riverpod
     final controller = ref.watch(cachedGroupMetadataProvider(groupIdentifier));
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
+    final customColors = context.colors;
     final localization = S.of(context);
     
     // Get the GroupFeedProvider and GroupReadStatusProvider
@@ -121,7 +120,7 @@ class CommunityListItemWidget extends ConsumerWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                color: customColors.separatorColor,
+                color: customColors.divider,
                 width: 0.5,
               ),
             ),
@@ -152,9 +151,10 @@ class CommunityListItemWidget extends ConsumerWidget {
                       Text(
                         "# ${metadata?.name ?? groupIdentifier.groupId.substring(0, math.min(8, groupIdentifier.groupId.length))}",
                         style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
-                          color: customColors.primaryForegroundColor,
+                          color: customColors.primaryText,
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -182,6 +182,7 @@ class CommunityListItemWidget extends ConsumerWidget {
                               child: const Text(
                                 "?",
                                 style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
                                   color: Colors.white,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
@@ -195,7 +196,8 @@ class CommunityListItemWidget extends ConsumerWidget {
                                   ? latestPostInfo.content 
                                   : localization.noRecentPosts,
                               style: TextStyle(
-                                color: customColors.secondaryForegroundColor,
+                                fontFamily: 'SF Pro Rounded',
+                                color: customColors.secondaryText,
                                 fontSize: 14,
                               ),
                               maxLines: 1,
@@ -223,6 +225,7 @@ class CommunityListItemWidget extends ConsumerWidget {
                   child: Text(
                     postCount.toString(),
                     style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
                       color: hasUnread ? Colors.white : Colors.black54,
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
@@ -324,7 +327,10 @@ class CommunityListItemWidget extends ConsumerWidget {
           const Expanded(
             child: Text(
               "Error loading community",
-              style: TextStyle(color: Colors.red),
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: Colors.red,
+              ),
             ),
           ),
         ],
