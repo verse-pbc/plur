@@ -158,29 +158,31 @@ class _GroupDetailNoteListWidgetState
         color: context.colors.accent, // Themed refresh indicator
         backgroundColor: context.colors.surface,
         onRefresh: onRefresh,
-        child: ListView.builder(
-          padding: const EdgeInsets.only(top: 8, bottom: 16),
-          controller: scrollController,
-          // Advanced performance optimizations
-          cacheExtent: 1000, // Cache even more items for smoother scrolling
-          addAutomaticKeepAlives: false, // Helps with memory usage
-          addRepaintBoundaries: true, // Each item gets its own repaint boundary
-          clipBehavior: Clip.none, // Avoid clipping for better performance
-          physics: const BouncingScrollPhysics(
-            parent: AlwaysScrollableScrollPhysics(),
+        child: Container(
+          // Add constraints to ensure the scrollable area is properly sized
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height,
+            maxWidth: MediaQuery.of(context).size.width,
           ),
-          itemBuilder: (context, index) {
-            var event = events[index];
-            // Use RepaintBoundary for each item to isolate repaints
-            return RepaintBoundary(
-              child: EventListWidget(
-                event: event,
-                showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
-                key: ValueKey(event.id), // Add key for better recycling
-              ),
-            );
-          },
-          itemCount: events.length,
+          child: ListView.builder(
+            padding: EdgeInsets.zero,
+            controller: scrollController,
+            // Add physics to prevent bouncing and fix drag target size issues
+            physics: const ClampingScrollPhysics(),
+            // Add caching for better performance
+            cacheExtent: 500, // Cache more items to reduce rebuilds
+            itemBuilder: (context, index) {
+              var event = events[index];
+              return RepaintBoundary(
+                child: EventListWidget(
+                  event: event,
+                  showVideo: settingsProvider.videoPreviewInList != OpenStatus.close,
+                  key: ValueKey(event.id), // Add key for better recycling
+                ),
+              );
+            },
+            itemCount: events.length,
+          ),
         ),
       );
 

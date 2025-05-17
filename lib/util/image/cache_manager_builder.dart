@@ -20,13 +20,12 @@ class CacheManagerBuilder {
     try {
       log("Initializing image cache manager", name: "CacheManagerBuilder");
       
-      // Set up the config with error handling and retry
+      // Use a simpler initialization approach to reduce potential issues
+      // Create a basic config without custom file service
       final config = Config(
         key, 
-        fileService: RetryHttpFileService(),
-        stalePeriod: const Duration(days: 2),  // Consider files stale after 2 days
-        maxNrOfCacheObjects: 300,  // Limit cache size to prevent excessive storage use
-        repo: JsonCacheInfoRepository(databaseName: key + '_db'),
+        stalePeriod: const Duration(days: 2),
+        maxNrOfCacheObjects: 300,
       );
       
       // Create the cache manager
@@ -34,16 +33,18 @@ class CacheManagerBuilder {
       
       log("Image cache manager initialized successfully", name: "CacheManagerBuilder");
     } catch (e) {
-      // In case of initialization failure, create a basic cache manager as fallback
+      // In case of initialization failure, set to null and log error
       log("Error initializing image cache manager: $e", name: "CacheManagerBuilder");
-      log("Creating fallback image cache manager", name: "CacheManagerBuilder");
+      imageLocalCacheManager = null;
       
+      // Try with completely default config as last resort
       try {
-        final fallbackConfig = Config(key + '_fallback');
-        imageLocalCacheManager = CacheManager(fallbackConfig);
+        log("Attempting default cache manager initialization", name: "CacheManagerBuilder");
+        imageLocalCacheManager = DefaultCacheManager();
+        log("Default cache manager initialized successfully", name: "CacheManagerBuilder");
       } catch (e2) {
-        log("Could not create fallback cache manager: $e2", name: "CacheManagerBuilder");
-        // At this point, the app will need to handle null imageLocalCacheManager
+        log("Could not create default cache manager: $e2", name: "CacheManagerBuilder");
+        imageLocalCacheManager = null;
       }
     }
   }

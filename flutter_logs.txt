@@ -1,0 +1,37 @@
+"ar": 404 untranslated message(s).
+"bg": 404 untranslated message(s).
+"cs": 497 untranslated message(s).
+"da": 497 untranslated message(s).
+"de": 409 untranslated message(s).
+"el": 497 untranslated message(s).
+"es": 114 untranslated message(s).
+"et": 497 untranslated message(s).
+"fi": 497 untranslated message(s).
+"fr": 114 untranslated message(s).
+"hi": 410 untranslated message(s).
+"hu": 497 untranslated message(s).
+"it": 409 untranslated message(s).
+"ja": 433 untranslated message(s).
+"ko": 433 untranslated message(s).
+"nl": 497 untranslated message(s).
+"pl": 497 untranslated message(s).
+"pt": 497 untranslated message(s).
+"ro": 497 untranslated message(s).
+"ru": 497 untranslated message(s).
+"sl": 497 untranslated message(s).
+"sv": 497 untranslated message(s).
+"th": 433 untranslated message(s).
+"vi": 497 untranslated message(s).
+"zh": 433 untranslated message(s).
+"zh_TW": 433 untranslated message(s).
+To see a detailed report, use the untranslated-messages-file 
+option in the l10n.yaml file:
+untranslated-messages-file: desiredFileName.txt
+<other option>: <other selection> 
+
+
+This will generate a JSON format file containing all messages that 
+need to be translated.
+Launching lib/main.dart on sdk gphone64 arm64 in debug mode...
+Running Gradle task 'assembleDebug'...                          
+Running Gradle task 'assembleDebug'...                              8.3s

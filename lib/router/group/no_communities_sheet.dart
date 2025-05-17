@@ -5,6 +5,12 @@ import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import '../../theme/app_colors.dart';
 import 'package:nostrmo/util/community_join_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/data/group_identifier.dart';
+import 'package:nostrmo/data/join_group_parameters.dart';
+import 'package:nostrmo/provider/list_provider.dart';
+import 'package:nostrmo/consts/router_path.dart';
 
 // Used for logging
 import 'dart:developer' as developer;
@@ -25,6 +31,9 @@ class NoCommunitiesSheet extends StatefulWidget {
     // If the user has already dismissed the dialog, don't show it again
     final dismissed = prefs.getBool(_NoCommunitiesSheetState._dismissedDialogKey) ?? false;
     developer.log("shouldShowDialog: dismissed=$dismissed", name: "NoCommunitiesSheet");
+    
+    // The context check can't be performed here reliably
+    // Caller should check listProvider.groupIdentifiers.isNotEmpty if needed
     return !dismissed;
   }
 
@@ -77,6 +86,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                         width: 50,
                         height: 50,
                         errorBuilder: (context, error, stackTrace) {
+                          debugPrint("Error loading welcome_groups.png: $error");
                           return Icon(
                             Icons.groups_rounded,
                             size: 50,
@@ -153,6 +163,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                                       height: 24,
                                       color: context.colors.buttonText,
                                       errorBuilder: (context, error, stackTrace) {
+                                        debugPrint("Error loading holis-tag.png: $error");
                                         return Icon(Icons.add_rounded, size: 24, color: context.colors.buttonText);
                                       },
                                     ),
@@ -194,11 +205,13 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                                 'assets/imgs/nostrich.png',
                                 width: 24,
                                 height: 24,
+                                color: context.colors.primary,
                                 errorBuilder: (context, error, stackTrace) {
+                                  debugPrint("Error loading nostrich.png: $error");
                                   return Icon(
                                     Icons.group_add_rounded, 
                                     size: 24,
-                                    color: context.colors.buttonText,
+                                    color: context.colors.primary,
                                   );
                                 },
                               ),
@@ -207,7 +220,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                                 "Join Plur Test Users",
                                 style: TextStyle(
                                   fontFamily: 'SF Pro Rounded',
-                                  color: context.colors.buttonText,
+                                  color: context.colors.primary,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -221,9 +234,10 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                       // Hint text with paste option
                       GestureDetector(
                         onTap: _pasteJoinLink,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 4,
                           children: [
                             Flexible(
                               child: Text(
@@ -237,7 +251,6 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const SizedBox(width: 4),
                             Icon(
                               Icons.content_paste_rounded,
                               size: 16,
@@ -283,7 +296,8 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
       final clipboardText = clipboardData?.text?.trim();
       
       if (clipboardText != null && mounted) {
-        bool success = CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
+        // Make sure to await the async method
+        bool success = await CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
         
         if (!success && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -309,7 +323,30 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
   
   /// Joins the Plur Test Users community group
   void _joinTestUsersGroup() {
+    const String testUsersGroupId = "R6PCSLSWB45E";
     const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
+    
+    // Check if already a member
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    if (listProvider.isGroupMember(
+      JoinGroupParameters("wss://communities.nos.social", testUsersGroupId)
+    )) {
+      // Already a member, just close the dialog and navigate to the group
+      Navigator.of(context).pop(); // Close dialog
+      
+      // Show message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("You're already a member of the Plur Test Users group."),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      
+      // Navigate to the group
+      final groupId = GroupIdentifier("wss://communities.nos.social", testUsersGroupId);
+      RouterUtil.router(context, RouterPath.groupDetail, groupId);
+      return;
+    }
     
     // Show confirmation dialog first
     showDialog(
@@ -341,7 +378,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
           ),
           actions: [
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(dialogContext).pop(); // Close dialog
                 
                 // Show loading indicator
@@ -354,7 +391,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                 );
                 
                 // Attempt to join the group
-                bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                final success = await CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
                 
                 if (!success && mounted) {
                   // Show error message if joining failed
@@ -364,6 +401,9 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                       duration: Duration(seconds: 3),
                     ),
                   );
+                } else if (mounted) {
+                  // Close sheet if we're still open
+                  Navigator.of(context).pop();
                 }
               },
               style: ElevatedButton.styleFrom(

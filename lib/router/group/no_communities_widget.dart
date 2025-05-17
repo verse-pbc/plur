@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:nostrmo/generated/l10n.dart';
-import 'package:nostrmo/features/create_community/create_community_dialog.dart';
-import '../../theme/app_colors.dart';
+import 'package:nostrmo/router/group/create_community_dialog.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/community_join_util.dart';
+import 'package:nostrmo/component/primary_button_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:nostrmo/provider/list_provider.dart';
+import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/data/join_group_parameters.dart';
+import 'package:nostrmo/model/group_identifier.dart';
+import 'package:nostrmo/consts/router_path.dart';
 
 // Used for logging
 import 'dart:developer' as developer;
@@ -155,26 +163,103 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
-                
-                Divider(color: appColors.paneSeparator, height: 1),
-                
-                // Search for communities
-                _buildOptionItem(
-                  context: context,
-                  appColors: appColors,
-                  icon: Icons.search,
-                  title: "Find Communities",
-                  subtitle: "Search for public communities",
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Public community search coming soon!")),
-                    );
-                  },
-                ),
-              ],
+                    ),
+                    const SizedBox(height: 24),
+
+                    // Create community section
+                    Text(
+                      localization.startOrJoinACommunity,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.bold,
+                        color: context.colors.primaryText,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      localization.connectWithOthers,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        color: context.colors.primaryText,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
+
+                    // Action buttons
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: _isCreatingCommunity
+                          ? Center(
+                              child: CircularProgressIndicator(
+                                color: context.colors.accent,
+                              ),
+                            )
+                          : PrimaryButtonWidget(
+                              text: localization.createGroup,
+                              borderRadius: 8,
+                              onTap: _createCommunity,
+                            ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Join Test Users Group button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: OutlinedButton(
+                        onPressed: _joinTestUsersGroup,
+                        style: OutlinedButton.styleFrom(
+                          side: BorderSide(color: context.colors.accent),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          "Join Plur Test Users",
+                          style: TextStyle(
+                            color: context.colors.accent,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Hint text with paste option
+                    GestureDetector(
+                      onTap: _pasteJoinLink,
+                      child: Wrap( // Replace Row with Wrap to prevent overflow
+                        alignment: WrapAlignment.center,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        spacing: 4, // Horizontal spacing between items
+                        children: [
+                          Flexible(
+                            child: Text(
+                              localization.haveInviteLink,
+                              style: TextStyle(
+                                fontSize: 14.0,
+                                fontStyle: FontStyle.italic,
+                                color: context.colors.dimmed,
+                              ),
+                            ),
+                          ),
+                          Icon(
+                            Icons.content_paste,
+                            size: 16,
+                            color: context.colors.accent,
+                          ),
+                        ],
+                      ),
+                    ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -202,9 +287,84 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     });
   }
   
+  Future<void> _pasteJoinLink() async {
+    // Capture BuildContext before async operation
+    final BuildContext currentContext = context;
+    final bool contextMounted = mounted;
+    
+    try {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      final clipboardText = clipboardData?.text?.trim();
+      
+      if (clipboardText != null) {
+        if (!contextMounted) return; // Check if widget is still mounted
+        
+        bool success = CommunityJoinUtil.parseAndJoinCommunity(currentContext, clipboardText);
+        
+        if (!success && mounted) {
+          ScaffoldMessenger.of(currentContext).showSnackBar(
+            SnackBar(
+              content: Text(S.of(currentContext).noValidCommunityLink),
+              duration: const Duration(seconds: 2),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      // Handle clipboard permission errors
+      if (contextMounted) {
+        ScaffoldMessenger.of(currentContext).showSnackBar(
+          SnackBar(
+            content: Text(S.of(currentContext).cannotAccessClipboard),
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+  
   /// Joins the Plur Test Users community group
   void _joinTestUsersGroup() {
+    const String testUsersGroupId = "R6PCSLSWB45E";
     const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
+    
+    developer.log("_joinTestUsersGroup: Getting ListProvider to check membership", name: "NoCommunitiesWidget");
+    
+    // Check if already a member
+    final listProvider = Provider.of<ListProvider>(context, listen: false);
+    
+    // Create join parameters with correct host and groupId
+    final joinParams = JoinGroupParameters("wss://communities.nos.social", testUsersGroupId);
+    
+    developer.log("_joinTestUsersGroup: Created JoinGroupParameters with host=${joinParams.host}, groupId=${joinParams.groupId}", name: "NoCommunitiesWidget");
+    
+    // Control whether to check membership or always show dialog
+    const bool alwaysShowJoinDialog = true; // Set to false to enable the membership check
+    
+    // Check if user is already a member of the test group
+    bool isMember = alwaysShowJoinDialog ? false : listProvider.isGroupMember(joinParams);
+    
+    developer.log("_joinTestUsersGroup: isMember result: $isMember (always show dialog: $alwaysShowJoinDialog)", name: "NoCommunitiesWidget");
+    
+    if (isMember) {
+      // Already a member, just navigate to the group
+      developer.log("User is already a member of the Plur Test Users group, navigating to detail view", name: "NoCommunitiesWidget");
+      
+      // Show message
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("You're already a member of the Plur Test Users group."),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      
+      // Navigate to the group
+      final groupId = GroupIdentifier("wss://communities.nos.social", testUsersGroupId);
+      RouterUtil.router(context, RouterPath.groupDetail, groupId);
+      return;
+    }
+    
+    developer.log("User is not a member of the Plur Test Users group (or dialog forced), showing join dialog", name: "NoCommunitiesWidget");
     
     // Show confirmation dialog first
     showDialog(
@@ -235,8 +395,22 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
             ),
           ),
           actions: [
+            TextButton(
+              onPressed: () {
+                developer.log("Join dialog: Cancel button pressed", name: "NoCommunitiesWidget");
+                Navigator.of(dialogContext).pop(); // Close dialog without joining
+              },
+              child: Text(
+                "Cancel",
+                style: TextStyle(
+                  color: colors.secondaryText,
+                  fontSize: 16,
+                ),
+              ),
+            ),
             ElevatedButton(
               onPressed: () {
+                developer.log("Join dialog: Join Group button pressed", name: "NoCommunitiesWidget");
                 Navigator.of(dialogContext).pop(); // Close dialog
                 
                 // Show loading indicator
@@ -249,7 +423,9 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                 );
                 
                 // Attempt to join the group
+                developer.log("Attempting to join group using CommunityJoinUtil.parseAndJoinCommunity", name: "NoCommunitiesWidget");
                 bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                developer.log("Join result: $success", name: "NoCommunitiesWidget");
                 
                 if (!success && mounted) {
                   // Show error message if joining failed

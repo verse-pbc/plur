@@ -152,14 +152,40 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
               Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: buttonMaxWidth),
-                  child: StyledInputFieldWidget(
-                    controller: _nameController,
-                    hintText: localization.onboardingNameInputHint,
-                    autofocus: true,
-                    focusNode: _focusNode,
-                    onChanged: (value) {
-                      _updateButtonState();
-                    },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: colors.divider,
+                        width: 1,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7),
+                      child: TextField(
+                        controller: _nameController,
+                        autofocus: true,
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: colors.primaryText,
+                          fontSize: 16,
+                        ),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: colors.cardBackground,
+                          hintText: localization.onboardingNameInputHint,
+                          hintStyle: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
+                            color: colors.secondaryText,
+                            fontSize: 16,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(16),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),

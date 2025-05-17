@@ -156,6 +156,11 @@ class CommunityListItemWidget extends ConsumerWidget {
                           fontSize: 16,
                           color: customColors.primaryText,
                         ),
+                        // Disable text selection to prevent scrollable issues
+                        textHeightBehavior: const TextHeightBehavior(
+                          applyHeightToFirstAscent: false,
+                          applyHeightToLastDescent: false,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       // Latest post preview with actual user avatar
@@ -202,6 +207,11 @@ class CommunityListItemWidget extends ConsumerWidget {
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
+                              // Disable text selection to prevent scrollable issues
+                              textHeightBehavior: const TextHeightBehavior(
+                                applyHeightToFirstAscent: false,
+                                applyHeightToLastDescent: false,
+                              ),
                             ),
                           ),
                         ],

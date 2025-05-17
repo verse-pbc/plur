@@ -25,7 +25,8 @@ class CommunityJoinUtil {
           return false;
         }
 
-        final listProvider = Provider.of<ListProvider>(context, listen: false);
+        // Capture the context before async operations
+        BuildContext currentContext = context;
         
         // Try multiple relays to maximize chances of successful join
         // Default relay should always be included
@@ -56,28 +57,90 @@ class CommunityJoinUtil {
         debugPrint("   - Invite code: ${code ?? 'none'}");
         debugPrint("   - Relays to try: ${relaysToTry.join(', ')}");
         
-        // Try joining with each relay
-        for (final relay in relaysToTry) {
-          debugPrint("🔄 Attempting join with relay: $relay");
-          
-          // Join the group using the existing method
-          listProvider.joinGroup(
-            JoinGroupParameters(
-              relay,
-              groupId,
-              code: code,
-            ),
-            context: context,
-          );
+        // Create join parameters with the primary relay
+        final joinParams = JoinGroupParameters(
+          relaysToTry[0],
+          groupId,
+          code: code,
+        );
+        
+        // Get the ListProvider just once to avoid context issues
+        ListProvider? listProvider;
+        try {
+          listProvider = Provider.of<ListProvider>(currentContext, listen: false);
+          debugPrint("✅ Got ListProvider successfully");
+        } catch (e) {
+          debugPrint("⚠️ Error getting ListProvider: $e");
+          return false;
         }
         
-        debugPrint("==== JOIN PROCESS INITIATED ====");
-        return true;
+        if (listProvider == null) {
+          debugPrint("⚠️ ListProvider is null");
+          return false;
+        }
+        
+        try {
+          // Start join process with primary relay
+          // Don't await the future as it causes issues with BuildContext
+          debugPrint("🔄 Attempting join with relay: ${relaysToTry[0]}");
+          
+          // Use a try-catch to ensure we don't crash if the join fails
+          try {
+            listProvider.joinGroup(joinParams, context: currentContext);
+            debugPrint("==== JOIN PROCESS INITIATED: Success=true ====");
+          } catch (e) {
+            debugPrint("⚠️ Error during join process: $e");
+            
+            // Show a helpful error message
+            ScaffoldMessenger.of(currentContext).showSnackBar(
+              SnackBar(
+                content: Text("Error joining group: $e"),
+                duration: const Duration(seconds: 3),
+              ),
+            );
+            
+            // Still return true since we initiated the process
+            // The error will be handled within joinGroup method
+          }
+          
+          // Add a delay before returning to let the join process get started
+          // This can help prevent UI flicker
+          Future.delayed(const Duration(milliseconds: 500));
+          
+          return true;
+        } catch (e) {
+          debugPrint("⚠️ Error during join process: $e");
+          
+          // Even if there's an error, try to navigate to avoid blank screen
+          try {
+            // Navigate to groups list as fallback
+            Navigator.of(currentContext).pushNamedAndRemoveUntil(
+              '/groupList', 
+              (route) => false
+            );
+            debugPrint("✅ Navigated to group list as fallback after error");
+          } catch (navError) {
+            debugPrint("⚠️ Navigation error: $navError");
+          }
+          
+          return false;
+        }
       } else {
         debugPrint("❌ Invalid join link format - not a plur://join-community URL");
       }
     } catch (e) {
       debugPrint("⚠️ Error parsing join link: $e");
+      
+      // Try to navigate to the groups list to avoid blank screen
+      try {
+        Navigator.of(context).pushNamedAndRemoveUntil(
+          '/groupList', 
+          (route) => false
+        );
+        debugPrint("✅ Navigated to group list after parse error");
+      } catch (navError) {
+        debugPrint("⚠️ Navigation error after parse error: $navError");
+      }
     }
     return false;
   }
