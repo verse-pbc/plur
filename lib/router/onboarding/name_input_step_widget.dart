@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 import '../../theme/app_colors.dart';
+import '../../widget/material_icon_fix.dart';
 
 /// Handles name/nickname collection in the onboarding process.
 class NameInputStepWidget extends StatefulWidget {
@@ -56,19 +57,53 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
     double mainWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
     double buttonMaxWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
 
-    return Center(
-      child: SizedBox(
-        width: mainWidth,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // User emoji without background container
-              const Text(
-                '👤',
-                style: TextStyle(fontSize: 72),
+    return Stack(
+      children: [
+        // Back button positioned at top left
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 16,
+          left: 16,
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: buttonTextColor.withAlpha((255 * 0.1).round()),
+                shape: BoxShape.circle,
               ),
+              alignment: Alignment.center,
+              child: FixedIcon(
+                Icons.chevron_left,
+                color: buttonTextColor,
+                size: 24,
+              ),
+            ),
+          ),
+        ),
+        // Main content
+        Center(
+          child: SizedBox(
+            width: mainWidth,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Holis tag icon
+                  Image.asset(
+                    'assets/imgs/holis-tag.png',
+                    width: 80,
+                    height: 80,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback to person icon if image fails to load
+                      return Icon(
+                        Icons.person_rounded,
+                        size: 80,
+                        color: buttonTextColor,
+                      );
+                    },
+                  ),
               
               const SizedBox(height: 32),
               
@@ -79,7 +114,7 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
-                  color: colors.highlightText,
+                  color: colors.titleText,
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   height: 1.2,
@@ -190,6 +225,8 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
           ),
         ),
       ),
+    ),
+      ],
     );
   }
 }

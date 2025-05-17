@@ -6,7 +6,7 @@ class Base {
   static const appName = "Plur";
 
   /// Link to terms of service.
-  static const String privacyLink = "https://www.nos.social/terms-of-service";
+  static const String privacyLink = "https://holis.social/privacy";
 
   /// Standard padding to use when composing screens.
   static const double basePadding = 12;

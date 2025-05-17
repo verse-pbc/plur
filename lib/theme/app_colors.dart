@@ -63,6 +63,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color tooltipBackground;
   final Color buttonText;
   final Color modalBackground;
+  final Color titleText;
   
   const AppColors._({
     required this.primary,
@@ -89,6 +90,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.tooltipBackground,
     required this.buttonText,
     required this.modalBackground,
+    required this.titleText,
   });
   
   /// Light theme colors
@@ -117,6 +119,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipBackground: AppColorPalette.primaryPurple,
     buttonText: AppColorPalette.white,
     modalBackground: AppColorPalette.lightBackground,
+    titleText: Color(0xFF161E27),
   );
   
   /// Dark theme colors
@@ -145,6 +148,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipBackground: AppColorPalette.darkDivider,
     buttonText: AppColorPalette.white,
     modalBackground: AppColorPalette.darkBackground,
+    titleText: AppColorPalette.white,
   );
   
   @override
@@ -173,6 +177,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? tooltipBackground,
     Color? buttonText,
     Color? modalBackground,
+    Color? titleText,
   }) {
     return AppColors._(
       primary: primary ?? this.primary,
@@ -199,6 +204,7 @@ class AppColors extends ThemeExtension<AppColors> {
       tooltipBackground: tooltipBackground ?? this.tooltipBackground,
       buttonText: buttonText ?? this.buttonText,
       modalBackground: modalBackground ?? this.modalBackground,
+      titleText: titleText ?? this.titleText,
     );
   }
   
@@ -232,6 +238,7 @@ class AppColors extends ThemeExtension<AppColors> {
       tooltipBackground: Color.lerp(tooltipBackground, other.tooltipBackground, t) ?? tooltipBackground,
       buttonText: Color.lerp(buttonText, other.buttonText, t) ?? buttonText,
       modalBackground: Color.lerp(modalBackground, other.modalBackground, t) ?? modalBackground,
+      titleText: Color.lerp(titleText, other.titleText, t) ?? titleText,
     );
   }
 }

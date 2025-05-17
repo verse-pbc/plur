@@ -3,7 +3,6 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/webview_widget.dart';
-import 'package:nostrmo/data/join_group_parameters.dart';
 import 'package:nostrmo/util/router_util.dart';
 // Sentry has been removed
 import 'package:styled_text/styled_text.dart';
@@ -12,7 +11,6 @@ import '../../consts/base.dart';
 import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../util/table_mode_util.dart';
 import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
 import '../../theme/app_colors.dart';
@@ -98,25 +96,15 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     
     // Save some colors for later
     final colors = context.colors;
-    final dimmedColor = colors.dimmed;
     final buttonTextColor = colors.buttonText;
     final accentColor = colors.accent;
-    final primaryForegroundColor = colors.primaryText;
 
     var screenWidth = mediaDataCache.size.width;
     bool isTablet = screenWidth >= 600;
     bool isDesktop = screenWidth >= 900;
     
-    // Responsive content width
-    var mainWidth = screenWidth * 0.8;
-    if (isDesktop) {
-      mainWidth = 550;
-    } else if (isTablet) {
-      mainWidth = screenWidth * 0.7;
-      if (mainWidth > 600) {
-        mainWidth = 600;
-      }
-    }
+    // Responsive content width - match age verification screen
+    double mainWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
 
     var arg = RouterUtil.routerArgs(context);
     if (arg != null && arg is bool) {
@@ -125,55 +113,62 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     List<Widget> mainList = [];
 
+    // Responsive button width
+    double maxButtonWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
+
     // Top spacing
     mainList.add(Expanded(flex: 1, child: Container()));
 
     // Main title
-    mainList.add(Container(
-      margin: const EdgeInsets.only(bottom: 40),
-      child: Text(
-        "Bring your people together",
-        style: TextStyle(
-          fontFamily: 'SF Pro Rounded',
-          color: buttonTextColor,
-          fontSize: 46,
-          fontWeight: FontWeight.bold,
-          height: 1.2,
+    mainList.add(Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxButtonWidth),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 40),
+          child: Text(
+            "Bring your people together",
+            style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
+              color: buttonTextColor,
+              fontSize: 46,
+              fontWeight: FontWeight.bold,
+              height: 1.2,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-        textAlign: TextAlign.center,
       ),
     ));
 
     // Subtitle message
-    mainList.add(Container(
-      margin: const EdgeInsets.only(bottom: 80),
-      child: Text(
-        "Start meaningful exchanges with people you trust.\nHolis is communities built for depth, not noise.",
-        style: TextStyle(
-          fontFamily: 'SF Pro Rounded',
-          color: colors.secondaryText,
-          fontSize: 17,
-          fontWeight: FontWeight.w400,
-          height: 1.5,
+    mainList.add(Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxButtonWidth),
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 80),
+          child: Text(
+            "Start meaningful exchanges with people you trust.\nHolis is communities built for depth, not noise.",
+            style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
+              color: colors.secondaryText,
+              fontSize: 17,
+              fontWeight: FontWeight.w400,
+              height: 1.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
-        textAlign: TextAlign.center,
       ),
     ));
-
-    // Responsive button width
-    double maxButtonWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
     
     // Button wrapper for responsive width
     Widget createButton(Widget button) {
-      if (isTablet || isDesktop) {
-        return Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: maxButtonWidth),
-            child: button,
-          ),
-        );
-      }
-      return button;
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: maxButtonWidth),
+          child: button,
+        ),
+      );
     }
 
     // Create a Profile button (primary action)
@@ -190,14 +185,41 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               borderRadius: BorderRadius.circular(32),
             ),
             alignment: Alignment.center,
-            child: Text(
-              "Create a Profile",
-              style: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: buttonTextColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/imgs/profile.png',
+                    width: 20,
+                    height: 20,
+                    // Removed color to show original image
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback icon if image fails to load
+                      return Icon(
+                        Icons.person_rounded,
+                        size: 20,
+                        color: buttonTextColor,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      "Create a Profile",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: buttonTextColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.2,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -224,14 +246,41 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               ),
             ),
             alignment: Alignment.center,
-            child: Text(
-              "Login with Nostr",
-              style: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: buttonTextColor,
-                fontSize: 18,
-                fontWeight: FontWeight.w600,
-                letterSpacing: 0.2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/imgs/nostrich.png',
+                    width: 20,
+                    height: 20,
+                    // Removed color to show original image
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback icon if image fails to load
+                      return Icon(
+                        Icons.bolt_rounded,
+                        size: 20,
+                        color: buttonTextColor,
+                      );
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      "Login with Nostr",
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        color: buttonTextColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: 0.2,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -245,7 +294,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     // Terms of service
     mainList.add(GestureDetector(
       onTap: () {
-        WebViewWidget.open(context, Base.privacyLink);
+        _showTermsSheet();
       },
       child: Padding(
         padding: const EdgeInsets.only(bottom: 40),
@@ -314,7 +363,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               // Adds padding to the content to ensure spacing on the sides.
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: Base.basePadding * 2,
+                  horizontal: 40,
                 ),
                 // Column that holds the main content of the screen.
                 child: Column(
@@ -389,34 +438,51 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      enableDrag: true,
+      isDismissible: true,
       builder: (BuildContext context) {
         // Get responsive width values
         var screenWidth = MediaQuery.of(context).size.width;
         bool isTablet = screenWidth >= 600;
         bool isDesktop = screenWidth >= 900;
-        double sheetMaxWidth = isDesktop ? 450 : (isTablet ? 550 : double.infinity);
+        double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
         
-        return AnimatedPadding(
-          padding: MediaQuery.of(context).viewInsets,
-          duration: const Duration(milliseconds: 100),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
               child: Container(
-                decoration: BoxDecoration(
-                  color: context.colors.loginBackground,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(24),
-                    topRight: Radius.circular(24),
+                color: Colors.transparent,
+                height: 100,  // Touch area above sheet
+              ),
+            ),
+            AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 100),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.colors.loginBackground,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
+                    ),
+                    child: SafeArea(
+                      top: false,
+                      bottom: true,
+                      child: _buildLoginSheet(),
+                    ),
                   ),
-                ),
-                child: IntrinsicHeight(
-                  child: _buildLoginSheet(),
                 ),
               ),
             ),
-          ),
+          ],
         );
       },
     );
@@ -425,40 +491,32 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   /// Builds the login sheet content
   Widget _buildLoginSheet() {
     final colors = context.colors;
-    Color primaryForegroundColor = colors.primaryText;
     Color accentColor = colors.accent;
     Color buttonTextColor = colors.buttonText;
-    Color dimmedColor = colors.secondaryText;
     
     // Get screen width for responsive design
     var screenWidth = MediaQuery.of(context).size.width;
     bool isTablet = screenWidth >= 600;
     bool isDesktop = screenWidth >= 900;
-    double maxInputWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
 
     // Wrapper function for responsive elements
     Widget wrapResponsive(Widget child) {
-      if (isTablet || isDesktop) {
-        return Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: maxInputWidth),
-            child: child,
-          ),
-        );
-      }
-      return child;
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: isDesktop ? 400 : 500),
+          child: child,
+        ),
+      );
     }
     
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter setSheetState) {
-        return SafeArea(
-          bottom: true,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               // Close button
               Align(
                 alignment: Alignment.centerRight,
@@ -482,28 +540,54 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               
               const SizedBox(height: 24),
               
+              // Nostrich icon above title
+              Center(
+                child: Image.asset(
+                  'assets/imgs/nostrich.png',
+                  width: 80,
+                  height: 80,
+                  // No color tinting to show the original image
+                  errorBuilder: (context, error, stackTrace) {
+                    // Fallback icon if image fails to load
+                    return Icon(
+                      Icons.bolt_rounded,
+                      size: 80,
+                      color: buttonTextColor,
+                    );
+                  },
+                ),
+              ),
+              
+              const SizedBox(height: 16),
+              
               // Login form title
-              Text(
-                "Login with Nostr",
-                style: TextStyle(
-                  fontFamily: 'SF Pro Rounded',
-                  color: buttonTextColor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  height: 1.2,
+              wrapResponsive(
+                Center(
+                  child: Text(
+                    "Login with Nostr",
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: buttonTextColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
+                    ),
+                  ),
                 ),
               ),
               
               const SizedBox(height: 20),
               
               // Login options explainer
-              Text(
-                "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
-                style: TextStyle(
-                  fontFamily: 'SF Pro Rounded',
-                  color: colors.secondaryText,
-                  fontSize: 14,
-                  height: 1.4,
+              wrapResponsive(
+                Text(
+                  "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    color: colors.secondaryText,
+                    fontSize: 14,
+                    height: 1.4,
+                  ),
                 ),
               ),
               
@@ -547,7 +631,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          "Login to Account",
+                          "Login",
                           style: TextStyle(
                             fontFamily: 'SF Pro Rounded',
                             color: _isLoginButtonEnabled
@@ -569,25 +653,28 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   wrapResponsive(
                     SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: _loginByAndroidSigner,
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
+                      child: GestureDetector(
+                        onTap: _loginByAndroidSigner,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: colors.secondaryText.withAlpha((255 * 0.3).round()),
+                              width: 2,
+                            ),
                             borderRadius: BorderRadius.circular(32),
                           ),
-                          side: BorderSide(
-                            color: dimmedColor.withAlpha((255 * 0.3).round()),
-                            width: 2,
-                          ),
-                        ),
-                        child: Text(
-                          localization.loginWithAndroidSigner,
-                          style: TextStyle(
-                            fontFamily: 'SF Pro Rounded',
-                            color: primaryForegroundColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                          alignment: Alignment.center,
+                          child: Text(
+                            localization.loginWithAndroidSigner,
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Rounded',
+                              color: buttonTextColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.2,
+                            ),
                           ),
                         ),
                       ),
@@ -600,33 +687,35 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   wrapResponsive(
                     SizedBox(
                       width: double.infinity,
-                      child: OutlinedButton(
-                        onPressed: _loginWithWebSigner,
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
+                      child: GestureDetector(
+                        onTap: _loginWithWebSigner,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 18),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: colors.secondaryText.withAlpha((255 * 0.3).round()),
+                              width: 2,
+                            ),
                             borderRadius: BorderRadius.circular(32),
                           ),
-                          side: BorderSide(
-                            color: dimmedColor.withAlpha((255 * 0.3).round()),
-                            width: 2,
-                          ),
-                        ),
-                        child: Text(
-                          localization.loginWithNIP07Extension,
-                          style: TextStyle(
-                            fontFamily: 'SF Pro Rounded',
-                            color: primaryForegroundColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                          alignment: Alignment.center,
+                          child: Text(
+                            localization.loginWithNIP07Extension,
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Rounded',
+                              color: buttonTextColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.2,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
                 ],
-              ],
-            ),
+            ],
           ),
         );
       },
@@ -866,6 +955,111 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       nostr!.close();
       nostr = null;
     }
+  }
+
+  /// Shows the Terms of Service sheet
+  void _showTermsSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      enableDrag: true,
+      isDismissible: true,
+      builder: (BuildContext context) {
+        // Get responsive width values
+        var screenWidth = MediaQuery.of(context).size.width;
+        bool isTablet = screenWidth >= 600;
+        bool isDesktop = screenWidth >= 900;
+        double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
+        
+        return GestureDetector(
+          onTap: () {
+            // Dismiss the sheet when tapping outside
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            color: Colors.transparent,
+            child: GestureDetector(
+              onTap: () {}, // Prevent dismissal when tapping on the sheet itself
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                  child: DraggableScrollableSheet(
+                    initialChildSize: 0.9,
+                    minChildSize: 0.5,
+                    maxChildSize: 0.95,
+                    builder: (_, scrollController) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: context.colors.loginBackground,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24),
+                          ),
+                        ),
+                        child: Column(
+                          children: [
+                            // Drag handle and close button
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Terms of Service",
+                                    style: TextStyle(
+                                      fontFamily: 'SF Pro Rounded',
+                                      color: context.colors.titleText,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  GestureDetector(
+                                    onTap: () => Navigator.pop(context),
+                                    child: Container(
+                                      width: 32,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                        color: context.colors.buttonText.withAlpha((255 * 0.1).round()),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(
+                                        Icons.close,
+                                        color: context.colors.buttonText,
+                                        size: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Divider(
+                              color: context.colors.divider,
+                              height: 1,
+                            ),
+                            // WebView content
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: WebViewWidget(
+                                  url: Base.privacyLink,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

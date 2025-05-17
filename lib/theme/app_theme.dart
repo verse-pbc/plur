@@ -55,6 +55,12 @@ class AppTheme {
       ),
       iconTheme: IconThemeData(
         color: colors.primaryText,
+        size: 24,
+      ),
+      // Override primary icon theme to ensure proper font
+      primaryIconTheme: IconThemeData(
+        color: colors.primaryText,
+        size: 24,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -142,6 +148,12 @@ class AppTheme {
       canvasColor: colors.feedBackground,
       iconTheme: IconThemeData(
         color: colors.primaryText,
+        size: 24,
+      ),
+      // Override primary icon theme to ensure proper font
+      primaryIconTheme: IconThemeData(
+        color: colors.primaryText,
+        size: 24,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(

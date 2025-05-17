@@ -96,8 +96,13 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
     }
   }
 
-  void _onAgeDenied() {
-    AgeVerificationDialog.show(context);
+  void _onAgeDenied() async {
+    // Show the age verification sheet
+    await AgeVerificationDialog.show(context);
+    // When the sheet is dismissed, navigate back to the previous screen
+    if (mounted) {
+      Navigator.of(context).pop();
+    }
   }
 
   void _completeOnboarding() {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 import '../../theme/app_colors.dart';
+import '../../widget/material_icon_fix.dart';
 
 /// Handles age verification during the onboarding process.
 ///
@@ -29,19 +30,52 @@ class AgeVerificationStep extends StatelessWidget {
     double mainWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
     double buttonMaxWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
 
-    return Center(
-      child: SizedBox(
-        width: mainWidth,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // ID emoji without background container
-              const Text(
-                '🪪',
-                style: TextStyle(fontSize: 72),
+    return Stack(
+      children: [
+        // Back button positioned at top left
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 16,
+          left: 16,
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: buttonTextColor.withAlpha((255 * 0.1).round()),
+                shape: BoxShape.circle,
               ),
+              alignment: Alignment.center,
+              child: FixedIcon(
+                Icons.chevron_left,
+                color: buttonTextColor,
+                size: 24,
+              ),
+            ),
+          ),
+        ),
+        // Main content
+        Center(
+          child: SizedBox(
+            width: mainWidth,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Driver's licence icon
+                  Image.asset(
+                    'assets/imgs/drivers-licence.png',
+                    width: 80,
+                    height: 80,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Return empty container if image fails to load
+                      return SizedBox(
+                        width: 80,
+                        height: 80,
+                      );
+                    },
+                  ),
               
               const SizedBox(height: 32),
               
@@ -52,7 +86,7 @@ class AgeVerificationStep extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
-                  color: colors.buttonText,  // Use buttonText which is white in dark mode
+                  color: colors.titleText,  // Use titleText for semantic correctness
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   height: 1.2,
@@ -147,6 +181,8 @@ class AgeVerificationStep extends StatelessWidget {
           ),
         ),
       ),
+    ),
+      ],
     );
   }
 }

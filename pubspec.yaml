@@ -171,6 +171,11 @@ flutter:
     - assets/imgs/alby_logo.png
     - assets/imgs/logo/logo512.png
     - assets/imgs/music/wavlake.png
+    - assets/imgs/profile.png
+    - assets/imgs/nostrich.png
+    - assets/imgs/thumbs-down.png
+    - assets/imgs/holis-tag.png
+    - assets/imgs/drivers-licence.png
     
   fonts:
     - family: "SF Pro Rounded"
@@ -183,6 +188,16 @@ flutter:
           weight: 600
         - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Bold.otf
           weight: 700
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Ultralight.otf
+          weight: 200
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Thin.otf
+          weight: 100
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Light.otf
+          weight: 300
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Heavy.otf
+          weight: 800
+        - asset: assets/fonts/SF-Pro-Rounded/SF-Pro-Rounded-Black.otf
+          weight: 900
 
 flutter_launcher_icons:
   image_path_ios: 'assets/imgs/logo/logo_ios.png'
