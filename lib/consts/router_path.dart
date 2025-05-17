@@ -62,6 +62,7 @@ class RouterPath {
   static const String listings = "/listings";
   static const String listingCreateEdit = "/listingCreateEdit";
   static const String listingDetail = "/listingDetail";
+  static const String componentLibrary = "/componentLibrary";
 
   static String getThreadDetailPath() {
     if (settingsProvider.threadMode == ThreadMode.fullMode) {

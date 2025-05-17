@@ -52,6 +52,7 @@ import 'package:nostrmo/router/login/login_widget.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
+import 'package:nostrmo/router/component_library/component_library_widget.dart';
 import 'package:nostrmo/router/thread_trace_router/thread_trace_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_feed_widget.dart';
 import 'package:nostrmo/router/follow_set/follow_set_list_widget.dart';
@@ -571,6 +572,8 @@ class _MyApp extends State<MyApp> {
       RouterPath.communityGuidelines: (context) => const CommunityGuidelinesScreen(),
       RouterPath.pushNotificationTest: (context) =>
           const PushNotificationTestWidget(),
+      RouterPath.componentLibrary: (context) =>
+          const ComponentLibraryWidget(),
       RouterPath.listings: (context) {
         final Map<String, dynamic>? args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>?;
         final String? groupId = args?['groupId'];

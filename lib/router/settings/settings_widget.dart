@@ -261,6 +261,13 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
       },
     ));
 
+    list.add(SettingsGroupItemWidget(
+      name: "Component Library",
+      onTap: () {
+        RouterUtil.router(context, RouterPath.componentLibrary);
+      },
+    ));
+
     list.add(SettingsGroupTitleWidget(
         iconData: Icons.source, title: localization.data));
     list.add(SettingsGroupItemWidget(
