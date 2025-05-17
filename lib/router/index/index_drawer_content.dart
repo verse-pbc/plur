@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/component/image_widget.dart';
+import 'package:nostrmo/component/user/user_top_widget.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
@@ -84,6 +85,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           right: 24, // 24pt separation from right
           bottom: Base.basePaddingHalf,
         ),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
             begin: Alignment.topCenter,
@@ -99,45 +101,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           onTap: () {
             RouterUtil.router(context, RouterPath.user, pubkey);
           },
-          child: AspectRatio(
-            aspectRatio: 16 / 9,
-            child: legacy_provider.Selector<UserProvider, User?>(
-              builder: (context, user, child) {
-                String? pictureUrl = user?.picture;
-                
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                    ),
-                    child: pictureUrl != null 
-                      ? ImageWidget(
-                          url: pictureUrl,
-                          width: double.infinity,
-                          height: double.infinity,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                            child: const Center(
-                              child: CircularProgressIndicator(),
-                            ),
-                          ),
-                        )
-                      : Icon(
-                          Icons.person,
-                          size: 40,
-                          color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
-                        ),
-                  ),
-                );
-              },
-              selector: (_, provider) {
-                return provider.getUser(pubkey);
-              },
-            ),
-          ),
+          child: UserPicWidget(pubkey: pubkey, width: 50),
         ),
       );
     } else {
@@ -161,81 +125,23 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         ),
         child: Column(
           children: [
-            // Profile photo in 16:9 aspect ratio container
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: legacy_provider.Selector<UserProvider, User?>(
-                builder: (context, user, child) {
-                  // Get the picture URL from user metadata
-                  String? pictureUrl = user?.picture;
-                  
-                  return ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                      ),
-                      child: pictureUrl != null 
-                        ? ImageWidget(
-                            url: pictureUrl,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          )
-                        : Icon(
-                            Icons.person,
-                            size: 60,
-                            color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
-                          ),
-                    ),
-                  );
-                },
-                selector: (_, provider) {
-                  return provider.getUser(pubkey);
-                },
-              ),
-            ),
-            // User info below the photo
-            Padding(
-              padding: const EdgeInsets.all(Base.basePadding),
-              child: legacy_provider.Selector<UserProvider, User?>(
-                builder: (context, user, child) {
-                  return Column(
-                    children: [
-                      Text(
-                        user?.name ?? '',
-                        style: TextStyle(
-                          color: isDarkMode ? Colors.white : Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (user?.nip05 != null)
-                        Text(
-                          user!.nip05!,
-                          style: TextStyle(
-                            color: isDarkMode ? Colors.white70 : Colors.black54,
-                            fontSize: 14,
-                          ),
-                        ),
-                    ],
-                  );
-                },
-                selector: (_, provider) {
-                  return provider.getUser(pubkey);
-                },
-              ),
+            legacy_provider.Selector<UserProvider, User?>(
+              builder: (context, user, child) {
+                return UserTopWidget(
+                  pubkey: pubkey,
+                  user: user,
+                  isLocal: true,
+                  jumpable: true,
+                );
+              },
+              selector: (_, provider) {
+                return provider.getUser(pubkey);
+              },
             ),
             if (!_readOnly)
               Padding(
                 padding: const EdgeInsets.only(
+                  top: Base.basePadding,
                   bottom: Base.basePadding,
                 ),
                 child: Container(
