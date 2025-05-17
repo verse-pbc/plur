@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
-import 'package:nostrmo/component/image_widget.dart';
-import 'package:nostrmo/component/qrcode_dialog.dart';
-import 'package:nostrmo/component/styled_bot_toast.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
@@ -36,6 +32,10 @@ class IndexDrawerContent extends ConsumerStatefulWidget {
 
 /// The state class for [IndexDrawerContent].
 class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
+  /// Width of the profile edit button.
+  ///
+  /// Defaults to 40.
+  final double _profileEditBtnWidth = 40;
 
   /// Determines if the drawer is in read-only mode.
   ///
@@ -64,38 +64,20 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     final localization = S.of(context);
     var pubkey = nostr!.publicKey;
     var paddingTop = mediaDataCache.padding.top;
-    final appColors = Theme.of(context).extension<AppColors>()!;
-    final loginBackground = appColors.loginBackground;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    // Use white for text in dark mode, primary text in light mode
-    final primaryTextColor = isDarkMode ? Colors.white : appColors.primaryText;
-    var mainColor = primaryTextColor; // Using appropriate text color for the theme
+    final themeData = Theme.of(context);
+    var mainColor = themeData.primaryColor;
+    var cardColor = themeData.cardColor;
+    var hintColor = themeData.hintColor;
     List<Widget> list = [];
 
     _readOnly = nostr!.isReadOnly();
 
-    // Create sideMenuHeader container with gradient background
-    Widget sideMenuHeader;
-    
+    // Add user profile picture or metadata display based on smallMode
     if (widget.smallMode) {
-      sideMenuHeader = Container(
+      list.add(Container(
         margin: EdgeInsets.only(
-          top: 24 + paddingTop, // 24pt separation from top
-          left: 24, // 24pt separation from left
-          right: 24, // 24pt separation from right
+          top: Base.basePadding + paddingTop,
           bottom: Base.basePaddingHalf,
-        ),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF9ECCC3), // Light tealish color
-              Color(0xFFB8D0CE), // Silver-ish color
-            ],
-          ),
-          borderRadius: BorderRadius.circular(8), // 8pt rounded corners
         ),
         child: GestureDetector(
           onTap: () {
@@ -103,137 +85,44 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           },
           child: UserPicWidget(pubkey: pubkey, width: 50),
         ),
-      );
+      ));
     } else {
-      sideMenuHeader = Container(
-        margin: EdgeInsets.only(
-          top: 24 + paddingTop,
-          left: 24,
-          right: 24,
-          bottom: Base.basePaddingHalf + 20,
+      list.add(Stack(children: [
+        legacy_provider.Selector<UserProvider, User?>(
+          builder: (context, user, child) {
+            return UserTopWidget(
+              pubkey: pubkey,
+              user: user,
+              isLocal: true,
+              jumpable: true,
+            );
+          },
+          selector: (_, provider) {
+            return provider.getUser(pubkey);
+          },
         ),
-        decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF9ECCC3),
-              Color(0xFFB8D0CE),
-            ],
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          children: [
-            // Cover photo with 16:9 aspect ratio and avatar
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  legacy_provider.Selector<UserProvider, User?>(
-                    builder: (context, user, child) {
-                      String? bannerUrl = user?.banner;
-                      
-                      return ClipRRect(
-                        borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                              ),
-                              child: bannerUrl != null && bannerUrl.isNotEmpty
-                                ? ImageWidget(
-                                    url: bannerUrl,
-                                    width: double.infinity,
-                                    height: double.infinity,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => Container(
-                                      color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                                      child: const Center(
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    ),
-                                  )
-                                : Container(
-                                    color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                                    child: Icon(
-                                      Icons.landscape,
-                                      size: 48,
-                                      color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
-                                    ),
-                                  ),
-                            ),
-                            Container(
-                              width: double.infinity,
-                              height: double.infinity,
-                              decoration: const BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Color(0xFF29525e),
-                                    Color(0xFF508e8d),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    selector: (_, provider) {
-                      return provider.getUser(pubkey);
-                    },
+        Positioned(
+          top: paddingTop + Base.basePaddingHalf,
+          right: Base.basePadding,
+          child: _readOnly
+              ? Container()
+              : Container(
+                  height: _profileEditBtnWidth,
+                  width: _profileEditBtnWidth,
+                  decoration: BoxDecoration(
+                    color: cardColor,
+                    borderRadius: BorderRadius.circular(
+                      _profileEditBtnWidth / 2,
+                    ),
                   ),
-                  // Avatar positioned at the bottom of the cover photo
-                  legacy_provider.Selector<UserProvider, User?>(
-                    builder: (context, user, child) {
-                      const avatarSize = 80.0;
-                      const avatarPadding = Base.basePadding;
-                      
-                      return Positioned(
-                        left: avatarPadding,
-                        bottom: avatarPadding,
-                        child: UserPicWidget(
-                          pubkey: pubkey,
-                          width: avatarSize,
-                          user: user,
-                        ),
-                      );
-                    },
-                    selector: (_, provider) {
-                      return provider.getUser(pubkey);
-                    },
+                  child: IconButton(
+                    icon: const Icon(Icons.edit_square),
+                    onPressed: _jumpToProfileEdit,
                   ),
-                ],
-              ),
-            ),
-            // User info section
-            Padding(
-              padding: const EdgeInsets.only(
-                left: Base.basePadding,
-                right: Base.basePadding,
-                bottom: Base.basePadding,
-                top: Base.basePadding,
-              ),
-              child: legacy_provider.Selector<UserProvider, User?>(
-                builder: (context, user, child) {
-                  return _buildUserInfoWidget(context, user, pubkey);
-                },
-                selector: (_, provider) {
-                  return provider.getUser(pubkey);
-                },
-              ),
-            ),
-          ],
+                ),
         ),
-      );
+      ]));
     }
-    
-    list.add(sideMenuHeader);
 
     List<Widget> centerList = [];
 
@@ -253,17 +142,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       ));
     }
     
-    // Add the COMMUNITIES option to the list of drawer items.
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.groups_rounded,
-      name: localization.communities,
-      color: indexProvider.currentTap == 0 ? mainColor : null,
-      onTap: () {
-        indexProvider.setCurrentTap(0);
-      },
-      smallMode: widget.smallMode,
-    ));
-    
     // Add the DMs option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.chat_rounded,
@@ -271,6 +149,28 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       color: indexProvider.currentTap == 1 ? mainColor : null,
       onTap: () {
         indexProvider.setCurrentTap(1);
+      },
+      smallMode: widget.smallMode,
+    ));
+    
+    // Add the SEARCH option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.search_rounded,
+      name: localization.search,
+      color: indexProvider.currentTap == 2 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(2);
+      },
+      smallMode: widget.smallMode,
+    ));
+    
+    // Add the COMMUNITIES option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.groups_rounded,
+      name: localization.communities,
+      color: indexProvider.currentTap == 0 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(0);
       },
       smallMode: widget.smallMode,
     ));
@@ -299,14 +199,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       },
       smallMode: widget.smallMode,
     ));
-    
-    // Add the SEARCH option to the list of drawer items.
+
+    // Add the SETTINGS option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.search_rounded,
-      name: localization.search,
-      color: indexProvider.currentTap == 2 ? mainColor : null,
+      iconData: Icons.settings_rounded,
+      name: localization.settings,
       onTap: () {
-        indexProvider.setCurrentTap(2);
+        RouterUtil.router(context, RouterPath.settings);
       },
       smallMode: widget.smallMode,
     ));
@@ -320,22 +219,10 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       ),
     ));
 
-    // Add the SETTINGS option at the bottom of drawer items.
-    list.add(IndexDrawerItemWidget(
-      iconData: Icons.settings_rounded,
-      name: localization.settings,
-      color: appColors.secondaryText,
-      onTap: () {
-        RouterUtil.router(context, RouterPath.settings);
-      },
-      smallMode: widget.smallMode,
-    ));
-
     // Add the Account Manager widget.
     list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
       name: localization.accountManager,
-      color: appColors.secondaryText,
       onTap: () {
         _showBasicModalBottomSheet(context);
       },
@@ -360,13 +247,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         "" => version,
         var buildNumber => "$version ($buildNumber)",
       };
-      Widget versionWidget = Text(
-        "${localization.version}: $versionText",
-        style: TextStyle(
-          color: appColors.paneSeparator,
-          fontSize: 14,
-        ),
-      );
+      Widget versionWidget = Text("${localization.version}: $versionText");
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
@@ -375,10 +256,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           behavior: HitTestBehavior.translucent,
           child: Container(
             margin: const EdgeInsets.only(right: Base.basePadding),
-            child: Icon(
-              Icons.first_page_rounded,
-              color: mainColor,
-            ),
+            child: const Icon(Icons.first_page_rounded),
           ),
         ));
         // Place the app version at the right side.
@@ -396,12 +274,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           top: Base.basePadding,
         ),
         decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              width: 1,
-              color: appColors.paneSeparator,
-            ),
-          ),
+          border: Border(top: BorderSide(width: 1, color: hintColor)),
         ),
         alignment: Alignment.centerLeft,
         child: versionWidget,
@@ -409,7 +282,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     }
 
     return Container(
-      color: loginBackground,
+      color: themeData.cardColor,
       margin:
           TableModeUtil.isTableMode() ? const EdgeInsets.only(right: 1) : null,
       child: Column(
@@ -434,6 +307,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
   /// Displays the account manager modal bottom sheet.
   void _showBasicModalBottomSheet(BuildContext context) async {
+    print('DEBUG: _showBasicModalBottomSheet called');
     try {
       await showModalBottomSheet(
         context: context,
@@ -475,10 +349,10 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                           topRight: Radius.circular(24),
                         ),
                       ),
-                      child: const SafeArea(
+                      child: SafeArea(
                         top: false,
                         bottom: true,
-                        child: AccountManagerWidget(),
+                        child: const AccountManagerWidget(),
                       ),
                     ),
                   ),
@@ -489,7 +363,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         },
       );
     } catch (e) {
-      // Handle the error gracefully
+      print('ERROR showing modal: $e');
     }
   }
 
@@ -499,172 +373,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     if (callback != null) {
       callback.toggle();
     }
-  }
-
-  /// Builds a custom user info widget without the banner
-  Widget _buildUserInfoWidget(BuildContext context, User? user, String pubkey) {
-    String displayName = "";
-    
-    if (user != null) {
-      if (user.displayName != null && user.displayName!.isNotEmpty) {
-        displayName = user.displayName!;
-      } else if (user.name != null && user.name!.isNotEmpty) {
-        displayName = user.name!;
-      }
-    }
-    
-    if (displayName.isEmpty) {
-      displayName = Nip19.encodeSimplePubKey(pubkey);
-    }
-    
-    String nip19PubKey = Nip19.encodePubKey(pubkey);
-    
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        // Name section
-        SizedBox(
-          width: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Add small space at top
-              const SizedBox(height: 8),
-              Text(
-                displayName,
-                style: const TextStyle(
-                  fontFamily: 'SF Pro Rounded',
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF181E26),
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const SizedBox(height: Base.basePadding),
-              // Public key - full width
-              GestureDetector(
-                onTap: () {
-                  // Copy to clipboard
-                  Clipboard.setData(ClipboardData(text: nip19PubKey));
-                  // Show feedback using high-level overlay
-                  StyledBotToast.show(context, text: 'Copied to clipboard');
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF98B9B4),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Text(
-                          nip19PubKey.length > 35 
-                            ? '${nip19PubKey.substring(0, 35)}...' 
-                            : nip19PubKey,
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF181E26),
-                            fontFamily: 'SF Pro Text',
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      const Icon(
-                        Icons.content_copy,
-                        color: Color(0xFF181E26),
-                        size: 20,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: Base.basePadding),
-              // Button row
-              Row(
-                children: [
-                  // Edit profile button - expanded
-                  if (!_readOnly)
-                    Expanded(
-                      child: Container(
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF98B9B4),
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: TextButton(
-                          onPressed: _jumpToProfileEdit,
-                          style: TextButton.styleFrom(
-                            foregroundColor: const Color(0xFF181E26),
-                            padding: const EdgeInsets.symmetric(horizontal: 14),
-                          ),
-                          child: const Text(
-                            'Edit Profile',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xFF181E26),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (!_readOnly)
-                    const SizedBox(width: 12),
-                  // QR Scanner button
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF98B9B4),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.qr_code_scanner,
-                        color: Color(0xFF181E26),
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        // TODO: Handle QR scanner navigation
-                      },
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  // QR Code button
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF98B9B4),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.qr_code_2,
-                        color: Color(0xFF181E26),
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        QrcodeDialog.show(context, pubkey);
-                      },
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
   }
 }
 
@@ -708,17 +416,10 @@ class IndexDrawerItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appColors = Theme.of(context).extension<AppColors>()!;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final primaryTextColor = isDarkMode ? Colors.white : appColors.primaryText;
-    
-    // Use color parameter if provided, otherwise use appropriate text color
-    final itemColor = color ?? primaryTextColor;
-    
     // The icon widget
     Widget iconWidget = Icon(
       iconData,
-      color: itemColor,
+      color: color,
     );
 
     Widget mainWidget;
@@ -749,11 +450,7 @@ class IndexDrawerItemWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 name,
-                style: TextStyle(
-                  color: itemColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: TextStyle(color: color),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -762,25 +459,22 @@ class IndexDrawerItemWidget extends StatelessWidget {
       );
     }
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: GestureDetector(
-        onTap: () {
-          onTap();
-        },
-        onDoubleTap: () {
-          if (onDoubleTap != null) {
-            onDoubleTap!();
-          }
-        },
-        onLongPress: () {
-          if (onLongPress != null) {
-            onLongPress!();
-          }
-        },
-        behavior: HitTestBehavior.translucent,
-        child: mainWidget,
-      ),
+    return GestureDetector(
+      onTap: () {
+        onTap();
+      },
+      onDoubleTap: () {
+        if (onDoubleTap != null) {
+          onDoubleTap!();
+        }
+      },
+      onLongPress: () {
+        if (onLongPress != null) {
+          onLongPress!();
+        }
+      },
+      behavior: HitTestBehavior.translucent,
+      child: mainWidget,
     );
   }
 }
