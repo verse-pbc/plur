@@ -75,6 +75,7 @@ For each file you plan to modify, explain:
 - When fixing one issue, verify you don't introduce new ones
 - Ensure UI transitions are smooth and don't cause performance issues
 - Profile the application when making performance-related changes
+- DO NOT directly run the app (`flutter run`) from within the LLM coding agent - this will block the agent as it waits for the app process to complete, preventing further interaction. Instead, let the user run the app from their own terminal and continue focusing on code analysis and changes.
 
 ## Code Style Guidelines
 - Follow Flutter's standard linting rules (package:flutter_lints/flutter.yaml)
