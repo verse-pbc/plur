@@ -79,7 +79,7 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
-                  color: primaryTextColor,
+                  color: colors.highlightText,
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   height: 1.2,

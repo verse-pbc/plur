@@ -37,9 +37,9 @@ class AgeVerificationStep extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Group emoji without background container
+              // ID emoji without background container
               const Text(
-                '👨‍👩‍👧‍👦',
+                '🪪',
                 style: TextStyle(fontSize: 72),
               ),
               
@@ -52,7 +52,7 @@ class AgeVerificationStep extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
-                  color: primaryTextColor,
+                  color: colors.highlightText,
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   height: 1.2,
@@ -130,7 +130,7 @@ class AgeVerificationStep extends StatelessWidget {
                               localization.no,
                               style: TextStyle(
                                 fontFamily: 'SF Pro Rounded',
-                                color: primaryTextColor,
+                                color: colors.highlightText,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.2,

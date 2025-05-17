@@ -26,7 +26,7 @@ class TypographySection extends StatelessWidget {
             'Bring your people together',
             style: TextStyle(
               fontFamily: 'SF Pro Rounded',
-              color: colors.primaryText,
+              color: colors.highlightText,
               fontSize: 46,
               fontWeight: FontWeight.bold,
               height: 1.2,
@@ -36,7 +36,7 @@ class TypographySection extends StatelessWidget {
   'Bring your people together',
   style: TextStyle(
     fontFamily: 'SF Pro Rounded',
-    color: colors.primaryText,
+    color: colors.highlightText,
     fontSize: 46,
     fontWeight: FontWeight.bold,
     height: 1.2,
@@ -50,7 +50,7 @@ class TypographySection extends StatelessWidget {
             'Component Library',
             style: TextStyle(
               fontFamily: 'SF Pro Rounded',
-              color: colors.primaryText,
+              color: colors.highlightText,
               fontSize: 32,
               fontWeight: FontWeight.bold,
               height: 1.2,
@@ -60,7 +60,7 @@ class TypographySection extends StatelessWidget {
   'Component Library',
   style: TextStyle(
     fontFamily: 'SF Pro Rounded',
-    color: colors.primaryText,
+    color: colors.highlightText,
     fontSize: 32,
     fontWeight: FontWeight.bold,
     height: 1.2,

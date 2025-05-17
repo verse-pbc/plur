@@ -196,7 +196,7 @@ class _ComponentLibraryWidgetState extends State<ComponentLibraryWidget> {
               _getSectionTitle(),
               style: TextStyle(
                 fontFamily: 'SF Pro Rounded',
-                color: colors.primaryText,
+                color: colors.highlightText,
                 fontSize: 32,
                 fontWeight: FontWeight.w700,
               ),
