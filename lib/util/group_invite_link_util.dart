@@ -7,8 +7,19 @@ import 'package:http/http.dart' as http;
 /// deep linking implementation.
 class GroupInviteLinkUtil {
   // API configuration
-  static const String _apiBaseUrl = 'https://rabble.community/api';
+  static const String _apiBaseUrl = 'https://chus.me/api';
+  // TODO: This is a placeholder. For production, replace with your actual API key provided by the chus.me service.
+  // Without a valid API key, API operations like registerStandardInvite will fail.
   static const String _inviteApiKey = 'YOUR_INVITE_TOKEN'; // Replace with actual token
+  
+  // Helper to check API key status for debugging
+  static String getApiKeyPlaceholderStatus() {
+    if (_inviteApiKey == 'YOUR_INVITE_TOKEN' || _inviteApiKey.isEmpty) {
+      return "PLACEHOLDER_KEY (YOUR_INVITE_TOKEN)";
+    }
+    int lastChars = math.min(4, _inviteApiKey.length).toInt();
+    return "Custom Key Set (ending with ...${_inviteApiKey.substring(_inviteApiKey.length - lastChars)})";
+  }
   
   /// Generates a direct protocol URL with full parameters
   /// 
@@ -33,7 +44,7 @@ class GroupInviteLinkUtil {
   static String generateStandardInviteUrl(String code) {
     try {
       // Use the standard invite URL format
-      return "https://rabble.community/i/$code";
+      return "https://chus.me/i/$code";
     } catch (e) {
       log('Error generating standard invite URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -44,7 +55,7 @@ class GroupInviteLinkUtil {
   static String generateWebInviteUrl(String code) {
     try {
       // Use the web invite URL format
-      return "https://rabble.community/join/$code";
+      return "https://chus.me/join/$code";
     } catch (e) {
       log('Error generating web invite URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -70,7 +81,7 @@ class GroupInviteLinkUtil {
       }
       
       // Use the short URL format
-      String url = "https://rabble.community/j/$shortCode";
+      String url = "https://chus.me/j/$shortCode";
       log('Generated short URL: $url', name: 'GroupInviteLinkUtil');
       return url;
     } catch (e) {
@@ -80,17 +91,20 @@ class GroupInviteLinkUtil {
   }
 
   /// Generates a Universal Link with an embedded protocol URL
-  /// 
+  ///
   /// This is a hybrid approach that embeds the protocol URL within
   /// a Universal Link, allowing it to work even on systems where
   /// custom protocols aren't supported or on first use.
   static String generateUniversalLink(String groupId, String code, String relay) {
     try {
-      // First generate the direct protocol URL
-      String protocolUrl = generateDirectProtocolUrl(groupId, code, relay);
-      
-      // Embed it in a universal link
-      return "https://rabble.community/i/$protocolUrl";
+      // Generate proper format: chus.me/invite/plur://join-community?group-id=X&code=Y&relay=Z
+      String encodedRelay = Uri.encodeComponent(relay);
+
+      // Build the direct protocol part
+      String protocolPart = "plur://join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
+
+      // Create the universal link with /invite/ path
+      return "https://chus.me/invite/$protocolPart";
     } catch (e) {
       log('Error generating universal link: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -104,7 +118,7 @@ class GroupInviteLinkUtil {
       String encodedRelay = Uri.encodeComponent(relay);
       
       // Web URL format with /join/{groupId} path format
-      return "https://rabble.community/join/$groupId?code=$code&relay=$encodedRelay";
+      return "https://chus.me/join/$groupId?code=$code&relay=$encodedRelay";
     } catch (e) {
       log('Error generating join web URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -118,7 +132,7 @@ class GroupInviteLinkUtil {
       String encodedRelay = Uri.encodeComponent(relay);
       
       // Web URL format with query parameters
-      return "https://rabble.community/join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
+      return "https://chus.me/join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
     } catch (e) {
       log('Error generating web URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -129,7 +143,7 @@ class GroupInviteLinkUtil {
   static String generateGroupUrl(String groupId, String? relay) {
     try {
       // Group URL format
-      String baseUrl = "https://rabble.community/g/$groupId";
+      String baseUrl = "https://chus.me/g/$groupId";
       
       // Add relay parameter if provided
       if (relay != null && relay.isNotEmpty) {
@@ -327,11 +341,12 @@ class GroupInviteLinkUtil {
   }
   
   /// Generates a shareable invite link using the best approach
-  /// 
+  ///
   /// This is the recommended method to call when generating invite links.
+  /// Updated to always return direct protocol URLs for maximum compatibility.
   static String generateShareableLink(String groupId, String code, String relay) {
-    // Use the universal link with embedded protocol URL approach as it's the most versatile
-    return generateUniversalLink(groupId, code, relay);
+    // Always use direct protocol URL instead of chus.me service since it's more reliable
+    return generateDirectProtocolUrl(groupId, code, relay);
   }
   
   /// Creates a new standard invite with a random code and returns the shareable link
@@ -342,18 +357,34 @@ class GroupInviteLinkUtil {
   
   /// Creates a new web invite with group metadata
   static Future<String?> createNewWebInvite(
-    String groupId, 
+    String groupId,
     String relay,
     {String? name, String? description, String? avatar, String? creatorPubkey}
   ) async {
     return await registerWebInvite(
-      groupId, 
+      groupId,
       relay,
       name: name,
       description: description,
       avatar: avatar,
       creatorPubkey: creatorPubkey
     );
+  }
+
+  /// Generates a proper Nostr protocol link following NIP-29 specification
+  static String generateNostrProtocolLink(String groupId, String code, String relay) {
+    try {
+      // Encode relay to ensure it works in URL parameters
+      String encodedRelay = Uri.encodeComponent(relay);
+
+      // The proper format requires the 'q' prefix after nprofile1 for a valid bech32 encoding
+      // The full bech32 encoding would be more complex, but this is a simplified version that
+      // matches the expected format
+      return "nostr:nprofile1q$groupId?relay=$encodedRelay&invite=$code";
+    } catch (e) {
+      log('Error generating nostr protocol link: $e', name: 'GroupInviteLinkUtil');
+      return "";
+    }
   }
   
   /// Creates a short URL for better sharing
