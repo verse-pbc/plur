@@ -15,11 +15,15 @@ class ListingCard extends ConsumerWidget {
   final ListingModel listing;
   final VoidCallback? onTap;
   final bool showGroupBadge;
+  final bool isOwner;
+  final VoidCallback? onViewResponses;
 
   const ListingCard({
     required this.listing,
     this.onTap,
     this.showGroupBadge = false,
+    this.isOwner = false,
+    this.onViewResponses,
     super.key,
   });
 
@@ -361,19 +365,31 @@ class ListingCard extends ConsumerWidget {
             color: customColors.separatorColor.withAlpha((0.3 * 255).toInt()),
           ),
           
-          TextButton.icon(
-            onPressed: () {
-              // Use the global dmProvider to create a session
-              final detail = dmProvider.findOrNewADetail(listing.pubkey);
-              // Navigate to DM screen with the session detail
-              RouterUtil.router(context, RouterPath.dmDetail, detail);
-            },
-            icon: Icon(Icons.message_outlined, size: 16, color: messageColor),
-            label: Text('Direct Message', style: TextStyle(color: messageColor)),
-            style: TextButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+          // If current user is the owner, show "View Responses" button
+          if (isOwner && onViewResponses != null) {
+            TextButton.icon(
+              onPressed: onViewResponses,
+              icon: Icon(Icons.forum_outlined, size: 16, color: messageColor),
+              label: Text('View Responses', style: TextStyle(color: messageColor)),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              ),
+            )
+          } else {
+            TextButton.icon(
+              onPressed: () {
+                // Use the global dmProvider to create a session
+                final detail = dmProvider.findOrNewADetail(listing.pubkey);
+                // Navigate to DM screen with the session detail
+                RouterUtil.router(context, RouterPath.dmDetail, detail);
+              },
+              icon: Icon(Icons.message_outlined, size: 16, color: messageColor),
+              label: Text('Direct Message', style: TextStyle(color: messageColor)),
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              ),
             ),
-          ),
+          },
         ],
       );
     } 
