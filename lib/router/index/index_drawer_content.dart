@@ -510,67 +510,11 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // First row with avatar and QR buttons
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.topCenter,
-              children: [
-                // User avatar
-                UserPicWidget(
-                  pubkey: pubkey,
-                  width: 80,
-                  user: user,
-                ),
-                // QR buttons positioned to the right of the avatar
-                Positioned(
-                  left: 85,
-                  top: 10,
-                  child: Column(
-                    children: [
-                      // QR Scanner button (square pattern)
-                      Container(
-                        width: 40,
-                        height: 40,
-                        margin: const EdgeInsets.only(bottom: 8),
-                        decoration: BoxDecoration(
-                          color: mainColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: mainColor, width: 1.5),
-                        ),
-                        child: IconButton(
-                          icon: Icon(Icons.qr_code_scanner, color: mainColor, size: 20),
-                          onPressed: () {
-                            // Handle QR scanner
-                          },
-                          padding: EdgeInsets.zero,
-                        ),
-                      ),
-                      // QR Code button (grid pattern)
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: mainColor.withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(color: mainColor, width: 1.5),
-                        ),
-                        child: IconButton(
-                          icon: Icon(Icons.qr_code, color: mainColor, size: 20),
-                          onPressed: () {
-                            // Handle QR code display
-                            QrcodeDialog.show(context, pubkey);
-                          },
-                          padding: EdgeInsets.zero,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
+        // User avatar
+        UserPicWidget(
+          pubkey: pubkey,
+          width: 80,
+          user: user,
         ),
         const SizedBox(height: Base.basePadding),
         // Name section
@@ -653,6 +597,50 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     ),
                   ],
                 ),
+              const SizedBox(height: Base.basePadding),
+              // QR code buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // QR Scanner button
+                  Container(
+                    width: 40,
+                    height: 40,
+                    margin: const EdgeInsets.only(right: 8),
+                    decoration: BoxDecoration(
+                      color: mainColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: mainColor, width: 1.5),
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.qr_code_scanner, color: mainColor, size: 20),
+                      onPressed: () {
+                        // Handle QR scanner
+                      },
+                      padding: EdgeInsets.zero,
+                    ),
+                  ),
+                  // QR Code button
+                  Container(
+                    width: 40,
+                    height: 40,
+                    margin: const EdgeInsets.only(left: 8),
+                    decoration: BoxDecoration(
+                      color: mainColor.withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: mainColor, width: 1.5),
+                    ),
+                    child: IconButton(
+                      icon: Icon(Icons.qr_code, color: mainColor, size: 20),
+                      onPressed: () {
+                        // Handle QR code display
+                        QrcodeDialog.show(context, pubkey);
+                      },
+                      padding: EdgeInsets.zero,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),
