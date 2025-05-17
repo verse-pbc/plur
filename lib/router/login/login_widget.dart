@@ -413,7 +413,26 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     Color accentColor = colors.accent;
     Color buttonTextColor = colors.buttonText;
     Color dimmedColor = colors.secondaryText;
+    
+    // Get screen width for responsive design
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isTablet = screenWidth >= 600;
+    bool isDesktop = screenWidth >= 900;
+    double maxInputWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
 
+    // Wrapper function for responsive elements
+    Widget wrapResponsive(Widget child) {
+      if (isTablet || isDesktop) {
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxInputWidth),
+            child: child,
+          ),
+        );
+      }
+      return child;
+    }
+    
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter setSheetState) {
         return SafeArea(
@@ -475,73 +494,77 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               const SizedBox(height: 32),
                 
                 // Private key input field
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(
-                      color: dimmedColor.withAlpha((255 * 0.3).round()),
-                      width: 1,
+                wrapResponsive(
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: dimmedColor.withAlpha((255 * 0.3).round()),
+                        width: 1,
+                      ),
                     ),
-                  ),
-                  child: TextField(
-                    controller: _controller,
-                    autofocus: true,
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: primaryForegroundColor,
-                      fontSize: 16,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'nsec...',
-                      hintStyle: TextStyle(
+                    child: TextField(
+                      controller: _controller,
+                      autofocus: true,
+                      style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
-                        color: dimmedColor,
+                        color: primaryForegroundColor,
                         fontSize: 16,
                       ),
-                      border: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(16),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isTextObscured ? Icons.visibility : Icons.visibility_off,
+                      decoration: InputDecoration(
+                        hintText: 'nsec...',
+                        hintStyle: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
                           color: dimmedColor,
+                          fontSize: 16,
                         ),
-                        onPressed: () {
-                          setSheetState(() {
-                            _isTextObscured = !_isTextObscured;
-                          });
-                        },
+                        border: InputBorder.none,
+                        contentPadding: const EdgeInsets.all(16),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isTextObscured ? Icons.visibility : Icons.visibility_off,
+                            color: dimmedColor,
+                          ),
+                          onPressed: () {
+                            setSheetState(() {
+                              _isTextObscured = !_isTextObscured;
+                            });
+                          },
+                        ),
                       ),
+                      obscureText: _isTextObscured,
                     ),
-                    obscureText: _isTextObscured,
                   ),
                 ),
                 
                 const SizedBox(height: 32),
                 
                 // Login button
-                SizedBox(
-                  width: double.infinity,
-                  child: GestureDetector(
-                    onTap: _isLoginButtonEnabled ? _doLogin : null,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 18),
-                      decoration: BoxDecoration(
-                        color: _isLoginButtonEnabled 
-                          ? accentColor
-                          : accentColor.withAlpha((255 * 0.4).round()),
-                        borderRadius: BorderRadius.circular(32),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Login to Account",
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: _isLoginButtonEnabled
-                            ? buttonTextColor
-                            : buttonTextColor.withAlpha((255 * 0.4).round()),
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          letterSpacing: 0.2,
+                wrapResponsive(
+                  SizedBox(
+                    width: double.infinity,
+                    child: GestureDetector(
+                      onTap: _isLoginButtonEnabled ? _doLogin : null,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        decoration: BoxDecoration(
+                          color: _isLoginButtonEnabled 
+                            ? accentColor
+                            : accentColor.withAlpha((255 * 0.4).round()),
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Login to Account",
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
+                            color: _isLoginButtonEnabled
+                              ? buttonTextColor
+                              : buttonTextColor.withAlpha((255 * 0.4).round()),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.2,
+                          ),
                         ),
                       ),
                     ),
@@ -551,27 +574,29 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 // External signer options
                 if (PlatformUtil.isAndroid() && existAndroidNostrSigner) ...[
                   const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: _loginByAndroidSigner,
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
+                  wrapResponsive(
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: _loginByAndroidSigner,
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          side: BorderSide(
+                            color: dimmedColor.withAlpha((255 * 0.3).round()),
+                            width: 2,
+                          ),
                         ),
-                        side: BorderSide(
-                          color: dimmedColor.withAlpha((255 * 0.3).round()),
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(
-                        localization.loginWithAndroidSigner,
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: primaryForegroundColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        child: Text(
+                          localization.loginWithAndroidSigner,
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
+                            color: primaryForegroundColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
@@ -580,27 +605,29 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 
                 if (PlatformUtil.isWeb() && existWebNostrSigner) ...[
                   const SizedBox(height: 16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: _loginWithWebSigner,
-                      style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(32),
+                  wrapResponsive(
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: _loginWithWebSigner,
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(32),
+                          ),
+                          side: BorderSide(
+                            color: dimmedColor.withAlpha((255 * 0.3).round()),
+                            width: 2,
+                          ),
                         ),
-                        side: BorderSide(
-                          color: dimmedColor.withAlpha((255 * 0.3).round()),
-                          width: 2,
-                        ),
-                      ),
-                      child: Text(
-                        localization.loginWithNIP07Extension,
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: primaryForegroundColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
+                        child: Text(
+                          localization.loginWithNIP07Extension,
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
+                            color: primaryForegroundColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ),
