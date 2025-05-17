@@ -221,8 +221,10 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                       // Hint text with paste option
                       GestureDetector(
                         onTap: _pasteJoinLink,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          spacing: 4, // Horizontal spacing between items
                           children: [
                             Text(
                               localization.haveInviteLink,
@@ -232,8 +234,8 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                                 fontStyle: FontStyle.italic,
                                 color: context.colors.dimmed,
                               ),
+                              textAlign: TextAlign.center,
                             ),
-                            const SizedBox(width: 4),
                             Icon(
                               Icons.content_paste_rounded,
                               size: 16,
