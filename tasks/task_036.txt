@@ -1,0 +1,66 @@
+# Task ID: 36
+# Title: Implement Admin-Only Group Information Editing Restrictions
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Modify the group management system to restrict editing of group information exclusively to users with admin privileges, and implement appropriate UI feedback for non-admin users.
+# Details:
+This task requires implementing permission-based access control for group information editing across both frontend and backend systems:
+
+1. Backend Implementation:
+   - Modify the group information API endpoints to verify admin privileges before processing edit requests
+   - Add middleware that checks user roles/permissions before allowing access to group editing functionality
+   - Return appropriate HTTP status codes (403 Forbidden) when non-admin users attempt to modify group data
+   - Ensure all group information update routes are protected with the admin permission check
+   - Log unauthorized access attempts for security monitoring
+
+2. Frontend Implementation:
+   - Update the group information UI components to conditionally render edit buttons/forms only for admin users
+   - Add visual indicators that clearly communicate editing restrictions to non-admin users
+   - Implement informative tooltips explaining that admin privileges are required for editing
+   - Ensure that direct API calls from the frontend always include permission checks
+   - Add graceful error handling for cases where permissions change during a user session
+
+3. User Experience Considerations:
+   - Design clear feedback messages that explain why editing is restricted
+   - Consider implementing a "Request Changes" feature for non-admin users to suggest edits
+   - Ensure the UI remains intuitive by not showing edit options that users cannot access
+   - Maintain consistent permission models across web and mobile applications
+
+4. Security Considerations:
+   - Implement both client-side and server-side validation to prevent permission bypassing
+   - Ensure that all group editing API endpoints have consistent permission checks
+   - Consider adding rate limiting for failed edit attempts to prevent brute force attacks
+
+# Test Strategy:
+Testing for this feature should verify both the technical implementation and user experience aspects:
+
+1. Unit Tests:
+   - Test the permission checking middleware with various user roles
+   - Verify that all group editing API endpoints correctly enforce admin permissions
+   - Test error handling for unauthorized access attempts
+
+2. Integration Tests:
+   - Verify that the frontend correctly displays/hides edit functionality based on user role
+   - Test the complete flow of group information editing for both admin and non-admin users
+   - Ensure proper error messages are displayed when permission checks fail
+
+3. User Acceptance Testing:
+   - Create test scenarios with different user types attempting to edit group information
+   - Verify that admin users can successfully edit all group information
+   - Confirm that non-admin users receive clear feedback when attempting to access edit functionality
+   - Test across different devices and screen sizes to ensure consistent behavior
+
+4. Security Testing:
+   - Attempt to bypass permissions using direct API calls
+   - Test with manipulated request payloads to ensure server-side validation is robust
+   - Verify that session timeout/expiration correctly revokes editing capabilities
+
+5. Regression Testing:
+   - Ensure that existing group viewing functionality works correctly for all users
+   - Verify that other group-related features (joining, leaving, etc.) are unaffected
+   - Test across both web and native applications to ensure consistent behavior
+
+6. Documentation Verification:
+   - Confirm that user documentation clearly explains the permission model
+   - Verify that API documentation accurately reflects the permission requirements

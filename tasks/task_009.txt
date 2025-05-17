@@ -1,0 +1,40 @@
+# Task ID: 9
+# Title: Anti-spam System Implementation
+# Status: pending
+# Dependencies: 4, 5
+# Priority: medium
+# Description: Implement rate-limits, proof-of-work, and admin moderation tools to prevent spam and abuse.
+# Details:
+1. Create RateLimiter service:
+```typescript
+class RateLimiter {
+  checkLimit(pubkey: string, action: string): boolean {}
+  recordAction(pubkey: string, action: string): void {}
+  getActionCount(pubkey: string, action: string, timeWindow: number): number {}
+}
+```
+2. Implement proof-of-work challenge system:
+```typescript
+class ProofOfWork {
+  generateChallenge(difficulty: number): string {}
+  verifyProof(challenge: string, proof: string, difficulty: number): boolean {}
+  solveChallenge(challenge: string, difficulty: number): string {}
+}
+```
+3. Create moderation tools for admins:
+   - Report button on messages
+   - Moderation queue UI
+   - Ban/mute controls
+4. Implement inline flag/report functionality
+5. Create moderator queue system
+6. Add automated content filtering for known spam patterns
+7. Implement graduated rate limits based on user reputation
+
+# Test Strategy:
+1. Test rate limiting with rapid action sequences
+2. Verify proof-of-work challenge generation and verification
+3. Test moderation tools and queue
+4. Validate report functionality
+5. Test automated content filtering
+6. Verify ban/mute controls
+7. Performance test with simulated spam attacks

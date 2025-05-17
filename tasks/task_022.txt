@@ -1,0 +1,56 @@
+# Task ID: 22
+# Title: Implement Off-ramp Functionality
+# Status: pending
+# Dependencies: 15
+# Priority: low
+# Description: Create functionality to export keys and relay lists for use in other Nostr clients.
+# Details:
+1. Develop key export functionality in NIP-19 format
+2. Create relay list export in standard format
+3. Implement QR code generation for key sharing
+4. Add copy-to-clipboard functionality
+5. Create educational content about using exported keys
+
+Off-ramp implementation:
+```javascript
+const exportUserData = async () => {
+  const userData = await getUserData();
+  const relays = await getRelayList();
+  
+  // Format nsec for export
+  const nsec = nip19.nsecEncode(userData.privateKey);
+  
+  // Format relay list
+  const relayList = relays.map(relay => ({
+    url: relay.url,
+    read: relay.read,
+    write: relay.write
+  }));
+  
+  return {
+    nsec,
+    npub: userData.npub,
+    relays: relayList
+  };
+};
+
+const generateExportQR = async () => {
+  const data = await exportUserData();
+  
+  // Create JSON string for QR
+  const qrData = JSON.stringify({
+    privateKey: data.nsec,
+    relays: data.relays
+  });
+  
+  // Generate QR code
+  return generateQRCode(qrData);
+};
+```
+
+# Test Strategy:
+1. Verify key export in NIP-19 format
+2. Test relay list export format
+3. Validate QR code generation and scanning
+4. Test import of exported data in other Nostr clients
+5. Verify copy-to-clipboard functionality

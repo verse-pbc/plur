@@ -1,0 +1,84 @@
+# Task ID: 18
+# Title: Develop Private Groups Functionality
+# Status: pending
+# Dependencies: 15, 17
+# Priority: high
+# Description: Implement end-to-end encrypted private groups with admin roles following NIP-29 specification.
+# Details:
+1. Implement NIP-29 group creation and management
+2. Develop end-to-end encryption for group messages
+3. Create admin role functionality
+4. Implement invite link/QR generation
+5. Develop group chat interface
+6. Add pinned message functionality
+
+Group creation example:
+```javascript
+const createPrivateGroup = async (name, description, creatorKeys) => {
+  // Generate group keypair
+  const groupKeys = generateKeypair();
+  
+  // Create group metadata event (kind:40)
+  const groupMetadata = {
+    kind: 40,
+    pubkey: creatorKeys.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['d', generateUniqueId()],
+      ['name', name],
+      ['description', description],
+      ['p', creatorKeys.publicKey, '', 'admin']
+    ],
+    content: ''
+  };
+  
+  // Sign and publish
+  const signedMetadata = await signEvent(groupMetadata, creatorKeys.privateKey);
+  await publishEvent(signedMetadata);
+  
+  // Store group locally
+  await storeGroup({
+    id: signedMetadata.id,
+    name,
+    description,
+    createdAt: new Date().toISOString(),
+    members: [{ pubkey: creatorKeys.publicKey, role: 'admin' }],
+    groupKeys
+  });
+  
+  return signedMetadata.id;
+};
+
+const sendGroupMessage = async (groupId, content, senderKeys) => {
+  const group = await getGroup(groupId);
+  
+  // Encrypt message for all members
+  const encryptedContent = await encryptGroupMessage(content, group.members);
+  
+  // Create message event (kind:42)
+  const messageEvent = {
+    kind: 42,
+    pubkey: senderKeys.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['e', groupId],
+      ...group.members.map(member => ['p', member.pubkey])
+    ],
+    content: encryptedContent
+  };
+  
+  // Sign and publish
+  const signedMessage = await signEvent(messageEvent, senderKeys.privateKey);
+  await publishEvent(signedMessage);
+  
+  return signedMessage.id;
+};
+```
+
+# Test Strategy:
+1. Verify group creation with NIP-29 compliance
+2. Test end-to-end encryption for group messages
+3. Validate admin role functionality
+4. Test invite link/QR generation and joining
+5. Verify message delivery to all group members
+6. Test pinned message functionality

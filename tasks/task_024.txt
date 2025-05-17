@@ -1,0 +1,81 @@
+# Task ID: 24
+# Title: Implement Secure Contact Exchange
+# Status: pending
+# Dependencies: 17
+# Priority: medium
+# Description: Develop functionality for secure contact exchange through QR codes and short links.
+# Details:
+1. Implement rotating QR code for Contact Card
+2. Create QR code scanner for adding contacts
+3. Develop short link format (holis.social/@alias)
+4. Implement deep linking for contact sharing
+5. Create offline contact search functionality
+
+Contact exchange implementation:
+```javascript
+const generateContactQR = async (interval = 30000) => {
+  const profile = await getUserProfile();
+  const contactCard = createContactCard(profile, profile.walletPublic);
+  
+  // Sign the contact card event
+  const signedCard = await signEvent(contactCard, currentUser.privateKey);
+  
+  // Generate QR code with the signed event
+  const qrData = JSON.stringify(signedCard);
+  const qrCode = await generateQRCode(qrData);
+  
+  // Set up rotation interval
+  setInterval(async () => {
+    // Update timestamp and regenerate
+    contactCard.created_at = Math.floor(Date.now() / 1000);
+    const newSignedCard = await signEvent(contactCard, currentUser.privateKey);
+    const newQrData = JSON.stringify(newSignedCard);
+    updateQRCode(newQrData);
+  }, interval);
+  
+  return qrCode;
+};
+
+const generateContactLink = async () => {
+  const profile = await getUserProfile();
+  const alias = profile.displayName.replace(/\s+/g, '-').toLowerCase();
+  
+  // Create short link
+  return `holis.social/@${alias}?npub=${profile.npub}`;
+};
+
+const scanContactQR = async (qrData) => {
+  try {
+    const eventData = JSON.parse(qrData);
+    
+    // Verify event signature
+    if (!verifySignature(eventData)) {
+      throw new Error('Invalid signature');
+    }
+    
+    // Extract profile information
+    const profile = {
+      pubkey: eventData.pubkey,
+      displayName: eventData.content.name || 'Unknown',
+      about: eventData.content.about || '',
+      picture: eventData.content.picture || '',
+      tags: eventData.tags.filter(tag => tag[0] === 't').map(tag => tag[1])
+    };
+    
+    // Add to rolodex
+    await addToRolodex(profile);
+    
+    return profile;
+  } catch (error) {
+    console.error('Error scanning contact QR:', error);
+    throw error;
+  }
+};
+```
+
+# Test Strategy:
+1. Verify QR code generation with correct contact information
+2. Test QR code scanning and contact addition
+3. Validate short link generation and parsing
+4. Test deep linking functionality
+5. Verify offline contact search works without network connection

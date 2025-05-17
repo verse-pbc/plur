@@ -1,0 +1,69 @@
+# Task ID: 26
+# Title: Implement Location Safety Features
+# Status: pending
+# Dependencies: 18, 19
+# Priority: high
+# Description: Develop delayed send and local-only drafts functionality to enhance user safety in sensitive locations.
+# Details:
+1. Implement draft storage functionality
+2. Create delayed send feature with configurable timer
+3. Develop local-only mode for sensitive locations
+4. Add visual indicators for message status
+5. Implement cancel functionality for scheduled messages
+
+Location safety implementation:
+```javascript
+const saveDraft = async (content, type, reference = null) => {
+  const draft = {
+    id: generateUniqueId(),
+    content,
+    type, // 'post', 'groupMessage', etc.
+    reference, // groupId, replyTo, etc.
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  
+  await storeDraft(draft);
+  return draft;
+};
+
+const scheduleMessage = async (draft, delayMinutes) => {
+  const sendTime = Date.now() + (delayMinutes * 60 * 1000);
+  
+  const scheduledMessage = {
+    ...draft,
+    scheduledFor: sendTime,
+    status: 'scheduled'
+  };
+  
+  await updateDraft(scheduledMessage);
+  
+  // Register with service worker for offline support
+  await registerScheduledMessage(scheduledMessage);
+  
+  return scheduledMessage;
+};
+
+const cancelScheduledMessage = async (draftId) => {
+  const draft = await getDraft(draftId);
+  
+  if (!draft || draft.status !== 'scheduled') {
+    throw new Error('No scheduled message found');
+  }
+  
+  draft.status = 'draft';
+  draft.scheduledFor = null;
+  
+  await updateDraft(draft);
+  await unregisterScheduledMessage(draftId);
+  
+  return draft;
+};
+```
+
+# Test Strategy:
+1. Verify draft storage and retrieval
+2. Test delayed send functionality with various time settings
+3. Validate local-only mode prevents network transmission
+4. Test visual indicators for message status
+5. Verify cancel functionality for scheduled messages

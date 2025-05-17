@@ -1,0 +1,54 @@
+# Task ID: 38
+# Title: Task #38: Disable Broadcast Option for Group-Contained Posts
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Modify the post creation interface to automatically disable and hide the broadcast option when a user is creating a post within a group context, ensuring group posts remain contained within their intended audience.
+# Details:
+This task requires modifying the post creation component to be context-aware of its environment (whether it's being created within a group or not). Implementation details include:
+
+1. Update the post creation component to receive and check the current context (group ID or null).
+2. When a post is being created within a group context (group ID is present):
+   - Hide the broadcast toggle/option from the UI
+   - Set the default broadcast value to false
+   - Disable any programmatic attempts to enable broadcasting
+3. Ensure the backend validation also enforces this rule by rejecting any attempts to broadcast posts that have a group ID associated with them
+4. Update the post schema/model if necessary to clarify the relationship between group membership and broadcast capabilities
+5. Add appropriate tooltips or helper text explaining why broadcast is unavailable when posting in groups
+6. Consider edge cases such as:
+   - What happens if a user starts creating a post outside a group and then navigates into a group context
+   - How drafts should behave when moved between contexts
+   - Whether existing posts in groups that were somehow broadcasted should be retroactively modified
+
+The implementation should maintain a clean user experience while enforcing the business rule that group posts should remain within their group context.
+
+# Test Strategy:
+Testing should verify both the UI behavior and backend enforcement:
+
+1. UI Testing:
+   - Verify the broadcast option is visible when creating posts outside of groups
+   - Verify the broadcast option is hidden when creating posts inside a group
+   - Test transitioning between contexts (if applicable) to ensure proper UI updates
+   - Verify appropriate helper text or tooltips are displayed
+
+2. Functional Testing:
+   - Create a post within a group and verify it cannot be broadcasted
+   - Attempt to programmatically enable broadcasting for a group post (via API or direct calls) and verify it fails
+   - Verify posts created outside groups can still be broadcasted normally
+
+3. Edge Case Testing:
+   - Test with different user permission levels to ensure consistent behavior
+   - Test with draft posts moved between contexts
+   - Test with various group types/configurations
+
+4. Regression Testing:
+   - Verify existing functionality for non-group posts remains unchanged
+   - Ensure group visibility and permissions still work correctly
+
+5. API Testing:
+   - Verify the API rejects attempts to broadcast group posts
+   - Test error messages and status codes for invalid broadcast attempts
+
+6. User Acceptance Testing:
+   - Have group admins verify the experience matches expectations
+   - Confirm the UI changes are intuitive and don't confuse users

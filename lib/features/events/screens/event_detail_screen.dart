@@ -9,6 +9,7 @@ import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/main.dart';
 import 'package:share_plus/share_plus.dart';
+import '../../../component/report_event_dialog.dart';
 
 /// Screen to display event details
 class EventDetailScreen extends ConsumerStatefulWidget {
@@ -894,187 +895,6 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
     );
   }
   
-  /*
-  // IMPLEMENTATION NOTES:
-  // The following methods can be used in the future to implement the full
-  // event discussion functionality:
-  
-  // 1. Initialize event chat when entering this screen:
-  void _loadEventChat() {
-    if (!mounted) return;
-    
-    ref.read(eventChatProvider.notifier).loadEventChat(
-      eventId: widget.event.id,
-      eventDTag: widget.event.d,
-      groupId: widget.event.groupId,
-    );
-  }
-  
-  // 2. Send a new message:
-  Future<void> _sendChatMessage(String content) async {
-    if (content.trim().isEmpty) return;
-    
-    try {
-      await ref.read(eventChatProvider.notifier).sendMessage(
-        eventId: widget.event.id,
-        eventDTag: widget.event.d,
-        content: content,
-        groupId: widget.event.groupId,
-      );
-      
-      // Clear input field
-      // messageController.clear();
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error sending message: $e')),
-        );
-      }
-    }
-  }
-  
-  // 3. Build the actual chat message list:
-  Widget _buildChatMessageList() {
-    final chatState = ref.watch(eventChatProvider);
-    
-    return chatState.when(
-      data: (messages) {
-        final eventMessages = messages.where((m) => m.eventId == widget.event.id).toList();
-        
-        if (eventMessages.isEmpty) {
-          return Center(
-            child: Text(
-              'No messages yet. Be the first to start the discussion!',
-              textAlign: TextAlign.center,
-            ),
-          );
-        }
-        
-        return ListView.builder(
-          padding: const EdgeInsets.only(top: 16, bottom: 80),
-          itemCount: eventMessages.length,
-          itemBuilder: (context, index) {
-            final message = eventMessages[index];
-            return _buildChatMessageItem(message);
-          },
-        );
-      },
-      loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) => Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text('Error loading discussion: $error'),
-            TextButton(
-              onPressed: _loadEventChat,
-              child: const Text('Try Again'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-  
-  // 4. Build individual chat message items:
-  Widget _buildChatMessageItem(EventChatModel message) {
-    final isMyMessage = nostr?.publicKey == message.pubkey;
-    final themeData = Theme.of(context);
-    final customColors = themeData.customColors;
-    
-    // Format timestamp
-    final now = DateTime.now();
-    final messageTime = message.createdAt;
-    String formattedTime;
-    
-    if (now.difference(messageTime).inDays > 0) {
-      formattedTime = DateFormat.MMMd().add_jm().format(messageTime);
-    } else {
-      formattedTime = DateFormat.jm().format(messageTime);
-    }
-    
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Row(
-        mainAxisAlignment: isMyMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!isMyMessage)
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: customColors.accentColor.withOpacity(0.2),
-              child: Icon(
-                Icons.person,
-                size: 16,
-                color: customColors.accentColor,
-              ),
-            ),
-          
-          const SizedBox(width: 8),
-          
-          Flexible(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: isMyMessage 
-                    ? customColors.accentColor.withOpacity(0.2)
-                    : customColors.feedBgColor,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (!isMyMessage)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 4),
-                      child: Text(
-                        message.pubkey.substring(0, 8) + '...',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                          color: customColors.secondaryForegroundColor,
-                        ),
-                      ),
-                    ),
-                  
-                  Text(message.content),
-                  
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Text(
-                        formattedTime,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: customColors.secondaryForegroundColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          
-          if (isMyMessage)
-            const SizedBox(width: 8),
-          
-          if (isMyMessage)
-            CircleAvatar(
-              radius: 16,
-              backgroundColor: customColors.accentColor.withOpacity(0.2),
-              child: Icon(
-                Icons.person,
-                size: 16,
-                color: customColors.accentColor,
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-  */
-  
   Widget _buildMoreOptionsMenu(BuildContext context, S l10n) {
     final themeData = Theme.of(context);
     final customColors = themeData.customColors;
@@ -1600,11 +1420,19 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
     }
   }
   
-  void _reportEvent() {
-    // TODO: Implement event reporting
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Report feature coming soon')),
+  void _reportEvent() async {
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (context) => const ReportEventDialog(),
     );
+    if (result != null && mounted) {
+      final reason = result['reason'];
+      final details = result['details'];
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Report submitted: $reason${details != null && details.isNotEmpty ? ", $details" : ""}')),
+      );
+      // TODO: Implement event generation and relay publishing here
+    }
   }
   
   void _shareEvent() {

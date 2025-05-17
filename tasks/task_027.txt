@@ -1,0 +1,90 @@
+# Task ID: 27
+# Title: Implement E2E Encryption Indicators
+# Status: pending
+# Dependencies: 18
+# Priority: medium
+# Description: Develop visual indicators for end-to-end encryption status, including lock icons and key-rollover animations.
+# Details:
+1. Create persistent lock icon for encrypted conversations
+2. Implement key-rollover animation for key changes
+3. Develop encryption status indicators
+4. Add educational tooltips about encryption
+5. Implement verification status for contacts
+
+Encryption indicators implementation:
+```javascript
+const EncryptionStatus = {
+  UNENCRYPTED: 'unencrypted',
+  ENCRYPTED: 'encrypted',
+  VERIFIED: 'verified',
+  KEY_CHANGED: 'key_changed'
+};
+
+const getEncryptionStatus = async (conversation) => {
+  if (conversation.type === 'group') {
+    const group = await getGroup(conversation.id);
+    return group.encrypted ? EncryptionStatus.ENCRYPTED : EncryptionStatus.UNENCRYPTED;
+  }
+  
+  const contact = await getContact(conversation.participantPubkey);
+  
+  if (!contact) {
+    return EncryptionStatus.UNENCRYPTED;
+  }
+  
+  if (contact.verified) {
+    return EncryptionStatus.VERIFIED;
+  }
+  
+  if (contact.keyChanged) {
+    return EncryptionStatus.KEY_CHANGED;
+  }
+  
+  return EncryptionStatus.ENCRYPTED;
+};
+
+const EncryptionIndicator = ({ status }) => {
+  switch (status) {
+    case EncryptionStatus.VERIFIED:
+      return (
+        <div className="encryption-indicator verified">
+          <LockIcon />
+          <VerifiedBadge />
+          <Tooltip>Messages to this contact are end-to-end encrypted and the contact has been verified</Tooltip>
+        </div>
+      );
+    
+    case EncryptionStatus.ENCRYPTED:
+      return (
+        <div className="encryption-indicator encrypted">
+          <LockIcon />
+          <Tooltip>Messages to this contact are end-to-end encrypted</Tooltip>
+        </div>
+      );
+    
+    case EncryptionStatus.KEY_CHANGED:
+      return (
+        <div className="encryption-indicator key-changed">
+          <WarningIcon />
+          <KeyRolloverAnimation />
+          <Tooltip>This contact's encryption key has changed. Verify their identity before continuing.</Tooltip>
+        </div>
+      );
+    
+    default:
+      return (
+        <div className="encryption-indicator unencrypted">
+          <UnlockedIcon />
+          <Tooltip>Messages to this contact are not encrypted</Tooltip>
+        </div>
+      );
+  }
+};
+```
+
+# Test Strategy:
+1. Verify encryption status indicators display correctly
+2. Test key-rollover animation triggers on key changes
+3. Validate tooltips provide accurate information
+4. Test verification status updates
+5. Verify indicators are visible and understandable to users

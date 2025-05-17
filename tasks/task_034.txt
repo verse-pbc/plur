@@ -1,0 +1,66 @@
+# Task ID: 34
+# Title: Setup Cashu Wallet Integration for New User Accounts
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implement automatic Cashu wallet creation for each new user account registered on the Holis platform, enabling users to immediately participate in financial transactions within the application ecosystem.
+# Details:
+This task involves integrating the Cashu protocol for creating and managing digital wallets for all new user accounts on the Holis platform. Implementation details include:
+
+1. Research and understand the Cashu protocol specifications and API documentation.
+2. Set up a Cashu mint connection or integration with an existing mint service.
+3. Create a wallet service module that will:
+   - Generate a new Cashu wallet when a user account is created
+   - Store wallet information securely in the user's profile database
+   - Handle wallet initialization and key management
+   - Implement proper error handling for failed wallet creation
+4. Modify the user registration flow to trigger wallet creation after successful account creation
+5. Implement wallet recovery mechanisms in case of data loss
+6. Add logging for wallet creation events for auditing and debugging purposes
+7. Create admin dashboard components to monitor wallet creation status
+8. Ensure compliance with relevant financial regulations regarding digital wallets
+9. Implement proper security measures to protect wallet credentials and private keys
+10. Document the wallet creation process for both technical and non-technical stakeholders
+11. Consider scalability aspects as the user base grows
+
+The implementation should be done with the Oslo Freedom Forum milestone in mind, ensuring that the wallet functionality meets the specific requirements of event participants.
+
+# Test Strategy:
+Testing for the Cashu wallet integration should be comprehensive and include:
+
+1. Unit tests:
+   - Test wallet creation service in isolation
+   - Verify proper error handling for various failure scenarios
+   - Test wallet data storage and retrieval functions
+
+2. Integration tests:
+   - Verify that wallet creation is triggered correctly during user registration
+   - Test the integration between the application and the Cashu protocol
+   - Ensure wallet information is properly stored in the user database
+
+3. End-to-end tests:
+   - Complete user registration flow and verify wallet creation
+   - Test wallet functionality after creation (e.g., receiving funds)
+   - Verify wallet recovery mechanisms
+
+4. Security testing:
+   - Penetration testing focused on wallet credentials protection
+   - Verify that wallet private keys are properly secured
+   - Test for potential vulnerabilities in the wallet creation process
+
+5. Performance testing:
+   - Measure the impact of wallet creation on user registration time
+   - Test wallet creation under load (multiple simultaneous registrations)
+
+6. Manual testing:
+   - Create test accounts and verify wallet creation through admin dashboard
+   - Verify wallet functionality from user perspective
+   - Test on different devices and network conditions
+
+7. Acceptance criteria verification:
+   - Every new user account must have an associated Cashu wallet
+   - Wallet creation must be automatic and require no user intervention
+   - Wallet details must be securely stored and accessible to the user
+   - The system must handle wallet creation failures gracefully
+
+Document all test results and fix any issues before considering the task complete.

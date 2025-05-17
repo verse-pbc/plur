@@ -33,6 +33,7 @@ import '../event_delete_callback.dart';
 import '../event_reply_callback.dart';
 import '../zap/zap_bottom_sheet_widget.dart';
 import 'event_top_zaps_widget.dart';
+import '../report_event_dialog.dart';
 
 class EventReactionsWidget extends StatefulWidget {
   final ScreenshotController screenshotController;
@@ -409,6 +410,20 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           deleteCallback.onDelete(widget.event);
         }
       }
+    } else if (value == "report") {
+      showDialog(
+        context: context,
+        builder: (context) => const ReportEventDialog(),
+      ).then((result) {
+        if (result != null) {
+          final reason = result['reason'];
+          final details = result['details'];
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Report submitted: $reason${details != null && details.isNotEmpty ? ", $details" : ""}')),
+          );
+          // TODO: Implement event generation and relay publishing here
+        }
+      });
     }
   }
 
@@ -780,6 +795,17 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             onTap: () {
               Navigator.of(context).pop();
               onPopupSelected("source");
+            },
+          ),
+          ListTile(
+            title: Text(
+              localization.report,
+              style: popFontStyle,
+            ),
+            leading: const Icon(Icons.flag),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("report");
             },
           ),
         ];

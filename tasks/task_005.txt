@@ -1,0 +1,35 @@
+# Task ID: 5
+# Title: Public Square Feed Implementation
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Create a reverse-chronological, tag-filterable public announcements feed using standard Nostr event kind:1.
+# Details:
+1. Implement feed fetching from Nostr relays:
+```typescript
+class FeedManager {
+  fetchPublicFeed(tags?: string[], limit?: number): Promise<Event[]> {}
+  postToFeed(content: string, tags?: string[]): Promise<boolean> {}
+  subscribeToPosts(callback: (event: Event) => void): () => void {}
+}
+```
+2. Create UI components for the feed:
+   - Post component
+   - Feed container
+   - Tag filter UI
+   - New post composer
+3. Implement tag-based filtering
+4. Add reverse-chronological sorting
+5. Implement real-time updates for new posts
+6. Add pull-to-refresh functionality
+7. Implement caching for offline access
+8. Add post interaction features (like, reply)
+
+# Test Strategy:
+1. Test feed fetching with various parameters
+2. Verify tag filtering functionality
+3. Test post creation and publication
+4. Validate real-time updates
+5. Test offline access to cached feed
+6. Verify sorting order
+7. Test against standard Nostr event kind:1 specification

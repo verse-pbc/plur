@@ -1,0 +1,92 @@
+# Task ID: 25
+# Title: Implement Private Group Donation Button
+# Status: pending
+# Dependencies: 18, 20
+# Priority: medium
+# Description: Create functionality for group admins to pin a donation button tied to the group wallet.
+# Details:
+1. Implement group wallet creation
+2. Develop donation button UI component
+3. Create admin controls for pinning donation button
+4. Implement donation flow using Cashu
+5. Add donation tracking and transparency features
+
+Group donation implementation:
+```javascript
+const createGroupWallet = async (groupId) => {
+  const group = await getGroup(groupId);
+  
+  // Check if user is admin
+  if (!isGroupAdmin(group, currentUser.publicKey)) {
+    throw new Error('Only admins can create group wallets');
+  }
+  
+  // Create wallet for group
+  const wallet = await initializeCashuWallet();
+  
+  // Update group metadata
+  group.wallet = {
+    id: generateUniqueId(),
+    createdAt: new Date().toISOString(),
+    balance: 0,
+    transactions: []
+  };
+  
+  // Store updated group
+  await updateGroup(group);
+  
+  // Publish group wallet info
+  const walletEvent = {
+    kind: 30078, // Group wallet metadata
+    pubkey: currentUser.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['e', groupId],
+      ['wallet', group.wallet.id]
+    ],
+    content: JSON.stringify({
+      name: `${group.name} Donation Wallet`,
+      description: `Support ${group.name}`
+    })
+  };
+  
+  const signedEvent = await signEvent(walletEvent, currentUser.privateKey);
+  await publishEvent(signedEvent);
+  
+  return group.wallet;
+};
+
+const pinDonationButton = async (groupId, message = '') => {
+  const group = await getGroup(groupId);
+  
+  // Check if user is admin
+  if (!isGroupAdmin(group, currentUser.publicKey)) {
+    throw new Error('Only admins can pin donation buttons');
+  }
+  
+  // Create pinned message with donation button
+  const pinnedMessage = {
+    kind: 41, // Group metadata event
+    pubkey: currentUser.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['e', groupId],
+      ['pin', 'donation'],
+      ['wallet', group.wallet.id]
+    ],
+    content: message || `Support ${group.name} with a donation`
+  };
+  
+  const signedMessage = await signEvent(pinnedMessage, currentUser.privateKey);
+  await publishEvent(signedMessage);
+  
+  return signedMessage.id;
+};
+```
+
+# Test Strategy:
+1. Verify group wallet creation
+2. Test donation button pinning by admins
+3. Validate donation flow using Cashu
+4. Test donation tracking and transparency features
+5. Verify non-admins cannot pin donation buttons

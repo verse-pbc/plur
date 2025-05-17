@@ -1,0 +1,141 @@
+# Task ID: 33
+# Title: Implement Post Removal Capability for Organizers
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Add functionality that allows event organizers to remove inappropriate or unwanted user posts across both web and native applications.
+# Details:
+This task involves implementing a post removal feature for organizers across all platforms:
+
+1. Backend Implementation:
+   - Create a new API endpoint for post removal (e.g., DELETE /api/posts/:postId)
+   - Implement proper authorization checks to ensure only organizers can remove posts
+   - Add soft deletion to maintain post history while hiding content from users
+   - Implement notification system to inform users when their posts are removed
+   - Create an audit log to track post removals with timestamps and organizer information
+
+2. Web Application:
+   - Add a "Remove Post" option in the post action menu visible only to organizers
+   - Implement a confirmation dialog explaining the consequences of post removal
+   - Update the UI to handle removed posts gracefully (e.g., "This post has been removed")
+   - Add visual feedback when a post is successfully removed
+
+3. Native Applications (iOS/Android):
+   - Implement the same functionality in both native apps
+   - Ensure consistent UI/UX across platforms
+   - Handle offline scenarios by queuing removal requests
+   - Update local data stores to reflect post removals
+
+4. Security Considerations:
+   - Implement rate limiting to prevent abuse
+   - Ensure proper validation of user roles and permissions
+   - Add CSRF protection for web application
+   - Log all removal actions for audit purposes
+
+5. Documentation:
+   - Update API documentation with the new endpoints
+   - Create user documentation for organizers explaining the feature
+   - Document the internal implementation for future maintenance
+
+# Test Strategy:
+Testing should be comprehensive across all platforms:
+
+1. Unit Tests:
+   - Test authorization logic to ensure only organizers can remove posts
+   - Verify API endpoints handle valid and invalid requests correctly
+   - Test data persistence and retrieval of removed posts
+
+2. Integration Tests:
+   - Verify the entire post removal flow works end-to-end
+   - Test synchronization between backend and frontend
+   - Ensure notifications are sent correctly when posts are removed
+
+3. UI/UX Testing:
+   - Verify the "Remove Post" option appears only for organizers
+   - Test confirmation dialogs and error messages
+   - Ensure removed posts are displayed appropriately in the UI
+
+4. Cross-Platform Testing:
+   - Test on web browsers (Chrome, Firefox, Safari, Edge)
+   - Test on iOS devices (different iPhone and iPad models)
+   - Test on Android devices (various manufacturers and OS versions)
+
+5. Offline Testing:
+   - Verify behavior when removing posts while offline
+   - Test synchronization when connection is restored
+
+6. Security Testing:
+   - Attempt to remove posts without proper authorization
+   - Test for CSRF vulnerabilities
+   - Verify rate limiting functionality
+
+7. User Acceptance Testing:
+   - Have organizers test the feature in a staging environment
+   - Collect feedback on usability and functionality
+   - Verify the feature meets the requirements for the Oslo Freedom Forum
+
+8. Performance Testing:
+   - Measure impact on application performance
+   - Test with large numbers of posts and users
+
+# Subtasks:
+## 1. Implement content reporting for posts and comments [in-progress]
+### Dependencies: None
+### Description: Allow users to report inappropriate or abusive posts and comments in NIP-29 groups. Publish a Nostr event (e.g., kind 10030 or similar) to signal a report, including the event ID, reason, and reporter's pubkey. Ensure UI/UX is clear and meets Apple App Store requirements for user safety and abuse reporting.
+### Details:
+<info added on 2025-05-17T09:00:15.915Z>
+UI Implementation Plan for Content Reporting:
+
+1. Add a contextual 'Report' action to the post/comment menu options that appears when a user interacts with content (e.g., long press, three-dot menu, etc.)
+
+2. Create a modal dialog titled 'Flag Content' that appears when the Report action is selected, containing:
+   - Clear description text: "Create a content flag for this post that other users in the network can see. Select a tag for the content."
+   - Radio button or list selection for reporting reasons:
+     * Spam
+     * Harassment & Profanity
+     * NSFW (Not Safe For Work)
+     * Illegal Content
+     * Impersonation
+     * Other
+   - Conditional text input field that appears when "Other" is selected, or optionally always visible, allowing users to provide additional context
+   - Two action buttons at the bottom: "Cancel" and "Submit"
+   - The Submit button should remain disabled until a reason is selected
+
+3. Dialog behavior:
+   - On Cancel: dismiss the dialog without any action
+   - On Submit: close the dialog and prepare for the next implementation phase
+   - No actual event generation or backend communication in this phase
+
+4. Design considerations:
+   - Ensure the reporting UI is accessible and easy to use
+   - Use clear, non-confrontational language
+   - Make the reporting process quick but deliberate to avoid accidental reports
+   - Align with platform design guidelines (iOS/Android)
+
+Note: This initial implementation focuses solely on the user interface components. The actual Nostr event generation (kind 10030 or similar) and relay publishing will be implemented in the next phase after UI confirmation.
+</info added on 2025-05-17T09:00:15.915Z>
+
+## 2. Implement user reporting for abusive or spammy members [in-progress]
+### Dependencies: None
+### Description: Allow users to report other group members for abusive or spammy behavior. Publish a Nostr event referencing the reported user's pubkey, reason, and reporter's pubkey. Ensure the reporting flow is clear, accessible, and meets Apple App Store moderation requirements.
+### Details:
+
+
+## 3. Implement post removal by group admins via NIP-29 moderation events [pending]
+### Dependencies: None
+### Description: Enable group admins to remove posts by publishing a NIP-29-compliant moderation event to the group relay(s). Clients must interpret these events and hide the referenced post in the group feed, showing a placeholder message. Only admins (as defined in group metadata) can perform this action.
+### Details:
+
+
+## 4. Implement user removal (ban/kick) by group admins [pending]
+### Dependencies: None
+### Description: Allow group admins to remove (ban or kick) users from a group by publishing a NIP-29-compliant moderation event referencing the user's pubkey. Clients must interpret these events and prevent banned users from posting or viewing group content. Ensure this meets Apple App Store requirements for user safety and moderation.
+### Details:
+
+
+## 5. Ensure moderation and reporting UI/UX meets Apple App Store requirements [pending]
+### Dependencies: None
+### Description: Review and refine all moderation and reporting flows (reporting content, reporting users, removing content, removing users) to ensure they are accessible, clear, and meet Apple App Store guidelines for user safety, abuse reporting, and moderation transparency.
+### Details:
+
+

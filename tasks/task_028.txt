@@ -1,0 +1,93 @@
+# Task ID: 28
+# Title: Implement Relay Management
+# Status: pending
+# Dependencies: 15
+# Priority: high
+# Description: Develop functionality to discover, connect to, and manage Nostr relays.
+# Details:
+1. Implement relay discovery from bootstrap servers
+2. Create relay connection pool management
+3. Develop relay health monitoring
+4. Implement relay preferences (read/write)
+5. Create UI for relay management
+
+Relay management implementation:
+```javascript
+const defaultRelays = [
+  { url: 'wss://relay.holis.social', read: true, write: true },
+  { url: 'wss://relay.damus.io', read: true, write: true },
+  { url: 'wss://relay.snort.social', read: true, write: true },
+  { url: 'wss://nos.lol', read: true, write: true },
+  { url: 'wss://relay.current.fyi', read: true, write: true }
+];
+
+const initializeRelays = async () => {
+  let relays = await getRelays();
+  
+  if (!relays || relays.length === 0) {
+    relays = defaultRelays;
+    await storeRelays(relays);
+  }
+  
+  const pool = new SimplePool();
+  
+  // Connect to relays
+  for (const relay of relays) {
+    if (relay.read || relay.write) {
+      try {
+        await pool.ensureRelay(relay.url);
+      } catch (error) {
+        console.error(`Failed to connect to relay ${relay.url}:`, error);
+      }
+    }
+  }
+  
+  return pool;
+};
+
+const addRelay = async (url, read = true, write = true) => {
+  const relays = await getRelays();
+  
+  // Check if relay already exists
+  const existingIndex = relays.findIndex(r => r.url === url);
+  
+  if (existingIndex >= 0) {
+    relays[existingIndex] = { url, read, write };
+  } else {
+    relays.push({ url, read, write });
+  }
+  
+  await storeRelays(relays);
+  
+  // Connect to new relay if needed
+  if (read || write) {
+    try {
+      await pool.ensureRelay(url);
+    } catch (error) {
+      console.error(`Failed to connect to relay ${url}:`, error);
+      throw error;
+    }
+  }
+  
+  return relays;
+};
+
+const removeRelay = async (url) => {
+  const relays = await getRelays();
+  const filteredRelays = relays.filter(r => r.url !== url);
+  
+  await storeRelays(filteredRelays);
+  
+  // Disconnect from relay
+  pool.closeRelay(url);
+  
+  return filteredRelays;
+};
+```
+
+# Test Strategy:
+1. Verify relay discovery and connection
+2. Test relay health monitoring
+3. Validate relay preferences are respected
+4. Test adding and removing relays
+5. Verify relay management UI functions correctly

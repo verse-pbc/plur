@@ -1,0 +1,54 @@
+# Task ID: 7
+# Title: Panic Mode Implementation
+# Status: pending
+# Dependencies: 3, 4, 6
+# Priority: high
+# Description: Create a two-tap wipe feature that securely erases keys, messages, and wallet data from IndexedDB, LocalStorage, and Cache.
+# Details:
+1. Create SecureWipe service:
+```typescript
+class SecureWipe {
+  async wipeAllData(): Promise<boolean> {
+    try {
+      // Wipe IndexedDB
+      const dbs = await indexedDB.databases();
+      for (const db of dbs) {
+        if (db.name) await indexedDB.deleteDatabase(db.name);
+      }
+      
+      // Wipe LocalStorage
+      localStorage.clear();
+      
+      // Wipe SessionStorage
+      sessionStorage.clear();
+      
+      // Clear Cache API
+      if ('caches' in window) {
+        const cacheNames = await caches.keys();
+        await Promise.all(cacheNames.map(name => caches.delete(name)));
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Wipe failed:', error);
+      return false;
+    }
+  }
+}
+```
+2. Implement UI for Panic Mode in Settings:
+   - Danger Zone section
+   - Two-step confirmation dialog
+   - Visual feedback during wipe
+3. Add secure memory overwrite for sensitive data
+4. Implement redirect to welcome screen after wipe
+5. Add animation for visual confirmation of wipe
+6. Implement timeout for automatic wipe after inactivity (optional)
+
+# Test Strategy:
+1. Test complete data wipe functionality
+2. Verify all storages are cleared (IndexedDB, LocalStorage, Cache)
+3. Test UI flow with confirmation dialogs
+4. Measure wipe completion time (should be < 2s as per requirements)
+5. Verify application state after wipe
+6. Test with various data volumes to ensure consistent performance

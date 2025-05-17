@@ -1,0 +1,61 @@
+# Task ID: 21
+# Title: Implement Panic Mode
+# Status: pending
+# Dependencies: 15, 18, 20
+# Priority: high
+# Description: Develop a two-tap secure data wipe feature that erases keys, messages, and wallet data for emergency situations.
+# Details:
+1. Create Danger Zone section in Settings
+2. Implement secure data wiping functionality
+3. Develop confirmation UI with clear warnings
+4. Ensure complete removal of IndexedDB, LocalStorage, and Cache data
+5. Implement redirect to welcome screen after wipe
+
+Panic Mode implementation:
+```javascript
+const activatePanicMode = async () => {
+  try {
+    // Clear IndexedDB databases
+    const databases = await indexedDB.databases();
+    for (const db of databases) {
+      await new Promise((resolve, reject) => {
+        const request = indexedDB.deleteDatabase(db.name);
+        request.onsuccess = resolve;
+        request.onerror = reject;
+      });
+    }
+    
+    // Clear LocalStorage
+    localStorage.clear();
+    
+    // Clear SessionStorage
+    sessionStorage.clear();
+    
+    // Clear Cache API
+    const cacheKeys = await caches.keys();
+    await Promise.all(cacheKeys.map(key => caches.delete(key)));
+    
+    // Reset service worker
+    const registrations = await navigator.serviceWorker.getRegistrations();
+    await Promise.all(registrations.map(r => r.unregister()));
+    
+    // Reset application state
+    resetAppState();
+    
+    // Redirect to welcome screen
+    window.location.href = '/';
+    
+    return true;
+  } catch (error) {
+    console.error('Panic mode failed:', error);
+    return false;
+  }
+};
+```
+
+# Test Strategy:
+1. Verify complete data removal from all storage mechanisms
+2. Test activation time (target: <2 seconds)
+3. Validate confirmation UI prevents accidental activation
+4. Verify application returns to welcome state after wipe
+5. Test across different browsers and devices

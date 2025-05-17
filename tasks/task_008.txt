@@ -1,0 +1,30 @@
+# Task ID: 8
+# Title: Off-ramp Key Export System
+# Status: pending
+# Dependencies: None
+# Priority: low
+# Description: Implement functionality to export keys and relay lists for use in other Nostr clients.
+# Details:
+1. Create ExportManager service:
+```typescript
+class ExportManager {
+  exportPrivateKey(format: 'nsec' | 'hex' | 'json'): string {}
+  exportPublicKey(format: 'npub' | 'hex' | 'json'): string {}
+  exportRelayList(): string {}
+  generateNostrConfigFile(): Blob {}
+}
+```
+2. Implement UI for export options in Settings
+3. Add QR code generation for key export
+4. Create downloadable config file option
+5. Implement relay list management and export
+6. Add security warnings and confirmations before export
+7. Implement clipboard copy functionality for keys
+
+# Test Strategy:
+1. Test key export in different formats
+2. Verify relay list export
+3. Test config file generation
+4. Validate exported keys with external Nostr clients
+5. Test QR code generation and scanning
+6. Verify security warnings are displayed

@@ -1,0 +1,45 @@
+# Task ID: 4
+# Title: Private Groups and Chat System
+# Status: pending
+# Dependencies: 3
+# Priority: high
+# Description: Implement end-to-end encrypted small groups with admin roles according to NIP-29 Groups standard, including invite links/QR codes and chat functionality.
+# Details:
+1. Implement NIP-29 Groups standard for group creation and management:
+```typescript
+interface Group {
+  id: string;
+  name: string;
+  description: string;
+  members: string[]; // pubkeys
+  admins: string[]; // pubkeys
+  created_at: number;
+}
+
+class GroupManager {
+  createGroup(name: string, description: string): Group {}
+  joinGroup(groupId: string): boolean {}
+  leaveGroup(groupId: string): void {}
+  addMember(groupId: string, pubkey: string): void {}
+  removeMember(groupId: string, pubkey: string): void {}
+  generateInviteLink(groupId: string): string {}
+  generateInviteQR(groupId: string): string {}
+}
+```
+2. Implement NIP-04 for end-to-end encrypted messages
+3. Create chat UI with message threading and timestamps
+4. Add admin controls for group management
+5. Implement invite link/QR code generation and processing
+6. Add group creation flow UI
+7. Implement real-time message delivery using Nostr relays
+8. Add typing indicators and read receipts
+9. Implement message persistence for offline access
+
+# Test Strategy:
+1. Test group creation, joining, and leaving
+2. Verify end-to-end encryption of messages
+3. Test admin controls and permissions
+4. Validate invite links and QR codes
+5. Test real-time message delivery
+6. Verify offline message access
+7. Test against NIP-29 and NIP-04 specifications

@@ -150,3 +150,9 @@ For each file you plan to modify, explain:
 - Use memory efficiently with proper caching strategies
 - When tab is not visible, pause expensive operations
 - Implement periodic refresh in the background for critical data
+
+## Coding and Workflow Rules
+
+- **Always run `flutter analyze` after each command.**
+  - This ensures code quality and helps catch errors or warnings early in the development process.
+  - If any issues are found, address them before proceeding to the next step.

@@ -1,0 +1,66 @@
+# Task ID: 17
+# Title: Implement Contact Card and Rolodex
+# Status: pending
+# Dependencies: 15
+# Priority: medium
+# Description: Develop the Contact Card system for user profiles and the Rolodex for contact management with NIP-51 compatibility.
+# Details:
+1. Create Contact Card component with alias, tags, and optional wallet
+2. Implement NIP-51 compatible contact list storage
+3. Develop QR code generation for contact sharing
+4. Create contact scanning functionality
+5. Implement local search for contacts
+6. Add private notes feature for contacts
+
+Contact Card implementation:
+```javascript
+const createContactCard = (profile, includeWallet = false) => {
+  const contactEvent = {
+    kind: 0,
+    pubkey: profile.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['name', profile.displayName],
+      ...profile.tags.map(tag => ['t', tag])
+    ],
+    content: JSON.stringify({
+      name: profile.displayName,
+      about: profile.bio || '',
+      picture: profile.avatar || ''
+    })
+  };
+  
+  if (includeWallet && profile.walletPublic) {
+    contactEvent.tags.push(['wallet', profile.walletAddress]);
+  }
+  
+  return contactEvent;
+};
+
+const addToRolodex = async (contact) => {
+  // Store using NIP-51 format
+  const contactListEvent = {
+    kind: 3,
+    pubkey: currentUser.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['p', contact.pubkey, '', contact.displayName || '']
+    ],
+    content: ''
+  };
+  
+  // Sign and publish event
+  const signedEvent = await signEvent(contactListEvent, currentUser.privateKey);
+  await publishEvent(signedEvent);
+  
+  // Store locally
+  await storeContact(contact);
+};
+```
+
+# Test Strategy:
+1. Verify Contact Card generation with NIP-51 compliance
+2. Test QR code generation and scanning
+3. Validate contact storage and retrieval
+4. Test search functionality with various criteria
+5. Verify private notes are stored securely and not shared

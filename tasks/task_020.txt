@@ -1,0 +1,81 @@
+# Task ID: 20
+# Title: Integrate Cashu Wallet
+# Status: pending
+# Dependencies: 15
+# Priority: high
+# Description: Implement Cashu ecash wallet functionality with send, receive, and zap capabilities using the cashu-ts SDK.
+# Details:
+1. Integrate cashu-ts SDK
+2. Implement wallet creation and management
+3. Develop send/receive functionality
+4. Implement zap support (NIP-60/61)
+5. Create wallet UI with transaction history
+6. Configure mint discovery via NIP-60 tags
+
+Cashu wallet implementation:
+```javascript
+import { CashuMint, CashuWallet } from '@cashu/cashu-ts';
+
+const initializeCashuWallet = async () => {
+  // Discover mints from NIP-60 tags
+  const mints = await discoverMintsFromRelays();
+  
+  if (mints.length === 0) {
+    // Use default mint if none discovered
+    mints.push('https://mint.holis.social');
+  }
+  
+  const wallet = new CashuWallet();
+  
+  // Initialize wallet with discovered mints
+  for (const mintUrl of mints) {
+    const mint = new CashuMint(mintUrl);
+    await wallet.addMint(mint);
+  }
+  
+  // Store wallet in local storage
+  await storeWallet(wallet);
+  
+  return wallet;
+};
+
+const sendCashu = async (amount, recipient, memo = '') => {
+  const wallet = await getWallet();
+  
+  // Create token
+  const token = await wallet.send(amount, memo);
+  
+  // If recipient is a Nostr pubkey, send via NIP-60
+  if (isNostrPubkey(recipient)) {
+    const encryptedToken = await encryptForRecipient(token, recipient);
+    
+    const event = {
+      kind: 1059, // NIP-60 token transfer
+      pubkey: currentUser.publicKey,
+      created_at: Math.floor(Date.now() / 1000),
+      tags: [
+        ['p', recipient],
+        ['amount', amount.toString()],
+        ['mint', wallet.getActiveMint().url]
+      ],
+      content: encryptedToken
+    };
+    
+    const signedEvent = await signEvent(event, currentUser.privateKey);
+    await publishEvent(signedEvent);
+    
+    return signedEvent.id;
+  }
+  
+  // Otherwise return token for QR/link sharing
+  return token;
+};
+```
+
+# Test Strategy:
+1. Verify wallet creation and initialization
+2. Test token generation and validation
+3. Validate send/receive functionality
+4. Test zap support with NIP-60/61 compliance
+5. Verify transaction history accuracy
+6. Test mint discovery and configuration

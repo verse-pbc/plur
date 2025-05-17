@@ -1,0 +1,76 @@
+# Task ID: 23
+# Title: Implement Anti-spam Measures
+# Status: pending
+# Dependencies: 18, 19
+# Priority: medium
+# Description: Develop rate-limiting, proof-of-work, and moderation tools to prevent spam and abuse.
+# Details:
+1. Implement client-side rate limiting for post creation
+2. Develop proof-of-work validation for public posts
+3. Create admin moderation tools for groups
+4. Implement report/flag functionality for abusive content
+5. Develop moderation queue for reported content
+
+Anti-spam implementation:
+```javascript
+const calculateProofOfWork = (event, difficulty) => {
+  let nonce = 0;
+  const target = '0'.repeat(difficulty);
+  
+  while (true) {
+    event.tags = event.tags.filter(tag => tag[0] !== 'nonce');
+    event.tags.push(['nonce', nonce.toString()]);
+    
+    const id = getEventHash(event);
+    if (id.startsWith(target)) {
+      return { ...event, id };
+    }
+    
+    nonce++;
+  }
+};
+
+const isRateLimited = async (pubkey, action) => {
+  const limits = {
+    post: { count: 10, period: 60 * 1000 }, // 10 posts per minute
+    groupMessage: { count: 30, period: 60 * 1000 }, // 30 messages per minute
+    reaction: { count: 30, period: 60 * 1000 } // 30 reactions per minute
+  };
+  
+  const history = await getActionHistory(pubkey, action);
+  const limit = limits[action];
+  
+  if (!limit) return false;
+  
+  const recentActions = history.filter(
+    timestamp => Date.now() - timestamp < limit.period
+  );
+  
+  return recentActions.length >= limit.count;
+};
+
+const reportContent = async (eventId, reason) => {
+  const reportEvent = {
+    kind: 1984, // Report event
+    pubkey: currentUser.publicKey,
+    created_at: Math.floor(Date.now() / 1000),
+    tags: [
+      ['e', eventId],
+      ['reason', reason]
+    ],
+    content: ''
+  };
+  
+  const signedEvent = await signEvent(reportEvent, currentUser.privateKey);
+  await publishEvent(signedEvent);
+  
+  return signedEvent.id;
+};
+```
+
+# Test Strategy:
+1. Verify rate limiting prevents excessive posting
+2. Test proof-of-work validation with different difficulty levels
+3. Validate moderation tools for group admins
+4. Test report/flag functionality
+5. Verify moderation queue displays reported content correctly

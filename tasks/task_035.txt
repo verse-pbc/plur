@@ -1,0 +1,72 @@
+# Task ID: 35
+# Title: Implement Dynamic Relay Selection for Group Content Fetching
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Develop a system that dynamically selects the appropriate relay(s) when fetching records for a group, based on group configuration or metadata, eliminating any hard-coded relay endpoints.
+# Details:
+The implementation should include:
+
+1. Create a RelayManager service that maintains a registry of available relays and their capabilities.
+2. Modify the group data model to include relay configuration information, such as preferred relays, fallback options, and relay-specific metadata.
+3. Implement a relay selection algorithm that considers:
+   - Group-specific relay preferences
+   - Content type requirements
+   - Relay availability and performance metrics
+   - Geographic considerations if applicable
+4. Update all group content fetching functions to use the RelayManager for relay selection instead of hard-coded endpoints.
+5. Implement caching of relay selection decisions to optimize performance.
+6. Add error handling and fallback mechanisms when primary relays are unavailable.
+7. Create a configuration interface for administrators to manage global relay settings.
+8. Ensure backward compatibility with existing group data that may not have relay configuration.
+9. Document the relay selection process for future developers.
+10. Consider implementing a health check system to periodically verify relay availability.
+
+The solution should be flexible enough to accommodate future changes in relay infrastructure without requiring code modifications.
+
+# Test Strategy:
+Testing should verify the dynamic relay selection system works correctly:
+
+1. Unit Tests:
+   - Test the RelayManager service in isolation with mock relay endpoints
+   - Verify the relay selection algorithm correctly prioritizes relays based on group configuration
+   - Test error handling and fallback mechanisms with simulated relay failures
+
+2. Integration Tests:
+   - Create test groups with different relay configurations
+   - Verify content is fetched from the correct relays for each group
+   - Test scenarios where primary relays are unavailable to ensure fallback works
+   - Measure performance impact of dynamic relay selection
+
+3. End-to-End Tests:
+   - Set up multiple test relays with different content
+   - Configure groups to use specific relays
+   - Verify complete content retrieval workflows function correctly
+   - Test across different network conditions
+
+4. Performance Testing:
+   - Benchmark content fetching with dynamic relay selection vs. previous implementation
+   - Verify caching mechanisms are effective
+   - Test with large numbers of concurrent requests
+
+5. Manual Testing:
+   - Create a test interface to visualize which relays are being selected for different groups
+   - Manually verify relay selection matches expected behavior based on configuration
+
+6. Regression Testing:
+   - Ensure existing functionality continues to work with the new relay selection system
+   - Verify backward compatibility with groups lacking relay configuration
+
+# Subtasks:
+## 1. Add tests and logging for relay connections [pending]
+### Dependencies: None
+### Description: Ensure there are tests verifying correct relay selection for group content, and implement logging to record which relay(s) the application connects to when fetching group records.
+### Details:
+
+
+## 2. Display group server information on group info page [pending]
+### Dependencies: None
+### Description: Ensure the group info page clearly displays which relay/server the group is hosted on, so users can easily see where the group's content is stored and accessed from.
+### Details:
+
+

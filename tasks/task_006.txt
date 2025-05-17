@@ -1,0 +1,39 @@
+# Task ID: 6
+# Title: Cashu Wallet Integration
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Implement auto-generated ecash wallet with send/receive/zap functionality using the cashu-ts SDK and NIP-60/61 standards.
+# Details:
+1. Install cashu-ts SDK: `npm install cashu-ts`
+2. Create WalletManager service:
+```typescript
+class WalletManager {
+  initializeWallet(): Promise<void> {}
+  getBalance(): Promise<number> {}
+  send(amount: number, recipient: string): Promise<boolean> {}
+  receive(token: string): Promise<boolean> {}
+  zap(amount: number, recipient: string): Promise<boolean> {}
+  getMintInfo(): Promise<any> {}
+}
+```
+3. Implement NIP-60/61 for wallet operations
+4. Create wallet UI components:
+   - Balance display
+   - Send form
+   - Receive screen with QR
+   - Transaction history
+5. Implement secure storage for tokens
+6. Add zap functionality for posts and users
+7. Implement group donation button tied to group wallet
+8. Add transaction notifications
+9. Implement mint configuration via NIP-60 tags
+
+# Test Strategy:
+1. Test wallet initialization and balance retrieval
+2. Verify send/receive functionality with test tokens
+3. Test zap functionality
+4. Validate secure storage of tokens
+5. Test group donation functionality
+6. Verify compliance with NIP-60/61 specifications
+7. Test transaction history accuracy

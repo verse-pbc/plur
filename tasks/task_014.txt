@@ -1,0 +1,64 @@
+# Task ID: 14
+# Title: PWA Configuration and Service Worker Setup
+# Status: pending
+# Dependencies: 13
+# Priority: high
+# Description: Configure the application as a Progressive Web App with service worker caching for offline functionality.
+# Details:
+1. Add PWA manifest.json with app metadata
+2. Create service worker for caching static assets and API responses
+3. Implement offline-first strategy following Flexxited guide
+4. Configure app installation prompts
+5. Set up IndexedDB for local data storage
+
+Service Worker example:
+```javascript
+// sw.js
+const CACHE_NAME = 'holis-social-v1';
+const urlsToCache = [
+  '/',
+  '/index.html',
+  '/offline.html',
+  '/static/css/main.css',
+  '/static/js/main.js',
+  // Add other static assets
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(urlsToCache))
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        if (response) {
+          return response;
+        }
+        return fetch(event.request)
+          .then((response) => {
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+            return response;
+          });
+      })
+      .catch(() => caches.match('/offline.html'))
+  );
+});
+```
+
+# Test Strategy:
+1. Verify PWA installation on various devices
+2. Test offline functionality by disabling network
+3. Validate service worker registration and caching
+4. Ensure app loads from cache when offline
+5. Test IndexedDB storage and retrieval

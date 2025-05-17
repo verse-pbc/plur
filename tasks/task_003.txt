@@ -1,0 +1,40 @@
+# Task ID: 3
+# Title: Contact Card and Rolodex Implementation
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Build the Contact Card system with alias, tags, and optional wallet integration. Implement local search functionality according to NIP-51 Lists standard.
+# Details:
+1. Create ContactCard component with fields for alias, tags, and wallet info
+2. Implement NIP-51 Lists for contact management:
+```typescript
+interface Contact {
+  pubkey: string;
+  alias: string;
+  tags: string[];
+  walletVisible: boolean;
+  notes?: string; // Private notes
+}
+
+class ContactManager {
+  addContact(contact: Contact): void {}
+  getContacts(): Contact[] {}
+  searchContacts(query: string): Contact[] {}
+  generateContactQR(pubkey: string): string {}
+  parseContactQR(qrData: string): Contact {}
+}
+```
+3. Build UI for contact list (Rolodex)
+4. Implement local search functionality with filtering by tags
+5. Create rotating QR code component for contact sharing
+6. Add functionality to generate and share 'holis.social/@alias' links
+7. Implement offline-capable contact storage
+8. Add private notes feature for contacts
+
+# Test Strategy:
+1. Unit test contact management functions
+2. Test search functionality with various queries
+3. Verify QR code generation and parsing
+4. Test contact sharing via links
+5. Validate offline functionality
+6. Verify compliance with NIP-51 specification

@@ -1,0 +1,46 @@
+# Task ID: 16
+# Title: Develop One-Click Onboarding Flow
+# Status: pending
+# Dependencies: 15
+# Priority: high
+# Description: Create a streamlined onboarding process with QR/link-based key generation and minimal user input.
+# Details:
+1. Design welcome splash screen explaining app purpose in plain language
+2. Implement auto-generation of keypair, pseudonym, and Cashu wallet
+3. Create profile editor for display name and tags
+4. Develop QR code generation for onboarding via poster scan
+5. Implement deep linking for direct onboarding via URL
+
+Onboarding flow pseudo-code:
+```javascript
+const onboardUser = async () => {
+  // Generate keypair
+  const keypair = generateKeypair();
+  await storeKeypair(keypair);
+  
+  // Generate pseudonym
+  const pseudonym = generatePseudonym();
+  
+  // Initialize Cashu wallet
+  const wallet = await initializeCashuWallet();
+  
+  // Create user profile
+  const profile = {
+    displayName: pseudonym,
+    tags: [],
+    walletPublic: false,
+    createdAt: new Date().toISOString()
+  };
+  
+  await storeUserProfile(profile);
+  
+  return { keypair, profile, wallet };
+};
+```
+
+# Test Strategy:
+1. Measure onboarding completion time (target: <30 seconds)
+2. Test QR code scanning functionality
+3. Verify deep link handling
+4. Validate profile creation and editing
+5. Test pseudonym generation and customization
