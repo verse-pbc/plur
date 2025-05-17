@@ -165,7 +165,7 @@ class ColorsSection extends StatelessWidget {
                   const SizedBox(width: 16),
                   _ColorSwatch(
                     name: 'Shadow',
-                    color: colors.shadow,
+                    color: Colors.black.withOpacity(0.1),
                     hex: '#000000',
                     opacity: 0.1,
                   ),
