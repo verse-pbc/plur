@@ -80,7 +80,10 @@ class AppTheme {
         ),
         filled: true,
         fillColor: colors.surface,
-        hintStyle: TextStyle(color: colors.secondaryText),
+        hintStyle: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          color: colors.secondaryText,
+        ),
       ),
     );
   }
@@ -164,7 +167,10 @@ class AppTheme {
         ),
         filled: true,
         fillColor: colors.surface,
-        hintStyle: TextStyle(color: colors.secondaryText),
+        hintStyle: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          color: colors.secondaryText,
+        ),
       ),
     );
   }

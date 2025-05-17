@@ -150,6 +150,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       child: Text(
         "Start meaningful exchanges with people you trust.\nHolis is communities built for depth, not noise.",
         style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: colors.secondaryText,
           fontSize: 17,
           fontWeight: FontWeight.w400,
@@ -252,6 +253,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           text: "By continuing, you accept our\n<accent>Terms of Service</accent>",
           textAlign: TextAlign.center,
           style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
             color: colors.secondaryText,
             fontSize: 16,
             height: 1.5,
@@ -259,6 +261,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           tags: {
             'accent': StyledTextTag(
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 decoration: TextDecoration.underline,
                 decorationColor: accentColor,
                 color: accentColor,
@@ -293,6 +296,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                         onPressed: () => Navigator.pop(context),
                         style: TextButton.styleFrom(
                           textStyle: const TextStyle(
+                            fontFamily: 'SF Pro Rounded',
                             fontSize: 16.0,
                             fontWeight: FontWeight.w500,
                           ),
