@@ -79,615 +79,277 @@ Testing should be comprehensive across all platforms:
    - Test with large numbers of posts and users
 
 # Subtasks:
-## 1. Implement content reporting for posts and comments [done]
-### Dependencies: None
-### Description: Allow users to report inappropriate or abusive posts and comments in NIP-29 groups. Publish a Nostr event (e.g., kind 10030 or similar) to signal a report, including the event ID, reason, and reporter's pubkey. Ensure UI/UX is clear and meets Apple App Store requirements for user safety and abuse reporting.
-### Details:
-<info added on 2025-05-17T09:00:15.915Z>
-UI Implementation Plan for Content Reporting:
-
-1. Add a contextual 'Report' action to the post/comment menu options that appears when a user interacts with content (e.g., long press, three-dot menu, etc.)
-
-2. Create a modal dialog titled 'Flag Content' that appears when the Report action is selected, containing:
-   - Clear description text: "Create a content flag for this post that other users in the network can see. Select a tag for the content."
-   - Radio button or list selection for reporting reasons:
-     * Spam
-     * Harassment & Profanity
-     * NSFW (Not Safe For Work)
-     * Illegal Content
-     * Impersonation
-     * Other
-   - Conditional text input field that appears when "Other" is selected, or optionally always visible, allowing users to provide additional context
-   - Two action buttons at the bottom: "Cancel" and "Submit"
-   - The Submit button should remain disabled until a reason is selected
-
-3. Dialog behavior:
-   - On Cancel: dismiss the dialog without any action
-   - On Submit: close the dialog and prepare for the next implementation phase
-   - No actual event generation or backend communication in this phase
-
-4. Design considerations:
-   - Ensure the reporting UI is accessible and easy to use
-   - Use clear, non-confrontational language
-   - Make the reporting process quick but deliberate to avoid accidental reports
-   - Align with platform design guidelines (iOS/Android)
-
-Note: This initial implementation focuses solely on the user interface components. The actual Nostr event generation (kind 10030 or similar) and relay publishing will be implemented in the next phase after UI confirmation.
-</info added on 2025-05-17T09:00:15.915Z>
-
-## 2. Implement user reporting for abusive or spammy members [done]
-### Dependencies: None
-### Description: Allow users to report other group members for abusive or spammy behavior. Publish a Nostr event referencing the reported user's pubkey, reason, and reporter's pubkey. Ensure the reporting flow is clear, accessible, and meets Apple App Store moderation requirements.
-### Details:
-
-
-## 3. Implement post removal by group admins via NIP-29 moderation events [done]
-### Dependencies: None
-### Description: Enable group admins to remove posts by publishing a NIP-29-compliant moderation event to the group relay(s). Clients must interpret these events and hide the referenced post in the group feed, showing a placeholder message. Only admins (as defined in group metadata) can perform this action.
-### Details:
-<info added on 2025-05-17T10:53:48.610Z>
-## Post Removal Implementation Plan
-
-### 1. Data Structure & Protocol
-- Use event kind 16402 for group moderation actions
-- Required tags:
-  - 'h' tag: group ID
-  - 'e' tag: ID of post being removed
-  - 'reason' tag: removal reason
-  - 'action' tag: value 'remove'
-  - 'type' tag: value 'post'
-
-### 2. Backend Implementation
-- Create `GroupModerationService` class
-- Implement `removePost(groupId, postId, reason)` method:
-  - Verify user is group admin
-  - Create formatted moderation event
-  - Sign with user's key
-  - Publish to group relays
-- Extend event subscription system to process moderation events
-- Validate incoming events (signature, admin status, post existence)
-- Update event store to mark posts as removed
-- Implement caching for removed posts
-
-### 3. UI Implementation
-- Add "Remove Post" option to post action menu for admins
-- Create confirmation dialog with:
-  - Explanation text
-  - Reason selection dropdown
-  - Custom reason field
-  - Cancel/Confirm buttons
-- Modify post rendering for removed posts:
-  - Display "This post has been removed by a community organizer"
-  - Show removal reason
-  - Maintain author context
-  - Apply distinct visual styling
-- Implement admin feedback (loading indicators, notifications)
-- Handle error cases and edge conditions
-
-### 4. Testing Strategy
-- Unit tests: event validation, permissions, publishing logic, UI state
-- Integration tests: end-to-end flow, relay publishing, event processing
-- Cross-device testing: rendering consistency, offline scenarios, synchronization
-
-### 5. Security Considerations
-- Strict admin validation
-- Rate limiting for removal actions
-- Audit logging
-- Optional author notification
-
-### 6. Implementation Steps
-1. Create moderation event data model
-2. Implement backend service
-3. Add event handling logic
-4. Modify UI for removed posts
-5. Add admin UI components
-6. Implement error handling
-7. Add tests
-8. Document the feature
-</info added on 2025-05-17T10:53:48.610Z>
-
-## 4. Implement user removal (ban/kick) by group admins [pending]
+## 1. Implement user removal (ban/kick) by group admins [done]
 ### Dependencies: None
 ### Description: Allow group admins to remove (ban or kick) users from a group by publishing a NIP-29-compliant moderation event referencing the user's pubkey. Clients must interpret these events and prevent banned users from posting or viewing group content. Ensure this meets Apple App Store requirements for user safety and moderation.
 ### Details:
+<info added on 2025-05-17T13:15:52.061Z>
+## Implementation Plan for User Removal/Ban System
 
+### 1. Data Structure & Protocol
+- Use event kind 16402 (GroupModeration) for group moderation actions involving users
+- Required tags:
+  - 'h' tag: group ID
+  - 'p' tag: pubkey of user being banned/removed
+  - 'action' tag: value 'remove'
+  - 'type' tag: value 'user'
+  - 'reason' tag: optional removal reason
+  - 'duration' tag: optional ban duration in seconds (for temporary bans)
 
-## 5. Ensure moderation and reporting UI/UX meets Apple App Store requirements [pending]
-### Dependencies: None
-### Description: Review and refine all moderation and reporting flows (reporting content, reporting users, removing content, removing users) to ensure they are accessible, clear, and meet Apple App Store guidelines for user safety, abuse reporting, and moderation transparency.
-### Details:
+### 2. Backend Implementation
+- Enhance NIP29 class in `packages/nostr_sdk/lib/nip29/nip29.dart`:
+  - Implement `banUser(Nostr, GroupIdentifier, String pubkey, {String? reason, int? duration})` method
+  - Method should create and send a properly formatted moderation event
+  - Include optional parameters for reason and ban duration
+- Enhance GroupProvider in `lib/provider/group_provider.dart`:
+  - Implement high-level `banUser(GroupIdentifier, String pubkey, {String? reason, int? duration})` method
+  - Add proper authorization checks to ensure only admins can ban users
+  - Implement comprehensive logging for debugging and audit purposes
+- Expand ModerationService in `lib/service/moderation_service.dart`:
+  - Add capability to track and cache banned users
+  - Subscribe to user ban events for real-time updates
+  - Implement methods to check if a user is banned in a specific group
 
+### 3. UI Implementation
+- Add UI components in the Report Management Screen (`lib/router/group/moderation/report_management_screen.dart`):
+  - Enhance the existing placeholder "Ban User" button with actual functionality
+  - Create a ban confirmation dialog with:
+    - Reason input field
+    - Ban duration options (permanent/temporary)
+    - Clear warning about the action's consequences
+- Add Ban User option in Group Members screen:
+  - Modify `lib/router/group/group_members_view.dart` to add context menu with ban option for admins
+  - Ensure admin check is performed before showing the option
+- Create User Ban Feedback:
+  - Design UI elements to indicate when a user is banned
+  - Implement appropriate error messages when banned users try to interact with the group
 
-## 6. Update reporting copy to clarify reports go to community organizers [done]
-### Dependencies: None
-### Description: Modify the text in the report content dialog and toast messages to clearly indicate that reports are being sent to community organizers/admins rather than a central moderation team. Ensure users understand who will see their reports and how they will be handled within the community context.
-### Details:
+### 4. Client-Side Enforcement
+- Modify content creation to prevent banned users from posting:
+  - Update posting logic to check ban status before allowing content creation
+  - Show appropriate error messages for banned users attempting to post
+- Update feed filtering to hide content from banned users:
+  - Modify content fetching/display logic to filter out banned users' content
+  - Add visual indicators for removed content with appropriate messaging
 
+### 5. Testing Strategy
+- Unit Tests:
+  - Test event creation and formatting
+  - Test permission validation logic
+  - Test ban duration calculation
+- Integration Tests:
+  - Test end-to-end ban flow from admin UI to event creation
+  - Test enforcement of bans for content creation
+  - Test content filtering for banned users
+- UI/UX Tests:
+  - Test admin interface for banning users
+  - Test error messages shown to banned users
+  - Test visual indicators for banned user content
 
-## 7. Implement shared group user reporting [pending]
-### Dependencies: None
-### Description: Enhance the user reporting feature to send reports to all groups that the reporting user and reported user have in common, ensuring community organizers in shared spaces receive notifications about problematic users.
-### Details:
-When a user reports another user, the report should be distributed to all shared communities:
+### 6. Implementation Steps
+1. Modify the NIP29 class to add the banUser method
+2. Update GroupProvider to implement the higher-level ban functionality
+3. Expand ModerationService to track banned users
+4. Implement the ban confirmation dialog UI
+5. Update the Report Management screen to enable the Ban User button
+6. Add ban functionality to the Group Members screen
+7. Implement client-side enforcement for content creation and viewing
+8. Add comprehensive logging throughout the system
+9. Test the implementation thoroughly across all platforms
+</info added on 2025-05-17T13:15:52.061Z>
+<info added on 2025-05-17T13:17:28.867Z>
+## Implementation Plan for User Removal from Groups
 
-1. Technical analysis:
-   - Need to identify all groups both users belong to
-   - Requires querying membership data for both users
-   - Need to create and send separate report events for each shared group
+### 1. Data Structure & Protocol
+- Use event kind 16402 (GroupModeration) for group moderation actions
+- Required tags:
+  - 'h' tag: group ID
+  - 'p' tag: pubkey of user being removed
+  - 'action' tag: value 'remove'
+  - 'type' tag: value 'user'
+  - 'reason' tag: optional removal reason
 
-2. Implementation plan:
-   - Create a function to find common groups between two users by:
-     - Getting the current user's groups from ListProvider's groupIdentifiers
-     - Querying the reported user's group memberships
-     - Finding the intersection of these sets
-   - Modify _reportUser() in user_widget.dart to:
-     - Find shared groups between the current user and the reported user
-     - Generate a separate NIP-56 report event for each shared group
-     - Add group-specific tags to each report event ("h" tag with group ID)
-     - Send reports to appropriate relays for each group
+### 2. Backend Implementation
+- Enhance NIP29 class in `packages/nostr_sdk/lib/nip29/nip29.dart`:
+  - Implement `removeUser(Nostr, GroupIdentifier, String pubkey, {String? reason})` method
+  - Method should create and send a properly formatted moderation event
+- Enhance GroupProvider in `lib/provider/group_provider.dart`:
+  - Implement high-level `removeUser(GroupIdentifier, String pubkey, {String? reason})` method
+  - Add proper authorization checks to ensure only admins can remove users
+  - Implement comprehensive logging for debugging
 
-3. UI considerations:
-   - Update toast message to indicate reports are sent to shared communities
-   - Consider displaying the number of communities notified
-   - Add progress indication for multiple report submissions
+### 3. UI Implementation
+- Add UI components in the Group Members Screen:
+  - Add a "Remove User" option in the context menu for group admins
+  - Create a confirmation dialog with:
+    - Explanation text
+    - Optional reason input field
+    - Cancel/Confirm buttons
+- Add a "Remove User" option in the Report Management screen for user reports
 
-4. Testing:
-   - Verify reports are properly tagged with group identifiers
-   - Confirm reports appear in group contexts
-   - Test scenarios with multiple shared groups
-   - Test behavior when no shared groups exist
+### 4. Implementation Steps
+1. Modify the NIP29 class to enhance the removeUser method
+2. Update GroupProvider to implement the higher-level removal functionality with admin checks
+3. Implement the removal confirmation dialog UI
+4. Add the "Remove User" option to appropriate screens
+5. Add comprehensive logging throughout the system
+6. Test the implementation
+</info added on 2025-05-17T13:17:28.867Z>
+<info added on 2025-05-17T13:50:40.963Z>
+The implementation of the user ban system has been completed with all core functionality in place. The system now allows group admins to ban users with the following features:
 
-## 8. Implement admin report management dashboard [pending]
-### Dependencies: None
-### Description: Create an admin dashboard for community organizers to view, categorize, and manage all user and content reports in their groups. This enables effective community moderation by providing a centralized interface for organizers to review and act on reports.
-### Details:
-## Admin Report Management Dashboard
+1. Backend Implementation:
+   - Successfully implemented the `banUser` method in the NIP29 class that creates properly formatted ban events
+   - Added a `banUser` method to GroupProvider with proper admin permission validation
+   - Enhanced ModerationService with comprehensive ban management capabilities:
+     - Storage of ban events with expiration tracking
+     - Methods to check if users are banned from specific groups
+     - Support for retrieving ban reasons and expiration times
 
-The admin report management dashboard will provide community organizers with tools to effectively handle content and user reports:
+2. UI Implementation:
+   - Created a UserBanDialog component with options for:
+     - Specifying ban reasons
+     - Setting ban duration (permanent or temporary)
+     - Configuring notification preferences
+   - Added ban functionality to the Group Members screen
+   - Integrated ban options into the Report Management screen
 
-### Functionality:
-1. **Report Aggregation & Viewing**
-   - Display all reports for the community in a tabular format with filtering options
-   - Highlight new/unreviewed reports to bring attention to fresh complaints
-   - Group similar reports together to identify patterns of problematic behavior
-   - Show report details including reporter, timestamp, reason, and context
-
-2. **Sorting and Filtering**
-   - Filter reports by type (content vs. user reports)
-   - Sort by date, reporter, status, or severity
-   - Search capability to find specific reports
-   - Filter by report status (new, in review, resolved, dismissed)
-
-3. **Report Actions**
-   - View the reported content/user profile directly from the dashboard
-   - Mark reports as reviewed, resolved, or dismissed
-   - Take moderation actions directly from the report view:
-     - Remove reported content
-     - Warn reported users
-     - Ban/kick users from the community
-   - Add internal notes to reports for admin team collaboration
-
-4. **Statistics and Patterns**
-   - Show report volume trends over time
-   - Identify users who receive multiple reports
-   - Display most common report reasons
-   - Track resolution rates and response times
-
-### Implementation Details:
-1. **Data Structure**
-   - Create a method to collect and parse NIP-56 report events from the relays
-   - Develop a local storage system to cache report data for quick access
-   - Implement a subscription system to receive real-time report notifications
-
-2. **UI Components**
-   - Design a dedicated "Reports" tab in the group administration interface
-   - Create a filterable/sortable table component for displaying reports
-   - Develop detailed report view panels with action buttons
-   - Implement status indicators for different report states
-
-3. **Access Control**
-   - Limit dashboard access strictly to group administrators
-   - Ensure proper authentication checks
-   - Create different permission levels for viewing vs. acting on reports
-
-4. **Usability**
-   - Design for both mobile and desktop interfaces
-   - Implement clear visual indicators for unread/new reports
-   - Create intuitive workflows for common moderation actions
-   - Add confirmation dialogs for irreversible actions
-
-### Technical Considerations:
-- Efficiently query report events (kind 1984) with appropriate filters
-- Implement background polling for new reports
-- Optimize data storage to handle potentially large numbers of reports
-- Ensure privacy by limiting access to sensitive report information
-
-## 9. Implement moderation audit log system [pending]
-### Dependencies: None
-### Description: Create a comprehensive audit log system that records all moderation actions taken by community organizers. This provides transparency, accountability, and history tracking for content removals, user bans, and report resolutions.
-### Details:
-## Moderation Audit Log System
-
-The moderation audit log will track and store all moderation actions, providing a permanent record of decisions made by community organizers.
-
-### Core Functionality:
-1. **Complete Action Logging**
-   - Record all moderation actions with full context:
-     - Type of action (content removal, user ban, warning, report resolution)
-     - Moderator who took the action
-     - Timestamp of action
-     - Target of action (content ID, user pubkey)
-     - Reason provided by moderator
-     - Related report IDs (if applicable)
-     - Original report details
-   - Generate unique identifiers for each moderation action
-   - Store actions in a structured, searchable format
-
-2. **Action Categorization**
-   - Classify actions by type (report handling, content moderation, user moderation)
-   - Track severity levels of actions
-   - Maintain relationships between related actions
-   - Link audit entries to original reports
-
-3. **Storage and Retention**
-   - Store audit logs as Nostr events with appropriate permissions
-   - Include encryption for sensitive details
-   - Implement appropriate retention policies based on group settings
-   - Ensure persistence across client reinstalls/updates
-
-4. **Viewing and Access**
-   - Create dedicated interface for viewing the audit log
-   - Implement filtering and search capabilities:
-     - By date range
-     - By moderator
-     - By action type
-     - By target user/content
-   - Support exporting logs in standard formats
-   - Add permission controls for log access (admin-only by default)
-
-5. **Notifications and Alerts**
-   - Notify admins of sensitive moderation actions
-   - Provide summaries of moderation activity
-   - Alert on unusual patterns of moderation
-   - Maintain privacy of reporters and sensitive information
-
-### Technical Implementation:
-1. **Data Structure**
-   - Design Nostr event format for storing audit records
-   - Create indexes for efficient querying
-   - Develop schema for local caching of audit data
-   - Build relationships between audit events and original reports/content
-
-2. **UI Components**
-   - Create an "Audit Log" tab in the admin interface
-   - Design filterable timeline view of all actions
-   - Implement detailed view for each audit entry
-   - Add visual indicators for different action types
-
-3. **Integration Points**
-   - Hook into all moderation action points:
-     - Report resolution flow
-     - Content removal system
-     - User ban/removal functionality
-     - Warning issuance
-   - Ensure audit logging occurs even in offline/queue mode operations
-
-4. **Privacy and Security**
-   - Implement fine-grained access controls
-   - Protect reporter information
-   - Prevent tampering with audit logs
-   - Handle private group information appropriately
-
-5. **Analytics and Dashboards**
-   - Create statistical views of moderation activities
-   - Show trends and patterns over time
-   - Track moderator activity levels
-   - Report on resolution times and effectiveness
-
-### Implementation Considerations:
-- Ensure all logs are immutable once created
-- Optimize for minimal performance impact on moderation actions
-- Support retrieving historical logs efficiently
-- Design the UI to be intuitive for non-technical community organizers
-- Consider ethical implications of storing sensitive moderation data
-
-## 10. Extend Moderation System to Support Multiple Content Types [pending]
-### Dependencies: None
-### Description: Expand the current post moderation system to allow reporting and moderation of other content types including asks/offers, responses, and events. This will provide community organizers with comprehensive moderation tools across all content types.
-### Details:
-## Implementation Details:
-1. Update the report service to support different content types:
-   - Add a `content_type` tag to report events (post, ask, offer, response, event)
-   - Modify report creation to include content type
-   - Update report filtering to allow filtering by content type
-
-2. Enhance the Report Management screen:
-   - Add content type filter dropdown
-   - Update the UI to display appropriate context based on content type
-   - Create specialized preview/context viewers for each content type
-   - Show type-specific icons/indicators in the report list
-
-3. Extend moderation actions for asks/offers:
-   - Implement `removeAsk` and `removeOffer` methods in the GroupProvider
-   - Create NIP29-compatible moderation events for non-post content
-   - Update the moderation service to track all moderated content types
-
-4. Extend moderation actions for events:
-   - Implement `removeEvent` functionality in the event provider
-   - Add ability to view event details in report context
-   - Add option to hide/remove event from listings
-
-5. Implement report context viewing for different content types:
-   - Create specialized context viewers for asks/offers
-   - Create specialized context viewers for events
-   - Ensure proper navigation to content details based on type
-
-6. Update user-facing report dialog:
-   - Add content type detection
-   - Modify reporting UI to be context-aware based on what's being reported
-
-## Test Strategy:
-1. Create test fixtures for each content type (posts, asks, offers, events)
-2. Test report creation for each content type
-3. Verify reports appear correctly in the Report Management screen
-4. Test filtering by content type
-5. Verify moderation actions work correctly for each content type
-6. Test real-time updates when content is moderated
-7. Verify placeholders appear for moderated content in appropriate lists/feeds
-
-## 11. Extend Moderation System to Support Multiple Content Types [pending]
-### Dependencies: None
-### Description: Expand the current post moderation system to allow reporting and moderation of other content types including asks/offers, responses, and events. This will provide community organizers with comprehensive moderation tools across all content types.
-### Details:
-**Implementation Details:**
-1. Update the report service to support different content types:
-   - Add a `content_type` tag to report events (post, ask, offer, response, event)
-   - Modify report creation to include content type
-   - Update report filtering to allow filtering by content type
-
-2. Enhance the Report Management screen:
-   - Add content type filter dropdown
-   - Update the UI to display appropriate context based on content type
-   - Create specialized preview/context viewers for each content type
-   - Show type-specific icons/indicators in the report list
-
-3. Extend moderation actions for asks/offers:
-   - Implement `removeAsk` and `removeOffer` methods in the GroupProvider
-   - Create NIP29-compatible moderation events for non-post content
-   - Update the moderation service to track all moderated content types
-
-4. Extend moderation actions for events:
-   - Implement `removeEvent` functionality in the event provider
-   - Add ability to view event details in report context
-   - Add option to hide/remove event from listings
-
-5. Implement report context viewing for different content types:
-   - Create specialized context viewers for asks/offers
-   - Create specialized context viewers for events
-   - Ensure proper navigation to content details based on type
-
-6. Update user-facing report dialog:
-   - Add content type detection
-   - Modify reporting UI to be context-aware based on what's being reported
-
-**Test Strategy:**
-1. Create test fixtures for each content type (posts, asks, offers, events)
-2. Test report creation for each content type
-3. Verify reports appear correctly in the Report Management screen
-4. Test filtering by content type
-5. Verify moderation actions work correctly for each content type
-6. Test real-time updates when content is moderated
-7. Verify placeholders appear for moderated content in appropriate lists/feeds
-
-## 12. Implement detailed group user removal and ban system [pending]
-### Dependencies: None
-### Description: Create a comprehensive system for removing and banning users from groups through NIP-29 moderation events. The system should support both temporary and permanent bans with clear UI for admins and appropriate messaging for banned users.
-### Details:
-## Group User Removal/Ban System Implementation
-
-### Core Functionality
-1. **Ban Types Implementation:**
-   - Implement permanent ban (remove user completely)
-   - Implement temporary ban with configurable duration
-   - Create proper NIP-29 moderation events with correct tags:
+3. Protocol Compliance:
+   - Implementation follows NIP-29 protocol for group moderation
+   - Uses proper event kind 16402 (GroupModeration)
+   - Includes all required tags:
      - 'h' tag: group ID
      - 'p' tag: pubkey of banned user
-     - 'action' tag: value 'remove'
+     - 'action' tag: value 'ban'
      - 'type' tag: value 'user'
-     - 'reason' tag: ban reason
-     - 'duration' tag: ban duration in seconds (optional for temporary bans)
+     - 'reason' tag: optional ban reason
+     - 'duration' tag: optional ban duration for temporary bans
 
-2. **Admin UI for User Removal:**
-   - Add "Remove from Group" option in user profile context menu for admins
-   - Create ban confirmation dialog with:
-     - Ban type selection (permanent/temporary)
-     - Duration selector for temporary bans
-     - Reason field (required)
-     - Warning about consequences
-     - Cancel/Confirm buttons
-   - Add user search/browse capability in admin panel to find users to moderate
-   - Implement bulk action capability for spam/raid scenarios
+4. Client-Side Enforcement:
+   - Banned users are prevented from posting to groups
+   - Clear messaging is displayed to banned users explaining their restriction
 
-3. **Ban Enforcement:**
-   - Prevent banned users from posting to group
-   - Filter out content from banned users in group feeds
-   - Block access to group content for banned users
-   - Display appropriate messaging when banned users attempt group actions
-   - Show ban duration for temporary bans
+The implementation successfully meets the requirements for user moderation in groups and provides a complete solution for group admins to manage problematic users.
+</info added on 2025-05-17T13:50:40.963Z>
 
-4. **Ban Management:**
-   - Create ban list view in admin panel
-   - Allow admins to revoke bans before expiration
-   - Implement ban modification (changing duration/reason)
-   - Add automatic unbanning when temporary bans expire
-   - Create ban history for users
-
-5. **Notifications:**
-   - Notify users when they are banned from a group
-   - Notify admins when another admin bans a user
-   - Send notifications when temporary bans expire
-
-### Technical Implementation
-1. **Data Architecture:**
-   - Define ban event structure (NIP-29 compliant)
-   - Create local storage for tracking banned users
-   - Implement ban duration tracking mechanism
-   - Design ban revocation event structure
-
-2. **Integration Points:**
-   - Add ban checks in post creation flow
-   - Modify feed filters to exclude banned users
-   - Add context to user profiles showing ban status to admins
-   - Integrate with audit logging system
-
-3. **Performance Considerations:**
-   - Optimize ban list for quick lookups
-   - Cache ban information for frequent group operations
-   - Handle synchronization across multiple devices
-
-### Testing Strategy
-1. **Functional Testing:**
-   - Verify ban event creation and proper relay publication
-   - Test both permanent and temporary ban functions
-   - Verify ban expiration works correctly
-   - Test ban revocation functionality
-   - Verify banned users cannot post to group
-
-2. **UX Testing:**
-   - Ensure admin UI is intuitive and requires confirmation
-   - Verify appropriate messaging for banned users
-   - Test accessibility of ban flows
-   - Validate error handling for edge cases
-
-3. **Security Testing:**
-   - Verify only admins can ban users
-   - Test against ban evasion techniques
-   - Ensure banned user data is handled properly
-   - Validate relay authentication for ban events
-
-4. **Integration Testing:**
-   - Test ban functionality with group messaging
-   - Verify interaction with reporting system
-   - Test across multiple clients and implementations
-   - Validate offline/sync behavior
-
-## 13. Implement moderation notification DMs for users [pending]
+## 2. Implement moderation notification DMs for users [pending]
 ### Dependencies: None
-### Description: Create a system that automatically sends direct messages to users when their content is moderated and to reporters when action is taken on their reports. Allow admins to customize notification messages and provide transparent communication about moderation decisions.
+### Description: Create a system that automatically sends direct messages to users when they are kicked out of a group, and allow admins to manually send moderation-related messages to users regarding issues. Provide transparent communication about moderation decisions.
 ### Details:
-## Moderation Notification DM System
+<info added on 2025-05-17T13:17:49.439Z>
+This subtask involves creating a comprehensive moderation notification system using Nostr's direct messaging capabilities. The implementation will focus on two main components:
 
-### Core Functionality
+1. Automatic Notification System:
+   - Implement automatic DM sending when users are removed from a group
+   - Use NIP-04 encrypted direct messages with structured content:
+     - Clear subject line: "Moderation Notice: [Group Name]"
+     - Complete group context (name, identifier)
+     - Explanation of removal with reason when provided
+     - Optional appeal process information
 
-1. **DMs to Moderated Users:**
-   - Automatically generate a direct message to users when their content is moderated
-   - Include essential information in the message:
-     - Which content was moderated (with reference to original post ID)
-     - The reason for moderation
-     - Which group/community the content was in
-     - The action taken (removal, edit requirement, etc.)
-     - Any temporary restrictions applied to their account
-   - Allow admins to customize this message with additional context or guidance
-   - Support for adding educational resources or community guidelines links
+2. Admin Manual Messaging Interface:
+   - Develop a user-friendly UI for admins to send moderation messages
+   - Add "Message User" option in admin context menus
+   - Create message composition dialog with:
+     - Pre-configured templates for common moderation scenarios
+     - Custom message capability
+     - Automatic inclusion of group context
+     - Message preview functionality
 
-2. **Admin Message Customization:**
-   - Create an optional text field in the moderation action dialog
-   - Allow admins to add personalized explanations beyond the standard templates
-   - Provide suggested message templates based on violation type
-   - Include preview functionality before sending
-   - Support for saving custom templates for future use
+3. Integration with User Removal Process:
+   - Connect notification system with the user removal functionality
+   - Trigger notifications automatically after successful removal
+   - Include relevant context about the removal action
+   - Attribute messages to the admin who performed the action
 
-3. **Reporter Notification DMs:**
-   - Send automatic DMs to users who reported content when action is taken
-   - Include information about:
-     - Which report was addressed
-     - The action taken by moderators
-     - A thank you message for helping maintain community standards
-     - Option to appeal or provide additional information if needed
-   - Maintain reporter anonymity to the moderated user
-   - Allow admins to customize these messages as well
+4. Technical Implementation:
+   - Leverage Nostr's NIP-04 for secure direct messaging
+   - Create service methods for moderation messaging:
+     - `sendModerationDM(recipient, groupContext, reason, adminPubkey)`
+     - `createModTemplate(templateType, groupName, customText)`
+   - Implement UI components for the messaging system
+   - Develop error handling for message delivery failures
 
-4. **Privacy & Control Features:**
-   - Respect user DM preferences and restrictions
-   - Provide admins with confirmation before sending messages
-   - Track delivery status of notification messages
-   - Handle cases where users block DMs or are not available
-   - Maintain audit log of all notification messages sent
+5. Implementation Sequence:
+   - Design and create message templates
+   - Build core DM functionality using NIP-04
+   - Implement admin messaging interface
+   - Connect with user removal process
+   - Conduct thorough testing across different scenarios
+   - Add robust error handling
+</info added on 2025-05-17T13:17:49.439Z>
 
-### Technical Implementation
+## 3. Implement user removal and moderation notifications [done]
+### Dependencies: None
+### Description: Allow group admins to remove users from groups by publishing NIP-29 moderation events, and implement automatic DM notifications to removed users. Add functionality for admins to send moderation-related messages directly to users.
+### Details:
+<info added on 2025-05-17T13:19:03.087Z>
+# Implementation Plan for User Removal and Moderation Notifications
 
-1. **DM Generation System:**
-   - Create a moderation notification service to handle message generation
-   - Design standardized message templates with variable substitution
-   - Implement secure signing of DMs using admin keys
-   - Ensure proper relay routing for DM delivery
+## 1. User Removal from Groups
+- Implement NIP-29 moderation events (kind 16402 - GroupModeration) with required tags:
+  - 'h' tag: group ID
+  - 'p' tag: pubkey of user being removed
+  - 'action' tag: value 'remove'
+  - 'type' tag: value 'user'
+  - 'reason' tag: optional removal reason
+- Enhance NIP29 class in packages/nostr_sdk/lib/nip29/nip29.dart:
+  - Add removeUser(Nostr, GroupIdentifier, String pubkey, {String? reason}) method
+- Update GroupProvider in lib/provider/group_provider.dart:
+  - Implement removeUser(GroupIdentifier, String pubkey, {String? reason}) method
+  - Add authorization checks to ensure only admins can perform removals
 
-2. **UI Components:**
-   - Add "Customize notification message" option to moderation action dialogs
-   - Create a message editor with template selection and custom text fields
-   - Add preview functionality to show how messages will appear to recipients
-   - Include character count and formatting tools
+## 2. Automatic Notification for Removed Users
+- Create a system to send NIP-04 encrypted direct messages to removed users containing:
+  - Subject line: "Moderation Notice: [Group Name]"
+  - Group information (name, ID)
+  - Removal reason (if provided)
+  - Appeal information (optional)
+- Trigger notification automatically after successful user removal
 
-3. **Integration Points:**
-   - Hook into existing moderation action flows (post removal, user banning, etc.)
-   - Connect with user profile service to retrieve messaging capabilities
-   - Integrate with moderation audit system to track communications
-   - Link with reporting system to identify reporters needing notification
+## 3. Admin Manual Messaging System
+- Develop UI components for admins to send moderation messages:
+  - "Message User" option in user context menus
+  - Message composition dialog with templates and custom message options
+  - Automatic inclusion of group context information
 
-4. **Performance & Reliability:**
-   - Queue notifications for reliable delivery even with connectivity issues
-   - Implement retry logic for failed deliveries
-   - Optimize message generation for quick moderation actions
-   - Handle high volume scenarios (mass moderation events)
+## 4. UI Implementation
+- Enhance Group Members Screen with:
+  - "Remove User" option in context menu (admin-only)
+  - Confirmation dialog with reason input and notification options
+  - "Message User" option in admin interfaces
+  - Message composition dialog
 
-### Privacy & Ethical Considerations
+## 5. Implementation Steps
+1. Modify NIP29 class for user removal functionality
+2. Update GroupProvider with removal methods and authorization
+3. Create DM service for moderation notifications
+4. Implement UI components for removal and messaging
+5. Connect automatic notifications to the removal process
+6. Add logging and thorough testing
+</info added on 2025-05-17T13:19:03.087Z>
+<info added on 2025-05-17T13:22:55.163Z>
+The implementation of the user removal and moderation notification system has been successfully completed in the Plur application. The implementation follows the planned approach with the following components:
 
-1. **User Privacy Protection:**
-   - Never reveal reporter identity to the moderated user
-   - Protect moderation discussion details from unnecessary exposure
-   - Maintain appropriate boundaries in communications
-   - Follow best practices for sensitive communications
+1. Backend Implementation:
+   - Added `removeUser` method to the NIP29 class in `packages/nostr_sdk/lib/nip29/nip29.dart` that creates user moderation events with the required tags (h, p, action, type, reason)
+   - Implemented `removeUser` in the GroupProvider with proper admin authorization checks to ensure only group admins can remove users
+   - Created a ModerationDmUtil class that handles sending encrypted direct messages to removed users with appropriate notification content
 
-2. **Accessibility & Clarity:**
-   - Ensure notifications are clear and easily understood
-   - Avoid jargon or overly technical language
-   - Provide constructive guidance rather than punitive tone
-   - Make appeals process clear where applicable
+2. UI Implementation:
+   - Developed a UserRemoveDialog component that includes:
+     - Optional reason input field for admins to explain the removal
+     - Toggle option to enable/disable notification DMs
+     - Loading state indicators and error handling mechanisms
+   - Added "Remove User" option to the context menus in both the Group Members screen and Report Management screen
+   - Implemented feedback messages to inform admins about the success or failure of removal actions
 
-### Testing Strategy
+3. Integration:
+   - Connected the user removal functionality with the automatic DM notification system
+   - Added all necessary string localizations for new UI elements to support internationalization
+   - Implemented comprehensive error handling and logging throughout the system
+   - Ensured the implementation follows the same pattern and structure as the existing post removal functionality
 
-1. **Functional Testing:**
-   - Verify DMs are generated with correct information
-   - Test customization features for admin messages
-   - Verify reporter notifications include appropriate details
-   - Test against various moderation scenarios (post removal, user ban, etc.)
-
-2. **UX Testing:**
-   - Evaluate clarity of messages from recipient perspective
-   - Test admin customization workflow for usability
-   - Verify accessibility of message templates and editor
-   - Test on various device types and screen sizes
-
-3. **Integration Testing:**
-   - Validate proper integration with moderation action flows
-   - Test interaction with reporting system
-   - Verify audit logging captures notification activities
-   - Test offline/sync behavior for queued notifications
-
-4. **Security Testing:**
-   - Verify proper signing and encryption of DMs
-   - Test privacy controls for reporter anonymity
-   - Validate against message spoofing attempts
-   - Test proper permissions for notification sending
-
-### Implementation Plan
-
-1. Design message templates for different moderation scenarios
-2. Implement notification service with templating system
-3. Create UI components for admin message customization
-4. Integrate with existing moderation flows
-5. Add reporter notification logic
-6. Implement delivery tracking and audit logging
-7. Test thoroughly across different scenarios
-8. Deploy with monitoring for message delivery success rates
+The system now allows group admins to effectively moderate their groups by removing problematic users while providing appropriate notifications to those users. The implementation is complete, well-integrated with existing systems, and handles error cases gracefully with appropriate feedback mechanisms.
+</info added on 2025-05-17T13:22:55.163Z>
 

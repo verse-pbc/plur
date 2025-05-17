@@ -1037,6 +1037,9 @@ class SEl extends S {
   String get admin => 'Admin';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Admin Panel';
 
   @override
@@ -1194,6 +1197,12 @@ class SEl extends S {
 
   @override
   String get remove => 'Remove';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'Changes saved successfully';
@@ -1533,4 +1542,8 @@ class SEl extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

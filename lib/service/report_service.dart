@@ -7,28 +7,32 @@ import 'package:nostrmo/provider/group_provider.dart';
 /// A report event with additional metadata
 class ReportItem {
   final Event event;
-  final String? reason;
-  final String? details;
+  final String? groupId;
   final String? reportedEventId;
   final String? reportedPubkey;
-  final String? groupId;
-  final String? relayUrl;
+  final String? reason;
+  final String? details;
   final DateTime createdAt;
-  bool dismissed = false;
+  final bool dismissed;
+  final Event? reportedEvent;
+  
+  // Added properties
+  final GroupIdentifier? groupContext;
+  final String id; // ID field to identify this report
   
   ReportItem({
     required this.event,
-    this.reason,
-    this.details,
+    this.groupId,
     this.reportedEventId,
     this.reportedPubkey,
-    this.groupId,
-    this.relayUrl,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
-  
-  /// Get the reported content (if available)
-  Event? get reportedEvent => reportedEventId != null ? singleEventProvider.getEvent(reportedEventId!) : null;
+    this.reason,
+    this.details,
+    required this.createdAt,
+    this.dismissed = false,
+    this.reportedEvent,
+    this.groupContext,
+    String? id, // Optional ID parameter
+  }) : id = id ?? event.id; // Use event ID as fallback
   
   /// Parse a report item from a Nostr event
   static ReportItem? fromEvent(Event event) {
@@ -39,7 +43,6 @@ class ReportItem {
     String? reportedEventId;
     String? reportedPubkey;
     String? groupId;
-    String? relayUrl;
     
     for (var tag in event.tags) {
       if (tag.length > 1) {
@@ -56,9 +59,6 @@ class ReportItem {
           case 'h':
             groupId = tagValue;
             break;
-          case 'relay':
-            relayUrl = tagValue;
-            break;
           case 'reason':
             reason = tagValue;
             break;
@@ -69,6 +69,9 @@ class ReportItem {
       }
     }
     
+    // Ensure we create the DateTime from the event's createdAt timestamp
+    final createdAtDateTime = DateTime.fromMillisecondsSinceEpoch(event.createdAt * 1000);
+    
     return ReportItem(
       event: event,
       reason: reason,
@@ -76,7 +79,7 @@ class ReportItem {
       reportedEventId: reportedEventId,
       reportedPubkey: reportedPubkey,
       groupId: groupId,
-      relayUrl: relayUrl,
+      createdAt: createdAtDateTime,
     );
   }
 }
@@ -120,25 +123,45 @@ class ReportService extends ChangeNotifier with LaterFunction {
     return count;
   }
   
-  /// Dismiss a report
+  /// Dismiss a report by ID
+  /// This marks a report as handled
   void dismissReport(String reportId) {
-    bool updated = false;
-    
-    _dismissedReports.add(reportId);
-    
-    _reports.forEach((groupId, reports) {
-      for (var report in reports) {
-        if (report.event.id == reportId) {
-          report.dismissed = true;
-          updated = true;
-          break;
+    // Find the report by ID
+    for (var groupId in _reports.keys) {
+      var reportList = _reports[groupId];
+      if (reportList != null) {
+        for (int i = 0; i < reportList.length; i++) {
+          if (reportList[i].id == reportId) {
+            // Create a new report with dismissed = true
+            var updatedReport = ReportItem(
+              event: reportList[i].event,
+              reportedEventId: reportList[i].reportedEventId,
+              reportedPubkey: reportList[i].reportedPubkey,
+              reason: reportList[i].reason,
+              details: reportList[i].details,
+              groupId: reportList[i].groupId,
+              createdAt: reportList[i].createdAt,
+              dismissed: true,
+              reportedEvent: reportList[i].reportedEvent,
+              groupContext: reportList[i].groupContext,
+              id: reportId,
+            );
+            
+            // Replace the old report with the updated one
+            reportList[i] = updatedReport;
+            
+            // Also add to dismissed reports set for backward compatibility
+            _dismissedReports.add(reportId);
+            
+            logger.i('Dismissed report $reportId', null, null, LogCategory.groups);
+            notifyListeners();
+            return;
+          }
         }
       }
-    });
-    
-    if (updated) {
-      notifyListeners();
     }
+    
+    logger.w('Report $reportId not found for dismissal', null, null, LogCategory.groups);
   }
   
   /// Subscribe to reports for a specific group
@@ -237,14 +260,29 @@ class ReportService extends ChangeNotifier with LaterFunction {
                "Reason: ${report.reason ?? 'none'}", 
                null, null, LogCategory.groups);
       
-      // Check if this report is already dismissed
+      // Create a new report with dismissed flag if this report is already in dismissed reports set
+      ReportItem finalReport = report;
       if (_dismissedReports.contains(event.id)) {
         logger.d("Report ${event.id.substring(0, 8)}... is already dismissed", null, null, LogCategory.groups);
-        report.dismissed = true;
+        
+        // Create new report with dismissed set to true
+        finalReport = ReportItem(
+          event: report.event,
+          reportedEventId: report.reportedEventId,
+          reportedPubkey: report.reportedPubkey,
+          reason: report.reason,
+          details: report.details,
+          groupId: report.groupId,
+          createdAt: report.createdAt,
+          dismissed: true,
+          reportedEvent: report.reportedEvent,
+          groupContext: report.groupContext,
+          id: report.id,
+        );
       }
       
       // Get the group ID and ensure we have a list for it
-      final groupId = report.groupId!;
+      final groupId = finalReport.groupId!;
       if (!_reports.containsKey(groupId)) {
         logger.i("Creating report list for group $groupId", null, null, LogCategory.groups);
         _reports[groupId] = [];
@@ -256,23 +294,23 @@ class ReportService extends ChangeNotifier with LaterFunction {
       bool shouldNotify = false;
       if (existingIndex >= 0) {
         // Update existing report if needed
-        if (_reports[groupId]![existingIndex].dismissed != report.dismissed) {
+        if (_reports[groupId]![existingIndex].dismissed != finalReport.dismissed) {
           logger.d("Updating existing report ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
-          _reports[groupId]![existingIndex] = report;
+          _reports[groupId]![existingIndex] = finalReport;
           shouldNotify = true;
         }
       } else {
         // Add new report
         logger.i("Adding new report for group $groupId: ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
-        _reports[groupId]!.add(report);
+        _reports[groupId]!.add(finalReport);
         shouldNotify = true;
       }
       
       // Log report content
       if (shouldNotify) {
-        logger.i("Report details - Event ID: ${report.reportedEventId?.substring(0, 8) ?? 'none'}, " +
-                "User: ${report.reportedPubkey?.substring(0, 8) ?? 'none'}, " +
-                "Reason: ${report.reason ?? 'none'}", 
+        logger.i("Report details - Event ID: ${finalReport.reportedEventId?.substring(0, 8) ?? 'none'}, " +
+                "User: ${finalReport.reportedPubkey?.substring(0, 8) ?? 'none'}, " +
+                "Reason: ${finalReport.reason ?? 'none'}", 
                 null, null, LogCategory.groups);
         
         // Notify listeners about the change

@@ -1051,6 +1051,9 @@ class SFr extends S {
   String get admin => 'Administrateur';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Panneau d\'administration';
 
   @override
@@ -1209,6 +1212,12 @@ class SFr extends S {
 
   @override
   String get remove => 'Supprimer';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'Modifications enregistrées avec succès';
@@ -1551,4 +1560,8 @@ class SFr extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

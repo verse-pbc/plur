@@ -1,0 +1,47 @@
+# Task ID: 43
+# Title: Task #43: Conditionally Display Zap Icons Based on NWC Wallet Setup
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Modify the application to only display zap icons when the user has successfully set up a Nostr Wallet Connect (NWC) wallet, hiding this functionality from users without a configured wallet.
+# Details:
+This task requires modifying the UI components that display zap icons throughout the application to make them conditional on the user's wallet status. Implementation steps include:
+
+1. Identify all locations where zap icons are currently displayed in the UI (posts, comments, profiles, etc.)
+2. Create or modify the existing wallet status check functionality to reliably determine if a user has set up an NWC wallet
+3. Implement a conditional rendering mechanism that checks the wallet status before displaying zap icons
+4. Update the relevant components to use this conditional logic
+5. Ensure the UI gracefully handles the absence of zap icons without creating layout issues
+6. Consider adding a tooltip or small notification that explains why zap icons aren't visible for users without a wallet
+7. Update any related documentation to explain this conditional behavior
+8. Ensure the wallet status check is efficient and doesn't cause performance issues, especially on pages with multiple zap icons
+
+The implementation should maintain a consistent user experience while clearly indicating the relationship between wallet setup and zapping functionality.
+
+# Test Strategy:
+Testing should verify that zap icons appear and function correctly only when appropriate:
+
+1. Unit tests:
+   - Test the wallet status detection function with various wallet states
+   - Verify conditional rendering logic in isolation
+   - Test UI components with and without wallet configuration
+
+2. Integration tests:
+   - Verify that zap icons are hidden when no NWC wallet is configured
+   - Confirm zap icons appear when a valid NWC wallet is set up
+   - Test the transition between these states (setting up a wallet should make icons appear)
+
+3. End-to-end tests:
+   - Complete user flows with and without wallet setup
+   - Verify all pages maintain proper layout regardless of zap icon visibility
+
+4. Manual testing:
+   - Test on multiple devices and screen sizes to ensure responsive design isn't broken
+   - Verify that adding a wallet immediately updates the UI to show zap icons without requiring a page refresh
+   - Test edge cases like disconnecting a wallet to ensure icons disappear appropriately
+
+5. Accessibility testing:
+   - Ensure any tooltips or explanatory elements are accessible
+   - Verify that the conditional display doesn't affect screen reader functionality
+
+Document all test cases and results, including screenshots of the UI both with and without zap icons visible.

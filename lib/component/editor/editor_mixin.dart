@@ -20,6 +20,7 @@ import 'package:nostrmo/sendbox/sendbox.dart';
 import 'package:provider/provider.dart';
 import 'package:image/image.dart' as img;
 import 'package:quill_native_bridge/quill_native_bridge.dart';
+import 'package:nostrmo/service/moderation_service.dart';
 
 import '../../consts/base.dart';
 import '../../data/custom_emoji.dart';
@@ -843,6 +844,12 @@ mixin EditorMixin {
 
     log(jsonEncode(event.toJson()));
     if (groupIdentifier != null) {
+      // Check if user is banned from the group
+      if (isUserBannedFromGroup()) {
+        showBannedUserError();
+        return null;
+      }
+      
       var groupRelays = [groupIdentifier.host];
       log("send group event to $groupRelays");
       event.sources.addAll(groupRelays);
@@ -1296,5 +1303,40 @@ mixin EditorMixin {
       eventZapInfos.clear();
     }
     updateUI();
+  }
+
+  /// Check if the current user is banned from a group
+  /// 
+  /// @return True if the user is banned, false otherwise
+  bool isUserBannedFromGroup() {
+    // Get the group identifier and current user pubkey
+    final groupIdentifier = getGroupIdentifier();
+    
+    // If not posting to a group, user can't be banned
+    if (groupIdentifier == null || nostr == null) {
+      return false;
+    }
+    
+    // Check if the current user is banned from this group
+    final isBanned = moderationService.isUserBanned(nostr!.publicKey, groupIdentifier);
+    
+    if (isBanned) {
+      log("User ${nostr!.publicKey.substring(0, 8)}... is banned from group ${groupIdentifier.groupId}, blocking post", 
+          name: "EditorMixin");
+    }
+    
+    return isBanned;
+  }
+  
+  /// Show a toast error message for banned user
+  void showBannedUserError() {
+    final context = getContext();
+    final l10n = S.of(context);
+    
+    // Display error message
+    BotToast.showText(
+      text: l10n.youAreBannedFromThisGroup,
+      duration: const Duration(seconds: 4),
+    );
   }
 }

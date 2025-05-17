@@ -127,4 +127,113 @@ class NIP29 {
       return null;
     }
   }
+  
+  /// Create a moderation event to remove/ban a user from a group
+  /// 
+  /// This creates and sends a moderation event (kind 16402) to remove a user from a group
+  /// Only users with admin privileges should be able to remove users
+  /// 
+  /// @param nostr The Nostr instance to use
+  /// @param groupIdentifier Group identifier (relay and group ID)
+  /// @param userPubkey Pubkey of the user to remove
+  /// @param reason Optional reason for removal
+  /// @return The created event if successful, null otherwise
+  static Future<Event?> removeUser(
+      Nostr nostr, GroupIdentifier groupIdentifier, String userPubkey, {String? reason}) async {
+    print("REMOVE USER DEBUG: NIP29.removeUser called - group: ${groupIdentifier.groupId}, user: ${userPubkey.substring(0, 8)}...");
+    var relays = [groupIdentifier.host];
+    
+    // Create the tags for the moderation event
+    List<List<dynamic>> tags = [
+      ["h", groupIdentifier.groupId], // Group ID
+      ["p", userPubkey], // User pubkey
+      ["action", "remove"], // Action (remove)
+      ["type", "user"], // Type (user)
+    ];
+    
+    // Add reason if provided
+    if (reason != null && reason.isNotEmpty) {
+      tags.add(["reason", reason]);
+    }
+    
+    print("REMOVE USER DEBUG: Created tags: $tags");
+    
+    // Create the event - using kind 16402 for group moderation events
+    var event = Event(
+      nostr.publicKey,
+      EventKind.groupModeration, // Moderation event kind (16402)
+      tags,
+      "", // No content needed for moderation events
+    );
+    
+    try {
+      // Send the event to the group's relay
+      print("REMOVE USER DEBUG: About to send event to relays: $relays");
+      await nostr.sendEvent(event, tempRelays: relays, targetRelays: relays);
+      print("REMOVE USER DEBUG: Event sent successfully with ID: ${event.id}");
+      return event;
+    } catch (e) {
+      // Log error and return null on failure
+      print("REMOVE USER DEBUG: Error sending user removal event: $e");
+      return null;
+    }
+  }
+  
+  /// Create a moderation event to ban a user from a group
+  /// 
+  /// This creates and sends a moderation event (kind 16402) to ban a user from a group
+  /// Only users with admin privileges should be able to ban users
+  /// 
+  /// @param nostr The Nostr instance to use
+  /// @param groupIdentifier Group identifier (relay and group ID)
+  /// @param userPubkey Pubkey of the user to ban
+  /// @param reason Optional reason for ban
+  /// @param duration Optional ban duration in seconds (for temporary bans)
+  /// @return The created event if successful, null otherwise
+  static Future<Event?> banUser(
+      Nostr nostr, GroupIdentifier groupIdentifier, String userPubkey, 
+      {String? reason, int? duration}) async {
+    print("BAN USER DEBUG: NIP29.banUser called - group: ${groupIdentifier.groupId}, user: ${userPubkey.substring(0, 8)}...");
+    var relays = [groupIdentifier.host];
+    
+    // Create the tags for the moderation event
+    List<List<dynamic>> tags = [
+      ["h", groupIdentifier.groupId], // Group ID
+      ["p", userPubkey], // User pubkey
+      ["action", "ban"], // Action (ban)
+      ["type", "user"], // Type (user)
+    ];
+    
+    // Add reason if provided
+    if (reason != null && reason.isNotEmpty) {
+      tags.add(["reason", reason]);
+    }
+    
+    // Add duration if provided (for temporary bans)
+    if (duration != null) {
+      tags.add(["duration", duration.toString()]);
+    }
+    
+    print("BAN USER DEBUG: Created tags: $tags");
+    
+    // Create the event - using kind 16402 for group moderation events
+    var event = Event(
+      nostr.publicKey,
+      EventKind.groupModeration, // Moderation event kind (16402)
+      tags,
+      "", // No content needed for moderation events
+    );
+    
+    try {
+      // Send the event to the group's relay
+      print("BAN USER DEBUG: About to send event to relays: $relays");
+      await nostr.sendEvent(event, tempRelays: relays, targetRelays: relays);
+      print("BAN USER DEBUG: Event sent successfully with ID: ${event.id}");
+      return event;
+    } catch (e) {
+      // Log error and return null on failure
+      print("BAN USER DEBUG: Error sending user ban event: $e");
+      return null;
+    }
+  }
 }

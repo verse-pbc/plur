@@ -1037,6 +1037,9 @@ class SJa extends S {
   String get admin => 'Admin';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Admin Panel';
 
   @override
@@ -1188,6 +1191,12 @@ class SJa extends S {
 
   @override
   String get remove => '削除';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => '変更が正常に保存されました';
@@ -1525,4 +1534,8 @@ class SJa extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

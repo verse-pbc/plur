@@ -335,6 +335,7 @@
     "groupInfo": "Group Info",
     "yourGroups": "Your Groups",
     "admin": "Admin",
+    "groupAdmin": "Group Admin",
     "adminPanel": "Admin Panel",
     "updateImage": "Update Image",
     "communityNameHeader": "Community Name",
@@ -398,6 +399,8 @@
     "editGroup": "Edit Group",
     "editDetails": "Edit Details",
     "remove": "Remove",
+    "removeUser": "Remove User",
+    "banUser": "Ban User",
     "changesSaved": "Changes saved successfully",
     "saveError": "Error saving changes",
     "communityNameRequired": "Community name is required",
@@ -509,5 +512,6 @@
     "inviteExpired": "This invite has expired",
     "joinCommunity": "Join Community",
     "expiringNow": "Expiring now",
-    "lnbc": "Lightning Invoice"
+    "lnbc": "Lightning Invoice",
+    "youAreBannedFromThisGroup": "You are banned from this group and cannot post content"
 }

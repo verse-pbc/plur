@@ -2162,6 +2162,12 @@ abstract class S {
   /// **'Admin'**
   String get admin;
 
+  /// No description provided for @groupAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Group Admin'**
+  String get groupAdmin;
+
   /// No description provided for @adminPanel.
   ///
   /// In en, this message translates to:
@@ -2455,6 +2461,18 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Remove'**
   String get remove;
+
+  /// No description provided for @removeUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove User'**
+  String get removeUser;
+
+  /// No description provided for @banUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Ban User'**
+  String get banUser;
 
   /// No description provided for @changesSaved.
   ///
@@ -3121,6 +3139,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Lightning Invoice'**
   String get lnbc;
+
+  /// No description provided for @youAreBannedFromThisGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'You are banned from this group and cannot post content'**
+  String get youAreBannedFromThisGroup;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

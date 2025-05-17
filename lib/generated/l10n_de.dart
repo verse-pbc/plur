@@ -1037,6 +1037,9 @@ class SDe extends S {
   String get admin => 'Administrator';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Administratorbereich';
 
   @override
@@ -1196,6 +1199,12 @@ class SDe extends S {
 
   @override
   String get remove => 'Entfernen';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'Änderungen erfolgreich gespeichert';
@@ -1538,4 +1547,8 @@ class SDe extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

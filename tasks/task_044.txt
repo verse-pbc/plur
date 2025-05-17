@@ -1,0 +1,74 @@
+# Task ID: 44
+# Title: Task #44: Redesign DM Screen with Segmented Contacts and Notification Indicators
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Update the direct message interface to organize contacts into two tabs: one for connected users (followed, DM history, or shared groups) and another for connection requests, with clear unread/new message indicators for both sections.
+# Details:
+This task involves restructuring the direct message (DM) interface to improve user experience and message organization. The implementation should include:
+
+1. Create two distinct tabs in the DM screen:
+   - "Messages" tab: Display all users the current user has previously messaged, follows, or shares a group with
+   - "Requests" tab: Display message requests from users without an established connection
+
+2. Implement contact categorization logic:
+   - Query the database to identify users who meet any of these criteria:
+     a) Users the current user has exchanged DMs with
+     b) Users the current user follows
+     c) Users who share at least one group with the current user
+   - All other users attempting to initiate contact should appear in the "Requests" tab
+
+3. Add notification indicators:
+   - Design and implement "New" indicators for first-time message requests
+   - Design and implement "Unread" indicators for both tabs to show the number of unread messages
+   - Ensure indicators are visually distinct but consistent with the application's design system
+
+4. Update the database queries and frontend components:
+   - Modify the existing DM retrieval logic to support the new categorization
+   - Ensure real-time updates when messages are read or when a user's connection status changes
+   - Optimize queries to maintain performance with the additional filtering logic
+
+5. Consider edge cases:
+   - Handle scenarios where a user moves from "Requests" to "Messages" (e.g., when accepted or when connection criteria are met)
+   - Ensure proper state management when switching between tabs
+   - Account for users who may have been blocked or muted
+
+6. Update UI components:
+   - Design tab navigation that clearly indicates which tab is active
+   - Implement consistent styling for the notification indicators
+   - Ensure the interface is responsive and accessible
+
+# Test Strategy:
+To verify the successful implementation of the DM screen redesign:
+
+1. Functional testing:
+   - Verify users are correctly categorized in the appropriate tabs based on the defined criteria
+   - Test with multiple user accounts having different relationship statuses
+   - Confirm that users move from "Requests" to "Messages" when connection criteria are met
+   - Verify notification indicators appear and disappear appropriately when messages are read
+
+2. User relationship scenarios:
+   - Test with users you follow but haven't messaged (should be in Messages tab)
+   - Test with users who share a group with you but you don't follow (should be in Messages tab)
+   - Test with users you've previously messaged but don't follow or share groups with (should be in Messages tab)
+   - Test with users who have none of the above connections (should be in Requests tab)
+
+3. Notification indicator testing:
+   - Verify "New" indicators appear for first-time message requests
+   - Verify "Unread" count indicators accurately reflect the number of unread messages
+   - Test that indicators update in real-time when messages are read
+
+4. UI/UX testing:
+   - Verify the tab design is intuitive and clearly indicates which tab is active
+   - Test the responsiveness of the interface on different screen sizes
+   - Ensure the design is consistent with the application's overall design system
+   - Verify accessibility standards are met (keyboard navigation, screen reader compatibility)
+
+5. Performance testing:
+   - Measure load times with a large number of contacts in each category
+   - Verify that real-time updates don't cause performance degradation
+
+6. Edge case testing:
+   - Test behavior when blocking/unblocking users
+   - Test with users who have been removed from shared groups
+   - Verify behavior when a user unfollows someone they previously messaged

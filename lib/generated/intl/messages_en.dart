@@ -720,6 +720,16 @@ class MessageLookup extends MessageLookupByLibrary {
         "zapNumCanNotSmallerThen": MessageLookupByLibrary.simpleMessage(
             "Zap num can not smaller then"),
         "zapNumberNotEnough":
-            MessageLookupByLibrary.simpleMessage("Zap number not enough")
+            MessageLookupByLibrary.simpleMessage("Zap number not enough"),
+        "removeUser": MessageLookupByLibrary.simpleMessage("Remove User"),
+        "removeUserTitle": MessageLookupByLibrary.simpleMessage("Remove User from Group"),
+        "removeUserConfirmation": MessageLookupByLibrary.simpleMessage(
+            "Are you sure you want to remove this user from the group?"),
+        "reasonOptional": MessageLookupByLibrary.simpleMessage("Reason (Optional)"),
+        "reasonHint": MessageLookupByLibrary.simpleMessage("Optional explanation for why this user is being removed..."),
+        "sendNotificationToUser": MessageLookupByLibrary.simpleMessage("Send notification to user"),
+        "userRemovedSuccessfully": MessageLookupByLibrary.simpleMessage("User removed successfully"),
+        "errorRemovingUser": MessageLookupByLibrary.simpleMessage("Error removing user"),
+        "message": MessageLookupByLibrary.simpleMessage("Message")
       };
 }

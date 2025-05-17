@@ -1037,6 +1037,9 @@ class SKo extends S {
   String get admin => 'Admin';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Admin Panel';
 
   @override
@@ -1187,6 +1190,12 @@ class SKo extends S {
 
   @override
   String get remove => '제거';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => '변경 사항이 성공적으로 저장됨';
@@ -1524,4 +1533,8 @@ class SKo extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

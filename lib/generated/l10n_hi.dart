@@ -1037,6 +1037,9 @@ class SHi extends S {
   String get admin => 'प्रशासक';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'प्रशासक पैनल';
 
   @override
@@ -1193,6 +1196,12 @@ class SHi extends S {
 
   @override
   String get remove => 'हटाएं';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'परिवर्तन सफलतापूर्वक सहेजे गए';
@@ -1534,4 +1543,8 @@ class SHi extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

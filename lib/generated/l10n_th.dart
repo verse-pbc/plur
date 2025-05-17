@@ -1037,6 +1037,9 @@ class STh extends S {
   String get admin => 'Admin';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Admin Panel';
 
   @override
@@ -1188,6 +1191,12 @@ class STh extends S {
 
   @override
   String get remove => 'ลบ';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'บันทึกการเปลี่ยนแปลงเรียบร้อยแล้ว';
@@ -1529,4 +1538,8 @@ class STh extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

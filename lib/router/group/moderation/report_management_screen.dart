@@ -8,13 +8,19 @@ import 'package:nostrmo/consts/plur_colors.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/group_provider.dart';
+import 'package:nostrmo/provider/single_event_provider.dart';
+import 'package:nostrmo/provider/user_provider.dart';
+import 'package:nostrmo/service/moderation_service.dart';
 import 'package:nostrmo/service/report_service.dart';
 import 'package:nostrmo/util/app_logger.dart';
+import 'package:nostrmo/util/moderation_dm_util.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/router/group/group_members/user_remove_dialog.dart';
+import 'package:nostrmo/router/group/group_members/user_ban_dialog.dart';
 
 class ReportManagementScreen extends StatefulWidget {
   final GroupIdentifier? selectedGroup;
@@ -267,56 +273,253 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   }
   
   void _removeReportedPost(ReportItem report) async {
-    if (report.reportedEventId == null || report.groupId == null) {
-      logger.w("REMOVE DEBUG: Cannot remove post - missing eventId or groupId", null, null, LogCategory.groups);
+    if (report.reportedEventId == null) {
+      logger.w("REMOVE POST: No event ID in report", null, null, LogCategory.groups);
       return;
     }
     
-    logger.i("REMOVE DEBUG: Removing post ${report.reportedEventId} from group ${report.groupId}", null, null, LogCategory.groups);
+    if (report.groupContext == null) {
+      logger.w("REMOVE POST: No group context in report", null, null, LogCategory.groups);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Cannot remove post: missing group context")),
+      );
+      return;
+    }
     
-    logger.i("REMOVE DEBUG: Using relay: ${report.relayUrl ?? 'NULL!'}", null, null, LogCategory.groups);
+    // Check admin status
+    GroupIdentifier? groupIdentifier = report.groupContext;
+    final myPubkey = nostr?.publicKey;
+    if (myPubkey == null) {
+      logger.w("REMOVE POST: No public key available", null, null, LogCategory.groups);
+      return;
+    }
     
-    final groupId = _selectedGroup ?? 
-        GroupIdentifier(report.relayUrl ?? "", report.groupId!);
+    final isAdmin = groupProvider.isAdmin(myPubkey, groupIdentifier!);
+    if (!isAdmin) {
+      logger.w("REMOVE POST: Not an admin of the group", null, null, LogCategory.groups);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("You must be a group admin to remove posts")),
+      );
+      return;
+    }
     
-    if (groupId != null) {
-      logger.i("REMOVE DEBUG: Constructed GroupIdentifier: ${groupId.host}/${groupId.groupId}", null, null, LogCategory.groups);
+    // Show removal confirmation dialog
+    bool? confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Remove Post"),
+        content: const Text("Are you sure you want to remove this post? This action cannot be undone."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text("Remove"),
+          ),
+        ],
+      ),
+    );
+    
+    if (confirm != true) {
+      return;
+    }
+    
+    // Show loading indicator
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Row(
+          children: [
+            SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(strokeWidth: 2),
+            ),
+            SizedBox(width: 16),
+            Text("Removing post..."),
+          ],
+        ),
+        duration: Duration(seconds: 2),
+      ),
+    );
+    
+    // Remove the post
+    try {
+      logger.i("REMOVE POST: Attempting to remove post ${report.reportedEventId}", null, null, LogCategory.groups);
       
-      try {
-        final success = await groupProvider.removePost(
-          groupId, 
-          report.reportedEventId!,
-          reason: "Removed after review of user report: ${report.reason ?? 'Not specified'}"
+      final success = await groupProvider.removePost(
+        groupIdentifier, 
+        report.reportedEventId!,
+        reason: "Removed by moderator",
+      );
+      
+      if (!mounted) return;
+      
+      if (success) {
+        logger.i("REMOVE POST: Successfully removed post", null, null, LogCategory.groups);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Post removed successfully")),
         );
         
-        if (success) {
-          logger.i("REMOVE DEBUG: Post removal was successful", null, null, LogCategory.groups);
-          _dismissReport(report);
-          
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Post removed successfully")),
-            );
-          }
-        } else {
-          logger.e("REMOVE DEBUG: Post removal failed", null, null, LogCategory.groups);
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Failed to remove post")),
-            );
-          }
-        }
-      } catch (e, st) {
-        logger.e("REMOVE DEBUG: Exception during post removal: $e", e, st, LogCategory.groups);
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Error: Failed to remove post: $e")),
-          );
-        }
+        // Mark the report as dismissed
+        reportService.dismissReport(report.event.id);
+        
+        // Refresh the reports list
+        _updateReportsList();
+      } else {
+        logger.e("REMOVE POST: Failed to remove post", null, null, LogCategory.groups);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Failed to remove post")),
+        );
       }
-    } else {
-      logger.e("REMOVE DEBUG: Could not construct a valid GroupIdentifier", null, null, LogCategory.groups);
+    } catch (e, st) {
+      logger.e("REMOVE POST: Error removing post: $e", st, null, LogCategory.groups);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Error removing post: $e")),
+        );
+      }
     }
+  }
+  
+  void _removeReportedUser(ReportItem report) async {
+    if (report.reportedPubkey == null) {
+      logger.w("REMOVE USER: No pubkey in report", null, null, LogCategory.groups);
+      return;
+    }
+    
+    if (report.groupContext == null) {
+      logger.w("REMOVE USER: No group context in report", null, null, LogCategory.groups);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Cannot remove user: missing group context")),
+      );
+      return;
+    }
+    
+    // Check admin status
+    GroupIdentifier? groupIdentifier = report.groupContext;
+    final myPubkey = nostr?.publicKey;
+    if (myPubkey == null) {
+      logger.w("REMOVE USER: No public key available", null, null, LogCategory.groups);
+      return;
+    }
+    
+    final isAdmin = groupProvider.isAdmin(myPubkey, groupIdentifier!);
+    if (!isAdmin) {
+      logger.w("REMOVE USER: Not an admin of the group", null, null, LogCategory.groups);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("You must be a group admin to moderate users")),
+      );
+      return;
+    }
+    
+    // Get user info for display
+    final userName = userProvider.getName(report.reportedPubkey!);
+    
+    // Show bottom sheet with moderation options
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        final theme = Theme.of(context);
+        final customColors = theme.extension<CustomColors>() ?? CustomColors.light;
+        
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                child: Text(
+                  "User Moderation Options",
+                  style: theme.textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              
+              const Divider(),
+              
+              // Remove user option
+              ListTile(
+                leading: Icon(Icons.person_remove, color: customColors.primaryForegroundColor),
+                title: Text("Remove from Group", style: theme.textTheme.bodyMedium),
+                subtitle: Text("Remove the user from the group", style: theme.textTheme.bodySmall),
+                onTap: () async {
+                  Navigator.pop(context);
+                  
+                  final result = await UserRemoveDialog.show(
+                    context,
+                    groupIdentifier,
+                    report.reportedPubkey!,
+                    userName: userName,
+                  );
+                  
+                  if (result == true && mounted) {
+                    // Mark the report as dismissed
+                    reportService.dismissReport(report.event.id);
+                    
+                    // Refresh the reports list
+                    _updateReportsList();
+                    
+                    // Show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("User removed successfully")),
+                    );
+                  }
+                },
+              ),
+              
+              // Ban user option
+              ListTile(
+                leading: Icon(Icons.block, color: Colors.red),
+                title: Text("Ban from Group", style: theme.textTheme.bodyMedium),
+                subtitle: Text("Ban the user from posting or viewing content", style: theme.textTheme.bodySmall),
+                onTap: () async {
+                  Navigator.pop(context);
+                  
+                  final result = await UserBanDialog.show(
+                    context,
+                    groupIdentifier,
+                    report.reportedPubkey!,
+                    userName: userName,
+                  );
+                  
+                  if (result == true && mounted) {
+                    // Mark the report as dismissed
+                    reportService.dismissReport(report.event.id);
+                    
+                    // Refresh the reports list
+                    _updateReportsList();
+                    
+                    // Show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("User banned successfully")),
+                    );
+                  }
+                },
+              ),
+              
+              // View profile option
+              ListTile(
+                leading: Icon(Icons.person_outline, color: customColors.primaryForegroundColor),
+                title: Text("View User Profile", style: theme.textTheme.bodyMedium),
+                onTap: () {
+                  Navigator.pop(context);
+                  _viewReportedUserProfile(report);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
   
   void _viewReportedContent(ReportItem report) {
@@ -328,7 +531,7 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
           context: context,
           builder: (BuildContext context) {
             final themeData = Theme.of(context);
-            final customColors = themeData.customColors;
+            final customColors = themeData.extension<CustomColors>() ?? CustomColors.light;
             
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -461,6 +664,7 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = S.of(context);
+    final customColors = theme.extension<CustomColors>() ?? CustomColors.light;
     
     GroupIdentifier? groupContext;
     bool directAdminCheck = false;
@@ -665,7 +869,7 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   
   Widget _buildReportItem(ReportItem report) {
     final theme = Theme.of(context);
-    final customColors = theme.customColors;
+    final customColors = theme.extension<CustomColors>() ?? CustomColors.light;
     final reportedEvent = report.reportedEvent;
     final dateFormat = DateFormat('MMM d, yyyy h:mm a');
     final formattedDate = dateFormat.format(report.createdAt);
@@ -1044,17 +1248,12 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                         ),
                       ),
                     
-                    // Ban user button (only for user reports)
+                    // Remove user button (only for user reports)
                     if (report.reportedPubkey != null && report.reportedEventId == null)
                       ElevatedButton.icon(
-                        onPressed: () {
-                          // Ban user functionality will be implemented in subtask 33.12
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("User ban functionality coming soon")),
-                          );
-                        },
-                        icon: const Icon(Icons.block, size: 16),
-                        label: const Text("Ban User"),
+                        onPressed: () => _removeReportedUser(report),
+                        icon: const Icon(Icons.person_remove, size: 16),
+                        label: const Text("Remove User"),
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.red,
@@ -1082,7 +1281,7 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   
   Widget _buildStatisticsSection() {
     final theme = Theme.of(context);
-    final customColors = theme.customColors;
+    final customColors = theme.extension<CustomColors>() ?? CustomColors.light;
     
     final totalReports = _reports.length;
     final activeReports = _reports.where((r) => !r.dismissed).length;
@@ -1197,7 +1396,7 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   
   Widget _buildFilterSection() {
     final theme = Theme.of(context);
-    final customColors = theme.customColors;
+    final customColors = theme.extension<CustomColors>() ?? CustomColors.light;
     
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

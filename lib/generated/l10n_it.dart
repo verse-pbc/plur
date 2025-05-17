@@ -1037,6 +1037,9 @@ class SIt extends S {
   String get admin => 'Amministratore';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'Pannello amministratore';
 
   @override
@@ -1195,6 +1198,12 @@ class SIt extends S {
 
   @override
   String get remove => 'Rimuovi';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'Modifiche salvate con successo';
@@ -1535,4 +1544,8 @@ class SIt extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }

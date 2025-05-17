@@ -1037,6 +1037,9 @@ class SAr extends S {
   String get admin => 'مسؤول';
 
   @override
+  String get groupAdmin => 'Group Admin';
+
+  @override
   String get adminPanel => 'لوحة الإدارة';
 
   @override
@@ -1190,6 +1193,12 @@ class SAr extends S {
 
   @override
   String get remove => 'إزالة';
+
+  @override
+  String get removeUser => 'Remove User';
+
+  @override
+  String get banUser => 'Ban User';
 
   @override
   String get changesSaved => 'تم حفظ التغييرات بنجاح';
@@ -1528,4 +1537,8 @@ class SAr extends S {
 
   @override
   String get lnbc => 'Lightning Invoice';
+
+  @override
+  String get youAreBannedFromThisGroup =>
+      'You are banned from this group and cannot post content';
 }
