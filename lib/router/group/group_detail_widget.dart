@@ -178,6 +178,7 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
         child: Text(
           title,
           style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
             color: context.colors.primaryText,
@@ -206,10 +207,12 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
       labelColor: context.colors.primaryText,
       unselectedLabelColor: context.colors.secondaryText,
       labelStyle: const TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
       unselectedLabelStyle: const TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: 16,
         fontWeight: FontWeight.normal,
       ),
@@ -300,7 +303,10 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
                   children: [
                     const Icon(Icons.bug_report, color: Colors.orange),
                     const SizedBox(width: 8),
-                    Text('Debug Invite Links', style: TextStyle(color: Colors.orange)),
+                    Text('Debug Invite Links', style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: Colors.orange,
+                    )),
                   ],
                 ),
               ),

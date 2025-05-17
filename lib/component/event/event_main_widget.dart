@@ -193,6 +193,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 longFormInfo.title!,
                 maxLines: 10,
                 style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   fontSize: largeTextSize,
                   fontWeight: FontWeight.bold,
                 ),
@@ -219,6 +220,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           Widget summaryTextWidget = Text(
             longFormInfo.summary!,
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               color: hintColor,
             ),
           );
@@ -330,6 +332,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       } else {
         if (widget.showReplying && eventRelation.tagPList.isNotEmpty) {
           var textStyle = TextStyle(
+            fontFamily: 'SF Pro Rounded',
             color: hintColor,
             fontSize: smallTextSize,
           );
@@ -372,6 +375,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                   eventRelation.subject!,
                   maxLines: 10,
                   style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     fontSize: largeTextSize,
                     fontWeight: FontWeight.bold,
                   ),
@@ -596,6 +600,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             child: Text(
               localization.from,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 color: hintColor,
                 fontSize: smallTextSize,
               ),
@@ -609,6 +614,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             child: Text(
               eventRelation.aId!.title,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontSize: smallTextSize,
                 fontWeight: FontWeight.bold,
               ),
@@ -765,6 +771,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
       },
       styleSheet: MarkdownStyleSheet(
         a: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: themeData.primaryColor,
           decoration: TextDecoration.underline,
           decorationColor: themeData.primaryColor,
@@ -843,6 +850,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                   localization.contentWarning,
                   style: GoogleFonts.nunito(
                     textStyle: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
                       fontSize: largeTextSize,
                       color: colors.primaryText,
                       fontWeight: FontWeight.w600,
@@ -856,6 +864,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
             localization.thisNoteContainsSensitiveContent,
             style: GoogleFonts.nunito(
               textStyle: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 color: colors.primaryText,
                 fontSize: 17,
                 fontWeight: FontWeight.w400,
@@ -885,7 +894,8 @@ class _EventMainWidgetState extends State<EventMainWidget> {
               child: Text(
                 localization.show,
                 style: GoogleFonts.nunito(
-                  textStyle: const TextStyle(
+                  textStyle: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -1007,6 +1017,7 @@ class _EventReplyingComponent extends State<EventReplyingComponent> {
           return Text(
             displayName,
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               color: hintColor,
               fontSize: smallTextSize,
             ),

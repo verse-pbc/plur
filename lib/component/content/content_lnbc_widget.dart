@@ -75,6 +75,7 @@ class ContentLnbcWidget extends StatelessWidget {
                   child: Text(
                     numStr,
                     style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
                       fontSize: largeFontSize,
                       fontWeight: FontWeight.w500,
                     ),
@@ -83,6 +84,7 @@ class ContentLnbcWidget extends StatelessWidget {
                 Text(
                   "sats",
                   style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     fontSize: largeFontSize,
                     fontWeight: FontWeight.w500,
                   ),
@@ -105,7 +107,8 @@ class ContentLnbcWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   localization.pay,
-                  style: const TextStyle(
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     color: Colors.white,
                   ),
                 ),

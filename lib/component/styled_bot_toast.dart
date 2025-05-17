@@ -164,7 +164,8 @@ class StyledBotToast {
       final cancelFunc = BotToast.showText(
         text: text,
         contentColor: contentColor ?? Colors.black87,
-        textStyle: const TextStyle(
+        textStyle: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: Colors.white,
           fontSize: 14,
         ),

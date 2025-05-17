@@ -151,21 +151,25 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   TextStyle? mdh4Style;
 
-  TextStyle boldStyle = const TextStyle(
+  TextStyle boldStyle = TextStyle(
+    fontFamily: 'SF Pro Rounded',
     fontWeight: FontWeight.w600,
   );
 
-  TextStyle italicStyle = const TextStyle(
+  TextStyle italicStyle = TextStyle(
+    fontFamily: 'SF Pro Rounded',
     fontStyle: FontStyle.italic,
   );
 
-  TextStyle deleteStyle = const TextStyle(
+  TextStyle deleteStyle = TextStyle(
+    fontFamily: 'SF Pro Rounded',
     decoration: TextDecoration.lineThrough,
   );
 
   TextStyle? highlightStyle;
 
-  TextStyle boldAndItalicStyle = const TextStyle(
+  TextStyle boldAndItalicStyle = TextStyle(
+    fontFamily: 'SF Pro Rounded',
     fontWeight: FontWeight.w600,
     fontStyle: FontStyle.italic,
   );
@@ -204,29 +208,36 @@ class _ContentWidgetState extends State<ContentWidget> {
     codeBackgroundColor = hintColor!.withAlpha(64);
     var settingsProvider = Provider.of<SettingsProvider>(context);
     mdh1Style = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: largetFontSize + 1,
       fontWeight: FontWeight.bold,
     );
     mdh2Style = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: largetFontSize,
       fontWeight: FontWeight.bold,
     );
     mdh3Style = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: largetFontSize,
       fontWeight: FontWeight.w600,
     );
     mdh3Style = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: largetFontSize,
       fontWeight: FontWeight.w600,
     );
     mdh4Style = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: largetFontSize - 1,
       fontWeight: FontWeight.w600,
     );
     highlightStyle = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       backgroundColor: mainColor,
     );
     tpableStyle = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       color: themeData.primaryColor,
       decoration: TextDecoration.none,
     );
@@ -242,6 +253,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       translateTips = TextSpan(
         text: " <- ${targetLanguage!.bcpCode} | ${sourceLanguage!.bcpCode} -> ",
         style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: hintColor,
         ),
       );
@@ -260,7 +272,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       return LayoutBuilder(builder: (context, constraints) {
         TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
         textPainter.text = TextSpan(
-            text: counter.toString(), style: TextStyle(fontSize: fontSize));
+            text: counter.toString(), style: TextStyle(fontFamily: 'SF Pro Rounded', fontSize: fontSize));
         textPainter.layout(maxWidth: constraints.maxWidth);
         var lineHeight = textPainter.preferredLineHeight;
         var lineNum = textPainter.height / lineHeight;
@@ -289,6 +301,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   child: Text(
                     localization.showMore,
                     style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
                       color: themeData.primaryColor,
                     ),
                   ),
@@ -1119,6 +1132,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           currentList.add(TextSpan(
             text: str,
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               backgroundColor: codeBackgroundColor,
             ),
           ));
@@ -1160,14 +1174,13 @@ class _ContentWidgetState extends State<ContentWidget> {
       }
     } else {
       // If no style is set, use our Plur design style for content with theme support
-      textStyle = textStyle ?? GoogleFonts.nunito(
-        textStyle: TextStyle(
+      textStyle = textStyle ?? TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: context.colors.primaryText,
           fontSize: 17,
           fontWeight: FontWeight.w400,
           height: 1.35,
           letterSpacing: 0.34,
-        ),
       );
     }
 

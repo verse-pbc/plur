@@ -95,6 +95,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       Text(
                         groupName,
                         style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
                           color: context.colors.primaryText,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -106,6 +107,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       Text(
                         localization.communityInvite,
                         style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
                           color: context.colors.secondaryText,
                           fontSize: 14,
                         ),
@@ -164,7 +166,8 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       isExpired
                           ? localization.inviteExpired
                           : localization.joinCommunity,
-                      style: const TextStyle(
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -200,7 +203,8 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
       child: Center(
         child: Text(
           groupName.isNotEmpty ? groupName[0].toUpperCase() : 'G',
-          style: const TextStyle(
+          style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -234,6 +238,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
           Text(
             text,
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               fontSize: 12,
               color: isError ? Colors.red : colors.secondaryText,
             ),
@@ -285,6 +290,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                       Text(
                         groupName,
                         style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
                           color: context.colors.primaryText,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -303,7 +309,8 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
                           const SizedBox(width: 4),
                           Text(
                             localization.joined,
-                            style: const TextStyle(
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Rounded',
                               color: Colors.green,
                               fontSize: 14,
                             ),
@@ -330,6 +337,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
               child: Text(
                 localization.open,
                 style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   color: context.colors.accent,
                   fontWeight: FontWeight.bold,
                   fontSize: 16,

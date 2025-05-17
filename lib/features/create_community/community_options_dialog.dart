@@ -137,6 +137,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
           child: Text(
             l10n.communities,
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               color: textColor,
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -226,6 +227,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
       title: Text(
         title,
         style: const TextStyle(
+          fontFamily: 'SF Pro Rounded',
           fontWeight: FontWeight.bold,
           fontSize: 16,
         ),
@@ -233,6 +235,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
       subtitle: Text(
         subtitle,
         style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           fontSize: 14,
           color: Theme.of(context).hintColor,
         ),
@@ -269,6 +272,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
           title: Text(
             "Join Plur Test Users Group",
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               color: plurHighlightText,
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -278,6 +282,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
             "Would you like to join the Plur Test Users community? "
             "This is a public group for testing features and connecting with other users.",
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               color: plurPrimaryText,
               fontSize: 16,
             ),
@@ -290,6 +295,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
               child: Text(
                 "Cancel",
                 style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   color: plurSecondaryText,
                   fontSize: 16,
                 ),
@@ -332,6 +338,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
               child: const Text(
                 "Join Group",
                 style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),

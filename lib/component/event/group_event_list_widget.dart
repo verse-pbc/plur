@@ -118,6 +118,7 @@ class GroupEventListWidget extends StatelessWidget {
                     child: Text(
                       groupName,
                       style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         color: themeData.colorScheme.onSurface.withAlpha(204),

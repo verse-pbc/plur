@@ -89,6 +89,7 @@ class _NameWidgetState extends State<NameWidget> {
     nameList.add(TextSpan(
       text: StringUtil.breakWord(displayName),
       style: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontWeight: FontWeight.bold,
         fontSize: widget.fontSize ?? textSize,
         color: widget.fontColor,
@@ -101,6 +102,7 @@ class _NameWidgetState extends State<NameWidget> {
           child: Text(
             StringUtil.breakWord("@$name"),
             style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               fontSize: smallTextSize,
               color: hintColor,
             ),

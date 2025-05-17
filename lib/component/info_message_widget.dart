@@ -43,6 +43,7 @@ class InfoMessageWidget extends StatelessWidget {
             child: Text(
               message,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 color: textColor ?? context.colors.dimmed,
                 fontSize: fontSize ?? themeData.textTheme.bodyMedium!.fontSize,
               ),

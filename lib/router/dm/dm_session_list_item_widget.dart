@@ -71,6 +71,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
             child: Text(
               StringUtil.breakWord(content),
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontSize: smallTextSize,
                 color: themeData.hintColor,
                 overflow: TextOverflow.ellipsis,
@@ -124,6 +125,7 @@ class _DMSessionListItemWidgetState extends State<DMSessionListItemWidget>
                                   DateTime.fromMillisecondsSinceEpoch(
                                       lastEvent.createdAt * 1000)),
                               style: TextStyle(
+                                fontFamily: 'SF Pro Rounded',
                                 fontSize: smallTextSize,
                                 color: themeData.hintColor,
                               ),

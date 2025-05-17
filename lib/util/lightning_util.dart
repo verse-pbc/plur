@@ -40,6 +40,7 @@ class LightningUtil {
               Text(
                 "$text ${localization.isSending}...",
                 style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   fontSize: fontSize,
                 ),
               ),
@@ -51,6 +52,7 @@ class LightningUtil {
             child: Text(
               localization.cancel,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontSize: fontSize,
               ),
             ),

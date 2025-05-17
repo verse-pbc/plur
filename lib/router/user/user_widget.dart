@@ -134,6 +134,7 @@ class _UserWidgetState extends CustState<UserWidget>
             child: Text(
               displayName,
               style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
                 fontWeight: FontWeight.bold,
                 fontSize: themeData.textTheme.bodyLarge!.fontSize,
               ),

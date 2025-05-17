@@ -158,6 +158,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
     nameSpans.add(TextSpan(
       text: displayName,
       style: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         fontSize: largeFontSize,
         fontWeight: FontWeight.bold,
       ),
@@ -166,6 +167,7 @@ class _UserTopWidgetState extends State<UserTopWidget> {
       nameSpans.add(TextSpan(
         text: name != null ? "@$name" : "",
         style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           fontSize: fontSize,
           color: hintColor,
         ),
@@ -492,6 +494,7 @@ class MetadataTextBtn extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
             fontWeight: FontWeight.bold,
             color: borderColor,
           ),

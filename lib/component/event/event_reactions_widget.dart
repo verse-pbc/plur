@@ -654,6 +654,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     var localization = S.of(context);
     final themeData = Theme.of(context);
     var popFontStyle = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: themeData.textTheme.bodyMedium!.fontSize,
     );
 
@@ -694,6 +695,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     var localization = S.of(context);
     final themeData = Theme.of(context);
     var popFontStyle = TextStyle(
+      fontFamily: 'SF Pro Rounded',
       fontSize: themeData.textTheme.bodyMedium!.fontSize,
     );
     var myPubkey = settingsProvider.privateKey == null

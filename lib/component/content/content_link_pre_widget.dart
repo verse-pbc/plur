@@ -52,6 +52,7 @@ class _ContentLinkPreWidgetState extends State<ContentLinkPreWidget> {
           ),
           child: LinkPreview(
             linkStyle: TextStyle(
+              fontFamily: 'SF Pro Rounded',
               color: themeData.primaryColor,
               decorationColor: themeData.primaryColor,
             ),

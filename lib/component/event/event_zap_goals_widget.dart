@@ -103,7 +103,8 @@ class _EventZapGoalsWidgetState extends State<EventZapGoalsWidget> {
                 right: Base.basePadding,
                 child: Text(
                   "${(percent * 100).toStringAsFixed(2)}%  ${NumberFormatUtil.format(zapNum)}/${NumberFormatUtil.format(zapGoalsInfo!.amount!)} sats",
-                  style: const TextStyle(
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     fontWeight: FontWeight.bold,
                   ),
                 ),

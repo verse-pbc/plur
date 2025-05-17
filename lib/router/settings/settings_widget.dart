@@ -215,6 +215,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
     Widget networkWidget = Text(
       networkHintText!,
       style: TextStyle(
+        fontFamily: 'SF Pro Rounded',
         color: hintColor,
         overflow: TextOverflow.ellipsis,
         fontWeight: FontWeight.bold,
@@ -289,6 +290,7 @@ class _SettingsWidgetState extends State<SettingsWidget> with WhenStopFunction {
         title: Text(
           localization.settings,
           style: TextStyle(
+            fontFamily: 'SF Pro Rounded',
             fontWeight: FontWeight.bold,
             fontSize: titleFontSize,
           ),

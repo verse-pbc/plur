@@ -71,6 +71,7 @@ class ContentCashuWidget extends StatelessWidget {
                           child: Text(
                             tokens.totalAmount().toString(),
                             style: TextStyle(
+                              fontFamily: 'SF Pro Rounded',
                               fontSize: largeFontSize,
                               fontWeight: FontWeight.w500,
                             ),
@@ -79,6 +80,7 @@ class ContentCashuWidget extends StatelessWidget {
                         Text(
                           "sats",
                           style: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
                             fontSize: largeFontSize,
                             fontWeight: FontWeight.w500,
                           ),
@@ -89,7 +91,7 @@ class ContentCashuWidget extends StatelessWidget {
                       margin: const EdgeInsets.only(top: 4),
                       child: Text(
                         tokens.memo != null ? tokens.memo! : "",
-                        style: TextStyle(color: hintColor),
+                        style: TextStyle(fontFamily: 'SF Pro Rounded', color: hintColor),
                       ),
                     ),
                   ],
@@ -111,6 +113,7 @@ class ContentCashuWidget extends StatelessWidget {
                 child: const Text(
                   "Claim",
                   style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
                     color: Colors.white,
                   ),
                 ),

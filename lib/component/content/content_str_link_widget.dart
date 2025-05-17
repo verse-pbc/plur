@@ -31,6 +31,7 @@ class ContentStrLinkWidget extends StatelessWidget {
       child: Text(
         StringUtil.breakWord(str),
         style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
           color: linkColor,
           fontWeight: FontWeight.w500,
           decoration:

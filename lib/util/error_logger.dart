@@ -390,6 +390,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
               const Text(
                 'Something went wrong',
                 style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -397,7 +398,8 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
               const SizedBox(height: 8),
               Text(
                 'Error: ${_error.toString()}',
-                style: const TextStyle(
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
                   fontSize: 14,
                 ),
               ),
