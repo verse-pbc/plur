@@ -100,6 +100,34 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
         ),
       ),
     ));
+    
+    // Add logout button for current account
+    if (settingsProvider.privateKeyIndex != null && privateKeyMap.isNotEmpty) {
+      list.add(Container(
+        margin: const EdgeInsets.only(
+          bottom: Base.basePaddingHalf,
+        ),
+        padding: const EdgeInsets.only(
+          left: Base.basePadding * 2,
+          right: Base.basePadding * 2,
+        ),
+        width: double.maxFinite,
+        child: OutlinedButton(
+          onPressed: () => onLogoutTap(settingsProvider.privateKeyIndex!, context: context),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.red,
+            side: const BorderSide(width: 1, color: Colors.red),
+          ),
+          child: const Text(
+            "Log Out",
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ));
+    }
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -296,7 +324,6 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
       Color currentColor = Colors.green;
       List<Widget> list = [];
 
-      var nip19PubKey = Nip19.encodePubKey(pubkey);
 
       list.add(Container(
         width: 24,
@@ -318,11 +345,13 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
         user: user,
       ));
 
-      list.add(Container(
-        margin: const EdgeInsets.only(left: 5, right: 5),
-        child: NameWidget(
-          pubkey: pubkey,
-          user: user,
+      list.add(Flexible(
+        child: Container(
+          margin: const EdgeInsets.only(left: 5, right: 5),
+          child: NameWidget(
+            pubkey: pubkey,
+            user: user,
+          ),
         ),
       ));
 
@@ -344,33 +373,6 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
           ),
         ));
       }
-
-      list.add(Expanded(
-          child: Container(
-        padding: const EdgeInsets.only(
-          left: Base.basePaddingHalf,
-          right: Base.basePaddingHalf,
-          top: 4,
-          bottom: 4,
-        ),
-        decoration: BoxDecoration(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(
-          nip19PubKey,
-          overflow: TextOverflow.ellipsis,
-        ),
-      )));
-
-      list.add(GestureDetector(
-        onTap: onLogout,
-        child: Container(
-          padding: const EdgeInsets.only(left: 5),
-          height: lineHeight,
-          child: const Icon(Icons.logout),
-        ),
-      ));
 
       return GestureDetector(
         onTap: onTap,
