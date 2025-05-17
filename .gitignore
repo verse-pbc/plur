@@ -83,4 +83,7 @@ node_modules/
 # OS specific
 # Task files
 tasks.json
-tasks/ 
+tasks/ packages/nostr_sdk/build/test_cache/build/cache.dill.track.dill
+Runner.xcarchive/dSYMs/Flutter.framework.dSYM/Contents/Resources/DWARF/Flutter
+ios/Runner.xcarchive/dSYMs/Flutter.framework.dSYM/Contents/Resources/DWARF/Flutter
+macos/Runner.xcarchive/dSYMs/FlutterMacOS.framework.dSYM/Contents/Resources/DWARF/FlutterMacOS
