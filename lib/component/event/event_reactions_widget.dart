@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:google_fonts/google_fonts.dart';
+import 'package:nostrmo/util/app_logger.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/enum_selector_widget.dart';
@@ -423,52 +424,68 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           final groupIdentifier = widget.event.relations().groupIdentifier;
           final groupId = groupIdentifier?.groupId;
           final relayUrl = groupIdentifier?.host;
-          List<String>? relayAddrs = getGroupRelays();
+          final relayAddrs = getGroupRelays();
 
-          // Build tags for the report event
-          List<List<String>> tags = [
-            ["e", eventId],
-            ["p", pubkey],
-          ];
-          if (groupId != null) {
-            tags.add(["h", groupId]);
-          }
-          if (relayUrl != null) {
-            tags.add(["relay", relayUrl]);
-          }
-          if (reason != null && reason.isNotEmpty) {
-            tags.add(["reason", reason]);
-          }
-          if (details != null && details.isNotEmpty) {
-            tags.add(["details", details]);
-          }
+          logger.i('Creating report event for content', null, null, LogCategory.events);
+          logger.d('Report reason: $reason, details: $details', null, null, LogCategory.events);
 
           try {
-            var reportEvent = Event(
+            final List<List<String>> tags = [
+              ["e", eventId],
+              ["p", pubkey],
+            ];
+            
+            if (groupId != null) {
+              tags.add(["h", groupId]);
+            }
+            if (relayUrl != null) {
+              tags.add(["relay", relayUrl]);
+            }
+            if (reason != null && reason.isNotEmpty) {
+              tags.add(["reason", reason]);
+            }
+            if (details != null && details.isNotEmpty) {
+              tags.add(["details", details]);
+            }
+
+            logger.d('Constructing report event with tags: $tags', null, null, LogCategory.events);
+            
+            final reportEvent = Event(
               nostr!.publicKey,
-              1984, // NIP-56 report event
+              1984,
               tags,
-              '', // No content needed, all info in tags
+              '',
             );
+            
+            logger.d('Signing report event', null, null, LogCategory.events);
             await nostr!.signEvent(reportEvent);
-            var sent = await nostr!.sendEvent(
+            
+            logger.i('Sending report event to relays: ${relayAddrs?.join(', ') ?? 'default relays'}', null, null, LogCategory.network);
+            
+            final sent = await nostr!.sendEvent(
               reportEvent,
               tempRelays: relayAddrs,
               targetRelays: relayAddrs,
             );
-            if (sent != null) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Report submitted and published to relay.')),
-              );
+            
+                          if (sent != null) {
+              logger.i('Report event successfully published, ID: ${reportEvent.id}', null, null, LogCategory.network);
+              if (context.mounted) {
+                BotToast.showText(text: "Report submitted successfully");
+              }
             } else {
+              logger.e('Failed to publish report event', null, null, LogCategory.network);
+              if (context.mounted) {
+                BotToast.showText(text: "${S.of(context).error}: Failed to submit report");
+              }
+            }
+          } catch (e, stackTrace) {
+            logger.e('Error creating or sending report event', e, stackTrace, LogCategory.events);
+            if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Failed to publish report event.')),
+                SnackBar(content: Text('Error sending report: $e')),
               );
             }
-          } catch (e) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Error sending report: $e')),
-            );
           }
         }
       });

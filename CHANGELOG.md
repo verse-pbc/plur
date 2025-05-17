@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added enhanced stack trace formatting with app code highlighting
   - Created detailed logging documentation with best practices
   - Replaced all print/debugPrint statements with structured logger
+  - Fixed logging issues in report event functionality
 - Fix localization issues in calendar events feature with missing 'refresh' string
 - Improve code quality with context.mounted handling for BotToast messages
 - Update deprecated color API usage throughout the app to use withAlpha instead of withOpacity
