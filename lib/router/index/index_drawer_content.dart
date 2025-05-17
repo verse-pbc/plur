@@ -32,7 +32,15 @@ class IndexDrawerContent extends ConsumerStatefulWidget {
 
 /// The state class for [IndexDrawerContent].
 class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
+  /// Width of the profile edit button.
+  ///
+  /// Defaults to 40.
+  final double _profileEditBtnWidth = 40;
 
+  /// Determines if the drawer is in read-only mode.
+  ///
+  /// Defaults to false.
+  bool _readOnly = false;
 
   PackageInfo _packageInfo = PackageInfo(
     appName: '',
@@ -64,6 +72,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     var mainColor = primaryTextColor; // Using appropriate text color for the theme
     List<Widget> list = [];
 
+    _readOnly = nostr!.isReadOnly();
+
     // Add user profile picture or metadata display based on smallMode
     if (widget.smallMode) {
       list.add(Container(
@@ -79,7 +89,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         ),
       ));
     } else {
-      list.add(
+      list.add(Stack(children: [
         legacy_provider.Selector<UserProvider, User?>(
           builder: (context, user, child) {
             return UserTopWidget(
@@ -93,7 +103,30 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
             return provider.getUser(pubkey);
           },
         ),
-      );
+        Positioned(
+          top: paddingTop + Base.basePaddingHalf,
+          right: Base.basePadding,
+          child: _readOnly
+              ? Container()
+              : Container(
+                  height: _profileEditBtnWidth,
+                  width: _profileEditBtnWidth,
+                  decoration: BoxDecoration(
+                    color: loginBackground,
+                    borderRadius: BorderRadius.circular(
+                      _profileEditBtnWidth / 2,
+                    ),
+                  ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.edit_square,
+                      color: mainColor,
+                    ),
+                    onPressed: _jumpToProfileEdit,
+                  ),
+                ),
+        ),
+      ]));
     }
 
     List<Widget> centerList = [];
@@ -285,6 +318,11 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     });
   }
 
+  /// Navigates to the profile edit screen.
+  void _jumpToProfileEdit() {
+    final user = userProvider.getUser(nostr!.publicKey);
+    RouterUtil.router(context, RouterPath.profileEditor, user);
+  }
 
   /// Displays the account manager modal bottom sheet.
   void _showBasicModalBottomSheet(BuildContext context) async {
