@@ -1,6 +1,6 @@
 # Task ID: 39
 # Title: Task #39: Enhance Nostr Event Publishing Logging System
-# Status: pending
+# Status: in-progress
 # Dependencies: None
 # Priority: medium
 # Description: Implement comprehensive logging functionality for Nostr event publishing that captures and records the complete JSON content of events sent to relays, including all tags and fields, to facilitate debugging and verification of relay communications.
