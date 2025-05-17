@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Release Notes
+- Updated app icons and launch images with the Holis logo for iOS
+
 ### Internal Changes
 - Implemented comprehensive structured logging system:
   - Added category-based filtering (core, network, database, ui, auth, groups, events, performance)
