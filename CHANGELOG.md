@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Release Notes
 - Added warning notices on Asks & Offers documentation to prevent premature implementation
 - Enabled text selection throughout the entire web application for better accessibility and user experience
+- Fixed App Store rejection by adding NSPhotoLibraryUsageDescription to Info.plist
 - Updated app icons and launch images with the Holis logo for iOS
 - Fixed iOS build process by removing Sentry SDK completely
 - Simplified iOS project configuration for better maintainability

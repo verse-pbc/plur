@@ -53,5 +53,7 @@
 	<string>We need to send you notifications about new messages and interactions</string>
 	<key>NSCameraUsageDescription</key>
 	<string>This app needs camera access to take photos and scan QR codes</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to allow you to upload and share photos</string>
 </dict>
 </plist>
