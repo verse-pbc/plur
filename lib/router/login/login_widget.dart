@@ -386,19 +386,30 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       backgroundColor: Colors.transparent,
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
       builder: (BuildContext context) {
+        // Get responsive width values
+        var screenWidth = MediaQuery.of(context).size.width;
+        bool isTablet = screenWidth >= 600;
+        bool isDesktop = screenWidth >= 900;
+        double sheetMaxWidth = isDesktop ? 450 : (isTablet ? 550 : double.infinity);
+        
         return AnimatedPadding(
           padding: MediaQuery.of(context).viewInsets,
           duration: const Duration(milliseconds: 100),
-          child: Container(
-            decoration: BoxDecoration(
-              color: context.colors.loginBackground,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(24),
-                topRight: Radius.circular(24),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.colors.loginBackground,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: IntrinsicHeight(
+                  child: _buildLoginSheet(),
+                ),
               ),
-            ),
-            child: IntrinsicHeight(
-              child: _buildLoginSheet(),
             ),
           ),
         );
@@ -468,7 +479,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               
               // Login form title
               Text(
-                "Login with Existing Account",
+                "Login with Nostr",
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
                   color: buttonTextColor,
