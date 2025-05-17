@@ -145,7 +145,7 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
-                        color: const Color(0xFF2E4052),
+                        color: colors.divider,
                         width: 1,
                       ),
                     ),
@@ -154,14 +154,14 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
                       child: TextField(
                         controller: _nameController,
                         autofocus: true,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'SF Pro Rounded',
-                          color: Colors.white,
+                          color: colors.primaryText,
                           fontSize: 16,
                         ),
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: const Color(0xFF11171F),
+                          fillColor: colors.cardBackground,
                           hintText: localization.onboardingNameInputHint,
                           hintStyle: TextStyle(
                             fontFamily: 'SF Pro Rounded',

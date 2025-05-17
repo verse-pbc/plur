@@ -153,7 +153,7 @@ class AgeVerificationStep extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                               border: Border.all(
-                                color: colors.secondaryText.withAlpha((255 * 0.3).round()),
+                                color: colors.divider, // Use divider color instead of secondary text
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(32),
@@ -163,7 +163,7 @@ class AgeVerificationStep extends StatelessWidget {
                               localization.no,
                               style: TextStyle(
                                 fontFamily: 'SF Pro Rounded',
-                                color: colors.buttonText,  // Use buttonText for consistency
+                                color: colors.primaryText,  // Use primary text color for better contrast
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.2,

@@ -145,6 +145,7 @@ import 'package:nostrmo/util/log_test_screen.dart';
 import 'package:nostrmo/util/app_logger.dart';
 import 'package:nostrmo/service/moderation_service.dart';
 import 'package:nostrmo/service/report_service.dart';
+import 'provider/group_feed_provider.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -215,6 +216,9 @@ late UrlSpeedProvider urlSpeedProvider;
 late NWCProvider nwcProvider;
 
 late GroupProvider groupProvider;
+
+// Add groupFeedProvider declaration
+late GroupFeedProvider groupFeedProvider;
 
 MusicInfoCache musicInfoCache = MusicInfoCache();
 
@@ -308,7 +312,17 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   wotProvider = WotProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
-    log("Provider initialization completed");
+
+  // Initialize ListProvider and GroupFeedProvider with proper connection
+  listProvider = ListProvider();
+  groupProvider = GroupProvider();
+  
+  // Create GroupFeedProvider with ListProvider
+  groupFeedProvider = GroupFeedProvider(listProvider);
+  
+  // No need to manually set ListProvider.groupFeedProvider as the GroupFeedProvider constructor handles this
+  
+  log("Provider initialization completed");
   } catch (e, stackTrace) {
     log("Error during provider initialization: $e");
     log("Stack trace: $stackTrace");
@@ -744,6 +758,22 @@ class _MyApp extends State<MyApp> {
                     child: GroupAdminScreen(groupId: groupId),
                   ),
                 );
+              case RouterPath.groupDetail:
+                // Handle direct navigation without arguments
+                if (settings.arguments == null) {
+                  return MaterialPageRoute(
+                    builder: (context) => const CommunitiesScreen(),
+                  );
+                }
+                
+                // Handle GroupIdentifier for group detail
+                final groupId = settings.arguments as GroupIdentifier;
+                return MaterialPageRoute(
+                  builder: (context) => Provider<GroupIdentifier>.value(
+                    value: groupId,
+                    child: const GroupDetailWidget(),
+                  ),
+                );
               case RouterPath.groupInfo:
                 // Handle direct navigation without arguments
                 if (settings.arguments == null) {
@@ -772,18 +802,6 @@ class _MyApp extends State<MyApp> {
                     groupIdentifier: inviteGroupId,
                   ),
                 );
-                
-              case RouterPath.groupDetail:
-                if (settings.arguments == null) {
-                  return MaterialPageRoute(
-                    builder: (context) => const CommunitiesScreen(),
-                  );
-                }
-                
-                // Handle GroupIdentifier for this route as well
-                final groupId = settings.arguments as GroupIdentifier;
-                
-                return null; // Let the usual route handle it
                 
               case RouterPath.groupMedia:
                 if (settings.arguments == null) {

@@ -40,52 +40,61 @@ class CommunitiesListWidget extends ConsumerWidget {
     // Determine if there's an active alert to show
     final hasAlert = _hasActiveAlerts(sortedGroups, groupFeedProvider);
     
-    return ListView.builder(
-      padding: const EdgeInsets.only(top: 4, bottom: 80), 
-      itemCount: sortedGroups.length + (hasAlert ? 1 : 0), // +1 for the header item if there's an alert
-      itemBuilder: (context, index) {
-        // First item is the alert header (if we have one)
-        if (hasAlert && index == 0) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red[400],
-                borderRadius: BorderRadius.circular(8.0),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
-              child: Row(
-                children: [
-                  const Icon(Icons.notifications_active, color: Colors.white),
-                  const SizedBox(width: 8),
-                  Text(
-                    localization.alertsAvailable,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+    return Container(
+      // Add constraints to ensure the scrollable area is properly sized
+      constraints: BoxConstraints(
+        maxHeight: MediaQuery.of(context).size.height - 150, // Subtract header/footer space
+        maxWidth: MediaQuery.of(context).size.width,
+      ),
+      child: ListView.builder(
+        // Add physics to prevent bouncing and improve scroll behavior
+        physics: const ClampingScrollPhysics(),
+        padding: const EdgeInsets.only(top: 4, bottom: 80), 
+        itemCount: sortedGroups.length + (hasAlert ? 1 : 0), // +1 for the header item if there's an alert
+        itemBuilder: (context, index) {
+          // First item is the alert header (if we have one)
+          if (hasAlert && index == 0) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.red[400],
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 10.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.notifications_active, color: Colors.white),
+                    const SizedBox(width: 8),
+                    Text(
+                      localization.alertsAvailable,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
+            );
+          }
+          
+          // Adjust index to account for header if needed
+          final itemIndex = hasAlert ? index - 1 : index;
+          final groupIdentifier = sortedGroups[itemIndex];
+          
+          return InkWell(
+            onTap: () {
+              RouterUtil.router(
+                  context, RouterPath.groupDetail, groupIdentifier);
+            },
+            child: CommunityListItemWidget(
+              groupIdentifier, 
+              index: itemIndex + 1,
             ),
           );
-        }
-        
-        // Adjust index to account for header if needed
-        final itemIndex = hasAlert ? index - 1 : index;
-        final groupIdentifier = sortedGroups[itemIndex];
-        
-        return InkWell(
-          onTap: () {
-            RouterUtil.router(
-                context, RouterPath.groupDetail, groupIdentifier);
-          },
-          child: CommunityListItemWidget(
-            groupIdentifier, 
-            index: itemIndex + 1,
-          ),
-        );
-      },
+        },
+      ),
     );
   }
   

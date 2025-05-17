@@ -367,13 +367,19 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
   Future<void> _joinGroup() async {
     if (isExpired || _joining || _joined) return;
     
+    // Capture BuildContext before async operation
+    final BuildContext currentContext = context;
+    final bool contextMounted = mounted;
+    
     setState(() {
       _joining = true;
     });
     
-    final cancelFunc = BotToast.showLoading();
-    
+    Function? cancelFunc;
     try {
+      // Show loading with safe error handling
+      cancelFunc = _safeShowLoading();
+      
       // Create join parameters
       final params = JoinGroupParameters(
         host: relay,
@@ -382,12 +388,23 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
       );
       
       // Get the list provider
-      final listProvider = Provider.of<ListProvider>(context, listen: false);
+      final listProvider = Provider.of<ListProvider>(currentContext, listen: false);
+      
+      // Log join attempt
+      _log.info("Attempting to join group $groupId on relay $relay");
       
       // Try to join the group
-      final joinSuccess = await listProvider.joinGroup(params);
+      final joinSuccess = await listProvider.joinGroup(params, context: currentContext);
+      
+      // Check if widget is still mounted before updating state
+      if (!contextMounted) {
+        _log.warning("Widget unmounted during join operation, skipping UI updates");
+        return;
+      }
       
       if (joinSuccess) {
+        _log.info("Successfully joined group $groupId");
+        
         // Send accept event
         if (nostr != null) {
           final acceptEvent = Event(
@@ -421,23 +438,55 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
           _joined = true;
         });
         
-        BotToast.showText(text: S.of(context).joinSuccess);
+        _safeShowToast(S.of(currentContext).joinSuccess);
       } else {
+        _log.warning("Failed to join group $groupId");
+        
         setState(() {
           _joining = false;
         });
         
-        BotToast.showText(text: S.of(context).joinFailed);
+        _safeShowToast(S.of(currentContext).joinFailed);
       }
     } catch (e) {
       _log.severe("Error joining group: $e");
-      setState(() {
-        _joining = false;
-      });
       
-      BotToast.showText(text: "${S.of(context).error}: $e");
+      // Only update state if still mounted
+      if (contextMounted) {
+        setState(() {
+          _joining = false;
+        });
+        
+        _safeShowToast("${S.of(currentContext).error}: $e");
+      }
     } finally {
-      cancelFunc.call();
+      // Safely cancel loading indicator
+      if (cancelFunc != null) {
+        try {
+          cancelFunc.call();
+        } catch (e) {
+          _log.warning("Error canceling loading indicator: $e");
+        }
+      }
+    }
+  }
+  
+  // Helper functions to safely show toasts and loading indicators
+  void _safeShowToast(String text) {
+    try {
+      BotToast.showText(text: text, duration: const Duration(seconds: 2));
+    } catch (e) {
+      _log.warning("Error showing toast: $e");
+    }
+  }
+  
+  Function _safeShowLoading() {
+    try {
+      return BotToast.showLoading();
+    } catch (e) {
+      _log.warning("Error showing loading indicator: $e");
+      // Return a no-op function
+      return () {};
     }
   }
   
