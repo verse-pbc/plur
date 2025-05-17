@@ -6,9 +6,14 @@ import 'package:nostrmo/features/events/models/event_rsvp_model.dart';
 import 'package:nostrmo/features/events/providers/event_provider.dart';
 import 'package:nostrmo/features/events/screens/event_creation_screen.dart';
 import 'package:nostrmo/generated/l10n.dart';
+import 'package:nostrmo/provider/group_provider.dart';
+import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/main.dart';
+import 'package:nostrmo/util/app_logger.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:provider/provider.dart' as provider_pkg;
+import 'package:nostr_sdk/nostr_sdk.dart';
 import '../../../component/report_event_dialog.dart';
 
 /// Screen to display event details
@@ -1428,10 +1433,96 @@ class _EventDetailScreenState extends ConsumerState<EventDetailScreen> {
     if (result != null && mounted) {
       final reason = result['reason'];
       final details = result['details'];
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Report submitted: $reason${details != null && details.isNotEmpty ? ", $details" : ""}')),
-      );
-      // TODO: Implement event generation and relay publishing here
+      
+      logger.i('Creating report event for event: ${widget.event.id}', null, null, LogCategory.events);
+      logger.d('Report reason: $reason, details: $details', null, null, LogCategory.events);
+
+      try {
+        // Build tags for the report event
+        List<List<String>> tags = [
+          ["e", widget.event.id],
+          ["p", widget.event.pubkey],
+        ];
+        
+        // Add relevant group info if present
+        if (widget.event.groupId != null) {
+          tags.add(["h", widget.event.groupId!]);
+        }
+        
+        // Add reason and details to tags
+        if (reason != null && reason.isNotEmpty) {
+          tags.add(["reason", reason]);
+        }
+        if (details != null && details.isNotEmpty) {
+          tags.add(["details", details]);
+        }
+        
+        logger.d('Constructing report event with tags: $tags', null, null, LogCategory.events);
+        
+        // Create the report event (NIP-56)
+        var reportEvent = Event(
+          nostr!.publicKey,
+          1984, // NIP-56 report event kind
+          tags,
+          '', // No content needed, all info in tags
+        );
+        
+        logger.d('Signing report event', null, null, LogCategory.events);
+        await nostr!.signEvent(reportEvent);
+        
+        // Determine relay addresses to send to
+        List<String> relayAddrs = [];
+        if (widget.event.groupId != null) {
+          // Try to get group-specific relays
+          try {
+            // Use Provider to access group provider safely
+            final groupProvider = provider_pkg.Provider.of<GroupProvider>(context, listen: false);
+            final groupIdentifier = GroupIdentifier(RelayProvider.defaultGroupsRelayAddress, widget.event.groupId!);
+            final metadata = groupProvider.getMetadata(groupIdentifier);
+            if (metadata != null && metadata.relays != null && metadata.relays!.isNotEmpty) {
+              relayAddrs.addAll(metadata.relays!);
+              logger.d('Using group relays for report: ${metadata.relays!.join(", ")}', null, null, LogCategory.events);
+            } else {
+              logger.d('No group relays found, will use default relays', null, null, LogCategory.events);
+            }
+          } catch (e) {
+            logger.w('Could not access group relays, will use default relays', e, null, LogCategory.events);
+          }
+        }
+        
+        logger.i('Sending report event to relays: ${relayAddrs.isEmpty ? "default relays" : relayAddrs.join(", ")}', 
+            null, null, LogCategory.network);
+        
+        // Send the event
+        var sent = await nostr!.sendEvent(
+          reportEvent,
+          tempRelays: relayAddrs.isEmpty ? null : relayAddrs,
+          targetRelays: relayAddrs.isEmpty ? null : relayAddrs,
+        );
+        
+        if (sent != null) {
+          logger.i('Report event successfully published, ID: ${reportEvent.id}', null, null, LogCategory.network);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Report submitted to community organizers.')),
+            );
+          }
+        } else {
+          logger.e('Failed to publish report event', null, null, LogCategory.network);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Failed to submit report to community organizers.')),
+            );
+          }
+        }
+      } catch (e, stackTrace) {
+        logger.e('Error creating or sending report event', e, stackTrace, LogCategory.events);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error sending report: $e')),
+          );
+        }
+      }
     }
   }
   

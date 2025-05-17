@@ -471,12 +471,12 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
                           if (sent != null) {
               logger.i('Report event successfully published, ID: ${reportEvent.id}', null, null, LogCategory.network);
               if (context.mounted) {
-                BotToast.showText(text: "Report submitted successfully");
+                BotToast.showText(text: "Report submitted to community organizers");
               }
             } else {
               logger.e('Failed to publish report event', null, null, LogCategory.network);
               if (context.mounted) {
-                BotToast.showText(text: "${S.of(context).error}: Failed to submit report");
+                BotToast.showText(text: "${S.of(context).error}: Failed to submit report to community organizers");
               }
             }
           } catch (e, stackTrace) {

@@ -25,14 +25,14 @@ class _ReportEventDialogState extends State<ReportEventDialog> {
     final theme = Theme.of(context);
     final isOther = _selectedReason == 'Other';
     return AlertDialog(
-      title: const Text('Flag Content'),
+      title: const Text('Report to Community Organizers'),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Create a content flag for this post that other users in the network can see. Select a tag for the content.',
+              'Report this content to community organizers and administrators. Your report helps them moderate the community. Select a reason below:',
             ),
             const SizedBox(height: 16),
             ...reasons.map((reason) => RadioListTile<String>(
