@@ -395,7 +395,8 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         return AnimatedPadding(
           padding: MediaQuery.of(context).viewInsets,
           duration: const Duration(milliseconds: 100),
-          child: Center(
+          child: Align(
+            alignment: Alignment.bottomCenter,
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: sheetMaxWidth),
               child: Container(
