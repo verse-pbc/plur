@@ -59,17 +59,91 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
   }
 
   void _handleAcceptResponse(ResponseModel response) {
-    ref.read(responseProvider.notifier).updateResponse(
-      response.copyWith(
-        status: ResponseStatus.accepted,
-      ),
+    _showConfirmationDialog(
+      context: context,
+      title: 'Accept Response',
+      message: 'Are you sure you want to accept this response? This will mark it as accepted and notify the sender.',
+      confirmButtonText: 'Accept',
+      confirmButtonColor: Colors.green,
+      onConfirm: () {
+        ref.read(responseProvider.notifier).updateResponse(
+          response.copyWith(
+            status: ResponseStatus.accepted,
+          ),
+        ).then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Response accepted'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        });
+      },
     );
   }
 
   void _handleDeclineResponse(ResponseModel response) {
-    ref.read(responseProvider.notifier).updateResponse(
-      response.copyWith(
-        status: ResponseStatus.declined,
+    _showConfirmationDialog(
+      context: context,
+      title: 'Decline Response',
+      message: 'Are you sure you want to decline this response? This will mark it as declined and notify the sender.',
+      confirmButtonText: 'Decline',
+      confirmButtonColor: Colors.red,
+      onConfirm: () {
+        ref.read(responseProvider.notifier).updateResponse(
+          response.copyWith(
+            status: ResponseStatus.declined,
+          ),
+        ).then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Response declined'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+        });
+      },
+    );
+  }
+  
+  // Helper method to show confirmation dialogs
+  void _showConfirmationDialog({
+    required BuildContext context,
+    required String title,
+    required String message,
+    required String confirmButtonText,
+    required Color confirmButtonColor,
+    required VoidCallback onConfirm,
+  }) {
+    final themeData = Theme.of(context);
+    final customColors = themeData.customColors;
+    
+    showDialog(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: customColors.feedBgColor,
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: customColors.secondaryForegroundColor),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              onConfirm();
+            },
+            child: Text(
+              confirmButtonText,
+              style: TextStyle(color: confirmButtonColor),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -519,46 +593,120 @@ class _ListingDetailScreenState extends ConsumerState<ListingDetailScreen> {
   
   void _showStatusChangeDialog(BuildContext context) {
     final themeData = Theme.of(context);
+    final customColors = themeData.customColors;
     
     showDialog(
       context: context,
       builder: (dialogContext) => AlertDialog(
-        title: const Text('Update Status'),
-        content: const Text('What is the current status of this listing?'),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        backgroundColor: customColors.feedBgColor,
+        title: const Text('Update Listing Status'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('What is the current status of this listing?'),
+            const SizedBox(height: 16),
+            // Status option cards
+            _buildStatusOptionCard(
+              dialogContext,
+              'Fulfilled',
+              'The listing has been successfully completed.',
+              Icons.check_circle_outline,
+              Colors.green,
+              ListingStatus.fulfilled,
+              'Your listing has been marked as fulfilled.',
+            ),
+            const SizedBox(height: 8),
+            _buildStatusOptionCard(
+              dialogContext,
+              'Cancelled',
+              'You no longer want to continue with this listing.',
+              Icons.cancel_outlined,
+              Colors.red,
+              ListingStatus.cancelled,
+              'Your listing has been marked as cancelled.',
+            ),
+            const SizedBox(height: 8),
+            _buildStatusOptionCard(
+              dialogContext,
+              'Inactive',
+              'Temporarily hide this listing (you can reactivate it later).',
+              Icons.pause_circle_outline,
+              Colors.orange,
+              ListingStatus.inactive,
+              'Your listing has been marked as inactive.',
+            ),
+          ],
+        ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () {
-              ref.read(listingProvider.notifier).updateListing(
-                widget.listing.copyWith(status: ListingStatus.fulfilled),
-              );
-              Navigator.pop(dialogContext);
-            },
             child: Text(
-              'Mark as Fulfilled',
-              style: TextStyle(
-                color: themeData.primaryColor,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              ref.read(listingProvider.notifier).updateListing(
-                widget.listing.copyWith(status: ListingStatus.cancelled),
-              );
-              Navigator.pop(dialogContext);
-            },
-            child: const Text(
-              'Mark as Cancelled',
-              style: TextStyle(
-                color: Colors.red,
-              ),
+              'Cancel',
+              style: TextStyle(color: customColors.secondaryForegroundColor),
             ),
           ),
         ],
+      ),
+    );
+  }
+  
+  Widget _buildStatusOptionCard(
+    BuildContext dialogContext,
+    String title,
+    String description,
+    IconData icon,
+    Color color,
+    ListingStatus status,
+    String successMessage,
+  ) {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(dialogContext);
+        ref.read(listingProvider.notifier).updateListing(
+          widget.listing.copyWith(status: status),
+        ).then((_) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(successMessage),
+              backgroundColor: color,
+            ),
+          );
+        });
+      },
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: color.withOpacity(0.3)),
+          color: color.withOpacity(0.1),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: color),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: color,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: const TextStyle(fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

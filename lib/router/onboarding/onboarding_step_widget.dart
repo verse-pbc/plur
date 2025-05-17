@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../component/primary_button_widget.dart';
 import '../../component/input_field_widget.dart';
-import '../../consts/plur_colors.dart';
+import '../../theme/app_colors.dart';
 
 /// Represents a button in the onboarding step.
 /// It is used to create a button in the onboarding step.
@@ -52,12 +52,12 @@ class OnboardingStepWidget extends StatelessWidget {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
     // Define theme-adaptive colors
-    final cardBgColor = isDarkMode ? PlurColors.cardBackground : Colors.white;
-    final titleColor = isDarkMode ? PlurColors.highlightText : PlurColors.primaryPurple;
+    final cardBgColor = isDarkMode ? context.colors.cardBackground : Colors.white;
+    final titleColor = isDarkMode ? context.colors.highlightText : context.colors.primary;
     final descriptionColor = isDarkMode 
-        ? PlurColors.highlightText // Higher contrast in dark mode
-        : PlurColors.primaryDark;
-    final emojiContainerColor = PlurColors.primaryPurple.withAlpha(isDarkMode ? 38 : 26);
+        ? context.colors.highlightText // Higher contrast in dark mode
+        : context.colors.primaryText;
+    final emojiContainerColor = context.colors.primary.withAlpha(isDarkMode ? 38 : 26);
     final shadowColor = isDarkMode 
         ? Colors.black.withAlpha(60) 
         : Colors.black.withAlpha(28);
@@ -163,7 +163,7 @@ class OnboardingStepWidget extends StatelessWidget {
                       duration: const Duration(milliseconds: 200),
                       child: PrimaryButtonWidget(
                         text: buttons[index].text,
-                        borderRadius: 14,
+                        borderRadius: 32, // Match the rounded style from login
                         height: 52,
                         onTap: buttons[index].onTap,
                         enabled: buttons[index].enabled,

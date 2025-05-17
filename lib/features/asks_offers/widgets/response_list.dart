@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
+import 'package:nostrmo/component/user/simple_name_widget.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/provider/user_provider.dart';
+import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:provider/provider.dart' as provider_pkg;
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
 import '../providers/response_provider.dart';
@@ -28,10 +34,27 @@ class ResponseList extends ConsumerWidget {
     return responsesAsync.when(
       data: (responses) {
         if (responses.isEmpty) {
-          return const Center(
+          return Center(
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 32.0),
-              child: Text('No responses yet'),
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.chat_bubble_outline,
+                    size: 48,
+                    color: customColors.secondaryForegroundColor.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'No responses yet',
+                    style: TextStyle(
+                      color: customColors.secondaryForegroundColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
@@ -151,17 +174,10 @@ class ResponseList extends ConsumerWidget {
           // Header with user info and response type
           Row(
             children: [
-              // User avatar
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: getTypeColor().withOpacity(0.2),
-                child: Text(
-                  response.pubkey.substring(0, 2).toUpperCase(),
-                  style: TextStyle(
-                    color: getTypeColor(),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+              // User avatar with UserPicWidget
+              UserPicWidget(
+                pubkey: response.pubkey,
+                width: 40,
               ),
               
               const SizedBox(width: 12),
@@ -171,11 +187,18 @@ class ResponseList extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // TODO: Replace with actual username from metadata
-                    const Text(
-                      'Username',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                    // User name with SimpleNameWidget
+                    GestureDetector(
+                      onTap: () {
+                        RouterUtil.router(context, RouterPath.user, response.pubkey);
+                      },
+                      child: SimpleNameWidget(
+                        pubkey: response.pubkey,
+                        textStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 1,
+                        textOverflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Row(
@@ -232,10 +255,17 @@ class ResponseList extends ConsumerWidget {
           
           const SizedBox(height: 12),
           
-          // Response content
-          Text(
-            response.content,
-            style: themeData.textTheme.bodyMedium,
+          // Response content in a container with slight background
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: customColors.feedBgColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              response.content,
+              style: themeData.textTheme.bodyMedium,
+            ),
           ),
           
           // Additional details if present
@@ -269,27 +299,29 @@ class ResponseList extends ConsumerWidget {
             ),
           ],
           
-          // Action buttons only for listing owner and pending responses
-          if (isCurrentUserOwner && response.status == ResponseStatus.pending) ...[
+          // Action buttons - different options based on user role and status
+          if (isCurrentUserOwner && response.status == ResponseStatus.pending) ..[
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                OutlinedButton(
+                OutlinedButton.icon(
                   onPressed: () => onDecline(response),
+                  icon: const Icon(Icons.close),
+                  label: const Text('Decline'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.red,
                   ),
-                  child: const Text('Decline'),
                 ),
                 const SizedBox(width: 8),
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: () => onAccept(response),
+                  icon: const Icon(Icons.check),
+                  label: const Text('Accept'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text('Accept'),
                 ),
               ],
             ),
@@ -305,6 +337,10 @@ class ResponseList extends ConsumerWidget {
       decoration: BoxDecoration(
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.3),
+          width: 1,
+        ),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -320,6 +356,7 @@ class ResponseList extends ConsumerWidget {
             style: TextStyle(
               color: color.withOpacity(0.8),
               fontSize: 12,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import '../consts/plur_colors.dart';
+import '../theme/app_colors.dart';
 
 /// Custom input field that is used to take input from the user.
 class InputFieldWidget extends StatelessWidget {
@@ -26,14 +25,11 @@ class InputFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get colors from the theme
+    final colors = context.colors;
+    
     // If isDarkMode is not provided, determine it from the context
     final inDarkMode = isDarkMode ?? Theme.of(context).brightness == Brightness.dark;
-    
-    // Adaptive colors based on theme
-    final fillColor = inDarkMode ? PlurColors.primaryDark : Colors.grey[100];
-    final borderColor = inDarkMode ? PlurColors.separator : Colors.grey[300]!;
-    final hintColor = inDarkMode ? PlurColors.secondaryText : Colors.grey[600]!;
-    final textColor = inDarkMode ? PlurColors.highlightText : PlurColors.primaryDark;
     
     return SizedBox(
       height: 48,
@@ -44,37 +40,37 @@ class InputFieldWidget extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           hintText: hintText,
-          hintStyle: GoogleFonts.nunito(
-            textStyle: TextStyle(
-              color: hintColor,
-              fontSize: 16,
-              fontWeight: FontWeight.w400,
-            ),
+          hintStyle: TextStyle(
+            fontFamily: 'SF Pro Rounded',
+            color: colors.secondaryText,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
           ),
           filled: true,
-          fillColor: fillColor,
+          fillColor: inDarkMode 
+              ? colors.surfaceVariant 
+              : colors.surface,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: borderColor,
+              color: colors.divider,
               width: 1.5,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: PlurColors.primaryPurple,
+            borderSide: BorderSide(
+              color: colors.primary,
               width: 1.5,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        cursorColor: PlurColors.primaryPurple,
-        style: GoogleFonts.nunito(
-          textStyle: TextStyle(
-            color: textColor,
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
+        cursorColor: colors.primary,
+        style: TextStyle(
+          fontFamily: 'SF Pro Rounded',
+          color: colors.primaryText,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

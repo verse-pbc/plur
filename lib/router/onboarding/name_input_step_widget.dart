@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'onboarding_step_widget.dart';
 import '../../generated/l10n.dart';
+import '../../theme/app_colors.dart';
+import '../../widget/material_icon_fix.dart';
 
 /// Handles name/nickname collection in the onboarding process.
 class NameInputStepWidget extends StatefulWidget {
@@ -44,28 +45,186 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
   @override
   Widget build(BuildContext context) {
     final localization = S.of(context);
+    final colors = context.colors;
+    final accentColor = colors.accent;
+    final buttonTextColor = colors.buttonText;
     
-    // Note: We're using a simple emoji instead of a custom IconWidget
-    // to keep the implementation simpler and consistent with other steps
+    // Get screen width for responsive design
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isTablet = screenWidth >= 600;
+    bool isDesktop = screenWidth >= 900;
+    double mainWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
+    double buttonMaxWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
 
-    return OnboardingStepWidget(
-      // Use the custom icon widget instead of a simple emoji
-      emoji: "👤", // Better emoji for user profile
-      title: localization.onboardingNameInputTitle,
-      titleKey: const Key('name_input_title'),
-      textController: _nameController,
-      textFieldHint: localization.onboardingNameInputHint,
-      buttons: [
-        OnboardingStepButton(
-          text: localization.continueButton,
-          enabled: _isButtonEnabled,
-          onTap: () {
-            final name = _nameController.text.trim();
-            if (name.isNotEmpty) {
-              widget.onContinue(name);
-            }
-          },
+    return Stack(
+      children: [
+        // Back button positioned at top left
+        Positioned(
+          top: MediaQuery.of(context).padding.top + 16,
+          left: 16,
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: buttonTextColor.withAlpha((255 * 0.1).round()),
+                shape: BoxShape.circle,
+              ),
+              alignment: Alignment.center,
+              child: FixedIcon(
+                Icons.chevron_left,
+                color: buttonTextColor,
+                size: 24,
+              ),
+            ),
+          ),
         ),
+        // Main content
+        Center(
+          child: SizedBox(
+            width: mainWidth,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Holis tag icon
+                  Image.asset(
+                    'assets/imgs/holis-tag.png',
+                    width: 80,
+                    height: 80,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback to person icon if image fails to load
+                      return Icon(
+                        Icons.person_rounded,
+                        size: 80,
+                        color: buttonTextColor,
+                      );
+                    },
+                  ),
+              
+              const SizedBox(height: 32),
+              
+              // Title
+              Text(
+                localization.onboardingNameInputTitle,
+                key: const Key('name_input_title'),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: colors.titleText,
+                  fontSize: 32,
+                  fontWeight: FontWeight.w700,
+                  height: 1.2,
+                ),
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Description
+              Text(
+                localization.onboardingNameInputHint,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: colors.secondaryText,
+                  fontSize: 17,
+                  fontWeight: FontWeight.w400,
+                  height: 1.4,
+                ),
+              ),
+              
+              const SizedBox(height: 48),
+              
+              // Input field
+              Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: buttonMaxWidth),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: const Color(0xFF2E4052),
+                        width: 1,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7),
+                      child: TextField(
+                        controller: _nameController,
+                        autofocus: true,
+                        style: const TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFF11171F),
+                          hintText: localization.onboardingNameInputHint,
+                          hintStyle: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
+                            color: colors.secondaryText,
+                            fontSize: 16,
+                          ),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(16),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 48),
+              
+              // Continue button
+              Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: buttonMaxWidth),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: GestureDetector(
+                      onTap: _isButtonEnabled ? () {
+                        final name = _nameController.text.trim();
+                        if (name.isNotEmpty) {
+                          widget.onContinue(name);
+                        }
+                      } : null,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 18),
+                        decoration: BoxDecoration(
+                          color: _isButtonEnabled 
+                            ? accentColor
+                            : accentColor.withAlpha((255 * 0.4).round()),
+                          borderRadius: BorderRadius.circular(32),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          localization.continueButton,
+                          style: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
+                            color: _isButtonEnabled
+                              ? buttonTextColor
+                              : buttonTextColor.withAlpha((255 * 0.4).round()),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
       ],
     );
   }

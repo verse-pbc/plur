@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostrmo/component/user/user_pic_widget.dart';
+import 'package:nostrmo/component/user/simple_name_widget.dart';
+import 'package:nostrmo/consts/colors.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
@@ -92,31 +95,99 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
     
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
       ),
+      backgroundColor: customColors.feedBgColor,
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 500),
+        constraints: const BoxConstraints(maxWidth: 520),
         padding: const EdgeInsets.all(24),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dialog title
-            Text(
-              widget.listing.type == ListingType.ask 
-                ? 'Respond to Ask' 
-                : 'Respond to Offer',
-              style: themeData.textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+            // Dialog header with listing info
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Display listing type icon
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: widget.listing.type == ListingType.ask 
+                      ? Colors.blue.withOpacity(0.1)
+                      : Colors.green.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    widget.listing.type == ListingType.ask 
+                      ? Icons.help_outline
+                      : Icons.local_offer_outlined,
+                    color: widget.listing.type == ListingType.ask 
+                      ? Colors.blue
+                      : Colors.green,
+                    size: 20,
+                  ),
+                ),
+                
+                const SizedBox(width: 12),
+                
+                // Listing title and response label
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.listing.type == ListingType.ask 
+                          ? 'Respond to Ask' 
+                          : 'Respond to Offer',
+                        style: themeData.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 4),
+                      
+                      Text(
+                        widget.listing.title,
+                        style: themeData.textTheme.titleMedium,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             
-            const SizedBox(height: 8),
+            const SizedBox(height: 16),
             
-            // Listing title
-            Text(
-              widget.listing.title,
-              style: themeData.textTheme.titleMedium,
+            // Author info
+            Row(
+              children: [
+                UserPicWidget(
+                  pubkey: widget.listing.pubkey,
+                  width: 36,
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SimpleNameWidget(
+                        pubkey: widget.listing.pubkey,
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Posted by',
+                        style: TextStyle(
+                          color: customColors.secondaryForegroundColor,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
             
             const SizedBox(height: 24),
@@ -137,15 +208,20 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
             // Message field
             TextField(
               controller: _contentController,
-              maxLines: 3,
+              maxLines: 4,
               decoration: InputDecoration(
                 labelText: 'Your message',
                 hintText: _getMessageHint(),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(
+                    color: customColors.separatorColor.withOpacity(0.5),
+                  ),
                 ),
                 filled: true,
-                fillColor: customColors.feedBgColor,
+                fillColor: customColors.backgroundColor,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
             ),
             
@@ -154,7 +230,11 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
             // Optional fields section
             ExpansionTile(
               title: const Text('Additional Details (Optional)'),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+              collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               childrenPadding: const EdgeInsets.symmetric(vertical: 8),
+              iconColor: themeData.primaryColor,
+              textColor: themeData.primaryColor,
               children: [
                 if (_responseType == ResponseType.help || _responseType == ResponseType.offer)
                   TextField(
@@ -163,10 +243,18 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                       labelText: 'Price (if applicable)',
                       hintText: 'e.g., 50 sats, Free, etc.',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: customColors.separatorColor.withOpacity(0.5),
+                        ),
                       ),
                       filled: true,
-                      fillColor: customColors.feedBgColor,
+                      fillColor: customColors.backgroundColor,
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      prefixIcon: Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(Icons.attach_money, color: Colors.green),
+                      ),
                     ),
                   ),
                 
@@ -178,10 +266,18 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                     labelText: 'When are you available?',
                     hintText: 'e.g., Weekday evenings, This Saturday, etc.',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: customColors.separatorColor.withOpacity(0.5),
+                      ),
                     ),
                     filled: true,
-                    fillColor: customColors.feedBgColor,
+                    fillColor: customColors.backgroundColor,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    prefixIcon: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Icon(Icons.access_time, color: Colors.blue),
+                    ),
                   ),
                 ),
                 
@@ -193,10 +289,18 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                     labelText: 'Location (if applicable)',
                     hintText: 'e.g., Downtown, Can deliver, etc.',
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                        color: customColors.separatorColor.withOpacity(0.5),
+                      ),
                     ),
                     filled: true,
-                    fillColor: customColors.feedBgColor,
+                    fillColor: customColors.backgroundColor,
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    prefixIcon: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Icon(Icons.location_on, color: Colors.orange),
+                    ),
                   ),
                 ),
               ],
@@ -221,16 +325,25 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
               children: [
                 TextButton(
                   onPressed: _isSubmitting ? null : () => Navigator.of(context).pop(),
+                  style: TextButton.styleFrom(
+                    foregroundColor: customColors.secondaryForegroundColor,
+                  ),
                   child: const Text('Cancel'),
                 ),
                 const SizedBox(width: 16),
-                ElevatedButton(
+                ElevatedButton.icon(
                   onPressed: _isSubmitting ? null : _submitResponse,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _getButtonColor(),
                     foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                    elevation: 0,
+                    shadowColor: _getButtonColor().withOpacity(0.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(32),
+                    ),
                   ),
-                  child: _isSubmitting
+                  icon: _isSubmitting
                       ? const SizedBox(
                           width: 20,
                           height: 20,
@@ -239,7 +352,8 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                             strokeWidth: 2,
                           ),
                         )
-                      : Text(_getButtonText()),
+                      : Icon(_getButtonIcon()),
+                  label: Text(_getButtonText()),
                 ),
               ],
             ),
@@ -339,6 +453,19 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
         return 'Ask Question';
       case ResponseType.offer:
         return 'Send Counter-Offer';
+    }
+  }
+
+  IconData _getButtonIcon() {
+    switch (_responseType) {
+      case ResponseType.help:
+        return Icons.volunteer_activism;
+      case ResponseType.interest:
+        return Icons.thumb_up_outlined;
+      case ResponseType.question:
+        return Icons.help_outline;
+      case ResponseType.offer:
+        return Icons.local_offer_outlined;
     }
   }
 

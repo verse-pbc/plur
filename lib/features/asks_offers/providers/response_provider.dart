@@ -211,15 +211,26 @@ class ResponseNotifier extends StateNotifier<AsyncValue<List<ResponseModel>>> {
     ResponseType? type,
     ResponseStatus? status,
     String? searchQuery,
+    String? pubkey,
+    bool showOnlyMyResponses = false,
+    bool sortByNewest = true,
   }) {
     if (!state.hasValue || state.value == null) return [];
 
-    return state.value!.where((response) {
+    final filteredResponses = state.value!.where((response) {
       // Filter by type
       if (type != null && response.responseType != type) return false;
       
       // Filter by status
       if (status != null && response.status != status) return false;
+      
+      // Filter by pubkey (for listing owner or specific users)
+      if (pubkey != null && response.pubkey != pubkey) return false;
+      
+      // Filter to show only current user's responses
+      if (showOnlyMyResponses && nostr != null) {
+        if (response.pubkey != nostr!.publicKey) return false;
+      }
       
       // Filter by search query
       if (searchQuery != null && searchQuery.isNotEmpty) {
@@ -230,6 +241,47 @@ class ResponseNotifier extends StateNotifier<AsyncValue<List<ResponseModel>>> {
       // If no filters match, include the response
       return true;
     }).toList();
+    
+    // Sort results
+    if (sortByNewest) {
+      filteredResponses.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    } else {
+      filteredResponses.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    }
+    
+    return filteredResponses;
+  }
+  
+  // Group responses by status and count them
+  Map<ResponseStatus, int> getResponseStatusCounts() {
+    if (!state.hasValue || state.value == null) return {};
+    
+    final counts = <ResponseStatus, int>{};
+    for (final status in ResponseStatus.values) {
+      counts[status] = 0;
+    }
+    
+    for (final response in state.value!) {
+      counts[response.status] = (counts[response.status] ?? 0) + 1;
+    }
+    
+    return counts;
+  }
+  
+  // Get counts of different response types
+  Map<ResponseType, int> getResponseTypeCounts() {
+    if (!state.hasValue || state.value == null) return {};
+    
+    final counts = <ResponseType, int>{};
+    for (final type in ResponseType.values) {
+      counts[type] = 0;
+    }
+    
+    for (final response in state.value!) {
+      counts[response.responseType] = (counts[response.responseType] ?? 0) + 1;
+    }
+    
+    return counts;
   }
 
   @override

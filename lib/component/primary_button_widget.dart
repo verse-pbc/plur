@@ -15,7 +15,7 @@ class PrimaryButtonWidget extends StatelessWidget {
     this.onTap,
     this.enabled = true,
     this.height = 48,
-    this.borderRadius = 12,
+    this.borderRadius = 32, // Default to rounded style
   });
 
   @override

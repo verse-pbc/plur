@@ -50,6 +50,7 @@ import 'package:nostrmo/router/group/moderation/report_management_screen.dart';
 // Media screen import temporarily commented out until file is created
 // import 'package:nostrmo/router/group/group_media_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
+import 'package:nostrmo/router/landing/landing_page.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/router/onboarding/onboarding_screen.dart';
 import 'package:nostrmo/router/settings/development/push_notification_test_widget.dart';
@@ -542,7 +543,7 @@ class _MyApp extends State<MyApp> {
 
     routes = {
       RouterPath.index: (context) => IndexWidget(reload: reload),
-      RouterPath.login: (context) => const LoginSignupWidget(),
+      RouterPath.login: (context) => const LandingPage(),
       RouterPath.onboarding: (context) => const OnboardingWidget(),
       RouterPath.donate: (context) => const DonateWidget(),
       RouterPath.user: (context) => const UserWidget(),
