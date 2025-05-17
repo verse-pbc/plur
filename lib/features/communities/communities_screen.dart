@@ -310,45 +310,41 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      isDismissible: false, // Prevent dismissing by tapping outside
-      enableDrag: false, // Prevent dismissing by dragging
+      isDismissible: false,
+      enableDrag: false,
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
-      useSafeArea: false,
-      builder: (sheetContext) {
-        // Get responsive width values (matching login sheet)
-        var screenWidth = MediaQuery.of(sheetContext).size.width;
+      builder: (BuildContext context) {
+        // Get responsive width values - exact structure from login sheet
+        var screenWidth = MediaQuery.of(context).size.width;
         bool isTablet = screenWidth >= 600;
         bool isDesktop = screenWidth >= 900;
         double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
         
         return PopScope(
-          canPop: false, // Prevent back button dismissal
+          canPop: false,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               AnimatedPadding(
-                padding: MediaQuery.of(sheetContext).viewInsets,
+                padding: MediaQuery.of(context).viewInsets,
                 duration: const Duration(milliseconds: 100),
-                child: Container(
-                  width: screenWidth,
-                  decoration: BoxDecoration(
-                    color: sheetContext.colors.loginBackground,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(24),
-                      topRight: Radius.circular(24),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.colors.loginBackground,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: const SafeArea(
+                        top: false,
+                        bottom: true,
+                        child: NoCommunitiesSheet(),
+                      ),
                     ),
-                  ),
-                  child: SafeArea(
-                    top: false,
-                    bottom: true,
-                    child: isDesktop || isTablet
-                        ? Center(
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints(maxWidth: sheetMaxWidth),
-                              child: const NoCommunitiesSheet(),
-                            ),
-                          )
-                        : const NoCommunitiesSheet(),
                   ),
                 ),
               ),
