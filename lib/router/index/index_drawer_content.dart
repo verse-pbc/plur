@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
+import 'package:nostrmo/component/image_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
@@ -131,8 +132,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               child: legacy_provider.Selector<UserProvider, User?>(
                 builder: (context, user, child) {
                   // Get the banner/cover photo URL from user metadata
-                  // Note: You may need to adjust this based on your User model
-                  String? bannerUrl = user?.banner; // or user?.coverPhoto or similar field
+                  String? bannerUrl = user?.banner;
                   
                   return ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
@@ -142,17 +142,15 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                         color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
                       ),
                       child: bannerUrl != null && bannerUrl.isNotEmpty
-                        ? Image.network(
-                            bannerUrl,
+                        ? ImageWidget(
+                            url: bannerUrl,
                             width: double.infinity,
                             height: double.infinity,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) => Container(
+                            placeholder: (context, url) => Container(
                               color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                              child: Icon(
-                                Icons.landscape,
-                                size: 48,
-                                color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                              child: const Center(
+                                child: CircularProgressIndicator(),
                               ),
                             ),
                           )
