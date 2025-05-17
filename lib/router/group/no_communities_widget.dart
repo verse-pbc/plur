@@ -38,18 +38,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   // Key used to store whether the user has dismissed this dialog
   static const String _dismissedDialogKey = 'community_intro_dismissed';
   
-  // Method to save state when user dismisses the dialog
-  Future<void> _dismissDialog() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_dismissedDialogKey, true);
-    
-    // Pop the dialog if in a dialog, otherwise just hide this widget
-    if (mounted) {
-      Navigator.of(context).canPop() 
-          ? Navigator.of(context).pop() 
-          : setState(() {}); // Force refresh
-    }
-  }
+  // Method removed since close button is no longer present
 
   bool _dialogDismissed = false;
   
@@ -95,22 +84,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Stack(
-                children: [
-                  // Close button
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: context.colors.secondaryText,
-                      ),
-                      onPressed: _dismissDialog,
-                    ),
-                  ),
-                  // Main content
-                  Padding(
+              child: Padding(
                     padding: const EdgeInsets.all(24.0),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -250,8 +224,6 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                       ],
                     ),
                   ),
-                ],
-              ),
             ),
           ),
         ),
