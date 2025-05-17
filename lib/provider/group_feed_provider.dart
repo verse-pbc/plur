@@ -6,6 +6,8 @@ import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/group_read_status_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
+import 'package:nostrmo/service/moderation_service.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Provider that fetches and manages posts from all groups a user belongs to.
 class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
@@ -49,6 +51,9 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
       });
     }
     
+    // Subscribe to moderation events for all groups
+    _subscribeToModerationEvents();
+    
     // Set a timeout to stop showing the loading indicator after 3 seconds
     // even if no events are received
     Future.delayed(const Duration(seconds: 3), () {
@@ -57,6 +62,73 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
         notifyListeners();
       }
     });
+  }
+  
+  // Subscribe to moderation events for all the user's groups
+  void _subscribeToModerationEvents() {
+    final groupIds = _listProvider.groupIdentifiers;
+    
+    if (groupIds.isEmpty) {
+      logger.w("MODERATION: No groups to subscribe to moderation events for", 
+               null, null, LogCategory.groups);
+      return;
+    }
+    
+    logger.i("MODERATION: Subscribing to moderation events for ${groupIds.length} groups", 
+             null, null, LogCategory.groups);
+    
+    for (final groupId in groupIds) {
+      // Use the moderation service to subscribe to moderation events
+      moderationService.subscribeToGroupModerationEvents(groupId);
+      
+      logger.i("MODERATION: Subscribed to moderation events for group ${groupId.groupId}", 
+               null, null, LogCategory.groups);
+    }
+    
+    // Listen for changes to moderated posts
+    moderationService.addListener(_handleModerationUpdate);
+  }
+  
+  // Handle updates from the moderation service
+  void _handleModerationUpdate() {
+    logger.i("MODERATION: Received moderation update notification", 
+             null, null, LogCategory.groups);
+    
+    // Check if any posts in the notesBox have been moderated
+    bool updatedAny = false;
+    
+    // First check the main notesBox
+    final events = notesBox.all();
+    for (final event in events) {
+      if (moderationService.isPostModerated(event.id)) {
+        logger.i("MODERATION: Removing moderated post ${event.id.substring(0, 8)}... from notesBox", 
+                 null, null, LogCategory.groups);
+                 
+        // Remove from notesBox - we'll show a placeholder in the UI
+        notesBox.delete(event.id);
+        updatedAny = true;
+      }
+    }
+    
+    // Then check the newNotesBox
+    final newEvents = newNotesBox.all();
+    for (final event in newEvents) {
+      if (moderationService.isPostModerated(event.id)) {
+        logger.i("MODERATION: Removing moderated post ${event.id.substring(0, 8)}... from newNotesBox", 
+                 null, null, LogCategory.groups);
+                 
+        // Remove from newNotesBox  
+        newNotesBox.delete(event.id);
+        updatedAny = true;
+      }
+    }
+    
+    // Notify listeners if we made any changes
+    if (updatedAny) {
+      logger.i("MODERATION: Notifying listeners about removed moderated posts", 
+               null, null, LogCategory.groups);
+      notifyListeners();
+    }
   }
 
   void clear() {
@@ -76,6 +148,10 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
   @override
   void dispose() {
     _unsubscribe();
+    
+    // Unsubscribe from moderation updates
+    moderationService.removeListener(_handleModerationUpdate);
+    
     disposeLater();
     super.dispose();
   }
@@ -85,6 +161,13 @@ class GroupFeedProvider extends ChangeNotifier with PendingEventsLaterFunction {
     
     // Skip if already in main notes box
     if (notesBox.contains(e.id)) {
+      return;
+    }
+    
+    // Skip if this event has been moderated
+    if (moderationService.isPostModerated(e.id)) {
+      logger.i("MODERATION: Skipping moderated post ${e.id.substring(0, 8)}...", 
+               null, null, LogCategory.groups);
       return;
     }
     

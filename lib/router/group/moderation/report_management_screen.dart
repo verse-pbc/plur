@@ -11,6 +11,7 @@ import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/service/report_service.dart';
 import 'package:nostrmo/util/app_logger.dart';
 import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/util/theme_util.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:nostrmo/consts/router_path.dart';
@@ -233,48 +234,195 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   }
   
   void _removeReportedPost(ReportItem report) async {
-    if (report.reportedEventId == null || report.groupId == null) return;
+    if (report.reportedEventId == null || report.groupId == null) {
+      logger.w("REMOVE DEBUG: Cannot remove post - missing eventId or groupId", null, null, LogCategory.groups);
+      return;
+    }
+    
+    logger.i("REMOVE DEBUG: Removing post ${report.reportedEventId} from group ${report.groupId}", null, null, LogCategory.groups);
+    
+    // Log relay information which is critical
+    logger.i("REMOVE DEBUG: Using relay: ${report.relayUrl ?? 'NULL!'}", null, null, LogCategory.groups);
     
     final groupId = _selectedGroup ?? 
         GroupIdentifier(report.relayUrl ?? "", report.groupId!);
     
     if (groupId != null) {
-      final success = await groupProvider.removePost(
-        groupId, 
-        report.reportedEventId!,
-        reason: "Removed after review of user report: ${report.reason ?? 'Not specified'}"
-      );
+      logger.i("REMOVE DEBUG: Constructed GroupIdentifier: ${groupId.host}/${groupId.groupId}", null, null, LogCategory.groups);
       
-      if (success) {
-        // Dismiss the report after successful removal
-        _dismissReport(report);
+      try {
+        final success = await groupProvider.removePost(
+          groupId, 
+          report.reportedEventId!,
+          reason: "Removed after review of user report: ${report.reason ?? 'Not specified'}"
+        );
         
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Post removed successfully")),
-          );
+        if (success) {
+          logger.i("REMOVE DEBUG: Post removal was successful", null, null, LogCategory.groups);
+          // Dismiss the report after successful removal
+          _dismissReport(report);
+          
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Post removed successfully")),
+            );
+          }
+        } else {
+          logger.e("REMOVE DEBUG: Post removal failed", null, null, LogCategory.groups);
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Failed to remove post")),
+            );
+          }
         }
-      } else {
+      } catch (e, st) {
+        logger.e("REMOVE DEBUG: Exception during post removal: $e", e, st, LogCategory.groups);
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Failed to remove post")),
+            SnackBar(content: Text("Error: Failed to remove post: $e")),
           );
         }
       }
+    } else {
+      logger.e("REMOVE DEBUG: Could not construct a valid GroupIdentifier", null, null, LogCategory.groups);
     }
   }
   
   void _viewReportedContent(ReportItem report) {
     if (report.reportedEventId != null) {
       final event = singleEventProvider.getEvent(report.reportedEventId!);
+      
       if (event != null) {
-        RouterUtil.router(context, RouterPath.eventDetail, event);
+        // Show a bottom sheet with options to view content in different ways
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            final themeData = Theme.of(context);
+            final customColors = themeData.customColors;
+            
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Text(
+                      "View reported content",
+                      style: themeData.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  
+                  // Preview of the reported content
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: customColors.feedBgColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: themeData.dividerColor),
+                      ),
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              UserPicWidget(
+                                pubkey: event.pubkey,
+                                width: 32,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                userProvider.getName(event.pubkey),
+                                style: themeData.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            StringUtil.isNotBlank(event.content)
+                                ? event.content.length > 120
+                                    ? "${event.content.substring(0, 120)}..."
+                                    : event.content
+                                : "[No content]",
+                            style: themeData.textTheme.bodyMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  
+                  const Divider(),
+                  
+                  // Option to view just the post
+                  ListTile(
+                    leading: Icon(Icons.visibility, color: customColors.primaryForegroundColor),
+                    title: Text("View individual post", style: themeData.textTheme.bodyMedium),
+                    onTap: () {
+                      Navigator.pop(context);
+                      RouterUtil.router(context, RouterPath.eventDetail, event);
+                    },
+                  ),
+                  
+                  // Option to view in thread context
+                  ListTile(
+                    leading: Icon(Icons.forum_outlined, color: customColors.primaryForegroundColor),
+                    title: Text("View in conversation thread", style: themeData.textTheme.bodyMedium),
+                    subtitle: Text("See the full context of the discussion", style: themeData.textTheme.bodySmall),
+                    onTap: () {
+                      Navigator.pop(context);
+                      
+                      // Check if it's a reply to determine how to show the thread
+                      final eventRelation = EventRelation.fromEvent(event);
+                      if (eventRelation.rootId != null || eventRelation.replyId != null) {
+                        // It's part of a thread, so show the full thread
+                        RouterUtil.router(context, RouterPath.threadDetail, event);
+                      } else {
+                        // It's a root post, still show as thread but it will be the root
+                        RouterUtil.router(context, RouterPath.threadDetail, event);
+                      }
+                    },
+                  ),
+                  
+                  // Option to view user profile
+                  ListTile(
+                    leading: Icon(Icons.person_outline, color: customColors.primaryForegroundColor),
+                    title: Text("View user profile", style: themeData.textTheme.bodyMedium),
+                    onTap: () {
+                      Navigator.pop(context);
+                      RouterUtil.router(context, RouterPath.user, event.pubkey);
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       } else {
         // If the event is not cached, try to fetch it
-        // Show a loading indicator and error handling would be needed here
+        // Show a loading indicator and error handling
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Report content not found")),
+          SnackBar(
+            content: Text("Fetching reported content..."),
+            duration: const Duration(seconds: 2),
+          ),
         );
+        
+        // Try to fetch the event
+        nostr?.query([Filter(ids: [report.reportedEventId!]).toJson()], (event) {
+          if (event != null && mounted) {
+            _viewReportedContent(report); // Call this method again now that we have the event
+          } else if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Report content not found")),
+            );
+          }
+        });
       }
     }
   }
@@ -727,10 +875,21 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                       style: theme.textTheme.bodyMedium,
                     ),
                     
-                    // View full content button
-                    TextButton(
-                      onPressed: () => _viewReportedContent(report),
-                      child: Text("View full content"),
+                    // View content buttons
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        // View the content with context options
+                        ElevatedButton.icon(
+                          onPressed: () => _viewReportedContent(report),
+                          icon: Icon(Icons.visibility),
+                          label: Text("View Context"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: theme.primaryColor,
+                            foregroundColor: Colors.white,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

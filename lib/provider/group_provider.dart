@@ -57,9 +57,11 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
   /// @param reason Optional reason for removal
   /// @return A Future<bool> that resolves to true if the event was sent successfully
   Future<bool> removePost(GroupIdentifier groupIdentifier, String postId, {String? reason}) async {
-    logger.i('Removing post $postId from group ${groupIdentifier.groupId}', null, null, LogCategory.groups);
+    logger.i('REMOVE DEBUG: Starting removePost in GroupProvider', null, null, LogCategory.groups);
+    logger.i('REMOVE DEBUG: Group: ${groupIdentifier.host}/${groupIdentifier.groupId}', null, null, LogCategory.groups);
+    logger.i('REMOVE DEBUG: Post ID: $postId', null, null, LogCategory.groups);
     if (reason != null) {
-      logger.d('Removal reason: $reason', null, null, LogCategory.groups);
+      logger.d('REMOVE DEBUG: Removal reason: $reason', null, null, LogCategory.groups);
     }
     
     // Before sending, verify that the current user is an admin of this group
@@ -69,25 +71,36 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     
     if (admins != null && nostr != null) {
       isAdmin = admins.containsUser(nostr!.publicKey);
+      logger.i('REMOVE DEBUG: Admin check for user ${nostr!.publicKey.substring(0, 8)}... result: $isAdmin', null, null, LogCategory.groups);
+    } else {
+      logger.w('REMOVE DEBUG: No admin data for this group or nostr is null', null, null, LogCategory.groups);
+      if (admins == null) {
+        logger.w('REMOVE DEBUG: No admin data loaded for group $key', null, null, LogCategory.groups);
+      }
+      if (nostr == null) {
+        logger.w('REMOVE DEBUG: Nostr SDK instance is null', null, null, LogCategory.groups);
+      }
     }
     
     if (!isAdmin) {
-      logger.w('User is not an admin of this group - cannot remove post', null, null, LogCategory.groups);
+      logger.w('REMOVE DEBUG: User is not an admin of this group - cannot remove post', null, null, LogCategory.groups);
       return false;
     }
     
     // Send the moderation event
     try {
+      logger.i('REMOVE DEBUG: Calling NIP29.removePost...', null, null, LogCategory.groups);
       final event = await NIP29.removePost(nostr!, groupIdentifier, postId, reason: reason);
       if (event != null) {
-        logger.i('Successfully sent post removal event for post $postId', null, null, LogCategory.groups);
+        logger.i('REMOVE DEBUG: Successfully sent post removal event for post $postId', null, null, LogCategory.groups);
+        logger.i('REMOVE DEBUG: Event ID: ${event.id}', null, null, LogCategory.groups);
         return true;
       } else {
-        logger.e('Failed to send post removal event', null, null, LogCategory.groups);
+        logger.e('REMOVE DEBUG: Failed to send post removal event - returned null', null, null, LogCategory.groups);
         return false;
       }
     } catch (e, stackTrace) {
-      logger.e('Error sending post removal event: $e', stackTrace, null, LogCategory.groups);
+      logger.e('REMOVE DEBUG: Error sending post removal event: $e', stackTrace, null, LogCategory.groups);
       return false;
     }
   }

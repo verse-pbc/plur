@@ -5,6 +5,8 @@ import 'package:nostrmo/component/group/group_avatar_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
+import 'package:nostrmo/service/moderation_service.dart';
+import 'package:nostrmo/util/app_logger.dart';
 import 'package:provider/provider.dart';
 
 /// A widget that decorates an event post with its community information
@@ -21,7 +23,46 @@ class GroupEventListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
+    final moderationService = Provider.of<ModerationService>(context, listen: true);
     final themeData = Theme.of(context);
+    
+    // Check if this post has been moderated/removed
+    if (moderationService.isPostModerated(event.id)) {
+      logger.i("MODERATION: Post ${event.id.substring(0, 8)}... is moderated, not displaying", 
+          null, null, LogCategory.groups);
+      
+      // Return an empty container or a "content removed" widget
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: themeData.dividerColor,
+              width: 0.5,
+            ),
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              Icons.block,
+              color: themeData.hintColor,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                "This content has been removed by a community organizer",
+                style: TextStyle(
+                  color: themeData.hintColor,
+                  fontStyle: FontStyle.italic,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     
     // Get the original EventListWidget that we'll wrap
     Widget eventWidget = EventListWidget(

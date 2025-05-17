@@ -87,7 +87,9 @@ class NIP29 {
   /// @return The created event if successful, null otherwise
   static Future<Event?> removePost(
       Nostr nostr, GroupIdentifier groupIdentifier, String postId, {String? reason}) async {
+    print("REMOVE DEBUG: NIP29.removePost called - group: ${groupIdentifier.groupId}, relay: ${groupIdentifier.host}");
     var relays = [groupIdentifier.host];
+    print("REMOVE DEBUG: Using relays: $relays");
     
     // Create the tags for the moderation event
     List<List<dynamic>> tags = [
@@ -102,6 +104,9 @@ class NIP29 {
       tags.add(["reason", reason]);
     }
     
+    print("REMOVE DEBUG: Created tags: $tags");
+    print("REMOVE DEBUG: Using EventKind.groupModeration (${EventKind.groupModeration})");
+    
     // Create the event - using kind 16402 for group moderation events
     var event = Event(
       nostr.publicKey,
@@ -112,11 +117,13 @@ class NIP29 {
     
     try {
       // Send the event to the group's relay
+      print("REMOVE DEBUG: About to send event to relays: $relays");
       await nostr.sendEvent(event, tempRelays: relays, targetRelays: relays);
+      print("REMOVE DEBUG: Event sent successfully with ID: ${event.id}");
       return event;
     } catch (e) {
       // Log error and return null on failure
-      print("Error sending post removal event: $e");
+      print("REMOVE DEBUG: Error sending post removal event: $e");
       return null;
     }
   }
