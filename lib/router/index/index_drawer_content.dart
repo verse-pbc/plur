@@ -95,7 +95,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               Color(0xFFB8D0CE), // Silver-ish color
             ],
           ),
-          borderRadius: BorderRadius.circular(6), // 6pt rounded corners
+          borderRadius: BorderRadius.circular(8), // 8pt rounded corners
         ),
         child: GestureDetector(
           onTap: () {
@@ -121,46 +121,49 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               Color(0xFFB8D0CE), // Silver-ish color
             ],
           ),
-          borderRadius: BorderRadius.circular(6), // 6pt rounded corners
+          borderRadius: BorderRadius.circular(8), // 8pt rounded corners
         ),
-        child: Stack(children: [
-          legacy_provider.Selector<UserProvider, User?>(
-            builder: (context, user, child) {
-              return UserTopWidget(
-                pubkey: pubkey,
-                user: user,
-                isLocal: true,
-                jumpable: true,
-              );
-            },
-            selector: (_, provider) {
-              return provider.getUser(pubkey);
-            },
-          ),
-          Positioned(
-            top: Base.basePaddingHalf,
-            right: Base.basePadding,
-            child: _readOnly
-                ? Container()
-                : Container(
-                    height: _profileEditBtnWidth,
-                    width: _profileEditBtnWidth,
-                    decoration: BoxDecoration(
-                      color: loginBackground,
-                      borderRadius: BorderRadius.circular(
-                        _profileEditBtnWidth / 2,
-                      ),
-                    ),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.edit_square,
-                        color: mainColor,
-                      ),
-                      onPressed: _jumpToProfileEdit,
+        child: Column(
+          children: [
+            legacy_provider.Selector<UserProvider, User?>(
+              builder: (context, user, child) {
+                return UserTopWidget(
+                  pubkey: pubkey,
+                  user: user,
+                  isLocal: true,
+                  jumpable: true,
+                );
+              },
+              selector: (_, provider) {
+                return provider.getUser(pubkey);
+              },
+            ),
+            if (!_readOnly)
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: Base.basePadding,
+                  bottom: Base.basePadding,
+                ),
+                child: Container(
+                  height: _profileEditBtnWidth,
+                  width: _profileEditBtnWidth,
+                  decoration: BoxDecoration(
+                    color: loginBackground,
+                    borderRadius: BorderRadius.circular(
+                      _profileEditBtnWidth / 2,
                     ),
                   ),
-          ),
-        ]),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.edit_square,
+                      color: mainColor,
+                    ),
+                    onPressed: _jumpToProfileEdit,
+                  ),
+                ),
+              ),
+          ],
+        ),
       );
     }
     
