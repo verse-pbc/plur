@@ -310,11 +310,56 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     print('DEBUG: _showBasicModalBottomSheet called');
     try {
       await showModalBottomSheet(
-        isScrollControlled: false,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         context: context,
-        builder: (BuildContext innerContext) {
-          return const AccountManagerWidget();
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+        enableDrag: true,
+        isDismissible: true,
+        builder: (BuildContext context) {
+          // Get responsive width values
+          var screenWidth = MediaQuery.of(context).size.width;
+          bool isTablet = screenWidth >= 600;
+          bool isDesktop = screenWidth >= 900;
+          double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
+          
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  color: Colors.transparent,
+                  height: 100,  // Touch area above sheet
+                ),
+              ),
+              AnimatedPadding(
+                padding: MediaQuery.of(context).viewInsets,
+                duration: const Duration(milliseconds: 100),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).extension<AppColors>()?.loginBackground,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: SafeArea(
+                        top: false,
+                        bottom: true,
+                        child: const AccountManagerWidget(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          );
         },
       );
     } catch (e) {
