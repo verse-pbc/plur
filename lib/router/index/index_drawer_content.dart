@@ -93,8 +93,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF2E4052), // Base color
-              Color(0xFF253444), // Darker shade for subtle gradient
+              Color(0xFF9ECCC3), // Light tealish color
+              Color(0xFFB8D0CE), // Silver-ish color
             ],
           ),
           borderRadius: BorderRadius.circular(8), // 8pt rounded corners
@@ -119,8 +119,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF2E4052), // Base color
-              Color(0xFF253444), // Darker shade for subtle gradient
+              Color(0xFF9ECCC3), // Light tealish color
+              Color(0xFFB8D0CE), // Silver-ish color
             ],
           ),
           borderRadius: BorderRadius.circular(8), // 8pt rounded corners
