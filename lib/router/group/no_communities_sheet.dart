@@ -24,10 +24,50 @@ class NoCommunitiesSheet extends StatefulWidget {
       isDismissible: false,
       enableDrag: false,
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
-      constraints: const BoxConstraints(
-        maxWidth: double.infinity,
-      ),
-      builder: (_) => const NoCommunitiesSheetWrapper(),
+      builder: (BuildContext context) {
+        // Get responsive width values - exactly from login sheet
+        var screenWidth = MediaQuery.of(context).size.width;
+        bool isTablet = screenWidth >= 600;
+        bool isDesktop = screenWidth >= 900;
+        double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
+        
+        return PopScope(
+          canPop: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Transparent area above sheet (same as login sheet)
+              Container(
+                color: Colors.transparent,
+                height: 100,  // Touch area above sheet
+              ),
+              AnimatedPadding(
+                padding: MediaQuery.of(context).viewInsets,
+                duration: const Duration(milliseconds: 100),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: context.colors.loginBackground,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(24),
+                          topRight: Radius.circular(24),
+                        ),
+                      ),
+                      child: const SafeArea(
+                        top: false,
+                        bottom: true,
+                        child: NoCommunitiesSheet(),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
   
@@ -441,28 +481,3 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
   }
 }
 
-/// Wrapper widget for the NoCommunitiesSheet to ensure full-width display
-class NoCommunitiesSheetWrapper extends StatelessWidget {
-  const NoCommunitiesSheetWrapper({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    
-    return Container(
-      width: screenWidth,
-      decoration: BoxDecoration(
-        color: context.colors.loginBackground,
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(24),
-          topRight: Radius.circular(24),
-        ),
-      ),
-      child: const SafeArea(
-        top: false,
-        bottom: true,
-        child: NoCommunitiesSheet(),
-      ),
-    );
-  }
-}
