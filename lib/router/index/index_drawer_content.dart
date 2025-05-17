@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/component/user/user_top_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/image_widget.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -173,44 +172,90 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
             // User info below the cover photo
             Padding(
               padding: const EdgeInsets.all(Base.basePadding),
-              child: Stack(
-                children: [
-                  legacy_provider.Selector<UserProvider, User?>(
-                    builder: (context, user, child) {
-                      return UserTopWidget(
-                        pubkey: pubkey,
-                        user: user,
-                        isLocal: true,
-                        jumpable: true,
-                      );
-                    },
-                    selector: (_, provider) {
-                      return provider.getUser(pubkey);
-                    },
-                  ),
-                  if (!_readOnly)
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        height: _profileEditBtnWidth,
-                        width: _profileEditBtnWidth,
-                        decoration: BoxDecoration(
-                          color: loginBackground,
-                          borderRadius: BorderRadius.circular(
-                            _profileEditBtnWidth / 2,
+              child: legacy_provider.Selector<UserProvider, User?>(
+                builder: (context, user, child) {
+                  String displayName = '';
+                  if (user != null) {
+                    if (user.displayName != null && user.displayName!.isNotEmpty) {
+                      displayName = user.displayName!;
+                    } else if (user.name != null && user.name!.isNotEmpty) {
+                      displayName = user.name!;
+                    } else {
+                      // Fallback to shortened pubkey
+                      displayName = '${pubkey.substring(0, 8)}...';
+                    }
+                  }
+                  String? nip05 = user?.nip05;
+                  
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // User avatar
+                          UserPicWidget(
+                            pubkey: pubkey,
+                            width: 80,
+                            user: user,
                           ),
-                        ),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.edit_square,
-                            color: mainColor,
+                          const SizedBox(width: Base.basePadding),
+                          // User name and info
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  displayName,
+                                  style: TextStyle(
+                                    fontFamily: 'SF Pro Rounded',
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDarkMode ? Colors.white : Colors.black,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                if (nip05 != null)
+                                  Text(
+                                    nip05,
+                                    style: TextStyle(
+                                      fontFamily: 'SF Pro Rounded',
+                                      fontSize: 14,
+                                      color: isDarkMode ? Colors.white70 : Colors.black54,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                              ],
+                            ),
                           ),
-                          onPressed: _jumpToProfileEdit,
-                        ),
+                          if (!_readOnly)
+                            Container(
+                              height: _profileEditBtnWidth,
+                              width: _profileEditBtnWidth,
+                              decoration: BoxDecoration(
+                                color: loginBackground,
+                                borderRadius: BorderRadius.circular(
+                                  _profileEditBtnWidth / 2,
+                                ),
+                              ),
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.edit_square,
+                                  color: mainColor,
+                                ),
+                                onPressed: _jumpToProfileEdit,
+                              ),
+                            ),
+                        ],
                       ),
-                    ),
-                ],
+                    ],
+                  );
+                },
+                selector: (_, provider) {
+                  return provider.getUser(pubkey);
+                },
               ),
             ),
           ],
