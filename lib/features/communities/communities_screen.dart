@@ -328,25 +328,40 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
               AnimatedPadding(
                 padding: MediaQuery.of(sheetContext).viewInsets,
                 duration: const Duration(milliseconds: 100),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: sheetMaxWidth),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: sheetContext.colors.loginBackground,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24),
+                child: isDesktop || isTablet
+                    ? Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: sheetContext.colors.loginBackground,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24),
+                              ),
+                            ),
+                            child: const SafeArea(
+                              top: false,
+                              bottom: true,
+                              child: NoCommunitiesSheet(),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        decoration: BoxDecoration(
+                          color: sheetContext.colors.loginBackground,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(24),
+                            topRight: Radius.circular(24),
+                          ),
+                        ),
+                        child: const SafeArea(
+                          top: false,
+                          bottom: true,
+                          child: NoCommunitiesSheet(),
                         ),
                       ),
-                      child: const SafeArea(
-                        top: false,
-                        bottom: true,
-                        child: NoCommunitiesSheet(),
-                      ),
-                    ),
-                  ),
-                ),
               ),
             ],
           ),
