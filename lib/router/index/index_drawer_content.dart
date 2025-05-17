@@ -74,12 +74,28 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
     _readOnly = nostr!.isReadOnly();
 
-    // Add user profile picture or metadata display based on smallMode
+    // Create sideMenuHeader container with gradient background
+    Widget sideMenuHeader;
+    
     if (widget.smallMode) {
-      list.add(Container(
+      sideMenuHeader = Container(
         margin: EdgeInsets.only(
-          top: Base.basePadding + paddingTop,
+          top: 24 + paddingTop, // 24pt separation from top
+          left: 24, // 24pt separation from left
+          right: 24, // 24pt separation from right
           bottom: Base.basePaddingHalf,
+        ),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF9ECCC3), // Light tealish color
+              Color(0xFFB8D0CE), // Silver-ish color
+            ],
+          ),
+          borderRadius: BorderRadius.circular(6), // 6pt rounded corners
         ),
         child: GestureDetector(
           onTap: () {
@@ -87,47 +103,68 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           },
           child: UserPicWidget(pubkey: pubkey, width: 50),
         ),
-      ));
+      );
     } else {
-      list.add(Stack(children: [
-        legacy_provider.Selector<UserProvider, User?>(
-          builder: (context, user, child) {
-            return UserTopWidget(
-              pubkey: pubkey,
-              user: user,
-              isLocal: true,
-              jumpable: true,
-            );
-          },
-          selector: (_, provider) {
-            return provider.getUser(pubkey);
-          },
+      sideMenuHeader = Container(
+        margin: EdgeInsets.only(
+          top: 24 + paddingTop, // 24pt separation from top
+          left: 24, // 24pt separation from left
+          right: 24, // 24pt separation from right
+          bottom: Base.basePaddingHalf,
         ),
-        Positioned(
-          top: paddingTop + Base.basePaddingHalf,
-          right: Base.basePadding,
-          child: _readOnly
-              ? Container()
-              : Container(
-                  height: _profileEditBtnWidth,
-                  width: _profileEditBtnWidth,
-                  decoration: BoxDecoration(
-                    color: loginBackground,
-                    borderRadius: BorderRadius.circular(
-                      _profileEditBtnWidth / 2,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF9ECCC3), // Light tealish color
+              Color(0xFFB8D0CE), // Silver-ish color
+            ],
+          ),
+          borderRadius: BorderRadius.circular(6), // 6pt rounded corners
+        ),
+        child: Stack(children: [
+          legacy_provider.Selector<UserProvider, User?>(
+            builder: (context, user, child) {
+              return UserTopWidget(
+                pubkey: pubkey,
+                user: user,
+                isLocal: true,
+                jumpable: true,
+              );
+            },
+            selector: (_, provider) {
+              return provider.getUser(pubkey);
+            },
+          ),
+          Positioned(
+            top: Base.basePaddingHalf,
+            right: Base.basePadding,
+            child: _readOnly
+                ? Container()
+                : Container(
+                    height: _profileEditBtnWidth,
+                    width: _profileEditBtnWidth,
+                    decoration: BoxDecoration(
+                      color: loginBackground,
+                      borderRadius: BorderRadius.circular(
+                        _profileEditBtnWidth / 2,
+                      ),
+                    ),
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.edit_square,
+                        color: mainColor,
+                      ),
+                      onPressed: _jumpToProfileEdit,
                     ),
                   ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.edit_square,
-                      color: mainColor,
-                    ),
-                    onPressed: _jumpToProfileEdit,
-                  ),
-                ),
-        ),
-      ]));
+          ),
+        ]),
+      );
     }
+    
+    list.add(sideMenuHeader);
 
     List<Widget> centerList = [];
 
