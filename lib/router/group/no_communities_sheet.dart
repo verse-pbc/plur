@@ -81,21 +81,12 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
     
     developer.log("Showing NoCommunitiesSheet", name: "NoCommunitiesSheet");
 
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(24),
-        topRight: Radius.circular(24),
-      ),
-      child: Container(
-        color: context.colors.loginBackground,
-        child: SafeArea(
-          bottom: true,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
                 // Image section first
                 Container(
                   width: 80,
@@ -285,10 +276,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                     ],
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+        ],
       ),
     );
   }
