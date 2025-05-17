@@ -66,8 +66,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     var paddingTop = mediaDataCache.padding.top;
     final themeData = Theme.of(context);
     var mainColor = themeData.primaryColor;
-    var cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final loginBackground = appColors.loginBackground;
     List<Widget> list = [];
 
     _readOnly = nostr!.isReadOnly();
@@ -110,13 +110,16 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   height: _profileEditBtnWidth,
                   width: _profileEditBtnWidth,
                   decoration: BoxDecoration(
-                    color: cardColor,
+                    color: loginBackground,
                     borderRadius: BorderRadius.circular(
                       _profileEditBtnWidth / 2,
                     ),
                   ),
                   child: IconButton(
-                    icon: const Icon(Icons.edit_square),
+                    icon: Icon(
+                      Icons.edit_square,
+                      color: mainColor,
+                    ),
                     onPressed: _jumpToProfileEdit,
                   ),
                 ),
@@ -247,7 +250,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         "" => version,
         var buildNumber => "$version ($buildNumber)",
       };
-      Widget versionWidget = Text("${localization.version}: $versionText");
+      Widget versionWidget = Text(
+        "${localization.version}: $versionText",
+        style: TextStyle(
+          color: mainColor,
+          fontSize: 14,
+        ),
+      );
       if (TableModeUtil.isTableMode()) {
         // Add a button to enter small mode.
         List<Widget> subList = [];
@@ -256,7 +265,10 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           behavior: HitTestBehavior.translucent,
           child: Container(
             margin: const EdgeInsets.only(right: Base.basePadding),
-            child: const Icon(Icons.first_page_rounded),
+            child: Icon(
+              Icons.first_page_rounded,
+              color: mainColor,
+            ),
           ),
         ));
         // Place the app version at the right side.
@@ -274,7 +286,12 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           top: Base.basePadding,
         ),
         decoration: BoxDecoration(
-          border: Border(top: BorderSide(width: 1, color: hintColor)),
+          border: Border(
+            top: BorderSide(
+              width: 1,
+              color: mainColor.withValues(alpha: 0.2),
+            ),
+          ),
         ),
         alignment: Alignment.centerLeft,
         child: versionWidget,
@@ -282,7 +299,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     }
 
     return Container(
-      color: themeData.cardColor,
+      color: loginBackground,
       margin:
           TableModeUtil.isTableMode() ? const EdgeInsets.only(right: 1) : null,
       child: Column(
@@ -307,7 +324,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
   /// Displays the account manager modal bottom sheet.
   void _showBasicModalBottomSheet(BuildContext context) async {
-    print('DEBUG: _showBasicModalBottomSheet called');
     try {
       await showModalBottomSheet(
         context: context,
@@ -349,10 +365,10 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                           topRight: Radius.circular(24),
                         ),
                       ),
-                      child: SafeArea(
+                      child: const SafeArea(
                         top: false,
                         bottom: true,
-                        child: const AccountManagerWidget(),
+                        child: AccountManagerWidget(),
                       ),
                     ),
                   ),
@@ -363,7 +379,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         },
       );
     } catch (e) {
-      print('ERROR showing modal: $e');
+      // Handle the error gracefully
     }
   }
 
@@ -416,10 +432,16 @@ class IndexDrawerItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = Theme.of(context);
+    final primaryColor = themeData.primaryColor;
+    
+    // Use color parameter if provided, otherwise use primary color
+    final itemColor = color ?? primaryColor;
+    
     // The icon widget
     Widget iconWidget = Icon(
       iconData,
-      color: color,
+      color: itemColor,
     );
 
     Widget mainWidget;
@@ -450,7 +472,11 @@ class IndexDrawerItemWidget extends StatelessWidget {
             Expanded(
               child: Text(
                 name,
-                style: TextStyle(color: color),
+                style: TextStyle(
+                  color: itemColor,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
