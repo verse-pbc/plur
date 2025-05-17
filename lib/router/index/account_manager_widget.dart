@@ -345,11 +345,13 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
         user: user,
       ));
 
-      list.add(Container(
-        margin: const EdgeInsets.only(left: 5, right: 5),
-        child: NameWidget(
-          pubkey: pubkey,
-          user: user,
+      list.add(Flexible(
+        child: Container(
+          margin: const EdgeInsets.only(left: 5, right: 5),
+          child: NameWidget(
+            pubkey: pubkey,
+            user: user,
+          ),
         ),
       ));
 
@@ -371,10 +373,6 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
           ),
         ));
       }
-      
-      list.add(Expanded(
-        child: Container(),
-      ));
 
       return GestureDetector(
         onTap: onTap,
