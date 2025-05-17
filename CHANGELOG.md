@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Release Notes
 - Updated app icons and launch images with the Holis logo for iOS
+- Fixed iOS build process by removing Sentry SDK completely
+- Simplified iOS project configuration for better maintainability
+- Updated iOS deployment target to iOS 18.0
+- Organized build scripts into a backup directory for reference
 
 ### Internal Changes
 - Implemented comprehensive structured logging system:
