@@ -52,7 +52,7 @@ class AgeVerificationStep extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'SF Pro Rounded',
-                  color: colors.highlightText,
+                  color: colors.buttonText,  // Use buttonText which is white in dark mode
                   fontSize: 32,
                   fontWeight: FontWeight.w700,
                   height: 1.2,
@@ -130,7 +130,7 @@ class AgeVerificationStep extends StatelessWidget {
                               localization.no,
                               style: TextStyle(
                                 fontFamily: 'SF Pro Rounded',
-                                color: colors.highlightText,
+                                color: colors.buttonText,  // Use buttonText for consistency
                                 fontSize: 18,
                                 fontWeight: FontWeight.w600,
                                 letterSpacing: 0.2,
