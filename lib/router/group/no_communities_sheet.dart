@@ -15,6 +15,22 @@ class NoCommunitiesSheet extends StatefulWidget {
   /// If forceShow is true, this dialog will be shown even if the user dismissed it before
   final bool forceShow;
   
+  /// Show the sheet as a modal bottom sheet
+  static void show(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      isDismissible: false,
+      enableDrag: false,
+      barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      constraints: const BoxConstraints(
+        maxWidth: double.infinity,
+      ),
+      builder: (_) => const NoCommunitiesSheetWrapper(),
+    );
+  }
+  
   const NoCommunitiesSheet({
     super.key, 
     this.forceShow = false,
@@ -421,6 +437,32 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
           ],
         );
       },
+    );
+  }
+}
+
+/// Wrapper widget for the NoCommunitiesSheet to ensure full-width display
+class NoCommunitiesSheetWrapper extends StatelessWidget {
+  const NoCommunitiesSheetWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    
+    return Container(
+      width: screenWidth,
+      decoration: BoxDecoration(
+        color: context.colors.loginBackground,
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(24),
+          topRight: Radius.circular(24),
+        ),
+      ),
+      child: const SafeArea(
+        top: false,
+        bottom: true,
+        child: NoCommunitiesSheet(),
+      ),
     );
   }
 }

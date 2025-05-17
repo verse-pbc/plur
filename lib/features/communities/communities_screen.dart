@@ -306,54 +306,11 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     
     _isSheetShowing = true;
     
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      isDismissible: false,
-      enableDrag: false,
-      barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
-      builder: (BuildContext context) {
-        // Get responsive width values - exact structure from login sheet
-        var screenWidth = MediaQuery.of(context).size.width;
-        bool isTablet = screenWidth >= 600;
-        bool isDesktop = screenWidth >= 900;
-        double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
-        
-        return PopScope(
-          canPop: false,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AnimatedPadding(
-                padding: MediaQuery.of(context).viewInsets,
-                duration: const Duration(milliseconds: 100),
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: sheetMaxWidth),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: context.colors.loginBackground,
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(24),
-                          topRight: Radius.circular(24),
-                        ),
-                      ),
-                      child: const SafeArea(
-                        top: false,
-                        bottom: true,
-                        child: NoCommunitiesSheet(),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    ).then((_) {
-      // Reset flags when sheet is closed (if it ever closes)
+    NoCommunitiesSheet.show(context);
+    
+    // Since the sheet is non-dismissible, we'll reset flags when navigation changes
+    // or when user successfully creates/joins a community
+    Future.delayed(const Duration(milliseconds: 100), () {
       _isSheetShowing = false;
       _hasShownNoCommunitiesSheet = false;
     });
