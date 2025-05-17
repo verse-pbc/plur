@@ -79,7 +79,7 @@ Testing should be comprehensive across all platforms:
    - Test with large numbers of posts and users
 
 # Subtasks:
-## 1. Implement content reporting for posts and comments [in-progress]
+## 1. Implement content reporting for posts and comments [done]
 ### Dependencies: None
 ### Description: Allow users to report inappropriate or abusive posts and comments in NIP-29 groups. Publish a Nostr event (e.g., kind 10030 or similar) to signal a report, including the event ID, reason, and reporter's pubkey. Ensure UI/UX is clear and meets Apple App Store requirements for user safety and abuse reporting.
 ### Details:
@@ -121,7 +121,7 @@ Note: This initial implementation focuses solely on the user interface component
 ### Details:
 
 
-## 3. Implement post removal by group admins via NIP-29 moderation events [pending]
+## 3. Implement post removal by group admins via NIP-29 moderation events [done]
 ### Dependencies: None
 ### Description: Enable group admins to remove posts by publishing a NIP-29-compliant moderation event to the group relay(s). Clients must interpret these events and hide the referenced post in the group feed, showing a placeholder message. Only admins (as defined in group metadata) can perform this action.
 ### Details:
@@ -390,4 +390,304 @@ The moderation audit log will track and store all moderation actions, providing 
 - Support retrieving historical logs efficiently
 - Design the UI to be intuitive for non-technical community organizers
 - Consider ethical implications of storing sensitive moderation data
+
+## 10. Extend Moderation System to Support Multiple Content Types [pending]
+### Dependencies: None
+### Description: Expand the current post moderation system to allow reporting and moderation of other content types including asks/offers, responses, and events. This will provide community organizers with comprehensive moderation tools across all content types.
+### Details:
+## Implementation Details:
+1. Update the report service to support different content types:
+   - Add a `content_type` tag to report events (post, ask, offer, response, event)
+   - Modify report creation to include content type
+   - Update report filtering to allow filtering by content type
+
+2. Enhance the Report Management screen:
+   - Add content type filter dropdown
+   - Update the UI to display appropriate context based on content type
+   - Create specialized preview/context viewers for each content type
+   - Show type-specific icons/indicators in the report list
+
+3. Extend moderation actions for asks/offers:
+   - Implement `removeAsk` and `removeOffer` methods in the GroupProvider
+   - Create NIP29-compatible moderation events for non-post content
+   - Update the moderation service to track all moderated content types
+
+4. Extend moderation actions for events:
+   - Implement `removeEvent` functionality in the event provider
+   - Add ability to view event details in report context
+   - Add option to hide/remove event from listings
+
+5. Implement report context viewing for different content types:
+   - Create specialized context viewers for asks/offers
+   - Create specialized context viewers for events
+   - Ensure proper navigation to content details based on type
+
+6. Update user-facing report dialog:
+   - Add content type detection
+   - Modify reporting UI to be context-aware based on what's being reported
+
+## Test Strategy:
+1. Create test fixtures for each content type (posts, asks, offers, events)
+2. Test report creation for each content type
+3. Verify reports appear correctly in the Report Management screen
+4. Test filtering by content type
+5. Verify moderation actions work correctly for each content type
+6. Test real-time updates when content is moderated
+7. Verify placeholders appear for moderated content in appropriate lists/feeds
+
+## 11. Extend Moderation System to Support Multiple Content Types [pending]
+### Dependencies: None
+### Description: Expand the current post moderation system to allow reporting and moderation of other content types including asks/offers, responses, and events. This will provide community organizers with comprehensive moderation tools across all content types.
+### Details:
+**Implementation Details:**
+1. Update the report service to support different content types:
+   - Add a `content_type` tag to report events (post, ask, offer, response, event)
+   - Modify report creation to include content type
+   - Update report filtering to allow filtering by content type
+
+2. Enhance the Report Management screen:
+   - Add content type filter dropdown
+   - Update the UI to display appropriate context based on content type
+   - Create specialized preview/context viewers for each content type
+   - Show type-specific icons/indicators in the report list
+
+3. Extend moderation actions for asks/offers:
+   - Implement `removeAsk` and `removeOffer` methods in the GroupProvider
+   - Create NIP29-compatible moderation events for non-post content
+   - Update the moderation service to track all moderated content types
+
+4. Extend moderation actions for events:
+   - Implement `removeEvent` functionality in the event provider
+   - Add ability to view event details in report context
+   - Add option to hide/remove event from listings
+
+5. Implement report context viewing for different content types:
+   - Create specialized context viewers for asks/offers
+   - Create specialized context viewers for events
+   - Ensure proper navigation to content details based on type
+
+6. Update user-facing report dialog:
+   - Add content type detection
+   - Modify reporting UI to be context-aware based on what's being reported
+
+**Test Strategy:**
+1. Create test fixtures for each content type (posts, asks, offers, events)
+2. Test report creation for each content type
+3. Verify reports appear correctly in the Report Management screen
+4. Test filtering by content type
+5. Verify moderation actions work correctly for each content type
+6. Test real-time updates when content is moderated
+7. Verify placeholders appear for moderated content in appropriate lists/feeds
+
+## 12. Implement detailed group user removal and ban system [pending]
+### Dependencies: None
+### Description: Create a comprehensive system for removing and banning users from groups through NIP-29 moderation events. The system should support both temporary and permanent bans with clear UI for admins and appropriate messaging for banned users.
+### Details:
+## Group User Removal/Ban System Implementation
+
+### Core Functionality
+1. **Ban Types Implementation:**
+   - Implement permanent ban (remove user completely)
+   - Implement temporary ban with configurable duration
+   - Create proper NIP-29 moderation events with correct tags:
+     - 'h' tag: group ID
+     - 'p' tag: pubkey of banned user
+     - 'action' tag: value 'remove'
+     - 'type' tag: value 'user'
+     - 'reason' tag: ban reason
+     - 'duration' tag: ban duration in seconds (optional for temporary bans)
+
+2. **Admin UI for User Removal:**
+   - Add "Remove from Group" option in user profile context menu for admins
+   - Create ban confirmation dialog with:
+     - Ban type selection (permanent/temporary)
+     - Duration selector for temporary bans
+     - Reason field (required)
+     - Warning about consequences
+     - Cancel/Confirm buttons
+   - Add user search/browse capability in admin panel to find users to moderate
+   - Implement bulk action capability for spam/raid scenarios
+
+3. **Ban Enforcement:**
+   - Prevent banned users from posting to group
+   - Filter out content from banned users in group feeds
+   - Block access to group content for banned users
+   - Display appropriate messaging when banned users attempt group actions
+   - Show ban duration for temporary bans
+
+4. **Ban Management:**
+   - Create ban list view in admin panel
+   - Allow admins to revoke bans before expiration
+   - Implement ban modification (changing duration/reason)
+   - Add automatic unbanning when temporary bans expire
+   - Create ban history for users
+
+5. **Notifications:**
+   - Notify users when they are banned from a group
+   - Notify admins when another admin bans a user
+   - Send notifications when temporary bans expire
+
+### Technical Implementation
+1. **Data Architecture:**
+   - Define ban event structure (NIP-29 compliant)
+   - Create local storage for tracking banned users
+   - Implement ban duration tracking mechanism
+   - Design ban revocation event structure
+
+2. **Integration Points:**
+   - Add ban checks in post creation flow
+   - Modify feed filters to exclude banned users
+   - Add context to user profiles showing ban status to admins
+   - Integrate with audit logging system
+
+3. **Performance Considerations:**
+   - Optimize ban list for quick lookups
+   - Cache ban information for frequent group operations
+   - Handle synchronization across multiple devices
+
+### Testing Strategy
+1. **Functional Testing:**
+   - Verify ban event creation and proper relay publication
+   - Test both permanent and temporary ban functions
+   - Verify ban expiration works correctly
+   - Test ban revocation functionality
+   - Verify banned users cannot post to group
+
+2. **UX Testing:**
+   - Ensure admin UI is intuitive and requires confirmation
+   - Verify appropriate messaging for banned users
+   - Test accessibility of ban flows
+   - Validate error handling for edge cases
+
+3. **Security Testing:**
+   - Verify only admins can ban users
+   - Test against ban evasion techniques
+   - Ensure banned user data is handled properly
+   - Validate relay authentication for ban events
+
+4. **Integration Testing:**
+   - Test ban functionality with group messaging
+   - Verify interaction with reporting system
+   - Test across multiple clients and implementations
+   - Validate offline/sync behavior
+
+## 13. Implement moderation notification DMs for users [pending]
+### Dependencies: None
+### Description: Create a system that automatically sends direct messages to users when their content is moderated and to reporters when action is taken on their reports. Allow admins to customize notification messages and provide transparent communication about moderation decisions.
+### Details:
+## Moderation Notification DM System
+
+### Core Functionality
+
+1. **DMs to Moderated Users:**
+   - Automatically generate a direct message to users when their content is moderated
+   - Include essential information in the message:
+     - Which content was moderated (with reference to original post ID)
+     - The reason for moderation
+     - Which group/community the content was in
+     - The action taken (removal, edit requirement, etc.)
+     - Any temporary restrictions applied to their account
+   - Allow admins to customize this message with additional context or guidance
+   - Support for adding educational resources or community guidelines links
+
+2. **Admin Message Customization:**
+   - Create an optional text field in the moderation action dialog
+   - Allow admins to add personalized explanations beyond the standard templates
+   - Provide suggested message templates based on violation type
+   - Include preview functionality before sending
+   - Support for saving custom templates for future use
+
+3. **Reporter Notification DMs:**
+   - Send automatic DMs to users who reported content when action is taken
+   - Include information about:
+     - Which report was addressed
+     - The action taken by moderators
+     - A thank you message for helping maintain community standards
+     - Option to appeal or provide additional information if needed
+   - Maintain reporter anonymity to the moderated user
+   - Allow admins to customize these messages as well
+
+4. **Privacy & Control Features:**
+   - Respect user DM preferences and restrictions
+   - Provide admins with confirmation before sending messages
+   - Track delivery status of notification messages
+   - Handle cases where users block DMs or are not available
+   - Maintain audit log of all notification messages sent
+
+### Technical Implementation
+
+1. **DM Generation System:**
+   - Create a moderation notification service to handle message generation
+   - Design standardized message templates with variable substitution
+   - Implement secure signing of DMs using admin keys
+   - Ensure proper relay routing for DM delivery
+
+2. **UI Components:**
+   - Add "Customize notification message" option to moderation action dialogs
+   - Create a message editor with template selection and custom text fields
+   - Add preview functionality to show how messages will appear to recipients
+   - Include character count and formatting tools
+
+3. **Integration Points:**
+   - Hook into existing moderation action flows (post removal, user banning, etc.)
+   - Connect with user profile service to retrieve messaging capabilities
+   - Integrate with moderation audit system to track communications
+   - Link with reporting system to identify reporters needing notification
+
+4. **Performance & Reliability:**
+   - Queue notifications for reliable delivery even with connectivity issues
+   - Implement retry logic for failed deliveries
+   - Optimize message generation for quick moderation actions
+   - Handle high volume scenarios (mass moderation events)
+
+### Privacy & Ethical Considerations
+
+1. **User Privacy Protection:**
+   - Never reveal reporter identity to the moderated user
+   - Protect moderation discussion details from unnecessary exposure
+   - Maintain appropriate boundaries in communications
+   - Follow best practices for sensitive communications
+
+2. **Accessibility & Clarity:**
+   - Ensure notifications are clear and easily understood
+   - Avoid jargon or overly technical language
+   - Provide constructive guidance rather than punitive tone
+   - Make appeals process clear where applicable
+
+### Testing Strategy
+
+1. **Functional Testing:**
+   - Verify DMs are generated with correct information
+   - Test customization features for admin messages
+   - Verify reporter notifications include appropriate details
+   - Test against various moderation scenarios (post removal, user ban, etc.)
+
+2. **UX Testing:**
+   - Evaluate clarity of messages from recipient perspective
+   - Test admin customization workflow for usability
+   - Verify accessibility of message templates and editor
+   - Test on various device types and screen sizes
+
+3. **Integration Testing:**
+   - Validate proper integration with moderation action flows
+   - Test interaction with reporting system
+   - Verify audit logging captures notification activities
+   - Test offline/sync behavior for queued notifications
+
+4. **Security Testing:**
+   - Verify proper signing and encryption of DMs
+   - Test privacy controls for reporter anonymity
+   - Validate against message spoofing attempts
+   - Test proper permissions for notification sending
+
+### Implementation Plan
+
+1. Design message templates for different moderation scenarios
+2. Implement notification service with templating system
+3. Create UI components for admin message customization
+4. Integrate with existing moderation flows
+5. Add reporter notification logic
+6. Implement delivery tracking and audit logging
+7. Test thoroughly across different scenarios
+8. Deploy with monitoring for message delivery success rates
 

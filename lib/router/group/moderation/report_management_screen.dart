@@ -34,6 +34,11 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   List<GroupIdentifier> _adminGroups = [];
   List<ReportItem> _reports = [];
   bool _showDismissed = false;
+  String _selectedReportType = 'All';
+  String _selectedSortOption = 'Newest';
+  
+  static const List<String> reportTypes = ['All', 'Content', 'User'];
+  static const List<String> sortOptions = ['Newest', 'Oldest', 'Most Reported'];
 
   @override
   void initState() {
@@ -43,32 +48,26 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
         null, null, LogCategory.groups);
     _fetchAdminGroups();
     
-    // Subscribe to report updates
     logger.w("REPORT DEBUG: Adding listener for report updates", null, null, LogCategory.groups);
     reportService.addListener(_onReportsUpdated);
     
-    // If we have a specific group from the context, subscribe directly to its reports
-    // instead of trying to find "admin groups"
     if (widget.selectedGroup != null) {
       logger.w("REPORT DEBUG: Directly subscribing to reports for selected group: ${widget.selectedGroup!.groupId}", 
           null, null, LogCategory.groups);
       reportService.subscribeToGroupReports(widget.selectedGroup!);
     } else {
-      // Try to get group from context
       try {
         final groupFromContext = context.read<GroupIdentifier>();
         logger.w("REPORT DEBUG: Found group in context, subscribing: ${groupFromContext.groupId}", 
             null, null, LogCategory.groups);
         reportService.subscribeToGroupReports(groupFromContext);
         
-        // We already have a group, so no need to search for more
         return;
       } catch (e) {
         logger.w("REPORT DEBUG: No group in context, falling back to admin groups method", 
             null, null, LogCategory.groups);
       }
       
-      // Fall back to the old method if no specific group was provided
       logger.w("REPORT DEBUG: Calling legacy subscribeToAdminGroupReports as fallback", null, null, LogCategory.groups);
       reportService.subscribeToAdminGroupReports();
     }
@@ -100,16 +99,13 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       if (myPubkey != null) {
         logger.i("_fetchAdminGroups for user: ${myPubkey.substring(0, 8)}...", null, null, LogCategory.groups);
         
-        // First check if we have a specific group from context
         GroupIdentifier? groupFromContext;
         bool isAdminOfContextGroup = false;
         
         try {
           groupFromContext = context.read<GroupIdentifier>();
-          // Log the current context group
           logger.i("Context group: ${groupFromContext.toString()}", null, null, LogCategory.groups);
           
-          // Check internal data structure
           final key = groupFromContext.toString();
           final admins = groupProvider.groupAdmins[key];
           if (admins != null) {
@@ -120,21 +116,16 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
             logger.w("No admin data found for group: $key", null, null, LogCategory.groups);
           }
           
-          // Use direct isAdmin check for current group
           isAdminOfContextGroup = groupProvider.isAdmin(myPubkey, groupFromContext);
           logger.i("groupProvider.isAdmin result: $isAdminOfContextGroup", null, null, LogCategory.groups);
         } catch (e, st) {
-          // No group in context, that's ok
           logger.w("No group in context or error reading it: $e", st, null, LogCategory.groups);
         }
         
-        // Get all groups the user is an admin of using getAdminGroups
         logger.i("Calling getAdminGroups...", null, null, LogCategory.groups);
         final adminGroups = groupProvider.getAdminGroups(myPubkey);
         logger.i("getAdminGroups returned ${adminGroups.length} groups", null, null, LogCategory.groups);
         
-        // If user is admin of the context group but it's not in adminGroups,
-        // add it manually (this handles cases where the cache might be incomplete)
         if (isAdminOfContextGroup && groupFromContext != null && 
             !adminGroups.contains(groupFromContext)) {
           adminGroups.add(groupFromContext);
@@ -146,11 +137,9 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
             _adminGroups = adminGroups;
             _loading = false;
             
-            // If we have a context group and user is admin, use it
             if (groupFromContext != null && isAdminOfContextGroup) {
               _selectedGroup = groupFromContext;
             } 
-            // Otherwise, if no group is selected and we have admin groups, select the first one
             else if (_selectedGroup == null && adminGroups.isNotEmpty) {
               _selectedGroup = adminGroups.first;
             }
@@ -177,43 +166,88 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   
   void _updateReportsList() {
     if (_selectedGroup != null) {
-      // Get reports for the selected group
       logger.w("REPORT DEBUG: Getting reports for group: ${_selectedGroup!.groupId}", null, null, LogCategory.groups);
       final reports = reportService.getGroupReports(_selectedGroup!.groupId);
       logger.w("REPORT DEBUG: Found ${reports.length} reports for group ${_selectedGroup!.groupId}", null, null, LogCategory.groups);
       
-      // Filter out dismissed reports if needed
       List<ReportItem> filteredReports = _showDismissed 
           ? reports 
           : reports.where((report) => !report.dismissed).toList();
       
-      logger.w("REPORT DEBUG: After filtering dismissed: ${filteredReports.length} reports", null, null, LogCategory.groups);
+      if (_selectedReportType != 'All') {
+        filteredReports = filteredReports.where((report) {
+          if (_selectedReportType == 'Content') {
+            return report.reportedEventId != null;
+          } else if (_selectedReportType == 'User') {
+            return report.reportedPubkey != null && report.reportedEventId == null;
+          }
+          return true;
+        }).toList();
+      }
       
-      // Sort by date (newest first)
-      filteredReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      logger.w("REPORT DEBUG: After filtering dismissed and type: ${filteredReports.length} reports", null, null, LogCategory.groups);
+      
+      _sortReports(filteredReports);
       
       setState(() {
         _reports = filteredReports;
       });
     } else {
-      // If no group selected, show reports from all admin groups
       logger.w("REPORT DEBUG: Getting all reports across admin groups", null, null, LogCategory.groups);
       final allReports = reportService.getAllReports();
       logger.w("REPORT DEBUG: Found ${allReports.length} total reports across all groups", null, null, LogCategory.groups);
       
-      // Filter out dismissed reports if needed
       List<ReportItem> filteredReports = _showDismissed 
           ? allReports 
           : allReports.where((report) => !report.dismissed).toList();
       
-      logger.w("REPORT DEBUG: After filtering dismissed: ${filteredReports.length} reports", null, null, LogCategory.groups);
+      if (_selectedReportType != 'All') {
+        filteredReports = filteredReports.where((report) {
+          if (_selectedReportType == 'Content') {
+            return report.reportedEventId != null;
+          } else if (_selectedReportType == 'User') {
+            return report.reportedPubkey != null && report.reportedEventId == null;
+          }
+          return true;
+        }).toList();
+      }
       
-      // Sort by date (newest first)
-      filteredReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+      logger.w("REPORT DEBUG: After filtering dismissed and type: ${filteredReports.length} reports", null, null, LogCategory.groups);
+      
+      _sortReports(filteredReports);
       
       setState(() {
         _reports = filteredReports;
       });
+    }
+  }
+  
+  void _sortReports(List<ReportItem> reports) {
+    switch (_selectedSortOption) {
+      case 'Newest':
+        reports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+        break;
+      case 'Oldest':
+        reports.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        break;
+      case 'Most Reported':
+        final reportCounts = <String, int>{};
+        
+        for (final report in reports) {
+          final key = report.reportedEventId ?? report.reportedPubkey ?? '';
+          if (key.isNotEmpty) {
+            reportCounts[key] = (reportCounts[key] ?? 0) + 1;
+          }
+        }
+        
+        reports.sort((a, b) {
+          final keyA = a.reportedEventId ?? a.reportedPubkey ?? '';
+          final keyB = b.reportedEventId ?? b.reportedPubkey ?? '';
+          final countA = reportCounts[keyA] ?? 0;
+          final countB = reportCounts[keyB] ?? 0;
+          return countB.compareTo(countA);
+        });
+        break;
     }
   }
   
@@ -227,7 +261,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   void _dismissReport(ReportItem report) {
     reportService.dismissReport(report.event.id);
     
-    // Update the UI
     setState(() {
       _updateReportsList();
     });
@@ -241,7 +274,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
     
     logger.i("REMOVE DEBUG: Removing post ${report.reportedEventId} from group ${report.groupId}", null, null, LogCategory.groups);
     
-    // Log relay information which is critical
     logger.i("REMOVE DEBUG: Using relay: ${report.relayUrl ?? 'NULL!'}", null, null, LogCategory.groups);
     
     final groupId = _selectedGroup ?? 
@@ -259,7 +291,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
         
         if (success) {
           logger.i("REMOVE DEBUG: Post removal was successful", null, null, LogCategory.groups);
-          // Dismiss the report after successful removal
           _dismissReport(report);
           
           if (mounted) {
@@ -293,7 +324,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       final event = singleEventProvider.getEvent(report.reportedEventId!);
       
       if (event != null) {
-        // Show a bottom sheet with options to view content in different ways
         showModalBottomSheet(
           context: context,
           builder: (BuildContext context) {
@@ -315,7 +345,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                     ),
                   ),
                   
-                  // Preview of the reported content
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
@@ -359,7 +388,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                   
                   const Divider(),
                   
-                  // Option to view just the post
                   ListTile(
                     leading: Icon(Icons.visibility, color: customColors.primaryForegroundColor),
                     title: Text("View individual post", style: themeData.textTheme.bodyMedium),
@@ -369,7 +397,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                     },
                   ),
                   
-                  // Option to view in thread context
                   ListTile(
                     leading: Icon(Icons.forum_outlined, color: customColors.primaryForegroundColor),
                     title: Text("View in conversation thread", style: themeData.textTheme.bodyMedium),
@@ -377,19 +404,15 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                     onTap: () {
                       Navigator.pop(context);
                       
-                      // Check if it's a reply to determine how to show the thread
                       final eventRelation = EventRelation.fromEvent(event);
                       if (eventRelation.rootId != null || eventRelation.replyId != null) {
-                        // It's part of a thread, so show the full thread
                         RouterUtil.router(context, RouterPath.threadDetail, event);
                       } else {
-                        // It's a root post, still show as thread but it will be the root
                         RouterUtil.router(context, RouterPath.threadDetail, event);
                       }
                     },
                   ),
                   
-                  // Option to view user profile
                   ListTile(
                     leading: Icon(Icons.person_outline, color: customColors.primaryForegroundColor),
                     title: Text("View user profile", style: themeData.textTheme.bodyMedium),
@@ -404,8 +427,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
           },
         );
       } else {
-        // If the event is not cached, try to fetch it
-        // Show a loading indicator and error handling
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text("Fetching reported content..."),
@@ -413,10 +434,9 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
           ),
         );
         
-        // Try to fetch the event
         nostr?.query([Filter(ids: [report.reportedEventId!]).toJson()], (event) {
           if (event != null && mounted) {
-            _viewReportedContent(report); // Call this method again now that we have the event
+            _viewReportedContent(report);
           } else if (mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Report content not found")),
@@ -442,21 +462,18 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
     final theme = Theme.of(context);
     final l10n = S.of(context);
     
-    // Try to get the current group context if available
     GroupIdentifier? groupContext;
     bool directAdminCheck = false;
-    bool forceAdmin = widget.selectedGroup != null; // If a specific group was selected, force admin mode
+    bool forceAdmin = widget.selectedGroup != null;
     
     try {
       groupContext = context.read<GroupIdentifier>();
       final myPubkey = nostr?.publicKey;
       if (myPubkey != null) {
-        // Direct admin check for the current group
         directAdminCheck = groupProvider.isAdmin(myPubkey, groupContext);
         logger.i("REPORT SCREEN DIRECT CHECK: isAdmin=$directAdminCheck for group ${groupContext.groupId}", 
           null, null, LogCategory.groups);
           
-        // For debugging only - force admin if coming from admin panel
         if (!directAdminCheck && forceAdmin) {
           logger.w("EMERGENCY WORKAROUND: Admin check failed but forcing admin mode", 
                    null, null, LogCategory.groups);
@@ -464,7 +481,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
         }
       }
     } catch (e) {
-      // No group in context, that's ok
       logger.d('No group found in context: $e', LogCategory.groups);
     }
     
@@ -479,8 +495,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       );
     }
     
-    // Emergency workaround: If a specific group was selected via widget.selectedGroup,
-    // force admin access regardless of what the provider says
     if (forceAdmin && _adminGroups.isEmpty && widget.selectedGroup != null) {
       _adminGroups = [widget.selectedGroup!];
       _selectedGroup = widget.selectedGroup;
@@ -488,25 +502,18 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       logger.w("EMERGENCY WORKAROUND: Forcing admin access for selected group", 
                null, null, LogCategory.groups);
       
-      // Refresh UI with this new info
       _updateReportsList();
     }
     
-    // Check if we have a group context but it's not in admin groups,
-    // but the direct admin check says we should be an admin
     if (!_loading && _adminGroups.isEmpty && groupContext != null && (directAdminCheck || forceAdmin)) {
-      // This is a special case - getAdminGroups failed but direct check shows admin
-      // Let's force add this group to admin groups
       _adminGroups = [groupContext];
       _selectedGroup = groupContext;
       
       logger.i("Admin groups empty but direct check says admin - adding group", null, null, LogCategory.groups);
       
-      // Refresh UI with this new info
       _updateReportsList();
     }
     
-    // If we have a group context but it's not in admin groups and direct check also failed
     if (!_loading && _adminGroups.isEmpty && groupContext != null && !directAdminCheck) {
       return Scaffold(
         appBar: AppBar(
@@ -557,7 +564,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  // Force a refresh of the admin groups
                   _fetchAdminGroups();
                 },
                 child: Text("Refresh"),
@@ -568,7 +574,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       );
     }
     
-    // General case - no admin groups found at all
     if (!_loading && _adminGroups.isEmpty) {
       return Scaffold(
         appBar: AppBar(
@@ -606,7 +611,6 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  // Force a refresh of the admin groups
                   _fetchAdminGroups();
                 },
                 child: Text("Refresh"),
@@ -621,130 +625,182 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       appBar: AppBar(
         title: const Text("Report Management"),
         actions: [
-          // Toggle switch for showing dismissed reports
           IconButton(
             icon: Icon(_showDismissed ? Icons.visibility : Icons.visibility_off),
+            tooltip: _showDismissed ? "Hide dismissed" : "Show dismissed",
             onPressed: () {
               setState(() {
                 _showDismissed = !_showDismissed;
                 _updateReportsList();
               });
             },
-            tooltip: _showDismissed ? "Hide dismissed reports" : "Show dismissed reports",
           ),
         ],
       ),
       body: Column(
         children: [
-          // Group selector dropdown
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                const Icon(Icons.filter_list),
-                const SizedBox(width: 8),
-                Text(
-                  "Filter by community:",
-                  style: theme.textTheme.titleMedium,
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: DropdownButton<GroupIdentifier?>(
-                    isExpanded: true,
-                    value: _selectedGroup,
-                    hint: const Text("All communities"),
-                    onChanged: _handleGroupChange,
-                    items: [
-                      const DropdownMenuItem<GroupIdentifier?>(
-                        value: null,
-                        child: Text("All communities"),
-                      ),
-                      ..._adminGroups.map((group) {
-                        // Get the group metadata for display
-                        final metadata = groupProvider.getMetadata(group);
-                        final name = metadata?.name ?? group.groupId;
-                        
-                        return DropdownMenuItem<GroupIdentifier>(
-                          value: group,
-                          child: Text(
-                            name,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        );
-                      }).toList(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          if (_adminGroups.length > 1) _buildGroupSelector(),
           
-          // Reports list
+          _buildStatisticsSection(),
+          
+          _buildFilterSection(),
+          
           Expanded(
             child: _reports.isEmpty
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.task_alt,
-                          size: 48,
-                          color: theme.hintColor,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          "No reports found",
-                          style: theme.textTheme.titleMedium,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          _showDismissed
-                              ? "There are no reports for this community"
-                              : "There are no active reports for this community",
-                          style: theme.textTheme.bodyMedium,
-                        ),
-                      ],
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: _reports.length,
-                    itemBuilder: (context, index) {
-                      final report = _reports[index];
-                      return _buildReportItem(report, theme);
-                    },
+              ? Center(
+                  child: Text(
+                    "No reports found for this group",
+                    style: theme.textTheme.bodyLarge,
                   ),
+                )
+              : ListView.builder(
+                  itemCount: _reports.length,
+                  itemBuilder: (context, index) => _buildReportItem(_reports[index]),
+                ),
           ),
         ],
       ),
     );
   }
   
-  Widget _buildReportItem(ReportItem report, ThemeData theme) {
+  Widget _buildReportItem(ReportItem report) {
+    final theme = Theme.of(context);
+    final customColors = theme.customColors;
     final reportedEvent = report.reportedEvent;
     final dateFormat = DateFormat('MMM d, yyyy h:mm a');
     final formattedDate = dateFormat.format(report.createdAt);
     
-    // Format report content as needed
     String reportReason = report.reason ?? "No reason provided";
     String reportDetails = report.details ?? "";
     
+    // Determine report severity based on reason
+    Color severityColor;
+    IconData severityIcon;
+    String severityText;
+    
+    if (reportReason.toLowerCase().contains('illegal') || 
+        reportReason.toLowerCase().contains('child') ||
+        reportReason.toLowerCase().contains('abuse')) {
+      severityColor = Colors.red;
+      severityIcon = Icons.error;
+      severityText = "Critical";
+    } else if (reportReason.toLowerCase().contains('spam') || 
+              reportReason.toLowerCase().contains('phishing')) {
+      severityColor = Colors.orange;
+      severityIcon = Icons.warning;
+      severityText = "Medium";
+    } else if (reportReason.toLowerCase().contains('nsfw')) {
+      severityColor = Colors.purple;
+      severityIcon = Icons.visibility_off;
+      severityText = "Content Warning";
+    } else {
+      severityColor = Colors.blue;
+      severityIcon = Icons.flag;
+      severityText = "Standard";
+    }
+    
+    // Determine report type and show appropriate icon
+    IconData typeIcon;
+    String typeText;
+    
+    if (report.reportedEventId != null) {
+      typeIcon = Icons.post_add;
+      typeText = "Content Report";
+    } else if (report.reportedPubkey != null) {
+      typeIcon = Icons.person;
+      typeText = "User Report";
+    } else {
+      typeIcon = Icons.help;
+      typeText = "Other Report";
+    }
+    
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      elevation: 1,
+      color: report.dismissed 
+          ? customColors.cardBgColor.withOpacity(0.7)
+          : customColors.cardBgColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(
+          color: report.dismissed ? Colors.grey.withOpacity(0.3) : theme.dividerColor,
+          width: 1,
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Report header with reporter info and timestamp
+            // Status badges and type indicator
+            Row(
+              children: [
+                // Report type badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(typeIcon, size: 14, color: customColors.primaryForegroundColor),
+                      const SizedBox(width: 4),
+                      Text(typeText, style: theme.textTheme.bodySmall),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                
+                // Severity badge
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: severityColor.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(severityIcon, size: 14, color: severityColor),
+                      const SizedBox(width: 4),
+                      Text(severityText, style: TextStyle(fontSize: 12, color: severityColor)),
+                    ],
+                  ),
+                ),
+                
+                const Spacer(),
+                
+                // Status indicator
+                if (report.dismissed)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Colors.green.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.check_circle, size: 14, color: Colors.green),
+                        const SizedBox(width: 4),
+                        Text("Handled", style: TextStyle(fontSize: 12, color: Colors.green)),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+            
+            const SizedBox(height: 16),
+            
+            // Reporter information
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () => _viewReporterProfile(report),
-                  child: UserPicWidget(
-                    pubkey: report.event.pubkey,
-                    width: 40,
-                  ),
+                UserPicWidget(
+                  pubkey: report.event.pubkey,
+                  width: 40,
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -752,42 +808,37 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          GestureDetector(
-                            onTap: () => _viewReporterProfile(report),
-                            child: Text(
-                              userProvider.getName(report.event.pubkey),
-                              style: GoogleFonts.nunito(
-                                textStyle: theme.textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                          Text(
+                            userProvider.getName(report.event.pubkey),
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
+                          const Spacer(),
                           Text(
-                            formattedDate,
+                            _formatDate(report.createdAt),
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.hintColor,
                             ),
                           ),
                         ],
                       ),
-                      if (report.dismissed)
-                        Container(
-                          margin: const EdgeInsets.only(top: 4),
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "Dismissed",
-                            style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.hintColor,
-                            ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "Reported from ${report.groupId ?? 'unknown group'}",
+                        style: theme.textTheme.bodySmall,
+                      ),
+                      InkWell(
+                        onTap: () => _viewReporterProfile(report),
+                        child: Text(
+                          "View reporter profile",
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: customColors.accentColor,
+                            decoration: TextDecoration.underline,
                           ),
                         ),
+                      ),
                     ],
                   ),
                 ),
@@ -800,18 +851,17 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: theme.dividerColor.withOpacity(0.1),
+                color: customColors.feedBgColor,
                 borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: theme.dividerColor),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Reason: $reportReason",
-                    style: GoogleFonts.nunito(
-                      textStyle: theme.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   if (reportDetails.isNotEmpty) ...[
@@ -825,44 +875,63 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
               ),
             ),
             
-            const SizedBox(height: 16),
+            // Divider between report info and reported content
+            if (reportedEvent != null || report.reportedPubkey != null) ...[
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: Divider(),
+              ),
+              
+              // Reported content section
+              Text(
+                "Reported Content",
+                style: theme.textTheme.titleSmall,
+              ),
+              const SizedBox(height: 8),
+            ],
             
             // Reported content preview (if available)
             if (reportedEvent != null) ...[
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  border: Border.all(color: theme.dividerColor),
+                  color: report.dismissed 
+                      ? customColors.feedBgColor.withOpacity(0.5)
+                      : customColors.feedBgColor,
                   borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: theme.dividerColor),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Report target header (content or user)
+                    // Reported user info
                     Row(
                       children: [
-                        GestureDetector(
-                          onTap: () => _viewReportedUserProfile(report),
-                          child: UserPicWidget(
-                            pubkey: reportedEvent.pubkey,
-                            width: 32,
-                          ),
+                        UserPicWidget(
+                          pubkey: reportedEvent.pubkey,
+                          width: 32,
                         ),
                         const SizedBox(width: 8),
-                        GestureDetector(
+                        Text(
+                          userProvider.getName(reportedEvent.pubkey),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Spacer(),
+                        InkWell(
                           onTap: () => _viewReportedUserProfile(report),
                           child: Text(
-                            userProvider.getName(reportedEvent.pubkey),
-                            style: GoogleFonts.nunito(
-                              textStyle: theme.textTheme.bodyMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                            "View profile",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: customColors.accentColor,
+                              decoration: TextDecoration.underline,
                             ),
                           ),
                         ),
                       ],
                     ),
-                    
                     const SizedBox(height: 8),
                     
                     // Reported content preview
@@ -872,60 +941,401 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
                               ? "${reportedEvent.content.substring(0, 150)}..."
                               : reportedEvent.content
                           : "[No content]",
-                      style: theme.textTheme.bodyMedium,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        decoration: report.dismissed ? TextDecoration.lineThrough : null,
+                        decorationColor: Colors.red.withOpacity(0.5),
+                        color: report.dismissed 
+                            ? theme.textTheme.bodyMedium!.color!.withOpacity(0.7) 
+                            : theme.textTheme.bodyMedium!.color,
+                      ),
                     ),
-                    
-                    // View content buttons
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // View the content with context options
-                        ElevatedButton.icon(
-                          onPressed: () => _viewReportedContent(report),
-                          icon: Icon(Icons.visibility),
-                          label: Text("View Context"),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: theme.primaryColor,
-                            foregroundColor: Colors.white,
+                  ],
+                ),
+              ),
+            ] else if (report.reportedPubkey != null) ...[
+              // If only user is reported, not content
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: customColors.feedBgColor,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: theme.dividerColor),
+                ),
+                child: Row(
+                  children: [
+                    UserPicWidget(
+                      pubkey: report.reportedPubkey!,
+                      width: 40,
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            userProvider.getName(report.reportedPubkey!),
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            "User reported for: $reportReason",
+                            style: theme.textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () => _viewReportedUserProfile(report),
+                      child: const Text("View Profile"),
                     ),
                   ],
                 ),
               ),
             ],
             
-            const SizedBox(height: 16),
-            
             // Action buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (!report.dismissed) ...[
-                  // Dismiss button
-                  OutlinedButton(
-                    onPressed: () => _dismissReport(report),
-                    child: Text("Dismiss"),
-                  ),
-                  const SizedBox(width: 8),
-                  
-                  // Remove content button (only if content is available)
-                  if (report.reportedEventId != null)
-                    ElevatedButton(
-                      onPressed: () => _removeReportedPost(report),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: PlurColors.warningColor,
-                        foregroundColor: Colors.white,
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // View context button
+                  if (report.reportedEventId != null && !report.dismissed)
+                    OutlinedButton.icon(
+                      onPressed: () => _viewReportedContent(report),
+                      icon: const Icon(Icons.visibility, size: 16),
+                      label: const Text("View Context"),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: customColors.primaryForegroundColor,
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        visualDensity: VisualDensity.compact,
                       ),
-                      child: Text("Remove Post"),
+                    ),
+                  
+                  const Spacer(),
+                  
+                  // Action buttons
+                  if (!report.dismissed) ...[
+                    // Dismiss button
+                    OutlinedButton.icon(
+                      onPressed: () => _dismissReport(report),
+                      icon: const Icon(Icons.check, size: 16),
+                      label: const Text("Dismiss"),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: Colors.green,
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        visualDensity: VisualDensity.compact,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    
+                    // Remove content button (only for content reports)
+                    if (report.reportedEventId != null)
+                      ElevatedButton.icon(
+                        onPressed: () => _removeReportedPost(report),
+                        icon: const Icon(Icons.delete, size: 16),
+                        label: const Text("Remove Post"),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          visualDensity: VisualDensity.compact,
+                        ),
+                      ),
+                    
+                    // Ban user button (only for user reports)
+                    if (report.reportedPubkey != null && report.reportedEventId == null)
+                      ElevatedButton.icon(
+                        onPressed: () {
+                          // Ban user functionality will be implemented in subtask 33.12
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("User ban functionality coming soon")),
+                          );
+                        },
+                        icon: const Icon(Icons.block, size: 16),
+                        label: const Text("Ban User"),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red,
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          visualDensity: VisualDensity.compact,
+                        ),
+                      ),
+                  ] else
+                    // For dismissed reports - replace list with single widget
+                    Text(
+                      "This report has been handled",
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.green,
+                        fontStyle: FontStyle.italic,
+                      ),
                     ),
                 ],
-              ],
+              ),
             ),
           ],
         ),
       ),
     );
+  }
+  
+  Widget _buildStatisticsSection() {
+    final theme = Theme.of(context);
+    final customColors = theme.customColors;
+    
+    final totalReports = _reports.length;
+    final activeReports = _reports.where((r) => !r.dismissed).length;
+    final handledReports = totalReports - activeReports;
+    final handlingRate = totalReports > 0 ? (handledReports / totalReports * 100).toStringAsFixed(0) : '0';
+    
+    final mostRecentDate = _reports.isNotEmpty 
+        ? _reports.map((r) => r.createdAt).reduce((a, b) => a.isAfter(b) ? a : b)
+        : null;
+    
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: customColors.cardBgColor,
+        borderRadius: BorderRadius.circular(8),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 5,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      margin: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Reports Dashboard",
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Group: ${_selectedGroup?.groupId ?? 'All Groups'}",
+                style: theme.textTheme.bodySmall,
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _statCard(
+                "Total Reports",
+                "$totalReports",
+                Icons.flag,
+                customColors.accentColor,
+              ),
+              _statCard(
+                "Active",
+                "$activeReports",
+                Icons.pending_actions,
+                Colors.orange,
+              ),
+              _statCard(
+                "Handled",
+                "$handledReports ($handlingRate%)",
+                Icons.check_circle,
+                Colors.green,
+              ),
+            ],
+          ),
+          if (mostRecentDate != null) ...[
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                "Last report: ${_formatDate(mostRecentDate)}",
+                style: theme.textTheme.bodySmall,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+  
+  Widget _statCard(String title, String value, IconData icon, Color color) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Column(
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, size: 16, color: color),
+              const SizedBox(width: 4),
+              Text(title, style: TextStyle(fontSize: 12, color: color)),
+            ],
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: color,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildFilterSection() {
+    final theme = Theme.of(context);
+    final customColors = theme.customColors;
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text("Filter & Sort", style: theme.textTheme.titleSmall),
+              const Spacer(),
+              TextButton.icon(
+                icon: const Icon(Icons.refresh, size: 16),
+                label: const Text("Refresh"),
+                onPressed: _updateReportsList,
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  visualDensity: VisualDensity.compact,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: customColors.cardBgColor,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: theme.dividerColor),
+                  ),
+                  child: DropdownButton<String>(
+                    value: _selectedReportType,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    isExpanded: true,
+                    underline: const SizedBox(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          _selectedReportType = newValue;
+                          _updateReportsList();
+                        });
+                      }
+                    },
+                    items: reportTypes.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: customColors.cardBgColor,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: theme.dividerColor),
+                  ),
+                  child: DropdownButton<String>(
+                    value: _selectedSortOption,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    isExpanded: true,
+                    underline: const SizedBox(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          _selectedSortOption = newValue;
+                          _updateReportsList();
+                        });
+                      }
+                    },
+                    items: sortOptions.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildGroupSelector() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: DropdownButtonFormField<GroupIdentifier?>(
+        decoration: InputDecoration(
+          labelText: "Select Group",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ),
+        value: _selectedGroup,
+        items: [
+          DropdownMenuItem<GroupIdentifier?>(
+            value: null,
+            child: const Text("All Moderated Groups"),
+          ),
+          ..._adminGroups.map((group) => DropdownMenuItem<GroupIdentifier?>(
+            value: group,
+            child: Text(
+              (() {
+                final metadata = groupProvider.getMetadata(group);
+                return metadata?.name ?? group.groupId;
+              })(),
+            ),
+          )).toList(),
+        ],
+        onChanged: _handleGroupChange,
+      ),
+    );
+  }
+  
+  String _formatDate(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+    
+    if (difference.inSeconds < 60) {
+      return 'Just now';
+    } else if (difference.inMinutes < 60) {
+      return '${difference.inMinutes}m ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours}h ago';
+    } else if (difference.inDays < 30) {
+      return '${difference.inDays}d ago';
+    } else {
+      return DateFormat('MMM d, y').format(date);
+    }
   }
 } 
