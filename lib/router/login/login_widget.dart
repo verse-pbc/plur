@@ -637,6 +637,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       StyledBotToast.show(context, text: S.of(context).inputCanNotBeNull);
       return;
     }
+    
+    // Store whether we're in a modal sheet by checking if Navigator can pop
+    bool wasInSheet = Navigator.of(context).canPop();
 
     if (Nip19.isPubkey(pk) || pk.indexOf("@") > 0) {
       String? pubkey;
@@ -685,6 +688,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   bunkerLink = (nostr!.nostrSigner as NostrRemoteSigner).info.toString();
                 }
                 settingsProvider.addAndChangePrivateKey(bunkerLink, updateUI: false);
+                
+                // Dismiss sheet if we're in one
+                if (wasInSheet && mounted) {
+                  Navigator.of(context).pop();
+                }
                 
                 if (backAfterLogin && mounted) {
                   RouterUtil.back(context);
@@ -758,6 +766,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       nostr = await relayProvider.genNostrWithKey(pk);
     }
 
+    // Dismiss sheet if we're in one
+    if (wasInSheet && mounted) {
+      Navigator.of(context).pop();
+    }
+
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
@@ -771,6 +784,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   }
 
   Future<void> _loginByAndroidSigner() async {
+    // Store whether we're in a modal sheet
+    bool wasInSheet = Navigator.of(context).canPop();
+    
     var androidNostrSigner = AndroidNostrSigner();
     var pubkey = await androidNostrSigner.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -788,6 +804,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(androidNostrSigner);
 
+    // Dismiss sheet if we're in one
+    if (wasInSheet && mounted) {
+      Navigator.of(context).pop();
+    }
+
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
     }
@@ -801,6 +822,9 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   }
 
   Future<void> _loginWithWebSigner() async {
+    // Store whether we're in a modal sheet
+    bool wasInSheet = Navigator.of(context).canPop();
+    
     var signer = NIP07Signer();
     var pubkey = await signer.getPublicKey();
     if (StringUtil.isBlank(pubkey)) {
@@ -814,6 +838,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     var key = "${NIP07Signer.uriPre}:$pubkey";
     settingsProvider.addAndChangePrivateKey(key, updateUI: false);
     nostr = await relayProvider.genNostr(signer);
+
+    // Dismiss sheet if we're in one
+    if (wasInSheet && mounted) {
+      Navigator.of(context).pop();
+    }
 
     if (backAfterLogin && mounted) {
       RouterUtil.back(context);
