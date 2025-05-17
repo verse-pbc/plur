@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:convert';
 
 import '../utils/relay_addr_util.dart';
 
@@ -609,6 +610,11 @@ class RelayPool {
       }
 
       try {
+        if (message[0] == "EVENT") {
+          // Log the full event JSON and relay URL
+          final eventJson = message.length > 1 ? message[1] : null;
+          log("Sending EVENT to relay: \\${relay.url}\\nEvent: \\${jsonEncode(eventJson)}");
+        }
         var result = relay.send(message);
         if (result) {
           hadSubmitSend = true;

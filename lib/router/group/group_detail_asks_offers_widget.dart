@@ -129,7 +129,7 @@ class _GroupDetailAsksOffersWidgetState extends ConsumerState<GroupDetailAsksOff
               if (allListings.isNotEmpty && filteredListings.isEmpty) {
                 // Debug each listing's groupId to see what's wrong
                 for (final listing in allListings) {
-                  debugPrint("Listing: ${listing.title}, GroupId: ${listing.groupId}");
+                  // debugPrint("Listing: \\${listing.title}, GroupId: \\${listing.groupId}");
                 }
               }
               

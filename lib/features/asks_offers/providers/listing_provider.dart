@@ -276,7 +276,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     if (groupId != null && !showAllGroups) {
       debugPrint("Available listings with group info:");
       for (final listing in state.value!) {
-        debugPrint("  Listing: ${listing.title}, GroupId: ${listing.groupId}");
+        // debugPrint("  Listing: \\${listing.title}, GroupId: \\${listing.groupId}");
       }
     }
 
@@ -315,7 +315,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     if (groupId != null && !showAllGroups) {
       debugPrint("Filtered results for groupId=$groupId: ${results.length} listings");
       for (final listing in results) {
-        debugPrint("  Matched listing: ${listing.title}, GroupId: ${listing.groupId}");
+        // debugPrint("  Matched listing: \\${listing.title}, GroupId: \\${listing.groupId}");
       }
     }
     
