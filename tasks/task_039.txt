@@ -1,0 +1,57 @@
+# Task ID: 39
+# Title: Task #39: Enhance Nostr Event Publishing Logging System
+# Status: pending
+# Dependencies: None
+# Priority: medium
+# Description: Implement comprehensive logging functionality for Nostr event publishing that captures and records the complete JSON content of events sent to relays, including all tags and fields, to facilitate debugging and verification of relay communications.
+# Details:
+The implementation should:
+
+1. Identify all code paths where Nostr events are published to relays.
+2. Add logging statements at these points that capture the full JSON representation of the event before transmission.
+3. Ensure the logging includes:
+   - Event ID
+   - Event kind
+   - All tags (complete array)
+   - Content field
+   - Signature
+   - Created_at timestamp
+   - Pubkey
+   - Any other fields present in the event
+4. Use appropriate log levels (e.g., DEBUG for normal operation, INFO for important events).
+5. Format the JSON output in a readable way with proper indentation.
+6. Include the target relay URL in the log entry to track which relay received which event.
+7. Add a unique identifier or correlation ID to each log entry to track the event through the system.
+8. Ensure sensitive information is handled appropriately (consider if any content needs to be redacted).
+9. Implement log rotation or size limits to prevent logs from growing too large due to the verbose JSON content.
+10. Update documentation to reflect the new logging capabilities and how to use them for debugging.
+
+# Test Strategy:
+Testing should verify that:
+
+1. Manual testing:
+   - Publish various types of Nostr events (notes, reactions, reposts, etc.)
+   - Check application logs to confirm each event appears with complete JSON representation
+   - Verify all fields are present and correctly formatted
+   - Test with events containing various tag types and complex content
+
+2. Automated testing:
+   - Create unit tests that mock the logging system and verify logging calls are made with correct parameters
+   - Implement integration tests that publish events and verify log entries contain expected content
+   - Test edge cases like very large events, events with special characters, and events with numerous tags
+
+3. Performance testing:
+   - Measure any performance impact from the additional logging
+   - Verify log file growth rate is acceptable under heavy usage
+
+4. Verification checklist:
+   - All event types are logged
+   - JSON is valid and complete
+   - Relay URL is included in logs
+   - Log entries are properly formatted and readable
+   - Logging doesn't significantly impact application performance
+   - Log rotation/management works correctly with the new verbose logs
+
+5. Debugging verification:
+   - Simulate a real debugging scenario where logs are used to diagnose an issue with event publishing
+   - Confirm the logs provide sufficient information to identify and resolve the problem
