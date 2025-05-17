@@ -4,6 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
+import 'package:nostrmo/component/point_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/data/user.dart';
@@ -13,11 +14,12 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 // Sentry has been removed
 
+import '../../consts/base.dart';
 import '../../data/dm_session_info_db.dart';
 import '../../data/event_db.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
-import '../../theme/app_colors.dart';
+import 'index_drawer_content.dart';
 
 class AccountManagerWidget extends StatefulWidget {
   const AccountManagerWidget({super.key});
@@ -36,166 +38,101 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
     var privateKeyMap = settingsProvider.privateKeyMap;
 
     final themeData = Theme.of(context);
-    final appColors = themeData.extension<AppColors>();
-    var buttonTextColor = appColors?.buttonText ?? themeData.textTheme.bodyMedium!.color!;
-    var secondaryTextColor = appColors?.secondaryText ?? themeData.hintColor;
+    var hintColor = themeData.hintColor;
+    var btnTextColor = themeData.textTheme.bodyMedium!.color;
 
-    // Get screen width for responsive design
-    var screenWidth = MediaQuery.of(context).size.width;
-    bool isDesktop = screenWidth >= 900;
-
-    // Wrapper function for responsive elements
-    Widget wrapResponsive(Widget child) {
-      return Center(
-        child: ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: isDesktop ? 400 : 500),
-          child: child,
+    List<Widget> list = [];
+    list.add(Container(
+      padding: const EdgeInsets.only(
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
+      ),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: 1,
+            color: hintColor,
+          ),
         ),
-      );
+      ),
+      child: IndexDrawerItemWidget(
+        iconData: Icons.account_box,
+        name: localization.accountManager,
+        onTap: () {},
+      ),
+    ));
+
+    privateKeyMap.forEach((key, value) {
+      var index = int.tryParse(key);
+      if (index == null) {
+        log("parse index key error");
+        return;
+      }
+      list.add(AccountManagerItemWidget(
+        index: index,
+        accountKey: value,
+        isCurrent: settingsProvider.privateKeyIndex == index,
+        onLoginTap: onLoginTap,
+        onLogoutTap: (index) {
+          onLogoutTap(index, context: context);
+        },
+      ));
+    });
+
+    list.add(Container(
+      margin: const EdgeInsets.only(
+        top: Base.basePaddingHalf,
+        bottom: Base.basePaddingHalf,
+      ),
+      padding: const EdgeInsets.only(
+        left: Base.basePadding * 2,
+        right: Base.basePadding * 2,
+      ),
+      width: double.maxFinite,
+      child: TextButton(
+        onPressed: addAccount,
+        style: TextButton.styleFrom(
+          side: BorderSide(width: 1, color: hintColor.withAlpha(102)),
+        ),
+        child: Text(
+          localization.addAccount,
+          style: TextStyle(color: btnTextColor),
+        ),
+      ),
+    ));
+    
+    // Add logout button for current account
+    if (settingsProvider.privateKeyIndex != null && privateKeyMap.isNotEmpty) {
+      list.add(Container(
+        margin: const EdgeInsets.only(
+          bottom: Base.basePaddingHalf,
+        ),
+        padding: const EdgeInsets.only(
+          left: Base.basePadding * 2,
+          right: Base.basePadding * 2,
+        ),
+        width: double.maxFinite,
+        child: OutlinedButton(
+          onPressed: () => onLogoutTap(settingsProvider.privateKeyIndex!, context: context),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: Colors.red,
+            side: const BorderSide(width: 1, color: Colors.red),
+          ),
+          child: const Text(
+            "Log Out",
+            style: TextStyle(
+              color: Colors.red,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      ));
     }
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Close button
-          Align(
-            alignment: Alignment.centerRight,
-            child: GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: buttonTextColor.withAlpha((255 * 0.1).round()),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.close,
-                  color: buttonTextColor,
-                  size: 20,
-                ),
-              ),
-            ),
-          ),
-          
-          const SizedBox(height: 24),
-          
-          // Title
-          wrapResponsive(
-            Center(
-              child: Text(
-                localization.accountManager,
-                style: TextStyle(
-                  fontFamily: 'SF Pro Rounded',
-                  color: buttonTextColor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  height: 1.2,
-                ),
-              ),
-            ),
-          ),
-          
-          const SizedBox(height: 32),
-          
-          // Account list
-          wrapResponsive(
-            Container(
-              constraints: const BoxConstraints(maxHeight: 250),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: privateKeyMap.length,
-                itemBuilder: (context, i) {
-                  var entries = privateKeyMap.entries.toList();
-                  var entry = entries[i];
-                  var index = int.tryParse(entry.key);
-                  if (index == null) {
-                    return const SizedBox.shrink();
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: AccountManagerItemWidget(
-                      index: index,
-                      accountKey: entry.value,
-                      isCurrent: settingsProvider.privateKeyIndex == index,
-                      onLoginTap: onLoginTap,
-                      onLogoutTap: (index) {
-                        onLogoutTap(index, context: context);
-                      },
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-          
-          const SizedBox(height: 32),
-          
-          // Add account button
-          wrapResponsive(
-            SizedBox(
-              width: double.infinity,
-              child: TextButton(
-                onPressed: addAccount,
-                style: TextButton.styleFrom(
-                  side: BorderSide(
-                    width: 2,
-                    color: secondaryTextColor.withAlpha((255 * 0.3).round()),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                ),
-                child: Text(
-                  localization.addAccount,
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Rounded',
-                    color: buttonTextColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.2,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          
-          // Logout button for current account
-          if (settingsProvider.privateKeyIndex != null && privateKeyMap.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            wrapResponsive(
-              SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => onLogoutTap(settingsProvider.privateKeyIndex!, context: context),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                    side: const BorderSide(width: 2, color: Colors.red),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(32),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                  ),
-                  child: const Text(
-                    "Log Out",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: Colors.red,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: list,
     );
   }
 
@@ -331,6 +268,9 @@ class AccountManagerItemWidget extends StatefulWidget {
 }
 
 class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
+  static const double imageWidth = 26;
+
+  static const double lineHeight = 44;
 
   String pubkey = "";
 
@@ -373,98 +313,86 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    final appColors = themeData.extension<AppColors>();
-    var buttonTextColor = appColors?.buttonText ?? themeData.textTheme.bodyMedium!.color!;
-    var secondaryTextColor = appColors?.secondaryText ?? themeData.hintColor;
+    Color? cardColor = themeData.cardColor;
+    if (cardColor == Colors.white) {
+      cardColor = Colors.grey[300];
+    }
     final localization = S.of(context);
 
     return Selector<UserProvider, User?>(
-      builder: (context, user, child) {
-        Color currentColor = Colors.green;
-        Color badgeColor = secondaryTextColor.withAlpha((255 * 0.15).round());
-        
-        return GestureDetector(
-          onTap: onTap,
-          behavior: HitTestBehavior.translucent,
-          child: Container(
-            decoration: BoxDecoration(
-              color: widget.isCurrent 
-                  ? appColors?.accent.withAlpha((255 * 0.1).round()) 
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(
-                color: widget.isCurrent 
-                    ? appColors?.accent ?? currentColor
-                    : Colors.transparent,
-                width: 1,
-              ),
-            ),
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                // User avatar
-                UserPicWidget(
-                  pubkey: pubkey,
-                  width: 40,
-                  user: user,
-                ),
-                
-                const SizedBox(width: 12),
-                
-                // Name
-                Expanded(
-                  child: NameWidget(
-                    pubkey: pubkey,
-                    user: user,
-                    fontColor: appColors?.titleText ?? buttonTextColor,
-                    showName: false,
-                    fontSize: (themeData.textTheme.bodyMedium?.fontSize ?? 14) * 1.05,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                
-                // Auth type badge
-                if (StringUtil.isNotBlank(loginTag))
-                  Container(
-                    margin: const EdgeInsets.only(left: 8),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: badgeColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      loginTag == "ReadOnly" ? localization.readOnly : loginTag!,
-                      style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: secondaryTextColor,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                
-                // Current indicator
-                if (widget.isCurrent)
-                  Container(
-                    margin: const EdgeInsets.only(left: 8),
-                    child: Icon(
-                      Icons.check_circle,
-                      color: appColors?.accent ?? currentColor,
-                      size: 20,
-                    ),
-                  ),
-              ],
-            ),
+        builder: (context, user, child) {
+      Color currentColor = Colors.green;
+      List<Widget> list = [];
+
+
+      list.add(Container(
+        width: 24,
+        alignment: Alignment.centerLeft,
+        child: SizedBox(
+          width: 15,
+          child: widget.isCurrent
+              ? PointWidget(
+                  width: 15,
+                  color: currentColor,
+                )
+              : null,
+        ),
+      ));
+
+      list.add(UserPicWidget(
+        pubkey: pubkey,
+        width: imageWidth,
+        user: user,
+      ));
+
+      list.add(Flexible(
+        child: Container(
+          margin: const EdgeInsets.only(left: 5, right: 5),
+          child: NameWidget(
+            pubkey: pubkey,
+            user: user,
           ),
-        );
-      },
-      selector: (_, provider) {
-        return provider.getUser(pubkey);
-      },
-    );
+        ),
+      ));
+
+      if (StringUtil.isNotBlank(loginTag)) {
+        list.add(Container(
+          margin: const EdgeInsets.only(right: Base.basePaddingHalf),
+          padding: const EdgeInsets.only(
+            left: Base.basePaddingHalf,
+            right: Base.basePaddingHalf,
+            top: 4,
+            bottom: 4,
+          ),
+          decoration: BoxDecoration(
+            color: cardColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            loginTag == "ReadOnly" ? localization.readOnly : loginTag!,
+          ),
+        ));
+      }
+
+      return GestureDetector(
+        onTap: onTap,
+        behavior: HitTestBehavior.translucent,
+        child: Container(
+          height: lineHeight,
+          width: double.maxFinite,
+          padding: const EdgeInsets.only(
+            left: Base.basePadding * 2,
+            right: Base.basePadding * 2,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: list,
+          ),
+        ),
+      );
+    }, selector: (_, provider) {
+      return provider.getUser(pubkey);
+    });
   }
 
   void onLogout() {
