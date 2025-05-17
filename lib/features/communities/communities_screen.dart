@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -7,10 +6,9 @@ import 'package:nostrmo/provider/group_read_status_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
-import 'package:nostrmo/router/group/no_communities_widget.dart';
+import 'package:nostrmo/router/group/no_communities_sheet.dart';
 // Import Provider package with an alias to avoid conflicts
 import 'package:provider/provider.dart' as provider;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../component/shimmer/shimmer.dart';
 import '../../theme/app_colors.dart';
@@ -39,7 +37,6 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   static Widget? _cachedGridWidget;
   static Widget? _cachedListWidget;
   static Widget? _cachedFeedWidget;
-  static Widget? _cachedEmptyWidget;
   
   // Cache for view mode state
   static CommunityViewMode? _lastViewMode;
@@ -165,7 +162,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   
                   // Store original group IDs list length for debugging
                   final int originalGroupCount = groupIds.length;
-                  developer.log("📊 RECEIVED ${originalGroupCount} COMMUNITIES FROM CONTROLLER", name: "CommunitiesScreen");
+                  developer.log("📊 RECEIVED $originalGroupCount COMMUNITIES FROM CONTROLLER", name: "CommunitiesScreen");
                   
                   // Keep track if we've ever seen groups to prevent flashing the empty state
                   if (originalGroupCount > 0) {
@@ -176,17 +173,15 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   // CRITICAL: Once we've had groups, don't show the empty state unless
                   // explicitly requested, to prevent false emptiness during data refreshes
                   if (groupIds.isEmpty && !_hasEverSeenGroups) {
-                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state dialog", name: "CommunitiesScreen");
-                    // Show the empty state dialog when no communities exist
-                    if (_cachedEmptyWidget == null) {
-                      developer.log("🏗️ CREATING CACHED EMPTY WIDGET for the first time", name: "CommunitiesScreen");
-                      _cachedEmptyWidget = const Center(
-                        child: NoCommunitiesWidget(),
-                      );
-                    } else {
-                      developer.log("♻️ REUSING CACHED EMPTY WIDGET", name: "CommunitiesScreen");
-                    }
-                    return _cachedEmptyWidget!;
+                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state sheet", name: "CommunitiesScreen");
+                    // Show the no communities sheet when no communities exist
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _showNoCommunitiesSheet();
+                    });
+                    // Return an empty scaffold while the sheet is being shown
+                    return Container(
+                      color: context.colors.background,
+                    );
                   } else if (groupIds.isEmpty && (_hasEverSeenGroups || _cachedGridWidget != null)) {
                     // If we had groups before but now they're empty, use the last cached view
                     // This prevents flickering when groups are temporarily not available
@@ -294,5 +289,26 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   void dispose() {
     // No need to dispose providers here - they'll be disposed automatically
     super.dispose();
+  }
+  
+  /// Shows the no communities bottom sheet
+  void _showNoCommunitiesSheet() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      isDismissible: true,
+      enableDrag: true,
+      builder: (sheetContext) => GestureDetector(
+        onTap: () => Navigator.of(sheetContext).pop(),
+        child: Container(
+          color: Colors.transparent,
+          child: GestureDetector(
+            onTap: () {}, // Prevent taps from propagating to dismiss
+            child: const NoCommunitiesSheet(),
+          ),
+        ),
+      ),
+    );
   }
 }
