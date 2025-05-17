@@ -414,14 +414,62 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       showDialog(
         context: context,
         builder: (context) => const ReportEventDialog(),
-      ).then((result) {
+      ).then((result) async {
         if (result != null) {
           final reason = result['reason'];
           final details = result['details'];
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Report submitted: $reason${details != null && details.isNotEmpty ? ", $details" : ""}')),
-          );
-          // TODO: Implement event generation and relay publishing here
+          final eventId = widget.event.id;
+          final pubkey = widget.event.pubkey;
+          final groupIdentifier = widget.event.relations().groupIdentifier;
+          final groupId = groupIdentifier?.groupId;
+          final relayUrl = groupIdentifier?.host;
+          List<String>? relayAddrs = getGroupRelays();
+
+          // Build tags for the report event
+          List<List<String>> tags = [
+            ["e", eventId],
+            ["p", pubkey],
+          ];
+          if (groupId != null) {
+            tags.add(["h", groupId]);
+          }
+          if (relayUrl != null) {
+            tags.add(["relay", relayUrl]);
+          }
+          if (reason != null && reason.isNotEmpty) {
+            tags.add(["reason", reason]);
+          }
+          if (details != null && details.isNotEmpty) {
+            tags.add(["details", details]);
+          }
+
+          try {
+            var reportEvent = Event(
+              nostr!.publicKey,
+              1984, // NIP-56 report event
+              tags,
+              '', // No content needed, all info in tags
+            );
+            await nostr!.signEvent(reportEvent);
+            var sent = await nostr!.sendEvent(
+              reportEvent,
+              tempRelays: relayAddrs,
+              targetRelays: relayAddrs,
+            );
+            if (sent != null) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Report submitted and published to relay.')),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Failed to publish report event.')),
+              );
+            }
+          } catch (e) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Error sending report: $e')),
+            );
+          }
         }
       });
     }
