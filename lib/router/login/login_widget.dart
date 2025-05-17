@@ -509,47 +509,49 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 wrapResponsive(
                   Container(
                     decoration: BoxDecoration(
-                      color: const Color(0xFF11171F),
                       borderRadius: BorderRadius.circular(8),
                       border: Border.all(
                         color: const Color(0xFF2E4052),
                         width: 1,
                       ),
                     ),
-                    child: TextField(
-                      controller: _controller,
-                      autofocus: true,
-                      style: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: colors.primaryText,
-                        fontSize: 16,
-                      ),
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFF11171F),
-                        hintText: 'nsec',
-                        hintStyle: TextStyle(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(7), // Slightly smaller to fit inside border
+                      child: TextField(
+                        controller: _controller,
+                        autofocus: true,
+                        style: TextStyle(
                           fontFamily: 'SF Pro Rounded',
-                          color: colors.secondaryText,
+                          color: Colors.white,
                           fontSize: 16,
                         ),
-                        border: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        contentPadding: const EdgeInsets.all(16),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isTextObscured ? Icons.visibility : Icons.visibility_off,
+                        decoration: InputDecoration(
+                          filled: true,
+                          fillColor: const Color(0xFF11171F),
+                          hintText: 'nsec',
+                          hintStyle: TextStyle(
+                            fontFamily: 'SF Pro Rounded',
                             color: colors.secondaryText,
+                            fontSize: 16,
                           ),
-                          onPressed: () {
-                            setSheetState(() {
-                              _isTextObscured = !_isTextObscured;
-                            });
-                          },
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: const EdgeInsets.all(16),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isTextObscured ? Icons.visibility : Icons.visibility_off,
+                              color: colors.secondaryText,
+                            ),
+                            onPressed: () {
+                              setSheetState(() {
+                                _isTextObscured = !_isTextObscured;
+                              });
+                            },
+                          ),
                         ),
+                        obscureText: _isTextObscured,
                       ),
-                      obscureText: _isTextObscured,
                     ),
                   ),
                 ),
