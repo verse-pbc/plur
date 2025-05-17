@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/component/user/user_top_widget.dart';
+import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/image_widget.dart';
 import 'package:nostrmo/consts/base.dart';
@@ -177,12 +177,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 children: [
                   legacy_provider.Selector<UserProvider, User?>(
                     builder: (context, user, child) {
-                      return UserTopWidget(
-                        pubkey: pubkey,
-                        user: user,
-                        isLocal: true,
-                        jumpable: true,
-                      );
+                      // Custom user info widget without banner
+                      return _buildUserInfoWidget(context, user, pubkey);
                     },
                     selector: (_, provider) {
                       return provider.getUser(pubkey);
@@ -482,6 +478,101 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     if (callback != null) {
       callback.toggle();
     }
+  }
+
+  /// Builds a custom user info widget without the banner
+  Widget _buildUserInfoWidget(BuildContext context, User? user, String pubkey) {
+    final themeData = Theme.of(context);
+    final mainColor = themeData.primaryColor;
+    final hintColor = themeData.hintColor;
+    final largeFontSize = themeData.textTheme.bodyLarge!.fontSize;
+    final fontSize = themeData.textTheme.bodyMedium!.fontSize;
+    
+    String displayName = "";
+    String? name;
+    
+    if (user != null) {
+      if (user.displayName != null && user.displayName!.isNotEmpty) {
+        displayName = user.displayName!;
+        if (user.name != null && user.name!.isNotEmpty) {
+          name = user.name;
+        }
+      } else if (user.name != null && user.name!.isNotEmpty) {
+        displayName = user.name!;
+      }
+    }
+    
+    if (displayName.isEmpty) {
+      displayName = Nip19.encodeSimplePubKey(pubkey);
+    }
+    
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // User avatar
+        UserPicWidget(
+          pubkey: pubkey,
+          width: 80,
+          user: user,
+        ),
+        const SizedBox(width: Base.basePadding),
+        // User name and nip05
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                displayName,
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  fontSize: largeFontSize,
+                  fontWeight: FontWeight.bold,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              if (name != null)
+                Text(
+                  '@$name',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    fontSize: fontSize,
+                    color: hintColor,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              if (user?.nip05 != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.verified,
+                        size: 16,
+                        color: mainColor,
+                      ),
+                      const SizedBox(width: 4),
+                      Expanded(
+                        child: Text(
+                          user!.nip05!,
+                          style: TextStyle(
+                            fontSize: fontSize,
+                            color: mainColor,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }
 
