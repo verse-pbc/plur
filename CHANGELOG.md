@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated report dialog text to clarify reports go to community organizers
   - Modified toast notifications to mention community organizers
   - Renamed "Flag Content" to "Report to Community Organizers" for clarity
+  - Added user reporting capability to profile screens
+  - Implemented standardized NIP-56 report event generation for users
 - Fix localization issues in calendar events feature with missing 'refresh' string
 - Improve code quality with context.mounted handling for BotToast messages
 - Update deprecated color API usage throughout the app to use withAlpha instead of withOpacity

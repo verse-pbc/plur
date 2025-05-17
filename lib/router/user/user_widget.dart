@@ -12,13 +12,18 @@ import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
 import '../../component/event/event_list_widget.dart';
 import '../../component/user/user_metadata_widget.dart';
+import '../../component/report_user_dialog.dart';
 import '../../consts/base_consts.dart';
 import '../../data/user.dart';
+import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/user_provider.dart';
+import '../../provider/group_provider.dart';
+import '../../provider/relay_provider.dart';
 import '../../provider/settings_provider.dart';
 import '../../util/load_more_event.dart';
 import '../../util/router_util.dart';
+import '../../util/app_logger.dart';
 import 'user_statistics_widget.dart';
 import '../../util/theme_util.dart';
 
@@ -145,7 +150,15 @@ class _UserWidgetState extends CustState<UserWidget>
         var appBar = Appbar4Stack(
           title: appbarTitle,
           actions: [
-            // Add a refresh button to manually update the user's profile
+            // Report user button
+            IconButton(
+              icon: const Icon(Icons.flag),
+              onPressed: () {
+                _reportUser();
+              },
+              tooltip: "Report user",
+            ),
+            // Refresh profile button
             IconButton(
               icon: const Icon(Icons.refresh),
               onPressed: () {
@@ -447,5 +460,79 @@ class _UserWidgetState extends CustState<UserWidget>
     cancelFunc = BotToast.showLoading();
     oldEventLength = box.length();
     _doQuery(onEventFunc: downloadAllOnEvent);
+  }
+
+  /// Shows the report user dialog and handles the user report submission.
+  Future<void> _reportUser() async {
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (context) => const ReportUserDialog(),
+    );
+    
+    if (result != null && mounted) {
+      final reason = result['reason'];
+      final details = result['details'];
+      
+      logger.i('Creating report for user: $pubkey', null, null, LogCategory.core);
+      logger.d('Report reason: $reason, details: $details', null, null, LogCategory.core);
+
+      try {
+        // Build tags for the report event
+        List<List<String>> tags = [
+          ["p", pubkey!], // The pubkey of the reported user
+        ];
+        
+        // Add reason and details to tags
+        if (reason != null && reason.isNotEmpty) {
+          tags.add(["reason", reason]);
+        }
+        if (details != null && details.isNotEmpty) {
+          tags.add(["details", details]);
+        }
+        
+        logger.d('Constructing user report event with tags: $tags', null, null, LogCategory.network);
+        
+        // Create the report event (NIP-56)
+        var reportEvent = Event(
+          nostr!.publicKey,
+          1984, // NIP-56 report event kind
+          tags,
+          '', // No content needed, all info in tags
+        );
+        
+        logger.d('Signing user report event', null, null, LogCategory.network);
+        await nostr!.signEvent(reportEvent);
+        
+        // Default to user's relays
+        List<String> relayAddrs = userProvider.getExtralRelays(pubkey!, false);
+        
+        logger.i('Sending user report event to relays: ${relayAddrs.isEmpty ? "default relays" : relayAddrs.join(", ")}', 
+            null, null, LogCategory.network);
+        
+        // Send the event
+        var sent = await nostr!.sendEvent(
+          reportEvent,
+          tempRelays: relayAddrs.isEmpty ? null : relayAddrs,
+          targetRelays: relayAddrs.isEmpty ? null : relayAddrs,
+        );
+        
+        if (sent != null) {
+          logger.i('User report event successfully published, ID: ${reportEvent.id}', null, null, LogCategory.network);
+          if (mounted) {
+            BotToast.showText(text: "Report submitted to community organizers");
+          }
+        } else {
+          logger.e('Failed to publish user report event', null, null, LogCategory.network);
+          if (mounted) {
+            BotToast.showText(text: "${S.of(context).error}: Failed to submit report to community organizers");
+          }
+        }
+      } catch (e, stackTrace) {
+        logger.e('Error creating or sending user report event', e, stackTrace, LogCategory.network);
+        if (mounted) {
+          BotToast.showText(text: "Error sending report: $e");
+        }
+      }
+    }
   }
 }
