@@ -64,10 +64,11 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     final localization = S.of(context);
     var pubkey = nostr!.publicKey;
     var paddingTop = mediaDataCache.padding.top;
-    final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     final appColors = Theme.of(context).extension<AppColors>()!;
     final loginBackground = appColors.loginBackground;
+    // Use primary text from AppColors, which should be white in dark mode
+    final primaryTextColor = appColors.primaryText;
+    var mainColor = primaryTextColor; // Using primary text color for all text elements
     List<Widget> list = [];
 
     _readOnly = nostr!.isReadOnly();
@@ -432,11 +433,11 @@ class IndexDrawerItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    final primaryColor = themeData.primaryColor;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final primaryTextColor = appColors.primaryText;
     
-    // Use color parameter if provided, otherwise use primary color
-    final itemColor = color ?? primaryColor;
+    // Use color parameter if provided, otherwise use primary text color
+    final itemColor = color ?? primaryTextColor;
     
     // The icon widget
     Widget iconWidget = Icon(
