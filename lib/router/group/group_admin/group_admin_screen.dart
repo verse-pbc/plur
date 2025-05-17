@@ -12,43 +12,45 @@ import '../../../generated/l10n.dart';
 import '../../../provider/group_provider.dart';
 import '../../../provider/uploader.dart';
 import '../../../util/router_util.dart';
-import '../../../util/logger.dart';
-import '../../../consts/log_category.dart';
+import '../../../util/app_logger.dart';
+import '../../../main.dart'; // Import main.dart for the nostr global variable
 
 class GroupAdminScreen extends StatefulWidget {
-  const GroupAdminScreen({super.key});
+  final GroupIdentifier groupId;
+
+  const GroupAdminScreen({super.key, required this.groupId});
 
   @override
   State<GroupAdminScreen> createState() => _GroupAdminScreenState();
 }
 
 class _GroupAdminScreenState extends State<GroupAdminScreen> {
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  GroupMetadata? groupMetadata;
+  AppLogger logger = AppLogger();
+  late final GroupProvider groupProvider;
   final _nameController = TextEditingController();
   final _descriptionController = TextEditingController();
   String? _pictureUrl;
   var _hasChanges = false;
   var _isSaving = false;
   var _isUploading = false;
-
+  
   @override
   void initState() {
     super.initState();
-    _initializeData();
     
-    // Important: The user must be an admin to see this screen,
-    // so make sure the GroupProvider knows this for report management too
-    try {
-      final groupId = context.read<GroupIdentifier>();
+    // Force admin access to ensure consistent behavior
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final myPubkey = nostr?.publicKey;
       if (myPubkey != null) {
-        // WORKAROUND: Force set admin to ensure report management works
-        groupProvider.forceAdminForGroup(groupId, myPubkey);
+        groupProvider = Provider.of<GroupProvider>(context, listen: false);
+        groupProvider.forceAdminForGroup(widget.groupId, myPubkey);
         logger.i("Admin screen: Forced admin status for consistent behavior", 
-                null, null, LogCategory.groups);
+            null, null, LogCategory.groups);
       }
-    } catch (e) {
-      logger.e("Error ensuring admin access", e, null, LogCategory.groups);
-    }
+      _initializeData();
+    });
 
     _nameController.addListener(_checkForChanges);
     _descriptionController.addListener(_checkForChanges);

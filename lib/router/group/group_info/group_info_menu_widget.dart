@@ -14,7 +14,7 @@ enum GroupInfoMenuItem {
   members,
   media,
   asksOffers,
-  settings,
+  moderation,
   leave;
 
   String getTitle(BuildContext context) {
@@ -26,8 +26,8 @@ enum GroupInfoMenuItem {
         return localization.media;
       case GroupInfoMenuItem.asksOffers:
         return 'Asks & Offers';
-      case GroupInfoMenuItem.settings:
-        return localization.settings;
+      case GroupInfoMenuItem.moderation:
+        return 'Moderation';
       case GroupInfoMenuItem.leave:
         return localization.leaveGroup;
     }
@@ -41,8 +41,8 @@ enum GroupInfoMenuItem {
         return Icons.photo_library_outlined;
       case GroupInfoMenuItem.asksOffers:
         return Icons.swap_horiz;
-      case GroupInfoMenuItem.settings:
-        return Icons.settings_outlined;
+      case GroupInfoMenuItem.moderation:
+        return Icons.shield_outlined;
       case GroupInfoMenuItem.leave:
         return Icons.exit_to_app;
     }
@@ -128,13 +128,13 @@ class GroupInfoMenuWidget extends StatelessWidget {
       GroupInfoMenuItem.asksOffers,
     ];
     
-    // Add Settings only if user is admin
+    // Add Moderation only if user is admin
     final groupAdmins = groupProvider.getAdmins(groupId);
     final currentPubKey = nostr?.publicKey;
     final isAdmin = currentPubKey != null && groupAdmins?.containsUser(currentPubKey) == true;
     
     if (isAdmin) {
-      items.add(GroupInfoMenuItem.settings);
+      items.add(GroupInfoMenuItem.moderation);
     }
     
     // Always add Leave option at the end
@@ -161,8 +161,9 @@ class GroupInfoMenuWidget extends StatelessWidget {
           ),
         );
         break;
-      case GroupInfoMenuItem.settings:
-        // TODO: Implement settings
+      case GroupInfoMenuItem.moderation:
+        // Navigate to report management screen for this group
+        RouterUtil.router(context, RouterPath.reportManagement, groupId);
         break;
       case GroupInfoMenuItem.leave:
         _showLeaveConfirmation(context);

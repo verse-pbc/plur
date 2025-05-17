@@ -13,13 +13,13 @@ Plur supports multiple deep linking mechanisms to facilitate seamless sharing an
 ## URL Formats
 
 ### Universal Links
-- `https://rabble.community/i/{CODE}` - Standard invite that resolves through API
-- `https://rabble.community/j/{SHORT_CODE}` - Short URL invite that redirects to a full invite
-- `https://rabble.community/join/{CODE}` - Web invite with rich metadata display
-- `https://rabble.community/i/plur://join-community?group-id=X&code=Y&relay=Z` - Universal link with embedded protocol
-- `https://rabble.community/join/{GROUP_ID}?code=Y&relay=Z` - Path-based group join
-- `https://rabble.community/join-community?group-id=X&code=Y&relay=Z` - Query parameter join
-- `https://rabble.community/g/{GROUP_ID}?relay=Z` - Direct group navigation
+- `https://hol.is/i/{CODE}` - Standard invite that resolves through API
+- `https://hol.is/j/{SHORT_CODE}` - Short URL invite that redirects to a full invite
+- `https://hol.is/join/{CODE}` - Web invite with rich metadata display
+- `https://hol.is/i/plur://join-community?group-id=X&code=Y&relay=Z` - Universal link with embedded protocol
+- `https://hol.is/join/{GROUP_ID}?code=Y&relay=Z` - Path-based group join
+- `https://hol.is/join-community?group-id=X&code=Y&relay=Z` - Query parameter join
+- `https://hol.is/g/{GROUP_ID}?relay=Z` - Direct group navigation
 
 ### Custom URL Schemes
 - `plur://join-community?group-id=X&code=Y&relay=Z` - Direct join with parameters
@@ -89,7 +89,7 @@ The Flutter implementation is structured as follows:
 
 ### 1. Apple App Site Association File
 
-Host this at `https://rabble.community/.well-known/apple-app-site-association`:
+Host this at `https://hol.is/.well-known/apple-app-site-association`:
 
 ```json
 {
@@ -135,7 +135,7 @@ Host this at `https://rabble.community/.well-known/apple-app-site-association`:
 ### 2. Server API Endpoints
 
 #### Standard Invite Resolution
-Implement an endpoint at `https://rabble.community/api/invite/{code}` that returns:
+Implement an endpoint at `https://hol.is/api/invite/{code}` that returns:
 
 ```json
 {
@@ -146,7 +146,7 @@ Implement an endpoint at `https://rabble.community/api/invite/{code}` that retur
 ```
 
 #### Web Invite Resolution
-Implement an endpoint at `https://rabble.community/api/invite/web/{code}` that returns:
+Implement an endpoint at `https://hol.is/api/invite/web/{code}` that returns:
 
 ```json
 {
@@ -161,7 +161,7 @@ Implement an endpoint at `https://rabble.community/api/invite/web/{code}` that r
 ```
 
 #### Short URL Resolution
-Implement an endpoint at `https://rabble.community/api/invite/short/{shortCode}` that returns:
+Implement an endpoint at `https://hol.is/api/invite/short/{shortCode}` that returns:
 
 ```json
 {

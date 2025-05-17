@@ -38,24 +38,50 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   void initState() {
     super.initState();
     _selectedGroup = widget.selectedGroup;
-    logger.i("ReportManagementScreen initialized with selectedGroup: ${widget.selectedGroup?.groupId ?? 'null'}", 
+    logger.w("REPORT DEBUG: ReportManagementScreen initialized with selectedGroup: ${widget.selectedGroup?.groupId ?? 'null'}", 
         null, null, LogCategory.groups);
     _fetchAdminGroups();
     
     // Subscribe to report updates
+    logger.w("REPORT DEBUG: Adding listener for report updates", null, null, LogCategory.groups);
     reportService.addListener(_onReportsUpdated);
     
-    // Start listening for reports
-    reportService.subscribeToAdminGroupReports();
+    // If we have a specific group from the context, subscribe directly to its reports
+    // instead of trying to find "admin groups"
+    if (widget.selectedGroup != null) {
+      logger.w("REPORT DEBUG: Directly subscribing to reports for selected group: ${widget.selectedGroup!.groupId}", 
+          null, null, LogCategory.groups);
+      reportService.subscribeToGroupReports(widget.selectedGroup!);
+    } else {
+      // Try to get group from context
+      try {
+        final groupFromContext = context.read<GroupIdentifier>();
+        logger.w("REPORT DEBUG: Found group in context, subscribing: ${groupFromContext.groupId}", 
+            null, null, LogCategory.groups);
+        reportService.subscribeToGroupReports(groupFromContext);
+        
+        // We already have a group, so no need to search for more
+        return;
+      } catch (e) {
+        logger.w("REPORT DEBUG: No group in context, falling back to admin groups method", 
+            null, null, LogCategory.groups);
+      }
+      
+      // Fall back to the old method if no specific group was provided
+      logger.w("REPORT DEBUG: Calling legacy subscribeToAdminGroupReports as fallback", null, null, LogCategory.groups);
+      reportService.subscribeToAdminGroupReports();
+    }
   }
   
   @override
   void dispose() {
+    logger.w("REPORT DEBUG: Removing report listener", null, null, LogCategory.groups);
     reportService.removeListener(_onReportsUpdated);
     super.dispose();
   }
   
   void _onReportsUpdated() {
+    logger.w("REPORT DEBUG: Reports updated, refreshing UI", null, null, LogCategory.groups);
     if (mounted) {
       setState(() {
         _updateReportsList();
@@ -151,12 +177,16 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
   void _updateReportsList() {
     if (_selectedGroup != null) {
       // Get reports for the selected group
+      logger.w("REPORT DEBUG: Getting reports for group: ${_selectedGroup!.groupId}", null, null, LogCategory.groups);
       final reports = reportService.getGroupReports(_selectedGroup!.groupId);
+      logger.w("REPORT DEBUG: Found ${reports.length} reports for group ${_selectedGroup!.groupId}", null, null, LogCategory.groups);
       
       // Filter out dismissed reports if needed
       List<ReportItem> filteredReports = _showDismissed 
           ? reports 
           : reports.where((report) => !report.dismissed).toList();
+      
+      logger.w("REPORT DEBUG: After filtering dismissed: ${filteredReports.length} reports", null, null, LogCategory.groups);
       
       // Sort by date (newest first)
       filteredReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));
@@ -166,12 +196,16 @@ class _ReportManagementScreenState extends State<ReportManagementScreen> {
       });
     } else {
       // If no group selected, show reports from all admin groups
+      logger.w("REPORT DEBUG: Getting all reports across admin groups", null, null, LogCategory.groups);
       final allReports = reportService.getAllReports();
+      logger.w("REPORT DEBUG: Found ${allReports.length} total reports across all groups", null, null, LogCategory.groups);
       
       // Filter out dismissed reports if needed
       List<ReportItem> filteredReports = _showDismissed 
           ? allReports 
           : allReports.where((report) => !report.dismissed).toList();
+      
+      logger.w("REPORT DEBUG: After filtering dismissed: ${filteredReports.length} reports", null, null, LogCategory.groups);
       
       // Sort by date (newest first)
       filteredReports.sort((a, b) => b.createdAt.compareTo(a.createdAt));

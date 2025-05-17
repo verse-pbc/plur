@@ -462,7 +462,21 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             logger.d('Signing report event', null, null, LogCategory.events);
             await nostr!.signEvent(reportEvent);
             
-            logger.i('Sending report event to relays: ${relayAddrs?.join(', ') ?? 'default relays'}', null, null, LogCategory.network);
+            // Log ALL the details about where we're sending the report
+            logger.i('Report details - Event: ${widget.event.id.substring(0, 8)}, User: ${widget.event.pubkey.substring(0, 8)}, Group: ${groupIdentifier?.groupId ?? "none"}', 
+                null, null, LogCategory.events);
+            
+            // Add detailed debug info
+            logger.i('REPORT DEBUG: Creating kind ${EventKind.reportEvent} report event', null, null, LogCategory.events);
+            logger.i('REPORT DEBUG: Report event ID: ${reportEvent.id}', null, null, LogCategory.events);
+            logger.i('REPORT DEBUG: Tags: ${reportEvent.tags}', null, null, LogCategory.events);
+                
+            // Log the relay addresses clearly
+            if (relayAddrs != null && relayAddrs.isNotEmpty) {
+              logger.i('REPORT DEBUG: Sending report to relays: ${relayAddrs.join(', ')}', null, null, LogCategory.network);
+            } else {
+              logger.w('REPORT DEBUG: No specific relays for report, using default relays', null, null, LogCategory.network);
+            }
             
             final sent = await nostr!.sendEvent(
               reportEvent,
@@ -471,12 +485,13 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             );
             
                           if (sent != null) {
-              logger.i('Report event successfully published, ID: ${reportEvent.id}', null, null, LogCategory.network);
+              logger.i('REPORT DEBUG: Report event successfully published, ID: ${reportEvent.id}', null, null, LogCategory.network);
+              logger.i('REPORT DEBUG: Check your group relay logs for this event ID', null, null, LogCategory.network);
               if (context.mounted) {
                 BotToast.showText(text: "Report submitted to community organizers");
               }
             } else {
-              logger.e('Failed to publish report event', null, null, LogCategory.network);
+              logger.e('REPORT DEBUG: Failed to publish report event', null, null, LogCategory.network);
               if (context.mounted) {
                 BotToast.showText(text: "${S.of(context).error}: Failed to submit report to community organizers");
               }

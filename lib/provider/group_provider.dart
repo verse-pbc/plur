@@ -1,4 +1,5 @@
-import 'dart:developer';
+import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
@@ -474,13 +475,24 @@ class GroupProvider extends ChangeNotifier with LaterFunction {
     // Create or get the GroupAdmins object
     var admins = groupAdmins[key];
     if (admins == null) {
-      // Create a new GroupAdmins object
-      admins = GroupAdmins();
+      // Create a new GroupAdmins object with required parameters
+      admins = GroupAdmins(groupIdentifier.groupId, 
+                         DateTime.now().millisecondsSinceEpoch ~/ 1000, 
+                         [GroupAdminUser(pubkey: pubkey, role: "admin")]);
       groupAdmins[key] = admins;
+    } else {
+      // Check if the user is already an admin
+      if (!admins.containsUser(pubkey)) {
+        // Create a new GroupAdmins object with the user added
+        var updatedUsers = List<GroupAdminUser>.from(admins.users);
+        updatedUsers.add(GroupAdminUser(pubkey: pubkey, role: "admin"));
+        
+        admins = GroupAdmins(groupIdentifier.groupId,
+                           DateTime.now().millisecondsSinceEpoch ~/ 1000,
+                           updatedUsers);
+        groupAdmins[key] = admins;
+      }
     }
-    
-    // Force add the user as admin
-    admins.addAdmin(pubkey);
     
     logger.i("FORCE: Admin set successfully", null, null, LogCategory.groups);
   }

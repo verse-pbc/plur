@@ -732,7 +732,7 @@ class _MyApp extends State<MyApp> {
                 return MaterialPageRoute(
                   builder: (context) => Provider<GroupIdentifier>.value(
                     value: groupId,
-                    child: const GroupAdminScreen(),
+                    child: GroupAdminScreen(groupId: groupId),
                   ),
                 );
               case RouterPath.groupInfo:

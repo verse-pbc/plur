@@ -199,6 +199,7 @@ class EventKind {
     groupNote,
     groupNoteReply,
     groupModeration, // Don't cache moderation events
+    reportEvent, // Don't cache report events
   ];
 
   /// Event kinds currently supported in the application.

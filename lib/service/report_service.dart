@@ -86,6 +86,9 @@ class ReportService extends ChangeNotifier with LaterFunction {
   // Map of groupId to list of reports
   final Map<String, List<ReportItem>> _reports = {};
   
+  // Map of groupId to subscription ID
+  final Map<String, String> _groupSubscriptions = {};
+  
   // Set of subscription IDs to avoid duplicates
   final Set<String> _activeSubscriptions = {};
   
@@ -138,69 +141,112 @@ class ReportService extends ChangeNotifier with LaterFunction {
     }
   }
   
-  /// Subscribe to report events for a specific group
+  /// Subscribe to reports for a specific group
   void subscribeToGroupReports(GroupIdentifier groupId) {
-    // Generate a unique subscription ID for this group
-    final subscriptionId = 'report_${groupId.groupId}_${DateTime.now().millisecondsSinceEpoch}';
+    if (nostr == null || groupId.groupId.isEmpty) return;
     
-    // Skip if already subscribed
-    if (_activeSubscriptions.contains(subscriptionId)) {
-      return;
-    }
+    logger.w("REPORT DEBUG: Subscribing to reports for group ${groupId.groupId}", null, null, LogCategory.groups);
     
-    logger.i('Subscribing to report events for group ${groupId.groupId}', 
-        null, null, LogCategory.groups);
+    final subscriptionId = "report_${groupId.groupId}";
+    _groupSubscriptions[groupId.groupId] = subscriptionId;
     
-    // Add to active subscriptions
-    _activeSubscriptions.add(subscriptionId);
-    
-    // Get the current timestamp
+    // Get current time
     final currentTime = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     
     // Define filter for report events (kind 1984)
-    final filter = {
-      "kinds": [EventKind.reportEvent],
-      "#h": [groupId.groupId],
-      "since": currentTime - (60 * 60 * 24 * 30) // Include events from the last 30 days
-    };
+    // Corrected filter format: "#h" should be a string key in the json object
+    final filter = Filter(
+      kinds: [EventKind.reportEvent],
+      since: currentTime - (60 * 60 * 24 * 30) // Include events from the last 30 days
+    );
+    
+    // Explicitly add the #h tag after creating the filter
+    final filterMap = filter.toJson();
+    filterMap["#h"] = [groupId.groupId];
+    
+    logger.w("REPORT DEBUG: Filter: $filterMap", null, null, LogCategory.groups);
+    logger.w("REPORT DEBUG: Subscription ID: $subscriptionId", null, null, LogCategory.groups);
+    logger.w("REPORT DEBUG: Group ID: ${groupId.groupId}, Host: ${groupId.host}", null, null, LogCategory.groups);
+    logger.w("REPORT DEBUG: EventKind.reportEvent = ${EventKind.reportEvent}", null, null, LogCategory.groups);
+    
+    // Make sure we have this group in our reports map
+    if (!_reports.containsKey(groupId.groupId)) {
+      _reports[groupId.groupId] = [];
+    }
+    
+    // Subscribe to report events - use the relay from the group ID
+    final relaySub = [groupId.host];
+    
+    logger.w("REPORT DEBUG: Using relays: $relaySub", null, null, LogCategory.groups);
     
     try {
-      // Subscribe to report events
       nostr!.subscribe(
-        [filter],
+        [filterMap],
         _handleReportEvent,
         id: subscriptionId,
         relayTypes: [RelayType.temp],
-        tempRelays: [groupId.host],
+        tempRelays: relaySub,
         sendAfterAuth: true,
       );
       
-      logger.d('Successfully subscribed to report events: $subscriptionId',
-          null, null, LogCategory.groups);
-    } catch (e, stackTrace) {
-      logger.e('Error subscribing to report events: $e', stackTrace, null, 
-          LogCategory.groups);
-      _activeSubscriptions.remove(subscriptionId);
+      logger.w("REPORT DEBUG: Subscription sent with ID: $subscriptionId", null, null, LogCategory.groups);
+    } catch (e, st) {
+      logger.e("REPORT DEBUG: Error subscribing to reports: $e", e, st, LogCategory.groups);
     }
   }
   
-  /// Handle incoming report events
+  /// Handle a received report event
   void _handleReportEvent(Event event) {
+    // Debug logging - always log received report events
+    logger.i("REPORT DEBUG: Received event with kind: ${event.kind}, ID: ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
+    
+    // Extract tags for debugging
+    String tagsInfo = "";
+    for (var tag in event.tags) {
+      if (tag.length > 1) {
+        tagsInfo += "[${tag[0]}: ${tag[1]}] ";
+      }
+    }
+    logger.i("REPORT DEBUG: Event tags: $tagsInfo", null, null, LogCategory.groups);
+    
+    // Use later to avoid setState during build
     later(() {
-      if (event.kind != EventKind.reportEvent) return;
+      if (event.kind != EventKind.reportEvent) {
+        logger.d("Received non-report event in report handler: ${event.kind}", null, null, LogCategory.groups);
+        return;
+      }
       
-      // Process the report event
+      logger.i("Received report event: ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
+      
+      // Parse the event into a report item
       final report = ReportItem.fromEvent(event);
-      if (report == null || report.groupId == null) return;
+      if (report == null) {
+        logger.w("Failed to parse report event: ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
+        return;
+      }
+      
+      if (report.groupId == null) {
+        logger.w("Report event has no group ID: ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
+        return;
+      }
+      
+      // Debug log complete report details
+      logger.i("REPORT DEBUG: Parsed report - Group: ${report.groupId}, " +
+               "Event: ${report.reportedEventId?.substring(0, 8) ?? 'none'}, " +
+               "User: ${report.reportedPubkey?.substring(0, 8) ?? 'none'}, " +
+               "Reason: ${report.reason ?? 'none'}", 
+               null, null, LogCategory.groups);
       
       // Check if this report is already dismissed
       if (_dismissedReports.contains(event.id)) {
+        logger.d("Report ${event.id.substring(0, 8)}... is already dismissed", null, null, LogCategory.groups);
         report.dismissed = true;
       }
       
-      // Add the report to the list for this group
+      // Get the group ID and ensure we have a list for it
       final groupId = report.groupId!;
       if (!_reports.containsKey(groupId)) {
+        logger.i("Creating report list for group $groupId", null, null, LogCategory.groups);
         _reports[groupId] = [];
       }
       
@@ -209,22 +255,31 @@ class ReportService extends ChangeNotifier with LaterFunction {
       
       bool shouldNotify = false;
       if (existingIndex >= 0) {
-        // Update existing report if needed (e.g., if it was dismissed)
+        // Update existing report if needed
         if (_reports[groupId]![existingIndex].dismissed != report.dismissed) {
+          logger.d("Updating existing report ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
           _reports[groupId]![existingIndex] = report;
           shouldNotify = true;
         }
       } else {
         // Add new report
+        logger.i("Adding new report for group $groupId: ${event.id.substring(0, 8)}...", null, null, LogCategory.groups);
         _reports[groupId]!.add(report);
         shouldNotify = true;
-        
-        // Log new report
-        logger.i('New report received for group $groupId', null, null, LogCategory.groups);
       }
       
+      // Log report content
       if (shouldNotify) {
+        logger.i("Report details - Event ID: ${report.reportedEventId?.substring(0, 8) ?? 'none'}, " +
+                "User: ${report.reportedPubkey?.substring(0, 8) ?? 'none'}, " +
+                "Reason: ${report.reason ?? 'none'}", 
+                null, null, LogCategory.groups);
+        
+        // Notify listeners about the change
         notifyListeners();
+        
+        // Debug notification
+        logger.i("REPORT DEBUG: Notified listeners about report update/addition", null, null, LogCategory.groups);
       }
     });
   }
@@ -234,12 +289,38 @@ class ReportService extends ChangeNotifier with LaterFunction {
     final myPubkey = nostr?.publicKey;
     if (myPubkey == null) return;
     
+    logger.w("REPORT DEBUG: Subscribing to admin group reports for user ${myPubkey.substring(0, 8)}...", 
+             null, null, LogCategory.groups);
+    
     // Get all groups
     final adminGroups = groupProvider.getAdminGroups(myPubkey);
     
+    // Log number of admin groups found
+    logger.w("REPORT DEBUG: Found ${adminGroups.length} admin groups for subscription", 
+             null, null, LogCategory.groups);
+    
+    if (adminGroups.isEmpty) {
+      logger.w("REPORT DEBUG: No admin groups found, trying to check if direct admin check would work...", 
+               null, null, LogCategory.groups);
+    } else {
+      // Log each admin group
+      for (var group in adminGroups) {
+        logger.w("REPORT DEBUG: Admin group: ${group.groupId} @ ${group.host}", 
+                 null, null, LogCategory.groups);
+      }
+    }
+    
     // Subscribe to reports for each group
     for (var group in adminGroups) {
+      logger.w("REPORT DEBUG: Subscribing to reports for group ${group.groupId}", 
+               null, null, LogCategory.groups);
       subscribeToGroupReports(group);
+    }
+    
+    // If we didn't subscribe to any groups, log that too
+    if (adminGroups.isEmpty) {
+      logger.w("REPORT DEBUG: No groups to subscribe for reports - check GroupProvider.getAdminGroups", 
+               null, null, LogCategory.groups);
     }
   }
   
