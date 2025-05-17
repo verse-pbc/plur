@@ -7,9 +7,9 @@ abstract class AppColorPalette {
   static const Color accentTeal = Color(0xFF009994);
   
   // Dark mode base colors
-  static const Color darkBackground = Color(0xFF150F23);
-  static const Color darkSurface = Color(0xFF190F28);
-  static const Color darkSurfaceVariant = Color(0xFF231F32);
+  static const Color darkBackground = Color(0xFF161E27); // Updated to match login
+  static const Color darkSurface = Color(0xFF161E27); // Updated to match login
+  static const Color darkSurfaceVariant = Color(0xFF1C242D); // Slightly lighter
   static const Color darkDivider = Color(0xFF27193D);
   
   // Light mode base colors
@@ -110,7 +110,7 @@ class AppColors extends ThemeExtension<AppColors> {
     loginBackground: AppColorPalette.lightBackground,
     cardBackground: AppColorPalette.lightSurface,
     navBackground: AppColorPalette.lightBackground,
-    feedBackground: AppColorPalette.lightSurface,
+    feedBackground: AppColorPalette.lightBackground,
     notesBackground: AppColorPalette.lightSurface,
     tabsBackground: AppColorPalette.lightBackground,
     dimmed: AppColorPalette.dimmedLight,
@@ -126,7 +126,7 @@ class AppColors extends ThemeExtension<AppColors> {
   static const AppColors dark = AppColors._(
     primary: AppColorPalette.primaryPurple,
     accent: AppColorPalette.accentTeal,
-    background: AppColorPalette.darkBackground,
+    background: Color(0xFF161E27), // Using login background as default
     surface: AppColorPalette.darkSurface,
     surfaceVariant: AppColorPalette.darkSurfaceVariant,
     divider: AppColorPalette.darkDivider,
@@ -139,7 +139,7 @@ class AppColors extends ThemeExtension<AppColors> {
     loginBackground: Color(0xFF161E27), // Custom dark login background
     cardBackground: AppColorPalette.darkSurface,
     navBackground: AppColorPalette.darkSurface,
-    feedBackground: AppColorPalette.darkBackground,
+    feedBackground: Color(0xFF161E27), // Using login background
     notesBackground: AppColorPalette.darkSurface,
     tabsBackground: AppColorPalette.darkSurface,
     dimmed: AppColorPalette.dimmedDark,
@@ -147,7 +147,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipText: AppColorPalette.darkHighlightText,
     tooltipBackground: AppColorPalette.darkDivider,
     buttonText: AppColorPalette.white,
-    modalBackground: AppColorPalette.darkBackground,
+    modalBackground: Color(0xFF161E27), // Using login background
     titleText: AppColorPalette.white,
   );
   
