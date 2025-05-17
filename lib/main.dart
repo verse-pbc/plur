@@ -698,7 +698,11 @@ class _MyApp extends State<MyApp> {
           navigatorKey: MyApp.navigatorKey,
           builder: (context, child) {
             final botToastBuilder = BotToastInit();
-            return botToastBuilder(context, child);
+            final widget = botToastBuilder(context, child);
+            // Wrap with SelectionArea only on web platform to enable text selection everywhere
+            return kIsWeb 
+                ? SelectionArea(child: widget) 
+                : widget;
           },
           navigatorObservers: [
             BotToastNavigatorObserver(),
