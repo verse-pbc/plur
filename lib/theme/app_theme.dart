@@ -38,7 +38,7 @@ class AppTheme {
         thickness: 1,
       ),
       cardColor: colors.cardBackground,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: colors.cardBackground,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -48,7 +48,7 @@ class AppTheme {
       textTheme: textTheme,
       hintColor: colors.dimmed,
       shadowColor: Colors.black.withAlpha((255 * 0.1).round()),
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: colors.primary,
         unselectedLabelColor: colors.secondaryText,
         indicatorColor: colors.primary,
@@ -130,7 +130,7 @@ class AppTheme {
         thickness: 1,
       ),
       cardColor: colors.cardBackground,
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: colors.cardBackground,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -140,7 +140,7 @@ class AppTheme {
       textTheme: textTheme,
       hintColor: colors.dimmed,
       shadowColor: Colors.white.withAlpha((255 * 0.1).round()),
-      tabBarTheme: TabBarTheme(
+      tabBarTheme: TabBarThemeData(
         labelColor: colors.accent,
         unselectedLabelColor: colors.secondaryText,
         indicatorColor: colors.accent,
