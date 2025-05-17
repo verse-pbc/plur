@@ -125,43 +125,96 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
         ),
         child: Column(
           children: [
-            legacy_provider.Selector<UserProvider, User?>(
-              builder: (context, user, child) {
-                return UserTopWidget(
-                  pubkey: pubkey,
-                  user: user,
-                  isLocal: true,
-                  jumpable: true,
-                );
-              },
-              selector: (_, provider) {
-                return provider.getUser(pubkey);
-              },
-            ),
-            if (!_readOnly)
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: Base.basePadding,
-                  bottom: Base.basePadding,
-                ),
-                child: Container(
-                  height: _profileEditBtnWidth,
-                  width: _profileEditBtnWidth,
-                  decoration: BoxDecoration(
-                    color: loginBackground,
-                    borderRadius: BorderRadius.circular(
-                      _profileEditBtnWidth / 2,
+            // Cover photo with 16:9 aspect ratio
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: legacy_provider.Selector<UserProvider, User?>(
+                builder: (context, user, child) {
+                  // Get the banner/cover photo URL from user metadata
+                  // Note: You may need to adjust this based on your User model
+                  String? bannerUrl = user?.banner; // or user?.coverPhoto or similar field
+                  
+                  return ClipRRect(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                    child: Container(
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                      ),
+                      child: bannerUrl != null && bannerUrl.isNotEmpty
+                        ? Image.network(
+                            bannerUrl,
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => Container(
+                              color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                              child: Icon(
+                                Icons.landscape,
+                                size: 48,
+                                color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                              ),
+                            ),
+                          )
+                        : Container(
+                            color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                            child: Icon(
+                              Icons.landscape,
+                              size: 48,
+                              color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                            ),
+                          ),
                     ),
-                  ),
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.edit_square,
-                      color: mainColor,
-                    ),
-                    onPressed: _jumpToProfileEdit,
-                  ),
-                ),
+                  );
+                },
+                selector: (_, provider) {
+                  return provider.getUser(pubkey);
+                },
               ),
+            ),
+            // User info below the cover photo
+            Padding(
+              padding: const EdgeInsets.all(Base.basePadding),
+              child: Stack(
+                children: [
+                  legacy_provider.Selector<UserProvider, User?>(
+                    builder: (context, user, child) {
+                      return UserTopWidget(
+                        pubkey: pubkey,
+                        user: user,
+                        isLocal: true,
+                        jumpable: true,
+                      );
+                    },
+                    selector: (_, provider) {
+                      return provider.getUser(pubkey);
+                    },
+                  ),
+                  if (!_readOnly)
+                    Positioned(
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        height: _profileEditBtnWidth,
+                        width: _profileEditBtnWidth,
+                        decoration: BoxDecoration(
+                          color: loginBackground,
+                          borderRadius: BorderRadius.circular(
+                            _profileEditBtnWidth / 2,
+                          ),
+                        ),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.edit_square,
+                            color: mainColor,
+                          ),
+                          onPressed: _jumpToProfileEdit,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ],
         ),
       );
