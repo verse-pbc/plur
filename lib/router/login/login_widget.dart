@@ -517,6 +517,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                         _isTextObscured = !_isTextObscured;
                       });
                     },
+                    onChanged: (value) {
+                      setSheetState(() {
+                        _isLoginButtonEnabled = value.isNotEmpty;
+                      });
+                    },
                   ),
                 ),
                 
@@ -838,6 +843,7 @@ class CustomInputField extends StatefulWidget {
   final Color accentColor;
   final Color secondaryTextColor;
   final VoidCallback onToggleObscure;
+  final ValueChanged<String>? onChanged;
   
   const CustomInputField({
     super.key,
@@ -846,6 +852,7 @@ class CustomInputField extends StatefulWidget {
     required this.accentColor,
     required this.secondaryTextColor,
     required this.onToggleObscure,
+    this.onChanged,
   });
   
   @override
@@ -897,6 +904,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
             controller: widget.controller,
             focusNode: _focusNode,
             autofocus: true,
+            onChanged: widget.onChanged,
             style: TextStyle(
               fontFamily: 'SF Pro Rounded',
               color: Colors.white,
