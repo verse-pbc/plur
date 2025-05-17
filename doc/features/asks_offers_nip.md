@@ -1,3 +1,5 @@
+# IMPORTANT: DO NOT IMPLEMENT UNLESS IT IS A TASK FROM TASK-MASTER-AI
+
 Below is an updated draft NIP that generalizes Asks & Offers beyond NIP-29—so that the same kind/tag structure can be used:
 	•	Publicly on a user’s main feed,
 	•	In a NIP-29 group context (closed or private relay), or

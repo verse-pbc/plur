@@ -4,6 +4,9 @@ import 'package:nostr_sdk/nip29/group_identifier.dart';
 import 'package:nostrmo/data/group_metadata_repository.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/group_id_util.dart';
+import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:nostrmo/main.dart';
 import '../models/listing_model.dart';
 import '../providers/listing_provider.dart';
 import '../widgets/listing_card.dart';
@@ -146,6 +149,24 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
               ),
           ],
         ),
+        actions: [
+          // My Listings button
+          if (nostr != null) // Only show if user is logged in
+            IconButton(
+              icon: const Icon(Icons.person),
+              tooltip: 'My Listings',
+              onPressed: () {
+                RouterUtil.router(context, RouterPath.myListings);
+              },
+            ),
+          // Filter button
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: () {
+              _showFilterBottomSheet(context);
+            },
+          ),
+        ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48),
           child: Container(
@@ -170,14 +191,6 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             ),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              _showFilterBottomSheet(context);
-            },
-          ),
-        ],
       ),
       body: RefreshIndicator(
         key: _refreshIndicatorKey,

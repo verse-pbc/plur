@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- Added warning notices on Asks & Offers documentation to prevent premature implementation
 - Updated app icons and launch images with the Holis logo for iOS
 - Fixed iOS build process by removing Sentry SDK completely
 - Simplified iOS project configuration for better maintainability
@@ -22,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced button styles with rounded corners and cohesive theme
 
 ### Internal Changes
+- Fixed duplicate 'actions' property in Listings Screen causing build errors
 - Implemented comprehensive structured logging system:
   - Added category-based filtering (core, network, database, ui, auth, groups, events, performance)
   - Created tag-based filtering to exclude noisy components

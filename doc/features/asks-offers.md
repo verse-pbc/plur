@@ -1,3 +1,5 @@
+# IMPORTANT: DO NOT IMPLEMENT UNLESS IT IS A TASK FROM TASK-MASTER-AI
+
 # Asks & Offers Feature – Implementation Status & Design Spec
 
 ## 🔄 Current Implementation Status

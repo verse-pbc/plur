@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
-import 'package:nostrmo/consts/colors.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import '../models/listing_model.dart';
 import '../models/response_model.dart';
@@ -219,7 +218,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                   ),
                 ),
                 filled: true,
-                fillColor: customColors.backgroundColor,
+                fillColor: customColors.feedBgColor,
                 contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
               ),
@@ -249,7 +248,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                         ),
                       ),
                       filled: true,
-                      fillColor: customColors.backgroundColor,
+                      fillColor: customColors.feedBgColor,
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       prefixIcon: Container(
                         padding: const EdgeInsets.all(10),
@@ -272,7 +271,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                       ),
                     ),
                     filled: true,
-                    fillColor: customColors.backgroundColor,
+                    fillColor: customColors.feedBgColor,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     prefixIcon: Container(
                       padding: const EdgeInsets.all(10),
@@ -295,7 +294,7 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
                       ),
                     ),
                     filled: true,
-                    fillColor: customColors.backgroundColor,
+                    fillColor: customColors.feedBgColor,
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     prefixIcon: Container(
                       padding: const EdgeInsets.all(10),

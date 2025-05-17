@@ -366,7 +366,7 @@ class ListingCard extends ConsumerWidget {
           ),
           
           // If current user is the owner, show "View Responses" button
-          if (isOwner && onViewResponses != null) {
+          if (isOwner && onViewResponses != null)
             TextButton.icon(
               onPressed: onViewResponses,
               icon: Icon(Icons.forum_outlined, size: 16, color: messageColor),
@@ -375,7 +375,7 @@ class ListingCard extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               ),
             )
-          } else {
+          else
             TextButton.icon(
               onPressed: () {
                 // Use the global dmProvider to create a session
@@ -389,7 +389,6 @@ class ListingCard extends ConsumerWidget {
                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               ),
             ),
-          },
         ],
       );
     } 

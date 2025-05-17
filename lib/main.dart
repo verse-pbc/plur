@@ -139,6 +139,7 @@ import 'util/theme_util.dart';
 import 'package:nostrmo/features/asks_offers/screens/create_edit_listing_screen.dart';
 import 'package:nostrmo/features/asks_offers/screens/listing_detail_screen.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
+import 'package:nostrmo/features/asks_offers/screens/my_listings_screen.dart';
 import 'package:nostrmo/features/asks_offers/models/listing_model.dart';
 import 'package:nostrmo/util/log_test_screen.dart';
 import 'package:nostrmo/util/app_logger.dart';
@@ -593,6 +594,7 @@ class _MyApp extends State<MyApp> {
         final String? groupId = args?['groupId'];
         return ListingsScreen(groupId: groupId);
       },
+      RouterPath.myListings: (context) => const MyListingsScreen(),
       // Listing create/edit and detail routes are handled by onGenerateRoute
     };
 

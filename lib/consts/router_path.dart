@@ -62,6 +62,7 @@ class RouterPath {
   static const String listings = "/listings";
   static const String listingCreateEdit = "/listingCreateEdit";
   static const String listingDetail = "/listingDetail";
+  static const String myListings = "/myListings";
   static const String reportManagement = "/reportManagement";
 
   /// The route path for the Logging Test screen (developer use only)

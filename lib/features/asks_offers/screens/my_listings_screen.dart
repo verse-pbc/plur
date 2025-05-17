@@ -293,7 +293,7 @@ class _MyListingsScreenState extends ConsumerState<MyListingsScreen> with Single
     ListingModel? selectedListing;
     if (listingsState is AsyncData && _selectedListingId != null) {
       selectedListing = listingsState.value
-          .firstWhere((listing) => listing.id == _selectedListingId, 
+          ?.firstWhere((listing) => listing.id == _selectedListingId, 
                        orElse: () => throw Exception('Listing not found'));
     }
     
@@ -349,7 +349,7 @@ class _MyListingsScreenState extends ConsumerState<MyListingsScreen> with Single
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedStatus = _selectedStatus == status ? null : status;
+                        _selectedStatus = _selectedStatus == status ? null : (status as ListingStatus?);
                       });
                     },
                     child: Container(
@@ -500,7 +500,7 @@ class _MyListingsScreenState extends ConsumerState<MyListingsScreen> with Single
     
     return Card(
       elevation: 0,
-      color: customColors.backgroundColor,
+      color: customColors.feedBgColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
         side: BorderSide(

@@ -300,7 +300,7 @@ class ResponseList extends ConsumerWidget {
           ],
           
           // Action buttons - different options based on user role and status
-          if (isCurrentUserOwner && response.status == ResponseStatus.pending) ..[
+          if (isCurrentUserOwner && response.status == ResponseStatus.pending) ...[
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
