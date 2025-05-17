@@ -19,6 +19,8 @@ import 'package:flutter_cache_manager/src/cache_store.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:nostrmo/theme/app_theme.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/styled_bot_toast.dart';
 import 'package:nostrmo/util/error_logger.dart';
@@ -901,167 +903,21 @@ class _MyApp extends State<MyApp> {
   }
 
   ThemeData getLightTheme() {
-    const CustomColors light = CustomColors.light;
     double baseFontSize = settingsProvider.fontSize;
-
-    var textTheme = _textTheme(
-      baseFontSize: baseFontSize,
-      foregroundColor: light.primaryForegroundColor,
-    );
-    var titleTextStyle = _titleTextStyle(
-      foregroundColor: light.primaryForegroundColor,
-    );
-
-    // Apply custom font if set
-    if (settingsProvider.fontFamily != null) {
-      textTheme = _applyCustomFont(textTheme, titleTextStyle);
-    }
-
-    return ThemeData(
-      extensions: const [light],
-      scaffoldBackgroundColor: light.appBgColor,
-      primaryColor: light.accentColor,
-      focusColor: light.secondaryForegroundColor.withAlpha(26),
-      appBarTheme: _appBarTheme(
-        bgColor: light.navBgColor,
-        titleTextStyle: titleTextStyle,
-        foregroundColor: light.primaryForegroundColor,
-      ),
-      dividerColor: light.separatorColor,
-      cardColor: light.cardBgColor,
-      textTheme: textTheme,
-      hintColor: light.secondaryForegroundColor,
-      shadowColor: light.dimmedColor,
-      tabBarTheme: _tabBarTheme(),
-      canvasColor: light.feedBgColor,
-      iconTheme: _iconTheme(light.primaryForegroundColor),
-    );
+    
+    // Use the new theme system from app_theme.dart
+    return AppTheme.lightTheme(fontSize: baseFontSize);
   }
 
   ThemeData getDarkTheme() {
-    const CustomColors dark = CustomColors.dark;
     double baseFontSize = settingsProvider.fontSize;
-
-    var textTheme = _textTheme(
-      baseFontSize: baseFontSize,
-      foregroundColor: dark.primaryForegroundColor,
-    );
-    var titleTextStyle = _titleTextStyle(
-      foregroundColor: dark.primaryForegroundColor,
-    );
-
-    // Apply custom font if set
-    if (settingsProvider.fontFamily != null) {
-      textTheme = _applyCustomFont(textTheme, titleTextStyle);
-    }
-
-    return ThemeData(
-      extensions: const [CustomColors.dark],
-      scaffoldBackgroundColor: dark.appBgColor,
-      primaryColor: dark.accentColor,
-      focusColor: dark.secondaryForegroundColor.withAlpha(26),
-      appBarTheme: _appBarTheme(
-        bgColor: dark.navBgColor,
-        titleTextStyle: titleTextStyle,
-        foregroundColor: dark.primaryForegroundColor,
-      ),
-      dividerColor: dark.separatorColor,
-      cardColor: dark.cardBgColor,
-      textTheme: textTheme,
-      hintColor: dark.dimmedColor,
-      shadowColor: Colors.white.withAlpha(76),
-      tabBarTheme: _tabBarTheme(),
-      canvasColor: dark.feedBgColor,
-      iconTheme: _iconTheme(dark.primaryForegroundColor),
-    );
+    
+    // Use the new theme system from app_theme.dart
+    return AppTheme.darkTheme(fontSize: baseFontSize);
   }
 
-  // Theme methods
-  TextTheme _textTheme({
-    required double baseFontSize,
-    required Color foregroundColor,
-  }) =>
-      TextTheme(
-        bodyLarge: GoogleFonts.nunito(
-          fontSize: baseFontSize + 2,
-          color: foregroundColor,
-        ),
-        bodyMedium: GoogleFonts.nunito(
-          fontSize: baseFontSize,
-          color: foregroundColor,
-        ),
-        bodySmall: GoogleFonts.nunito(
-          fontSize: baseFontSize - 2,
-          color: foregroundColor,
-        ),
-        titleLarge: GoogleFonts.nunito(
-          fontSize: baseFontSize + 4,
-          fontWeight: FontWeight.bold,
-          color: foregroundColor,
-        ),
-        titleMedium: GoogleFonts.nunito(
-          fontSize: baseFontSize + 2,
-          fontWeight: FontWeight.bold,
-          color: foregroundColor,
-        ),
-        titleSmall: GoogleFonts.nunito(
-          fontSize: baseFontSize,
-          fontWeight: FontWeight.bold,
-          color: foregroundColor,
-        ),
-        labelLarge: GoogleFonts.nunito(
-          fontSize: baseFontSize,
-          fontWeight: FontWeight.w500,
-          color: foregroundColor,
-        ),
-        labelMedium: GoogleFonts.nunito(
-          fontSize: baseFontSize - 1,
-          fontWeight: FontWeight.w500,
-          color: foregroundColor,
-        ),
-        labelSmall: GoogleFonts.nunito(
-          fontSize: baseFontSize - 2,
-          fontWeight: FontWeight.w500,
-          color: foregroundColor,
-        ),
-      );
+  // Removed the old theme helper methods as we're using the AppTheme system now
 }
-
-TextStyle _titleTextStyle({
-  required Color foregroundColor,
-}) =>
-    GoogleFonts.nunito(
-      color: foregroundColor,
-      fontWeight: FontWeight.bold,
-    );
-
-TextTheme _applyCustomFont(TextTheme textTheme, TextStyle titleTextStyle) =>
-    GoogleFonts.getTextTheme(settingsProvider.fontFamily!, textTheme);
-
-AppBarTheme _appBarTheme({
-  required Color bgColor,
-  required TextStyle titleTextStyle,
-  required Color foregroundColor,
-}) =>
-    AppBarTheme(
-      backgroundColor: bgColor,
-      titleTextStyle: titleTextStyle,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      iconTheme: IconThemeData(
-        color: foregroundColor,
-      ),
-    );
-
-TabBarThemeData _tabBarTheme() => TabBarThemeData(
-      indicatorColor: Colors.white,
-      indicatorSize: TabBarIndicatorSize.tab,
-      dividerHeight: 0,
-      labelColor: Colors.white,
-      unselectedLabelColor: Colors.grey[200],
-    );
-
-IconThemeData _iconTheme(Color color) => IconThemeData(color: color);
 
 void setGetTimeAgoDefaultLocale(Locale? locale) {
   String? localeName = Intl.defaultLocale;
