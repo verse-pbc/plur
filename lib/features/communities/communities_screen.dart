@@ -313,6 +313,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
       isDismissible: false, // Prevent dismissing by tapping outside
       enableDrag: false, // Prevent dismissing by dragging
       barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      useSafeArea: false,
       builder: (sheetContext) {
         // Get responsive width values (matching login sheet)
         var screenWidth = MediaQuery.of(sheetContext).size.width;
@@ -328,40 +329,28 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
               AnimatedPadding(
                 padding: MediaQuery.of(sheetContext).viewInsets,
                 duration: const Duration(milliseconds: 100),
-                child: isDesktop || isTablet
-                    ? Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(maxWidth: sheetMaxWidth),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: sheetContext.colors.loginBackground,
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                topRight: Radius.circular(24),
-                              ),
+                child: Container(
+                  width: screenWidth,
+                  decoration: BoxDecoration(
+                    color: sheetContext.colors.loginBackground,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(24),
+                      topRight: Radius.circular(24),
+                    ),
+                  ),
+                  child: SafeArea(
+                    top: false,
+                    bottom: true,
+                    child: isDesktop || isTablet
+                        ? Center(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                              child: const NoCommunitiesSheet(),
                             ),
-                            child: const SafeArea(
-                              top: false,
-                              bottom: true,
-                              child: NoCommunitiesSheet(),
-                            ),
-                          ),
-                        ),
-                      )
-                    : Container(
-                        decoration: BoxDecoration(
-                          color: sheetContext.colors.loginBackground,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(24),
-                            topRight: Radius.circular(24),
-                          ),
-                        ),
-                        child: const SafeArea(
-                          top: false,
-                          bottom: true,
-                          child: NoCommunitiesSheet(),
-                        ),
-                      ),
+                          )
+                        : const NoCommunitiesSheet(),
+                  ),
+                ),
               ),
             ],
           ),
