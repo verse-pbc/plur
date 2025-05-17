@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:developer' as developer;
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// Styled toast widget that uses BotToast to show a toast message.
 /// Includes better error handling to prevent app crashes.
@@ -23,7 +23,7 @@ class StyledBotToast {
     
     // Skip showing toasts for encoding errors using our centralized logic
     if (_shouldSuppressMessage(text)) {
-      debugPrint("SUPPRESSED TOAST (show): $text");
+      logger.d("SUPPRESSED TOAST (show): $text");
       return;
     }
     
@@ -39,13 +39,9 @@ class StyledBotToast {
         text,
         contentColor: themeData.secondaryForegroundColor,
       );
-    } catch (e) {
+    } catch (e, stack) {
       // Log errors but don't crash the app
-      developer.log(
-        'Error showing toast: $e',
-        name: 'StyledBotToast',
-        error: e,
-      );
+      logger.e('Error showing toast', e, stack);
       
       // Fall back to default toast (safer)
       _safeShowToast(text);
@@ -59,7 +55,7 @@ class StyledBotToast {
     
     // Skip showing toasts for encoding errors using our centralized logic
     if (_shouldSuppressMessage(text)) {
-      debugPrint("SUPPRESSED ERROR TOAST (showError): $text");
+      logger.d("SUPPRESSED ERROR TOAST (showError): $text");
       return;
     }
     
@@ -68,13 +64,9 @@ class StyledBotToast {
         text,
         contentColor: Colors.red.shade700,
       );
-    } catch (e) {
+    } catch (e, stack) {
       // Log errors but don't crash the app
-      developer.log(
-        'Error showing error toast: $e',
-        name: 'StyledBotToast',
-        error: e,
-      );
+      logger.e('Error showing error toast', e, stack);
       
       // Fall back to default toast (safer)
       _safeShowToast(text);
@@ -88,7 +80,7 @@ class StyledBotToast {
     
     // Skip showing toasts for encoding errors using our centralized logic
     if (_shouldSuppressMessage(text)) {
-      debugPrint("SUPPRESSED SUCCESS TOAST (showSuccess): $text");
+      logger.d("SUPPRESSED SUCCESS TOAST (showSuccess): $text");
       return;
     }
     
@@ -97,13 +89,9 @@ class StyledBotToast {
         text,
         contentColor: Colors.green.shade700,
       );
-    } catch (e) {
+    } catch (e, stack) {
       // Log errors but don't crash the app
-      developer.log(
-        'Error showing success toast: $e',
-        name: 'StyledBotToast',
-        error: e,
-      );
+      logger.e('Error showing success toast', e, stack);
       
       // Fall back to default toast (safer)
       _safeShowToast(text);
@@ -123,12 +111,8 @@ class StyledBotToast {
         }
       }
       _activeCancelFuncs.clear();
-    } catch (e) {
-      developer.log(
-        'Error cleaning up toasts: $e',
-        name: 'StyledBotToast',
-        error: e,
-      );
+    } catch (e, stack) {
+      logger.e('Error cleaning up toasts', e, stack);
     }
   }
   
@@ -136,7 +120,7 @@ class StyledBotToast {
   static void _safeShowToast(String text, {Color? contentColor}) {
     // Skip showing toasts for encoding errors
     if (_shouldSuppressMessage(text)) {
-      debugPrint("SUPPRESSED TOAST ERROR: $text");
+      logger.d("SUPPRESSED TOAST ERROR: $text");
       return;
     }
     
@@ -186,17 +170,13 @@ class StyledBotToast {
       Future.delayed(const Duration(seconds: 3), () {
         _activeCancelFuncs.remove(toastId);
       });
-    } catch (e) {
+    } catch (e, stack) {
       // Log the error but don't crash the app
-      developer.log(
-        'Error in _safeShowToast: $e',
-        name: 'StyledBotToast',
-        error: e,
-      );
+      logger.e('Error in _safeShowToast', e, stack);
       
       // Last resort: use native alert for critical messages
       if (text.isNotEmpty && kDebugMode) {
-        debugPrint("Toast fallback: $text");
+        logger.d("Toast fallback: $text");
       }
     }
   }
@@ -231,11 +211,11 @@ class StyledBotToast {
     // Use our centralized suppression logic
     if (_shouldSuppressMessage(text)) {
       // Just log silently but don't show to user
-      debugPrint("SUPPRESSED IMAGE ERROR TOAST: $text");
+      logger.d("SUPPRESSED IMAGE ERROR TOAST: $text");
       return;
     }
     
     // Print to console as absolute fallback
-    debugPrint("TOAST: $text");
+    logger.i("TOAST: $text");
   }
 }

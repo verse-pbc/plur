@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/component/styled_bot_toast.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 /// A comprehensive error logger for flutter applications
 /// Provides detailed error traces and allows for custom error handling
@@ -25,7 +26,7 @@ class ErrorLogger {
       StyledBotToast.cleanUp();
     });
     
-    developer.log('ErrorLogger initialized successfully', name: 'ErrorLogger');
+    logger.i('ErrorLogger initialized successfully');
   }
   
   /// Handle errors from the Flutter framework
@@ -38,19 +39,10 @@ class ErrorLogger {
     // Always log but with different verbosity based on error type
     if (isImageError) {
       // For image errors, use a quieter log level without full stack trace
-      developer.log(
-        'IMAGE FLUTTER ERROR: ${details.exception}',
-        name: 'ErrorLogger',
-        error: details.exception,
-      );
+      logger.d('IMAGE FLUTTER ERROR: ${details.exception}', details.exception);
     } else {
       // Normal errors get full logging
-      developer.log(
-        'FLUTTER ERROR: ${details.exception}',
-        name: 'ErrorLogger',
-        error: details.exception,
-        stackTrace: details.stack,
-      );
+      logger.e('FLUTTER ERROR: ${details.exception}', details.exception, details.stack);
     }
     
     // Show a toast notification in debug mode, but only for non-image errors
@@ -72,19 +64,10 @@ class ErrorLogger {
     // Always log but with different verbosity based on error type
     if (isImageError) {
       // For image errors, use a quieter log level without full stack trace
-      developer.log(
-        'IMAGE PLATFORM ERROR: $error',
-        name: 'ErrorLogger',
-        error: error,
-      );
+      logger.d('IMAGE PLATFORM ERROR: $error', error);
     } else {
       // Normal errors get full logging
-      developer.log(
-        'PLATFORM ERROR: $error',
-        name: 'ErrorLogger',
-        error: error,
-        stackTrace: stack,
-      );
+      logger.e('PLATFORM ERROR: $error', error, stack);
     }
     
     // Show a toast notification in debug mode, but only for non-image errors
@@ -112,19 +95,10 @@ class ErrorLogger {
     // Always log to developer tools but with different verbosity
     if (isImageError) {
       // For image errors, use a quieter log level
-      developer.log(
-        'IMAGE ERROR: $truncatedMessage',
-        name: 'ErrorLogger',
-        error: error,
-      );
+      logger.d('IMAGE ERROR: $truncatedMessage', error);
     } else {
       // Normal errors get full stack trace logging
-      developer.log(
-        'APP ERROR: $truncatedMessage',
-        name: 'ErrorLogger',
-        error: error,
-        stackTrace: stackTrace ?? StackTrace.current,
-      );
+      logger.e('APP ERROR: $truncatedMessage', error, stackTrace ?? StackTrace.current);
     }
     
     // Show a toast notification in debug mode, but only for non-image errors
@@ -138,7 +112,7 @@ class ErrorLogger {
     // Skip encoding errors - these are common with image loading and we don't want to show them
     if (message.contains("EncodingError") || message.contains("source image cannot be decoded")) {
       // Just log silently but don't show to user
-      debugPrint("SUPPRESSED IMAGE ERROR: $message");
+      logger.d("SUPPRESSED IMAGE ERROR: $message");
       return;
     }
     
@@ -146,7 +120,7 @@ class ErrorLogger {
     final now = DateTime.now();
     if (now.difference(_lastErrorToastTime) < _errorToastThrottleTime) {
       // Just log to console if we're throttling
-      debugPrint("THROTTLED ERROR: $message");
+      logger.d("THROTTLED ERROR: $message");
       return;
     }
     
@@ -163,7 +137,7 @@ class ErrorLogger {
     
     // Also always log to console in debug mode for visibility
     if (kDebugMode) {
-      debugPrint("ERROR: $message");
+      logger.e("ERROR: $message");
     }
   }
   
@@ -172,7 +146,7 @@ class ErrorLogger {
     // Skip encoding errors - these are common with image loading and we don't want to show them
     if (message.contains("EncodingError") || message.contains("source image cannot be decoded")) {
       // Just log silently but don't show to user
-      debugPrint("SUPPRESSED IMAGE ERROR: $message");
+      logger.d("SUPPRESSED IMAGE ERROR: $message");
       return;
     }
     
@@ -189,11 +163,11 @@ class ErrorLogger {
         StyledBotToast.showError(context, text: displayMessage);
       } catch (e) {
         // Fallback to console
-        debugPrint("ERROR (toast failed): $message");
+        logger.e("ERROR (toast failed): $message");
       }
     } else {
       // Fallback to console for unmounted context
-      debugPrint("ERROR (unmounted context): $message");
+      logger.e("ERROR (unmounted context): $message");
     }
   }
   
@@ -214,7 +188,7 @@ class ErrorLogger {
       // Always log internally but with different levels
       if (isImageError) {
         // Just log silently but don't show toast for image errors
-        debugPrint("SUPPRESSED IMAGE ERROR during $operation: $e");
+        logger.d("SUPPRESSED IMAGE ERROR during $operation: $e");
       } else {
         // Log normal errors with full details
         logError('Error during $operation', e, stack);
@@ -272,7 +246,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
       // Log to our error logger with appropriate verbosity
       if (isImageError) {
         // For image errors, just log quietly without showing error UI
-        debugPrint("SUPPRESSED IMAGE ERROR in boundary: ${details.exception}");
+        logger.d("SUPPRESSED IMAGE ERROR in boundary: ${details.exception}");
       } else {
         // For normal errors, do full logging and show error UI
         ErrorLogger.logError(
@@ -295,7 +269,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
     try {
       StyledBotToast.cleanUp();
     } catch (e) {
-      debugPrint("Error cleaning toasts during init: $e");
+      logger.e("Error cleaning toasts during init: $e");
     }
   }
   
@@ -308,7 +282,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
     
     if (isImageError) {
       // For image errors, just log quietly without showing error UI
-      debugPrint("SUPPRESSED IMAGE ERROR in captureError: $error");
+      logger.d("SUPPRESSED IMAGE ERROR in captureError: $error");
       
       // Don't update state for image errors - this prevents showing the error UI
       return;
@@ -342,7 +316,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
     try {
       StyledBotToast.cleanUp();
     } catch (e) {
-      debugPrint("Error cleaning toasts during dispose: $e");
+      logger.e("Error cleaning toasts during dispose: $e");
     }
     
     // Restore original error handler
@@ -363,7 +337,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
       
       // For image errors, skip showing the error UI completely
       if (isImageError) {
-        debugPrint("SUPPRESSED IMAGE ERROR UI: $_error");
+        logger.d("SUPPRESSED IMAGE ERROR UI: $_error");
         // Just return the child as if no error occurred
         try {
           return widget.child;
@@ -428,7 +402,7 @@ class _ErrorBoundaryState extends State<ErrorBoundary> {
       
       if (isImageError) {
         // For image errors, just log quietly without showing error UI
-        debugPrint("SUPPRESSED IMAGE ERROR in build: $error");
+        logger.d("SUPPRESSED IMAGE ERROR in build: $error");
         
         // Return the simplest possible fallback without updating state
         return const SizedBox();

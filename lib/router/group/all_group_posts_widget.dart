@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/event/group_event_list_widget.dart';
@@ -12,6 +10,7 @@ import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/util/app_logger.dart';
 import 'package:provider/provider.dart';
 
 class AllGroupPostsWidget extends StatefulWidget {
@@ -55,7 +54,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
   }
   
   void _preloadContent() {
-    log("Preloading content for global feed", name: "AllGroupPostsWidget");
+    logger.d('Preloading content for global feed');
     
     // If we don't have a provider yet, try getting it
     if (groupFeedProvider == null || listProvider == null) {
@@ -64,9 +63,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         if (groupFeedProvider == null) {
           try {
             groupFeedProvider = Provider.of<GroupFeedProvider>(context, listen: false);
-            log("Retrieved GroupFeedProvider from context", name: "AllGroupPostsWidget");
+            logger.d('Retrieved GroupFeedProvider from context');
           } catch (e) {
-            log("GroupFeedProvider not available yet: $e", name: "AllGroupPostsWidget");
+            logger.w('GroupFeedProvider not available yet', e);
             // Schedule another attempt
             _scheduleRetry();
             return;
@@ -77,9 +76,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         if (listProvider == null) {
           try {
             listProvider = Provider.of<ListProvider>(context, listen: false);
-            log("Retrieved ListProvider from context", name: "AllGroupPostsWidget");
+            logger.d('Retrieved ListProvider from context');
           } catch (e) {
-            log("ListProvider not available yet: $e", name: "AllGroupPostsWidget");
+            logger.w('ListProvider not available yet', e);
             // Schedule another attempt
             _scheduleRetry();
             return;
@@ -87,7 +86,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         }
       } catch (e) {
         // Provider not ready yet, will try again later
-        log("Error getting providers: $e", name: "AllGroupPostsWidget");
+        logger.e('Error getting providers', e);
         _scheduleRetry();
         return;
       }
@@ -97,8 +96,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     if (listProvider != null) {
       final currentGroupCount = listProvider!.groupIdentifiers.length;
       if (currentGroupCount != _lastGroupCount) {
-        log("Group count changed from $_lastGroupCount to $currentGroupCount, forcing refresh",
-            name: "AllGroupPostsWidget");
+        logger.i('Group count changed from $_lastGroupCount to $currentGroupCount, forcing refresh');
         _lastGroupCount = currentGroupCount;
         
         // Clear the cached content when groups change to ensure we rebuild
@@ -111,23 +109,21 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     if (groupFeedProvider != null) {
       if (!_isInitialized) {
         _isInitialized = true;
-        log("Initializing GroupFeedProvider", name: "AllGroupPostsWidget");
+        logger.d('Initializing GroupFeedProvider');
       }
       
       // Always ensure we have posts
       if (groupFeedProvider!.notesBox.isEmpty()) {
-        log("No posts found in feed, initiating query", name: "AllGroupPostsWidget");
+        logger.d('No posts found in feed, initiating query');
         // Make sure we're subscribed and query for data
         groupFeedProvider!.subscribe();
         groupFeedProvider!.doQuery(null);
       } else {
-        log("Found ${groupFeedProvider!.notesBox.length()} existing posts in feed", 
-            name: "AllGroupPostsWidget");
+        logger.d('Found ${groupFeedProvider!.notesBox.length()} existing posts in feed');
         
         // Even if we have events, check if groups changed
         if (listProvider != null && _hasGroupsChanged()) {
-          log("Groups have changed while we have events, forcing refresh", 
-              name: "AllGroupPostsWidget");
+          logger.i('Groups have changed while we have events, forcing refresh');
           // Force a refresh to ensure we have events from all current groups
           _forceRefresh();
         }
@@ -166,8 +162,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     
     // Only proceed if notesBox is empty but cache has events
     if (provider.notesBox.isEmpty() && provider.staticEventCache.isNotEmpty) {
-      log("🔄 FORCE RESTORE FROM CACHE: Attempting to restore ${provider.staticEventCache.length} events", 
-          name: "AllGroupPostsWidget");
+      logger.i('🔄 FORCE RESTORE FROM CACHE: Attempting to restore ${provider.staticEventCache.length} events');
       
       int validCount = 0;
       int invalidCount = 0;
@@ -201,11 +196,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
           setState(() {}); // Trigger a UI update
         }
         
-        log("💾 CACHE RESTORATION COMPLETE: Added $validCount events, removed $invalidCount invalid events", 
-            name: "AllGroupPostsWidget");
+        logger.i('💾 CACHE RESTORATION COMPLETE: Added $validCount events, removed $invalidCount invalid events');
       } else {
-        log("⚠️ CACHE RESTORATION FAILED: Found no valid events in cache", 
-            name: "AllGroupPostsWidget");
+        logger.w('⚠️ CACHE RESTORATION FAILED: Found no valid events in cache');
       }
     }
   }
@@ -215,7 +208,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     // We're using KeepAliveCustState which handles the keep-alive mixin
     
     // Log that this widget is being built/displayed
-    debugPrint("🔍 SCREEN DISPLAYED: AllGroupPostsWidget (Your Communities feed)");
+    logger.d('🔍 SCREEN DISPLAYED: AllGroupPostsWidget (Your Communities feed)');
     
     var settingsProvider = Provider.of<SettingsProvider>(context);
     final themeData = Theme.of(context);
@@ -224,7 +217,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     try {
       groupFeedProvider = Provider.of<GroupFeedProvider>(context);
     } catch (e) {
-      log("Error getting GroupFeedProvider: $e", name: "AllGroupPostsWidget");
+      logger.e('Error getting GroupFeedProvider', e);
       // Return a placeholder when the provider isn't ready
       return Container(
         color: themeData.scaffoldBackgroundColor,
@@ -237,7 +230,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     try {
       listProvider = Provider.of<ListProvider>(context);
     } catch (e) {
-      log("Error getting ListProvider: $e", name: "AllGroupPostsWidget");
+      logger.e('Error getting ListProvider', e);
       // Return a placeholder when the provider isn't ready
       return Container(
         color: themeData.scaffoldBackgroundColor,
@@ -252,15 +245,13 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     
     // Check if group count changed, which should force a feed refresh
     if (currentGroupCount != _lastGroupCount) {
-      log("Group count changed from $_lastGroupCount to $currentGroupCount while building",
-          name: "AllGroupPostsWidget");
+      logger.i('Group count changed from $_lastGroupCount to $currentGroupCount while building');
       _lastGroupCount = currentGroupCount;
       
       // Schedule a refresh for after this build completes
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
-          log("Triggering post-build refresh due to group count change", 
-              name: "AllGroupPostsWidget");
+          logger.d('Triggering post-build refresh due to group count change');
           _forceRefresh();
         }
       });
@@ -273,19 +264,18 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     var events = eventBox.all();
     
     // Log detailed event information
-    log("📊 EVENTS STATUS: Found ${events.length} events in the notesBox", name: "AllGroupPostsWidget");
-    log("📊 GROUP STATUS: User belongs to ${listProvider?.groupIdentifiers.length ?? 0} groups", name: "AllGroupPostsWidget");
-    log("📊 LOADING STATUS: groupFeedProvider.isLoading = ${groupFeedProvider!.isLoading}", name: "AllGroupPostsWidget");
+    logger.d('📊 EVENTS STATUS: Found ${events.length} events in the notesBox');
+    logger.d('📊 GROUP STATUS: User belongs to ${listProvider?.groupIdentifiers.length ?? 0} groups');
+    logger.d('📊 LOADING STATUS: groupFeedProvider.isLoading = ${groupFeedProvider!.isLoading}');
     
     // Force a query to ensure we have events
     if (events.isEmpty && !groupFeedProvider!.isLoading) {
-      log("🔄 FORCING QUERY: No events found in notesBox and not loading", name: "AllGroupPostsWidget");
+      logger.i('🔄 FORCING QUERY: No events found in notesBox and not loading');
       
       // Check if we can restore from cache first
       final cacheSize = groupFeedProvider!.staticEventCache.length;
       if (cacheSize > 0) {
-        log("💾 ATTEMPTING CACHE RESTORATION: Found $cacheSize events in static cache", 
-            name: "AllGroupPostsWidget");
+        logger.i('💾 ATTEMPTING CACHE RESTORATION: Found $cacheSize events in static cache');
         
         // Try to restore from cache right now (don't wait for post-frame)
         _forceRestoreFromCache();
@@ -293,8 +283,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         // Get updated event list after restoration
         events = eventBox.all();
         
-        log("💾 CACHE RESTORATION RESULT: Now have ${events.length} events in notesBox", 
-            name: "AllGroupPostsWidget");
+        logger.i('💾 CACHE RESTORATION RESULT: Now have ${events.length} events in notesBox');
       }
       
       // If still empty after cache restoration, schedule a query
@@ -342,7 +331,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         );
       } else {
         // Only show empty state when we've confirmed there are no events
-        log("⚠️ SHOWING NO NOTES WIDGET: No events found and not loading", name: "AllGroupPostsWidget");
+        logger.w('⚠️ SHOWING NO NOTES WIDGET: No events found and not loading');
         
         // Create a custom empty state message with refresh button
         content = Center(
@@ -381,7 +370,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
                         minimumSize: const Size(200, 40), // Fixed width
                       ),
                       onPressed: () {
-                        log("👆 USER CLICKED: Force refresh feed button", name: "AllGroupPostsWidget");
+                        logger.i('👆 USER CLICKED: Force refresh feed button');
                         if (groupFeedProvider != null) {
                           groupFeedProvider!.refresh();
                         }
@@ -397,7 +386,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
                       ),
                       onPressed: () {
                         // Just use a simpler navigation approach
-                        log("👆 USER CLICKED: See My Communities button", name: "AllGroupPostsWidget");
+                        logger.i('👆 USER CLICKED: See My Communities button');
                         
                         // Directly update the tab selection in a way that doesn't depend on context
                         IndexProvider.setGlobalViewModeToGrid();
@@ -472,14 +461,12 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     int invalidEvents = 0;
     Map<String, int> groupCounts = {}; // Track which groups have events
     
-    log("🔍 Validating ${events.length} events in the feed against ${userGroupIds.length} user groups", 
-        name: "AllGroupPostsWidget");
+    logger.d('🔍 Validating ${events.length} events in the feed against ${userGroupIds.length} user groups');
         
     // Log the user's groups for reference
     if (userGroupIds.isNotEmpty) {
       final groupsList = userGroupIds.keys.toList();
-      log("👤 User belongs to these groups: ${groupsList.join(', ')}", 
-          name: "AllGroupPostsWidget");
+      logger.d('👤 User belongs to these groups: ${groupsList.join(', ')}');
     }
     
     for (var event in events) {
@@ -508,24 +495,21 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         invalidEvents++;
         // Log the mismatch in detail
         if (eventGroups.isNotEmpty) {
-          log("❌ Event ${event.id.substring(0, 8)} belongs to groups [${eventGroups.join(', ')}] but user is not in these groups", 
-              name: "AllGroupPostsWidget");
+          logger.w('❌ Event ${event.id.substring(0, 8)} belongs to groups [${eventGroups.join(', ')}] but user is not in these groups');
         } else {
-          log("❌ Event ${event.id.substring(0, 8)} has no group tags", 
-              name: "AllGroupPostsWidget");
+          logger.w('❌ Event ${event.id.substring(0, 8)} has no group tags');
         }
       }
     }
     
     // Log summary
-    log("📊 Validation complete: $validEvents valid events, $invalidEvents invalid events", 
-        name: "AllGroupPostsWidget");
+    logger.d('📊 Validation complete: $validEvents valid events, $invalidEvents invalid events');
         
     // Log events per group
     if (groupCounts.isNotEmpty) {
-      log("📊 Events per group:", name: "AllGroupPostsWidget");
+      logger.d('📊 Events per group:');
       groupCounts.forEach((groupId, count) {
-        log("  Group $groupId: $count events", name: "AllGroupPostsWidget");
+        logger.d('  Group $groupId: $count events');
       });
     }
     
@@ -533,14 +517,13 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     if (userGroupIds.isNotEmpty) {
       final missingGroups = userGroupIds.keys.where((groupId) => !groupCounts.containsKey(groupId)).toList();
       if (missingGroups.isNotEmpty) {
-        log("⚠️ WARNING: ${missingGroups.length} groups have no events in the feed: ${missingGroups.join(', ')}", 
-            name: "AllGroupPostsWidget");
+        logger.w('⚠️ WARNING: ${missingGroups.length} groups have no events in the feed: ${missingGroups.join(', ')}');
       }
     }
     
     // If more than half the events are invalid, force a refresh
     if (invalidEvents > validEvents && events.isNotEmpty && mounted) {
-      log("⚠️ Too many invalid events (>50%), forcing refresh", name: "AllGroupPostsWidget");
+      logger.w('⚠️ Too many invalid events (>50%), forcing refresh');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) {
           _forceRefresh();
@@ -555,7 +538,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     // The provider should already be initialized by CommunitiesScreen
     if (!_isInitialized) {
       _isInitialized = true;
-      log("onReady called, initializing widget", name: "AllGroupPostsWidget");
+      logger.d('onReady called, initializing widget');
       
       // Force initialize to ensure we have content
       try {
@@ -563,9 +546,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         if (groupFeedProvider == null) {
           try {
             groupFeedProvider = Provider.of<GroupFeedProvider>(context, listen: false);
-            log("Successfully retrieved GroupFeedProvider", name: "AllGroupPostsWidget");
+            logger.d('Successfully retrieved GroupFeedProvider');
           } catch (e) {
-            log("Failed to get GroupFeedProvider: $e", name: "AllGroupPostsWidget");
+            logger.e('Failed to get GroupFeedProvider', e);
             // Schedule a retry and return early
             _scheduleProviderRetry(context);
             return;
@@ -576,9 +559,9 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         if (listProvider == null) {
           try {
             listProvider = Provider.of<ListProvider>(context, listen: false);
-            log("Successfully retrieved ListProvider", name: "AllGroupPostsWidget");
+            logger.d('Successfully retrieved ListProvider');
           } catch (e) {
-            log("Failed to get ListProvider: $e", name: "AllGroupPostsWidget");
+            logger.e('Failed to get ListProvider', e);
             // Schedule a retry and return early
             _scheduleProviderRetry(context);
             return;
@@ -588,21 +571,20 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
         // Get current group count
         if (listProvider != null) {
           _lastGroupCount = listProvider!.groupIdentifiers.length;
-          log("Updated last group count to $_lastGroupCount", name: "AllGroupPostsWidget");
+          logger.d('Updated last group count to $_lastGroupCount');
         }
         
         // Force a query to ensure we have data
         if (groupFeedProvider != null && groupFeedProvider!.notesBox.isEmpty()) {
-          log("onReady: Initializing feed with subscribe and query", name: "AllGroupPostsWidget");
+          logger.d('onReady: Initializing feed with subscribe and query');
           groupFeedProvider!.subscribe();
           groupFeedProvider!.doQuery(null);
         } else if (groupFeedProvider != null) {
-          log("onReady: Feed already has data, ensuring subscription is active", 
-              name: "AllGroupPostsWidget");
+          logger.d('onReady: Feed already has data, ensuring subscription is active');
           groupFeedProvider!.subscribe();
         }
       } catch (e) {
-        log("Error initializing feed: $e", name: "AllGroupPostsWidget");
+        logger.e('Error initializing feed', e);
         // Schedule a retry after a short delay
         _scheduleProviderRetry(context);
       }
@@ -616,10 +598,10 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     // Store the context locally
     final currentContext = context;
     
-    log("Scheduling provider initialization retry in 1 second", name: "AllGroupPostsWidget");
+    logger.d('Scheduling provider initialization retry in 1 second');
     Future.delayed(const Duration(seconds: 1), () {
       if (mounted) {
-        log("Executing scheduled provider initialization retry", name: "AllGroupPostsWidget");
+        logger.d('Executing scheduled provider initialization retry');
         // Get a fresh context or use setState to trigger a rebuild
         setState(() {
           // This will cause a rebuild with a fresh context
@@ -629,7 +611,7 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
   }
 
   Future<void> onRefresh() async {
-    log("Manual refresh requested", name: "AllGroupPostsWidget");
+    logger.d('Manual refresh requested');
     
     // Clear content cache when refreshing
     _cachedContentWidget = null;
@@ -659,10 +641,10 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
   void _scheduleRetry() {
     if (!mounted) return;
     
-    log("Scheduling provider retry in 500ms", name: "AllGroupPostsWidget");
+    logger.d('Scheduling provider retry in 500ms');
     Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) {
-        log("Executing scheduled retry for provider initialization", name: "AllGroupPostsWidget");
+        logger.d('Executing scheduled retry for provider initialization');
         _preloadContent();
       }
     });
@@ -673,35 +655,31 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
     if (groupFeedProvider != null && listProvider != null) {
       final provider = groupFeedProvider!;
       
-      log("🔄 FEED DEBUG INFO:", name: "AllGroupPostsWidget");
+      logger.d('🔄 FEED DEBUG INFO:');
       
       // Log feed provider stats
-      log("📊 Event counts - main box: ${provider.notesBox.length()}, new events box: ${provider.newNotesBox.length()}", 
-          name: "AllGroupPostsWidget");
+      logger.d('📊 Event counts - main box: ${provider.notesBox.length()}, new events box: ${provider.newNotesBox.length()}');
       
       // Log loading state  
-      log("🔄 Loading state: ${provider.isLoading ? 'LOADING' : 'READY'}", 
-          name: "AllGroupPostsWidget");
+      logger.d('🔄 Loading state: ${provider.isLoading ? 'LOADING' : 'READY'}');
       
       // Log static cache info
-      log("💾 Static cache size: ${provider.staticEventCache.length} events", 
-          name: "AllGroupPostsWidget");
+      logger.d('💾 Static cache size: ${provider.staticEventCache.length} events');
           
       // Log group information
       final groups = listProvider!.groupIdentifiers;
-      log("👥 User belongs to ${groups.length} groups:", name: "AllGroupPostsWidget");
+      logger.d('👥 User belongs to ${groups.length} groups:');
       
       if (groups.isNotEmpty) {
         for (int i = 0; i < groups.length; i++) {
           final group = groups[i];
-          log("  Group ${i+1}: ${group.groupId} at ${group.host}", 
-              name: "AllGroupPostsWidget");
+          logger.d('  Group ${i+1}: ${group.groupId} at ${group.host}');
         }
       }
       
       // Show a few sample events from the feed for debugging
       if (provider.notesBox.length() > 0) {
-        log("📝 Sample events in feed:", name: "AllGroupPostsWidget");
+        logger.d('📝 Sample events in feed:');
         final events = provider.notesBox.all();
         final sampleSize = events.length > 3 ? 3 : events.length;
         
@@ -712,18 +690,15 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
               .map((tag) => tag[1] as String)
               .toList();
           
-          log("  Event ${i+1}: ${event.id.substring(0, 8)}, kind=${event.kind}, groups=[${eventGroups.join(', ')}]", 
-              name: "AllGroupPostsWidget");
+          logger.d('  Event ${i+1}: ${event.id.substring(0, 8)}, kind=${event.kind}, groups=[${eventGroups.join(', ')}]');
         }
       } else if (!provider.isLoading) {
-        log("⚠️ No events in feed despite not being in loading state!", 
-            name: "AllGroupPostsWidget");
+        logger.w('⚠️ No events in feed despite not being in loading state!');
         
         // Check if there are events in static cache despite empty notesBox
         if (provider.staticEventCache.isNotEmpty) {
-          log("⚠️ FOUND ${provider.staticEventCache.length} EVENTS IN STATIC CACHE but notesBox is empty!", 
-              name: "AllGroupPostsWidget");
-              
+          logger.w('⚠️ FOUND ${provider.staticEventCache.length} EVENTS IN STATIC CACHE but notesBox is empty!');
+          
           // Log some sample events from the static cache
           int count = 0;
           for (var eventId in provider.staticEventCache.keys) {
@@ -735,15 +710,13 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
                   .map((tag) => tag[1] as String)
                   .toList();
                   
-              log("  Cache Event ${count+1}: ${cacheEvent.id.substring(0, 8)}, kind=${cacheEvent.kind}, groups=[${eventGroups.join(', ')}]", 
-                  name: "AllGroupPostsWidget");
+              logger.d('  Cache Event ${count+1}: ${cacheEvent.id.substring(0, 8)}, kind=${cacheEvent.kind}, groups=[${eventGroups.join(', ')}]');
               count++;
             }
           }
           
           // Check if these events are valid by testing against hasValidGroupTag
-          log("🔍 Checking if cache events would pass hasValidGroupTag validation:", 
-              name: "AllGroupPostsWidget");
+          logger.d('🔍 Checking if cache events would pass hasValidGroupTag validation:');
               
           int validCount = 0;
           for (var eventId in provider.staticEventCache.keys) {
@@ -753,18 +726,15 @@ class _AllGroupPostsWidgetState extends KeepAliveCustState<AllGroupPostsWidget> 
             }
           }
           
-          log("✅ ${validCount} out of ${provider.staticEventCache.length} cache events pass validation",
-              name: "AllGroupPostsWidget");
+          logger.d('✅ ${validCount} out of ${provider.staticEventCache.length} cache events pass validation');
               
           if (validCount > 0) {
-            log("🔄 Cache contains valid events but they're not in notesBox. Try refreshing.",
-                name: "AllGroupPostsWidget");
+            logger.d("🔄 Cache contains valid events but they're not in notesBox. Try refreshing.");
           }
         }
       }
     } else {
-      log("⚠️ Cannot log debug info - providers not available", 
-          name: "AllGroupPostsWidget");
+      logger.w('⚠️ Cannot log debug info - providers not available');
     }
   }
 }

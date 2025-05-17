@@ -1,9 +1,7 @@
-
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
+import 'package:nostrmo/util/app_logger.dart';
 
 import '../../main.dart';
 
@@ -93,8 +91,7 @@ class GroupDetailProvider extends ChangeNotifier
       return;
     }
     
-    log("Merging ${newNotesBox.length()} new events into main feed", 
-        name: "GroupDetailProvider");
+    logger.d('Merging ${newNotesBox.length()} new events into main feed');
         
     notesBox.addBox(newNotesBox);
     newNotesBox.clear();
@@ -111,7 +108,7 @@ class GroupDetailProvider extends ChangeNotifier
 
   void doQuery(int? until) {
     if (_groupIdentifier == null) {
-      log("Cannot query - group identifier is null", name: "GroupDetailProvider");
+      logger.w('Cannot query - group identifier is null');
       
       // Make sure loading indicator goes away
       if (isLoading) {
@@ -121,8 +118,7 @@ class GroupDetailProvider extends ChangeNotifier
       return;
     }
     
-    log("Querying for events in group ${_groupIdentifier!.groupId}", 
-        name: "GroupDetailProvider");
+    logger.d('Querying for events in group ${_groupIdentifier!.groupId}');
         
     // Set loading state if this is an initial query (until is null)
     if (until == null) {
@@ -160,8 +156,8 @@ class GroupDetailProvider extends ChangeNotifier
           sendAfterAuth: true,
         );
       }
-    } catch (e) {
-      log("Error in query: $e", name: "GroupDetailProvider");
+    } catch (e, stack) {
+      logger.e('Error in query', e, stack);
       
       // Make sure loading indicator goes away
       if (isLoading) {
@@ -209,8 +205,7 @@ class GroupDetailProvider extends ChangeNotifier
       // If we received any events, we're no longer loading
       if (eventCount > 0 && isLoading) {
         isLoading = false;
-        log("Received $eventCount events for group ${_groupIdentifier?.groupId}", 
-            name: "GroupDetailProvider");
+        logger.d('Received $eventCount events for group ${_groupIdentifier?.groupId}');
       }
 
       if (noteAdded) {
@@ -270,8 +265,7 @@ class GroupDetailProvider extends ChangeNotifier
     if (_groupIdentifier == null ||
         _groupIdentifier.toString() != groupIdentifier.toString()) {
       
-      log("Updating group identifier to ${groupIdentifier.groupId} at ${groupIdentifier.host}", 
-          name: "GroupDetailProvider");
+      logger.i('Updating group identifier to ${groupIdentifier.groupId} at ${groupIdentifier.host}');
           
       // Clear and set loading state
       clearData();
@@ -287,7 +281,7 @@ class GroupDetailProvider extends ChangeNotifier
   }
 
   void refresh() {
-    log("Refreshing group ${_groupIdentifier?.groupId}", name: "GroupDetailProvider");
+    logger.d('Refreshing group ${_groupIdentifier?.groupId}');
     
     // Clear data and set loading state
     clearData();

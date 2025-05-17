@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart'; // Use nostr_sdk
 import 'package:nostrmo/main.dart'; // Import main to access global nostr
 import 'package:nostrmo/util/group_id_util.dart';
+import 'package:nostrmo/util/app_logger.dart';
 import '../models/listing_model.dart';
 
 final listingProvider =
@@ -36,7 +37,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       return;
     }
     try {
-      debugPrint("Loading listings with groupId: $groupId");
+      logger.d("Loading listings with groupId: $groupId");
       state = const AsyncValue.loading();
       _latestListings.clear(); // Clear previous listings
 
@@ -74,8 +75,8 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
         // Add all formats to the h-tag filter for maximum compatibility
         filterJson["#h"] = groupIdFormats;
         
-        debugPrint("Added h-tag filter: ${filterJson["#h"]}");
-        debugPrint("Original groupId: '$groupId', Expanded to multiple formats for search");
+        logger.d("Added h-tag filter: ${filterJson["#h"]}");
+        logger.d("Original groupId: '$groupId', Expanded to multiple formats for search");
       }
 
       // Cancel previous subscription if exists
@@ -142,7 +143,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       if (groupId != null) {
         // Extract just the ID part, regardless of input format
         processedGroupId = GroupIdUtil.extractIdPart(groupId);
-        debugPrint("Extracted group ID part for listing creation: '$processedGroupId' from '$groupId'");
+        logger.d("Extracted group ID part for listing creation: '$processedGroupId' from '$groupId'");
       }
       
       final listing = ListingModel(
@@ -200,7 +201,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       if (listing.groupId != null) {
         // Extract just the ID part, regardless of input format
         processedGroupId = GroupIdUtil.extractIdPart(listing.groupId);
-        debugPrint("Extracted group ID part for listing update: '$processedGroupId' from '${listing.groupId}'");
+        logger.d("Extracted group ID part for listing update: '$processedGroupId' from '${listing.groupId}'");
       }
       
       // Ensure the createdAt is newer for the replacement event
@@ -270,13 +271,13 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     if (!state.hasValue || state.value == null) return [];
     
     // Log filter parameters for debugging
-    debugPrint("Filtering listings: type=${type?.name}, groupId=$groupId, showAllGroups=$showAllGroups");
+    logger.d("Filtering listings: type=${type?.name}, groupId=$groupId, showAllGroups=$showAllGroups");
     
     // If filtering by group ID, log all listings' group IDs for debugging
     if (groupId != null && !showAllGroups) {
-      debugPrint("Available listings with group info:");
+      logger.d("Available listings with group info:");
       for (final listing in state.value!) {
-        // debugPrint("  Listing: \\${listing.title}, GroupId: \\${listing.groupId}");
+        // logger.d("  Listing: \\${listing.title}, GroupId: \\${listing.groupId}");
       }
     }
 
@@ -313,9 +314,9 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     
     // Log filtered results
     if (groupId != null && !showAllGroups) {
-      debugPrint("Filtered results for groupId=$groupId: ${results.length} listings");
+      logger.d("Filtered results for groupId=$groupId: ${results.length} listings");
       for (final listing in results) {
-        // debugPrint("  Matched listing: \\${listing.title}, GroupId: \\${listing.groupId}");
+        // logger.d("  Matched listing: \\${listing.title}, GroupId: \\${listing.groupId}");
       }
     }
     
@@ -327,11 +328,11 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     if (listing.groupId == null) return false;
     
     // Debug help
-    debugPrint("Comparing groupIdFilter: '$groupIdFilter' with listing.groupId: '${listing.groupId}'");
+    logger.d("Comparing groupIdFilter: '$groupIdFilter' with listing.groupId: '${listing.groupId}'");
     
     // Check string equality first
     if (listing.groupId == groupIdFilter) {
-      debugPrint("✅ EXACT MATCH! groupIdFilter: '$groupIdFilter', listing.groupId: '${listing.groupId}'");
+      logger.d("✅ EXACT MATCH! groupIdFilter: '$groupIdFilter', listing.groupId: '${listing.groupId}'");
       return true;
     }
     
@@ -341,7 +342,7 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
       // Extract the ID part from the filter
       final communityId = groupIdFilter.split(':').last;
       if (listing.groupId == communityId) {
-        debugPrint("✅ MATCH after domain extraction! communityId: '$communityId', listing.groupId: '${listing.groupId}'");
+        logger.d("✅ MATCH after domain extraction! communityId: '$communityId', listing.groupId: '${listing.groupId}'");
         return true;
       }
     }
@@ -355,14 +356,14 @@ class ListingNotifier extends StateNotifier<AsyncValue<List<ListingModel>>> {
     final idPartsMatch = filterIdPart == listingIdPart && filterIdPart.isNotEmpty;
     
     // Detailed debugging
-    debugPrint("Filter ID extraction: '$groupIdFilter' → '$filterIdPart'");
-    debugPrint("Listing ID extraction: '${listing.groupId}' → '$listingIdPart'");
+    logger.d("Filter ID extraction: '$groupIdFilter' → '$filterIdPart'");
+    logger.d("Listing ID extraction: '${listing.groupId}' → '$listingIdPart'");
     
     if (idPartsMatch) {
-      debugPrint("✅ ID parts MATCH! filterIdPart: '$filterIdPart', listingIdPart: '$listingIdPart'");
+      logger.d("✅ ID parts MATCH! filterIdPart: '$filterIdPart', listingIdPart: '$listingIdPart'");
       return true;
     } else {
-      debugPrint("❌ ID parts DO NOT match! filterIdPart: '$filterIdPart', listingIdPart: '$listingIdPart'");
+      logger.d("❌ ID parts DO NOT match! filterIdPart: '$filterIdPart', listingIdPart: '$listingIdPart'");
       return false;
     }
   }

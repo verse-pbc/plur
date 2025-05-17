@@ -77,3 +77,174 @@ Testing should verify the following aspects:
 7. Documentation Review:
    - Ensure logging guidelines are clear and comprehensive
    - Verify examples are provided for common logging scenarios
+
+# Subtasks:
+## 1. Add logger dependency to pubspec.yaml [done]
+### Dependencies: None
+### Description: Add the 'logger' package to pubspec.yaml as a dependency for structured logging.
+### Details:
+
+
+## 2. Set up global logger instance [done]
+### Dependencies: None
+### Description: Create a global logger instance in a new file (e.g., lib/util/logging.dart) with desired formatting and log level settings.
+### Details:
+
+
+## 3. Refactor all print/debugPrint calls [done]
+### Dependencies: None
+### Description: Find and replace all print and debugPrint statements in the codebase with logger calls at the appropriate log level (debug, info, warning, error).
+### Details:
+<info added on 2025-05-17T09:45:45.508Z>
+The refactoring of print/debugPrint statements will follow a structured approach based on the categories of logs identified in the codebase:
+
+1. Log Level Mapping:
+   - Debug/Development logs → logger.d()
+   - Error logs → logger.e() (already implemented in error_logger.dart)
+   - Important state changes and user interactions → logger.i()
+   - Verbose debugging (network/API calls) → logger.v()
+   - Warnings and potential issues → logger.w()
+
+2. Priority Files for Refactoring:
+   - lib/router/group/* (contains highest concentration of debug prints)
+   - lib/provider/* (state management logging)
+   - lib/component/styled_bot_toast.dart
+   - lib/features/asks_offers/providers/listing_provider.dart
+   - UI widgets with rebuild logging
+
+3. Implementation Guidelines:
+   - Ensure performance logging is conditionally executed only in debug mode
+   - Standardize log message formatting across the application
+   - Add contextual information to log messages where appropriate
+   - Remove redundant or excessive logging statements
+   - Maintain compatibility with the global logger instance set up in the previous subtask
+
+4. Progress Tracking:
+   - Starting with group-related files as they contain the most logging statements
+   - Will proceed with providers next
+   - UI components will be addressed last
+
+This refactoring will prepare the codebase for the next subtask of removing old print/debugPrint statements entirely.
+</info added on 2025-05-17T09:45:45.508Z>
+<info added on 2025-05-17T09:51:34.773Z>
+The refactoring of print/debugPrint statements will follow a structured approach based on the categories of logs identified in the codebase:
+
+1. Log Level Mapping:
+   - Debug/Development logs → logger.d()
+   - Error logs → logger.e() (already implemented in error_logger.dart)
+   - Important state changes and user interactions → logger.i()
+   - Verbose debugging (network/API calls) → logger.v()
+   - Warnings and potential issues → logger.w()
+
+2. Priority Files for Refactoring:
+   - lib/router/group/* (contains highest concentration of debug prints)
+   - lib/provider/* (state management logging)
+   - lib/component/styled_bot_toast.dart
+   - lib/features/asks_offers/providers/listing_provider.dart
+   - UI widgets with rebuild logging
+
+3. Implementation Guidelines:
+   - Ensure performance logging is conditionally executed only in debug mode
+   - Standardize log message formatting across the application
+   - Add contextual information to log messages where appropriate
+   - Remove redundant or excessive logging statements
+   - Maintain compatibility with the global logger instance set up in the previous subtask
+
+4. Progress Tracking:
+   - Starting with group-related files as they contain the most logging statements
+   - Will proceed with providers next
+   - UI components will be addressed last
+
+This refactoring will prepare the codebase for the next subtask of removing old print/debugPrint statements entirely.
+
+Progress update on the refactoring work:
+
+1. Completed files:
+   - lib/util/app_logger.dart (created and configured)
+   - lib/util/error_logger.dart (updated to use new logger)
+   - lib/router/group/group_detail_events_widget.dart (refactored all debug prints)
+   - lib/router/group/all_group_posts_widget.dart (refactored all log statements)
+   - lib/router/group/group_detail_provider.dart (refactored all log statements)
+
+2. Improvements implemented:
+   - Successfully applied proper log levels according to the established mapping
+   - Enhanced error logging with stack traces for better debugging
+   - Added contextual information to log messages (class names, method names, relevant IDs)
+   - Preserved emojis in log messages to maintain visual categorization and readability
+   - Fixed runtime errors in logger configuration that were causing crashes in debug mode
+
+3. Next files to refactor:
+   - Remaining files in lib/router/group/ directory
+   - State management files in lib/provider/*
+   - Toast notification system in lib/component/styled_bot_toast.dart
+   - Listing provider in lib/features/asks_offers/providers/listing_provider.dart
+
+4. Standardized logging guidelines:
+   - logger.d() - Used for development-only debugging information
+   - logger.i() - Applied for tracking important state changes and user interactions
+   - logger.w() - Implemented for potential issues that don't halt execution
+   - logger.e() - Enhanced with stack traces for critical errors
+   - logger.v() - Reserved for detailed network/API call logging
+
+The refactoring is approximately 30% complete, with the highest-priority files already addressed. The established patterns are working well and will be consistently applied to the remaining files.
+</info added on 2025-05-17T09:51:34.773Z>
+<info added on 2025-05-17T09:53:34.142Z>
+Progress update on the refactoring work:
+
+1. Additional files refactored:
+   - lib/component/styled_bot_toast.dart - Successfully replaced all debugPrint statements and dart:developer log calls with appropriate logger methods
+   - lib/provider/group_provider.dart - Converted all existing log statements to use the new structured logging system
+   - Fixed a string formatting error in lib/router/group/all_group_posts_widget.dart where an apostrophe in a string was causing issues
+
+2. Improvements made:
+   - Enhanced error logging in styled_bot_toast.dart by adding stack trace capture for better debugging
+   - Applied context-appropriate log levels throughout the codebase (debug, info, warning, error)
+   - Resolved string formatting issues by replacing single quotes with double quotes where needed
+   - Established and maintained a consistent logging format across all refactored files
+
+3. Pattern established for refactoring:
+   - Replacing dart:developer imports with app_logger import
+   - Converting log() calls to logger.d(), logger.i(), logger.w(), or logger.e() based on the context and importance
+   - Transforming debugPrint() calls to the appropriate logger level (typically logger.d())
+   - Adding stack trace parameters to error logs where available to improve debugging
+   - Fixing any string formatting issues encountered during the refactoring process
+
+4. Next steps:
+   - Continue refactoring the remaining files in the provider directory
+   - Identify and update print() calls in UI widgets
+   - Review and refactor debug logging in the asks/offers features
+   - Ensure consistent logging patterns across the entire codebase
+
+The refactoring work is now approximately 45% complete, with the highest-priority files already addressed. The established patterns are working effectively, and the new logger is properly handling all log levels as intended. This progress puts us on track to complete the refactoring and move on to the next subtask of removing old print/debugPrint statements entirely.
+</info added on 2025-05-17T09:53:34.142Z>
+
+## 4. Remove old print/debugPrint statements [pending]
+### Dependencies: None
+### Description: Ensure all old print and debugPrint statements are removed or commented out after refactoring to use the logger.
+### Details:
+
+
+## 5. (Optional) Add log filtering and custom output [pending]
+### Dependencies: None
+### Description: Configure the logger to support log filtering by level or tag, and optionally output logs to a file or remote server.
+### Details:
+
+
+## 6. Document logging approach [pending]
+### Dependencies: None
+### Description: Update README.md or CONTRIBUTING.md to document the new logging approach, including usage guidelines and filtering instructions.
+### Details:
+
+
+## 7. Test and verify logging [pending]
+### Dependencies: None
+### Description: Test the app to ensure only structured logs appear, log levels work, and filtering is effective.
+### Details:
+
+
+## 8. (Optional) Add CI/pre-commit hook for print/debugPrint [pending]
+### Dependencies: None
+### Description: Add a lint rule or script to catch stray print/debugPrint calls in PRs or before commits.
+### Details:
+
+

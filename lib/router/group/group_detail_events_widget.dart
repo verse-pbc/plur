@@ -10,6 +10,7 @@ import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/group_id_util.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
+import 'package:nostrmo/util/app_logger.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 /// View modes for events
@@ -63,7 +64,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       final groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
       
       // Log for debugging
-      debugPrint("Loading events for group ID: $groupId");
+      logger.d('Loading events for group ID: $groupId');
       
       // Use Future.microtask to delay provider updates until after widget build is complete
       return Future.microtask(() async {
@@ -76,18 +77,17 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
             try {
               await ref.read(eventRSVPProvider.notifier).loadRSVPs(groupId: groupId);
             } catch (rsvpError, rsvpStack) {
-              debugPrint("Error loading RSVPs: $rsvpError");
+              logger.w('Error loading RSVPs', rsvpError, rsvpStack);
               // Continue without RSVPs if they fail to load
             }
           } catch (error, stack) {
-            debugPrint("Error loading events: $error");
+            logger.e('Error loading events', error, stack);
             // We'll handle display of errors in the UI, so we don't rethrow
           }
         }
       });
     } catch (e, stack) {
-      debugPrint("Fatal error in _loadEvents: $e");
-      debugPrint("Stack trace: $stack");
+      logger.e('Fatal error in _loadEvents', e, stack);
       // Continue without crashing the app
     }
   }
@@ -109,7 +109,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
         groupId = GroupIdUtil.formatForHTag(widget.groupIdentifier);
       } catch (e) {
         // Use a fallback if the group ID can't be formatted
-        debugPrint("Error formatting group ID: $e");
+        logger.w('Error formatting group ID: $e');
         groupId = widget.groupIdentifier.toString();
       }
       
@@ -118,7 +118,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       try {
         eventsState = ref.watch(eventProvider);
       } catch (e) {
-        debugPrint("Error watching event provider: $e");
+        logger.e('Error watching event provider', e);
         // Use loading state as fallback when the provider watch fails
         eventsState = const AsyncValue.loading();
       }
@@ -145,7 +145,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                           showPastEvents: _showPastEvents,
                         );
                       } catch (filterError) {
-                        debugPrint("Error filtering events: $filterError");
+                        logger.w('Error filtering events', filterError);
                         // Use empty list as fallback if filtering fails
                         filteredEvents = [];
                       }
@@ -165,8 +165,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
                       }
                       
                     } catch (e, stack) {
-                      debugPrint("Error rendering events: $e");
-                      debugPrint("Stack trace: $stack");
+                      logger.e('Error rendering events', e, stack);
                       return _buildErrorState(l10n);
                     }
                   },
@@ -206,8 +205,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
       );
     } catch (e, stack) {
       // Ultimate fallback - return a simple error widget that won't crash
-      debugPrint("Critical error in events build method: $e");
-      debugPrint("Stack trace: $stack");
+      logger.e('Critical error in events build method', e, stack);
       
       return Center(
         child: Padding(
@@ -1026,7 +1024,7 @@ class _GroupDetailEventsWidgetState extends ConsumerState<GroupDetailEventsWidge
         _loadEvents();
       }
     } catch (e) {
-      debugPrint('Error navigating to event creation: $e');
+      logger.e('Error navigating to event creation', e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Error creating event: $e')),
       );
