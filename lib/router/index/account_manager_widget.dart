@@ -85,10 +85,19 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
           
           // Account icon above title
           Center(
-            child: Icon(
-              Icons.account_circle,
-              size: 80,
-              color: buttonTextColor,
+            child: Image.asset(
+              'assets/imgs/profile.png',
+              width: 80,
+              height: 80,
+              // No color tinting to show the original image
+              errorBuilder: (context, error, stackTrace) {
+                // Fallback icon if image fails to load
+                return Icon(
+                  Icons.account_circle,
+                  size: 80,
+                  color: buttonTextColor,
+                );
+              },
             ),
           ),
           
