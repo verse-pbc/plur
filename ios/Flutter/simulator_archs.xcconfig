@@ -1,4 +1,0 @@
-EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64
-ONLY_ACTIVE_ARCH = NO
-ARCHS[sdk=iphonesimulator*] = x86_64
-VALID_ARCHS = x86_64

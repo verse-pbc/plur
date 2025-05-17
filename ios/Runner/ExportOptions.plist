@@ -4,20 +4,16 @@
 <dict>
 	<key>method</key>
 	<string>app-store</string>
-	<key>provisioningProfiles</key>
-	<dict>
-		<key>app.verse.prototype.plur-staging</key>
-		<string>match AppStore app.verse.prototype.plur-staging</string>
-	</dict>
-	<key>signingCertificate</key>
-	<string>Apple Distribution</string>
-	<key>signingStyle</key>
-	<string>automatic</string>
-	<key>stripSwiftSymbols</key>
-	<true/>
 	<key>teamID</key>
 	<string>GZCZBKH7MY</string>
+	<key>uploadBitcode</key>
+	<false/>
 	<key>uploadSymbols</key>
 	<true/>
+	<key>compileBitcode</key>
+	<false/>
+	<key>signingStyle</key>
+	<string>automatic</string>
 </dict>
 </plist>
+

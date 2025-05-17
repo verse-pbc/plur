@@ -115,7 +115,6 @@ GEM
     fastlane-plugin-firebase_app_distribution (0.10.0)
       google-apis-firebaseappdistribution_v1 (~> 0.3.0)
       google-apis-firebaseappdistribution_v1alpha (~> 0.2.0)
-    fastlane-plugin-sentry (1.28.0)
       os (~> 1.1, >= 1.1.4)
     fastlane-plugin-versioning (0.7.1)
     fastlane-sirp (1.0.0)
@@ -233,7 +232,6 @@ DEPENDENCIES
   fastlane
   fastlane-plugin-changelog
   fastlane-plugin-firebase_app_distribution
-  fastlane-plugin-sentry
   fastlane-plugin-versioning
 
 BUNDLED WITH

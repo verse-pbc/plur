@@ -1,3 +1,0 @@
-// Only arm64 for physical devices
-ARCHS = arm64
-ONLY_ACTIVE_ARCH = NO

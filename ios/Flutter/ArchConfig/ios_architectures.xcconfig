@@ -1,9 +1,0 @@
-// Configuration for iOS architectures
-
-// For simulator on Apple Silicon Macs
-EXCLUDED_ARCHS[sdk=iphonesimulator*] = arm64
-ARCHS[sdk=iphonesimulator*] = x86_64
-
-// Common settings
-IPHONEOS_DEPLOYMENT_TARGET = 15.5
-DEVELOPMENT_TEAM = GZCZBKH7MY

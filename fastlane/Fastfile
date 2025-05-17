@@ -25,7 +25,6 @@ platform :ios do
   asc_issuer_id = ENV["APP_STORE_CONNECT_ISSUER_ID"]
   asc_key_id = ENV["APP_STORE_CONNECT_API_KEY_ID"]
   keychain_pass = ENV["KEYCHAIN_PASS"]
-  sentry_auth = ENV["SENTRY_AUTH"]
   is_ci = ENV["CI"]
   app_secrets = ENV["APP_SECRETS"]
 

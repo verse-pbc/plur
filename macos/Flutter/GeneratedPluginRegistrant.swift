@@ -26,7 +26,6 @@ import photo_manager
 import quill_native_bridge_macos
 import screen_brightness_macos
 import screen_retriever
-import sentry_flutter
 import share_plus
 import shared_preferences_foundation
 import sqflite
@@ -57,7 +56,6 @@ func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
   QuillNativeBridgePlugin.register(with: registry.registrar(forPlugin: "QuillNativeBridgePlugin"))
   ScreenBrightnessMacosPlugin.register(with: registry.registrar(forPlugin: "ScreenBrightnessMacosPlugin"))
   ScreenRetrieverPlugin.register(with: registry.registrar(forPlugin: "ScreenRetrieverPlugin"))
-  SentryFlutterPlugin.register(with: registry.registrar(forPlugin: "SentryFlutterPlugin"))
   SharePlusMacosPlugin.register(with: registry.registrar(forPlugin: "SharePlusMacosPlugin"))
   SharedPreferencesPlugin.register(with: registry.registrar(forPlugin: "SharedPreferencesPlugin"))
   SqflitePlugin.register(with: registry.registrar(forPlugin: "SqflitePlugin"))
