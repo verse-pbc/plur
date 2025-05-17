@@ -1,0 +1,15 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/media_kit_libs_macos_video.framework/Versions/A/media_kit_libs_macos_video'
+relocations:
+  - { offset: 0xCB21C, size: 0x8, addend: 0x0, symName: _media_kit_libs_macos_videoVersionString, symObjAddr: 0x0, symBinAddr: 0x3470, symSize: 0x0 }
+  - { offset: 0xCB251, size: 0x8, addend: 0x0, symName: _media_kit_libs_macos_videoVersionNumber, symObjAddr: 0x38, symBinAddr: 0x34A8, symSize: 0x0 }
+  - { offset: 0xCB28E, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginC8register4withySo07FlutterK9Registrar_p_tFZ', symObjAddr: 0x0, symBinAddr: 0x1B08, symSize: 0x4 }
+  - { offset: 0xCB33F, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCMa', symObjAddr: 0x58, symBinAddr: 0x1B60, symSize: 0x20 }
+  - { offset: 0xCB38A, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginC8register4withySo07FlutterK9Registrar_p_tFZ', symObjAddr: 0x0, symBinAddr: 0x1B08, symSize: 0x4 }
+  - { offset: 0xCB3BD, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginC8register4withySo07FlutterK9Registrar_p_tFZTo', symObjAddr: 0x4, symBinAddr: 0x1B0C, symSize: 0x4 }
+  - { offset: 0xCB3D1, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCACycfC', symObjAddr: 0x8, symBinAddr: 0x1B10, symSize: 0x20 }
+  - { offset: 0xCB3E5, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCACycfc', symObjAddr: 0x28, symBinAddr: 0x1B30, symSize: 0x30 }
+  - { offset: 0xCB41D, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCACycfcTo', symObjAddr: 0x78, symBinAddr: 0x1B80, symSize: 0x3C }
+  - { offset: 0xCB452, size: 0x8, addend: 0x0, symName: '_$s26media_kit_libs_macos_video28MediaKitLibsMacosVideoPluginCfD', symObjAddr: 0xB4, symBinAddr: 0x1BBC, symSize: 0x30 }
+...

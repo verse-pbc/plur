@@ -1,0 +1,482 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/sqflite.framework/Versions/A/sqflite'
+relocations:
+  - { offset: 0x9130, size: 0x8, addend: 0x0, symName: _sqfliteVersionString, symObjAddr: 0x0, symBinAddr: 0x13910, symSize: 0x0 }
+  - { offset: 0x9164, size: 0x8, addend: 0x0, symName: _sqfliteVersionNumber, symObjAddr: 0x28, symBinAddr: 0x13938, symSize: 0x0 }
+  - { offset: 0x91A0, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor cursorId]', symObjAddr: 0x0, symBinAddr: 0x4210, symSize: 0xC }
+  - { offset: 0x9460, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor cursorId]', symObjAddr: 0x0, symBinAddr: 0x4210, symSize: 0xC }
+  - { offset: 0x9494, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor setCursorId:]', symObjAddr: 0xC, symBinAddr: 0x421C, symSize: 0x8 }
+  - { offset: 0x94CF, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor pageSize]', symObjAddr: 0x14, symBinAddr: 0x4224, symSize: 0xC }
+  - { offset: 0x9503, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor setPageSize:]', symObjAddr: 0x20, symBinAddr: 0x4230, symSize: 0x8 }
+  - { offset: 0x953E, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor resultSet]', symObjAddr: 0x28, symBinAddr: 0x4238, symSize: 0xC }
+  - { offset: 0x9572, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor setResultSet:]', symObjAddr: 0x34, symBinAddr: 0x4244, symSize: 0x8 }
+  - { offset: 0x95AD, size: 0x8, addend: 0x0, symName: '-[SqfliteCursor .cxx_destruct]', symObjAddr: 0x3C, symBinAddr: 0x424C, symSize: 0x3C }
+  - { offset: 0x962F, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase databaseWithPath:]', symObjAddr: 0x0, symBinAddr: 0x4288, symSize: 0x48 }
+  - { offset: 0x964F, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase SqfliteDarwinDBVersion]', symObjAddr: 0x220, symBinAddr: 0x44A8, symSize: 0x74 }
+  - { offset: 0x9678, size: 0x8, addend: 0x0, symName: _SqfliteDarwinDBVersion.once, symObjAddr: 0x18378, symBinAddr: 0x1EFA0, symSize: 0x0 }
+  - { offset: 0x968D, size: 0x8, addend: 0x0, symName: _SqfliteDarwinDBVersion.SqfliteDarwinDBVersionVal, symObjAddr: 0x18380, symBinAddr: 0x1EFA8, symSize: 0x0 }
+  - { offset: 0x974D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase inSavePoint:]', symObjAddr: 0x2B0C, symBinAddr: 0x6D94, symSize: 0x138 }
+  - { offset: 0x9778, size: 0x8, addend: 0x0, symName: '_inSavePoint:.savePointIdx', symObjAddr: 0x18388, symBinAddr: 0x1EFB0, symSize: 0x0 }
+  - { offset: 0x9BB8, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase databaseWithPath:]', symObjAddr: 0x0, symBinAddr: 0x4288, symSize: 0x48 }
+  - { offset: 0x9BFB, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase databaseWithURL:]', symObjAddr: 0x48, symBinAddr: 0x42D0, symSize: 0x48 }
+  - { offset: 0x9C3E, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase init]', symObjAddr: 0x90, symBinAddr: 0x4318, symSize: 0x8 }
+  - { offset: 0x9C70, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase initWithURL:]', symObjAddr: 0x98, symBinAddr: 0x4320, symSize: 0x4C }
+  - { offset: 0x9CB3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase initWithPath:]', symObjAddr: 0xE4, symBinAddr: 0x436C, symSize: 0xB8 }
+  - { offset: 0x9D06, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase dealloc]', symObjAddr: 0x19C, symBinAddr: 0x4424, symSize: 0x44 }
+  - { offset: 0x9D1C, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase initWithPath:].cold.1', symObjAddr: 0x334C, symBinAddr: 0xF450, symSize: 0x28 }
+  - { offset: 0x9D33, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase dealloc]', symObjAddr: 0x19C, symBinAddr: 0x4424, symSize: 0x44 }
+  - { offset: 0x9D63, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase databaseURL]', symObjAddr: 0x1E0, symBinAddr: 0x4468, symSize: 0x34 }
+  - { offset: 0x9D97, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase SqfliteDarwinDBUserVersion]', symObjAddr: 0x214, symBinAddr: 0x449C, symSize: 0xC }
+  - { offset: 0x9E5E, size: 0x8, addend: 0x0, symName: '___47+[SqfliteDarwinDatabase SqfliteDarwinDBVersion]_block_invoke', symObjAddr: 0x294, symBinAddr: 0x451C, symSize: 0x16C }
+  - { offset: 0x9F21, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase sqliteLibVersion]', symObjAddr: 0x400, symBinAddr: 0x4688, symSize: 0x40 }
+  - { offset: 0x9F6A, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase isSQLiteThreadSafe]', symObjAddr: 0x440, symBinAddr: 0x46C8, symSize: 0x1C }
+  - { offset: 0x9FA7, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase sqliteHandle]', symObjAddr: 0x45C, symBinAddr: 0x46E4, symSize: 0x8 }
+  - { offset: 0x9FDB, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase sqlitePath]', symObjAddr: 0x464, symBinAddr: 0x46EC, symSize: 0x50 }
+  - { offset: 0xA00F, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase limitFor:value:]', symObjAddr: 0x4B4, symBinAddr: 0x473C, symSize: 0x10 }
+  - { offset: 0xA09B, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase open]', symObjAddr: 0x4C4, symBinAddr: 0x474C, symSize: 0x90 }
+  - { offset: 0xA118, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase openWithFlags:]', symObjAddr: 0x554, symBinAddr: 0x47DC, symSize: 0x8 }
+  - { offset: 0xA158, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase openWithFlags:vfs:]', symObjAddr: 0x55C, symBinAddr: 0x47E4, symSize: 0xD8 }
+  - { offset: 0xA208, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase close]', symObjAddr: 0x634, symBinAddr: 0x48BC, symSize: 0xC4 }
+  - { offset: 0xA340, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setMaxBusyRetryTimeInterval:]', symObjAddr: 0x6F8, symBinAddr: 0x4980, symSize: 0x34 }
+  - { offset: 0xA3DB, size: 0x8, addend: 0x0, symName: _SqfliteDarwinDBDatabaseBusyHandler, symObjAddr: 0x72C, symBinAddr: 0x49B4, symSize: 0xA8 }
+  - { offset: 0xA4C4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase maxBusyRetryTimeInterval]', symObjAddr: 0x7D4, symBinAddr: 0x4A5C, symSize: 0x8 }
+  - { offset: 0xA4F7, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase busyRetryTimeout]', symObjAddr: 0x7DC, symBinAddr: 0x4A64, symSize: 0x44 }
+  - { offset: 0xA543, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setBusyRetryTimeout:]', symObjAddr: 0x820, symBinAddr: 0x4AA8, symSize: 0x40 }
+  - { offset: 0xA598, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase hasOpenResultSets]', symObjAddr: 0x860, symBinAddr: 0x4AE8, symSize: 0x20 }
+  - { offset: 0xA5CE, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase closeOpenResultSets]', symObjAddr: 0x880, symBinAddr: 0x4B08, symSize: 0x138 }
+  - { offset: 0xA645, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultSetDidClose:]', symObjAddr: 0x9B8, symBinAddr: 0x4C40, symSize: 0x44 }
+  - { offset: 0xA697, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase clearCachedStatements]', symObjAddr: 0x9FC, symBinAddr: 0x4C84, symSize: 0x1A0 }
+  - { offset: 0xA6F6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase cachedStatementForQuery:]', symObjAddr: 0xB9C, symBinAddr: 0x4E24, symSize: 0x70 }
+  - { offset: 0xA74C, size: 0x8, addend: 0x0, symName: '___49-[SqfliteDarwinDatabase cachedStatementForQuery:]_block_invoke', symObjAddr: 0xC0C, symBinAddr: 0x4E94, symSize: 0x2C }
+  - { offset: 0xA799, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setCachedStatement:forQuery:]', symObjAddr: 0xC38, symBinAddr: 0x4EC0, symSize: 0xD4 }
+  - { offset: 0xA808, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase rekey:]', symObjAddr: 0xD0C, symBinAddr: 0x4F94, symSize: 0xAC }
+  - { offset: 0xA884, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase rekeyWithData:]', symObjAddr: 0xDB8, symBinAddr: 0x5040, symSize: 0x8 }
+  - { offset: 0xA8C3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setKey:]', symObjAddr: 0xDC0, symBinAddr: 0x5048, symSize: 0xAC }
+  - { offset: 0xA92D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setKeyWithData:]', symObjAddr: 0xE6C, symBinAddr: 0x50F4, symSize: 0x8 }
+  - { offset: 0xA96B, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabase storeableDateFormat:]', symObjAddr: 0xE74, symBinAddr: 0x50FC, symSize: 0xAC }
+  - { offset: 0xA9BD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase hasDateFormatter]', symObjAddr: 0xF20, symBinAddr: 0x51A8, symSize: 0x10 }
+  - { offset: 0xA9F3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setDateFormat:]', symObjAddr: 0xF30, symBinAddr: 0x51B8, symSize: 0xC }
+  - { offset: 0xAA35, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase dateFromString:]', symObjAddr: 0xF3C, symBinAddr: 0x51C4, symSize: 0x8 }
+  - { offset: 0xAA7A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase stringFromDate:]', symObjAddr: 0xF44, symBinAddr: 0x51CC, symSize: 0x8 }
+  - { offset: 0xAABF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase goodConnection]', symObjAddr: 0xF4C, symBinAddr: 0x51D4, symSize: 0x60 }
+  - { offset: 0xAB05, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase warnInUse]', symObjAddr: 0xFAC, symBinAddr: 0x5234, symSize: 0x28 }
+  - { offset: 0xAB44, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase databaseExists]', symObjAddr: 0xFD4, symBinAddr: 0x525C, symSize: 0x40 }
+  - { offset: 0xAB86, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase lastErrorMessage]', symObjAddr: 0x1014, symBinAddr: 0x529C, symSize: 0x30 }
+  - { offset: 0xABDC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase hadError]', symObjAddr: 0x1044, symBinAddr: 0x52CC, symSize: 0x20 }
+  - { offset: 0xAC22, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase lastErrorCode]', symObjAddr: 0x1064, symBinAddr: 0x52EC, symSize: 0x8 }
+  - { offset: 0xAC79, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase lastExtendedErrorCode]', symObjAddr: 0x106C, symBinAddr: 0x52F4, symSize: 0x8 }
+  - { offset: 0xACCF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase errorWithMessage:]', symObjAddr: 0x1074, symBinAddr: 0x52FC, symSize: 0x88 }
+  - { offset: 0xAD31, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase lastError]', symObjAddr: 0x10FC, symBinAddr: 0x5384, symSize: 0x50 }
+  - { offset: 0xAD67, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase lastInsertRowId]', symObjAddr: 0x114C, symBinAddr: 0x53D4, symSize: 0x48 }
+  - { offset: 0xADCC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase changes]', symObjAddr: 0x1194, symBinAddr: 0x541C, symSize: 0x48 }
+  - { offset: 0xAE31, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase bindObject:toColumn:inStatement:]', symObjAddr: 0x11DC, symBinAddr: 0x5464, symSize: 0x408 }
+  - { offset: 0xB0DA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase extractSQL:argumentsList:intoString:arguments:]', symObjAddr: 0x15E4, symBinAddr: 0x586C, symSize: 0x4A4 }
+  - { offset: 0xB1CF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQuery:withParameterDictionary:]', symObjAddr: 0x1A88, symBinAddr: 0x5D10, symSize: 0x14 }
+  - { offset: 0xB221, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQuery:withArgumentsInArray:orDictionary:orVAList:shouldBind:]', symObjAddr: 0x1A9C, symBinAddr: 0x5D24, symSize: 0x2E0 }
+  - { offset: 0xB376, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase bindStatement:WithArgumentsInArray:orDictionary:orVAList:]', symObjAddr: 0x1D7C, symBinAddr: 0x6004, symSize: 0x3F8 }
+  - { offset: 0xB3BA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase bindStatement:WithArgumentsInArray:orDictionary:orVAList:]', symObjAddr: 0x1D7C, symBinAddr: 0x6004, symSize: 0x3F8 }
+  - { offset: 0xB5CA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQuery:]', symObjAddr: 0x2174, symBinAddr: 0x63FC, symSize: 0x3C }
+  - { offset: 0xB630, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQueryWithFormat:]', symObjAddr: 0x21B0, symBinAddr: 0x6438, symSize: 0xCC }
+  - { offset: 0xB6A7, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQuery:withArgumentsInArray:]', symObjAddr: 0x227C, symBinAddr: 0x6504, symSize: 0x10 }
+  - { offset: 0xB6F8, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQuery:values:error:]', symObjAddr: 0x228C, symBinAddr: 0x6514, symSize: 0x68 }
+  - { offset: 0xB76E, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeQuery:withVAList:]', symObjAddr: 0x22F4, symBinAddr: 0x657C, symSize: 0x14 }
+  - { offset: 0xB7C2, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:error:withArgumentsInArray:orDictionary:orVAList:]', symObjAddr: 0x2308, symBinAddr: 0x6590, symSize: 0x98 }
+  - { offset: 0xB859, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:]', symObjAddr: 0x23A0, symBinAddr: 0x6628, symSize: 0x34 }
+  - { offset: 0xB8BD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:withArgumentsInArray:]', symObjAddr: 0x23D4, symBinAddr: 0x665C, symSize: 0x14 }
+  - { offset: 0xB910, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:values:error:]', symObjAddr: 0x23E8, symBinAddr: 0x6670, symSize: 0x18 }
+  - { offset: 0xB973, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:withParameterDictionary:]', symObjAddr: 0x2400, symBinAddr: 0x6688, symSize: 0x14 }
+  - { offset: 0xB9C6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:withVAList:]', symObjAddr: 0x2414, symBinAddr: 0x669C, symSize: 0x14 }
+  - { offset: 0xBA1A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdateWithFormat:]', symObjAddr: 0x2428, symBinAddr: 0x66B0, symSize: 0xC4 }
+  - { offset: 0xBA91, size: 0x8, addend: 0x0, symName: _SqfliteDarwinDBExecuteBulkSQLCallback, symObjAddr: 0x24EC, symBinAddr: 0x6774, symSize: 0x138 }
+  - { offset: 0xBB71, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeStatements:]', symObjAddr: 0x2624, symBinAddr: 0x68AC, symSize: 0x8 }
+  - { offset: 0xBBB4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeStatements:withResultBlock:]', symObjAddr: 0x262C, symBinAddr: 0x68B4, symSize: 0xE8 }
+  - { offset: 0xBCC8, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase executeUpdate:withErrorAndBindings:]', symObjAddr: 0x2714, symBinAddr: 0x699C, symSize: 0x30 }
+  - { offset: 0xBD3C, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase update:withErrorAndBindings:]', symObjAddr: 0x2744, symBinAddr: 0x69CC, symSize: 0x30 }
+  - { offset: 0xBDB0, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase prepare:]', symObjAddr: 0x2774, symBinAddr: 0x69FC, symSize: 0x14 }
+  - { offset: 0xBDF3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase rollback]', symObjAddr: 0x2788, symBinAddr: 0x6A10, symSize: 0x30 }
+  - { offset: 0xBE36, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase commit]', symObjAddr: 0x27B8, symBinAddr: 0x6A40, symSize: 0x30 }
+  - { offset: 0xBE79, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase beginTransaction]', symObjAddr: 0x27E8, symBinAddr: 0x6A70, symSize: 0x34 }
+  - { offset: 0xBEBC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase beginDeferredTransaction]', symObjAddr: 0x281C, symBinAddr: 0x6AA4, symSize: 0x34 }
+  - { offset: 0xBEFF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase beginImmediateTransaction]', symObjAddr: 0x2850, symBinAddr: 0x6AD8, symSize: 0x34 }
+  - { offset: 0xBF42, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase beginExclusiveTransaction]', symObjAddr: 0x2884, symBinAddr: 0x6B0C, symSize: 0x34 }
+  - { offset: 0xBF85, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase inTransaction]', symObjAddr: 0x28B8, symBinAddr: 0x6B40, symSize: 0x8 }
+  - { offset: 0xBFBB, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase interrupt]', symObjAddr: 0x28C0, symBinAddr: 0x6B48, symSize: 0x30 }
+  - { offset: 0xC028, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase startSavePointWithName:error:]', symObjAddr: 0x28F0, symBinAddr: 0x6B78, symSize: 0xB4 }
+  - { offset: 0xC0AE, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase releaseSavePointWithName:error:]', symObjAddr: 0x29A4, symBinAddr: 0x6C2C, symSize: 0xB4 }
+  - { offset: 0xC134, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase rollbackToSavePointWithName:error:]', symObjAddr: 0x2A58, symBinAddr: 0x6CE0, symSize: 0xB4 }
+  - { offset: 0xC1BA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase checkpoint:error:]', symObjAddr: 0x2C44, symBinAddr: 0x6ECC, symSize: 0x14 }
+  - { offset: 0xC20D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase checkpoint:name:error:]', symObjAddr: 0x2C58, symBinAddr: 0x6EE0, symSize: 0x10 }
+  - { offset: 0xC26F, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase checkpoint:name:logFrameCount:checkpointCount:error:]', symObjAddr: 0x2C68, symBinAddr: 0x6EF0, symSize: 0xF0 }
+  - { offset: 0xC344, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase shouldCacheStatements]', symObjAddr: 0x2D58, symBinAddr: 0x6FE0, symSize: 0x8 }
+  - { offset: 0xC37B, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase shouldCacheStatements]', symObjAddr: 0x2D58, symBinAddr: 0x6FE0, symSize: 0x8 }
+  - { offset: 0xC3B1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setShouldCacheStatements:]', symObjAddr: 0x2D60, symBinAddr: 0x6FE8, symSize: 0x74 }
+  - { offset: 0xC3F0, size: 0x8, addend: 0x0, symName: _SqfliteDarwinDBBlockSQLiteCallBackFunction, symObjAddr: 0x2DD4, symBinAddr: 0x705C, symSize: 0x74 }
+  - { offset: 0xC499, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase makeFunctionNamed:maximumArguments:withBlock:]', symObjAddr: 0x2E48, symBinAddr: 0x70D0, symSize: 0x4 }
+  - { offset: 0xC4F6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase makeFunctionNamed:arguments:block:]', symObjAddr: 0x2E4C, symBinAddr: 0x70D4, symSize: 0xE0 }
+  - { offset: 0xC5F9, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase valueType:]', symObjAddr: 0x2F2C, symBinAddr: 0x71B4, symSize: 0x8 }
+  - { offset: 0xC664, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase valueInt:]', symObjAddr: 0x2F34, symBinAddr: 0x71BC, symSize: 0x8 }
+  - { offset: 0xC6CF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase valueLong:]', symObjAddr: 0x2F3C, symBinAddr: 0x71C4, symSize: 0x8 }
+  - { offset: 0xC73A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase valueDouble:]', symObjAddr: 0x2F44, symBinAddr: 0x71CC, symSize: 0x8 }
+  - { offset: 0xC7A4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase valueData:]', symObjAddr: 0x2F4C, symBinAddr: 0x71D4, symSize: 0x5C }
+  - { offset: 0xC854, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase valueString:]', symObjAddr: 0x2FA8, symBinAddr: 0x7230, symSize: 0x34 }
+  - { offset: 0xC8DF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultNullInContext:]', symObjAddr: 0x2FDC, symBinAddr: 0x7264, symSize: 0x8 }
+  - { offset: 0xC941, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultInt:context:]', symObjAddr: 0x2FE4, symBinAddr: 0x726C, symSize: 0xC }
+  - { offset: 0xC9BF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultLong:context:]', symObjAddr: 0x2FF0, symBinAddr: 0x7278, symSize: 0xC }
+  - { offset: 0xCA3D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultDouble:context:]', symObjAddr: 0x2FFC, symBinAddr: 0x7284, symSize: 0x8 }
+  - { offset: 0xCABD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultData:context:]', symObjAddr: 0x3004, symBinAddr: 0x728C, symSize: 0x64 }
+  - { offset: 0xCB36, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultString:context:]', symObjAddr: 0x3068, symBinAddr: 0x72F0, symSize: 0x38 }
+  - { offset: 0xCBAF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultError:context:]', symObjAddr: 0x30A0, symBinAddr: 0x7328, symSize: 0x34 }
+  - { offset: 0xCC23, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultErrorCode:context:]', symObjAddr: 0x30D4, symBinAddr: 0x735C, symSize: 0xC }
+  - { offset: 0xCCA1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultErrorNoMemoryInContext:]', symObjAddr: 0x30E0, symBinAddr: 0x7368, symSize: 0x8 }
+  - { offset: 0xCD03, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase resultErrorTooBigInContext:]', symObjAddr: 0x30E8, symBinAddr: 0x7370, symSize: 0x8 }
+  - { offset: 0xCD65, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase traceExecution]', symObjAddr: 0x30F0, symBinAddr: 0x7378, symSize: 0xC }
+  - { offset: 0xCD99, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setTraceExecution:]', symObjAddr: 0x30FC, symBinAddr: 0x7384, symSize: 0x8 }
+  - { offset: 0xCDD4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase checkedOut]', symObjAddr: 0x3104, symBinAddr: 0x738C, symSize: 0xC }
+  - { offset: 0xCE08, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setCheckedOut:]', symObjAddr: 0x3110, symBinAddr: 0x7398, symSize: 0x8 }
+  - { offset: 0xCE43, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase crashOnErrors]', symObjAddr: 0x3118, symBinAddr: 0x73A0, symSize: 0xC }
+  - { offset: 0xCE77, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setCrashOnErrors:]', symObjAddr: 0x3124, symBinAddr: 0x73AC, symSize: 0x8 }
+  - { offset: 0xCEB2, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase logsErrors]', symObjAddr: 0x312C, symBinAddr: 0x73B4, symSize: 0xC }
+  - { offset: 0xCEE6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setLogsErrors:]', symObjAddr: 0x3138, symBinAddr: 0x73C0, symSize: 0x8 }
+  - { offset: 0xCF20, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase cachedStatements]', symObjAddr: 0x3140, symBinAddr: 0x73C8, symSize: 0xC }
+  - { offset: 0xCF54, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setCachedStatements:]', symObjAddr: 0x314C, symBinAddr: 0x73D4, symSize: 0x8 }
+  - { offset: 0xCF90, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase isOpen]', symObjAddr: 0x3154, symBinAddr: 0x73DC, symSize: 0x8 }
+  - { offset: 0xCFC4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase setIsOpen:]', symObjAddr: 0x315C, symBinAddr: 0x73E4, symSize: 0x8 }
+  - { offset: 0xCFFD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase isInTransaction]', symObjAddr: 0x3164, symBinAddr: 0x73EC, symSize: 0x8 }
+  - { offset: 0xD033, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase databasePath]', symObjAddr: 0x316C, symBinAddr: 0x73F4, symSize: 0x8 }
+  - { offset: 0xD068, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase .cxx_destruct]', symObjAddr: 0x3174, symBinAddr: 0x73FC, symSize: 0x54 }
+  - { offset: 0xD099, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement dealloc]', symObjAddr: 0x31C8, symBinAddr: 0x7450, symSize: 0x44 }
+  - { offset: 0xD0CB, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement close]', symObjAddr: 0x320C, symBinAddr: 0x7494, symSize: 0x30 }
+  - { offset: 0xD10A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement reset]', symObjAddr: 0x323C, symBinAddr: 0x74C4, symSize: 0x2C }
+  - { offset: 0xD15B, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement description]', symObjAddr: 0x3268, symBinAddr: 0x74F0, symSize: 0x90 }
+  - { offset: 0xD191, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement useCount]', symObjAddr: 0x32F8, symBinAddr: 0x7580, symSize: 0x8 }
+  - { offset: 0xD1C7, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement setUseCount:]', symObjAddr: 0x3300, symBinAddr: 0x7588, symSize: 0x8 }
+  - { offset: 0xD202, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement query]', symObjAddr: 0x3308, symBinAddr: 0x7590, symSize: 0xC }
+  - { offset: 0xD238, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement setQuery:]', symObjAddr: 0x3314, symBinAddr: 0x759C, symSize: 0x8 }
+  - { offset: 0xD275, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement statement]', symObjAddr: 0x331C, symBinAddr: 0x75A4, symSize: 0x8 }
+  - { offset: 0xD2AB, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement setStatement:]', symObjAddr: 0x3324, symBinAddr: 0x75AC, symSize: 0x8 }
+  - { offset: 0xD2E6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement inUse]', symObjAddr: 0x332C, symBinAddr: 0x75B4, symSize: 0xC }
+  - { offset: 0xD31C, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement setInUse:]', symObjAddr: 0x3338, symBinAddr: 0x75C0, symSize: 0x8 }
+  - { offset: 0xD358, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinStatement .cxx_destruct]', symObjAddr: 0x3340, symBinAddr: 0x75C8, symSize: 0xC }
+  - { offset: 0xD73E, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) stringForQuery:]', symObjAddr: 0x0, symBinAddr: 0x75D4, symSize: 0x8C }
+  - { offset: 0xD7DF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) stringForQuery:]', symObjAddr: 0x0, symBinAddr: 0x75D4, symSize: 0x8C }
+  - { offset: 0xD850, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) intForQuery:]', symObjAddr: 0x8C, symBinAddr: 0x7660, symSize: 0x88 }
+  - { offset: 0xD8C1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) longForQuery:]', symObjAddr: 0x114, symBinAddr: 0x76E8, symSize: 0x84 }
+  - { offset: 0xD932, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) boolForQuery:]', symObjAddr: 0x198, symBinAddr: 0x776C, symSize: 0x88 }
+  - { offset: 0xD9A0, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) doubleForQuery:]', symObjAddr: 0x220, symBinAddr: 0x77F4, symSize: 0x8C }
+  - { offset: 0xDA11, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) dataForQuery:]', symObjAddr: 0x2AC, symBinAddr: 0x7880, symSize: 0x8C }
+  - { offset: 0xDA82, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) dateForQuery:]', symObjAddr: 0x338, symBinAddr: 0x790C, symSize: 0x8C }
+  - { offset: 0xDAF3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) tableExists:]', symObjAddr: 0x3C4, symBinAddr: 0x7998, symSize: 0x84 }
+  - { offset: 0xDB51, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) getSchema]', symObjAddr: 0x448, symBinAddr: 0x7A1C, symSize: 0xC }
+  - { offset: 0xDB8F, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) getTableSchema:]', symObjAddr: 0x454, symBinAddr: 0x7A28, symSize: 0x6C }
+  - { offset: 0xDBE1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) columnExists:inTableWithName:]', symObjAddr: 0x4C0, symBinAddr: 0x7A94, symSize: 0x110 }
+  - { offset: 0xDC51, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) applicationID]', symObjAddr: 0x5D0, symBinAddr: 0x7BA4, symSize: 0x64 }
+  - { offset: 0xDCA3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) setApplicationID:]', symObjAddr: 0x634, symBinAddr: 0x7C08, symSize: 0x78 }
+  - { offset: 0xDD01, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) applicationIDString]', symObjAddr: 0x6AC, symBinAddr: 0x7C80, symSize: 0x64 }
+  - { offset: 0xDD54, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) setApplicationIDString:]', symObjAddr: 0x710, symBinAddr: 0x7CE4, symSize: 0x9C }
+  - { offset: 0xDD70, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) applicationIDString].cold.1', symObjAddr: 0x9DC, symBinAddr: 0xF478, symSize: 0x28 }
+  - { offset: 0xDD87, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) setApplicationIDString:]', symObjAddr: 0x710, symBinAddr: 0x7CE4, symSize: 0x9C }
+  - { offset: 0xDE01, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) userVersion]', symObjAddr: 0x7AC, symBinAddr: 0x7D80, symSize: 0x64 }
+  - { offset: 0xDE53, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) setUserVersion:]', symObjAddr: 0x810, symBinAddr: 0x7DE4, symSize: 0x78 }
+  - { offset: 0xDEB2, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) columnExists:columnName:]', symObjAddr: 0x888, symBinAddr: 0x7E5C, symSize: 0x10 }
+  - { offset: 0xDF02, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabase(SqfliteDarwinDatabaseAdditions) validateSQL:error:]', symObjAddr: 0x898, symBinAddr: 0x7E6C, symSize: 0x144 }
+  - { offset: 0xE254, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabaseQueue databaseQueueWithPath:]', symObjAddr: 0x0, symBinAddr: 0x7FB0, symSize: 0x48 }
+  - { offset: 0xE26D, size: 0x8, addend: 0x0, symName: _kDispatchQueueSpecificKey, symObjAddr: 0x13F8, symBinAddr: 0x180B0, symSize: 0x0 }
+  - { offset: 0xE294, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inSavePoint:]', symObjAddr: 0x924, symBinAddr: 0x88D4, symSize: 0xDC }
+  - { offset: 0xE2BF, size: 0x8, addend: 0x0, symName: '_inSavePoint:.savePointIdx', symObjAddr: 0x8688, symBinAddr: 0x1EFB8, symSize: 0x0 }
+  - { offset: 0xE56B, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabaseQueue databaseQueueWithPath:]', symObjAddr: 0x0, symBinAddr: 0x7FB0, symSize: 0x48 }
+  - { offset: 0xE5BD, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabaseQueue databaseQueueWithURL:]', symObjAddr: 0x48, symBinAddr: 0x7FF8, symSize: 0x54 }
+  - { offset: 0xE600, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabaseQueue databaseQueueWithPath:flags:]', symObjAddr: 0x9C, symBinAddr: 0x804C, symSize: 0x58 }
+  - { offset: 0xE661, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabaseQueue databaseQueueWithURL:flags:]', symObjAddr: 0xF4, symBinAddr: 0x80A4, symSize: 0x64 }
+  - { offset: 0xE6B3, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinDatabaseQueue databaseClass]', symObjAddr: 0x158, symBinAddr: 0x8108, symSize: 0xC }
+  - { offset: 0xE6E3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue initWithURL:flags:vfs:]', symObjAddr: 0x164, symBinAddr: 0x8114, symSize: 0x78 }
+  - { offset: 0xE744, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue initWithPath:flags:vfs:]', symObjAddr: 0x1DC, symBinAddr: 0x818C, symSize: 0x188 }
+  - { offset: 0xE846, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue initWithPath:flags:]', symObjAddr: 0x364, symBinAddr: 0x8314, symSize: 0x8 }
+  - { offset: 0xE894, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue initWithURL:flags:]', symObjAddr: 0x36C, symBinAddr: 0x831C, symSize: 0x60 }
+  - { offset: 0xE8E6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue initWithURL:]', symObjAddr: 0x3CC, symBinAddr: 0x837C, symSize: 0x4C }
+  - { offset: 0xE929, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue initWithPath:]', symObjAddr: 0x418, symBinAddr: 0x83C8, symSize: 0xC }
+  - { offset: 0xE969, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue init]', symObjAddr: 0x424, symBinAddr: 0x83D4, symSize: 0x8 }
+  - { offset: 0xE99B, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue dealloc]', symObjAddr: 0x42C, symBinAddr: 0x83DC, symSize: 0x50 }
+  - { offset: 0xE9CB, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue close]', symObjAddr: 0x47C, symBinAddr: 0x842C, symSize: 0x58 }
+  - { offset: 0xEA28, size: 0x8, addend: 0x0, symName: '___35-[SqfliteDarwinDatabaseQueue close]_block_invoke', symObjAddr: 0x4D4, symBinAddr: 0x8484, symSize: 0x34 }
+  - { offset: 0xEA65, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x508, symBinAddr: 0x84B8, symSize: 0x8 }
+  - { offset: 0xEA8C, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x510, symBinAddr: 0x84C0, symSize: 0x8 }
+  - { offset: 0xEAAA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue interrupt]', symObjAddr: 0x518, symBinAddr: 0x84C8, symSize: 0x30 }
+  - { offset: 0xEADA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue database]', symObjAddr: 0x548, symBinAddr: 0x84F8, symSize: 0xA8 }
+  - { offset: 0xEB31, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inDatabase:]', symObjAddr: 0x5F0, symBinAddr: 0x85A0, symSize: 0xBC }
+  - { offset: 0xEBA9, size: 0x8, addend: 0x0, symName: '___41-[SqfliteDarwinDatabaseQueue inDatabase:]_block_invoke', symObjAddr: 0x6AC, symBinAddr: 0x865C, symSize: 0x5C }
+  - { offset: 0xEBC6, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inDatabase:].cold.1', symObjAddr: 0xE18, symBinAddr: 0xF4A0, symSize: 0x28 }
+  - { offset: 0xEBDD, size: 0x8, addend: 0x0, symName: '___41-[SqfliteDarwinDatabaseQueue inDatabase:]_block_invoke', symObjAddr: 0x6AC, symBinAddr: 0x865C, symSize: 0x5C }
+  - { offset: 0xEC65, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0x708, symBinAddr: 0x86B8, symSize: 0x34 }
+  - { offset: 0xEC8E, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x73C, symBinAddr: 0x86EC, symSize: 0x28 }
+  - { offset: 0xECAC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue beginTransaction:withBlock:]', symObjAddr: 0x764, symBinAddr: 0x8714, symSize: 0x90 }
+  - { offset: 0xED14, size: 0x8, addend: 0x0, symName: '___57-[SqfliteDarwinDatabaseQueue beginTransaction:withBlock:]_block_invoke', symObjAddr: 0x7F4, symBinAddr: 0x87A4, symSize: 0x100 }
+  - { offset: 0xEDAA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inTransaction:]', symObjAddr: 0x8F4, symBinAddr: 0x88A4, symSize: 0xC }
+  - { offset: 0xEDE8, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inDeferredTransaction:]', symObjAddr: 0x900, symBinAddr: 0x88B0, symSize: 0xC }
+  - { offset: 0xEE26, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inExclusiveTransaction:]', symObjAddr: 0x90C, symBinAddr: 0x88BC, symSize: 0xC }
+  - { offset: 0xEE64, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue inImmediateTransaction:]', symObjAddr: 0x918, symBinAddr: 0x88C8, symSize: 0xC }
+  - { offset: 0xEEA2, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0xA00, symBinAddr: 0x89B0, symSize: 0x10 }
+  - { offset: 0xEEC7, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0xA10, symBinAddr: 0x89C0, symSize: 0x8 }
+  - { offset: 0xEEE6, size: 0x8, addend: 0x0, symName: '___42-[SqfliteDarwinDatabaseQueue inSavePoint:]_block_invoke', symObjAddr: 0xA18, symBinAddr: 0x89C8, symSize: 0x180 }
+  - { offset: 0xEF94, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b48r, symObjAddr: 0xB98, symBinAddr: 0x8B48, symSize: 0x44 }
+  - { offset: 0xEFBD, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48r, symObjAddr: 0xBDC, symBinAddr: 0x8B8C, symSize: 0x34 }
+  - { offset: 0xEFDC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue checkpoint:error:]', symObjAddr: 0xC10, symBinAddr: 0x8BC0, symSize: 0x14 }
+  - { offset: 0xF02F, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue checkpoint:name:error:]', symObjAddr: 0xC24, symBinAddr: 0x8BD4, symSize: 0x10 }
+  - { offset: 0xF091, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue checkpoint:name:logFrameCount:checkpointCount:error:]', symObjAddr: 0xC34, symBinAddr: 0x8BE4, symSize: 0xDC }
+  - { offset: 0xF147, size: 0x8, addend: 0x0, symName: '___82-[SqfliteDarwinDatabaseQueue checkpoint:name:logFrameCount:checkpointCount:error:]_block_invoke', symObjAddr: 0xD10, symBinAddr: 0x8CC0, symSize: 0x54 }
+  - { offset: 0xF1E9, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48r, symObjAddr: 0xD64, symBinAddr: 0x8D14, symSize: 0x3C }
+  - { offset: 0xF211, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue path]', symObjAddr: 0xDA0, symBinAddr: 0x8D50, symSize: 0xC }
+  - { offset: 0xF245, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue setPath:]', symObjAddr: 0xDAC, symBinAddr: 0x8D5C, symSize: 0x8 }
+  - { offset: 0xF280, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue openFlags]', symObjAddr: 0xDB4, symBinAddr: 0x8D64, symSize: 0x8 }
+  - { offset: 0xF2B4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue vfsName]', symObjAddr: 0xDBC, symBinAddr: 0x8D6C, symSize: 0xC }
+  - { offset: 0xF2E8, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue setVfsName:]', symObjAddr: 0xDC8, symBinAddr: 0x8D78, symSize: 0x8 }
+  - { offset: 0xF323, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinDatabaseQueue .cxx_destruct]', symObjAddr: 0xDD0, symBinAddr: 0x8D80, symSize: 0x48 }
+  - { offset: 0xF80B, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinResultSet resultSetWithStatement:usingParentDatabase:shouldAutoClose:]', symObjAddr: 0x0, symBinAddr: 0x8DC8, symSize: 0x94 }
+  - { offset: 0xFB20, size: 0x8, addend: 0x0, symName: '+[SqfliteDarwinResultSet resultSetWithStatement:usingParentDatabase:shouldAutoClose:]', symObjAddr: 0x0, symBinAddr: 0x8DC8, symSize: 0x94 }
+  - { offset: 0xFB8D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dealloc]', symObjAddr: 0x94, symBinAddr: 0x8E5C, symSize: 0x5C }
+  - { offset: 0xFBBD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet close]', symObjAddr: 0xF0, symBinAddr: 0x8EB8, symSize: 0x44 }
+  - { offset: 0xFBED, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet columnCount]', symObjAddr: 0x134, symBinAddr: 0x8EFC, symSize: 0x18 }
+  - { offset: 0xFC47, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet columnNameToIndexMap]', symObjAddr: 0x14C, symBinAddr: 0x8F14, symSize: 0x11C }
+  - { offset: 0xFCE0, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet kvcMagic:]', symObjAddr: 0x268, symBinAddr: 0x9030, symSize: 0xE8 }
+  - { offset: 0xFDD5, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet resultDict]', symObjAddr: 0x350, symBinAddr: 0x9118, symSize: 0x124 }
+  - { offset: 0xFEAC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet resultDictionary]', symObjAddr: 0x474, symBinAddr: 0x923C, symSize: 0x108 }
+  - { offset: 0xFF92, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet next]', symObjAddr: 0x57C, symBinAddr: 0x9344, symSize: 0x8 }
+  - { offset: 0xFFC4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet nextWithError:]', symObjAddr: 0x584, symBinAddr: 0x934C, symSize: 0x1C }
+  - { offset: 0x10017, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet step]', symObjAddr: 0x5A0, symBinAddr: 0x9368, symSize: 0x8 }
+  - { offset: 0x10049, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet stepWithError:]', symObjAddr: 0x5A8, symBinAddr: 0x9370, symSize: 0x1C }
+  - { offset: 0x1009B, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet internalStepWithError:]', symObjAddr: 0x5C4, symBinAddr: 0x938C, symSize: 0x1D8 }
+  - { offset: 0x1019D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet hasAnotherRow]', symObjAddr: 0x79C, symBinAddr: 0x9564, symSize: 0x24 }
+  - { offset: 0x101F1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet columnIndexForName:]', symObjAddr: 0x7C0, symBinAddr: 0x9588, symSize: 0xAC }
+  - { offset: 0x10250, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet intForColumn:]', symObjAddr: 0x86C, symBinAddr: 0x9634, symSize: 0x28 }
+  - { offset: 0x10293, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet intForColumnIndex:]', symObjAddr: 0x894, symBinAddr: 0x965C, symSize: 0x28 }
+  - { offset: 0x102FC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet longForColumn:]', symObjAddr: 0x8BC, symBinAddr: 0x9684, symSize: 0x28 }
+  - { offset: 0x10341, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet longForColumnIndex:]', symObjAddr: 0x8E4, symBinAddr: 0x96AC, symSize: 0x28 }
+  - { offset: 0x103AC, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet longLongIntForColumn:]', symObjAddr: 0x90C, symBinAddr: 0x96D4, symSize: 0x28 }
+  - { offset: 0x103F1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet longLongIntForColumnIndex:]', symObjAddr: 0x934, symBinAddr: 0x96FC, symSize: 0x28 }
+  - { offset: 0x10444, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet unsignedLongLongIntForColumn:]', symObjAddr: 0x95C, symBinAddr: 0x9724, symSize: 0x28 }
+  - { offset: 0x1048A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet unsignedLongLongIntForColumnIndex:]', symObjAddr: 0x984, symBinAddr: 0x974C, symSize: 0x4 }
+  - { offset: 0x104CD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet boolForColumn:]', symObjAddr: 0x988, symBinAddr: 0x9750, symSize: 0x28 }
+  - { offset: 0x10513, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet boolForColumnIndex:]', symObjAddr: 0x9B0, symBinAddr: 0x9778, symSize: 0x1C }
+  - { offset: 0x10558, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet doubleForColumn:]', symObjAddr: 0x9CC, symBinAddr: 0x9794, symSize: 0x28 }
+  - { offset: 0x1059D, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet doubleForColumnIndex:]', symObjAddr: 0x9F4, symBinAddr: 0x97BC, symSize: 0x28 }
+  - { offset: 0x10608, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet stringForColumnIndex:]', symObjAddr: 0xA1C, symBinAddr: 0x97E4, symSize: 0x8C }
+  - { offset: 0x106AA, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet stringForColumn:]', symObjAddr: 0xAA8, symBinAddr: 0x9870, symSize: 0x28 }
+  - { offset: 0x106EF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dateForColumn:]', symObjAddr: 0xAD0, symBinAddr: 0x9898, symSize: 0x28 }
+  - { offset: 0x10734, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dateForColumnIndex:]', symObjAddr: 0xAF8, symBinAddr: 0x98C0, symSize: 0xDC }
+  - { offset: 0x1079A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dataForColumn:]', symObjAddr: 0xBD4, symBinAddr: 0x999C, symSize: 0x28 }
+  - { offset: 0x107DF, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dataForColumnIndex:]', symObjAddr: 0xBFC, symBinAddr: 0x99C4, symSize: 0xB0 }
+  - { offset: 0x108BD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dataNoCopyForColumn:]', symObjAddr: 0xCAC, symBinAddr: 0x9A74, symSize: 0x28 }
+  - { offset: 0x10902, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet dataNoCopyForColumnIndex:]', symObjAddr: 0xCD4, symBinAddr: 0x9A9C, symSize: 0xB0 }
+  - { offset: 0x109C1, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet columnIndexIsNull:]', symObjAddr: 0xD84, symBinAddr: 0x9B4C, symSize: 0x34 }
+  - { offset: 0x10A1B, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet columnIsNull:]', symObjAddr: 0xDB8, symBinAddr: 0x9B80, symSize: 0x28 }
+  - { offset: 0x10A60, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet UTF8StringForColumnIndex:]', symObjAddr: 0xDE0, symBinAddr: 0x9BA8, symSize: 0x6C }
+  - { offset: 0x10AD4, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet UTF8StringForColumn:]', symObjAddr: 0xE4C, symBinAddr: 0x9C14, symSize: 0x28 }
+  - { offset: 0x10B1A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet UTF8StringForColumnName:]', symObjAddr: 0xE74, symBinAddr: 0x9C3C, symSize: 0x4 }
+  - { offset: 0x10B5C, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet objectForColumnIndex:]', symObjAddr: 0xE78, symBinAddr: 0x9C40, symSize: 0x11C }
+  - { offset: 0x10BE3, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet objectForColumnName:]', symObjAddr: 0xF94, symBinAddr: 0x9D5C, symSize: 0x4 }
+  - { offset: 0x10C25, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet objectForColumn:]', symObjAddr: 0xF98, symBinAddr: 0x9D60, symSize: 0x28 }
+  - { offset: 0x10C6A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet typeForColumn:]', symObjAddr: 0xFC0, symBinAddr: 0x9D88, symSize: 0x60 }
+  - { offset: 0x10CBD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet typeForColumnIndex:]', symObjAddr: 0x1020, symBinAddr: 0x9DE8, symSize: 0x28 }
+  - { offset: 0x10D10, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet columnNameForIndex:]', symObjAddr: 0x1048, symBinAddr: 0x9E10, symSize: 0x3C }
+  - { offset: 0x10D6A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet objectAtIndexedSubscript:]', symObjAddr: 0x1084, symBinAddr: 0x9E4C, symSize: 0x4 }
+  - { offset: 0x10DAD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet objectForKeyedSubscript:]', symObjAddr: 0x1088, symBinAddr: 0x9E50, symSize: 0x4 }
+  - { offset: 0x10DF0, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet bindWithArray:orDictionary:orVAList:]', symObjAddr: 0x108C, symBinAddr: 0x9E54, symSize: 0x94 }
+  - { offset: 0x10E57, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet bindWithArray:]', symObjAddr: 0x1120, symBinAddr: 0x9EE8, symSize: 0xC }
+  - { offset: 0x10E9A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet bindWithDictionary:]', symObjAddr: 0x112C, symBinAddr: 0x9EF4, symSize: 0x10 }
+  - { offset: 0x10EDD, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet parentDB]', symObjAddr: 0x113C, symBinAddr: 0x9F04, symSize: 0x8 }
+  - { offset: 0x10F11, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet setParentDB:]', symObjAddr: 0x1144, symBinAddr: 0x9F0C, symSize: 0xC }
+  - { offset: 0x10F4F, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet query]', symObjAddr: 0x1150, symBinAddr: 0x9F18, symSize: 0xC }
+  - { offset: 0x10F83, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet setQuery:]', symObjAddr: 0x115C, symBinAddr: 0x9F24, symSize: 0x8 }
+  - { offset: 0x10FBE, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet statement]', symObjAddr: 0x1164, symBinAddr: 0x9F2C, symSize: 0xC }
+  - { offset: 0x10FF2, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet setStatement:]', symObjAddr: 0x1170, symBinAddr: 0x9F38, symSize: 0x8 }
+  - { offset: 0x1102E, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet shouldAutoClose]', symObjAddr: 0x1178, symBinAddr: 0x9F40, symSize: 0x8 }
+  - { offset: 0x11062, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet setShouldAutoClose:]', symObjAddr: 0x1180, symBinAddr: 0x9F48, symSize: 0x8 }
+  - { offset: 0x1109A, size: 0x8, addend: 0x0, symName: '-[SqfliteDarwinResultSet .cxx_destruct]', symObjAddr: 0x1188, symBinAddr: 0x9F50, symSize: 0x48 }
+  - { offset: 0x1118F, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase init]', symObjAddr: 0x0, symBinAddr: 0x9F98, symSize: 0x84 }
+  - { offset: 0x11377, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase init]', symObjAddr: 0x0, symBinAddr: 0x9F98, symSize: 0x84 }
+  - { offset: 0x113AB, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase inDatabase:]', symObjAddr: 0x84, symBinAddr: 0xA01C, symSize: 0xB0 }
+  - { offset: 0x11474, size: 0x8, addend: 0x0, symName: '___30-[SqfliteDatabase inDatabase:]_block_invoke', symObjAddr: 0x134, symBinAddr: 0xA0CC, symSize: 0x3C }
+  - { offset: 0x114BF, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbHandleError:result:]', symObjAddr: 0x1CC, symBinAddr: 0xA108, symSize: 0xE0 }
+  - { offset: 0x11522, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbHandleError:operation:]', symObjAddr: 0x2AC, symBinAddr: 0xA1E8, symSize: 0x17C }
+  - { offset: 0x115A7, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbRunQueuedOperations:]', symObjAddr: 0x428, symBinAddr: 0xA364, symSize: 0xE0 }
+  - { offset: 0x11621, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase wrapSqlOperationHandler:operation:handler:]', symObjAddr: 0x508, symBinAddr: 0xA444, symSize: 0x150 }
+  - { offset: 0x116E6, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbDoExecute:operation:]', symObjAddr: 0x658, symBinAddr: 0xA594, symSize: 0x84 }
+  - { offset: 0x11738, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbExecute:operation:]', symObjAddr: 0x6DC, symBinAddr: 0xA618, symSize: 0x50 }
+  - { offset: 0x11786, size: 0x8, addend: 0x0, symName: '___39-[SqfliteDatabase dbExecute:operation:]_block_invoke', symObjAddr: 0x72C, symBinAddr: 0xA668, symSize: 0x1B8 }
+  - { offset: 0x11852, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbExecuteOrError:operation:]', symObjAddr: 0x8F4, symBinAddr: 0xA820, symSize: 0x194 }
+  - { offset: 0x1195A, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbInsert:operation:]', symObjAddr: 0xA88, symBinAddr: 0xA9B4, symSize: 0x50 }
+  - { offset: 0x119A9, size: 0x8, addend: 0x0, symName: '___38-[SqfliteDatabase dbInsert:operation:]_block_invoke', symObjAddr: 0xAD8, symBinAddr: 0xAA04, symSize: 0x10 }
+  - { offset: 0x11A03, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbDoInsert:operation:]', symObjAddr: 0xAE8, symBinAddr: 0xAA14, symSize: 0x148 }
+  - { offset: 0x11AA7, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbUpdate:operation:]', symObjAddr: 0xC30, symBinAddr: 0xAB5C, symSize: 0x50 }
+  - { offset: 0x11AF6, size: 0x8, addend: 0x0, symName: '___38-[SqfliteDatabase dbUpdate:operation:]_block_invoke', symObjAddr: 0xC80, symBinAddr: 0xABAC, symSize: 0x10 }
+  - { offset: 0x11B50, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbDoUpdate:operation:]', symObjAddr: 0xC90, symBinAddr: 0xABBC, symSize: 0x11C }
+  - { offset: 0x11BCB, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbQuery:operation:]', symObjAddr: 0xDAC, symBinAddr: 0xACD8, symSize: 0x50 }
+  - { offset: 0x11C1A, size: 0x8, addend: 0x0, symName: '___37-[SqfliteDatabase dbQuery:operation:]_block_invoke', symObjAddr: 0xDFC, symBinAddr: 0xAD28, symSize: 0x10 }
+  - { offset: 0x11C74, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbDoQuery:operation:]', symObjAddr: 0xE0C, symBinAddr: 0xAD38, symSize: 0x274 }
+  - { offset: 0x11D84, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbQueryCursorNext:operation:]', symObjAddr: 0x1080, symBinAddr: 0xAFAC, symSize: 0x260 }
+  - { offset: 0x11E87, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase dbBatch:operation:]', symObjAddr: 0x12E0, symBinAddr: 0xB20C, symSize: 0x3C8 }
+  - { offset: 0x11F51, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase closeCursorById:]', symObjAddr: 0x16A8, symBinAddr: 0xB5D4, symSize: 0x44 }
+  - { offset: 0x11FA3, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase closeCursor:]', symObjAddr: 0x16EC, symBinAddr: 0xB618, symSize: 0xA0 }
+  - { offset: 0x1200E, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase databaseId]', symObjAddr: 0x178C, symBinAddr: 0xB6B8, symSize: 0xC }
+  - { offset: 0x12042, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setDatabaseId:]', symObjAddr: 0x1798, symBinAddr: 0xB6C4, symSize: 0x8 }
+  - { offset: 0x1207D, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase fmDatabaseQueue]', symObjAddr: 0x17A0, symBinAddr: 0xB6CC, symSize: 0xC }
+  - { offset: 0x120B1, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setFmDatabaseQueue:]', symObjAddr: 0x17AC, symBinAddr: 0xB6D8, symSize: 0x8 }
+  - { offset: 0x120EC, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase cursorMap]', symObjAddr: 0x17B4, symBinAddr: 0xB6E0, symSize: 0xC }
+  - { offset: 0x12120, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setCursorMap:]', symObjAddr: 0x17C0, symBinAddr: 0xB6EC, symSize: 0x8 }
+  - { offset: 0x1215B, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase logLevel]', symObjAddr: 0x17C8, symBinAddr: 0xB6F4, symSize: 0x8 }
+  - { offset: 0x1218F, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setLogLevel:]', symObjAddr: 0x17D0, symBinAddr: 0xB6FC, symSize: 0x8 }
+  - { offset: 0x121C8, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase currentTransactionId]', symObjAddr: 0x17D8, symBinAddr: 0xB704, symSize: 0xC }
+  - { offset: 0x121FC, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setCurrentTransactionId:]', symObjAddr: 0x17E4, symBinAddr: 0xB710, symSize: 0x8 }
+  - { offset: 0x12237, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase noTransactionOperationQueue]', symObjAddr: 0x17EC, symBinAddr: 0xB718, symSize: 0xC }
+  - { offset: 0x1226B, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setNoTransactionOperationQueue:]', symObjAddr: 0x17F8, symBinAddr: 0xB724, symSize: 0x8 }
+  - { offset: 0x122A6, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase lastCursorId]', symObjAddr: 0x1800, symBinAddr: 0xB72C, symSize: 0x8 }
+  - { offset: 0x122DA, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setLastCursorId:]', symObjAddr: 0x1808, symBinAddr: 0xB734, symSize: 0x8 }
+  - { offset: 0x12313, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase lastTransactionId]', symObjAddr: 0x1810, symBinAddr: 0xB73C, symSize: 0x8 }
+  - { offset: 0x12347, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setLastTransactionId:]', symObjAddr: 0x1818, symBinAddr: 0xB744, symSize: 0x8 }
+  - { offset: 0x12380, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase path]', symObjAddr: 0x1820, symBinAddr: 0xB74C, symSize: 0xC }
+  - { offset: 0x123B4, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setPath:]', symObjAddr: 0x182C, symBinAddr: 0xB758, symSize: 0x8 }
+  - { offset: 0x123EF, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase singleInstance]', symObjAddr: 0x1834, symBinAddr: 0xB760, symSize: 0x8 }
+  - { offset: 0x12423, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setSingleInstance:]', symObjAddr: 0x183C, symBinAddr: 0xB768, symSize: 0x8 }
+  - { offset: 0x1245B, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase inTransaction]', symObjAddr: 0x1844, symBinAddr: 0xB770, symSize: 0x8 }
+  - { offset: 0x1248F, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase setInTransaction:]', symObjAddr: 0x184C, symBinAddr: 0xB778, symSize: 0x8 }
+  - { offset: 0x124C7, size: 0x8, addend: 0x0, symName: '-[SqfliteDatabase .cxx_destruct]', symObjAddr: 0x1854, symBinAddr: 0xB780, symSize: 0x60 }
+  - { offset: 0x12B37, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getMethod]', symObjAddr: 0x0, symBinAddr: 0xB7E0, symSize: 0x8 }
+  - { offset: 0x12E83, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getMethod]', symObjAddr: 0x0, symBinAddr: 0xB7E0, symSize: 0x8 }
+  - { offset: 0x12EB3, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getSql]', symObjAddr: 0x8, symBinAddr: 0xB7E8, symSize: 0x8 }
+  - { offset: 0x12EE3, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getSqlArguments]', symObjAddr: 0x10, symBinAddr: 0xB7F0, symSize: 0x8 }
+  - { offset: 0x12F13, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getNoResult]', symObjAddr: 0x18, symBinAddr: 0xB7F8, symSize: 0x8 }
+  - { offset: 0x12F43, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getContinueOnError]', symObjAddr: 0x20, symBinAddr: 0xB800, symSize: 0x8 }
+  - { offset: 0x12F74, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation success:]', symObjAddr: 0x28, symBinAddr: 0xB808, symSize: 0x4 }
+  - { offset: 0x12FAC, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation error:]', symObjAddr: 0x2C, symBinAddr: 0xB80C, symSize: 0x4 }
+  - { offset: 0x12FE3, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getArgument:]', symObjAddr: 0x30, symBinAddr: 0xB810, symSize: 0x8 }
+  - { offset: 0x1301E, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation hasArgument:]', symObjAddr: 0x38, symBinAddr: 0xB818, symSize: 0x8 }
+  - { offset: 0x13059, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getTransactionId]', symObjAddr: 0x40, symBinAddr: 0xB820, symSize: 0x70 }
+  - { offset: 0x1309C, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation getInTransactionChange]', symObjAddr: 0xB0, symBinAddr: 0xB890, symSize: 0x10 }
+  - { offset: 0x130CE, size: 0x8, addend: 0x0, symName: '-[SqfliteOperation hasNullTransactionId]', symObjAddr: 0xC0, symBinAddr: 0xB8A0, symSize: 0x60 }
+  - { offset: 0x13102, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation getMethod]', symObjAddr: 0x120, symBinAddr: 0xB900, symSize: 0x1C }
+  - { offset: 0x13136, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation getSql]', symObjAddr: 0x13C, symBinAddr: 0xB91C, symSize: 0x1C }
+  - { offset: 0x1316A, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation getSqlArguments]', symObjAddr: 0x158, symBinAddr: 0xB938, symSize: 0x68 }
+  - { offset: 0x131AD, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation getNoResult]', symObjAddr: 0x1C0, symBinAddr: 0xB9A0, symSize: 0x10 }
+  - { offset: 0x131E1, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation getContinueOnError]', symObjAddr: 0x1D0, symBinAddr: 0xB9B0, symSize: 0x10 }
+  - { offset: 0x13216, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation success:]', symObjAddr: 0x1E0, symBinAddr: 0xB9C0, symSize: 0x4 }
+  - { offset: 0x13253, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation error:]', symObjAddr: 0x1E4, symBinAddr: 0xB9C4, symSize: 0x4 }
+  - { offset: 0x1328F, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation handleSuccess:]', symObjAddr: 0x1E8, symBinAddr: 0xB9C8, symSize: 0xD4 }
+  - { offset: 0x132CE, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation handleErrorContinue:]', symObjAddr: 0x2BC, symBinAddr: 0xBA9C, symSize: 0x1E8 }
+  - { offset: 0x1332B, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation handleError:]', symObjAddr: 0x4A4, symBinAddr: 0xBC84, symSize: 0x18 }
+  - { offset: 0x1337D, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation getArgument:]', symObjAddr: 0x4BC, symBinAddr: 0xBC9C, symSize: 0x10 }
+  - { offset: 0x133BF, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation hasArgument:]', symObjAddr: 0x4CC, symBinAddr: 0xBCAC, symSize: 0x34 }
+  - { offset: 0x13402, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation dictionary]', symObjAddr: 0x500, symBinAddr: 0xBCE0, symSize: 0x10 }
+  - { offset: 0x13436, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation setDictionary:]', symObjAddr: 0x510, symBinAddr: 0xBCF0, symSize: 0xC }
+  - { offset: 0x13471, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation results]', symObjAddr: 0x51C, symBinAddr: 0xBCFC, symSize: 0x10 }
+  - { offset: 0x134A5, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation setResults:]', symObjAddr: 0x52C, symBinAddr: 0xBD0C, symSize: 0xC }
+  - { offset: 0x134E0, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation error]', symObjAddr: 0x538, symBinAddr: 0xBD18, symSize: 0x10 }
+  - { offset: 0x13514, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation setError:]', symObjAddr: 0x548, symBinAddr: 0xBD28, symSize: 0xC }
+  - { offset: 0x1354F, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation noResult]', symObjAddr: 0x554, symBinAddr: 0xBD34, symSize: 0x14 }
+  - { offset: 0x13583, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation setNoResult:]', symObjAddr: 0x568, symBinAddr: 0xBD48, symSize: 0x10 }
+  - { offset: 0x135BC, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation continueOnError]', symObjAddr: 0x578, symBinAddr: 0xBD58, symSize: 0x14 }
+  - { offset: 0x135F0, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation setContinueOnError:]', symObjAddr: 0x58C, symBinAddr: 0xBD6C, symSize: 0x10 }
+  - { offset: 0x13629, size: 0x8, addend: 0x0, symName: '-[SqfliteBatchOperation .cxx_destruct]', symObjAddr: 0x59C, symBinAddr: 0xBD7C, symSize: 0x54 }
+  - { offset: 0x13659, size: 0x8, addend: 0x0, symName: '+[SqfliteMethodCallOperation newWithCall:result:]', symObjAddr: 0x5F0, symBinAddr: 0xBDD0, symSize: 0x78 }
+  - { offset: 0x136B7, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation getMethod]', symObjAddr: 0x668, symBinAddr: 0xBE48, symSize: 0x10 }
+  - { offset: 0x136EB, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation getSql]', symObjAddr: 0x678, symBinAddr: 0xBE58, symSize: 0x5C }
+  - { offset: 0x1371F, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation getNoResult]', symObjAddr: 0x6D4, symBinAddr: 0xBEB4, symSize: 0x70 }
+  - { offset: 0x13762, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation getContinueOnError]', symObjAddr: 0x744, symBinAddr: 0xBF24, symSize: 0x70 }
+  - { offset: 0x137A5, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation getSqlArguments]', symObjAddr: 0x7B4, symBinAddr: 0xBF94, symSize: 0x80 }
+  - { offset: 0x137E9, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation success:]', symObjAddr: 0x834, symBinAddr: 0xC014, symSize: 0x18 }
+  - { offset: 0x1383D, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation error:]', symObjAddr: 0x84C, symBinAddr: 0xC02C, symSize: 0x18 }
+  - { offset: 0x13890, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation getArgument:]', symObjAddr: 0x864, symBinAddr: 0xC044, symSize: 0x74 }
+  - { offset: 0x138D3, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation flutterMethodCall]', symObjAddr: 0x8D8, symBinAddr: 0xC0B8, symSize: 0x10 }
+  - { offset: 0x13907, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation setFlutterMethodCall:]', symObjAddr: 0x8E8, symBinAddr: 0xC0C8, symSize: 0xC }
+  - { offset: 0x13943, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation flutterResult]', symObjAddr: 0x8F4, symBinAddr: 0xC0D4, symSize: 0x10 }
+  - { offset: 0x13977, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation setFlutterResult:]', symObjAddr: 0x904, symBinAddr: 0xC0E4, symSize: 0xC }
+  - { offset: 0x139B3, size: 0x8, addend: 0x0, symName: '-[SqfliteMethodCallOperation .cxx_destruct]', symObjAddr: 0x910, symBinAddr: 0xC0F0, symSize: 0x40 }
+  - { offset: 0x139E3, size: 0x8, addend: 0x0, symName: '-[SqfliteQueuedOperation operation]', symObjAddr: 0x950, symBinAddr: 0xC130, symSize: 0xC }
+  - { offset: 0x13A17, size: 0x8, addend: 0x0, symName: '-[SqfliteQueuedOperation setOperation:]', symObjAddr: 0x95C, symBinAddr: 0xC13C, symSize: 0x8 }
+  - { offset: 0x13A52, size: 0x8, addend: 0x0, symName: '-[SqfliteQueuedOperation handler]', symObjAddr: 0x964, symBinAddr: 0xC144, symSize: 0xC }
+  - { offset: 0x13A86, size: 0x8, addend: 0x0, symName: '-[SqfliteQueuedOperation setHandler:]', symObjAddr: 0x970, symBinAddr: 0xC150, symSize: 0x8 }
+  - { offset: 0x13AC1, size: 0x8, addend: 0x0, symName: '-[SqfliteQueuedOperation .cxx_destruct]', symObjAddr: 0x978, symBinAddr: 0xC158, symSize: 0x30 }
+  - { offset: 0x13B80, size: 0x8, addend: 0x0, symName: _sqfliteHasSqlLogLevel, symObjAddr: 0x0, symBinAddr: 0xC188, symSize: 0xC }
+  - { offset: 0x13C2D, size: 0x8, addend: 0x0, symName: _SqfliteMethodExecute, symObjAddr: 0x40A8, symBinAddr: 0x181D8, symSize: 0x0 }
+  - { offset: 0x13C42, size: 0x8, addend: 0x0, symName: _SqfliteMethodInsert, symObjAddr: 0x40B0, symBinAddr: 0x181E0, symSize: 0x0 }
+  - { offset: 0x13C57, size: 0x8, addend: 0x0, symName: _SqfliteMethodUpdate, symObjAddr: 0x40B8, symBinAddr: 0x181E8, symSize: 0x0 }
+  - { offset: 0x13C6C, size: 0x8, addend: 0x0, symName: _SqfliteMethodQuery, symObjAddr: 0x40C0, symBinAddr: 0x181F0, symSize: 0x0 }
+  - { offset: 0x13C81, size: 0x8, addend: 0x0, symName: _SqliteErrorCode, symObjAddr: 0x40C8, symBinAddr: 0x181F8, symSize: 0x0 }
+  - { offset: 0x13C96, size: 0x8, addend: 0x0, symName: _SqfliteErrorBadParam, symObjAddr: 0x40D0, symBinAddr: 0x18200, symSize: 0x0 }
+  - { offset: 0x13CAB, size: 0x8, addend: 0x0, symName: _SqfliteParamSql, symObjAddr: 0x40D8, symBinAddr: 0x18208, symSize: 0x0 }
+  - { offset: 0x13CC0, size: 0x8, addend: 0x0, symName: _SqfliteParamSqlArguments, symObjAddr: 0x40E0, symBinAddr: 0x18210, symSize: 0x0 }
+  - { offset: 0x13CD5, size: 0x8, addend: 0x0, symName: _SqfliteParamInTransactionChange, symObjAddr: 0x40E8, symBinAddr: 0x18218, symSize: 0x0 }
+  - { offset: 0x13CEA, size: 0x8, addend: 0x0, symName: _SqfliteParamTransactionId, symObjAddr: 0x40F0, symBinAddr: 0x18220, symSize: 0x0 }
+  - { offset: 0x13CFF, size: 0x8, addend: 0x0, symName: _SqfliteParamNoResult, symObjAddr: 0x40F8, symBinAddr: 0x18228, symSize: 0x0 }
+  - { offset: 0x13D14, size: 0x8, addend: 0x0, symName: _SqfliteParamContinueOnError, symObjAddr: 0x4100, symBinAddr: 0x18230, symSize: 0x0 }
+  - { offset: 0x13D29, size: 0x8, addend: 0x0, symName: _SqfliteParamMethod, symObjAddr: 0x4108, symBinAddr: 0x18238, symSize: 0x0 }
+  - { offset: 0x13D3E, size: 0x8, addend: 0x0, symName: _SqfliteParamResult, symObjAddr: 0x4110, symBinAddr: 0x18240, symSize: 0x0 }
+  - { offset: 0x13D53, size: 0x8, addend: 0x0, symName: _SqfliteParamError, symObjAddr: 0x4118, symBinAddr: 0x18248, symSize: 0x0 }
+  - { offset: 0x13D68, size: 0x8, addend: 0x0, symName: _SqfliteParamErrorCode, symObjAddr: 0x4120, symBinAddr: 0x18250, symSize: 0x0 }
+  - { offset: 0x13D7D, size: 0x8, addend: 0x0, symName: _SqfliteParamErrorMessage, symObjAddr: 0x4128, symBinAddr: 0x18258, symSize: 0x0 }
+  - { offset: 0x13D92, size: 0x8, addend: 0x0, symName: _SqfliteParamErrorData, symObjAddr: 0x4130, symBinAddr: 0x18260, symSize: 0x0 }
+  - { offset: 0x13DA7, size: 0x8, addend: 0x0, symName: _SqfliteSqlPragmaSqliteDefensiveOff, symObjAddr: 0x4138, symBinAddr: 0x18268, symSize: 0x0 }
+  - { offset: 0x13DF6, size: 0x8, addend: 0x0, symName: _logLevel, symObjAddr: 0x11AF0, symBinAddr: 0x1EFC0, symSize: 0x0 }
+  - { offset: 0x13E0B, size: 0x8, addend: 0x0, symName: __lastDatabaseId, symObjAddr: 0x11AF8, symBinAddr: 0x1EFC8, symSize: 0x0 }
+  - { offset: 0x13E27, size: 0x8, addend: 0x0, symName: __databaseOpenCount, symObjAddr: 0x11B00, symBinAddr: 0x1EFD0, symSize: 0x0 }
+  - { offset: 0x13EC8, size: 0x8, addend: 0x0, symName: _sqfliteHasSqlLogLevel, symObjAddr: 0x0, symBinAddr: 0xC188, symSize: 0xC }
+  - { offset: 0x13EF2, size: 0x8, addend: 0x0, symName: _sqfliteHasVerboseLogLevel, symObjAddr: 0xC, symBinAddr: 0xC194, symSize: 0xC }
+  - { offset: 0x13F1B, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin registerWithRegistrar:]', symObjAddr: 0x18, symBinAddr: 0xC1A0, symSize: 0xA0 }
+  - { offset: 0x13F74, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin init]', symObjAddr: 0xB8, symBinAddr: 0xC240, symSize: 0xB8 }
+  - { offset: 0x13FA8, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin getDatabaseOrError:result:]', symObjAddr: 0x170, symBinAddr: 0xC2F8, symSize: 0x100 }
+  - { offset: 0x1404D, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleError:result:]', symObjAddr: 0x270, symBinAddr: 0xC3F8, symSize: 0xD8 }
+  - { offset: 0x140B0, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleError:operation:]', symObjAddr: 0x348, symBinAddr: 0xC4D0, symSize: 0x16C }
+  - { offset: 0x14135, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin toSqlValue:]', symObjAddr: 0x4B4, symBinAddr: 0xC63C, symSize: 0x134 }
+  - { offset: 0x141F1, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin fromSqlValue:]', symObjAddr: 0x5E8, symBinAddr: 0xC770, symSize: 0x90 }
+  - { offset: 0x14230, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin arrayIsEmpty:]', symObjAddr: 0x678, symBinAddr: 0xC800, symSize: 0x84 }
+  - { offset: 0x1426F, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin toSqlArguments:]', symObjAddr: 0x6FC, symBinAddr: 0xC884, symSize: 0xD8 }
+  - { offset: 0x142DA, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin fromSqlDictionary:]', symObjAddr: 0x7D4, symBinAddr: 0xC95C, symSize: 0x94 }
+  - { offset: 0x14329, size: 0x8, addend: 0x0, symName: '___35+[SqflitePlugin fromSqlDictionary:]_block_invoke', symObjAddr: 0x868, symBinAddr: 0xC9F0, symSize: 0x70 }
+  - { offset: 0x1438A, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin rsObjectForColumn:index:]', symObjAddr: 0x8E8, symBinAddr: 0xCA60, symSize: 0x150 }
+  - { offset: 0x14458, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin resultSetToResults:cursorPageSize:]', symObjAddr: 0xA38, symBinAddr: 0xCBB0, symSize: 0x248 }
+  - { offset: 0x14547, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin query:fmdb:operation:]', symObjAddr: 0xC80, symBinAddr: 0xCDF8, symSize: 0x298 }
+  - { offset: 0x14660, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleQueryCall:result:]', symObjAddr: 0xF18, symBinAddr: 0xD090, symSize: 0xF0 }
+  - { offset: 0x146C3, size: 0x8, addend: 0x0, symName: '___40-[SqflitePlugin handleQueryCall:result:]_block_invoke', symObjAddr: 0x1008, symBinAddr: 0xD180, symSize: 0x78 }
+  - { offset: 0x1474E, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48b, symObjAddr: 0x1080, symBinAddr: 0xD1F8, symSize: 0x3C }
+  - { offset: 0x14777, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s, symObjAddr: 0x10BC, symBinAddr: 0xD234, symSize: 0x30 }
+  - { offset: 0x14796, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleQueryCursorNextCall:result:]', symObjAddr: 0x10EC, symBinAddr: 0xD264, symSize: 0xF0 }
+  - { offset: 0x147F9, size: 0x8, addend: 0x0, symName: '___50-[SqflitePlugin handleQueryCursorNextCall:result:]_block_invoke', symObjAddr: 0x11DC, symBinAddr: 0xD354, symSize: 0x78 }
+  - { offset: 0x14884, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleInsertCall:result:]', symObjAddr: 0x1254, symBinAddr: 0xD3CC, symSize: 0xF0 }
+  - { offset: 0x148E7, size: 0x8, addend: 0x0, symName: '___41-[SqflitePlugin handleInsertCall:result:]_block_invoke', symObjAddr: 0x1344, symBinAddr: 0xD4BC, symSize: 0x78 }
+  - { offset: 0x14972, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleUpdateCall:result:]', symObjAddr: 0x13BC, symBinAddr: 0xD534, symSize: 0xF0 }
+  - { offset: 0x149D5, size: 0x8, addend: 0x0, symName: '___41-[SqflitePlugin handleUpdateCall:result:]_block_invoke', symObjAddr: 0x14AC, symBinAddr: 0xD624, symSize: 0x78 }
+  - { offset: 0x14A60, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleExecuteCall:result:]', symObjAddr: 0x1524, symBinAddr: 0xD69C, symSize: 0xF0 }
+  - { offset: 0x14AC3, size: 0x8, addend: 0x0, symName: '___42-[SqflitePlugin handleExecuteCall:result:]_block_invoke', symObjAddr: 0x1614, symBinAddr: 0xD78C, symSize: 0x78 }
+  - { offset: 0x14B4E, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleBatchCall:result:]', symObjAddr: 0x168C, symBinAddr: 0xD804, symSize: 0xF0 }
+  - { offset: 0x14BB1, size: 0x8, addend: 0x0, symName: '___40-[SqflitePlugin handleBatchCall:result:]_block_invoke', symObjAddr: 0x177C, symBinAddr: 0xD8F4, symSize: 0x78 }
+  - { offset: 0x14C3C, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin isInMemoryPath:]', symObjAddr: 0x17F4, symBinAddr: 0xD96C, symSize: 0x10 }
+  - { offset: 0x14C7D, size: 0x8, addend: 0x0, symName: '+[SqflitePlugin makeOpenResult:recovered:recoveredInTransaction:]', symObjAddr: 0x1804, symBinAddr: 0xD97C, symSize: 0xD8 }
+  - { offset: 0x14CEF, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleOpenDatabaseCall:result:]', symObjAddr: 0x18DC, symBinAddr: 0xDA54, symSize: 0x64C }
+  - { offset: 0x14FB1, size: 0x8, addend: 0x0, symName: '___47-[SqflitePlugin handleOpenDatabaseCall:result:]_block_invoke', symObjAddr: 0x1F28, symBinAddr: 0xE0A0, symSize: 0x10 }
+  - { offset: 0x14FEE, size: 0x8, addend: 0x0, symName: '___47-[SqflitePlugin handleOpenDatabaseCall:result:]_block_invoke_2', symObjAddr: 0x1F38, symBinAddr: 0xE0B0, symSize: 0x1C }
+  - { offset: 0x15058, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleCloseDatabaseCall:result:]', symObjAddr: 0x1F54, symBinAddr: 0xE0CC, symSize: 0xF8 }
+  - { offset: 0x150C8, size: 0x8, addend: 0x0, symName: '___48-[SqflitePlugin handleCloseDatabaseCall:result:]_block_invoke', symObjAddr: 0x204C, symBinAddr: 0xE1C4, symSize: 0x10 }
+  - { offset: 0x15117, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x205C, symBinAddr: 0xE1D4, symSize: 0x10 }
+  - { offset: 0x15140, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin closeDatabase:callback:]', symObjAddr: 0x206C, symBinAddr: 0xE1E4, symSize: 0x23C }
+  - { offset: 0x151EE, size: 0x8, addend: 0x0, symName: '___40-[SqflitePlugin closeDatabase:callback:]_block_invoke', symObjAddr: 0x22A8, symBinAddr: 0xE420, symSize: 0x2C }
+  - { offset: 0x15247, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin deleteDatabaseFile:]', symObjAddr: 0x2330, symBinAddr: 0xE44C, symSize: 0xB0 }
+  - { offset: 0x1529F, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleDeleteDatabaseCall:result:]', symObjAddr: 0x23E0, symBinAddr: 0xE4FC, symSize: 0x1F8 }
+  - { offset: 0x15343, size: 0x8, addend: 0x0, symName: '___49-[SqflitePlugin handleDeleteDatabaseCall:result:]_block_invoke', symObjAddr: 0x25D8, symBinAddr: 0xE6F4, symSize: 0x34 }
+  - { offset: 0x153B6, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin databaseExists:]', symObjAddr: 0x260C, symBinAddr: 0xE728, symSize: 0x8C }
+  - { offset: 0x15412, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleDatabaseExistsCall:result:]', symObjAddr: 0x2698, symBinAddr: 0xE7B4, symSize: 0xBC }
+  - { offset: 0x1549D, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleDebugCall:result:]', symObjAddr: 0x2754, symBinAddr: 0xE870, symSize: 0x224 }
+  - { offset: 0x15546, size: 0x8, addend: 0x0, symName: '___40-[SqflitePlugin handleDebugCall:result:]_block_invoke', symObjAddr: 0x2978, symBinAddr: 0xEA94, symSize: 0x170 }
+  - { offset: 0x155DE, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x2AE8, symBinAddr: 0xEC04, symSize: 0x28 }
+  - { offset: 0x15607, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleDebugModeCall:result:]', symObjAddr: 0x2B10, symBinAddr: 0xEC2C, symSize: 0x8C }
+  - { offset: 0x15697, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleOptionsCall:result:]', symObjAddr: 0x2B9C, symBinAddr: 0xECB8, symSize: 0xAC }
+  - { offset: 0x1571A, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleGetDatabasesPath:result:]', symObjAddr: 0x2C48, symBinAddr: 0xED64, symSize: 0x7C }
+  - { offset: 0x157CC, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin handleMethodCall:result:]', symObjAddr: 0x2CC4, symBinAddr: 0xEDE0, symSize: 0x54C }
+  - { offset: 0x15849, size: 0x8, addend: 0x0, symName: '___41-[SqflitePlugin handleMethodCall:result:]_block_invoke', symObjAddr: 0x3210, symBinAddr: 0xF32C, symSize: 0x9C }
+  - { offset: 0x158AA, size: 0x8, addend: 0x0, symName: '___41-[SqflitePlugin handleMethodCall:result:]_block_invoke_2', symObjAddr: 0x32AC, symBinAddr: 0xF3C8, symSize: 0x10 }
+  - { offset: 0x15902, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin databaseMap]', symObjAddr: 0x32BC, symBinAddr: 0xF3D8, symSize: 0xC }
+  - { offset: 0x15936, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin setDatabaseMap:]', symObjAddr: 0x32C8, symBinAddr: 0xF3E4, symSize: 0x8 }
+  - { offset: 0x15971, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin mapLock]', symObjAddr: 0x32D0, symBinAddr: 0xF3EC, symSize: 0xC }
+  - { offset: 0x159A5, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin setMapLock:]', symObjAddr: 0x32DC, symBinAddr: 0xF3F8, symSize: 0x8 }
+  - { offset: 0x159E0, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin singleInstanceDatabaseMap]', symObjAddr: 0x32E4, symBinAddr: 0xF400, symSize: 0xC }
+  - { offset: 0x15A14, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin setSingleInstanceDatabaseMap:]', symObjAddr: 0x32F0, symBinAddr: 0xF40C, symSize: 0x8 }
+  - { offset: 0x15A4F, size: 0x8, addend: 0x0, symName: '-[SqflitePlugin .cxx_destruct]', symObjAddr: 0x32F8, symBinAddr: 0xF414, symSize: 0x3C }
+...

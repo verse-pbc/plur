@@ -1,0 +1,328 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-duexvrxrzpwwbzcrvbiasdghqknl/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/FBLPromises.framework/FBLPromises'
+relocations:
+  - { offset: 0x3219F, size: 0x8, addend: 0x0, symName: _FBLPromisesVersionString, symObjAddr: 0x0, symBinAddr: 0xC3F0, symSize: 0x0 }
+  - { offset: 0x321D3, size: 0x8, addend: 0x0, symName: _FBLPromisesVersionNumber, symObjAddr: 0x30, symBinAddr: 0xC420, symSize: 0x0 }
+  - { offset: 0x3220F, size: 0x8, addend: 0x0, symName: '+[FBLPromise initialize]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x4C }
+  - { offset: 0x32228, size: 0x8, addend: 0x0, symName: _gFBLPromiseDefaultDispatchQueue, symObjAddr: 0x8120, symBinAddr: 0x14820, symSize: 0x0 }
+  - { offset: 0x322FD, size: 0x8, addend: 0x0, symName: '+[FBLPromise initialize]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x4C }
+  - { offset: 0x3232D, size: 0x8, addend: 0x0, symName: '+[FBLPromise defaultDispatchQueue]', symObjAddr: 0x4C, symBinAddr: 0x404C, symSize: 0x48 }
+  - { offset: 0x32361, size: 0x8, addend: 0x0, symName: '+[FBLPromise setDefaultDispatchQueue:]', symObjAddr: 0x94, symBinAddr: 0x4094, symSize: 0x54 }
+  - { offset: 0x323A0, size: 0x8, addend: 0x0, symName: '+[FBLPromise pendingPromise]', symObjAddr: 0xE8, symBinAddr: 0x40E8, symSize: 0x18 }
+  - { offset: 0x323D4, size: 0x8, addend: 0x0, symName: '+[FBLPromise resolvedWith:]', symObjAddr: 0x100, symBinAddr: 0x4100, symSize: 0x48 }
+  - { offset: 0x32417, size: 0x8, addend: 0x0, symName: '-[FBLPromise fulfill:]', symObjAddr: 0x148, symBinAddr: 0x4148, symSize: 0x1E8 }
+  - { offset: 0x3249E, size: 0x8, addend: 0x0, symName: '-[FBLPromise reject:]', symObjAddr: 0x330, symBinAddr: 0x4330, symSize: 0x1E4 }
+  - { offset: 0x32516, size: 0x8, addend: 0x0, symName: '-[FBLPromise description]', symObjAddr: 0x514, symBinAddr: 0x4514, symSize: 0x11C }
+  - { offset: 0x32587, size: 0x8, addend: 0x0, symName: '-[FBLPromise initPending]', symObjAddr: 0x630, symBinAddr: 0x4630, symSize: 0x6C }
+  - { offset: 0x325D8, size: 0x8, addend: 0x0, symName: '-[FBLPromise initWithResolution:]', symObjAddr: 0x69C, symBinAddr: 0x469C, symSize: 0xAC }
+  - { offset: 0x3261B, size: 0x8, addend: 0x0, symName: '-[FBLPromise dealloc]', symObjAddr: 0x748, symBinAddr: 0x4748, symSize: 0x6C }
+  - { offset: 0x32659, size: 0x8, addend: 0x0, symName: '-[FBLPromise isPending]', symObjAddr: 0x7B4, symBinAddr: 0x47B4, symSize: 0x44 }
+  - { offset: 0x3268D, size: 0x8, addend: 0x0, symName: '-[FBLPromise isFulfilled]', symObjAddr: 0x7F8, symBinAddr: 0x47F8, symSize: 0x44 }
+  - { offset: 0x326C1, size: 0x8, addend: 0x0, symName: '-[FBLPromise isRejected]', symObjAddr: 0x83C, symBinAddr: 0x483C, symSize: 0x44 }
+  - { offset: 0x326F5, size: 0x8, addend: 0x0, symName: '-[FBLPromise value]', symObjAddr: 0x880, symBinAddr: 0x4880, symSize: 0x44 }
+  - { offset: 0x32729, size: 0x8, addend: 0x0, symName: '-[FBLPromise error]', symObjAddr: 0x8C4, symBinAddr: 0x48C4, symSize: 0x44 }
+  - { offset: 0x3275D, size: 0x8, addend: 0x0, symName: '-[FBLPromise addPendingObject:]', symObjAddr: 0x908, symBinAddr: 0x4908, symSize: 0x98 }
+  - { offset: 0x3279C, size: 0x8, addend: 0x0, symName: '-[FBLPromise observeOnQueue:fulfill:reject:]', symObjAddr: 0x9A0, symBinAddr: 0x49A0, symSize: 0x254 }
+  - { offset: 0x32844, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise observeOnQueue:fulfill:reject:]_block_invoke', symObjAddr: 0xBF4, symBinAddr: 0x4BF4, symSize: 0xE0 }
+  - { offset: 0x328E1, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise observeOnQueue:fulfill:reject:]_block_invoke_2', symObjAddr: 0xCD4, symBinAddr: 0x4CD4, symSize: 0x38 }
+  - { offset: 0x32958, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b48b, symObjAddr: 0xD0C, symBinAddr: 0x4D0C, symSize: 0x44 }
+  - { offset: 0x32981, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s, symObjAddr: 0xD50, symBinAddr: 0x4D50, symSize: 0x30 }
+  - { offset: 0x329A0, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise observeOnQueue:fulfill:reject:]_block_invoke.13', symObjAddr: 0xD80, symBinAddr: 0x4D80, symSize: 0x14 }
+  - { offset: 0x329FB, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0xD94, symBinAddr: 0x4D94, symSize: 0x34 }
+  - { offset: 0x32A24, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0xDC8, symBinAddr: 0x4DC8, symSize: 0x28 }
+  - { offset: 0x32A43, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise observeOnQueue:fulfill:reject:]_block_invoke.14', symObjAddr: 0xDF0, symBinAddr: 0x4DF0, symSize: 0x14 }
+  - { offset: 0x32A9D, size: 0x8, addend: 0x0, symName: '-[FBLPromise chainOnQueue:chainedFulfill:chainedReject:]', symObjAddr: 0xE04, symBinAddr: 0x4E04, symSize: 0x1B8 }
+  - { offset: 0x32B21, size: 0x8, addend: 0x0, symName: '___56-[FBLPromise chainOnQueue:chainedFulfill:chainedReject:]_block_invoke', symObjAddr: 0xFBC, symBinAddr: 0x4FBC, symSize: 0x100 }
+  - { offset: 0x32B80, size: 0x8, addend: 0x0, symName: '___56-[FBLPromise chainOnQueue:chainedFulfill:chainedReject:]_block_invoke_2', symObjAddr: 0x10BC, symBinAddr: 0x50BC, symSize: 0xC }
+  - { offset: 0x32BCF, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x10C8, symBinAddr: 0x50C8, symSize: 0x8 }
+  - { offset: 0x32BF6, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x10D0, symBinAddr: 0x50D0, symSize: 0x8 }
+  - { offset: 0x32C15, size: 0x8, addend: 0x0, symName: '___56-[FBLPromise chainOnQueue:chainedFulfill:chainedReject:]_block_invoke.16', symObjAddr: 0x10D8, symBinAddr: 0x50D8, symSize: 0xC }
+  - { offset: 0x32C64, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x10E4, symBinAddr: 0x50E4, symSize: 0x28 }
+  - { offset: 0x32C8D, size: 0x8, addend: 0x0, symName: '___56-[FBLPromise chainOnQueue:chainedFulfill:chainedReject:]_block_invoke.18', symObjAddr: 0x110C, symBinAddr: 0x510C, symSize: 0x70 }
+  - { offset: 0x32D14, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b40b, symObjAddr: 0x117C, symBinAddr: 0x517C, symSize: 0x3C }
+  - { offset: 0x32D3D, size: 0x8, addend: 0x0, symName: '___56-[FBLPromise chainOnQueue:chainedFulfill:chainedReject:]_block_invoke.19', symObjAddr: 0x11B8, symBinAddr: 0x51B8, symSize: 0x78 }
+  - { offset: 0x32DE4, size: 0x8, addend: 0x0, symName: '+[FBLPromise noop]', symObjAddr: 0x1230, symBinAddr: 0x5230, symSize: 0x54 }
+  - { offset: 0x32FA7, size: 0x8, addend: 0x0, symName: '-[FBLPromise .cxx_destruct]', symObjAddr: 0x1284, symBinAddr: 0x5284, symSize: 0x48 }
+  - { offset: 0x32FD8, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntaxAdditions) pending]', symObjAddr: 0x12CC, symBinAddr: 0x52CC, symSize: 0x50 }
+  - { offset: 0x3300E, size: 0x8, addend: 0x0, symName: '___41+[FBLPromise(DotSyntaxAdditions) pending]_block_invoke', symObjAddr: 0x131C, symBinAddr: 0x531C, symSize: 0x8 }
+  - { offset: 0x33054, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntaxAdditions) resolved]', symObjAddr: 0x1324, symBinAddr: 0x5324, symSize: 0x50 }
+  - { offset: 0x3308A, size: 0x8, addend: 0x0, symName: '___42+[FBLPromise(DotSyntaxAdditions) resolved]_block_invoke', symObjAddr: 0x1374, symBinAddr: 0x5374, symSize: 0xC }
+  - { offset: 0x33945, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AllAdditions) all:]', symObjAddr: 0x0, symBinAddr: 0x5380, symSize: 0x74 }
+  - { offset: 0x33952, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AllAdditions) all:]', symObjAddr: 0x0, symBinAddr: 0x5380, symSize: 0x74 }
+  - { offset: 0x33995, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AllAdditions) onQueue:all:]', symObjAddr: 0x74, symBinAddr: 0x53F4, symSize: 0x118 }
+  - { offset: 0x339F8, size: 0x8, addend: 0x0, symName: '___40+[FBLPromise(AllAdditions) onQueue:all:]_block_invoke', symObjAddr: 0x18C, symBinAddr: 0x550C, symSize: 0x27C }
+  - { offset: 0x33ADD, size: 0x8, addend: 0x0, symName: '___40+[FBLPromise(AllAdditions) onQueue:all:]_block_invoke_2', symObjAddr: 0x408, symBinAddr: 0x5788, symSize: 0x148 }
+  - { offset: 0x33BA7, size: 0x8, addend: 0x0, symName: '___40+[FBLPromise(AllAdditions) onQueue:all:]_block_invoke.1', symObjAddr: 0x5AC, symBinAddr: 0x58D0, symSize: 0xC }
+  - { offset: 0x33C05, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x5B8, symBinAddr: 0x58DC, symSize: 0x10 }
+  - { offset: 0x33C2D, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_AllAdditions) all]', symObjAddr: 0x5F8, symBinAddr: 0x58EC, symSize: 0x50 }
+  - { offset: 0x33C62, size: 0x8, addend: 0x0, symName: '___41+[FBLPromise(DotSyntax_AllAdditions) all]_block_invoke', symObjAddr: 0x648, symBinAddr: 0x593C, symSize: 0xC }
+  - { offset: 0x33CB3, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_AllAdditions) allOn]', symObjAddr: 0x654, symBinAddr: 0x5948, symSize: 0x50 }
+  - { offset: 0x33CE8, size: 0x8, addend: 0x0, symName: '___43+[FBLPromise(DotSyntax_AllAdditions) allOn]_block_invoke', symObjAddr: 0x6A4, symBinAddr: 0x5998, symSize: 0x10 }
+  - { offset: 0x33D49, size: 0x8, addend: 0x0, symName: _FBLIncludeAllCategory, symObjAddr: 0x6B4, symBinAddr: 0x59A8, symSize: 0x4 }
+  - { offset: 0x34231, size: 0x8, addend: 0x0, symName: '-[FBLPromise(AlwaysAdditions) always:]', symObjAddr: 0x0, symBinAddr: 0x59AC, symSize: 0x7C }
+  - { offset: 0x3423E, size: 0x8, addend: 0x0, symName: '-[FBLPromise(AlwaysAdditions) always:]', symObjAddr: 0x0, symBinAddr: 0x59AC, symSize: 0x7C }
+  - { offset: 0x34281, size: 0x8, addend: 0x0, symName: '-[FBLPromise(AlwaysAdditions) onQueue:always:]', symObjAddr: 0x7C, symBinAddr: 0x5A28, symSize: 0xD8 }
+  - { offset: 0x342D4, size: 0x8, addend: 0x0, symName: '___46-[FBLPromise(AlwaysAdditions) onQueue:always:]_block_invoke', symObjAddr: 0x154, symBinAddr: 0x5B00, symSize: 0x38 }
+  - { offset: 0x3432E, size: 0x8, addend: 0x0, symName: '___46-[FBLPromise(AlwaysAdditions) onQueue:always:]_block_invoke.1', symObjAddr: 0x1A4, symBinAddr: 0x5B38, symSize: 0x38 }
+  - { offset: 0x34387, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_AlwaysAdditions) always]', symObjAddr: 0x1DC, symBinAddr: 0x5B70, symSize: 0x50 }
+  - { offset: 0x343BC, size: 0x8, addend: 0x0, symName: '___47-[FBLPromise(DotSyntax_AlwaysAdditions) always]_block_invoke', symObjAddr: 0x22C, symBinAddr: 0x5BC0, symSize: 0xC }
+  - { offset: 0x3440D, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_AlwaysAdditions) alwaysOn]', symObjAddr: 0x240, symBinAddr: 0x5BCC, symSize: 0x50 }
+  - { offset: 0x34442, size: 0x8, addend: 0x0, symName: '___49-[FBLPromise(DotSyntax_AlwaysAdditions) alwaysOn]_block_invoke', symObjAddr: 0x290, symBinAddr: 0x5C1C, symSize: 0x10 }
+  - { offset: 0x344A3, size: 0x8, addend: 0x0, symName: _FBLIncludeAlwaysCategory, symObjAddr: 0x2A0, symBinAddr: 0x5C2C, symSize: 0x4 }
+  - { offset: 0x3486E, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AnyAdditions) any:]', symObjAddr: 0x0, symBinAddr: 0x5C30, symSize: 0x7C }
+  - { offset: 0x34889, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AnyAdditions) any:]', symObjAddr: 0x0, symBinAddr: 0x5C30, symSize: 0x7C }
+  - { offset: 0x348CC, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AnyAdditions) onQueue:any:]', symObjAddr: 0x7C, symBinAddr: 0x5CAC, symSize: 0x118 }
+  - { offset: 0x3492F, size: 0x8, addend: 0x0, symName: '___40+[FBLPromise(AnyAdditions) onQueue:any:]_block_invoke', symObjAddr: 0x194, symBinAddr: 0x5DC4, symSize: 0x278 }
+  - { offset: 0x34A09, size: 0x8, addend: 0x0, symName: '___40+[FBLPromise(AnyAdditions) onQueue:any:]_block_invoke_2', symObjAddr: 0x40C, symBinAddr: 0x603C, symSize: 0x120 }
+  - { offset: 0x34AA8, size: 0x8, addend: 0x0, symName: _FBLPromiseCombineValuesAndErrors, symObjAddr: 0x52C, symBinAddr: 0x615C, symSize: 0x1B8 }
+  - { offset: 0x34B07, size: 0x8, addend: 0x0, symName: _FBLPromiseCombineValuesAndErrors.cold.1, symObjAddr: 0xA1C, symBinAddr: 0xB064, symSize: 0x28 }
+  - { offset: 0x34B1F, size: 0x8, addend: 0x0, symName: '___40+[FBLPromise(AnyAdditions) onQueue:any:]_block_invoke.1', symObjAddr: 0x740, symBinAddr: 0x6314, symSize: 0x180 }
+  - { offset: 0x34BFB, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_AnyAdditions) any]', symObjAddr: 0x95C, symBinAddr: 0x6494, symSize: 0x50 }
+  - { offset: 0x34C30, size: 0x8, addend: 0x0, symName: '___41+[FBLPromise(DotSyntax_AnyAdditions) any]_block_invoke', symObjAddr: 0x9AC, symBinAddr: 0x64E4, symSize: 0xC }
+  - { offset: 0x34C81, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_AnyAdditions) anyOn]', symObjAddr: 0x9B8, symBinAddr: 0x64F0, symSize: 0x50 }
+  - { offset: 0x34CB6, size: 0x8, addend: 0x0, symName: '___43+[FBLPromise(DotSyntax_AnyAdditions) anyOn]_block_invoke', symObjAddr: 0xA08, symBinAddr: 0x6540, symSize: 0x10 }
+  - { offset: 0x34D17, size: 0x8, addend: 0x0, symName: _FBLIncludeAnyCategory, symObjAddr: 0xA18, symBinAddr: 0x6550, symSize: 0x4 }
+  - { offset: 0x35229, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AsyncAdditions) async:]', symObjAddr: 0x0, symBinAddr: 0x6554, symSize: 0x74 }
+  - { offset: 0x35258, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AsyncAdditions) async:]', symObjAddr: 0x0, symBinAddr: 0x6554, symSize: 0x74 }
+  - { offset: 0x3529B, size: 0x8, addend: 0x0, symName: '+[FBLPromise(AsyncAdditions) onQueue:async:]', symObjAddr: 0x74, symBinAddr: 0x65C8, symSize: 0x128 }
+  - { offset: 0x3534F, size: 0x8, addend: 0x0, symName: '___44+[FBLPromise(AsyncAdditions) onQueue:async:]_block_invoke', symObjAddr: 0x19C, symBinAddr: 0x66F0, symSize: 0xD0 }
+  - { offset: 0x353CC, size: 0x8, addend: 0x0, symName: '___44+[FBLPromise(AsyncAdditions) onQueue:async:]_block_invoke_2', symObjAddr: 0x26C, symBinAddr: 0x67C0, symSize: 0x100 }
+  - { offset: 0x35426, size: 0x8, addend: 0x0, symName: '___44+[FBLPromise(AsyncAdditions) onQueue:async:]_block_invoke_3', symObjAddr: 0x36C, symBinAddr: 0x68C0, symSize: 0xC }
+  - { offset: 0x35470, size: 0x8, addend: 0x0, symName: '___44+[FBLPromise(AsyncAdditions) onQueue:async:]_block_invoke.1', symObjAddr: 0x388, symBinAddr: 0x68CC, symSize: 0xC }
+  - { offset: 0x354BA, size: 0x8, addend: 0x0, symName: '___44+[FBLPromise(AsyncAdditions) onQueue:async:]_block_invoke.3', symObjAddr: 0x3E4, symBinAddr: 0x68D8, symSize: 0xC }
+  - { offset: 0x35504, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48b, symObjAddr: 0x3F0, symBinAddr: 0x68E4, symSize: 0x3C }
+  - { offset: 0x3552C, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_AsyncAdditions) async]', symObjAddr: 0x45C, symBinAddr: 0x6920, symSize: 0x50 }
+  - { offset: 0x35561, size: 0x8, addend: 0x0, symName: '___45+[FBLPromise(DotSyntax_AsyncAdditions) async]_block_invoke', symObjAddr: 0x4AC, symBinAddr: 0x6970, symSize: 0xC }
+  - { offset: 0x355B2, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_AsyncAdditions) asyncOn]', symObjAddr: 0x4B8, symBinAddr: 0x697C, symSize: 0x50 }
+  - { offset: 0x355E7, size: 0x8, addend: 0x0, symName: '___47+[FBLPromise(DotSyntax_AsyncAdditions) asyncOn]_block_invoke', symObjAddr: 0x508, symBinAddr: 0x69CC, symSize: 0x10 }
+  - { offset: 0x35648, size: 0x8, addend: 0x0, symName: _FBLIncludeAsyncCategory, symObjAddr: 0x518, symBinAddr: 0x69DC, symSize: 0x4 }
+  - { offset: 0x35BE1, size: 0x8, addend: 0x0, symName: _FBLPromiseAwait, symObjAddr: 0x0, symBinAddr: 0x69E0, symSize: 0x1E4 }
+  - { offset: 0x35C02, size: 0x8, addend: 0x0, symName: _FBLPromiseAwait, symObjAddr: 0x0, symBinAddr: 0x69E0, symSize: 0x1E4 }
+  - { offset: 0x35C27, size: 0x8, addend: 0x0, symName: _FBLPromiseAwait.onceToken, symObjAddr: 0x2B70, symBinAddr: 0x14828, symSize: 0x0 }
+  - { offset: 0x35C3C, size: 0x8, addend: 0x0, symName: _FBLPromiseAwait.queue, symObjAddr: 0x2B78, symBinAddr: 0x14830, symSize: 0x0 }
+  - { offset: 0x35D66, size: 0x8, addend: 0x0, symName: _FBLPromiseAwait.cold.1, symObjAddr: 0x33C, symBinAddr: 0xB08C, symSize: 0x28 }
+  - { offset: 0x35D91, size: 0x8, addend: 0x0, symName: ___FBLPromiseAwait_block_invoke, symObjAddr: 0x1E4, symBinAddr: 0x6BC4, symSize: 0x34 }
+  - { offset: 0x35DE3, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0x218, symBinAddr: 0x6BF8, symSize: 0x10 }
+  - { offset: 0x35E08, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0x228, symBinAddr: 0x6C08, symSize: 0x8 }
+  - { offset: 0x35E27, size: 0x8, addend: 0x0, symName: ___FBLPromiseAwait_block_invoke.4, symObjAddr: 0x230, symBinAddr: 0x6C10, symSize: 0x54 }
+  - { offset: 0x35EA5, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40r, symObjAddr: 0x284, symBinAddr: 0x6C64, symSize: 0x34 }
+  - { offset: 0x35ECE, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40r, symObjAddr: 0x2B8, symBinAddr: 0x6C98, symSize: 0x2C }
+  - { offset: 0x35EED, size: 0x8, addend: 0x0, symName: ___FBLPromiseAwait_block_invoke.6, symObjAddr: 0x2E4, symBinAddr: 0x6CC4, symSize: 0x54 }
+  - { offset: 0x35F59, size: 0x8, addend: 0x0, symName: _FBLIncludeAwaitCategory, symObjAddr: 0x338, symBinAddr: 0x6D18, symSize: 0x4 }
+  - { offset: 0x36269, size: 0x8, addend: 0x0, symName: '-[FBLPromise(CatchAdditions) catch:]', symObjAddr: 0x0, symBinAddr: 0x6D1C, symSize: 0x7C }
+  - { offset: 0x36276, size: 0x8, addend: 0x0, symName: '-[FBLPromise(CatchAdditions) catch:]', symObjAddr: 0x0, symBinAddr: 0x6D1C, symSize: 0x7C }
+  - { offset: 0x362B9, size: 0x8, addend: 0x0, symName: '-[FBLPromise(CatchAdditions) onQueue:catch:]', symObjAddr: 0x7C, symBinAddr: 0x6D98, symSize: 0xA4 }
+  - { offset: 0x3630C, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise(CatchAdditions) onQueue:catch:]_block_invoke', symObjAddr: 0x120, symBinAddr: 0x6E3C, symSize: 0x3C }
+  - { offset: 0x3636D, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_CatchAdditions) catch]', symObjAddr: 0x174, symBinAddr: 0x6E78, symSize: 0x50 }
+  - { offset: 0x363A2, size: 0x8, addend: 0x0, symName: '___45-[FBLPromise(DotSyntax_CatchAdditions) catch]_block_invoke', symObjAddr: 0x1C4, symBinAddr: 0x6EC8, symSize: 0xC }
+  - { offset: 0x363F3, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_CatchAdditions) catchOn]', symObjAddr: 0x1D8, symBinAddr: 0x6ED4, symSize: 0x50 }
+  - { offset: 0x36428, size: 0x8, addend: 0x0, symName: '___47-[FBLPromise(DotSyntax_CatchAdditions) catchOn]_block_invoke', symObjAddr: 0x228, symBinAddr: 0x6F24, symSize: 0x10 }
+  - { offset: 0x36489, size: 0x8, addend: 0x0, symName: _FBLIncludeCatchCategory, symObjAddr: 0x238, symBinAddr: 0x6F34, symSize: 0x4 }
+  - { offset: 0x367EE, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DelayAdditions) delay:]', symObjAddr: 0x0, symBinAddr: 0x6F38, symSize: 0x68 }
+  - { offset: 0x36802, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DelayAdditions) delay:]', symObjAddr: 0x0, symBinAddr: 0x6F38, symSize: 0x68 }
+  - { offset: 0x36845, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DelayAdditions) onQueue:delay:]', symObjAddr: 0x68, symBinAddr: 0x6FA0, symSize: 0x114 }
+  - { offset: 0x368A8, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise(DelayAdditions) onQueue:delay:]_block_invoke', symObjAddr: 0x17C, symBinAddr: 0x70B4, symSize: 0xC4 }
+  - { offset: 0x36997, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise(DelayAdditions) onQueue:delay:]_block_invoke_2', symObjAddr: 0x240, symBinAddr: 0x7178, symSize: 0xC }
+  - { offset: 0x369E2, size: 0x8, addend: 0x0, symName: '___44-[FBLPromise(DelayAdditions) onQueue:delay:]_block_invoke.2', symObjAddr: 0x29C, symBinAddr: 0x7184, symSize: 0xC }
+  - { offset: 0x36A2B, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_DelayAdditions) delay]', symObjAddr: 0x2B8, symBinAddr: 0x7190, symSize: 0x50 }
+  - { offset: 0x36A60, size: 0x8, addend: 0x0, symName: '___45-[FBLPromise(DotSyntax_DelayAdditions) delay]_block_invoke', symObjAddr: 0x308, symBinAddr: 0x71E0, symSize: 0x8 }
+  - { offset: 0x36AB1, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_DelayAdditions) delayOn]', symObjAddr: 0x310, symBinAddr: 0x71E8, symSize: 0x50 }
+  - { offset: 0x36AE6, size: 0x8, addend: 0x0, symName: '___47-[FBLPromise(DotSyntax_DelayAdditions) delayOn]_block_invoke', symObjAddr: 0x360, symBinAddr: 0x7238, symSize: 0xC }
+  - { offset: 0x36B47, size: 0x8, addend: 0x0, symName: _FBLIncludeDelayCategory, symObjAddr: 0x36C, symBinAddr: 0x7244, symSize: 0x4 }
+  - { offset: 0x36F39, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DoAdditions) do:]', symObjAddr: 0x0, symBinAddr: 0x7248, symSize: 0x74 }
+  - { offset: 0x36F68, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DoAdditions) do:]', symObjAddr: 0x0, symBinAddr: 0x7248, symSize: 0x74 }
+  - { offset: 0x36FAB, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DoAdditions) onQueue:do:]', symObjAddr: 0x74, symBinAddr: 0x72BC, symSize: 0x128 }
+  - { offset: 0x3705F, size: 0x8, addend: 0x0, symName: '___38+[FBLPromise(DoAdditions) onQueue:do:]_block_invoke', symObjAddr: 0x19C, symBinAddr: 0x73E4, symSize: 0x104 }
+  - { offset: 0x370E5, size: 0x8, addend: 0x0, symName: '___38+[FBLPromise(DoAdditions) onQueue:do:]_block_invoke_2', symObjAddr: 0x2A0, symBinAddr: 0x74E8, symSize: 0xC }
+  - { offset: 0x3712F, size: 0x8, addend: 0x0, symName: '___38+[FBLPromise(DoAdditions) onQueue:do:]_block_invoke.1', symObjAddr: 0x2BC, symBinAddr: 0x74F4, symSize: 0xC }
+  - { offset: 0x37178, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_DoAdditions) doOn]', symObjAddr: 0x334, symBinAddr: 0x7500, symSize: 0x50 }
+  - { offset: 0x371AD, size: 0x8, addend: 0x0, symName: '___41+[FBLPromise(DotSyntax_DoAdditions) doOn]_block_invoke', symObjAddr: 0x384, symBinAddr: 0x7550, symSize: 0x10 }
+  - { offset: 0x3720E, size: 0x8, addend: 0x0, symName: _FBLIncludeDoCategory, symObjAddr: 0x394, symBinAddr: 0x7560, symSize: 0x4 }
+  - { offset: 0x375A9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RaceAdditions) race:]', symObjAddr: 0x0, symBinAddr: 0x7564, symSize: 0x74 }
+  - { offset: 0x375B6, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RaceAdditions) race:]', symObjAddr: 0x0, symBinAddr: 0x7564, symSize: 0x74 }
+  - { offset: 0x375F9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RaceAdditions) onQueue:race:]', symObjAddr: 0x74, symBinAddr: 0x75D8, symSize: 0xD4 }
+  - { offset: 0x3765C, size: 0x8, addend: 0x0, symName: '___42+[FBLPromise(RaceAdditions) onQueue:race:]_block_invoke', symObjAddr: 0x148, symBinAddr: 0x76AC, symSize: 0x1E8 }
+  - { offset: 0x37729, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_RaceAdditions) race]', symObjAddr: 0x380, symBinAddr: 0x7894, symSize: 0x50 }
+  - { offset: 0x3775E, size: 0x8, addend: 0x0, symName: '___43+[FBLPromise(DotSyntax_RaceAdditions) race]_block_invoke', symObjAddr: 0x3D0, symBinAddr: 0x78E4, symSize: 0xC }
+  - { offset: 0x377AF, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_RaceAdditions) raceOn]', symObjAddr: 0x3DC, symBinAddr: 0x78F0, symSize: 0x50 }
+  - { offset: 0x377E4, size: 0x8, addend: 0x0, symName: '___45+[FBLPromise(DotSyntax_RaceAdditions) raceOn]_block_invoke', symObjAddr: 0x42C, symBinAddr: 0x7940, symSize: 0x10 }
+  - { offset: 0x37845, size: 0x8, addend: 0x0, symName: _FBLIncludeRaceCategory, symObjAddr: 0x43C, symBinAddr: 0x7950, symSize: 0x4 }
+  - { offset: 0x37C6E, size: 0x8, addend: 0x0, symName: '-[FBLPromise(RecoverAdditions) recover:]', symObjAddr: 0x0, symBinAddr: 0x7954, symSize: 0x7C }
+  - { offset: 0x37C7B, size: 0x8, addend: 0x0, symName: '-[FBLPromise(RecoverAdditions) recover:]', symObjAddr: 0x0, symBinAddr: 0x7954, symSize: 0x7C }
+  - { offset: 0x37CBE, size: 0x8, addend: 0x0, symName: '-[FBLPromise(RecoverAdditions) onQueue:recover:]', symObjAddr: 0x7C, symBinAddr: 0x79D0, symSize: 0xA4 }
+  - { offset: 0x37D11, size: 0x8, addend: 0x0, symName: '___48-[FBLPromise(RecoverAdditions) onQueue:recover:]_block_invoke', symObjAddr: 0x120, symBinAddr: 0x7A74, symSize: 0xC }
+  - { offset: 0x37D72, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_RecoverAdditions) recover]', symObjAddr: 0x144, symBinAddr: 0x7A80, symSize: 0x50 }
+  - { offset: 0x37DA7, size: 0x8, addend: 0x0, symName: '___49-[FBLPromise(DotSyntax_RecoverAdditions) recover]_block_invoke', symObjAddr: 0x194, symBinAddr: 0x7AD0, symSize: 0xC }
+  - { offset: 0x37DF8, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_RecoverAdditions) recoverOn]', symObjAddr: 0x1A8, symBinAddr: 0x7ADC, symSize: 0x50 }
+  - { offset: 0x37E2D, size: 0x8, addend: 0x0, symName: '___51-[FBLPromise(DotSyntax_RecoverAdditions) recoverOn]_block_invoke', symObjAddr: 0x1F8, symBinAddr: 0x7B2C, symSize: 0x10 }
+  - { offset: 0x37E8E, size: 0x8, addend: 0x0, symName: _FBLIncludeRecoverCategory, symObjAddr: 0x208, symBinAddr: 0x7B3C, symSize: 0x4 }
+  - { offset: 0x381E7, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ReduceAdditions) reduce:combine:]', symObjAddr: 0x0, symBinAddr: 0x7B40, symSize: 0x98 }
+  - { offset: 0x381F4, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ReduceAdditions) reduce:combine:]', symObjAddr: 0x0, symBinAddr: 0x7B40, symSize: 0x98 }
+  - { offset: 0x38246, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ReduceAdditions) onQueue:reduce:combine:]', symObjAddr: 0x98, symBinAddr: 0x7BD8, symSize: 0x1BC }
+  - { offset: 0x382D7, size: 0x8, addend: 0x0, symName: '___54-[FBLPromise(ReduceAdditions) onQueue:reduce:combine:]_block_invoke', symObjAddr: 0x254, symBinAddr: 0x7D94, symSize: 0x10 }
+  - { offset: 0x38348, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_ReduceAdditions) reduce]', symObjAddr: 0x2C0, symBinAddr: 0x7DA4, symSize: 0x50 }
+  - { offset: 0x3837D, size: 0x8, addend: 0x0, symName: '___47-[FBLPromise(DotSyntax_ReduceAdditions) reduce]_block_invoke', symObjAddr: 0x310, symBinAddr: 0x7DF4, symSize: 0x10 }
+  - { offset: 0x383DD, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_ReduceAdditions) reduceOn]', symObjAddr: 0x330, symBinAddr: 0x7E04, symSize: 0x50 }
+  - { offset: 0x38412, size: 0x8, addend: 0x0, symName: '___49-[FBLPromise(DotSyntax_ReduceAdditions) reduceOn]_block_invoke', symObjAddr: 0x380, symBinAddr: 0x7E54, symSize: 0x14 }
+  - { offset: 0x38482, size: 0x8, addend: 0x0, symName: _FBLIncludeReduceCategory, symObjAddr: 0x394, symBinAddr: 0x7E68, symSize: 0x4 }
+  - { offset: 0x38817, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) retry:]', symObjAddr: 0x0, symBinAddr: 0x7E6C, symSize: 0x7C }
+  - { offset: 0x38830, size: 0x8, addend: 0x0, symName: _FBLPromiseRetryDefaultAttemptsCount, symObjAddr: 0x7E8, symBinAddr: 0xC448, symSize: 0x0 }
+  - { offset: 0x38851, size: 0x8, addend: 0x0, symName: _FBLPromiseRetryDefaultDelayInterval, symObjAddr: 0x7F0, symBinAddr: 0xC450, symSize: 0x0 }
+  - { offset: 0x3888F, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) retry:]', symObjAddr: 0x0, symBinAddr: 0x7E6C, symSize: 0x7C }
+  - { offset: 0x388D3, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) onQueue:retry:]', symObjAddr: 0x7C, symBinAddr: 0x7EE8, symSize: 0xC }
+  - { offset: 0x38923, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) attempts:retry:]', symObjAddr: 0x88, symBinAddr: 0x7EF4, symSize: 0x84 }
+  - { offset: 0x38976, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) onQueue:attempts:retry:]', symObjAddr: 0x10C, symBinAddr: 0x7F78, symSize: 0x10 }
+  - { offset: 0x389D4, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) attempts:delay:condition:retry:]', symObjAddr: 0x11C, symBinAddr: 0x7F88, symSize: 0xB8 }
+  - { offset: 0x38A44, size: 0x8, addend: 0x0, symName: '+[FBLPromise(RetryAdditions) onQueue:attempts:delay:condition:retry:]', symObjAddr: 0x1D4, symBinAddr: 0x8040, symSize: 0xAC }
+  - { offset: 0x38AFF, size: 0x8, addend: 0x0, symName: _FBLPromiseRetryAttempt, symObjAddr: 0x280, symBinAddr: 0x80EC, symSize: 0x1A4 }
+  - { offset: 0x38BBE, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_RetryAdditions) retry]', symObjAddr: 0x424, symBinAddr: 0x8290, symSize: 0x50 }
+  - { offset: 0x38BF3, size: 0x8, addend: 0x0, symName: '___45+[FBLPromise(DotSyntax_RetryAdditions) retry]_block_invoke', symObjAddr: 0x474, symBinAddr: 0x82E0, symSize: 0xC }
+  - { offset: 0x38C44, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_RetryAdditions) retryOn]', symObjAddr: 0x480, symBinAddr: 0x82EC, symSize: 0x50 }
+  - { offset: 0x38C79, size: 0x8, addend: 0x0, symName: '___47+[FBLPromise(DotSyntax_RetryAdditions) retryOn]_block_invoke', symObjAddr: 0x4D0, symBinAddr: 0x833C, symSize: 0x10 }
+  - { offset: 0x38CD9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_RetryAdditions) retryAgain]', symObjAddr: 0x4E0, symBinAddr: 0x834C, symSize: 0x50 }
+  - { offset: 0x38D0E, size: 0x8, addend: 0x0, symName: '___50+[FBLPromise(DotSyntax_RetryAdditions) retryAgain]_block_invoke', symObjAddr: 0x530, symBinAddr: 0x839C, symSize: 0x14 }
+  - { offset: 0x38D8C, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_RetryAdditions) retryAgainOn]', symObjAddr: 0x544, symBinAddr: 0x83B0, symSize: 0x50 }
+  - { offset: 0x38DC1, size: 0x8, addend: 0x0, symName: '___52+[FBLPromise(DotSyntax_RetryAdditions) retryAgainOn]_block_invoke', symObjAddr: 0x594, symBinAddr: 0x8400, symSize: 0x18 }
+  - { offset: 0x38E4F, size: 0x8, addend: 0x0, symName: _FBLIncludeRetryCategory, symObjAddr: 0x5AC, symBinAddr: 0x8418, symSize: 0x4 }
+  - { offset: 0x38E65, size: 0x8, addend: 0x0, symName: ___FBLPromiseRetryAttempt_block_invoke, symObjAddr: 0x5B0, symBinAddr: 0x841C, symSize: 0x15C }
+  - { offset: 0x38F98, size: 0x8, addend: 0x0, symName: ___FBLPromiseRetryAttempt_block_invoke_2, symObjAddr: 0x70C, symBinAddr: 0x8578, symSize: 0x1C }
+  - { offset: 0x39031, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48b56b, symObjAddr: 0x728, symBinAddr: 0x8594, symSize: 0x4C }
+  - { offset: 0x3905A, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s, symObjAddr: 0x774, symBinAddr: 0x85E0, symSize: 0x38 }
+  - { offset: 0x3971B, size: 0x8, addend: 0x0, symName: _FBLWaitForPromisesWithTimeout, symObjAddr: 0x0, symBinAddr: 0x8618, symSize: 0x120 }
+  - { offset: 0x39729, size: 0x8, addend: 0x0, symName: _FBLWaitForPromisesWithTimeout, symObjAddr: 0x0, symBinAddr: 0x8618, symSize: 0x120 }
+  - { offset: 0x39821, size: 0x8, addend: 0x0, symName: '+[FBLPromise(TestingAdditions) dispatchGroup]', symObjAddr: 0x120, symBinAddr: 0x8738, symSize: 0x40 }
+  - { offset: 0x3984A, size: 0x8, addend: 0x0, symName: _dispatchGroup.gDispatchGroup, symObjAddr: 0x2180, symBinAddr: 0x14838, symSize: 0x0 }
+  - { offset: 0x3985F, size: 0x8, addend: 0x0, symName: _dispatchGroup.onceToken, symObjAddr: 0x2188, symBinAddr: 0x14840, symSize: 0x0 }
+  - { offset: 0x39922, size: 0x8, addend: 0x0, symName: '___45+[FBLPromise(TestingAdditions) dispatchGroup]_block_invoke', symObjAddr: 0x160, symBinAddr: 0x8778, symSize: 0x24 }
+  - { offset: 0x39963, size: 0x8, addend: 0x0, symName: _FBLIncludeTestingCategory, symObjAddr: 0x184, symBinAddr: 0x879C, symSize: 0x4 }
+  - { offset: 0x39A6A, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ThenAdditions) then:]', symObjAddr: 0x0, symBinAddr: 0x87A0, symSize: 0x7C }
+  - { offset: 0x39A77, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ThenAdditions) then:]', symObjAddr: 0x0, symBinAddr: 0x87A0, symSize: 0x7C }
+  - { offset: 0x39ABB, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ThenAdditions) onQueue:then:]', symObjAddr: 0x7C, symBinAddr: 0x881C, symSize: 0x8 }
+  - { offset: 0x39B0A, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_ThenAdditions) then]', symObjAddr: 0x84, symBinAddr: 0x8824, symSize: 0x50 }
+  - { offset: 0x39B3F, size: 0x8, addend: 0x0, symName: '___43-[FBLPromise(DotSyntax_ThenAdditions) then]_block_invoke', symObjAddr: 0xD4, symBinAddr: 0x8874, symSize: 0xC }
+  - { offset: 0x39B90, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_ThenAdditions) thenOn]', symObjAddr: 0xF0, symBinAddr: 0x8880, symSize: 0x50 }
+  - { offset: 0x39BC5, size: 0x8, addend: 0x0, symName: '___45-[FBLPromise(DotSyntax_ThenAdditions) thenOn]_block_invoke', symObjAddr: 0x140, symBinAddr: 0x88D0, symSize: 0x10 }
+  - { offset: 0x39C26, size: 0x8, addend: 0x0, symName: _FBLIncludeThenCategory, symObjAddr: 0x150, symBinAddr: 0x88E0, symSize: 0x4 }
+  - { offset: 0x39F29, size: 0x8, addend: 0x0, symName: '-[FBLPromise(TimeoutAdditions) timeout:]', symObjAddr: 0x0, symBinAddr: 0x88E4, symSize: 0x68 }
+  - { offset: 0x39F44, size: 0x8, addend: 0x0, symName: '-[FBLPromise(TimeoutAdditions) timeout:]', symObjAddr: 0x0, symBinAddr: 0x88E4, symSize: 0x68 }
+  - { offset: 0x39F87, size: 0x8, addend: 0x0, symName: '-[FBLPromise(TimeoutAdditions) onQueue:timeout:]', symObjAddr: 0x68, symBinAddr: 0x894C, symSize: 0x16C }
+  - { offset: 0x3A07F, size: 0x8, addend: 0x0, symName: '___48-[FBLPromise(TimeoutAdditions) onQueue:timeout:]_block_invoke', symObjAddr: 0x1D4, symBinAddr: 0x8AB8, symSize: 0xC }
+  - { offset: 0x3A0C9, size: 0x8, addend: 0x0, symName: '___48-[FBLPromise(TimeoutAdditions) onQueue:timeout:]_block_invoke.1', symObjAddr: 0x1F0, symBinAddr: 0x8AC4, symSize: 0xC }
+  - { offset: 0x3A113, size: 0x8, addend: 0x0, symName: '___48-[FBLPromise(TimeoutAdditions) onQueue:timeout:]_block_invoke.3', symObjAddr: 0x1FC, symBinAddr: 0x8AD0, symSize: 0x64 }
+  - { offset: 0x3A16D, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32w, symObjAddr: 0x260, symBinAddr: 0x8B34, symSize: 0xC }
+  - { offset: 0x3A196, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32w, symObjAddr: 0x26C, symBinAddr: 0x8B40, symSize: 0x8 }
+  - { offset: 0x3A1B4, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_TimeoutAdditions) timeout]', symObjAddr: 0x274, symBinAddr: 0x8B48, symSize: 0x50 }
+  - { offset: 0x3A1E9, size: 0x8, addend: 0x0, symName: '___49-[FBLPromise(DotSyntax_TimeoutAdditions) timeout]_block_invoke', symObjAddr: 0x2C4, symBinAddr: 0x8B98, symSize: 0x8 }
+  - { offset: 0x3A23A, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_TimeoutAdditions) timeoutOn]', symObjAddr: 0x2CC, symBinAddr: 0x8BA0, symSize: 0x50 }
+  - { offset: 0x3A26F, size: 0x8, addend: 0x0, symName: '___51-[FBLPromise(DotSyntax_TimeoutAdditions) timeoutOn]_block_invoke', symObjAddr: 0x31C, symBinAddr: 0x8BF0, symSize: 0xC }
+  - { offset: 0x3A2D0, size: 0x8, addend: 0x0, symName: _FBLIncludeTimeoutCategory, symObjAddr: 0x328, symBinAddr: 0x8BFC, symSize: 0x4 }
+  - { offset: 0x3A69B, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ValidateAdditions) validate:]', symObjAddr: 0x0, symBinAddr: 0x8C00, symSize: 0x7C }
+  - { offset: 0x3A6AF, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ValidateAdditions) validate:]', symObjAddr: 0x0, symBinAddr: 0x8C00, symSize: 0x7C }
+  - { offset: 0x3A6F2, size: 0x8, addend: 0x0, symName: '-[FBLPromise(ValidateAdditions) onQueue:validate:]', symObjAddr: 0x7C, symBinAddr: 0x8C7C, symSize: 0xCC }
+  - { offset: 0x3A755, size: 0x8, addend: 0x0, symName: '___50-[FBLPromise(ValidateAdditions) onQueue:validate:]_block_invoke', symObjAddr: 0x148, symBinAddr: 0x8D48, symSize: 0x7C }
+  - { offset: 0x3A7B6, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_ValidateAdditions) validate]', symObjAddr: 0x1DC, symBinAddr: 0x8DC4, symSize: 0x50 }
+  - { offset: 0x3A7EB, size: 0x8, addend: 0x0, symName: '___51-[FBLPromise(DotSyntax_ValidateAdditions) validate]_block_invoke', symObjAddr: 0x22C, symBinAddr: 0x8E14, symSize: 0xC }
+  - { offset: 0x3A83C, size: 0x8, addend: 0x0, symName: '-[FBLPromise(DotSyntax_ValidateAdditions) validateOn]', symObjAddr: 0x240, symBinAddr: 0x8E20, symSize: 0x50 }
+  - { offset: 0x3A871, size: 0x8, addend: 0x0, symName: '___53-[FBLPromise(DotSyntax_ValidateAdditions) validateOn]_block_invoke', symObjAddr: 0x290, symBinAddr: 0x8E70, symSize: 0x10 }
+  - { offset: 0x3A8D2, size: 0x8, addend: 0x0, symName: _FBLIncludeValidateCategory, symObjAddr: 0x2A0, symBinAddr: 0x8E80, symSize: 0x4 }
+  - { offset: 0x3ACA9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapCompletion:]', symObjAddr: 0x0, symBinAddr: 0x8E84, symSize: 0x74 }
+  - { offset: 0x3ACB6, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapCompletion:]', symObjAddr: 0x0, symBinAddr: 0x8E84, symSize: 0x74 }
+  - { offset: 0x3ACF9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapCompletion:]', symObjAddr: 0x74, symBinAddr: 0x8EF8, symSize: 0xA0 }
+  - { offset: 0x3AD4C, size: 0x8, addend: 0x0, symName: '___52+[FBLPromise(WrapAdditions) onQueue:wrapCompletion:]_block_invoke', symObjAddr: 0x114, symBinAddr: 0x8F98, symSize: 0x90 }
+  - { offset: 0x3ADBD, size: 0x8, addend: 0x0, symName: '___52+[FBLPromise(WrapAdditions) onQueue:wrapCompletion:]_block_invoke_2', symObjAddr: 0x1A4, symBinAddr: 0x9028, symSize: 0x10 }
+  - { offset: 0x3AE0A, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapObjectCompletion:]', symObjAddr: 0x1CC, symBinAddr: 0x9038, symSize: 0x74 }
+  - { offset: 0x3AE4D, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapObjectCompletion:]', symObjAddr: 0x240, symBinAddr: 0x90AC, symSize: 0xA0 }
+  - { offset: 0x3AEA0, size: 0x8, addend: 0x0, symName: '___58+[FBLPromise(WrapAdditions) onQueue:wrapObjectCompletion:]_block_invoke', symObjAddr: 0x2E0, symBinAddr: 0x914C, symSize: 0x90 }
+  - { offset: 0x3AF11, size: 0x8, addend: 0x0, symName: '___58+[FBLPromise(WrapAdditions) onQueue:wrapObjectCompletion:]_block_invoke_2', symObjAddr: 0x370, symBinAddr: 0x91DC, symSize: 0xC }
+  - { offset: 0x3AF6E, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapErrorCompletion:]', symObjAddr: 0x37C, symBinAddr: 0x91E8, symSize: 0x74 }
+  - { offset: 0x3AFB1, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapErrorCompletion:]', symObjAddr: 0x3F0, symBinAddr: 0x925C, symSize: 0xA0 }
+  - { offset: 0x3B004, size: 0x8, addend: 0x0, symName: '___57+[FBLPromise(WrapAdditions) onQueue:wrapErrorCompletion:]_block_invoke', symObjAddr: 0x490, symBinAddr: 0x92FC, symSize: 0xC4 }
+  - { offset: 0x3B078, size: 0x8, addend: 0x0, symName: '___57+[FBLPromise(WrapAdditions) onQueue:wrapErrorCompletion:]_block_invoke_2', symObjAddr: 0x554, symBinAddr: 0x93C0, symSize: 0x1C }
+  - { offset: 0x3B0E8, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapObjectOrErrorCompletion:]', symObjAddr: 0x5D4, symBinAddr: 0x93DC, symSize: 0x74 }
+  - { offset: 0x3B12B, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapObjectOrErrorCompletion:]', symObjAddr: 0x648, symBinAddr: 0x9450, symSize: 0xA0 }
+  - { offset: 0x3B17E, size: 0x8, addend: 0x0, symName: '___65+[FBLPromise(WrapAdditions) onQueue:wrapObjectOrErrorCompletion:]_block_invoke', symObjAddr: 0x6E8, symBinAddr: 0x94F0, symSize: 0xC4 }
+  - { offset: 0x3B1F2, size: 0x8, addend: 0x0, symName: '___65+[FBLPromise(WrapAdditions) onQueue:wrapObjectOrErrorCompletion:]_block_invoke_2', symObjAddr: 0x7AC, symBinAddr: 0x95B4, symSize: 0x20 }
+  - { offset: 0x3B272, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapErrorOrObjectCompletion:]', symObjAddr: 0x7CC, symBinAddr: 0x95D4, symSize: 0x74 }
+  - { offset: 0x3B2B5, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapErrorOrObjectCompletion:]', symObjAddr: 0x840, symBinAddr: 0x9648, symSize: 0xA0 }
+  - { offset: 0x3B308, size: 0x8, addend: 0x0, symName: '___65+[FBLPromise(WrapAdditions) onQueue:wrapErrorOrObjectCompletion:]_block_invoke', symObjAddr: 0x8E0, symBinAddr: 0x96E8, symSize: 0xC4 }
+  - { offset: 0x3B37C, size: 0x8, addend: 0x0, symName: '___65+[FBLPromise(WrapAdditions) onQueue:wrapErrorOrObjectCompletion:]_block_invoke_2', symObjAddr: 0x9A4, symBinAddr: 0x97AC, symSize: 0x20 }
+  - { offset: 0x3B3FC, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrap2ObjectsOrErrorCompletion:]', symObjAddr: 0x9C4, symBinAddr: 0x97CC, symSize: 0x74 }
+  - { offset: 0x3B43F, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrap2ObjectsOrErrorCompletion:]', symObjAddr: 0xA38, symBinAddr: 0x9840, symSize: 0xA0 }
+  - { offset: 0x3B492, size: 0x8, addend: 0x0, symName: '___67+[FBLPromise(WrapAdditions) onQueue:wrap2ObjectsOrErrorCompletion:]_block_invoke', symObjAddr: 0xAD8, symBinAddr: 0x98E0, symSize: 0xC4 }
+  - { offset: 0x3B506, size: 0x8, addend: 0x0, symName: '___67+[FBLPromise(WrapAdditions) onQueue:wrap2ObjectsOrErrorCompletion:]_block_invoke_2', symObjAddr: 0xB9C, symBinAddr: 0x99A4, symSize: 0x168 }
+  - { offset: 0x3B5AC, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapBoolCompletion:]', symObjAddr: 0xD04, symBinAddr: 0x9B0C, symSize: 0x74 }
+  - { offset: 0x3B5EF, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapBoolCompletion:]', symObjAddr: 0xD78, symBinAddr: 0x9B80, symSize: 0xA0 }
+  - { offset: 0x3B642, size: 0x8, addend: 0x0, symName: '___56+[FBLPromise(WrapAdditions) onQueue:wrapBoolCompletion:]_block_invoke', symObjAddr: 0xE18, symBinAddr: 0x9C20, symSize: 0x90 }
+  - { offset: 0x3B6B3, size: 0x8, addend: 0x0, symName: '___56+[FBLPromise(WrapAdditions) onQueue:wrapBoolCompletion:]_block_invoke_2', symObjAddr: 0xEA8, symBinAddr: 0x9CB0, symSize: 0x4C }
+  - { offset: 0x3B717, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapBoolOrErrorCompletion:]', symObjAddr: 0xEF4, symBinAddr: 0x9CFC, symSize: 0x74 }
+  - { offset: 0x3B75A, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapBoolOrErrorCompletion:]', symObjAddr: 0xF68, symBinAddr: 0x9D70, symSize: 0xA0 }
+  - { offset: 0x3B7AD, size: 0x8, addend: 0x0, symName: '___63+[FBLPromise(WrapAdditions) onQueue:wrapBoolOrErrorCompletion:]_block_invoke', symObjAddr: 0x1008, symBinAddr: 0x9E10, symSize: 0xC4 }
+  - { offset: 0x3B821, size: 0x8, addend: 0x0, symName: '___63+[FBLPromise(WrapAdditions) onQueue:wrapBoolOrErrorCompletion:]_block_invoke_2', symObjAddr: 0x10CC, symBinAddr: 0x9ED4, symSize: 0x68 }
+  - { offset: 0x3B8B0, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapIntegerCompletion:]', symObjAddr: 0x1134, symBinAddr: 0x9F3C, symSize: 0x74 }
+  - { offset: 0x3B8F3, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapIntegerCompletion:]', symObjAddr: 0x11A8, symBinAddr: 0x9FB0, symSize: 0xA0 }
+  - { offset: 0x3B946, size: 0x8, addend: 0x0, symName: '___59+[FBLPromise(WrapAdditions) onQueue:wrapIntegerCompletion:]_block_invoke', symObjAddr: 0x1248, symBinAddr: 0xA050, symSize: 0x90 }
+  - { offset: 0x3B9B7, size: 0x8, addend: 0x0, symName: '___59+[FBLPromise(WrapAdditions) onQueue:wrapIntegerCompletion:]_block_invoke_2', symObjAddr: 0x12D8, symBinAddr: 0xA0E0, symSize: 0x4C }
+  - { offset: 0x3BA1B, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapIntegerOrErrorCompletion:]', symObjAddr: 0x1324, symBinAddr: 0xA12C, symSize: 0x74 }
+  - { offset: 0x3BA5E, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapIntegerOrErrorCompletion:]', symObjAddr: 0x1398, symBinAddr: 0xA1A0, symSize: 0xA0 }
+  - { offset: 0x3BAB1, size: 0x8, addend: 0x0, symName: '___66+[FBLPromise(WrapAdditions) onQueue:wrapIntegerOrErrorCompletion:]_block_invoke', symObjAddr: 0x1438, symBinAddr: 0xA240, symSize: 0xC4 }
+  - { offset: 0x3BB25, size: 0x8, addend: 0x0, symName: '___66+[FBLPromise(WrapAdditions) onQueue:wrapIntegerOrErrorCompletion:]_block_invoke_2', symObjAddr: 0x14FC, symBinAddr: 0xA304, symSize: 0x68 }
+  - { offset: 0x3BBB4, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapDoubleCompletion:]', symObjAddr: 0x1564, symBinAddr: 0xA36C, symSize: 0x74 }
+  - { offset: 0x3BBF7, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapDoubleCompletion:]', symObjAddr: 0x15D8, symBinAddr: 0xA3E0, symSize: 0xA0 }
+  - { offset: 0x3BC4A, size: 0x8, addend: 0x0, symName: '___58+[FBLPromise(WrapAdditions) onQueue:wrapDoubleCompletion:]_block_invoke', symObjAddr: 0x1678, symBinAddr: 0xA480, symSize: 0x90 }
+  - { offset: 0x3BCBB, size: 0x8, addend: 0x0, symName: '___58+[FBLPromise(WrapAdditions) onQueue:wrapDoubleCompletion:]_block_invoke_2', symObjAddr: 0x1708, symBinAddr: 0xA510, symSize: 0x48 }
+  - { offset: 0x3BD1F, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) wrapDoubleOrErrorCompletion:]', symObjAddr: 0x1750, symBinAddr: 0xA558, symSize: 0x74 }
+  - { offset: 0x3BD62, size: 0x8, addend: 0x0, symName: '+[FBLPromise(WrapAdditions) onQueue:wrapDoubleOrErrorCompletion:]', symObjAddr: 0x17C4, symBinAddr: 0xA5CC, symSize: 0xA0 }
+  - { offset: 0x3BDB5, size: 0x8, addend: 0x0, symName: '___65+[FBLPromise(WrapAdditions) onQueue:wrapDoubleOrErrorCompletion:]_block_invoke', symObjAddr: 0x1864, symBinAddr: 0xA66C, symSize: 0xC4 }
+  - { offset: 0x3BE29, size: 0x8, addend: 0x0, symName: '___65+[FBLPromise(WrapAdditions) onQueue:wrapDoubleOrErrorCompletion:]_block_invoke_2', symObjAddr: 0x1928, symBinAddr: 0xA730, symSize: 0x60 }
+  - { offset: 0x3BEB9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapCompletion]', symObjAddr: 0x1988, symBinAddr: 0xA790, symSize: 0x50 }
+  - { offset: 0x3BEEF, size: 0x8, addend: 0x0, symName: '___53+[FBLPromise(DotSyntax_WrapAdditions) wrapCompletion]_block_invoke', symObjAddr: 0x19D8, symBinAddr: 0xA7E0, symSize: 0xC }
+  - { offset: 0x3BF46, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapCompletionOn]', symObjAddr: 0x19E4, symBinAddr: 0xA7EC, symSize: 0x50 }
+  - { offset: 0x3BF7C, size: 0x8, addend: 0x0, symName: '___55+[FBLPromise(DotSyntax_WrapAdditions) wrapCompletionOn]_block_invoke', symObjAddr: 0x1A34, symBinAddr: 0xA83C, symSize: 0x10 }
+  - { offset: 0x3BFE4, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectCompletion]', symObjAddr: 0x1A44, symBinAddr: 0xA84C, symSize: 0x50 }
+  - { offset: 0x3C01A, size: 0x8, addend: 0x0, symName: '___59+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectCompletion]_block_invoke', symObjAddr: 0x1A94, symBinAddr: 0xA89C, symSize: 0xC }
+  - { offset: 0x3C071, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectCompletionOn]', symObjAddr: 0x1AA0, symBinAddr: 0xA8A8, symSize: 0x50 }
+  - { offset: 0x3C0A7, size: 0x8, addend: 0x0, symName: '___61+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectCompletionOn]_block_invoke', symObjAddr: 0x1AF0, symBinAddr: 0xA8F8, symSize: 0x10 }
+  - { offset: 0x3C10F, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorCompletion]', symObjAddr: 0x1B00, symBinAddr: 0xA908, symSize: 0x50 }
+  - { offset: 0x3C145, size: 0x8, addend: 0x0, symName: '___58+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorCompletion]_block_invoke', symObjAddr: 0x1B50, symBinAddr: 0xA958, symSize: 0xC }
+  - { offset: 0x3C19C, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorCompletionOn]', symObjAddr: 0x1B5C, symBinAddr: 0xA964, symSize: 0x50 }
+  - { offset: 0x3C1D2, size: 0x8, addend: 0x0, symName: '___60+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorCompletionOn]_block_invoke', symObjAddr: 0x1BAC, symBinAddr: 0xA9B4, symSize: 0x10 }
+  - { offset: 0x3C23A, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectOrErrorCompletion]', symObjAddr: 0x1BBC, symBinAddr: 0xA9C4, symSize: 0x50 }
+  - { offset: 0x3C270, size: 0x8, addend: 0x0, symName: '___66+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectOrErrorCompletion]_block_invoke', symObjAddr: 0x1C0C, symBinAddr: 0xAA14, symSize: 0xC }
+  - { offset: 0x3C2C7, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectOrErrorCompletionOn]', symObjAddr: 0x1C18, symBinAddr: 0xAA20, symSize: 0x50 }
+  - { offset: 0x3C2FD, size: 0x8, addend: 0x0, symName: '___68+[FBLPromise(DotSyntax_WrapAdditions) wrapObjectOrErrorCompletionOn]_block_invoke', symObjAddr: 0x1C68, symBinAddr: 0xAA70, symSize: 0x10 }
+  - { offset: 0x3C365, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorOrObjectCompletion]', symObjAddr: 0x1C78, symBinAddr: 0xAA80, symSize: 0x50 }
+  - { offset: 0x3C39B, size: 0x8, addend: 0x0, symName: '___66+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorOrObjectCompletion]_block_invoke', symObjAddr: 0x1CC8, symBinAddr: 0xAAD0, symSize: 0xC }
+  - { offset: 0x3C3F2, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorOrObjectCompletionOn]', symObjAddr: 0x1CD4, symBinAddr: 0xAADC, symSize: 0x50 }
+  - { offset: 0x3C428, size: 0x8, addend: 0x0, symName: '___68+[FBLPromise(DotSyntax_WrapAdditions) wrapErrorOrObjectCompletionOn]_block_invoke', symObjAddr: 0x1D24, symBinAddr: 0xAB2C, symSize: 0x10 }
+  - { offset: 0x3C490, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrap2ObjectsOrErrorCompletion]', symObjAddr: 0x1D34, symBinAddr: 0xAB3C, symSize: 0x50 }
+  - { offset: 0x3C4C6, size: 0x8, addend: 0x0, symName: '___68+[FBLPromise(DotSyntax_WrapAdditions) wrap2ObjectsOrErrorCompletion]_block_invoke', symObjAddr: 0x1D84, symBinAddr: 0xAB8C, symSize: 0xC }
+  - { offset: 0x3C51D, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrap2ObjectsOrErrorCompletionOn]', symObjAddr: 0x1D90, symBinAddr: 0xAB98, symSize: 0x50 }
+  - { offset: 0x3C553, size: 0x8, addend: 0x0, symName: '___70+[FBLPromise(DotSyntax_WrapAdditions) wrap2ObjectsOrErrorCompletionOn]_block_invoke', symObjAddr: 0x1DE0, symBinAddr: 0xABE8, symSize: 0x10 }
+  - { offset: 0x3C5BB, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolCompletion]', symObjAddr: 0x1DF0, symBinAddr: 0xABF8, symSize: 0x50 }
+  - { offset: 0x3C5F1, size: 0x8, addend: 0x0, symName: '___57+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolCompletion]_block_invoke', symObjAddr: 0x1E40, symBinAddr: 0xAC48, symSize: 0xC }
+  - { offset: 0x3C648, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolCompletionOn]', symObjAddr: 0x1E4C, symBinAddr: 0xAC54, symSize: 0x50 }
+  - { offset: 0x3C67E, size: 0x8, addend: 0x0, symName: '___59+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolCompletionOn]_block_invoke', symObjAddr: 0x1E9C, symBinAddr: 0xACA4, symSize: 0x10 }
+  - { offset: 0x3C6E6, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolOrErrorCompletion]', symObjAddr: 0x1EAC, symBinAddr: 0xACB4, symSize: 0x50 }
+  - { offset: 0x3C71C, size: 0x8, addend: 0x0, symName: '___64+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolOrErrorCompletion]_block_invoke', symObjAddr: 0x1EFC, symBinAddr: 0xAD04, symSize: 0xC }
+  - { offset: 0x3C773, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolOrErrorCompletionOn]', symObjAddr: 0x1F08, symBinAddr: 0xAD10, symSize: 0x50 }
+  - { offset: 0x3C7A9, size: 0x8, addend: 0x0, symName: '___66+[FBLPromise(DotSyntax_WrapAdditions) wrapBoolOrErrorCompletionOn]_block_invoke', symObjAddr: 0x1F58, symBinAddr: 0xAD60, symSize: 0x10 }
+  - { offset: 0x3C811, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerCompletion]', symObjAddr: 0x1F68, symBinAddr: 0xAD70, symSize: 0x50 }
+  - { offset: 0x3C847, size: 0x8, addend: 0x0, symName: '___60+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerCompletion]_block_invoke', symObjAddr: 0x1FB8, symBinAddr: 0xADC0, symSize: 0xC }
+  - { offset: 0x3C89E, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerCompletionOn]', symObjAddr: 0x1FC4, symBinAddr: 0xADCC, symSize: 0x50 }
+  - { offset: 0x3C8D4, size: 0x8, addend: 0x0, symName: '___62+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerCompletionOn]_block_invoke', symObjAddr: 0x2014, symBinAddr: 0xAE1C, symSize: 0x10 }
+  - { offset: 0x3C93C, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerOrErrorCompletion]', symObjAddr: 0x2024, symBinAddr: 0xAE2C, symSize: 0x50 }
+  - { offset: 0x3C972, size: 0x8, addend: 0x0, symName: '___67+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerOrErrorCompletion]_block_invoke', symObjAddr: 0x2074, symBinAddr: 0xAE7C, symSize: 0xC }
+  - { offset: 0x3C9C9, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerOrErrorCompletionOn]', symObjAddr: 0x2080, symBinAddr: 0xAE88, symSize: 0x50 }
+  - { offset: 0x3C9FF, size: 0x8, addend: 0x0, symName: '___69+[FBLPromise(DotSyntax_WrapAdditions) wrapIntegerOrErrorCompletionOn]_block_invoke', symObjAddr: 0x20D0, symBinAddr: 0xAED8, symSize: 0x10 }
+  - { offset: 0x3CA67, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleCompletion]', symObjAddr: 0x20E0, symBinAddr: 0xAEE8, symSize: 0x50 }
+  - { offset: 0x3CA9D, size: 0x8, addend: 0x0, symName: '___59+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleCompletion]_block_invoke', symObjAddr: 0x2130, symBinAddr: 0xAF38, symSize: 0xC }
+  - { offset: 0x3CAF4, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleCompletionOn]', symObjAddr: 0x213C, symBinAddr: 0xAF44, symSize: 0x50 }
+  - { offset: 0x3CB2A, size: 0x8, addend: 0x0, symName: '___61+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleCompletionOn]_block_invoke', symObjAddr: 0x218C, symBinAddr: 0xAF94, symSize: 0x10 }
+  - { offset: 0x3CB92, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleOrErrorCompletion]', symObjAddr: 0x219C, symBinAddr: 0xAFA4, symSize: 0x50 }
+  - { offset: 0x3CBC8, size: 0x8, addend: 0x0, symName: '___66+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleOrErrorCompletion]_block_invoke', symObjAddr: 0x21EC, symBinAddr: 0xAFF4, symSize: 0xC }
+  - { offset: 0x3CC1F, size: 0x8, addend: 0x0, symName: '+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleOrErrorCompletionOn]', symObjAddr: 0x21F8, symBinAddr: 0xB000, symSize: 0x50 }
+  - { offset: 0x3CC55, size: 0x8, addend: 0x0, symName: '___68+[FBLPromise(DotSyntax_WrapAdditions) wrapDoubleOrErrorCompletionOn]_block_invoke', symObjAddr: 0x2248, symBinAddr: 0xB050, symSize: 0x10 }
+  - { offset: 0x3CCBD, size: 0x8, addend: 0x0, symName: _FBLIncludeWrapCategory, symObjAddr: 0x2258, symBinAddr: 0xB060, symSize: 0x4 }
+  - { offset: 0x3EFB7, size: 0x8, addend: 0x0, symName: _FBLPromiseErrorDomain, symObjAddr: 0x40, symBinAddr: 0x10F70, symSize: 0x0 }
+...

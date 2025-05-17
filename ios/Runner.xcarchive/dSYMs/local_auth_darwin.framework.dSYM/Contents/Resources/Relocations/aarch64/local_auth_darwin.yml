@@ -1,0 +1,132 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-duexvrxrzpwwbzcrvbiasdghqknl/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/local_auth_darwin.framework/local_auth_darwin'
+relocations:
+  - { offset: 0x5D1E8, size: 0x8, addend: 0x0, symName: _local_auth_darwinVersionString, symObjAddr: 0x0, symBinAddr: 0x81D8, symSize: 0x0 }
+  - { offset: 0x5D21D, size: 0x8, addend: 0x0, symName: _local_auth_darwinVersionNumber, symObjAddr: 0x30, symBinAddr: 0x8208, symSize: 0x0 }
+  - { offset: 0x5D25A, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext initWithContext:]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x78 }
+  - { offset: 0x5D59C, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext initWithContext:]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x78 }
+  - { offset: 0x5D5E3, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext localizedFallbackTitle]', symObjAddr: 0x78, symBinAddr: 0x4078, symSize: 0x44 }
+  - { offset: 0x5D61A, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext setLocalizedFallbackTitle:]', symObjAddr: 0xBC, symBinAddr: 0x40BC, symSize: 0x50 }
+  - { offset: 0x5D65D, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext biometryType]', symObjAddr: 0x10C, symBinAddr: 0x410C, symSize: 0x3C }
+  - { offset: 0x5D694, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext canEvaluatePolicy:error:]', symObjAddr: 0x148, symBinAddr: 0x4148, symSize: 0x54 }
+  - { offset: 0x5D6EB, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext evaluatePolicy:localizedReason:reply:]', symObjAddr: 0x19C, symBinAddr: 0x419C, symSize: 0x7C }
+  - { offset: 0x5D74E, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext context]', symObjAddr: 0x218, symBinAddr: 0x4218, symSize: 0x8 }
+  - { offset: 0x5D785, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext setContext:]', symObjAddr: 0x220, symBinAddr: 0x4220, symSize: 0xC }
+  - { offset: 0x5D7C6, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContext .cxx_destruct]', symObjAddr: 0x22C, symBinAddr: 0x422C, symSize: 0xC }
+  - { offset: 0x5D7F9, size: 0x8, addend: 0x0, symName: '-[FLADefaultAuthContextFactory createAuthContext]', symObjAddr: 0x238, symBinAddr: 0x4238, symSize: 0x54 }
+  - { offset: 0x5D82C, size: 0x8, addend: 0x0, symName: '-[FLADefaultUIAlertController initWithAlertController:]', symObjAddr: 0x28C, symBinAddr: 0x428C, symSize: 0x78 }
+  - { offset: 0x5D873, size: 0x8, addend: 0x0, symName: '-[FLADefaultUIAlertController addAction:]', symObjAddr: 0x304, symBinAddr: 0x4304, symSize: 0x50 }
+  - { offset: 0x5D8B6, size: 0x8, addend: 0x0, symName: '-[FLADefaultUIAlertController presentOnViewController:animated:completion:]', symObjAddr: 0x354, symBinAddr: 0x4354, symSize: 0x80 }
+  - { offset: 0x5D919, size: 0x8, addend: 0x0, symName: '-[FLADefaultUIAlertController controller]', symObjAddr: 0x3D4, symBinAddr: 0x43D4, symSize: 0x8 }
+  - { offset: 0x5D950, size: 0x8, addend: 0x0, symName: '-[FLADefaultUIAlertController setController:]', symObjAddr: 0x3DC, symBinAddr: 0x43DC, symSize: 0xC }
+  - { offset: 0x5D991, size: 0x8, addend: 0x0, symName: '-[FLADefaultUIAlertController .cxx_destruct]', symObjAddr: 0x3E8, symBinAddr: 0x43E8, symSize: 0xC }
+  - { offset: 0x5D9C4, size: 0x8, addend: 0x0, symName: '-[FLADefaultAlertFactory createAlertControllerWithTitle:message:preferredStyle:]', symObjAddr: 0x3F4, symBinAddr: 0x43F4, symSize: 0xA4 }
+  - { offset: 0x5DA27, size: 0x8, addend: 0x0, symName: '-[FLADefaultViewProvider initWithRegistrar:]', symObjAddr: 0x498, symBinAddr: 0x4498, symSize: 0x78 }
+  - { offset: 0x5DA6E, size: 0x8, addend: 0x0, symName: '-[FLADefaultViewProvider registrar]', symObjAddr: 0x510, symBinAddr: 0x4510, symSize: 0x8 }
+  - { offset: 0x5DAA5, size: 0x8, addend: 0x0, symName: '-[FLADefaultViewProvider setRegistrar:]', symObjAddr: 0x518, symBinAddr: 0x4518, symSize: 0xC }
+  - { offset: 0x5DAE6, size: 0x8, addend: 0x0, symName: '-[FLADefaultViewProvider .cxx_destruct]', symObjAddr: 0x524, symBinAddr: 0x4524, symSize: 0xC }
+  - { offset: 0x5DB19, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState initWithOptions:strings:resultHandler:]', symObjAddr: 0x530, symBinAddr: 0x4530, symSize: 0xD4 }
+  - { offset: 0x5DB80, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState options]', symObjAddr: 0x604, symBinAddr: 0x4604, symSize: 0x8 }
+  - { offset: 0x5DBB7, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState setOptions:]', symObjAddr: 0x60C, symBinAddr: 0x460C, symSize: 0xC }
+  - { offset: 0x5DBF8, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState strings]', symObjAddr: 0x618, symBinAddr: 0x4618, symSize: 0x8 }
+  - { offset: 0x5DC2F, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState setStrings:]', symObjAddr: 0x620, symBinAddr: 0x4620, symSize: 0xC }
+  - { offset: 0x5DC70, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState resultHandler]', symObjAddr: 0x62C, symBinAddr: 0x462C, symSize: 0x8 }
+  - { offset: 0x5DCA7, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState setResultHandler:]', symObjAddr: 0x634, symBinAddr: 0x4634, symSize: 0x8 }
+  - { offset: 0x5DCE6, size: 0x8, addend: 0x0, symName: '-[FLAStickyAuthState .cxx_destruct]', symObjAddr: 0x63C, symBinAddr: 0x463C, symSize: 0x3C }
+  - { offset: 0x5DD19, size: 0x8, addend: 0x0, symName: '+[FLALocalAuthPlugin registerWithRegistrar:]', symObjAddr: 0x678, symBinAddr: 0x4678, symSize: 0xF0 }
+  - { offset: 0x5DDE1, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin initWithContextFactory:alertFactory:viewProvider:]', symObjAddr: 0x768, symBinAddr: 0x4768, symSize: 0xD0 }
+  - { offset: 0x5DE4C, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin authenticateWithOptions:strings:completion:]', symObjAddr: 0x838, symBinAddr: 0x4838, symSize: 0x1E4 }
+  - { offset: 0x5DEE6, size: 0x8, addend: 0x0, symName: '___65-[FLALocalAuthPlugin authenticateWithOptions:strings:completion:]_block_invoke', symObjAddr: 0xA1C, symBinAddr: 0x4A1C, symSize: 0xD8 }
+  - { offset: 0x5DFE3, size: 0x8, addend: 0x0, symName: '___65-[FLALocalAuthPlugin authenticateWithOptions:strings:completion:]_block_invoke_2', symObjAddr: 0xAF4, symBinAddr: 0x4AF4, symSize: 0x18 }
+  - { offset: 0x5E07A, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64b, symObjAddr: 0xB0C, symBinAddr: 0x4B0C, symSize: 0x4C }
+  - { offset: 0x5E0A3, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64s, symObjAddr: 0xB58, symBinAddr: 0x4B58, symSize: 0x40 }
+  - { offset: 0x5E0C2, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56b, symObjAddr: 0xB98, symBinAddr: 0x4B98, symSize: 0x44 }
+  - { offset: 0x5E0EB, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s, symObjAddr: 0xBDC, symBinAddr: 0x4BDC, symSize: 0x38 }
+  - { offset: 0x5E10A, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin deviceCanSupportBiometricsWithError:]', symObjAddr: 0xC14, symBinAddr: 0x4C14, symSize: 0xD4 }
+  - { offset: 0x5E171, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin getEnrolledBiometricsWithError:]', symObjAddr: 0xCE8, symBinAddr: 0x4CE8, symSize: 0xE4 }
+  - { offset: 0x5E1E9, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin isDeviceSupportedWithError:]', symObjAddr: 0xDCC, symBinAddr: 0x4DCC, symSize: 0x7C }
+  - { offset: 0x5E23F, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin showAlertWithMessage:dismissButtonTitle:openSettingsButtonTitle:completion:]', symObjAddr: 0xE48, symBinAddr: 0x4E48, symSize: 0x22C }
+  - { offset: 0x5E2F9, size: 0x8, addend: 0x0, symName: '___97-[FLALocalAuthPlugin showAlertWithMessage:dismissButtonTitle:openSettingsButtonTitle:completion:]_block_invoke', symObjAddr: 0x1074, symBinAddr: 0x5074, symSize: 0x10 }
+  - { offset: 0x5E359, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0x1084, symBinAddr: 0x5084, symSize: 0x34 }
+  - { offset: 0x5E382, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x10B8, symBinAddr: 0x50B8, symSize: 0x28 }
+  - { offset: 0x5E3A1, size: 0x8, addend: 0x0, symName: '___97-[FLALocalAuthPlugin showAlertWithMessage:dismissButtonTitle:openSettingsButtonTitle:completion:]_block_invoke.145', symObjAddr: 0x10E0, symBinAddr: 0x50E0, symSize: 0x8C }
+  - { offset: 0x5E421, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin handleAuthReplyWithSuccess:error:options:strings:completion:]', symObjAddr: 0x116C, symBinAddr: 0x516C, symSize: 0x130 }
+  - { offset: 0x5E4AA, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin handleSucceeded:withCompletion:]', symObjAddr: 0x129C, symBinAddr: 0x529C, symSize: 0x7C }
+  - { offset: 0x5E51D, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin handleError:withOptions:strings:completion:]', symObjAddr: 0x1318, symBinAddr: 0x5318, symSize: 0x1F0 }
+  - { offset: 0x5E5C7, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin applicationDidBecomeActive:]', symObjAddr: 0x1508, symBinAddr: 0x5508, symSize: 0xB0 }
+  - { offset: 0x5E608, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin lastCallState]', symObjAddr: 0x15B8, symBinAddr: 0x55B8, symSize: 0x8 }
+  - { offset: 0x5E63F, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin setLastCallState:]', symObjAddr: 0x15C0, symBinAddr: 0x55C0, symSize: 0xC }
+  - { offset: 0x5E680, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin authContextFactory]', symObjAddr: 0x15CC, symBinAddr: 0x55CC, symSize: 0x8 }
+  - { offset: 0x5E6B7, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin setAuthContextFactory:]', symObjAddr: 0x15D4, symBinAddr: 0x55D4, symSize: 0xC }
+  - { offset: 0x5E6F8, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin alertFactory]', symObjAddr: 0x15E0, symBinAddr: 0x55E0, symSize: 0x8 }
+  - { offset: 0x5E72F, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin setAlertFactory:]', symObjAddr: 0x15E8, symBinAddr: 0x55E8, symSize: 0xC }
+  - { offset: 0x5E770, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin viewProvider]', symObjAddr: 0x15F4, symBinAddr: 0x55F4, symSize: 0x8 }
+  - { offset: 0x5E7A7, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin setViewProvider:]', symObjAddr: 0x15FC, symBinAddr: 0x55FC, symSize: 0xC }
+  - { offset: 0x5E7E8, size: 0x8, addend: 0x0, symName: '-[FLALocalAuthPlugin .cxx_destruct]', symObjAddr: 0x1608, symBinAddr: 0x5608, symSize: 0x48 }
+  - { offset: 0x5EBBC, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultBox initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x5650, symSize: 0x48 }
+  - { offset: 0x5EBCA, size: 0x8, addend: 0x0, symName: _FLADGetMessagesCodec, symObjAddr: 0x1034, symBinAddr: 0x6684, symSize: 0x40 }
+  - { offset: 0x5EBF0, size: 0x8, addend: 0x0, symName: _FLADGetMessagesCodec.sSharedObject, symObjAddr: 0xB090, symBinAddr: 0x12728, symSize: 0x0 }
+  - { offset: 0x5EC06, size: 0x8, addend: 0x0, symName: _FLADGetMessagesCodec.sPred, symObjAddr: 0xB098, symBinAddr: 0x12730, symSize: 0x0 }
+  - { offset: 0x5EE97, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultBox initWithValue:]', symObjAddr: 0x0, symBinAddr: 0x5650, symSize: 0x48 }
+  - { offset: 0x5EEDE, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultBox value]', symObjAddr: 0x48, symBinAddr: 0x5698, symSize: 0x8 }
+  - { offset: 0x5EF15, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultBox setValue:]', symObjAddr: 0x50, symBinAddr: 0x56A0, symSize: 0x8 }
+  - { offset: 0x5EF52, size: 0x8, addend: 0x0, symName: '-[FLADAuthBiometricBox initWithValue:]', symObjAddr: 0x58, symBinAddr: 0x56A8, symSize: 0x48 }
+  - { offset: 0x5EF99, size: 0x8, addend: 0x0, symName: '-[FLADAuthBiometricBox value]', symObjAddr: 0xA0, symBinAddr: 0x56F0, symSize: 0x8 }
+  - { offset: 0x5EFD0, size: 0x8, addend: 0x0, symName: '-[FLADAuthBiometricBox setValue:]', symObjAddr: 0xA8, symBinAddr: 0x56F8, symSize: 0x8 }
+  - { offset: 0x5F00D, size: 0x8, addend: 0x0, symName: '+[FLADAuthStrings makeWithReason:lockOut:goToSettingsButton:goToSettingsDescription:cancelButton:localizedFallbackTitle:]', symObjAddr: 0xB0, symBinAddr: 0x5700, symSize: 0x118 }
+  - { offset: 0x5F0B0, size: 0x8, addend: 0x0, symName: '+[FLADAuthStrings fromList:]', symObjAddr: 0x1C8, symBinAddr: 0x5818, symSize: 0x154 }
+  - { offset: 0x5F1AB, size: 0x8, addend: 0x0, symName: _GetNullableObjectAtIndex, symObjAddr: 0x31C, symBinAddr: 0x596C, symSize: 0x70 }
+  - { offset: 0x5F1F6, size: 0x8, addend: 0x0, symName: '+[FLADAuthStrings nullableFromList:]', symObjAddr: 0x38C, symBinAddr: 0x59DC, symSize: 0x30 }
+  - { offset: 0x5F239, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings toList]', symObjAddr: 0x3BC, symBinAddr: 0x5A0C, symSize: 0x248 }
+  - { offset: 0x5F270, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings reason]', symObjAddr: 0x604, symBinAddr: 0x5C54, symSize: 0x8 }
+  - { offset: 0x5F2A7, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings setReason:]', symObjAddr: 0x60C, symBinAddr: 0x5C5C, symSize: 0x8 }
+  - { offset: 0x5F2E6, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings lockOut]', symObjAddr: 0x614, symBinAddr: 0x5C64, symSize: 0x8 }
+  - { offset: 0x5F31D, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings setLockOut:]', symObjAddr: 0x61C, symBinAddr: 0x5C6C, symSize: 0x8 }
+  - { offset: 0x5F35C, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings goToSettingsButton]', symObjAddr: 0x624, symBinAddr: 0x5C74, symSize: 0x8 }
+  - { offset: 0x5F393, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings setGoToSettingsButton:]', symObjAddr: 0x62C, symBinAddr: 0x5C7C, symSize: 0x8 }
+  - { offset: 0x5F3D2, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings goToSettingsDescription]', symObjAddr: 0x634, symBinAddr: 0x5C84, symSize: 0x8 }
+  - { offset: 0x5F409, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings setGoToSettingsDescription:]', symObjAddr: 0x63C, symBinAddr: 0x5C8C, symSize: 0x8 }
+  - { offset: 0x5F448, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings cancelButton]', symObjAddr: 0x644, symBinAddr: 0x5C94, symSize: 0x8 }
+  - { offset: 0x5F47F, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings setCancelButton:]', symObjAddr: 0x64C, symBinAddr: 0x5C9C, symSize: 0x8 }
+  - { offset: 0x5F4BE, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings localizedFallbackTitle]', symObjAddr: 0x654, symBinAddr: 0x5CA4, symSize: 0x8 }
+  - { offset: 0x5F4F5, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings setLocalizedFallbackTitle:]', symObjAddr: 0x65C, symBinAddr: 0x5CAC, symSize: 0x8 }
+  - { offset: 0x5F534, size: 0x8, addend: 0x0, symName: '-[FLADAuthStrings .cxx_destruct]', symObjAddr: 0x664, symBinAddr: 0x5CB4, symSize: 0x60 }
+  - { offset: 0x5F567, size: 0x8, addend: 0x0, symName: '+[FLADAuthOptions makeWithBiometricOnly:sticky:useErrorDialogs:]', symObjAddr: 0x6C4, symBinAddr: 0x5D14, symSize: 0x60 }
+  - { offset: 0x5F5DA, size: 0x8, addend: 0x0, symName: '+[FLADAuthOptions fromList:]', symObjAddr: 0x724, symBinAddr: 0x5D74, symSize: 0xE0 }
+  - { offset: 0x5F681, size: 0x8, addend: 0x0, symName: '+[FLADAuthOptions nullableFromList:]', symObjAddr: 0x804, symBinAddr: 0x5E54, symSize: 0x30 }
+  - { offset: 0x5F6C4, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions toList]', symObjAddr: 0x834, symBinAddr: 0x5E84, symSize: 0x10C }
+  - { offset: 0x5F6FB, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions biometricOnly]', symObjAddr: 0x940, symBinAddr: 0x5F90, symSize: 0x8 }
+  - { offset: 0x5F732, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions setBiometricOnly:]', symObjAddr: 0x948, symBinAddr: 0x5F98, symSize: 0x8 }
+  - { offset: 0x5F76D, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions sticky]', symObjAddr: 0x950, symBinAddr: 0x5FA0, symSize: 0x8 }
+  - { offset: 0x5F7A4, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions setSticky:]', symObjAddr: 0x958, symBinAddr: 0x5FA8, symSize: 0x8 }
+  - { offset: 0x5F7DF, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions useErrorDialogs]', symObjAddr: 0x960, symBinAddr: 0x5FB0, symSize: 0x8 }
+  - { offset: 0x5F816, size: 0x8, addend: 0x0, symName: '-[FLADAuthOptions setUseErrorDialogs:]', symObjAddr: 0x968, symBinAddr: 0x5FB8, symSize: 0x8 }
+  - { offset: 0x5F851, size: 0x8, addend: 0x0, symName: '+[FLADAuthResultDetails makeWithResult:errorMessage:errorDetails:]', symObjAddr: 0x970, symBinAddr: 0x5FC0, symSize: 0x88 }
+  - { offset: 0x5F8C4, size: 0x8, addend: 0x0, symName: '+[FLADAuthResultDetails fromList:]', symObjAddr: 0x9F8, symBinAddr: 0x6048, symSize: 0xD4 }
+  - { offset: 0x5F97B, size: 0x8, addend: 0x0, symName: '+[FLADAuthResultDetails nullableFromList:]', symObjAddr: 0xACC, symBinAddr: 0x611C, symSize: 0x30 }
+  - { offset: 0x5F9BE, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails toList]', symObjAddr: 0xAFC, symBinAddr: 0x614C, symSize: 0x150 }
+  - { offset: 0x5F9F5, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails result]', symObjAddr: 0xC4C, symBinAddr: 0x629C, symSize: 0x8 }
+  - { offset: 0x5FA2C, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails setResult:]', symObjAddr: 0xC54, symBinAddr: 0x62A4, symSize: 0x8 }
+  - { offset: 0x5FA69, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails errorMessage]', symObjAddr: 0xC5C, symBinAddr: 0x62AC, symSize: 0x8 }
+  - { offset: 0x5FAA0, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails setErrorMessage:]', symObjAddr: 0xC64, symBinAddr: 0x62B4, symSize: 0x8 }
+  - { offset: 0x5FADF, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails errorDetails]', symObjAddr: 0xC6C, symBinAddr: 0x62BC, symSize: 0x8 }
+  - { offset: 0x5FB16, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails setErrorDetails:]', symObjAddr: 0xC74, symBinAddr: 0x62C4, symSize: 0x8 }
+  - { offset: 0x5FB55, size: 0x8, addend: 0x0, symName: '-[FLADAuthResultDetails .cxx_destruct]', symObjAddr: 0xC7C, symBinAddr: 0x62CC, symSize: 0x30 }
+  - { offset: 0x5FB88, size: 0x8, addend: 0x0, symName: '-[FLADMessagesPigeonCodecReader readValueOfType:]', symObjAddr: 0xCAC, symBinAddr: 0x62FC, symSize: 0x128 }
+  - { offset: 0x5FC0D, size: 0x8, addend: 0x0, symName: '-[FLADMessagesPigeonCodecWriter writeValue:]', symObjAddr: 0xDD4, symBinAddr: 0x6424, symSize: 0x1C8 }
+  - { offset: 0x5FC86, size: 0x8, addend: 0x0, symName: '-[FLADMessagesPigeonCodecReaderWriter writerWithData:]', symObjAddr: 0xF9C, symBinAddr: 0x65EC, symSize: 0x4C }
+  - { offset: 0x5FCC9, size: 0x8, addend: 0x0, symName: '-[FLADMessagesPigeonCodecReaderWriter readerWithData:]', symObjAddr: 0xFE8, symBinAddr: 0x6638, symSize: 0x4C }
+  - { offset: 0x5FD53, size: 0x8, addend: 0x0, symName: ___FLADGetMessagesCodec_block_invoke, symObjAddr: 0x1074, symBinAddr: 0x66C4, symSize: 0x58 }
+  - { offset: 0x5FD99, size: 0x8, addend: 0x0, symName: _SetUpFLADLocalAuthApi, symObjAddr: 0x10CC, symBinAddr: 0x671C, symSize: 0xC }
+  - { offset: 0x5FDEB, size: 0x8, addend: 0x0, symName: _SetUpFLADLocalAuthApiWithSuffix, symObjAddr: 0x10D8, symBinAddr: 0x6728, symSize: 0x3FC }
+  - { offset: 0x5FEEC, size: 0x8, addend: 0x0, symName: ___SetUpFLADLocalAuthApiWithSuffix_block_invoke, symObjAddr: 0x14D4, symBinAddr: 0x6B24, symSize: 0xA8 }
+  - { offset: 0x5FFB1, size: 0x8, addend: 0x0, symName: _wrapResult, symObjAddr: 0x157C, symBinAddr: 0x6BCC, symSize: 0x1EC }
+  - { offset: 0x5FFEC, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x1768, symBinAddr: 0x6DB8, symSize: 0x8 }
+  - { offset: 0x60013, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x1770, symBinAddr: 0x6DC0, symSize: 0x8 }
+  - { offset: 0x60032, size: 0x8, addend: 0x0, symName: ___SetUpFLADLocalAuthApiWithSuffix_block_invoke.129, symObjAddr: 0x1778, symBinAddr: 0x6DC8, symSize: 0xA8 }
+  - { offset: 0x600F7, size: 0x8, addend: 0x0, symName: ___SetUpFLADLocalAuthApiWithSuffix_block_invoke_2, symObjAddr: 0x1820, symBinAddr: 0x6E70, symSize: 0xA8 }
+  - { offset: 0x601BC, size: 0x8, addend: 0x0, symName: ___SetUpFLADLocalAuthApiWithSuffix_block_invoke_3, symObjAddr: 0x18C8, symBinAddr: 0x6F18, symSize: 0xF8 }
+  - { offset: 0x6028B, size: 0x8, addend: 0x0, symName: ___SetUpFLADLocalAuthApiWithSuffix_block_invoke_4, symObjAddr: 0x19C0, symBinAddr: 0x7010, symSize: 0x48 }
+  - { offset: 0x60325, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x1A08, symBinAddr: 0x7058, symSize: 0x10 }
+...

@@ -1,0 +1,447 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/photo_manager.framework/Versions/A/photo_manager'
+relocations:
+  - { offset: 0x100897, size: 0x8, addend: 0x0, symName: _photo_managerVersionString, symObjAddr: 0x0, symBinAddr: 0x1A8E8, symSize: 0x0 }
+  - { offset: 0x1008CC, size: 0x8, addend: 0x0, symName: _photo_managerVersionNumber, symObjAddr: 0x30, symBinAddr: 0x1A918, symSize: 0x0 }
+  - { offset: 0x100909, size: 0x8, addend: 0x0, symName: '-[AssetEntity asset]', symObjAddr: 0x0, symBinAddr: 0x183C, symSize: 0x8 }
+  - { offset: 0x10096B, size: 0x8, addend: 0x0, symName: '-[AssetEntity asset]', symObjAddr: 0x0, symBinAddr: 0x183C, symSize: 0x8 }
+  - { offset: 0x1009A2, size: 0x8, addend: 0x0, symName: '-[AssetEntity setAsset:]', symObjAddr: 0x8, symBinAddr: 0x1844, symSize: 0xC }
+  - { offset: 0x1009E3, size: 0x8, addend: 0x0, symName: '-[AssetEntity isCloud]', symObjAddr: 0x14, symBinAddr: 0x1850, symSize: 0x8 }
+  - { offset: 0x100A1A, size: 0x8, addend: 0x0, symName: '-[AssetEntity setIsCloud:]', symObjAddr: 0x1C, symBinAddr: 0x1858, symSize: 0x8 }
+  - { offset: 0x100A55, size: 0x8, addend: 0x0, symName: '-[AssetEntity .cxx_destruct]', symObjAddr: 0x24, symBinAddr: 0x1860, symSize: 0xC }
+  - { offset: 0x100AE1, size: 0x8, addend: 0x0, symName: '-[NSString(PM_COMMON) isEmpty]', symObjAddr: 0x0, symBinAddr: 0x186C, symSize: 0x84 }
+  - { offset: 0x100AEF, size: 0x8, addend: 0x0, symName: '-[NSString(PM_COMMON) isEmpty]', symObjAddr: 0x0, symBinAddr: 0x186C, symSize: 0x84 }
+  - { offset: 0x100B7F, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isImage]', symObjAddr: 0x0, symBinAddr: 0x18F0, symSize: 0x1C }
+  - { offset: 0x100B92, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isImage]', symObjAddr: 0x0, symBinAddr: 0x18F0, symSize: 0x1C }
+  - { offset: 0x100BC9, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isVideo]', symObjAddr: 0x1C, symBinAddr: 0x190C, symSize: 0x1C }
+  - { offset: 0x100C00, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isAudio]', symObjAddr: 0x38, symBinAddr: 0x1928, symSize: 0x1C }
+  - { offset: 0x100C37, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isImageOrVideo]', symObjAddr: 0x54, symBinAddr: 0x1944, symSize: 0x38 }
+  - { offset: 0x100C6E, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isLivePhoto]', symObjAddr: 0x8C, symBinAddr: 0x197C, symSize: 0x18 }
+  - { offset: 0x100CA5, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) title]', symObjAddr: 0xA4, symBinAddr: 0x1994, symSize: 0x278 }
+  - { offset: 0x100D5C, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) filenameWithOptions:isOrigin:fileType:]', symObjAddr: 0x31C, symBinAddr: 0x1C0C, symSize: 0x154 }
+  - { offset: 0x100E30, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) mimeType]', symObjAddr: 0x470, symBinAddr: 0x1D60, symSize: 0x9C }
+  - { offset: 0x100EBC, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) isAdjust]', symObjAddr: 0x50C, symBinAddr: 0x1DFC, symSize: 0x98 }
+  - { offset: 0x100F03, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) imageIsAdjust:]', symObjAddr: 0x5A4, symBinAddr: 0x1E94, symSize: 0x12C }
+  - { offset: 0x100F69, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) videoIsAdjust:]', symObjAddr: 0x6D0, symBinAddr: 0x1FC0, symSize: 0x10C }
+  - { offset: 0x100FCB, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) getRawResource]', symObjAddr: 0x7DC, symBinAddr: 0x20CC, symSize: 0x1A0 }
+  - { offset: 0x101031, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) getCurrentResource]', symObjAddr: 0x97C, symBinAddr: 0x226C, symSize: 0x414 }
+  - { offset: 0x10110B, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) requestCurrentResourceData:]', symObjAddr: 0xD90, symBinAddr: 0x2680, symSize: 0x17C }
+  - { offset: 0x101193, size: 0x8, addend: 0x0, symName: '___49-[PHAsset(PM_COMMON) requestCurrentResourceData:]_block_invoke', symObjAddr: 0xF0C, symBinAddr: 0x27FC, symSize: 0x10 }
+  - { offset: 0x1011E3, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32r, symObjAddr: 0xF1C, symBinAddr: 0x280C, symSize: 0x10 }
+  - { offset: 0x10120C, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32r, symObjAddr: 0xF2C, symBinAddr: 0x281C, symSize: 0xC }
+  - { offset: 0x10122B, size: 0x8, addend: 0x0, symName: '___49-[PHAsset(PM_COMMON) requestCurrentResourceData:]_block_invoke.19', symObjAddr: 0xF38, symBinAddr: 0x2828, symSize: 0x28 }
+  - { offset: 0x101290, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b40r, symObjAddr: 0xF60, symBinAddr: 0x2850, symSize: 0x3C }
+  - { offset: 0x1012B9, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40r, symObjAddr: 0xF9C, symBinAddr: 0x288C, symSize: 0x2C }
+  - { offset: 0x1012D8, size: 0x8, addend: 0x0, symName: '___49-[PHAsset(PM_COMMON) requestCurrentResourceData:]_block_invoke.21', symObjAddr: 0xFC8, symBinAddr: 0x28B8, symSize: 0x4 }
+  - { offset: 0x10130B, size: 0x8, addend: 0x0, symName: '-[PHAsset(PM_COMMON) getLivePhotosResource]', symObjAddr: 0xFCC, symBinAddr: 0x28BC, symSize: 0x1A8 }
+  - { offset: 0x10169F, size: 0x8, addend: 0x0, symName: '-[PHAssetCollection(PM_COMMON) obtainAssetCount:]', symObjAddr: 0x0, symBinAddr: 0x2A64, symSize: 0x4C }
+  - { offset: 0x1016AD, size: 0x8, addend: 0x0, symName: '-[PHAssetCollection(PM_COMMON) obtainAssetCount:]', symObjAddr: 0x0, symBinAddr: 0x2A64, symSize: 0x4C }
+  - { offset: 0x101777, size: 0x8, addend: 0x0, symName: '-[PHAssetResource(PM_COMMON) isImage]', symObjAddr: 0x0, symBinAddr: 0x2AB0, symSize: 0x60 }
+  - { offset: 0x101785, size: 0x8, addend: 0x0, symName: '-[PHAssetResource(PM_COMMON) isImage]', symObjAddr: 0x0, symBinAddr: 0x2AB0, symSize: 0x60 }
+  - { offset: 0x1017BC, size: 0x8, addend: 0x0, symName: '-[PHAssetResource(PM_COMMON) isVideo]', symObjAddr: 0x60, symBinAddr: 0x2B10, symSize: 0x18 }
+  - { offset: 0x101803, size: 0x8, addend: 0x0, symName: '-[PHAssetResource(PM_COMMON) isAudio]', symObjAddr: 0x78, symBinAddr: 0x2B28, symSize: 0x1C }
+  - { offset: 0x10183A, size: 0x8, addend: 0x0, symName: '-[PHAssetResource(PM_COMMON) isImageOrVideo]', symObjAddr: 0x94, symBinAddr: 0x2B44, symSize: 0x38 }
+  - { offset: 0x101871, size: 0x8, addend: 0x0, symName: '-[PHAssetResource(PM_COMMON) isValid]', symObjAddr: 0xCC, symBinAddr: 0x2B7C, symSize: 0x40 }
+  - { offset: 0x101911, size: 0x8, addend: 0x0, symName: '+[PhotoManagerPlugin registerWithRegistrar:]', symObjAddr: 0x0, symBinAddr: 0x2BBC, symSize: 0x58 }
+  - { offset: 0x101950, size: 0x8, addend: 0x0, symName: '+[PhotoManagerPlugin registerWithRegistrar:]', symObjAddr: 0x0, symBinAddr: 0x2BBC, symSize: 0x58 }
+  - { offset: 0x10199F, size: 0x8, addend: 0x0, symName: '-[PhotoManagerPlugin registrar]', symObjAddr: 0x58, symBinAddr: 0x2C14, symSize: 0x8 }
+  - { offset: 0x1019D6, size: 0x8, addend: 0x0, symName: '-[PhotoManagerPlugin setRegistrar:]', symObjAddr: 0x60, symBinAddr: 0x2C1C, symSize: 0xC }
+  - { offset: 0x101A17, size: 0x8, addend: 0x0, symName: '-[PhotoManagerPlugin .cxx_destruct]', symObjAddr: 0x6C, symBinAddr: 0x2C28, symSize: 0xC }
+  - { offset: 0x101B09, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity init]', symObjAddr: 0x0, symBinAddr: 0x2C34, symSize: 0x60 }
+  - { offset: 0x101DA5, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity init]', symObjAddr: 0x0, symBinAddr: 0x2C34, symSize: 0x60 }
+  - { offset: 0x101DDC, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity initWithId:name:assetCollection:]', symObjAddr: 0x60, symBinAddr: 0x2C94, symSize: 0xD4 }
+  - { offset: 0x101E43, size: 0x8, addend: 0x0, symName: '+[PMAssetPathEntity entityWithId:name:assetCollection:]', symObjAddr: 0x134, symBinAddr: 0x2D68, symSize: 0x88 }
+  - { offset: 0x101EAA, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity id]', symObjAddr: 0x1BC, symBinAddr: 0x2DF0, symSize: 0x8 }
+  - { offset: 0x101EE1, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setId:]', symObjAddr: 0x1C4, symBinAddr: 0x2DF8, symSize: 0x8 }
+  - { offset: 0x101F20, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity name]', symObjAddr: 0x1CC, symBinAddr: 0x2E00, symSize: 0x8 }
+  - { offset: 0x101F57, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setName:]', symObjAddr: 0x1D4, symBinAddr: 0x2E08, symSize: 0x8 }
+  - { offset: 0x101F96, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity isAll]', symObjAddr: 0x1DC, symBinAddr: 0x2E10, symSize: 0x8 }
+  - { offset: 0x101FCD, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setIsAll:]', symObjAddr: 0x1E4, symBinAddr: 0x2E18, symSize: 0x8 }
+  - { offset: 0x102008, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity type]', symObjAddr: 0x1EC, symBinAddr: 0x2E20, symSize: 0x8 }
+  - { offset: 0x10203F, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setType:]', symObjAddr: 0x1F4, symBinAddr: 0x2E28, symSize: 0x8 }
+  - { offset: 0x10207C, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity assetCount]', symObjAddr: 0x1FC, symBinAddr: 0x2E30, symSize: 0x8 }
+  - { offset: 0x1020B3, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setAssetCount:]', symObjAddr: 0x204, symBinAddr: 0x2E38, symSize: 0x8 }
+  - { offset: 0x1020F0, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity modifiedDate]', symObjAddr: 0x20C, symBinAddr: 0x2E40, symSize: 0x8 }
+  - { offset: 0x102127, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setModifiedDate:]', symObjAddr: 0x214, symBinAddr: 0x2E48, symSize: 0x8 }
+  - { offset: 0x102164, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity collection]', symObjAddr: 0x21C, symBinAddr: 0x2E50, symSize: 0x8 }
+  - { offset: 0x10219B, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity setCollection:]', symObjAddr: 0x224, symBinAddr: 0x2E58, symSize: 0xC }
+  - { offset: 0x1021DC, size: 0x8, addend: 0x0, symName: '-[PMAssetPathEntity .cxx_destruct]', symObjAddr: 0x230, symBinAddr: 0x2E64, symSize: 0x3C }
+  - { offset: 0x10220F, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity initWithId:createDt:width:height:duration:type:]', symObjAddr: 0x26C, symBinAddr: 0x2EA0, symSize: 0xD4 }
+  - { offset: 0x1022A6, size: 0x8, addend: 0x0, symName: '+[PMAssetEntity entityWithId:createDt:width:height:duration:type:]', symObjAddr: 0x340, symBinAddr: 0x2F74, symSize: 0x88 }
+  - { offset: 0x10233D, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity id]', symObjAddr: 0x3C8, symBinAddr: 0x2FFC, symSize: 0x8 }
+  - { offset: 0x102374, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setId:]', symObjAddr: 0x3D0, symBinAddr: 0x3004, symSize: 0x8 }
+  - { offset: 0x1023B3, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity createDt]', symObjAddr: 0x3D8, symBinAddr: 0x300C, symSize: 0x8 }
+  - { offset: 0x1023EA, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setCreateDt:]', symObjAddr: 0x3E0, symBinAddr: 0x3014, symSize: 0x8 }
+  - { offset: 0x102427, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity width]', symObjAddr: 0x3E8, symBinAddr: 0x301C, symSize: 0x8 }
+  - { offset: 0x10245E, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setWidth:]', symObjAddr: 0x3F0, symBinAddr: 0x3024, symSize: 0x8 }
+  - { offset: 0x10249B, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity height]', symObjAddr: 0x3F8, symBinAddr: 0x302C, symSize: 0x8 }
+  - { offset: 0x1024D2, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setHeight:]', symObjAddr: 0x400, symBinAddr: 0x3034, symSize: 0x8 }
+  - { offset: 0x10250F, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity duration]', symObjAddr: 0x408, symBinAddr: 0x303C, symSize: 0x8 }
+  - { offset: 0x102546, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setDuration:]', symObjAddr: 0x410, symBinAddr: 0x3044, symSize: 0x8 }
+  - { offset: 0x102583, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity type]', symObjAddr: 0x418, symBinAddr: 0x304C, symSize: 0x8 }
+  - { offset: 0x1025BA, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setType:]', symObjAddr: 0x420, symBinAddr: 0x3054, symSize: 0x8 }
+  - { offset: 0x1025F7, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity phAsset]', symObjAddr: 0x428, symBinAddr: 0x305C, symSize: 0x8 }
+  - { offset: 0x10262E, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setPhAsset:]', symObjAddr: 0x430, symBinAddr: 0x3064, symSize: 0xC }
+  - { offset: 0x10266F, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity modifiedDt]', symObjAddr: 0x43C, symBinAddr: 0x3070, symSize: 0x8 }
+  - { offset: 0x1026A6, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setModifiedDt:]', symObjAddr: 0x444, symBinAddr: 0x3078, symSize: 0x8 }
+  - { offset: 0x1026E3, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity lat]', symObjAddr: 0x44C, symBinAddr: 0x3080, symSize: 0x8 }
+  - { offset: 0x102718, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setLat:]', symObjAddr: 0x454, symBinAddr: 0x3088, symSize: 0x8 }
+  - { offset: 0x102756, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity lng]', symObjAddr: 0x45C, symBinAddr: 0x3090, symSize: 0x8 }
+  - { offset: 0x10278B, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setLng:]', symObjAddr: 0x464, symBinAddr: 0x3098, symSize: 0x8 }
+  - { offset: 0x1027C9, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity title]', symObjAddr: 0x46C, symBinAddr: 0x30A0, symSize: 0x8 }
+  - { offset: 0x102800, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setTitle:]', symObjAddr: 0x474, symBinAddr: 0x30A8, symSize: 0x8 }
+  - { offset: 0x10283F, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity subtype]', symObjAddr: 0x47C, symBinAddr: 0x30B0, symSize: 0x8 }
+  - { offset: 0x102876, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setSubtype:]', symObjAddr: 0x484, symBinAddr: 0x30B8, symSize: 0x8 }
+  - { offset: 0x1028B3, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity favorite]', symObjAddr: 0x48C, symBinAddr: 0x30C0, symSize: 0x8 }
+  - { offset: 0x1028EA, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setFavorite:]', symObjAddr: 0x494, symBinAddr: 0x30C8, symSize: 0x8 }
+  - { offset: 0x102925, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity isLocallyAvailable]', symObjAddr: 0x49C, symBinAddr: 0x30D0, symSize: 0x8 }
+  - { offset: 0x10295C, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity setIsLocallyAvailable:]', symObjAddr: 0x4A4, symBinAddr: 0x30D8, symSize: 0x8 }
+  - { offset: 0x102997, size: 0x8, addend: 0x0, symName: '-[PMAssetEntity .cxx_destruct]', symObjAddr: 0x4AC, symBinAddr: 0x30E0, symSize: 0x3C }
+  - { offset: 0x102A45, size: 0x8, addend: 0x0, symName: '-[PMCacheContainer init]', symObjAddr: 0x0, symBinAddr: 0x311C, symSize: 0x64 }
+  - { offset: 0x102A76, size: 0x8, addend: 0x0, symName: '-[PMCacheContainer init]', symObjAddr: 0x0, symBinAddr: 0x311C, symSize: 0x64 }
+  - { offset: 0x102AAD, size: 0x8, addend: 0x0, symName: '-[PMCacheContainer putAssetEntity:]', symObjAddr: 0x64, symBinAddr: 0x3180, symSize: 0x98 }
+  - { offset: 0x102AF0, size: 0x8, addend: 0x0, symName: '-[PMCacheContainer getAssetEntity:]', symObjAddr: 0xFC, symBinAddr: 0x3218, symSize: 0x8 }
+  - { offset: 0x102B35, size: 0x8, addend: 0x0, symName: '-[PMCacheContainer clearCache]', symObjAddr: 0x104, symBinAddr: 0x3220, symSize: 0x54 }
+  - { offset: 0x102B68, size: 0x8, addend: 0x0, symName: '-[PMCacheContainer .cxx_destruct]', symObjAddr: 0x158, symBinAddr: 0x3274, symSize: 0xC }
+  - { offset: 0x102CFE, size: 0x8, addend: 0x0, symName: '-[PMConverter convertData:]', symObjAddr: 0x0, symBinAddr: 0x3280, symSize: 0xC }
+  - { offset: 0x102D1D, size: 0x8, addend: 0x0, symName: '-[PMConverter convertData:]', symObjAddr: 0x0, symBinAddr: 0x3280, symSize: 0xC }
+  - { offset: 0x102E04, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertPathToMap:]', symObjAddr: 0x0, symBinAddr: 0x328C, symSize: 0x3D0 }
+  - { offset: 0x102E20, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertPathToMap:]', symObjAddr: 0x0, symBinAddr: 0x328C, symSize: 0x3D0 }
+  - { offset: 0x102ED9, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertAssetToMap:optionGroup:]', symObjAddr: 0x3D0, symBinAddr: 0x365C, symSize: 0x214 }
+  - { offset: 0x102F8A, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertPHAssetToMap:needTitle:]', symObjAddr: 0x5E4, symBinAddr: 0x3870, symSize: 0x400 }
+  - { offset: 0x103015, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertPMAssetToMap:needTitle:]', symObjAddr: 0x9E4, symBinAddr: 0x3C70, symSize: 0x36C }
+  - { offset: 0x103068, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertMapToOptionContainer:]', symObjAddr: 0xD50, symBinAddr: 0x3FDC, symSize: 0x348 }
+  - { offset: 0x10313D, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertMapToPMFilterOption:]', symObjAddr: 0x1098, symBinAddr: 0x4324, symSize: 0x294 }
+  - { offset: 0x1031D0, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertMapToPMDateOption:]', symObjAddr: 0x132C, symBinAddr: 0x45B8, symSize: 0x15C }
+  - { offset: 0x10324F, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertNSNumberToSecond:]', symObjAddr: 0x1488, symBinAddr: 0x4714, symSize: 0x28 }
+  - { offset: 0x1032A2, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertNumberToAVFileType:]', symObjAddr: 0x14B0, symBinAddr: 0x473C, symSize: 0x41C }
+  - { offset: 0x103305, size: 0x8, addend: 0x0, symName: '+[PMConvertUtils convertAVFileTypeToExtension:]', symObjAddr: 0x18CC, symBinAddr: 0x4B58, symSize: 0x230 }
+  - { offset: 0x10371F, size: 0x8, addend: 0x0, symName: '+[PMFileHelper deleteFile:isDirectory:error:]', symObjAddr: 0x0, symBinAddr: 0x4D88, symSize: 0xBC }
+  - { offset: 0x10372D, size: 0x8, addend: 0x0, symName: '+[PMFileHelper deleteFile:isDirectory:error:]', symObjAddr: 0x0, symBinAddr: 0x4D88, symSize: 0xBC }
+  - { offset: 0x10381E, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup sortCond]', symObjAddr: 0x0, symBinAddr: 0x4E44, symSize: 0x80 }
+  - { offset: 0x103AE2, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup sortCond]', symObjAddr: 0x0, symBinAddr: 0x4E44, symSize: 0x80 }
+  - { offset: 0x103B19, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup injectSortArray:]', symObjAddr: 0x80, symBinAddr: 0x4EC4, symSize: 0x214 }
+  - { offset: 0x103BE5, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup getFetchOptions:]', symObjAddr: 0x294, symBinAddr: 0x50D8, symSize: 0x670 }
+  - { offset: 0x103D69, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup needTitle]', symObjAddr: 0x904, symBinAddr: 0x5748, symSize: 0x74 }
+  - { offset: 0x103DA0, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup imageOption]', symObjAddr: 0x978, symBinAddr: 0x57BC, symSize: 0x8 }
+  - { offset: 0x103DD7, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setImageOption:]', symObjAddr: 0x980, symBinAddr: 0x57C4, symSize: 0xC }
+  - { offset: 0x103E18, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup videoOption]', symObjAddr: 0x98C, symBinAddr: 0x57D0, symSize: 0x8 }
+  - { offset: 0x103E4F, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setVideoOption:]', symObjAddr: 0x994, symBinAddr: 0x57D8, symSize: 0xC }
+  - { offset: 0x103E90, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup audioOption]', symObjAddr: 0x9A0, symBinAddr: 0x57E4, symSize: 0x8 }
+  - { offset: 0x103EC7, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setAudioOption:]', symObjAddr: 0x9A8, symBinAddr: 0x57EC, symSize: 0xC }
+  - { offset: 0x103F08, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup dateOption]', symObjAddr: 0x9B4, symBinAddr: 0x57F8, symSize: 0x8 }
+  - { offset: 0x103F3F, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setDateOption:]', symObjAddr: 0x9BC, symBinAddr: 0x5800, symSize: 0xC }
+  - { offset: 0x103F80, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup updateOption]', symObjAddr: 0x9C8, symBinAddr: 0x580C, symSize: 0x8 }
+  - { offset: 0x103FB7, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setUpdateOption:]', symObjAddr: 0x9D0, symBinAddr: 0x5814, symSize: 0xC }
+  - { offset: 0x103FF8, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup containsLivePhotos]', symObjAddr: 0x9DC, symBinAddr: 0x5820, symSize: 0x8 }
+  - { offset: 0x10402F, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setContainsLivePhotos:]', symObjAddr: 0x9E4, symBinAddr: 0x5828, symSize: 0x8 }
+  - { offset: 0x10406A, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup onlyLivePhotos]', symObjAddr: 0x9EC, symBinAddr: 0x5830, symSize: 0x8 }
+  - { offset: 0x1040A1, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setOnlyLivePhotos:]', symObjAddr: 0x9F4, symBinAddr: 0x5838, symSize: 0x8 }
+  - { offset: 0x1040DC, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup containsModified]', symObjAddr: 0x9FC, symBinAddr: 0x5840, symSize: 0x8 }
+  - { offset: 0x104113, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setContainsModified:]', symObjAddr: 0xA04, symBinAddr: 0x5848, symSize: 0x8 }
+  - { offset: 0x10414E, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup sortArray]', symObjAddr: 0xA0C, symBinAddr: 0x5850, symSize: 0x8 }
+  - { offset: 0x104185, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup setSortArray:]', symObjAddr: 0xA14, symBinAddr: 0x5858, symSize: 0xC }
+  - { offset: 0x1041C6, size: 0x8, addend: 0x0, symName: '-[PMFilterOptionGroup .cxx_destruct]', symObjAddr: 0xA20, symBinAddr: 0x5864, symSize: 0x60 }
+  - { offset: 0x1041F9, size: 0x8, addend: 0x0, symName: '-[PMFilterOption sizeCond]', symObjAddr: 0xA80, symBinAddr: 0x58C4, symSize: 0xC }
+  - { offset: 0x10422C, size: 0x8, addend: 0x0, symName: '-[PMFilterOption sizeArgs]', symObjAddr: 0xA8C, symBinAddr: 0x58D0, symSize: 0x11C }
+  - { offset: 0x104272, size: 0x8, addend: 0x0, symName: '-[PMFilterOption durationCond]', symObjAddr: 0xBA8, symBinAddr: 0x59EC, symSize: 0x54 }
+  - { offset: 0x1042B9, size: 0x8, addend: 0x0, symName: '-[PMFilterOption durationArgs]', symObjAddr: 0xBFC, symBinAddr: 0x5A40, symSize: 0xCC }
+  - { offset: 0x1042FF, size: 0x8, addend: 0x0, symName: '-[PMFilterOption needTitle]', symObjAddr: 0xCC8, symBinAddr: 0x5B0C, symSize: 0x8 }
+  - { offset: 0x104336, size: 0x8, addend: 0x0, symName: '-[PMFilterOption setNeedTitle:]', symObjAddr: 0xCD0, symBinAddr: 0x5B14, symSize: 0x8 }
+  - { offset: 0x104371, size: 0x8, addend: 0x0, symName: '-[PMFilterOption sizeConstraint]', symObjAddr: 0xCD8, symBinAddr: 0x5B1C, symSize: 0x14 }
+  - { offset: 0x1043A6, size: 0x8, addend: 0x0, symName: '-[PMFilterOption setSizeConstraint:]', symObjAddr: 0xCEC, symBinAddr: 0x5B30, symSize: 0x14 }
+  - { offset: 0x1043E4, size: 0x8, addend: 0x0, symName: '-[PMFilterOption durationConstraint]', symObjAddr: 0xD00, symBinAddr: 0x5B44, symSize: 0x14 }
+  - { offset: 0x104419, size: 0x8, addend: 0x0, symName: '-[PMFilterOption setDurationConstraint:]', symObjAddr: 0xD14, symBinAddr: 0x5B58, symSize: 0x14 }
+  - { offset: 0x104457, size: 0x8, addend: 0x0, symName: '-[PMDateOption dateCond:]', symObjAddr: 0xD28, symBinAddr: 0x5B6C, symSize: 0xC0 }
+  - { offset: 0x1044AA, size: 0x8, addend: 0x0, symName: '-[PMDateOption dateArgs]', symObjAddr: 0xDE8, symBinAddr: 0x5C2C, symSize: 0xB8 }
+  - { offset: 0x1044E1, size: 0x8, addend: 0x0, symName: '-[PMDateOption min]', symObjAddr: 0xEA0, symBinAddr: 0x5CE4, symSize: 0x8 }
+  - { offset: 0x104518, size: 0x8, addend: 0x0, symName: '-[PMDateOption setMin:]', symObjAddr: 0xEA8, symBinAddr: 0x5CEC, symSize: 0xC }
+  - { offset: 0x104559, size: 0x8, addend: 0x0, symName: '-[PMDateOption max]', symObjAddr: 0xEB4, symBinAddr: 0x5CF8, symSize: 0x8 }
+  - { offset: 0x104590, size: 0x8, addend: 0x0, symName: '-[PMDateOption setMax:]', symObjAddr: 0xEBC, symBinAddr: 0x5D00, symSize: 0xC }
+  - { offset: 0x1045D1, size: 0x8, addend: 0x0, symName: '-[PMDateOption ignore]', symObjAddr: 0xEC8, symBinAddr: 0x5D0C, symSize: 0x8 }
+  - { offset: 0x104608, size: 0x8, addend: 0x0, symName: '-[PMDateOption setIgnore:]', symObjAddr: 0xED0, symBinAddr: 0x5D14, symSize: 0x8 }
+  - { offset: 0x104643, size: 0x8, addend: 0x0, symName: '-[PMDateOption .cxx_destruct]', symObjAddr: 0xED8, symBinAddr: 0x5D1C, symSize: 0x30 }
+  - { offset: 0x104676, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption where]', symObjAddr: 0xF08, symBinAddr: 0x5D4C, symSize: 0x4C }
+  - { offset: 0x1046AD, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption sortDescriptors]', symObjAddr: 0xF54, symBinAddr: 0x5D98, symSize: 0x1DC }
+  - { offset: 0x104746, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption getFetchOptions:]', symObjAddr: 0x1130, symBinAddr: 0x5F74, symSize: 0x220 }
+  - { offset: 0x10483A, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption containsModified]', symObjAddr: 0x1350, symBinAddr: 0x6194, symSize: 0x64 }
+  - { offset: 0x104872, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption needTitle]', symObjAddr: 0x13B4, symBinAddr: 0x61F8, symSize: 0x64 }
+  - { offset: 0x1048AA, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption params]', symObjAddr: 0x1418, symBinAddr: 0x625C, symSize: 0x8 }
+  - { offset: 0x1048E1, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption setParams:]', symObjAddr: 0x1420, symBinAddr: 0x6264, symSize: 0xC }
+  - { offset: 0x104922, size: 0x8, addend: 0x0, symName: '-[PMCustomFilterOption .cxx_destruct]', symObjAddr: 0x142C, symBinAddr: 0x6270, symSize: 0xC }
+  - { offset: 0x1049EC, size: 0x8, addend: 0x0, symName: '+[PMFolderUtils getRootFolderWithOptions:]', symObjAddr: 0x0, symBinAddr: 0x627C, symSize: 0x14C }
+  - { offset: 0x1049FA, size: 0x8, addend: 0x0, symName: '+[PMFolderUtils getRootFolderWithOptions:]', symObjAddr: 0x0, symBinAddr: 0x627C, symSize: 0x14C }
+  - { offset: 0x104A7C, size: 0x8, addend: 0x0, symName: '+[PMFolderUtils isRecentCollection:]', symObjAddr: 0x14C, symBinAddr: 0x63C8, symSize: 0x18C }
+  - { offset: 0x104AEE, size: 0x8, addend: 0x0, symName: '+[PMFolderUtils getSubCollectionWithCollection:options:]', symObjAddr: 0x2D8, symBinAddr: 0x6554, symSize: 0x174 }
+  - { offset: 0x104B7C, size: 0x8, addend: 0x0, symName: '+[PMFolderUtils debugInfo:]', symObjAddr: 0x44C, symBinAddr: 0x66C8, symSize: 0xDC }
+  - { offset: 0x104C6B, size: 0x8, addend: 0x0, symName: '+[PMImageUtil convertToData:formatType:quality:]', symObjAddr: 0x0, symBinAddr: 0x67A4, symSize: 0x160 }
+  - { offset: 0x104C99, size: 0x8, addend: 0x0, symName: '+[PMImageUtil convertToData:formatType:quality:]', symObjAddr: 0x0, symBinAddr: 0x67A4, symSize: 0x160 }
+  - { offset: 0x104DBF, size: 0x8, addend: 0x0, symName: '+[PMLogUtils sharedInstance]', symObjAddr: 0x0, symBinAddr: 0x6904, symSize: 0x74 }
+  - { offset: 0x104DCD, size: 0x8, addend: 0x0, symName: '+[PMLogUtils sharedInstance]', symObjAddr: 0x0, symBinAddr: 0x6904, symSize: 0x74 }
+  - { offset: 0x104DF7, size: 0x8, addend: 0x0, symName: _sharedInstance._sharedInstance, symObjAddr: 0x22F8, symBinAddr: 0x29328, symSize: 0x0 }
+  - { offset: 0x104E0D, size: 0x8, addend: 0x0, symName: _sharedInstance.onceToken, symObjAddr: 0x2300, symBinAddr: 0x29330, symSize: 0x0 }
+  - { offset: 0x104EED, size: 0x8, addend: 0x0, symName: '___28+[PMLogUtils sharedInstance]_block_invoke', symObjAddr: 0x74, symBinAddr: 0x6978, symSize: 0x3C }
+  - { offset: 0x104F2C, size: 0x8, addend: 0x0, symName: '-[PMLogUtils info:]', symObjAddr: 0xB0, symBinAddr: 0x69B4, symSize: 0x50 }
+  - { offset: 0x104F92, size: 0x8, addend: 0x0, symName: '-[PMLogUtils debug:]', symObjAddr: 0x100, symBinAddr: 0x6A04, symSize: 0x50 }
+  - { offset: 0x104FE3, size: 0x8, addend: 0x0, symName: '-[PMLogUtils isLog]', symObjAddr: 0x150, symBinAddr: 0x6A54, symSize: 0x8 }
+  - { offset: 0x10501A, size: 0x8, addend: 0x0, symName: '-[PMLogUtils setIsLog:]', symObjAddr: 0x158, symBinAddr: 0x6A5C, symSize: 0x8 }
+  - { offset: 0x10513F, size: 0x8, addend: 0x0, symName: '-[PMManager init]', symObjAddr: 0x0, symBinAddr: 0x6A64, symSize: 0x64 }
+  - { offset: 0x105240, size: 0x8, addend: 0x0, symName: '-[PMManager init]', symObjAddr: 0x0, symBinAddr: 0x6A64, symSize: 0x64 }
+  - { offset: 0x105277, size: 0x8, addend: 0x0, symName: '-[PMManager cachingManager]', symObjAddr: 0x64, symBinAddr: 0x6AC8, symSize: 0x44 }
+  - { offset: 0x1052AE, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetPathList:hasAll:onlyAll:option:pathFilterOption:]', symObjAddr: 0xA8, symBinAddr: 0x6B0C, symSize: 0x3FC }
+  - { offset: 0x1053CA, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetCountFromPath:type:filterOption:]', symObjAddr: 0x4A4, symBinAddr: 0x6F08, symSize: 0x158 }
+  - { offset: 0x105481, size: 0x8, addend: 0x0, symName: '-[PMManager logCollections:option:]', symObjAddr: 0x5FC, symBinAddr: 0x7060, symSize: 0x214 }
+  - { offset: 0x105557, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetCountWithType:option:]', symObjAddr: 0x810, symBinAddr: 0x7274, symSize: 0x6C }
+  - { offset: 0x1055CA, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetsWithType:option:start:end:]', symObjAddr: 0x87C, symBinAddr: 0x72E0, symSize: 0x150 }
+  - { offset: 0x1056CF, size: 0x8, addend: 0x0, symName: '-[PMManager existsWithId:]', symObjAddr: 0x9CC, symBinAddr: 0x7430, symSize: 0xFC }
+  - { offset: 0x105722, size: 0x8, addend: 0x0, symName: '-[PMManager entityIsLocallyAvailable:resource:isOrigin:subtype:fileType:]', symObjAddr: 0xAC8, symBinAddr: 0x752C, symSize: 0x344 }
+  - { offset: 0x1057F5, size: 0x8, addend: 0x0, symName: '-[PMManager injectAssetPathIntoArray:result:options:hasAll:containsModified:pathFilterOption:]', symObjAddr: 0xE0C, symBinAddr: 0x7870, symSize: 0x3B4 }
+  - { offset: 0x105924, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetListPaged:type:page:size:filterOption:]', symObjAddr: 0x11C0, symBinAddr: 0x7C24, symSize: 0x2B8 }
+  - { offset: 0x105AC7, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetListRange:type:start:end:filterOption:]', symObjAddr: 0x1478, symBinAddr: 0x7EDC, symSize: 0x298 }
+  - { offset: 0x105C5E, size: 0x8, addend: 0x0, symName: '-[PMManager convertPHAssetToAssetEntity:needTitle:]', symObjAddr: 0x1710, symBinAddr: 0x8174, symSize: 0x210 }
+  - { offset: 0x105D1A, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetEntity:]', symObjAddr: 0x1920, symBinAddr: 0x8384, symSize: 0x8 }
+  - { offset: 0x105D5F, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetEntity:withCache:]', symObjAddr: 0x1928, symBinAddr: 0x838C, symSize: 0x170 }
+  - { offset: 0x105DEC, size: 0x8, addend: 0x0, symName: '-[PMManager clearCache]', symObjAddr: 0x1A98, symBinAddr: 0x84FC, symSize: 0x8 }
+  - { offset: 0x105E20, size: 0x8, addend: 0x0, symName: '-[PMManager getThumbWithId:option:resultHandler:progressHandler:]', symObjAddr: 0x1AA0, symBinAddr: 0x8504, symSize: 0x13C }
+  - { offset: 0x105EC9, size: 0x8, addend: 0x0, symName: '-[PMManager fetchThumb:option:resultHandler:progressHandler:]', symObjAddr: 0x1BDC, symBinAddr: 0x8640, symSize: 0x294 }
+  - { offset: 0x105F8A, size: 0x8, addend: 0x0, symName: '___61-[PMManager fetchThumb:option:resultHandler:progressHandler:]_block_invoke', symObjAddr: 0x1E70, symBinAddr: 0x88D4, symSize: 0x8C }
+  - { offset: 0x10602E, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48r, symObjAddr: 0x1EFC, symBinAddr: 0x8960, symSize: 0x3C }
+  - { offset: 0x106057, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48r, symObjAddr: 0x1F38, symBinAddr: 0x899C, symSize: 0x34 }
+  - { offset: 0x106076, size: 0x8, addend: 0x0, symName: '___61-[PMManager fetchThumb:option:resultHandler:progressHandler:]_block_invoke.27', symObjAddr: 0x1F6C, symBinAddr: 0x89D0, symSize: 0x1E8 }
+  - { offset: 0x10618D, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64s72r, symObjAddr: 0x2154, symBinAddr: 0x8BB8, symSize: 0x54 }
+  - { offset: 0x1061B6, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64s72r, symObjAddr: 0x21A8, symBinAddr: 0x8C0C, symSize: 0x4C }
+  - { offset: 0x1061D5, size: 0x8, addend: 0x0, symName: '-[PMManager getFullSizeFileWithId:isOrigin:subtype:fileType:resultHandler:progressHandler:]', symObjAddr: 0x21F4, symBinAddr: 0x8C58, symSize: 0x1E4 }
+  - { offset: 0x106298, size: 0x8, addend: 0x0, symName: '-[PMManager fetchLivePhotosFile:handler:progressHandler:withScheme:fileType:]', symObjAddr: 0x23D8, symBinAddr: 0x8E3C, symSize: 0x180 }
+  - { offset: 0x106332, size: 0x8, addend: 0x0, symName: '___77-[PMManager fetchLivePhotosFile:handler:progressHandler:withScheme:fileType:]_block_invoke', symObjAddr: 0x2558, symBinAddr: 0x8FBC, symSize: 0x14 }
+  - { offset: 0x106390, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x256C, symBinAddr: 0x8FD0, symSize: 0x8 }
+  - { offset: 0x1063B7, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x2574, symBinAddr: 0x8FD8, symSize: 0x8 }
+  - { offset: 0x1063D6, size: 0x8, addend: 0x0, symName: '-[PMManager fetchOriginVideoFile:handler:progressHandler:fileType:]', symObjAddr: 0x257C, symBinAddr: 0x8FE0, symSize: 0x17C }
+  - { offset: 0x10645F, size: 0x8, addend: 0x0, symName: '___67-[PMManager fetchOriginVideoFile:handler:progressHandler:fileType:]_block_invoke', symObjAddr: 0x26F8, symBinAddr: 0x915C, symSize: 0x14 }
+  - { offset: 0x1064BD, size: 0x8, addend: 0x0, symName: '-[PMManager fetchFullSizeVideo:handler:progressHandler:withScheme:fileType:]', symObjAddr: 0x270C, symBinAddr: 0x9170, symSize: 0xB0 }
+  - { offset: 0x106546, size: 0x8, addend: 0x0, symName: '___76-[PMManager fetchFullSizeVideo:handler:progressHandler:withScheme:fileType:]_block_invoke', symObjAddr: 0x27BC, symBinAddr: 0x9220, symSize: 0x14 }
+  - { offset: 0x1065A4, size: 0x8, addend: 0x0, symName: '-[PMManager fetchResourceToFile:resource:progressHandler:withScheme:isOrigin:fileType:block:]', symObjAddr: 0x27D0, symBinAddr: 0x9234, symSize: 0x644 }
+  - { offset: 0x106764, size: 0x8, addend: 0x0, symName: '___93-[PMManager fetchResourceToFile:resource:progressHandler:withScheme:isOrigin:fileType:block:]_block_invoke', symObjAddr: 0x2E14, symBinAddr: 0x9878, symSize: 0xE0 }
+  - { offset: 0x106802, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x2EF4, symBinAddr: 0x9958, symSize: 0x10 }
+  - { offset: 0x10682B, size: 0x8, addend: 0x0, symName: '___93-[PMManager fetchResourceToFile:resource:progressHandler:withScheme:isOrigin:fileType:block:]_block_invoke.44', symObjAddr: 0x2F04, symBinAddr: 0x9968, symSize: 0x2C }
+  - { offset: 0x10689F, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0x2F30, symBinAddr: 0x9994, symSize: 0x10 }
+  - { offset: 0x1068C4, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0x2F40, symBinAddr: 0x99A4, symSize: 0x8 }
+  - { offset: 0x1068E3, size: 0x8, addend: 0x0, symName: '___93-[PMManager fetchResourceToFile:resource:progressHandler:withScheme:isOrigin:fileType:block:]_block_invoke.47', symObjAddr: 0x2F48, symBinAddr: 0x99AC, symSize: 0x234 }
+  - { offset: 0x106A60, size: 0x8, addend: 0x0, symName: '___93-[PMManager fetchResourceToFile:resource:progressHandler:withScheme:isOrigin:fileType:block:]_block_invoke_2', symObjAddr: 0x317C, symBinAddr: 0x9BE0, symSize: 0xE0 }
+  - { offset: 0x106B46, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64b72r, symObjAddr: 0x325C, symBinAddr: 0x9CC0, symSize: 0x5C }
+  - { offset: 0x106B6F, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64s72s80s88s96b104r112r, symObjAddr: 0x32B8, symBinAddr: 0x9D1C, symSize: 0x8C }
+  - { offset: 0x106B98, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64s72s80s88s96s104r112r, symObjAddr: 0x3344, symBinAddr: 0x9DA8, symSize: 0x78 }
+  - { offset: 0x106BB7, size: 0x8, addend: 0x0, symName: '-[PMManager exportAssetToFile:progressHandler:withScheme:fileType:block:]', symObjAddr: 0x33BC, symBinAddr: 0x9E20, symSize: 0x38C }
+  - { offset: 0x106CC7, size: 0x8, addend: 0x0, symName: '___73-[PMManager exportAssetToFile:progressHandler:withScheme:fileType:block:]_block_invoke', symObjAddr: 0x3748, symBinAddr: 0xA1AC, symSize: 0x8C }
+  - { offset: 0x106D6B, size: 0x8, addend: 0x0, symName: '___73-[PMManager exportAssetToFile:progressHandler:withScheme:fileType:block:]_block_invoke_2', symObjAddr: 0x37D4, symBinAddr: 0xA238, symSize: 0x544 }
+  - { offset: 0x106FAE, size: 0x8, addend: 0x0, symName: '___73-[PMManager exportAssetToFile:progressHandler:withScheme:fileType:block:]_block_invoke_3', symObjAddr: 0x3D18, symBinAddr: 0xA77C, symSize: 0x114 }
+  - { offset: 0x1070C3, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64s72b80r, symObjAddr: 0x3E2C, symBinAddr: 0xA890, symSize: 0x64 }
+  - { offset: 0x1070EC, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64s72s80r, symObjAddr: 0x3E90, symBinAddr: 0xA8F4, symSize: 0x54 }
+  - { offset: 0x10710B, size: 0x8, addend: 0x0, symName: '-[PMManager exportAVAssetToFile:destination:progressHandler:withScheme:fileType:block:]', symObjAddr: 0x3EE4, symBinAddr: 0xA948, symSize: 0x2FC }
+  - { offset: 0x107206, size: 0x8, addend: 0x0, symName: '___87-[PMManager exportAVAssetToFile:destination:progressHandler:withScheme:fileType:block:]_block_invoke', symObjAddr: 0x41E0, symBinAddr: 0xAC44, symSize: 0xCC }
+  - { offset: 0x1072E2, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64s72b, symObjAddr: 0x42AC, symBinAddr: 0xAD10, symSize: 0x54 }
+  - { offset: 0x10730B, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64s72s, symObjAddr: 0x4300, symBinAddr: 0xAD64, symSize: 0x48 }
+  - { offset: 0x10732A, size: 0x8, addend: 0x0, symName: '-[PMManager makeAssetOutputPath:resource:isOrigin:fileType:manager:]', symObjAddr: 0x4348, symBinAddr: 0xADAC, symSize: 0x460 }
+  - { offset: 0x107495, size: 0x8, addend: 0x0, symName: '-[PMManager writeFullFileWithAssetId:imageData:]', symObjAddr: 0x47A8, symBinAddr: 0xB20C, symSize: 0x1A4 }
+  - { offset: 0x107522, size: 0x8, addend: 0x0, symName: '-[PMManager isImage:]', symObjAddr: 0x494C, symBinAddr: 0xB3B0, symSize: 0x54 }
+  - { offset: 0x107567, size: 0x8, addend: 0x0, symName: '-[PMManager fetchOriginImageFile:resultHandler:progressHandler:]', symObjAddr: 0x49A0, symBinAddr: 0xB404, symSize: 0x368 }
+  - { offset: 0x10764A, size: 0x8, addend: 0x0, symName: '___64-[PMManager fetchOriginImageFile:resultHandler:progressHandler:]_block_invoke', symObjAddr: 0x4D08, symBinAddr: 0xB76C, symSize: 0x2C }
+  - { offset: 0x1076BE, size: 0x8, addend: 0x0, symName: '___64-[PMManager fetchOriginImageFile:resultHandler:progressHandler:]_block_invoke_2', symObjAddr: 0x4D34, symBinAddr: 0xB798, symSize: 0x68 }
+  - { offset: 0x107755, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56s64r, symObjAddr: 0x4D9C, symBinAddr: 0xB800, symSize: 0x4C }
+  - { offset: 0x10777E, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56s64r, symObjAddr: 0x4DE8, symBinAddr: 0xB84C, symSize: 0x44 }
+  - { offset: 0x10779D, size: 0x8, addend: 0x0, symName: '-[PMManager fetchFullSizeImageFile:resultHandler:progressHandler:]', symObjAddr: 0x4E2C, symBinAddr: 0xB890, symSize: 0x230 }
+  - { offset: 0x10782B, size: 0x8, addend: 0x0, symName: '___66-[PMManager fetchFullSizeImageFile:resultHandler:progressHandler:]_block_invoke', symObjAddr: 0x505C, symBinAddr: 0xBAC0, symSize: 0x8C }
+  - { offset: 0x1078CF, size: 0x8, addend: 0x0, symName: '___66-[PMManager fetchFullSizeImageFile:resultHandler:progressHandler:]_block_invoke_2', symObjAddr: 0x50E8, symBinAddr: 0xBB4C, symSize: 0x1B8 }
+  - { offset: 0x1079D5, size: 0x8, addend: 0x0, symName: '+[PMManager isDownloadFinish:]', symObjAddr: 0x52A0, symBinAddr: 0xBD04, symSize: 0x90 }
+  - { offset: 0x107A2B, size: 0x8, addend: 0x0, symName: '-[PMManager fetchPathProperties:type:filterOption:]', symObjAddr: 0x5330, symBinAddr: 0xBD94, symSize: 0x1C0 }
+  - { offset: 0x107AF0, size: 0x8, addend: 0x0, symName: '-[PMManager getAssetOptions:filterOption:]', symObjAddr: 0x54F0, symBinAddr: 0xBF54, symSize: 0x8 }
+  - { offset: 0x107B44, size: 0x8, addend: 0x0, symName: '+[PMManager openSetting:]', symObjAddr: 0x54F8, symBinAddr: 0xBF5C, symSize: 0x110 }
+  - { offset: 0x107B96, size: 0x8, addend: 0x0, symName: '-[PMManager deleteWithIds:changedBlock:]', symObjAddr: 0x5608, symBinAddr: 0xC06C, symSize: 0x110 }
+  - { offset: 0x107BE8, size: 0x8, addend: 0x0, symName: '___40-[PMManager deleteWithIds:changedBlock:]_block_invoke', symObjAddr: 0x5718, symBinAddr: 0xC17C, symSize: 0x74 }
+  - { offset: 0x107C46, size: 0x8, addend: 0x0, symName: '___40-[PMManager deleteWithIds:changedBlock:]_block_invoke.115', symObjAddr: 0x578C, symBinAddr: 0xC1F0, symSize: 0x28 }
+  - { offset: 0x107CBF, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b, symObjAddr: 0x57B4, symBinAddr: 0xC218, symSize: 0x34 }
+  - { offset: 0x107CE8, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x57E8, symBinAddr: 0xC24C, symSize: 0x28 }
+  - { offset: 0x107D07, size: 0x8, addend: 0x0, symName: '-[PMManager saveImage:filename:desc:block:]', symObjAddr: 0x5810, symBinAddr: 0xC274, symSize: 0x228 }
+  - { offset: 0x107D95, size: 0x8, addend: 0x0, symName: '___43-[PMManager saveImage:filename:desc:block:]_block_invoke', symObjAddr: 0x5A38, symBinAddr: 0xC49C, symSize: 0xB4 }
+  - { offset: 0x107E26, size: 0x8, addend: 0x0, symName: '___43-[PMManager saveImage:filename:desc:block:]_block_invoke.121', symObjAddr: 0x5AEC, symBinAddr: 0xC550, symSize: 0x108 }
+  - { offset: 0x107EF5, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40b48r, symObjAddr: 0x5BF4, symBinAddr: 0xC658, symSize: 0x44 }
+  - { offset: 0x107F1E, size: 0x8, addend: 0x0, symName: '-[PMManager saveImageWithPath:filename:desc:block:]', symObjAddr: 0x5C38, symBinAddr: 0xC69C, symSize: 0x220 }
+  - { offset: 0x107FAC, size: 0x8, addend: 0x0, symName: '___51-[PMManager saveImageWithPath:filename:desc:block:]_block_invoke', symObjAddr: 0x5E58, symBinAddr: 0xC8BC, symSize: 0xE0 }
+  - { offset: 0x10804E, size: 0x8, addend: 0x0, symName: '___51-[PMManager saveImageWithPath:filename:desc:block:]_block_invoke_2', symObjAddr: 0x5F38, symBinAddr: 0xC99C, symSize: 0xEC }
+  - { offset: 0x108108, size: 0x8, addend: 0x0, symName: '-[PMManager saveVideo:filename:desc:block:]', symObjAddr: 0x6024, symBinAddr: 0xCA88, symSize: 0x244 }
+  - { offset: 0x1081A7, size: 0x8, addend: 0x0, symName: '___43-[PMManager saveVideo:filename:desc:block:]_block_invoke', symObjAddr: 0x6268, symBinAddr: 0xCCCC, symSize: 0xB4 }
+  - { offset: 0x108238, size: 0x8, addend: 0x0, symName: '___43-[PMManager saveVideo:filename:desc:block:]_block_invoke_2', symObjAddr: 0x631C, symBinAddr: 0xCD80, symSize: 0x10C }
+  - { offset: 0x108307, size: 0x8, addend: 0x0, symName: '-[PMManager saveLivePhoto:videoPath:title:desc:block:]', symObjAddr: 0x6428, symBinAddr: 0xCE8C, symSize: 0x298 }
+  - { offset: 0x1083C8, size: 0x8, addend: 0x0, symName: '___54-[PMManager saveLivePhoto:videoPath:title:desc:block:]_block_invoke', symObjAddr: 0x66C0, symBinAddr: 0xD124, symSize: 0xEC }
+  - { offset: 0x10847B, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s56r, symObjAddr: 0x67AC, symBinAddr: 0xD210, symSize: 0x44 }
+  - { offset: 0x1084A4, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s56r, symObjAddr: 0x67F0, symBinAddr: 0xD254, symSize: 0x3C }
+  - { offset: 0x1084C3, size: 0x8, addend: 0x0, symName: '___54-[PMManager saveLivePhoto:videoPath:title:desc:block:]_block_invoke.135', symObjAddr: 0x682C, symBinAddr: 0xD290, symSize: 0x134 }
+  - { offset: 0x108584, size: 0x8, addend: 0x0, symName: '-[PMManager getTitleAsyncWithAssetId:subtype:isOrigin:fileType:]', symObjAddr: 0x6960, symBinAddr: 0xD3C4, symSize: 0x13C }
+  - { offset: 0x10860D, size: 0x8, addend: 0x0, symName: '-[PMManager getMimeTypeAsyncWithAssetId:]', symObjAddr: 0x6A9C, symBinAddr: 0xD500, symSize: 0x10C }
+  - { offset: 0x108678, size: 0x8, addend: 0x0, symName: '-[PMManager getMediaUrl:resultHandler:progressHandler:]', symObjAddr: 0x6BA8, symBinAddr: 0xD60C, symSize: 0x228 }
+  - { offset: 0x1086F0, size: 0x8, addend: 0x0, symName: '-[PMManager getSubPathWithId:type:albumType:option:]', symObjAddr: 0x6DD0, symBinAddr: 0xD834, symSize: 0x1F0 }
+  - { offset: 0x1087D0, size: 0x8, addend: 0x0, symName: '-[PMManager convertPHCollectionToPMAssetPathArray:option:]', symObjAddr: 0x6FC0, symBinAddr: 0xDA24, symSize: 0x168 }
+  - { offset: 0x10885B, size: 0x8, addend: 0x0, symName: '-[PMManager convertPHCollectionToPMPath:option:]', symObjAddr: 0x7128, symBinAddr: 0xDB8C, symSize: 0xD8 }
+  - { offset: 0x1088BE, size: 0x8, addend: 0x0, symName: '-[PMManager getCollectionWithId:]', symObjAddr: 0x7200, symBinAddr: 0xDC64, symSize: 0xF4 }
+  - { offset: 0x108914, size: 0x8, addend: 0x0, symName: '-[PMManager copyAssetWithId:toGallery:block:]', symObjAddr: 0x72F4, symBinAddr: 0xDD58, symSize: 0x348 }
+  - { offset: 0x108A87, size: 0x8, addend: 0x0, symName: '___45-[PMManager copyAssetWithId:toGallery:block:]_block_invoke', symObjAddr: 0x763C, symBinAddr: 0xE0A0, symSize: 0x54 }
+  - { offset: 0x108AF6, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32r40r, symObjAddr: 0x7690, symBinAddr: 0xE0F4, symSize: 0x3C }
+  - { offset: 0x108B1F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32r40r, symObjAddr: 0x76CC, symBinAddr: 0xE130, symSize: 0x30 }
+  - { offset: 0x108B3E, size: 0x8, addend: 0x0, symName: '-[PMManager createFolderWithName:parentId:block:]', symObjAddr: 0x76FC, symBinAddr: 0xE160, symSize: 0x418 }
+  - { offset: 0x108C97, size: 0x8, addend: 0x0, symName: '___49-[PMManager createFolderWithName:parentId:block:]_block_invoke', symObjAddr: 0x7B14, symBinAddr: 0xE578, symSize: 0x80 }
+  - { offset: 0x108D06, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40r, symObjAddr: 0x7B94, symBinAddr: 0xE5F8, symSize: 0x34 }
+  - { offset: 0x108D2F, size: 0x8, addend: 0x0, symName: '___49-[PMManager createFolderWithName:parentId:block:]_block_invoke.156', symObjAddr: 0x7BF4, symBinAddr: 0xE62C, symSize: 0xEC }
+  - { offset: 0x108DAF, size: 0x8, addend: 0x0, symName: '___49-[PMManager createFolderWithName:parentId:block:]_block_invoke_2', symObjAddr: 0x7CE0, symBinAddr: 0xE718, symSize: 0x80 }
+  - { offset: 0x108E1E, size: 0x8, addend: 0x0, symName: '-[PMManager createAlbumWithName:parentId:block:]', symObjAddr: 0x7D60, symBinAddr: 0xE798, symSize: 0x3DC }
+  - { offset: 0x108F7D, size: 0x8, addend: 0x0, symName: '___48-[PMManager createAlbumWithName:parentId:block:]_block_invoke', symObjAddr: 0x813C, symBinAddr: 0xEB74, symSize: 0x80 }
+  - { offset: 0x108FEC, size: 0x8, addend: 0x0, symName: '___48-[PMManager createAlbumWithName:parentId:block:]_block_invoke_2', symObjAddr: 0x81BC, symBinAddr: 0xEBF4, symSize: 0xEC }
+  - { offset: 0x10906C, size: 0x8, addend: 0x0, symName: '___48-[PMManager createAlbumWithName:parentId:block:]_block_invoke_3', symObjAddr: 0x82A8, symBinAddr: 0xECE0, symSize: 0x80 }
+  - { offset: 0x1090DB, size: 0x8, addend: 0x0, symName: '-[PMManager removeInAlbumWithAssetId:albumId:block:]', symObjAddr: 0x8328, symBinAddr: 0xED60, symSize: 0x26C }
+  - { offset: 0x10919A, size: 0x8, addend: 0x0, symName: '___52-[PMManager removeInAlbumWithAssetId:albumId:block:]_block_invoke', symObjAddr: 0x8594, symBinAddr: 0xEFCC, symSize: 0x44 }
+  - { offset: 0x109209, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x85D8, symBinAddr: 0xF010, symSize: 0x28 }
+  - { offset: 0x109232, size: 0x8, addend: 0x0, symName: '-[PMManager getFirstObjFromFetchResult:]', symObjAddr: 0x8600, symBinAddr: 0xF038, symSize: 0x5C }
+  - { offset: 0x109277, size: 0x8, addend: 0x0, symName: '-[PMManager removeCollectionWithId:type:block:]', symObjAddr: 0x865C, symBinAddr: 0xF094, symSize: 0x370 }
+  - { offset: 0x1093B4, size: 0x8, addend: 0x0, symName: '___47-[PMManager removeCollectionWithId:type:block:]_block_invoke', symObjAddr: 0x89CC, symBinAddr: 0xF404, symSize: 0x90 }
+  - { offset: 0x1093F2, size: 0x8, addend: 0x0, symName: '___47-[PMManager removeCollectionWithId:type:block:]_block_invoke_2', symObjAddr: 0x8A5C, symBinAddr: 0xF494, symSize: 0x90 }
+  - { offset: 0x109430, size: 0x8, addend: 0x0, symName: '-[PMManager favoriteWithId:favorite:]', symObjAddr: 0x8AEC, symBinAddr: 0xF524, symSize: 0x1FC }
+  - { offset: 0x1094CA, size: 0x8, addend: 0x0, symName: '___37-[PMManager favoriteWithId:favorite:]_block_invoke', symObjAddr: 0x8CE8, symBinAddr: 0xF720, symSize: 0x44 }
+  - { offset: 0x109539, size: 0x8, addend: 0x0, symName: '-[PMManager getCachePath:]', symObjAddr: 0x8D2C, symBinAddr: 0xF764, symSize: 0x7C }
+  - { offset: 0x1095BB, size: 0x8, addend: 0x0, symName: '-[PMManager clearFileCache]', symObjAddr: 0x8DA8, symBinAddr: 0xF7E0, symSize: 0xC8 }
+  - { offset: 0x109633, size: 0x8, addend: 0x0, symName: '-[PMManager requestCacheAssetsThumb:option:]', symObjAddr: 0x8E70, symBinAddr: 0xF8A8, symSize: 0x1E8 }
+  - { offset: 0x1096DC, size: 0x8, addend: 0x0, symName: '-[PMManager cancelCacheRequests]', symObjAddr: 0x9058, symBinAddr: 0xFA90, symSize: 0x30 }
+  - { offset: 0x109710, size: 0x8, addend: 0x0, symName: '-[PMManager notifyProgress:progress:state:]', symObjAddr: 0x9088, symBinAddr: 0xFAC0, symSize: 0xBC }
+  - { offset: 0x109784, size: 0x8, addend: 0x0, symName: '-[PMManager notifySuccess:]', symObjAddr: 0x9144, symBinAddr: 0xFB7C, symSize: 0xC }
+  - { offset: 0x1097C5, size: 0x8, addend: 0x0, symName: '-[PMManager injectModifyToDate:]', symObjAddr: 0x9150, symBinAddr: 0xFB88, symSize: 0x1F8 }
+  - { offset: 0x10988C, size: 0x8, addend: 0x0, symName: '-[PMManager converter]', symObjAddr: 0x9348, symBinAddr: 0xFD80, symSize: 0x8 }
+  - { offset: 0x1098C3, size: 0x8, addend: 0x0, symName: '-[PMManager setConverter:]', symObjAddr: 0x9350, symBinAddr: 0xFD88, symSize: 0xC }
+  - { offset: 0x109904, size: 0x8, addend: 0x0, symName: '-[PMManager .cxx_destruct]', symObjAddr: 0x935C, symBinAddr: 0xFD94, symSize: 0x3C }
+  - { offset: 0x10B54F, size: 0x8, addend: 0x0, symName: '+[PMMD5Utils getMD5FromString:]', symObjAddr: 0x0, symBinAddr: 0xFDD0, symSize: 0xE4 }
+  - { offset: 0x10B5A8, size: 0x8, addend: 0x0, symName: '+[PMMD5Utils getMD5FromString:]', symObjAddr: 0x0, symBinAddr: 0xFDD0, symSize: 0xE4 }
+  - { offset: 0x10B69C, size: 0x8, addend: 0x0, symName: '+[PMMD5Utils getMD5FromData:]', symObjAddr: 0xE4, symBinAddr: 0xFEB4, symSize: 0xE4 }
+  - { offset: 0x10B756, size: 0x8, addend: 0x0, symName: '+[PMMD5Utils getMD5FromPath:]', symObjAddr: 0x1C8, symBinAddr: 0xFF98, symSize: 0x1C }
+  - { offset: 0x10B7B8, size: 0x8, addend: 0x0, symName: _PMMD5HashFromPath, symObjAddr: 0x1E4, symBinAddr: 0xFFB4, symSize: 0x1C4 }
+  - { offset: 0x10BBA9, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager dealloc]', symObjAddr: 0x0, symBinAddr: 0x10178, symSize: 0x44 }
+  - { offset: 0x10BC2F, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager dealloc]', symObjAddr: 0x0, symBinAddr: 0x10178, symSize: 0x44 }
+  - { offset: 0x10BC62, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager initWithRegistrar:]', symObjAddr: 0x44, symBinAddr: 0x101BC, symSize: 0xCC }
+  - { offset: 0x10BCA9, size: 0x8, addend: 0x0, symName: '+[PMNotificationManager managerWithRegistrar:]', symObjAddr: 0x110, symBinAddr: 0x10288, symSize: 0x48 }
+  - { offset: 0x10BCF0, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager detach]', symObjAddr: 0x158, symBinAddr: 0x102D0, symSize: 0x3C }
+  - { offset: 0x10BD23, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager startNotify]', symObjAddr: 0x194, symBinAddr: 0x1030C, symSize: 0x64 }
+  - { offset: 0x10BD56, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager stopNotify]', symObjAddr: 0x1F8, symBinAddr: 0x10370, symSize: 0x58 }
+  - { offset: 0x10BD89, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager photoLibraryDidChange:]', symObjAddr: 0x250, symBinAddr: 0x103C8, symSize: 0x1E0 }
+  - { offset: 0x10BE4A, size: 0x8, addend: 0x0, symName: '___47-[PMNotificationManager photoLibraryDidChange:]_block_invoke', symObjAddr: 0x430, symBinAddr: 0x105A8, symSize: 0x14 }
+  - { offset: 0x10BE99, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager refreshFetchResult]', symObjAddr: 0x494, symBinAddr: 0x105BC, symSize: 0x48 }
+  - { offset: 0x10BECC, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager convertChangeDetailsToNotifyDetail:]', symObjAddr: 0x4DC, symBinAddr: 0x10604, symSize: 0xF4 }
+  - { offset: 0x10BF53, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager addToResult:key:objects:]', symObjAddr: 0x5D0, symBinAddr: 0x106F8, symSize: 0x378 }
+  - { offset: 0x10C052, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager getLastAssets]', symObjAddr: 0x948, symBinAddr: 0x10A70, symSize: 0x5C }
+  - { offset: 0x10C085, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager isNotifying]', symObjAddr: 0x9A4, symBinAddr: 0x10ACC, symSize: 0x8 }
+  - { offset: 0x10C0BC, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager registrar]', symObjAddr: 0x9AC, symBinAddr: 0x10AD4, symSize: 0x8 }
+  - { offset: 0x10C0F3, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager setRegistrar:]', symObjAddr: 0x9B4, symBinAddr: 0x10ADC, symSize: 0xC }
+  - { offset: 0x10C134, size: 0x8, addend: 0x0, symName: '-[PMNotificationManager .cxx_destruct]', symObjAddr: 0x9C0, symBinAddr: 0x10AE8, symSize: 0x3C }
+  - { offset: 0x10C2FA, size: 0x8, addend: 0x0, symName: '+[PMPathFilterOption optionWithDict:]', symObjAddr: 0x0, symBinAddr: 0x10B24, symSize: 0xD0 }
+  - { offset: 0x10C354, size: 0x8, addend: 0x0, symName: '+[PMPathFilterOption optionWithDict:]', symObjAddr: 0x0, symBinAddr: 0x10B24, symSize: 0xD0 }
+  - { offset: 0x10C3B7, size: 0x8, addend: 0x0, symName: '-[PMPathFilterOption type]', symObjAddr: 0xD0, symBinAddr: 0x10BF4, symSize: 0x8 }
+  - { offset: 0x10C3EE, size: 0x8, addend: 0x0, symName: '-[PMPathFilterOption setType:]', symObjAddr: 0xD8, symBinAddr: 0x10BFC, symSize: 0xC }
+  - { offset: 0x10C42F, size: 0x8, addend: 0x0, symName: '-[PMPathFilterOption subType]', symObjAddr: 0xE4, symBinAddr: 0x10C08, symSize: 0x8 }
+  - { offset: 0x10C466, size: 0x8, addend: 0x0, symName: '-[PMPathFilterOption setSubType:]', symObjAddr: 0xEC, symBinAddr: 0x10C10, symSize: 0x8 }
+  - { offset: 0x10C4A3, size: 0x8, addend: 0x0, symName: '-[PMPathFilterOption .cxx_destruct]', symObjAddr: 0xF4, symBinAddr: 0x10C18, symSize: 0xC }
+  - { offset: 0x10C54C, size: 0x8, addend: 0x0, symName: '-[PMPlugin registerPlugin:]', symObjAddr: 0x0, symBinAddr: 0x10C24, symSize: 0x130 }
+  - { offset: 0x10C689, size: 0x8, addend: 0x0, symName: '-[PMPlugin registerPlugin:]', symObjAddr: 0x0, symBinAddr: 0x10C24, symSize: 0x130 }
+  - { offset: 0x10C6DC, size: 0x8, addend: 0x0, symName: '___27-[PMPlugin registerPlugin:]_block_invoke', symObjAddr: 0x130, symBinAddr: 0x10D54, symSize: 0x10 }
+  - { offset: 0x10C73B, size: 0x8, addend: 0x0, symName: '-[PMPlugin detach]', symObjAddr: 0x150, symBinAddr: 0x10D64, symSize: 0x58 }
+  - { offset: 0x10C76E, size: 0x8, addend: 0x0, symName: '-[PMPlugin dealloc]', symObjAddr: 0x1A8, symBinAddr: 0x10DBC, symSize: 0x44 }
+  - { offset: 0x10C7A1, size: 0x8, addend: 0x0, symName: '-[PMPlugin applicationWillTerminate:]', symObjAddr: 0x1EC, symBinAddr: 0x10E00, symSize: 0x4 }
+  - { offset: 0x10C7DE, size: 0x8, addend: 0x0, symName: '-[PMPlugin initNotificationManager:]', symObjAddr: 0x1F0, symBinAddr: 0x10E04, symSize: 0x44 }
+  - { offset: 0x10C821, size: 0x8, addend: 0x0, symName: '-[PMPlugin requestOnlyAddPermission:]', symObjAddr: 0x234, symBinAddr: 0x10E48, symSize: 0x64 }
+  - { offset: 0x10C860, size: 0x8, addend: 0x0, symName: '-[PMPlugin requestPermissionForWriteAndRead:]', symObjAddr: 0x298, symBinAddr: 0x10EAC, symSize: 0xFC }
+  - { offset: 0x10C89F, size: 0x8, addend: 0x0, symName: '___45-[PMPlugin requestPermissionForWriteAndRead:]_block_invoke', symObjAddr: 0x394, symBinAddr: 0x10FA8, symSize: 0x18 }
+  - { offset: 0x10C8F6, size: 0x8, addend: 0x0, symName: '___45-[PMPlugin requestPermissionForWriteAndRead:]_block_invoke.7', symObjAddr: 0x3BC, symBinAddr: 0x10FC0, symSize: 0x14 }
+  - { offset: 0x10C94D, size: 0x8, addend: 0x0, symName: '-[PMPlugin isNotNeedPermissionMethod:]', symObjAddr: 0x3D0, symBinAddr: 0x10FD4, symSize: 0xE0 }
+  - { offset: 0x10C9A0, size: 0x8, addend: 0x0, symName: '-[PMPlugin isAboutPermissionMethod:]', symObjAddr: 0x4B0, symBinAddr: 0x110B4, symSize: 0xC4 }
+  - { offset: 0x10C9E3, size: 0x8, addend: 0x0, symName: '-[PMPlugin onMethodCall:result:]', symObjAddr: 0x574, symBinAddr: 0x11178, symSize: 0xF4 }
+  - { offset: 0x10CA46, size: 0x8, addend: 0x0, symName: '-[PMPlugin handleNotNeedPermissionMethod:]', symObjAddr: 0x668, symBinAddr: 0x1126C, symSize: 0x248 }
+  - { offset: 0x10CAB9, size: 0x8, addend: 0x0, symName: '-[PMPlugin getPermissionState:]', symObjAddr: 0x8B0, symBinAddr: 0x114B4, symSize: 0xD0 }
+  - { offset: 0x10CB27, size: 0x8, addend: 0x0, symName: '-[PMPlugin handleAboutPermissionMethod:]', symObjAddr: 0x980, symBinAddr: 0x11584, symSize: 0x13C }
+  - { offset: 0x10CBA9, size: 0x8, addend: 0x0, symName: '-[PMPlugin replyPermssionResult:status:isOnlyAdd:]', symObjAddr: 0xABC, symBinAddr: 0x116C0, symSize: 0x68 }
+  - { offset: 0x10CC04, size: 0x8, addend: 0x0, symName: '-[PMPlugin handlePermission:handler:requestAccessLevel:]', symObjAddr: 0xB24, symBinAddr: 0x11728, symSize: 0x11C }
+  - { offset: 0x10CC67, size: 0x8, addend: 0x0, symName: '___56-[PMPlugin handlePermission:handler:requestAccessLevel:]_block_invoke', symObjAddr: 0xC40, symBinAddr: 0x11844, symSize: 0x1C }
+  - { offset: 0x10CCDC, size: 0x8, addend: 0x0, symName: '___56-[PMPlugin handlePermission:handler:requestAccessLevel:]_block_invoke.32', symObjAddr: 0xCAC, symBinAddr: 0x11860, symSize: 0x14 }
+  - { offset: 0x10CD40, size: 0x8, addend: 0x0, symName: '-[PMPlugin requestPermissionStatus:completeHandler:]', symObjAddr: 0xCC0, symBinAddr: 0x11874, symSize: 0x10C }
+  - { offset: 0x10CD92, size: 0x8, addend: 0x0, symName: '___52-[PMPlugin requestPermissionStatus:completeHandler:]_block_invoke', symObjAddr: 0xDCC, symBinAddr: 0x11980, symSize: 0xC }
+  - { offset: 0x10CDF4, size: 0x8, addend: 0x0, symName: '___52-[PMPlugin requestPermissionStatus:completeHandler:]_block_invoke_2', symObjAddr: 0xDD8, symBinAddr: 0x1198C, symSize: 0xC }
+  - { offset: 0x10CE56, size: 0x8, addend: 0x0, symName: '-[PMPlugin presentLimited:]', symObjAddr: 0xDE4, symBinAddr: 0x11998, symSize: 0x10 }
+  - { offset: 0x10CE97, size: 0x8, addend: 0x0, symName: '-[PMPlugin runInBackground:]', symObjAddr: 0xDF4, symBinAddr: 0x119A8, symSize: 0x40 }
+  - { offset: 0x10CF68, size: 0x8, addend: 0x0, symName: '-[PMPlugin onAuth:]', symObjAddr: 0xE34, symBinAddr: 0x119E8, symSize: 0x130 }
+  - { offset: 0x10CFD4, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0xF64, symBinAddr: 0x11B18, symSize: 0x10 }
+  - { offset: 0x10CFF9, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0xF74, symBinAddr: 0x11B28, symSize: 0x8 }
+  - { offset: 0x10D018, size: 0x8, addend: 0x0, symName: '___19-[PMPlugin onAuth:]_block_invoke', symObjAddr: 0xF7C, symBinAddr: 0x11B30, symSize: 0x84 }
+  - { offset: 0x10D0A9, size: 0x8, addend: 0x0, symName: '-[PMPlugin handleMethodResultHandler:manager:notificationManager:]', symObjAddr: 0x1080, symBinAddr: 0x11BB4, symSize: 0x23CC }
+  - { offset: 0x10D91B, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke', symObjAddr: 0x344C, symBinAddr: 0x13F80, symSize: 0xC }
+  - { offset: 0x10D96A, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke.96', symObjAddr: 0x3458, symBinAddr: 0x13F8C, symSize: 0x60 }
+  - { offset: 0x10D9CA, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke.104', symObjAddr: 0x34B8, symBinAddr: 0x13FEC, symSize: 0x60 }
+  - { offset: 0x10DA2A, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke_2', symObjAddr: 0x3518, symBinAddr: 0x1404C, symSize: 0x60 }
+  - { offset: 0x10DA8A, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke_3', symObjAddr: 0x3578, symBinAddr: 0x140AC, symSize: 0x60 }
+  - { offset: 0x10DAEA, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke_4', symObjAddr: 0x35D8, symBinAddr: 0x1410C, symSize: 0x60 }
+  - { offset: 0x10DB4A, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke_5', symObjAddr: 0x3638, symBinAddr: 0x1416C, symSize: 0xFC }
+  - { offset: 0x10DB99, size: 0x8, addend: 0x0, symName: '___66-[PMPlugin handleMethodResultHandler:manager:notificationManager:]_block_invoke.155', symObjAddr: 0x3734, symBinAddr: 0x14268, symSize: 0xFC }
+  - { offset: 0x10DBE8, size: 0x8, addend: 0x0, symName: '-[PMPlugin convertToResult:]', symObjAddr: 0x3830, symBinAddr: 0x14364, symSize: 0x54 }
+  - { offset: 0x10DC3E, size: 0x8, addend: 0x0, symName: '-[PMPlugin getProgressHandlerFromDict:]', symObjAddr: 0x3884, symBinAddr: 0x143B8, symSize: 0x84 }
+  - { offset: 0x10DCBA, size: 0x8, addend: 0x0, symName: '-[PMPlugin createFolder:manager:handler:]', symObjAddr: 0x3908, symBinAddr: 0x1443C, symSize: 0x1A4 }
+  - { offset: 0x10DD50, size: 0x8, addend: 0x0, symName: '___41-[PMPlugin createFolder:manager:handler:]_block_invoke', symObjAddr: 0x3AAC, symBinAddr: 0x145E0, symSize: 0x74 }
+  - { offset: 0x10DDC5, size: 0x8, addend: 0x0, symName: '-[PMPlugin createAlbum:manager:handler:]', symObjAddr: 0x3B20, symBinAddr: 0x14654, symSize: 0x1A4 }
+  - { offset: 0x10DE5B, size: 0x8, addend: 0x0, symName: '___40-[PMPlugin createAlbum:manager:handler:]_block_invoke', symObjAddr: 0x3CC4, symBinAddr: 0x147F8, symSize: 0x74 }
+  - { offset: 0x10DED0, size: 0x8, addend: 0x0, symName: '-[PMPlugin manager]', symObjAddr: 0x3D38, symBinAddr: 0x1486C, symSize: 0x8 }
+  - { offset: 0x10DF07, size: 0x8, addend: 0x0, symName: '-[PMPlugin setManager:]', symObjAddr: 0x3D40, symBinAddr: 0x14874, symSize: 0xC }
+  - { offset: 0x10DF48, size: 0x8, addend: 0x0, symName: '-[PMPlugin notificationManager]', symObjAddr: 0x3D4C, symBinAddr: 0x14880, symSize: 0x8 }
+  - { offset: 0x10DF7F, size: 0x8, addend: 0x0, symName: '-[PMPlugin setNotificationManager:]', symObjAddr: 0x3D54, symBinAddr: 0x14888, symSize: 0xC }
+  - { offset: 0x10DFC0, size: 0x8, addend: 0x0, symName: '-[PMPlugin .cxx_destruct]', symObjAddr: 0x3D60, symBinAddr: 0x14894, symSize: 0x48 }
+  - { offset: 0x10ECE8, size: 0x8, addend: 0x0, symName: '-[PMProgressHandler notify:state:]', symObjAddr: 0x0, symBinAddr: 0x148DC, symSize: 0x158 }
+  - { offset: 0x10ED67, size: 0x8, addend: 0x0, symName: '-[PMProgressHandler notify:state:]', symObjAddr: 0x0, symBinAddr: 0x148DC, symSize: 0x158 }
+  - { offset: 0x10EE16, size: 0x8, addend: 0x0, symName: '___34-[PMProgressHandler notify:state:]_block_invoke', symObjAddr: 0x158, symBinAddr: 0x14A34, symSize: 0xCC }
+  - { offset: 0x10EEA3, size: 0x8, addend: 0x0, symName: '-[PMProgressHandler register:channelIndex:]', symObjAddr: 0x274, symBinAddr: 0x14B00, symSize: 0xC4 }
+  - { offset: 0x10EF06, size: 0x8, addend: 0x0, symName: '-[PMProgressHandler channelIndex]', symObjAddr: 0x338, symBinAddr: 0x14BC4, symSize: 0x8 }
+  - { offset: 0x10EF3D, size: 0x8, addend: 0x0, symName: '-[PMProgressHandler setChannelIndex:]', symObjAddr: 0x340, symBinAddr: 0x14BCC, symSize: 0x8 }
+  - { offset: 0x10EF7A, size: 0x8, addend: 0x0, symName: '-[PMProgressHandler .cxx_destruct]', symObjAddr: 0x348, symBinAddr: 0x14BD4, symSize: 0xC }
+  - { offset: 0x10F0EA, size: 0x8, addend: 0x0, symName: '+[PMRequestTypeUtils checkContainsType:targetType:]', symObjAddr: 0x0, symBinAddr: 0x14BE0, symSize: 0xC }
+  - { offset: 0x10F0F8, size: 0x8, addend: 0x0, symName: '+[PMRequestTypeUtils checkContainsType:targetType:]', symObjAddr: 0x0, symBinAddr: 0x14BE0, symSize: 0xC }
+  - { offset: 0x10F147, size: 0x8, addend: 0x0, symName: '+[PMRequestTypeUtils containsImage:]', symObjAddr: 0xC, symBinAddr: 0x14BEC, symSize: 0x8 }
+  - { offset: 0x10F18A, size: 0x8, addend: 0x0, symName: '+[PMRequestTypeUtils containsVideo:]', symObjAddr: 0x14, symBinAddr: 0x14BF4, symSize: 0x8 }
+  - { offset: 0x10F1CD, size: 0x8, addend: 0x0, symName: '+[PMRequestTypeUtils containsAudio:]', symObjAddr: 0x1C, symBinAddr: 0x14BFC, symSize: 0x8 }
+  - { offset: 0x10F27E, size: 0x8, addend: 0x0, symName: '+[PMThumbLoadOption optionDict:]', symObjAddr: 0x0, symBinAddr: 0x14C04, symSize: 0x200 }
+  - { offset: 0x10F396, size: 0x8, addend: 0x0, symName: '+[PMThumbLoadOption optionDict:]', symObjAddr: 0x0, symBinAddr: 0x14C04, symSize: 0x200 }
+  - { offset: 0x10F469, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption makeSize]', symObjAddr: 0x200, symBinAddr: 0x14E04, symSize: 0x3C }
+  - { offset: 0x10F4A0, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption width]', symObjAddr: 0x23C, symBinAddr: 0x14E40, symSize: 0x8 }
+  - { offset: 0x10F4D7, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setWidth:]', symObjAddr: 0x244, symBinAddr: 0x14E48, symSize: 0x8 }
+  - { offset: 0x10F514, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption height]', symObjAddr: 0x24C, symBinAddr: 0x14E50, symSize: 0x8 }
+  - { offset: 0x10F54B, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setHeight:]', symObjAddr: 0x254, symBinAddr: 0x14E58, symSize: 0x8 }
+  - { offset: 0x10F588, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption format]', symObjAddr: 0x25C, symBinAddr: 0x14E60, symSize: 0x8 }
+  - { offset: 0x10F5BF, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setFormat:]', symObjAddr: 0x264, symBinAddr: 0x14E68, symSize: 0x8 }
+  - { offset: 0x10F5FC, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption quality]', symObjAddr: 0x26C, symBinAddr: 0x14E70, symSize: 0x8 }
+  - { offset: 0x10F631, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setQuality:]', symObjAddr: 0x274, symBinAddr: 0x14E78, symSize: 0x8 }
+  - { offset: 0x10F66F, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption contentMode]', symObjAddr: 0x27C, symBinAddr: 0x14E80, symSize: 0x8 }
+  - { offset: 0x10F6A6, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setContentMode:]', symObjAddr: 0x284, symBinAddr: 0x14E88, symSize: 0x8 }
+  - { offset: 0x10F6E3, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption deliveryMode]', symObjAddr: 0x28C, symBinAddr: 0x14E90, symSize: 0x8 }
+  - { offset: 0x10F71A, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setDeliveryMode:]', symObjAddr: 0x294, symBinAddr: 0x14E98, symSize: 0x8 }
+  - { offset: 0x10F757, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption resizeMode]', symObjAddr: 0x29C, symBinAddr: 0x14EA0, symSize: 0x8 }
+  - { offset: 0x10F78E, size: 0x8, addend: 0x0, symName: '-[PMThumbLoadOption setResizeMode:]', symObjAddr: 0x2A4, symBinAddr: 0x14EA8, symSize: 0x8 }
+  - { offset: 0x10F841, size: 0x8, addend: 0x0, symName: '-[Reply initWithIsReply:]', symObjAddr: 0x0, symBinAddr: 0x14EB0, symSize: 0x58 }
+  - { offset: 0x10F883, size: 0x8, addend: 0x0, symName: '-[Reply initWithIsReply:]', symObjAddr: 0x0, symBinAddr: 0x14EB0, symSize: 0x58 }
+  - { offset: 0x10F8CA, size: 0x8, addend: 0x0, symName: '+[Reply replyWithIsReply:]', symObjAddr: 0x58, symBinAddr: 0x14F08, symSize: 0x28 }
+  - { offset: 0x10F911, size: 0x8, addend: 0x0, symName: '-[Reply isReply]', symObjAddr: 0x80, symBinAddr: 0x14F30, symSize: 0x8 }
+  - { offset: 0x10F948, size: 0x8, addend: 0x0, symName: '-[Reply setIsReply:]', symObjAddr: 0x88, symBinAddr: 0x14F38, symSize: 0x8 }
+  - { offset: 0x10F9ED, size: 0x8, addend: 0x0, symName: '-[ResultHandler initWithResult:]', symObjAddr: 0x0, symBinAddr: 0x14F40, symSize: 0x70 }
+  - { offset: 0x10FA9C, size: 0x8, addend: 0x0, symName: '-[ResultHandler initWithResult:]', symObjAddr: 0x0, symBinAddr: 0x14F40, symSize: 0x70 }
+  - { offset: 0x10FAE3, size: 0x8, addend: 0x0, symName: '-[ResultHandler initWithCall:result:]', symObjAddr: 0x70, symBinAddr: 0x14FB0, symSize: 0x98 }
+  - { offset: 0x10FB3A, size: 0x8, addend: 0x0, symName: '+[ResultHandler handlerWithCall:result:]', symObjAddr: 0x108, symBinAddr: 0x15048, symSize: 0x6C }
+  - { offset: 0x10FB91, size: 0x8, addend: 0x0, symName: '-[ResultHandler reply:]', symObjAddr: 0x174, symBinAddr: 0x150B4, symSize: 0x9C }
+  - { offset: 0x10FC08, size: 0x8, addend: 0x0, symName: '___23-[ResultHandler reply:]_block_invoke', symObjAddr: 0x210, symBinAddr: 0x15150, symSize: 0x40 }
+  - { offset: 0x10FC63, size: 0x8, addend: 0x0, symName: '-[ResultHandler replyError:]', symObjAddr: 0x2A0, symBinAddr: 0x15190, symSize: 0x45C }
+  - { offset: 0x10FDC4, size: 0x8, addend: 0x0, symName: '___28-[ResultHandler replyError:]_block_invoke', symObjAddr: 0x6FC, symBinAddr: 0x155EC, symSize: 0x40 }
+  - { offset: 0x10FE1F, size: 0x8, addend: 0x0, symName: '-[ResultHandler notImplemented]', symObjAddr: 0x73C, symBinAddr: 0x1562C, symSize: 0x68 }
+  - { offset: 0x10FE68, size: 0x8, addend: 0x0, symName: '___31-[ResultHandler notImplemented]_block_invoke', symObjAddr: 0x7A4, symBinAddr: 0x15694, symSize: 0x44 }
+  - { offset: 0x10FEB3, size: 0x8, addend: 0x0, symName: '-[ResultHandler isReplied]', symObjAddr: 0x7F8, symBinAddr: 0x156D8, symSize: 0x8 }
+  - { offset: 0x10FEEA, size: 0x8, addend: 0x0, symName: '-[ResultHandler call]', symObjAddr: 0x800, symBinAddr: 0x156E0, symSize: 0x8 }
+  - { offset: 0x10FF21, size: 0x8, addend: 0x0, symName: '-[ResultHandler setCall:]', symObjAddr: 0x808, symBinAddr: 0x156E8, symSize: 0xC }
+  - { offset: 0x10FF62, size: 0x8, addend: 0x0, symName: '-[ResultHandler result]', symObjAddr: 0x814, symBinAddr: 0x156F4, symSize: 0x8 }
+  - { offset: 0x10FF99, size: 0x8, addend: 0x0, symName: '-[ResultHandler setResult:]', symObjAddr: 0x81C, symBinAddr: 0x156FC, symSize: 0x8 }
+  - { offset: 0x10FFD8, size: 0x8, addend: 0x0, symName: '-[ResultHandler .cxx_destruct]', symObjAddr: 0x824, symBinAddr: 0x15704, symSize: 0x30 }
+...

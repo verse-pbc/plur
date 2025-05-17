@@ -1,0 +1,60 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/screen_retriever.framework/Versions/A/screen_retriever'
+relocations:
+  - { offset: 0xCEC6F, size: 0x8, addend: 0x0, symName: _screen_retrieverVersionString, symObjAddr: 0x0, symBinAddr: 0x7A60, symSize: 0x0 }
+  - { offset: 0xCECA4, size: 0x8, addend: 0x0, symName: _screen_retrieverVersionNumber, symObjAddr: 0x30, symBinAddr: 0x7A90, symSize: 0x0 }
+  - { offset: 0xCED75, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaSHSCSH4hash4intoys6HasherVz_tFTW', symObjAddr: 0x7A0, symBinAddr: 0x28D0, symSize: 0x30 }
+  - { offset: 0xCEDF9, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaSHSCSH13_rawHashValue4seedS2i_tFTW', symObjAddr: 0x7D0, symBinAddr: 0x2900, symSize: 0x60 }
+  - { offset: 0xCEE60, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyas21_ObjectiveCBridgeableSCsACP016_forceBridgeFromD1C_6resulty01_D5CTypeQz_xSgztFZTW', symObjAddr: 0x890, symBinAddr: 0x29C0, symSize: 0x10 }
+  - { offset: 0xCEE82, size: 0x8, addend: 0x0, symName: '_$ss20_SwiftNewtypeWrapperPss21_ObjectiveCBridgeable8RawValueRpzrlE016_forceBridgeFromD1C_6resultyAD_01_D5CTypeQZ_xSgztFZSo22NSDeviceDescriptionKeya_Tgmq5', symObjAddr: 0x8A0, symBinAddr: 0x29D0, symSize: 0x80 }
+  - { offset: 0xCEF13, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyas21_ObjectiveCBridgeableSCsACP024_conditionallyBridgeFromD1C_6resultSb01_D5CTypeQz_xSgztFZTW', symObjAddr: 0x920, symBinAddr: 0x2A50, symSize: 0x10 }
+  - { offset: 0xCEF2F, size: 0x8, addend: 0x0, symName: '_$ss20_SwiftNewtypeWrapperPss21_ObjectiveCBridgeable8RawValueRpzrlE024_conditionallyBridgeFromD1C_6resultSbAD_01_D5CTypeQZ_xSgztFZSo22NSDeviceDescriptionKeya_Tgmq5', symObjAddr: 0x930, symBinAddr: 0x2A60, symSize: 0x80 }
+  - { offset: 0xCEFCF, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyas21_ObjectiveCBridgeableSCsACP026_unconditionallyBridgeFromD1Cyx01_D5CTypeQzSgFZTW', symObjAddr: 0x9B0, symBinAddr: 0x2AE0, symSize: 0x40 }
+  - { offset: 0xCF04D, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaSQSCSQ2eeoiySbx_xtFZTW', symObjAddr: 0x9F0, symBinAddr: 0x2B20, symSize: 0x80 }
+  - { offset: 0xCF107, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyas35_HasCustomAnyHashableRepresentationSCsACP03_toefG0s0fG0VSgyFTW', symObjAddr: 0xAD0, symBinAddr: 0x2C00, symSize: 0x60 }
+  - { offset: 0xCF1BD, size: 0x8, addend: 0x0, symName: '_$sSlsE3mapySayqd__Gqd__7ElementQzqd_0_YKXEqd_0_YKs5ErrorRd_0_r0_lFSaySo8NSScreenCG_So12NSDictionaryCs5NeverOTg50104$s16screen_retriever21ScreenRetrieverPluginC14getAllDisplays_6resultySo17FlutterMethodCallC_yypSgctFSo12e4CSo8D6CXEfU_16screen_retriever0ijK0CTf1cn_nTf4nd_n', symObjAddr: 0x1EE0, symBinAddr: 0x4010, symSize: 0x190 }
+  - { offset: 0xCF41F, size: 0x8, addend: 0x0, symName: '_$sSo8NSScreenC16screen_retrieverE9displayIDs6UInt32Vvg', symObjAddr: 0x0, symBinAddr: 0x2130, symSize: 0x140 }
+  - { offset: 0xCF789, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginCfETo', symObjAddr: 0x750, symBinAddr: 0x2880, symSize: 0x30 }
+  - { offset: 0xCF854, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSo22NSDeviceDescriptionKeya_Tg5', symObjAddr: 0xB30, symBinAddr: 0x2C60, symSize: 0x80 }
+  - { offset: 0xCF8DD, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSo22NSDeviceDescriptionKeya_Tg5', symObjAddr: 0xBB0, symBinAddr: 0x2CE0, symSize: 0x180 }
+  - { offset: 0xCF9C8, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV19_getElementSlowPathyyXlSiFSo8NSScreenC_Tg5', symObjAddr: 0xD30, symBinAddr: 0x2E60, symSize: 0x220 }
+  - { offset: 0xCFA3D, size: 0x8, addend: 0x0, symName: '_$ss29getContiguousArrayStorageType3fors01_bcD0CyxGmxm_tlFSo12NSDictionaryC_Tgm5', symObjAddr: 0xF50, symBinAddr: 0x3080, symSize: 0x60 }
+  - { offset: 0xCFA55, size: 0x8, addend: 0x0, symName: '_$ss15ContiguousArrayV16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFSo12NSDictionaryC_Tg5', symObjAddr: 0xFB0, symBinAddr: 0x30E0, symSize: 0x20 }
+  - { offset: 0xCFAC5, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFSo12NSDictionaryC_Tg5', symObjAddr: 0xFD0, symBinAddr: 0x3100, symSize: 0x140 }
+  - { offset: 0xCFD16, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x2B10, symBinAddr: 0x4C40, symSize: 0x30 }
+  - { offset: 0xCFD2A, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x2B40, symBinAddr: 0x4C70, symSize: 0x40 }
+  - { offset: 0xCFD3E, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginCMa', symObjAddr: 0x2BB0, symBinAddr: 0x4CE0, symSize: 0x20 }
+  - { offset: 0xCFD52, size: 0x8, addend: 0x0, symName: '_$sypSgWOc', symObjAddr: 0x2CB0, symBinAddr: 0x4DE0, symSize: 0x40 }
+  - { offset: 0xCFD66, size: 0x8, addend: 0x0, symName: ___swift_project_boxed_opaque_existential_0, symObjAddr: 0x2CF0, symBinAddr: 0x4E20, symSize: 0x30 }
+  - { offset: 0xCFD7A, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_0, symObjAddr: 0x2D20, symBinAddr: 0x4E50, symSize: 0x30 }
+  - { offset: 0xCFD8E, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaMa', symObjAddr: 0x2D50, symBinAddr: 0x4E80, symSize: 0x30 }
+  - { offset: 0xCFDA2, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x2D80, symBinAddr: 0x4EB0, symSize: 0x30 }
+  - { offset: 0xCFDB6, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyas20_SwiftNewtypeWrapperSCSYWb', symObjAddr: 0x2DB0, symBinAddr: 0x4EE0, symSize: 0x20 }
+  - { offset: 0xCFDCA, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyas20_SwiftNewtypeWrapperSCs35_HasCustomAnyHashableRepresentationPWb', symObjAddr: 0x2DD0, symBinAddr: 0x4F00, symSize: 0x20 }
+  - { offset: 0xCFDDE, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaSHSCSQWb', symObjAddr: 0x2DF0, symBinAddr: 0x4F20, symSize: 0x20 }
+  - { offset: 0xCFE7E, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC8register4withySo07FlutterE9Registrar_p_tFZ', symObjAddr: 0x140, symBinAddr: 0x2270, symSize: 0x10 }
+  - { offset: 0xCFE92, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginCACycfC', symObjAddr: 0x150, symBinAddr: 0x2280, symSize: 0x20 }
+  - { offset: 0xCFEB3, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC8register4withySo07FlutterE9Registrar_p_tFZTo', symObjAddr: 0x170, symBinAddr: 0x22A0, symSize: 0x30 }
+  - { offset: 0xCFFB8, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF', symObjAddr: 0x1A0, symBinAddr: 0x22D0, symSize: 0x2F0 }
+  - { offset: 0xD012B, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctFTo', symObjAddr: 0x490, symBinAddr: 0x25C0, symSize: 0x80 }
+  - { offset: 0xD01EA, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC01_A6ToDictySo12NSDictionaryCSo8NSScreenCF', symObjAddr: 0x510, symBinAddr: 0x2640, symSize: 0x10 }
+  - { offset: 0xD01FE, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC09getCursorC5Point_6resultySo17FlutterMethodCallC_yypSgctF', symObjAddr: 0x520, symBinAddr: 0x2650, symSize: 0x10 }
+  - { offset: 0xD0212, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC17getPrimaryDisplay_6resultySo17FlutterMethodCallC_yypSgctF', symObjAddr: 0x530, symBinAddr: 0x2660, symSize: 0x10 }
+  - { offset: 0xD0226, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC14getAllDisplays_6resultySo17FlutterMethodCallC_yypSgctF', symObjAddr: 0x540, symBinAddr: 0x2670, symSize: 0x10 }
+  - { offset: 0xD0255, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC10_emitEventyySSF', symObjAddr: 0x550, symBinAddr: 0x2680, symSize: 0x130 }
+  - { offset: 0xD0327, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginCACycfc', symObjAddr: 0x680, symBinAddr: 0x27B0, symSize: 0x50 }
+  - { offset: 0xD035A, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginCACycfcTo', symObjAddr: 0x6D0, symBinAddr: 0x2800, symSize: 0x50 }
+  - { offset: 0xD038F, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginCfD', symObjAddr: 0x720, symBinAddr: 0x2850, symSize: 0x30 }
+  - { offset: 0xD03EA, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaSYSCSY8rawValuexSg03RawE0Qz_tcfCTW', symObjAddr: 0xA70, symBinAddr: 0x2BA0, symSize: 0x40 }
+  - { offset: 0xD0413, size: 0x8, addend: 0x0, symName: '_$sSo22NSDeviceDescriptionKeyaSYSCSY8rawValue03RawE0QzvgTW', symObjAddr: 0xAB0, symBinAddr: 0x2BE0, symSize: 0x20 }
+  - { offset: 0xD04A8, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC8register4withySo07FlutterE9Registrar_p_tFZTf4nd_n', symObjAddr: 0x1110, symBinAddr: 0x3240, symSize: 0x120 }
+  - { offset: 0xD05D2, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC09getCursorC5Point_6resultySo17FlutterMethodCallC_yypSgctF015$syXlSgIeyBy_ypO7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4ddg_n', symObjAddr: 0x1230, symBinAddr: 0x3360, symSize: 0x400 }
+  - { offset: 0xD08B3, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC01_A6ToDictySo12NSDictionaryCSo8NSScreenCFTf4nd_n', symObjAddr: 0x1630, symBinAddr: 0x3760, symSize: 0x700 }
+  - { offset: 0xD0C80, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC17getPrimaryDisplay_6resultySo17FlutterMethodCallC_yypSgctF015$syXlSgIeyBy_ypO7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4ddg_n', symObjAddr: 0x1D30, symBinAddr: 0x3E60, symSize: 0x1B0 }
+  - { offset: 0xD0D6E, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC14getAllDisplays_6resultySo17FlutterMethodCallC_yypSgctF015$syXlSgIeyBy_ypO7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4dng_n', symObjAddr: 0x2070, symBinAddr: 0x41A0, symSize: 0x200 }
+  - { offset: 0xD0E35, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF015$syXlSgIeyBy_ypM7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4nng_n', symObjAddr: 0x2270, symBinAddr: 0x43A0, symSize: 0x2A0 }
+  - { offset: 0xD0F04, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC09getCursorC5Point_6resultySo17FlutterMethodCallC_yypSgctFTf4dnd_n', symObjAddr: 0x2510, symBinAddr: 0x4640, symSize: 0x350 }
+  - { offset: 0xD11AE, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC17getPrimaryDisplay_6resultySo17FlutterMethodCallC_yypSgctFTf4dnd_n', symObjAddr: 0x2860, symBinAddr: 0x4990, symSize: 0x130 }
+  - { offset: 0xD128C, size: 0x8, addend: 0x0, symName: '_$s16screen_retriever21ScreenRetrieverPluginC14getAllDisplays_6resultySo17FlutterMethodCallC_yypSgctFTf4dnn_n', symObjAddr: 0x2990, symBinAddr: 0x4AC0, symSize: 0x180 }
+...

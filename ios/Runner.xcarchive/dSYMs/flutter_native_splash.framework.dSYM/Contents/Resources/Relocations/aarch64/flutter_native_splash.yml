@@ -1,0 +1,10 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-duexvrxrzpwwbzcrvbiasdghqknl/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/flutter_native_splash.framework/flutter_native_splash'
+relocations:
+  - { offset: 0x3D1A, size: 0x8, addend: 0x0, symName: _flutter_native_splashVersionString, symObjAddr: 0x0, symBinAddr: 0x42F0, symSize: 0x0 }
+  - { offset: 0x3D4E, size: 0x8, addend: 0x0, symName: _flutter_native_splashVersionNumber, symObjAddr: 0x38, symBinAddr: 0x4328, symSize: 0x0 }
+  - { offset: 0x3D8A, size: 0x8, addend: 0x0, symName: '+[FlutterNativeSplashPlugin registerWithRegistrar:]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0xA0 }
+  - { offset: 0x3DA7, size: 0x8, addend: 0x0, symName: '+[FlutterNativeSplashPlugin registerWithRegistrar:]', symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0xA0 }
+  - { offset: 0x3E00, size: 0x8, addend: 0x0, symName: '-[FlutterNativeSplashPlugin handleMethodCall:result:]', symObjAddr: 0xA0, symBinAddr: 0x40A0, symSize: 0xF0 }
+...

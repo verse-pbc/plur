@@ -1,0 +1,18 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/blurhash_ffi.framework/Versions/A/blurhash_ffi'
+relocations:
+  - { offset: 0x49B5, size: 0x8, addend: 0x0, symName: _blurhash_ffiVersionString, symObjAddr: 0x0, symBinAddr: 0x3E90, symSize: 0x0 }
+  - { offset: 0x49E9, size: 0x8, addend: 0x0, symName: _blurhash_ffiVersionNumber, symObjAddr: 0x30, symBinAddr: 0x3EC0, symSize: 0x0 }
+  - { offset: 0x4A24, size: 0x8, addend: 0x0, symName: _blurHashForPixels, symObjAddr: 0x0, symBinAddr: 0x2D90, symSize: 0x724 }
+  - { offset: 0x4A31, size: 0x8, addend: 0x0, symName: _blurHashForPixels, symObjAddr: 0x0, symBinAddr: 0x2D90, symSize: 0x724 }
+  - { offset: 0x4A56, size: 0x8, addend: 0x0, symName: _blurHashForPixels.buffer, symObjAddr: 0x6ACB, symBinAddr: 0x8120, symSize: 0x0 }
+  - { offset: 0x505E, size: 0x8, addend: 0x0, symName: _characters, symObjAddr: 0x10E0, symBinAddr: 0x3F10, symSize: 0x0 }
+  - { offset: 0x52EC, size: 0x8, addend: 0x0, symName: _decodeToInt, symObjAddr: 0x724, symBinAddr: 0x34B4, symSize: 0x70 }
+  - { offset: 0x53AB, size: 0x8, addend: 0x0, symName: _isValidBlurhash, symObjAddr: 0x794, symBinAddr: 0x3524, symSize: 0xA0 }
+  - { offset: 0x545A, size: 0x8, addend: 0x0, symName: _decodeDC, symObjAddr: 0x834, symBinAddr: 0x35C4, symSize: 0x150 }
+  - { offset: 0x5511, size: 0x8, addend: 0x0, symName: _decodeAC, symObjAddr: 0x984, symBinAddr: 0x3714, symSize: 0xC0 }
+  - { offset: 0x5625, size: 0x8, addend: 0x0, symName: _decodeToArray, symObjAddr: 0xA44, symBinAddr: 0x37D4, symSize: 0x57C }
+  - { offset: 0x5A80, size: 0x8, addend: 0x0, symName: _decode, symObjAddr: 0xFC0, symBinAddr: 0x3D50, symSize: 0x74 }
+  - { offset: 0x5B65, size: 0x8, addend: 0x0, symName: _freePixelArray, symObjAddr: 0x1034, symBinAddr: 0x3DC4, symSize: 0xC }
+...

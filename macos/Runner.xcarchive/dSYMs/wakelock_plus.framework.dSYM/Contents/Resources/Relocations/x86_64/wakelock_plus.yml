@@ -1,0 +1,30 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/wakelock_plus.framework/Versions/A/wakelock_plus'
+relocations:
+  - { offset: 0xCE4F3, size: 0x8, addend: 0x0, symName: _wakelock_plusVersionString, symObjAddr: 0x0, symBinAddr: 0x51D0, symSize: 0x0 }
+  - { offset: 0xCE528, size: 0x8, addend: 0x0, symName: _wakelock_plusVersionNumber, symObjAddr: 0x30, symBinAddr: 0x5200, symSize: 0x0 }
+  - { offset: 0xCE751, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSS_Tg5', symObjAddr: 0x5B0, symBinAddr: 0x1FB0, symSize: 0x60 }
+  - { offset: 0xCE789, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSS_Tg5', symObjAddr: 0x610, symBinAddr: 0x2010, symSize: 0xE0 }
+  - { offset: 0xCE7F1, size: 0x8, addend: 0x0, symName: '_$sSo8NSObjectCMa', symObjAddr: 0x7D0, symBinAddr: 0x21D0, symSize: 0x30 }
+  - { offset: 0xCE805, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x800, symBinAddr: 0x2200, symSize: 0x30 }
+  - { offset: 0xCE819, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x830, symBinAddr: 0x2230, symSize: 0x40 }
+  - { offset: 0xCE82D, size: 0x8, addend: 0x0, symName: '_$sypSgWOb', symObjAddr: 0x870, symBinAddr: 0x2270, symSize: 0x40 }
+  - { offset: 0xCE841, size: 0x8, addend: 0x0, symName: '_$sypWOb', symObjAddr: 0x8B0, symBinAddr: 0x22B0, symSize: 0x20 }
+  - { offset: 0xCE855, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x8D0, symBinAddr: 0x22D0, symSize: 0x30 }
+  - { offset: 0xCE869, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginCMa', symObjAddr: 0x900, symBinAddr: 0x2300, symSize: 0x20 }
+  - { offset: 0xCE888, size: 0x8, addend: 0x0, symName: '_$sypSgWOc', symObjAddr: 0xD90, symBinAddr: 0x2790, symSize: 0x40 }
+  - { offset: 0xCE89C, size: 0x8, addend: 0x0, symName: ___swift_project_boxed_opaque_existential_0, symObjAddr: 0xDD0, symBinAddr: 0x27D0, symSize: 0x30 }
+  - { offset: 0xCE8B0, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_0, symObjAddr: 0xE00, symBinAddr: 0x2800, symSize: 0x30 }
+  - { offset: 0xCE950, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZ', symObjAddr: 0x0, symBinAddr: 0x1A00, symSize: 0x10 }
+  - { offset: 0xCE964, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginCACycfC', symObjAddr: 0x10, symBinAddr: 0x1A10, symSize: 0x20 }
+  - { offset: 0xCE985, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZTo', symObjAddr: 0x30, symBinAddr: 0x1A30, symSize: 0x30 }
+  - { offset: 0xCEA8F, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF', symObjAddr: 0x60, symBinAddr: 0x1A60, symSize: 0x330 }
+  - { offset: 0xCEBFF, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctFTo', symObjAddr: 0x390, symBinAddr: 0x1D90, symSize: 0x80 }
+  - { offset: 0xCEC3D, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC06enableC06reasonySS_tF', symObjAddr: 0x410, symBinAddr: 0x1E10, symSize: 0xD0 }
+  - { offset: 0xCECC2, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginCACycfc', symObjAddr: 0x4E0, symBinAddr: 0x1EE0, symSize: 0x50 }
+  - { offset: 0xCECF5, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginCACycfcTo', symObjAddr: 0x530, symBinAddr: 0x1F30, symSize: 0x50 }
+  - { offset: 0xCED2A, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginCfD', symObjAddr: 0x580, symBinAddr: 0x1F80, symSize: 0x30 }
+  - { offset: 0xCED61, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZTf4nd_n', symObjAddr: 0x6F0, symBinAddr: 0x20F0, symSize: 0xE0 }
+  - { offset: 0xCEDEA, size: 0x8, addend: 0x0, symName: '_$s13wakelock_plus23WakelockPlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF015$syXlSgIeyBy_ypN7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4nng_n', symObjAddr: 0x960, symBinAddr: 0x2360, symSize: 0x430 }
+...

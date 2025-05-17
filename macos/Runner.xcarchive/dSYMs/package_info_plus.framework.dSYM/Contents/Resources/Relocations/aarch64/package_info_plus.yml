@@ -1,0 +1,13 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/package_info_plus.framework/Versions/A/package_info_plus'
+relocations:
+  - { offset: 0xCF1DE, size: 0x8, addend: 0x0, symName: _package_info_plusVersionString, symObjAddr: 0x0, symBinAddr: 0x3870, symSize: 0x0 }
+  - { offset: 0xCF213, size: 0x8, addend: 0x0, symName: _package_info_plusVersionNumber, symObjAddr: 0x30, symBinAddr: 0x38A0, symSize: 0x0 }
+  - { offset: 0xCF250, size: 0x8, addend: 0x0, symName: '+[FPPPackageInfoPlusPlugin registerWithRegistrar:]', symObjAddr: 0x0, symBinAddr: 0x2D00, symSize: 0xA0 }
+  - { offset: 0xCF276, size: 0x8, addend: 0x0, symName: '+[FPPPackageInfoPlusPlugin registerWithRegistrar:]', symObjAddr: 0x0, symBinAddr: 0x2D00, symSize: 0xA0 }
+  - { offset: 0xCF2D5, size: 0x8, addend: 0x0, symName: '-[FPPPackageInfoPlusPlugin handleMethodCall:result:]', symObjAddr: 0xA0, symBinAddr: 0x2DA0, symSize: 0x474 }
+  - { offset: 0xCF37E, size: 0x8, addend: 0x0, symName: '-[FPPPackageInfoPlusPlugin getInstallDate]', symObjAddr: 0x514, symBinAddr: 0x3214, symSize: 0x110 }
+  - { offset: 0xCF3E1, size: 0x8, addend: 0x0, symName: '-[FPPPackageInfoPlusPlugin getUpdateDate]', symObjAddr: 0x624, symBinAddr: 0x3324, symSize: 0xE0 }
+  - { offset: 0xCF444, size: 0x8, addend: 0x0, symName: '-[FPPPackageInfoPlusPlugin getTimeMillisStringFromDate:]', symObjAddr: 0x704, symBinAddr: 0x3404, symSize: 0x74 }
+...

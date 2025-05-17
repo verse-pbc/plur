@@ -1,0 +1,53 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/flutter_image_compress_macos.framework/Versions/A/flutter_image_compress_macos'
+relocations:
+  - { offset: 0xF96F9, size: 0x8, addend: 0x0, symName: _flutter_image_compress_macosVersionString, symObjAddr: 0x0, symBinAddr: 0x9DD0, symSize: 0x0 }
+  - { offset: 0xF972E, size: 0x8, addend: 0x0, symName: _flutter_image_compress_macosVersionNumber, symObjAddr: 0x40, symBinAddr: 0x9E10, symSize: 0x0 }
+  - { offset: 0xF9793, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos6LoggerC9isShowLogSbvpZ', symObjAddr: 0x18C6E, symBinAddr: 0xD698, symSize: 0x0 }
+  - { offset: 0xF9D93, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSS_Tg5', symObjAddr: 0x1F00, symBinAddr: 0x44F0, symSize: 0x60 }
+  - { offset: 0xF9DCB, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSS_Tg5', symObjAddr: 0x1F60, symBinAddr: 0x4550, symSize: 0xE0 }
+  - { offset: 0xF9E6A, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x27C0, symBinAddr: 0x4DB0, symSize: 0x40 }
+  - { offset: 0xF9E9F, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOe', symObjAddr: 0x3FB0, symBinAddr: 0x65A0, symSize: 0x50 }
+  - { offset: 0xF9EB3, size: 0x8, addend: 0x0, symName: '_$sypSgWOc', symObjAddr: 0x4000, symBinAddr: 0x65F0, symSize: 0x40 }
+  - { offset: 0xF9EC7, size: 0x8, addend: 0x0, symName: '_$sypWOb', symObjAddr: 0x4040, symBinAddr: 0x6630, symSize: 0x20 }
+  - { offset: 0xF9EDB, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x4060, symBinAddr: 0x6650, symSize: 0x30 }
+  - { offset: 0xF9EEF, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginCMa', symObjAddr: 0x4090, symBinAddr: 0x6680, symSize: 0x20 }
+  - { offset: 0xF9F03, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos6LoggerCMa', symObjAddr: 0x40B0, symBinAddr: 0x66A0, symSize: 0x20 }
+  - { offset: 0xF9F17, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos8ImageSrcCMa', symObjAddr: 0x40D0, symBinAddr: 0x66C0, symSize: 0x20 }
+  - { offset: 0xF9F2B, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorCMa', symObjAddr: 0x4130, symBinAddr: 0x6720, symSize: 0x20 }
+  - { offset: 0xF9F3F, size: 0x8, addend: 0x0, symName: ___swift_project_boxed_opaque_existential_0, symObjAddr: 0x4150, symBinAddr: 0x6740, symSize: 0x30 }
+  - { offset: 0xF9F53, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_0, symObjAddr: 0x4180, symBinAddr: 0x6770, symSize: 0x30 }
+  - { offset: 0xF9F67, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C6ToPathyyyypSgc_SStFSo21CGImageDestinationRefayXEfU_TA', symObjAddr: 0x49E0, symBinAddr: 0x6FD0, symSize: 0x20 }
+  - { offset: 0xF9F7B, size: 0x8, addend: 0x0, symName: '_$s10Foundation3URLVACs23CustomStringConvertibleAAWl', symObjAddr: 0x4A00, symBinAddr: 0x6FF0, symSize: 0x40 }
+  - { offset: 0xF9F8F, size: 0x8, addend: 0x0, symName: '_$s10Foundation4DataV15_RepresentationOWOy', symObjAddr: 0x4A40, symBinAddr: 0x7030, symSize: 0x50 }
+  - { offset: 0xFA002, size: 0x8, addend: 0x0, symName: '_$sSTsE8contains5whereS2b7ElementQzKXE_tKFSDySSypG_Tg5184$sSSypSbIggnd_SS3key_yp5valuetSbs5Error_pIegndzo_TR122$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC12handleResultyAA10CompressorCSgypSg_yAHctFSbSS_yptXEfU_Tf3npf_nTf1cn_n', symObjAddr: 0xB0, symBinAddr: 0x26A0, symSize: 0x2D0 }
+  - { offset: 0xFA0CF, size: 0x8, addend: 0x0, symName: '_$sSTsE8contains5whereS2b7ElementQzKXE_tKFSDySSypG_Tg5185$sSSypSbIggnd_SS3key_yp5valuetSbs5Error_pIegndzo_TR123$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC12handleResultyAA10CompressorCSgypSg_yAHctFSbSS_yptXEfU0_Tf3npf_nTf1cn_n', symObjAddr: 0x380, symBinAddr: 0x2970, symSize: 0x2D0 }
+  - { offset: 0xFA351, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos6LoggerCfD', symObjAddr: 0x0, symBinAddr: 0x25F0, symSize: 0x20 }
+  - { offset: 0xFA39F, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos8ImageSrcCfD', symObjAddr: 0x20, symBinAddr: 0x2610, symSize: 0x30 }
+  - { offset: 0xFA4AE, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC8register4withySo0eI9Registrar_p_tFZ', symObjAddr: 0x50, symBinAddr: 0x2640, symSize: 0x10 }
+  - { offset: 0xFA4C2, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginCACycfC', symObjAddr: 0x60, symBinAddr: 0x2650, symSize: 0x20 }
+  - { offset: 0xFA4E3, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC8register4withySo0eI9Registrar_p_tFZTo', symObjAddr: 0x80, symBinAddr: 0x2670, symSize: 0x30 }
+  - { offset: 0xFA6D6, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC6handle_6resultySo0E10MethodCallC_yypSgctF', symObjAddr: 0x650, symBinAddr: 0x2C40, symSize: 0x5C0 }
+  - { offset: 0xFA8E8, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC6handle_6resultySo0E10MethodCallC_yypSgctFTo', symObjAddr: 0xC10, symBinAddr: 0x3200, symSize: 0x80 }
+  - { offset: 0xFA912, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginCACycfc', symObjAddr: 0xC90, symBinAddr: 0x3280, symSize: 0x30 }
+  - { offset: 0xFA94A, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginCACycfcTo', symObjAddr: 0xCC0, symBinAddr: 0x32B0, symSize: 0x30 }
+  - { offset: 0xFA97F, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginCfD', symObjAddr: 0xCF0, symBinAddr: 0x32E0, symSize: 0x30 }
+  - { offset: 0xFAA60, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC15getOutputFormatSo11CFStringRefayF', symObjAddr: 0xD20, symBinAddr: 0x3310, symSize: 0x120 }
+  - { offset: 0xFAC81, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC11handleImage0B05angle10targetSize4destySo7NSImageC_SiSo6CGSizeVSo21CGImageDestinationRefatF', symObjAddr: 0xE40, symBinAddr: 0x3430, symSize: 0x5E0 }
+  - { offset: 0xFB0EB, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC11makeOptions33_236C25565FA03C80306B5BA1F85932B1LLSo15CFDictionaryRefayF', symObjAddr: 0x1420, symBinAddr: 0x3A10, symSize: 0x5C0 }
+  - { offset: 0xFB2A7, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C011destCreatorySo21CGImageDestinationRefayXE_tF', symObjAddr: 0x19E0, symBinAddr: 0x3FD0, symSize: 0x300 }
+  - { offset: 0xFB51C, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C6ToPathyyyypSgc_SStF', symObjAddr: 0x1CE0, symBinAddr: 0x42D0, symSize: 0x180 }
+  - { offset: 0xFB5BA, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C6ToPathyyyypSgc_SStFSo21CGImageDestinationRefayXEfU_', symObjAddr: 0x1E60, symBinAddr: 0x4450, symSize: 0x70 }
+  - { offset: 0xFB623, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorCfD', symObjAddr: 0x1ED0, symBinAddr: 0x44C0, symSize: 0x30 }
+  - { offset: 0xFB686, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos6LoggerC7logData4datay10Foundation0G0V_tFZTf4nd_n', symObjAddr: 0x2040, symBinAddr: 0x4630, symSize: 0x6A0 }
+  - { offset: 0xFB9B3, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC8register4withySo0eI9Registrar_p_tFZTf4nd_n', symObjAddr: 0x26E0, symBinAddr: 0x4CD0, symSize: 0xE0 }
+  - { offset: 0xFBA3C, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC10injectDictyySo12NSDictionaryC_So19NSMutableDictionaryCSo11CFStringRefatFTf4nnnd_n', symObjAddr: 0x2800, symBinAddr: 0x4DF0, symSize: 0x260 }
+  - { offset: 0xFBB37, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC04makeF3Src0B06source6paramsAA0fK0CSo7NSImageC_So16CGImageSourceRefaSDySSypGtFTf4nnnd_n', symObjAddr: 0x2A60, symBinAddr: 0x5050, symSize: 0x1E0 }
+  - { offset: 0xFBD6E, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC12handleResultyAA10CompressorCSgypSg_yAHctF015$syXlSgIeyBy_ypO7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4ndg_n', symObjAddr: 0x2C40, symBinAddr: 0x5230, symSize: 0x7E0 }
+  - { offset: 0xFC139, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC12handleResultyAA10CompressorCSgypSg_yAHctFTf4nnd_n', symObjAddr: 0x3420, symBinAddr: 0x5A10, symSize: 0x640 }
+  - { offset: 0xFC49E, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C6ToPathyyyypSgc_SStF015$syXlSgIeyBy_ypJ7Iegn_TRyXlSgIeyBy_Tf1cnn_nTf4nng_n', symObjAddr: 0x3A60, symBinAddr: 0x6050, symSize: 0x220 }
+  - { offset: 0xFC55C, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C011destCreatorySo21CGImageDestinationRefayXE_tF012$s28flutter_b1_c8_macos10e24C0C7ToBytesyyyypSgcFSo21hI10RefayXEfU_So13NSMutableDataCACTf1cn_nTf4ngg_n', symObjAddr: 0x3C80, symBinAddr: 0x6270, symSize: 0x330 }
+  - { offset: 0xFC7B6, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos10CompressorC0C7ToBytesyyyypSgcF015$syXlSgIeyBy_ypJ7Iegn_TRyXlSgIeyBy_Tf1cn_nTf4ng_n', symObjAddr: 0x41E0, symBinAddr: 0x67D0, symSize: 0x1D0 }
+  - { offset: 0xFC88C, size: 0x8, addend: 0x0, symName: '_$s28flutter_image_compress_macos31FlutterImageCompressMacosPluginC6handle_6resultySo0E10MethodCallC_yypSgctF015$syXlSgIeyBy_ypP7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4ndg_n', symObjAddr: 0x43B0, symBinAddr: 0x69A0, symSize: 0x630 }
+...

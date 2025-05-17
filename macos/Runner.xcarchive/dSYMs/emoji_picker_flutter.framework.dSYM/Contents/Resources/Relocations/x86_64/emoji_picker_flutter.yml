@@ -1,0 +1,24 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/emoji_picker_flutter.framework/Versions/A/emoji_picker_flutter'
+relocations:
+  - { offset: 0xCE4F3, size: 0x8, addend: 0x0, symName: _emoji_picker_flutterVersionString, symObjAddr: 0x0, symBinAddr: 0x5270, symSize: 0x0 }
+  - { offset: 0xCE528, size: 0x8, addend: 0x0, symName: _emoji_picker_flutterVersionNumber, symObjAddr: 0x38, symBinAddr: 0x52A8, symSize: 0x0 }
+  - { offset: 0xCE6B3, size: 0x8, addend: 0x0, symName: '_$sSo8NSObjectCMa', symObjAddr: 0x3E0, symBinAddr: 0x2510, symSize: 0x30 }
+  - { offset: 0xCE6C7, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x410, symBinAddr: 0x2540, symSize: 0x30 }
+  - { offset: 0xCE6DB, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x440, symBinAddr: 0x2570, symSize: 0x40 }
+  - { offset: 0xCE6EF, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginCMa', symObjAddr: 0x480, symBinAddr: 0x25B0, symSize: 0x20 }
+  - { offset: 0xCE70E, size: 0x8, addend: 0x0, symName: '_$sypSgWOc', symObjAddr: 0x790, symBinAddr: 0x28C0, symSize: 0x40 }
+  - { offset: 0xCE722, size: 0x8, addend: 0x0, symName: ___swift_project_boxed_opaque_existential_0, symObjAddr: 0x7D0, symBinAddr: 0x2900, symSize: 0x30 }
+  - { offset: 0xCE736, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_0, symObjAddr: 0x800, symBinAddr: 0x2930, symSize: 0x30 }
+  - { offset: 0xCE7D6, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginC8register4withySo0fG9Registrar_p_tFZ', symObjAddr: 0x0, symBinAddr: 0x2130, symSize: 0x10 }
+  - { offset: 0xCE7EA, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginCACycfC', symObjAddr: 0x10, symBinAddr: 0x2140, symSize: 0x20 }
+  - { offset: 0xCE80B, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginC8register4withySo0fG9Registrar_p_tFZTo', symObjAddr: 0x30, symBinAddr: 0x2160, symSize: 0x30 }
+  - { offset: 0xCE86A, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginC6handle_6resultySo0F10MethodCallC_yypSgctF', symObjAddr: 0x60, symBinAddr: 0x2190, symSize: 0x190 }
+  - { offset: 0xCE8DF, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginC6handle_6resultySo0F10MethodCallC_yypSgctFTo', symObjAddr: 0x1F0, symBinAddr: 0x2320, symSize: 0x80 }
+  - { offset: 0xCE909, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginCACycfc', symObjAddr: 0x270, symBinAddr: 0x23A0, symSize: 0x30 }
+  - { offset: 0xCE941, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginCACycfcTo', symObjAddr: 0x2A0, symBinAddr: 0x23D0, symSize: 0x30 }
+  - { offset: 0xCE976, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginCfD', symObjAddr: 0x2D0, symBinAddr: 0x2400, symSize: 0x30 }
+  - { offset: 0xCE9AD, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginC8register4withySo0fG9Registrar_p_tFZTf4nd_n', symObjAddr: 0x300, symBinAddr: 0x2430, symSize: 0xE0 }
+  - { offset: 0xCEA36, size: 0x8, addend: 0x0, symName: '_$s20emoji_picker_flutter24EmojiPickerFlutterPluginC6handle_6resultySo0F10MethodCallC_yypSgctF015$syXlSgIeyBy_ypN7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4ndg_n', symObjAddr: 0x4E0, symBinAddr: 0x2610, symSize: 0x2B0 }
+...

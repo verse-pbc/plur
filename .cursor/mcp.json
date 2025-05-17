@@ -1,0 +1,21 @@
+{
+    "mcpServers": {
+        "taskmaster-ai": {
+            "command": "npx",
+            "args": [
+                "-y",
+                "--package=task-master-ai",
+                "task-master-ai"
+            ],
+            "env": {
+                "PERPLEXITY_API_KEY": "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",
+                "OPENAI_API_KEY": "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",
+                "GOOGLE_API_KEY": "AAIzaSyBAomdwP0kMQcCWYbfdzNeCZiTPh5h7I1E",
+                "OPENROUTER_API_KEY": "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",
+                "TOGETHER_API_KEY": "08ee67cf991832e8cde972446e1564c468ffa0bb475e539c5904f18b368ac75d",
+                "DEEPSEEK_API_KEY": "sk-7a1611cd55bc4c9c8b6c038b8e3a02df",
+                "GEMINI_API_KEY": "AIzaSyAWG6KFQm9MNQEIZLhofpbhAU7Sdzi5C80"
+            }
+        }
+    }
+}

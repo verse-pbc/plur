@@ -1,0 +1,146 @@
+# Product Requirements Document (PRD)
+
+## 1 Overview
+
+**Project Name**: **holis.social**
+**Sponsoring Team**: Verse / Planetary / Freedom Tech crew
+**Vision**: Offer activists and conference‑goers a privacy‑respecting, lightning‑fast Progressive Web App (PWA) that makes it effortless to discover people, collaborate in semi‑private groups, and move money (donations, tips, pooled funds) with Cashu—all without ever mentioning “Nostr” or “Bitcoin” up‑front. We will build an MVP in **7 days** and unveil it at the **Oslo Freedom Forum 2025** Freedom Tech track on **28 May 2025**.
+
+---
+
+## 2 Goals & Success Metrics
+
+| Goal                     | KPI / Target                                          |
+| ------------------------ | ----------------------------------------------------- |
+| 🎟️  Conference adoption | ≥ 100 attendees onboard in < 30 s each                |
+| 💬  Group engagement     | ≥ 300 messages across ≥ 10 private groups             |
+| ⚡  Micro‑payments        | ≥ 50 Cashu zaps/donations; ≥ 100 USD equivalent moved |
+| 🛡️  Security            | 0 critical vulns; Panic Mode < 2 s wipe               |
+
+---
+
+## 3 User Personas
+
+1. **Activist‑Amina** – human‑rights defender from Lebanon; needs safe, low‑friction comms and fundraising.
+2. **Journalist‑Jon** – covers OFF; wants a public updates feed and easy contact exchange.
+3. **Organizer‑Oskar** – OFF staff; needs a broadcast channel and admin controls.
+4. **Sponsor‑Sofi** – donor; wants one‑tap giving, visibility of impact.
+
+---
+
+## 4 Key Features (MVP)
+
+| #   | Feature                    | Description                                                  | Standards/Refs                                                                        |
+| --- | -------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| F‑1 | **One‑click onboarding**   | QR/link generates hosted key; option to export/migrate later | NIP‑19 (npub/nsec)                                                                    |
+| F‑2 | **Contact Card (Rolodex)** | Public card with alias, tags, optional wallet; local search  | NIP‑51 Lists ([nostr-nips.com](https://nostr-nips.com/nip-51?utm_source=chatgpt.com)) |
+| F‑3 | **Private Groups**         | End‑to‑end encrypted small groups with admin roles           | NIP‑29 Groups ([nips.nostr.com](https://nips.nostr.com/29?utm_source=chatgpt.com))    |
+| F‑4 | **Public Square Feed**     | Reverse‑chronological, tag‑filterable announcements          | Standard event kind:1                                                                 |
+| F‑5 | **Cashu Wallet**           | Auto‑generated ecash wallet; send/receive/zap                | NIP‑60/61 ([nips.nostr.com](https://nips.nostr.com/60?utm_source=chatgpt.com))        |
+| F‑6 | **Panic Mode**             | Two‑tap wipe of keys, messages, wallet data                  | See §6 Security                                                                       |
+| F‑7 | **Off‑ramp**               | Export key & relay list for other Nostr clients              |                                                                                       |
+| F‑8 | **Anti‑spam**              | Rate‑limits, proof‑of‑work, admin moderation tools           |                                                                                       |
+
+Deferred (stretch): multisig group treasury, open Q\&A matching, domain‑based groups.
+
+---
+
+## 5 User Journeys
+
+### 5.1 Onboarding & Contact Creation (Day‑0)
+
+1. Attendee scans lobby poster QR ➜ PWA opens.
+2. Welcome splash explains purpose *in plain language*; tap **Start**.
+3. App autogenerates keypair, pseudonym (e.g., “Rambunctious Sloth”), and Cashu wallet.
+4. User optionally edits display name & tags (#disability, #climate…) and taps **Done**.
+5. Home screen shows **Public Square** + prompt to *“Join or create a group”*.
+
+### 5.2 Secure Contact Exchange
+
+* In person: each phone shows rotating QR of their Contact Card; scanning adds to Rolodex.
+* Remote: share short ‘holis.social/@alias’ link.
+* Contacts searchable offline; notes private‑only.
+
+### 5.3 Private Group Flow
+
+* Create ➜ set name & description ➜ get invite link/QR ➜ members join ➜ chat (kind:4) appears.
+* Admins can pin **Donate** button tied to group wallet.
+
+### 5.4 Panic Mode
+
+* **Danger Zone** in Settings ➜ *“Nuke everything”* ➜ confirm ➜ secure erase; app returns to welcome.
+
+---
+
+## 6 Security & Privacy Requirements
+
+| Concern               | Requirement                                         | Rationale                                                                                                                                                    |
+| --------------------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Metadata minimization | Store only relay URLs & npub locally; no central DB | Activist concerns (Eichenmüller 2025) ([journals.sagepub.com](https://journals.sagepub.com/doi/pdf/10.1177/2053951720985557?utm_source=chatgpt.com))         |
+| Location safety       | Allow delayed send + local‑only drafts              | Ambush prevention (Eichenmüller 2025) ([journals.sagepub.com](https://journals.sagepub.com/doi/pdf/10.1177/2053951720985557?utm_source=chatgpt.com))         |
+| E2E indicator         | Persistent lock icon & key‑rollover animation       | Visibility improves trust (Eichenmüller 2025) ([journals.sagepub.com](https://journals.sagepub.com/doi/pdf/10.1177/2053951720985557?utm_source=chatgpt.com)) |
+| Rapid data burn       | Panic Mode wipes IndexedDB, LocalStorage, Cache     | “Anticipatory data practices” ([journals.sagepub.com](https://journals.sagepub.com/doi/pdf/10.1177/2053951720985557?utm_source=chatgpt.com))                 |
+| Abuse mitigation      | Inline flag/report ➜ mod queue                      | Platform violence data (El‑Masri 2024) ([journals.sagepub.com](https://journals.sagepub.com/doi/pdf/10.1177/14614448241248372?utm_source=chatgpt.com))       |
+
+---
+
+## 7 Technical Architecture
+
+* **Frontend**: React 18 + Vite, TailwindCSS 3 ([blog.rsroshi.dev](https://blog.rsroshi.dev/why-tailwind-in-2025-the-best-css-framework-for-modern-web-development/?utm_source=chatgpt.com))
+* **PWA layer**: Service‑worker caching; offline‑ready (Flexxited guide) ([flexxited.com](https://flexxited.com/blog/the-ultimate-guide-to-progressive-web-apps-pwas-in-2025-benefits-and-best?utm_source=chatgpt.com))
+* **Cryptography**: nostr‑tools for keys; secp256k1 wasm.
+* **Cashu**: `cashu-ts` SDK for wallet ops ([github.com](https://github.com/cashubtc/cashu-ts?utm_source=chatgpt.com)); mints configured via NIP‑60 tags.
+* **Backend**: Custom relay for group & media; Deno deploy.
+* **CI/CD**: GitHub Actions ➜ Vercel preview ➜ production.
+
+---
+
+## 8 Assumptions & Constraints
+
+* Team of 5 devs + 2 designers; 40 hrs total.
+* Conference Wi‑Fi may be unreliable ➜ offline‑first.
+* No native app stores; rely on PWA install.
+
+---
+
+## 9 Milestones & Timeline (7‑day Sprint)
+
+| Day | Deliverable                                 |
+| --- | ------------------------------------------- |
+| 1   | Project kickoff, agree scope, scaffold repo |
+| 2   | Auth & key mgmt, basic UI shell             |
+| 3   | Contact Card + Rolodex                      |
+| 4   | Private Groups + chat                       |
+| 5   | Cashu wallet integration                    |
+| 6   | Panic Mode, QA, accessibility pass          |
+| 7   | Load‑test, deploy, prepare OFF demo         |
+
+---
+
+## 10 Open Questions
+
+1. Do we default wallet visibility to **private** or **public**?
+2. Should group zaps be multisig from the start?
+3. PoW vs. stake‑based anti‑spam?
+4. Final decision: React or Svelte?
+
+---
+
+## 11 Equipment & Resources Needed
+
+Whiteboards & markers • Post‑its • Plug converters (EU) • Coffee & alcohol‑free beer • Mini projectors • Breakfast supplies (eggs, OJ).
+
+---
+
+## 12 Appendices
+
+* **A** — Standards in scope: NIP‑04, NIP‑19, NIP‑29, NIP‑51, NIP‑60/61.
+* **B** — External references:
+
+  1. PRD best‑practice templates (ChiselLabs 2025) ([chisellabs.com](https://chisellabs.com/blog/product-requirement-document-prd-templates/?utm_source=chatgpt.com))
+  2. OFF Freedom Tech track details ([oslofreedomforum.com](https://oslofreedomforum.com/event/oslo-freedom-forum-2025/freedomtech/?utm_source=chatgpt.com))
+  3. Remaining citations embedded inline above.
+
+---
+
+© 2025 Verse / holis.social – draft v0.1

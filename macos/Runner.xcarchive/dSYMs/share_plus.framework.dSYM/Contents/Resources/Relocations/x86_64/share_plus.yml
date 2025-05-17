@@ -1,0 +1,57 @@
+---
+triple:          'x86_64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-dmkivrvaixlwqxexxmsfkbejednj/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/macosx/share_plus.framework/Versions/A/share_plus'
+relocations:
+  - { offset: 0xCEC6F, size: 0x8, addend: 0x0, symName: _share_plusVersionString, symObjAddr: 0x0, symBinAddr: 0x77D0, symSize: 0x0 }
+  - { offset: 0xCECA4, size: 0x8, addend: 0x0, symName: _share_plusVersionNumber, symObjAddr: 0x28, symBinAddr: 0x77F8, symSize: 0x0 }
+  - { offset: 0xCF121, size: 0x8, addend: 0x0, symName: '_$syXlSgIeyBy_ypSgIegn_TR', symObjAddr: 0x960, symBinAddr: 0x2D50, symSize: 0xB0 }
+  - { offset: 0xCF135, size: 0x8, addend: 0x0, symName: '_$sIeg_IeyB_TR', symObjAddr: 0xAC0, symBinAddr: 0x2EB0, symSize: 0x30 }
+  - { offset: 0xCF163, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginCfETo', symObjAddr: 0xB90, symBinAddr: 0x2F80, symSize: 0x30 }
+  - { offset: 0xCF2A7, size: 0x8, addend: 0x0, symName: '_$s10share_plus29SharePlusMacosSuccessDelegateCfETo', symObjAddr: 0xDB0, symBinAddr: 0x31A0, symSize: 0x50 }
+  - { offset: 0xCF2E1, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4findys10_HashTableV6BucketV6bucket_Sb5foundtxSHRzlFSS_Tg5', symObjAddr: 0xE00, symBinAddr: 0x31F0, symSize: 0x60 }
+  - { offset: 0xCF319, size: 0x8, addend: 0x0, symName: '_$ss22__RawDictionaryStorageC4find_9hashValues10_HashTableV6BucketV6bucket_Sb5foundtx_SitSHRzlFSS_Tg5', symObjAddr: 0xE60, symBinAddr: 0x3250, symSize: 0xE0 }
+  - { offset: 0xCF381, size: 0x8, addend: 0x0, symName: '_$ss15ContiguousArrayV16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFyp_Tg5', symObjAddr: 0xF40, symBinAddr: 0x3330, symSize: 0x20 }
+  - { offset: 0xCF399, size: 0x8, addend: 0x0, symName: '_$ss15ContiguousArrayV16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtF10Foundation3URLV_Tg5', symObjAddr: 0xF60, symBinAddr: 0x3350, symSize: 0x20 }
+  - { offset: 0xCF3FE, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFyp_Tg5', symObjAddr: 0xF80, symBinAddr: 0x3370, symSize: 0x110 }
+  - { offset: 0xCF54D, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtF10Foundation3URLV_Tg5', symObjAddr: 0x1090, symBinAddr: 0x3480, symSize: 0x1A0 }
+  - { offset: 0xCF67B, size: 0x8, addend: 0x0, symName: '_$sypWOb', symObjAddr: 0x1350, symBinAddr: 0x3740, symSize: 0x20 }
+  - { offset: 0xCF68F, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledName, symObjAddr: 0x1370, symBinAddr: 0x3760, symSize: 0x40 }
+  - { offset: 0xCF6A3, size: 0x8, addend: 0x0, symName: '_$sypSgWOh', symObjAddr: 0x1660, symBinAddr: 0x3A50, symSize: 0x30 }
+  - { offset: 0xCF6B7, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x1920, symBinAddr: 0x3D10, symSize: 0x30 }
+  - { offset: 0xCF6CB, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginCMa', symObjAddr: 0x1950, symBinAddr: 0x3D40, symSize: 0x20 }
+  - { offset: 0xCF6DF, size: 0x8, addend: 0x0, symName: '_$s10share_plus29SharePlusMacosSuccessDelegateCMa', symObjAddr: 0x19D0, symBinAddr: 0x3DC0, symSize: 0x20 }
+  - { offset: 0xCF6FE, size: 0x8, addend: 0x0, symName: '_$sIeg_SgWOe', symObjAddr: 0x2300, symBinAddr: 0x46F0, symSize: 0x20 }
+  - { offset: 0xCF712, size: 0x8, addend: 0x0, symName: '_$syXlSgIeyBy_ypSgIegn_TRTA', symObjAddr: 0x2340, symBinAddr: 0x4730, symSize: 0x10 }
+  - { offset: 0xCF726, size: 0x8, addend: 0x0, symName: '_$sypSgWOc', symObjAddr: 0x2350, symBinAddr: 0x4740, symSize: 0x40 }
+  - { offset: 0xCF73A, size: 0x8, addend: 0x0, symName: ___swift_project_boxed_opaque_existential_0, symObjAddr: 0x2390, symBinAddr: 0x4780, symSize: 0x30 }
+  - { offset: 0xCF74E, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_0, symObjAddr: 0x23C0, symBinAddr: 0x47B0, symSize: 0x30 }
+  - { offset: 0xCF762, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC0A5Items33_878151ABD03943A16A3458DA188B3E29LL_7subject6origin4view8callbackySayypG_SSSgSo6CGRectVSo6NSViewCyypSgctFyyScMYccfU_TA', symObjAddr: 0x2460, symBinAddr: 0x4850, symSize: 0x220 }
+  - { offset: 0xCF82E, size: 0x8, addend: 0x0, symName: _block_copy_helper, symObjAddr: 0x2680, symBinAddr: 0x4A70, symSize: 0x20 }
+  - { offset: 0xCF842, size: 0x8, addend: 0x0, symName: _block_destroy_helper, symObjAddr: 0x26A0, symBinAddr: 0x4A90, symSize: 0x10 }
+  - { offset: 0xCF856, size: 0x8, addend: 0x0, symName: '_$sSay8Dispatch0A13WorkItemFlagsVGMa', symObjAddr: 0x26E0, symBinAddr: 0x4AD0, symSize: 0x50 }
+  - { offset: 0xCF86A, size: 0x8, addend: 0x0, symName: '_$s10share_plus29SharePlusMacosSuccessDelegateC4keepACXDyFyycfU_TA', symObjAddr: 0x2760, symBinAddr: 0x4B50, symSize: 0x10 }
+  - { offset: 0xCF87E, size: 0x8, addend: 0x0, symName: '_$sSo6CGRectVwCP', symObjAddr: 0x2770, symBinAddr: 0x4B60, symSize: 0x30 }
+  - { offset: 0xCF892, size: 0x8, addend: 0x0, symName: ___swift_noop_void_return, symObjAddr: 0x27A0, symBinAddr: 0x4B90, symSize: 0x10 }
+  - { offset: 0xCF8A6, size: 0x8, addend: 0x0, symName: ___swift_memcpy32_8, symObjAddr: 0x27B0, symBinAddr: 0x4BA0, symSize: 0x20 }
+  - { offset: 0xCF8BA, size: 0x8, addend: 0x0, symName: '_$sSo6CGRectVwet', symObjAddr: 0x27D0, symBinAddr: 0x4BC0, symSize: 0x20 }
+  - { offset: 0xCF8CE, size: 0x8, addend: 0x0, symName: '_$sSo6CGRectVwst', symObjAddr: 0x27F0, symBinAddr: 0x4BE0, symSize: 0x30 }
+  - { offset: 0xCF8E2, size: 0x8, addend: 0x0, symName: ___swift_memcpy16_8, symObjAddr: 0x2840, symBinAddr: 0x4C30, symSize: 0x10 }
+  - { offset: 0xCF8F6, size: 0x8, addend: 0x0, symName: '_$sSo6CGSizeVwet', symObjAddr: 0x2850, symBinAddr: 0x4C40, symSize: 0x20 }
+  - { offset: 0xCF90A, size: 0x8, addend: 0x0, symName: '_$sSo6CGSizeVwst', symObjAddr: 0x2870, symBinAddr: 0x4C60, symSize: 0x30 }
+  - { offset: 0xCF9AA, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZ', symObjAddr: 0x0, symBinAddr: 0x23F0, symSize: 0x10 }
+  - { offset: 0xCF9CB, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZTo', symObjAddr: 0x10, symBinAddr: 0x2400, symSize: 0x30 }
+  - { offset: 0xCFACE, size: 0x8, addend: 0x0, symName: '_$ss15_arrayForceCastySayq_GSayxGr0_lF10Foundation3URLV_ypTg5', symObjAddr: 0x760, symBinAddr: 0x2B50, symSize: 0x180 }
+  - { offset: 0xCFDF2, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF', symObjAddr: 0x40, symBinAddr: 0x2430, symSize: 0x720 }
+  - { offset: 0xD0233, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctFTo', symObjAddr: 0x8E0, symBinAddr: 0x2CD0, symSize: 0x80 }
+  - { offset: 0xD0271, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC20sharingServicePicker_11delegateForSo09NSSharingH8Delegate_pSgSo0lhI0C_So0lH0CtF', symObjAddr: 0xA10, symBinAddr: 0x2E00, symSize: 0x90 }
+  - { offset: 0xD02C6, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginCACycfC', symObjAddr: 0xAF0, symBinAddr: 0x2EE0, symSize: 0x20 }
+  - { offset: 0xD02DA, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginCACycfc', symObjAddr: 0xB10, symBinAddr: 0x2F00, symSize: 0x30 }
+  - { offset: 0xD0333, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginCACycfcTo', symObjAddr: 0xB40, symBinAddr: 0x2F30, symSize: 0x30 }
+  - { offset: 0xD038F, size: 0x8, addend: 0x0, symName: '_$s10share_plus29SharePlusMacosSuccessDelegateC20sharingServicePicker_9didChooseySo09NSSharingiJ0C_So0mI0CSgtFTo', symObjAddr: 0xCC0, symBinAddr: 0x30B0, symSize: 0x70 }
+  - { offset: 0xD03D2, size: 0x8, addend: 0x0, symName: '_$s10share_plus29SharePlusMacosSuccessDelegateCACycfcTo', symObjAddr: 0xD30, symBinAddr: 0x3120, symSize: 0x30 }
+  - { offset: 0xD0475, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC8register4withySo07FlutterF9Registrar_p_tFZTf4nd_n', symObjAddr: 0x1230, symBinAddr: 0x3620, symSize: 0x120 }
+  - { offset: 0xD050B, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC10originRect33_878151ABD03943A16A3458DA188B3E29LLySo6CGRectVSDySSypGFTf4nd_n', symObjAddr: 0x13B0, symBinAddr: 0x37A0, symSize: 0x2B0 }
+  - { offset: 0xD0616, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC0A5Items33_878151ABD03943A16A3458DA188B3E29LL_7subject6origin4view8callbackySayypG_SSSgSo6CGRectVSo6NSViewCyypSgctFTf4nnnnnd_n', symObjAddr: 0x1690, symBinAddr: 0x3A80, symSize: 0x290 }
+  - { offset: 0xD06A5, size: 0x8, addend: 0x0, symName: '_$s10share_plus20SharePlusMacosPluginC6handle_6resultySo17FlutterMethodCallC_yypSgctF015$syXlSgIeyBy_ypN7Iegn_TRyXlSgIeyBy_Tf1ncn_nTf4nng_n', symObjAddr: 0x19F0, symBinAddr: 0x3DE0, symSize: 0x830 }
+  - { offset: 0xD0AE4, size: 0x8, addend: 0x0, symName: '_$s10share_plus29SharePlusMacosSuccessDelegateC20sharingServicePicker_9didChooseySo09NSSharingiJ0C_So0mI0CSgtFTf4dnn_n', symObjAddr: 0x2220, symBinAddr: 0x4610, symSize: 0xE0 }
+...

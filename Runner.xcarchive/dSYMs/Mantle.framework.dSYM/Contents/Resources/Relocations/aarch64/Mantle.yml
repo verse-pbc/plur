@@ -1,0 +1,217 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/rabble/Library/Developer/Xcode/DerivedData/Runner-duexvrxrzpwwbzcrvbiasdghqknl/Build/Intermediates.noindex/ArchiveIntermediates/Runner/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/Mantle.framework/Mantle'
+relocations:
+  - { offset: 0x33, size: 0x8, addend: 0x0, symName: _MantleVersionString, symObjAddr: 0x0, symBinAddr: 0x102C0, symSize: 0x0 }
+  - { offset: 0x67, size: 0x8, addend: 0x0, symName: _MantleVersionNumber, symObjAddr: 0x28, symBinAddr: 0x102E8, symSize: 0x0 }
+  - { offset: 0xA3, size: 0x8, addend: 0x0, symName: _mtl_injectMethods, symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x170 }
+  - { offset: 0x18F, size: 0x8, addend: 0x0, symName: _specialProtocolsLock, symObjAddr: 0x1A70, symBinAddr: 0x193F0, symSize: 0x0 }
+  - { offset: 0x20E, size: 0x8, addend: 0x0, symName: _specialProtocolCount, symObjAddr: 0x9E50, symBinAddr: 0x19690, symSize: 0x0 }
+  - { offset: 0x242, size: 0x8, addend: 0x0, symName: _specialProtocolCapacity, symObjAddr: 0x9E58, symBinAddr: 0x19698, symSize: 0x0 }
+  - { offset: 0x257, size: 0x8, addend: 0x0, symName: _specialProtocols, symObjAddr: 0x9E60, symBinAddr: 0x196A0, symSize: 0x0 }
+  - { offset: 0x2BD, size: 0x8, addend: 0x0, symName: _specialProtocolsReady, symObjAddr: 0x9E68, symBinAddr: 0x196A8, symSize: 0x0 }
+  - { offset: 0x36E, size: 0x8, addend: 0x0, symName: _mtl_injectMethods, symObjAddr: 0x0, symBinAddr: 0x4000, symSize: 0x170 }
+  - { offset: 0x63D, size: 0x8, addend: 0x0, symName: _mtl_injectMethodsFromClass, symObjAddr: 0x170, symBinAddr: 0x4170, symSize: 0xCC }
+  - { offset: 0x7E7, size: 0x8, addend: 0x0, symName: _mtl_classBeforeSuperclass, symObjAddr: 0x23C, symBinAddr: 0x423C, symSize: 0x5C }
+  - { offset: 0x846, size: 0x8, addend: 0x0, symName: _mtl_copyClassList, symObjAddr: 0x298, symBinAddr: 0x4298, symSize: 0x148 }
+  - { offset: 0x98F, size: 0x8, addend: 0x0, symName: _mtl_addMethods, symObjAddr: 0x3E0, symBinAddr: 0x43E0, symSize: 0x10 }
+  - { offset: 0xA2C, size: 0x8, addend: 0x0, symName: _mtl_addMethodsFromClass, symObjAddr: 0x3F0, symBinAddr: 0x43F0, symSize: 0x10 }
+  - { offset: 0xAB4, size: 0x8, addend: 0x0, symName: _mtl_classIsKindOfClass, symObjAddr: 0x400, symBinAddr: 0x4400, symSize: 0x4C }
+  - { offset: 0xAFC, size: 0x8, addend: 0x0, symName: _mtl_copyClassListConformingToProtocol, symObjAddr: 0x44C, symBinAddr: 0x444C, symSize: 0xC4 }
+  - { offset: 0xC10, size: 0x8, addend: 0x0, symName: _mtl_copyPropertyAttributes, symObjAddr: 0x510, symBinAddr: 0x4510, symSize: 0x530 }
+  - { offset: 0x116D, size: 0x8, addend: 0x0, symName: _mtl_copySubclassList, symObjAddr: 0xA40, symBinAddr: 0x4A40, symSize: 0x12C }
+  - { offset: 0x12E2, size: 0x8, addend: 0x0, symName: _mtl_getImmediateInstanceMethod, symObjAddr: 0xB6C, symBinAddr: 0x4B6C, symSize: 0x80 }
+  - { offset: 0x13A7, size: 0x8, addend: 0x0, symName: _mtl_getPropertyAccessorsForClass, symObjAddr: 0xBEC, symBinAddr: 0x4BEC, symSize: 0x98 }
+  - { offset: 0x14C4, size: 0x8, addend: 0x0, symName: _mtl_loadSpecialProtocol, symObjAddr: 0xC84, symBinAddr: 0x4C84, symSize: 0x15C }
+  - { offset: 0x157A, size: 0x8, addend: 0x0, symName: _mtl_specialProtocolReadyForInjection, symObjAddr: 0xDE0, symBinAddr: 0x4DE0, symSize: 0x278 }
+  - { offset: 0x15C3, size: 0x8, addend: 0x0, symName: _mtl_loadSpecialProtocol.cold.1, symObjAddr: 0x149C, symBinAddr: 0xE72C, symSize: 0x28 }
+  - { offset: 0x16AA, size: 0x8, addend: 0x0, symName: _mtl_specialProtocolReadyForInjection, symObjAddr: 0xDE0, symBinAddr: 0x4DE0, symSize: 0x278 }
+  - { offset: 0x1834, size: 0x8, addend: 0x0, symName: _mtl_removeMethod, symObjAddr: 0x1058, symBinAddr: 0x5058, symSize: 0x90 }
+  - { offset: 0x18CB, size: 0x8, addend: 0x0, symName: _mtl_specialProtocolReadyForInjection.cold.1, symObjAddr: 0x14C4, symBinAddr: 0xE754, symSize: 0x28 }
+  - { offset: 0x18E2, size: 0x8, addend: 0x0, symName: _mtl_removeMethod, symObjAddr: 0x1058, symBinAddr: 0x5058, symSize: 0x90 }
+  - { offset: 0x1A1C, size: 0x8, addend: 0x0, symName: _mtl_replaceMethods, symObjAddr: 0x10E8, symBinAddr: 0x50E8, symSize: 0xC }
+  - { offset: 0x1A8A, size: 0x8, addend: 0x0, symName: _mtl_replaceMethodsFromClass, symObjAddr: 0x10F4, symBinAddr: 0x50F4, symSize: 0xC }
+  - { offset: 0x1AE3, size: 0x8, addend: 0x0, symName: _mtl_stringFromTypedBytes, symObjAddr: 0x1100, symBinAddr: 0x5100, symSize: 0x2CC }
+  - { offset: 0x1B5A, size: 0x8, addend: 0x0, symName: ___mtl_injectSpecialProtocols_block_invoke, symObjAddr: 0x13CC, symBinAddr: 0x53CC, symSize: 0x44 }
+  - { offset: 0x1BA0, size: 0x8, addend: 0x0, symName: ___mtl_injectSpecialProtocols_block_invoke, symObjAddr: 0x13CC, symBinAddr: 0x53CC, symSize: 0x44 }
+  - { offset: 0x1BF9, size: 0x8, addend: 0x0, symName: ___mtl_injectSpecialProtocols_block_invoke_2, symObjAddr: 0x1410, symBinAddr: 0x5410, symSize: 0x8C }
+  - { offset: 0x1FC3, size: 0x8, addend: 0x0, symName: _mtl_executeCleanupBlock, symObjAddr: 0x0, symBinAddr: 0x549C, symSize: 0xC }
+  - { offset: 0x1FD0, size: 0x8, addend: 0x0, symName: _mtl_executeCleanupBlock, symObjAddr: 0x0, symBinAddr: 0x549C, symSize: 0xC }
+  - { offset: 0x20AE, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]', symObjAddr: 0x0, symBinAddr: 0x54A8, symSize: 0x78 }
+  - { offset: 0x20C7, size: 0x8, addend: 0x0, symName: _MTLJSONAdapterErrorDomain, symObjAddr: 0x3A60, symBinAddr: 0x14300, symSize: 0x0 }
+  - { offset: 0x2176, size: 0x8, addend: 0x0, symName: _MTLJSONAdapterErrorNoClassFound, symObjAddr: 0x3B50, symBinAddr: 0x10350, symSize: 0x0 }
+  - { offset: 0x21E2, size: 0x8, addend: 0x0, symName: _MTLJSONAdapterErrorInvalidJSONDictionary, symObjAddr: 0x3B58, symBinAddr: 0x10358, symSize: 0x0 }
+  - { offset: 0x21F7, size: 0x8, addend: 0x0, symName: _MTLJSONAdapterErrorInvalidJSONMapping, symObjAddr: 0x3B60, symBinAddr: 0x10360, symSize: 0x0 }
+  - { offset: 0x220C, size: 0x8, addend: 0x0, symName: _MTLJSONAdapterErrorExceptionThrown, symObjAddr: 0x3B68, symBinAddr: 0x10368, symSize: 0x0 }
+  - { offset: 0x2221, size: 0x8, addend: 0x0, symName: _MTLJSONAdapterThrownExceptionErrorKey, symObjAddr: 0x3A68, symBinAddr: 0x14308, symSize: 0x0 }
+  - { offset: 0x233A, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter modelOfClass:fromJSONDictionary:error:]', symObjAddr: 0x0, symBinAddr: 0x54A8, symSize: 0x78 }
+  - { offset: 0x23AA, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter modelsOfClass:fromJSONArray:error:]', symObjAddr: 0x78, symBinAddr: 0x5520, symSize: 0x32C }
+  - { offset: 0x2487, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter JSONDictionaryFromModel:error:]', symObjAddr: 0x3A4, symBinAddr: 0x584C, symSize: 0x84 }
+  - { offset: 0x24E8, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter JSONArrayFromModels:error:]', symObjAddr: 0x428, symBinAddr: 0x58D0, symSize: 0x190 }
+  - { offset: 0x2573, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter init]', symObjAddr: 0x5B8, symBinAddr: 0x5A60, symSize: 0x18 }
+  - { offset: 0x25A7, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter initWithModelClass:]', symObjAddr: 0x5D0, symBinAddr: 0x5A78, symSize: 0x324 }
+  - { offset: 0x2638, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter JSONDictionaryFromModel:error:]', symObjAddr: 0x8F4, symBinAddr: 0x5D9C, symSize: 0x2D4 }
+  - { offset: 0x26FC, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0xBC8, symBinAddr: 0x6070, symSize: 0x10 }
+  - { offset: 0x271E, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0xBD8, symBinAddr: 0x6080, symSize: 0x8 }
+  - { offset: 0x273B, size: 0x8, addend: 0x0, symName: '___48-[MTLJSONAdapter JSONDictionaryFromModel:error:]_block_invoke', symObjAddr: 0xBE0, symBinAddr: 0x6088, symSize: 0x35C }
+  - { offset: 0x2868, size: 0x8, addend: 0x0, symName: '___48-[MTLJSONAdapter JSONDictionaryFromModel:error:]_block_invoke_2', symObjAddr: 0xF3C, symBinAddr: 0x63E4, symSize: 0x198 }
+  - { offset: 0x28E5, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48r56r, symObjAddr: 0x10D4, symBinAddr: 0x657C, symSize: 0x4C }
+  - { offset: 0x290B, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48r56r, symObjAddr: 0x1120, symBinAddr: 0x65C8, symSize: 0x40 }
+  - { offset: 0x2928, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter modelFromJSONDictionary:error:]', symObjAddr: 0x1160, symBinAddr: 0x6608, symSize: 0x98C }
+  - { offset: 0x2B2E, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter valueTransformersForModelClass:]', symObjAddr: 0x1AEC, symBinAddr: 0x6F94, symSize: 0x394 }
+  - { offset: 0x2DB6, size: 0x8, addend: 0x0, symName: '___49+[MTLJSONAdapter valueTransformersForModelClass:]_block_invoke', symObjAddr: 0x1E80, symBinAddr: 0x7328, symSize: 0x8 }
+  - { offset: 0x2E0B, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter JSONAdapterForModelClass:error:]', symObjAddr: 0x1E88, symBinAddr: 0x7330, symSize: 0xE0 }
+  - { offset: 0x2E72, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter serializablePropertyKeys:forModel:]', symObjAddr: 0x1F68, symBinAddr: 0x7410, symSize: 0x18 }
+  - { offset: 0x2EBF, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter transformerForModelPropertiesOfClass:]', symObjAddr: 0x1F80, symBinAddr: 0x7428, symSize: 0x8C }
+  - { offset: 0x2F7E, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter transformerForModelPropertiesOfObjCType:]', symObjAddr: 0x200C, symBinAddr: 0x74B4, symSize: 0x4C }
+  - { offset: 0x2FF1, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter modelClass]', symObjAddr: 0x2058, symBinAddr: 0x7500, symSize: 0x8 }
+  - { offset: 0x3025, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter JSONKeyPathsByPropertyKey]', symObjAddr: 0x2060, symBinAddr: 0x7508, symSize: 0x8 }
+  - { offset: 0x3059, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter valueTransformersByPropertyKey]', symObjAddr: 0x2068, symBinAddr: 0x7510, symSize: 0x8 }
+  - { offset: 0x308D, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter JSONAdaptersByModelClass]', symObjAddr: 0x2070, symBinAddr: 0x7518, symSize: 0x8 }
+  - { offset: 0x30C1, size: 0x8, addend: 0x0, symName: '-[MTLJSONAdapter .cxx_destruct]', symObjAddr: 0x2078, symBinAddr: 0x7520, symSize: 0x48 }
+  - { offset: 0x30F1, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter(ValueTransformers) dictionaryTransformerWithModelClass:]', symObjAddr: 0x20C0, symBinAddr: 0x7568, symSize: 0xF8 }
+  - { offset: 0x314A, size: 0x8, addend: 0x0, symName: '___73+[MTLJSONAdapter(ValueTransformers) dictionaryTransformerWithModelClass:]_block_invoke', symObjAddr: 0x21B8, symBinAddr: 0x7660, symSize: 0x280 }
+  - { offset: 0x3219, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32r, symObjAddr: 0x2438, symBinAddr: 0x78E0, symSize: 0x10 }
+  - { offset: 0x323F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32r, symObjAddr: 0x2448, symBinAddr: 0x78F0, symSize: 0xC }
+  - { offset: 0x325C, size: 0x8, addend: 0x0, symName: '___73+[MTLJSONAdapter(ValueTransformers) dictionaryTransformerWithModelClass:]_block_invoke.160', symObjAddr: 0x2454, symBinAddr: 0x78FC, symSize: 0x290 }
+  - { offset: 0x332B, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter(ValueTransformers) arrayTransformerWithModelClass:]', symObjAddr: 0x26E4, symBinAddr: 0x7B8C, symSize: 0xD0 }
+  - { offset: 0x3380, size: 0x8, addend: 0x0, symName: '___68+[MTLJSONAdapter(ValueTransformers) arrayTransformerWithModelClass:]_block_invoke', symObjAddr: 0x27B4, symBinAddr: 0x7C5C, symSize: 0x518 }
+  - { offset: 0x3475, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s, symObjAddr: 0x2CCC, symBinAddr: 0x8174, symSize: 0x8 }
+  - { offset: 0x3499, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s, symObjAddr: 0x2CD4, symBinAddr: 0x817C, symSize: 0x8 }
+  - { offset: 0x34B6, size: 0x8, addend: 0x0, symName: '___68+[MTLJSONAdapter(ValueTransformers) arrayTransformerWithModelClass:]_block_invoke.174', symObjAddr: 0x2CDC, symBinAddr: 0x8184, symSize: 0x510 }
+  - { offset: 0x35AB, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter(ValueTransformers) NSURLJSONTransformer]', symObjAddr: 0x31EC, symBinAddr: 0x8694, symSize: 0x18 }
+  - { offset: 0x35DC, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter(ValueTransformers) NSUUIDJSONTransformer]', symObjAddr: 0x3204, symBinAddr: 0x86AC, symSize: 0x18 }
+  - { offset: 0x360D, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter(Deprecated) JSONArrayFromModels:]', symObjAddr: 0x321C, symBinAddr: 0x86C4, symSize: 0x8 }
+  - { offset: 0x364E, size: 0x8, addend: 0x0, symName: '+[MTLJSONAdapter(Deprecated) JSONDictionaryFromModel:]', symObjAddr: 0x3224, symBinAddr: 0x86CC, symSize: 0x8 }
+  - { offset: 0x3D0C, size: 0x8, addend: 0x0, symName: '+[MTLModel generateAndCacheStorageBehaviors]', symObjAddr: 0x0, symBinAddr: 0x86D4, symSize: 0x1A0 }
+  - { offset: 0x3D33, size: 0x8, addend: 0x0, symName: _MTLModelCachedTransitoryPropertyKeysKey, symObjAddr: 0x12D0, symBinAddr: 0x195B0, symSize: 0x0 }
+  - { offset: 0x3D49, size: 0x8, addend: 0x0, symName: _MTLModelCachedPermanentPropertyKeysKey, symObjAddr: 0x12D8, symBinAddr: 0x195B8, symSize: 0x0 }
+  - { offset: 0x3D5E, size: 0x8, addend: 0x0, symName: _MTLModelCachedPropertyKeysKey, symObjAddr: 0x12E0, symBinAddr: 0x195C0, symSize: 0x0 }
+  - { offset: 0x3E59, size: 0x8, addend: 0x0, symName: '+[MTLModel generateAndCacheStorageBehaviors]', symObjAddr: 0x0, symBinAddr: 0x86D4, symSize: 0x1A0 }
+  - { offset: 0x3F21, size: 0x8, addend: 0x0, symName: '+[MTLModel modelWithDictionary:error:]', symObjAddr: 0x1A0, symBinAddr: 0x8874, symSize: 0x58 }
+  - { offset: 0x3F73, size: 0x8, addend: 0x0, symName: '-[MTLModel init]', symObjAddr: 0x1F8, symBinAddr: 0x88CC, symSize: 0x34 }
+  - { offset: 0x3FA7, size: 0x8, addend: 0x0, symName: '-[MTLModel initWithDictionary:error:]', symObjAddr: 0x22C, symBinAddr: 0x8900, symSize: 0x1C8 }
+  - { offset: 0x405C, size: 0x8, addend: 0x0, symName: _MTLValidateAndSetValue, symObjAddr: 0x3F4, symBinAddr: 0x8AC8, symSize: 0x134 }
+  - { offset: 0x4177, size: 0x8, addend: 0x0, symName: '+[MTLModel enumeratePropertiesUsingBlock:]', symObjAddr: 0x528, symBinAddr: 0x8BFC, symSize: 0x140 }
+  - { offset: 0x4293, size: 0x8, addend: 0x0, symName: '___42+[MTLModel enumeratePropertiesUsingBlock:]_block_invoke', symObjAddr: 0x668, symBinAddr: 0x8D3C, symSize: 0x8 }
+  - { offset: 0x42E5, size: 0x8, addend: 0x0, symName: '+[MTLModel propertyKeys]', symObjAddr: 0x670, symBinAddr: 0x8D44, symSize: 0xDC }
+  - { offset: 0x4384, size: 0x8, addend: 0x0, symName: '___24+[MTLModel propertyKeys]_block_invoke', symObjAddr: 0x74C, symBinAddr: 0x8E20, symSize: 0x64 }
+  - { offset: 0x4438, size: 0x8, addend: 0x0, symName: '+[MTLModel transitoryPropertyKeys]', symObjAddr: 0x7C0, symBinAddr: 0x8E84, symSize: 0x50 }
+  - { offset: 0x44A4, size: 0x8, addend: 0x0, symName: '+[MTLModel permanentPropertyKeys]', symObjAddr: 0x810, symBinAddr: 0x8ED4, symSize: 0x50 }
+  - { offset: 0x4510, size: 0x8, addend: 0x0, symName: '-[MTLModel dictionaryValue]', symObjAddr: 0x860, symBinAddr: 0x8F24, symSize: 0xB8 }
+  - { offset: 0x4553, size: 0x8, addend: 0x0, symName: '+[MTLModel storageBehaviorForPropertyWithKey:]', symObjAddr: 0x918, symBinAddr: 0x8FDC, symSize: 0x170 }
+  - { offset: 0x46E1, size: 0x8, addend: 0x0, symName: '___46+[MTLModel storageBehaviorForPropertyWithKey:]_block_invoke', symObjAddr: 0xA88, symBinAddr: 0x914C, symSize: 0x8 }
+  - { offset: 0x4727, size: 0x8, addend: 0x0, symName: '-[MTLModel mergeValueForKey:fromModel:]', symObjAddr: 0xA90, symBinAddr: 0x9154, symSize: 0xD0 }
+  - { offset: 0x47F3, size: 0x8, addend: 0x0, symName: '-[MTLModel mergeValuesForKeysFromModel:]', symObjAddr: 0xB60, symBinAddr: 0x9224, symSize: 0x158 }
+  - { offset: 0x485B, size: 0x8, addend: 0x0, symName: '-[MTLModel validate:]', symObjAddr: 0xCB8, symBinAddr: 0x937C, symSize: 0x158 }
+  - { offset: 0x4903, size: 0x8, addend: 0x0, symName: '-[MTLModel copyWithZone:]', symObjAddr: 0xE10, symBinAddr: 0x94D4, symSize: 0x60 }
+  - { offset: 0x4958, size: 0x8, addend: 0x0, symName: '-[MTLModel description]', symObjAddr: 0xE70, symBinAddr: 0x9534, symSize: 0xB8 }
+  - { offset: 0x499E, size: 0x8, addend: 0x0, symName: '-[MTLModel hash]', symObjAddr: 0xF28, symBinAddr: 0x95EC, symSize: 0x130 }
+  - { offset: 0x49FA, size: 0x8, addend: 0x0, symName: '-[MTLModel isEqual:]', symObjAddr: 0x1058, symBinAddr: 0x971C, symSize: 0x1B8 }
+  - { offset: 0x4D6E, size: 0x8, addend: 0x0, symName: '+[MTLModel(NSCoding) modelVersion]', symObjAddr: 0x0, symBinAddr: 0x98D4, symSize: 0x8 }
+  - { offset: 0x4E2F, size: 0x8, addend: 0x0, symName: _MTLModelCachedAllowedClassesKey, symObjAddr: 0x1420, symBinAddr: 0x195C8, symSize: 0x0 }
+  - { offset: 0x4F46, size: 0x8, addend: 0x0, symName: '+[MTLModel(NSCoding) modelVersion]', symObjAddr: 0x0, symBinAddr: 0x98D4, symSize: 0x8 }
+  - { offset: 0x4F76, size: 0x8, addend: 0x0, symName: '+[MTLModel(NSCoding) encodingBehaviorsByPropertyKey]', symObjAddr: 0x8, symBinAddr: 0x98DC, symSize: 0x218 }
+  - { offset: 0x5135, size: 0x8, addend: 0x0, symName: '___52+[MTLModel(NSCoding) encodingBehaviorsByPropertyKey]_block_invoke', symObjAddr: 0x220, symBinAddr: 0x9AF4, symSize: 0x8 }
+  - { offset: 0x5187, size: 0x8, addend: 0x0, symName: '+[MTLModel(NSCoding) allowedSecureCodingClassesByPropertyKey]', symObjAddr: 0x228, symBinAddr: 0x9AFC, symSize: 0x2EC }
+  - { offset: 0x52C2, size: 0x8, addend: 0x0, symName: '___61+[MTLModel(NSCoding) allowedSecureCodingClassesByPropertyKey]_block_invoke', symObjAddr: 0x514, symBinAddr: 0x9DE8, symSize: 0x20 }
+  - { offset: 0x5313, size: 0x8, addend: 0x0, symName: '___61+[MTLModel(NSCoding) allowedSecureCodingClassesByPropertyKey]_block_invoke_2', symObjAddr: 0x534, symBinAddr: 0x9E08, symSize: 0x8 }
+  - { offset: 0x5358, size: 0x8, addend: 0x0, symName: '-[MTLModel(NSCoding) decodeValueForKey:withCoder:modelVersion:]', symObjAddr: 0x53C, symBinAddr: 0x9E10, symSize: 0x1C8 }
+  - { offset: 0x54AB, size: 0x8, addend: 0x0, symName: _coderRequiresSecureCoding, symObjAddr: 0x704, symBinAddr: 0x9FD8, symSize: 0x6C }
+  - { offset: 0x5519, size: 0x8, addend: 0x0, symName: '-[MTLModel(NSCoding) initWithCoder:]', symObjAddr: 0x770, symBinAddr: 0xA044, symSize: 0x358 }
+  - { offset: 0x5653, size: 0x8, addend: 0x0, symName: _verifyAllowedClassesByPropertyKey, symObjAddr: 0xAC8, symBinAddr: 0xA39C, symSize: 0x104 }
+  - { offset: 0x56D3, size: 0x8, addend: 0x0, symName: '-[MTLModel(NSCoding) encodeWithCoder:]', symObjAddr: 0xBCC, symBinAddr: 0xA4A0, symSize: 0x13C }
+  - { offset: 0x573B, size: 0x8, addend: 0x0, symName: '___38-[MTLModel(NSCoding) encodeWithCoder:]_block_invoke', symObjAddr: 0xD08, symBinAddr: 0xA5DC, symSize: 0x148 }
+  - { offset: 0x57E5, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s48s, symObjAddr: 0xE50, symBinAddr: 0xA724, symSize: 0x30 }
+  - { offset: 0x580B, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s48s, symObjAddr: 0xE80, symBinAddr: 0xA754, symSize: 0x30 }
+  - { offset: 0x5829, size: 0x8, addend: 0x0, symName: '+[MTLModel(NSCoding) supportsSecureCoding]', symObjAddr: 0xEB0, symBinAddr: 0xA784, symSize: 0x8 }
+  - { offset: 0x5859, size: 0x8, addend: 0x0, symName: '+[MTLModel(OldArchiveSupport) dictionaryValueFromArchivedExternalRepresentation:version:]', symObjAddr: 0xEB8, symBinAddr: 0xA78C, symSize: 0x8 }
+  - { offset: 0x58A4, size: 0x8, addend: 0x0, symName: ___encodablePropertyKeysForClass_block_invoke, symObjAddr: 0xEC0, symBinAddr: 0xA794, symSize: 0x20 }
+  - { offset: 0x5C81, size: 0x8, addend: 0x0, symName: _MTLSelectorWithKeyPattern, symObjAddr: 0x0, symBinAddr: 0xA7B4, symSize: 0x120 }
+  - { offset: 0x5C8E, size: 0x8, addend: 0x0, symName: _MTLSelectorWithKeyPattern, symObjAddr: 0x0, symBinAddr: 0xA7B4, symSize: 0x120 }
+  - { offset: 0x5D87, size: 0x8, addend: 0x0, symName: _MTLSelectorWithCapitalizedKeyPattern, symObjAddr: 0x120, symBinAddr: 0xA8D4, symSize: 0x220 }
+  - { offset: 0x5F2B, size: 0x8, addend: 0x0, symName: _MTLTransformerErrorHandlingErrorDomain, symObjAddr: 0x98, symBinAddr: 0x144B0, symSize: 0x0 }
+  - { offset: 0x5F67, size: 0x8, addend: 0x0, symName: _MTLTransformerErrorHandlingErrorInvalidInput, symObjAddr: 0xA8, symBinAddr: 0x10370, symSize: 0x0 }
+  - { offset: 0x5F89, size: 0x8, addend: 0x0, symName: _MTLTransformerErrorHandlingInputValueErrorKey, symObjAddr: 0xA0, symBinAddr: 0x144B8, symSize: 0x0 }
+  - { offset: 0x5FCE, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer transformerUsingForwardBlock:]', symObjAddr: 0x0, symBinAddr: 0xAAF4, symSize: 0x4C }
+  - { offset: 0x6127, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer transformerUsingForwardBlock:]', symObjAddr: 0x0, symBinAddr: 0xAAF4, symSize: 0x4C }
+  - { offset: 0x616B, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer transformerUsingReversibleBlock:]', symObjAddr: 0x4C, symBinAddr: 0xAB40, symSize: 0x8 }
+  - { offset: 0x61AB, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer transformerUsingForwardBlock:reverseBlock:]', symObjAddr: 0x54, symBinAddr: 0xAB48, symSize: 0x70 }
+  - { offset: 0x61F9, size: 0x8, addend: 0x0, symName: '-[MTLValueTransformer initWithForwardBlock:reverseBlock:]', symObjAddr: 0xC4, symBinAddr: 0xABB8, symSize: 0xD0 }
+  - { offset: 0x624C, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer allowsReverseTransformation]', symObjAddr: 0x194, symBinAddr: 0xAC88, symSize: 0x8 }
+  - { offset: 0x627D, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer transformedValueClass]', symObjAddr: 0x19C, symBinAddr: 0xAC90, symSize: 0xC }
+  - { offset: 0x62AD, size: 0x8, addend: 0x0, symName: '-[MTLValueTransformer transformedValue:]', symObjAddr: 0x1A8, symBinAddr: 0xAC9C, symSize: 0x8C }
+  - { offset: 0x632C, size: 0x8, addend: 0x0, symName: '-[MTLValueTransformer transformedValue:success:error:]', symObjAddr: 0x234, symBinAddr: 0xAD28, symSize: 0xCC }
+  - { offset: 0x63D8, size: 0x8, addend: 0x0, symName: '-[MTLValueTransformer forwardBlock]', symObjAddr: 0x300, symBinAddr: 0xADF4, symSize: 0x10 }
+  - { offset: 0x640C, size: 0x8, addend: 0x0, symName: '-[MTLValueTransformer reverseBlock]', symObjAddr: 0x310, symBinAddr: 0xAE04, symSize: 0x10 }
+  - { offset: 0x6440, size: 0x8, addend: 0x0, symName: '-[MTLValueTransformer .cxx_destruct]', symObjAddr: 0x320, symBinAddr: 0xAE14, symSize: 0x40 }
+  - { offset: 0x6470, size: 0x8, addend: 0x0, symName: '-[MTLReversibleValueTransformer initWithForwardBlock:reverseBlock:]', symObjAddr: 0x360, symBinAddr: 0xAE54, symSize: 0x34 }
+  - { offset: 0x64C3, size: 0x8, addend: 0x0, symName: '+[MTLReversibleValueTransformer allowsReverseTransformation]', symObjAddr: 0x394, symBinAddr: 0xAE88, symSize: 0x8 }
+  - { offset: 0x64F3, size: 0x8, addend: 0x0, symName: '-[MTLReversibleValueTransformer reverseTransformedValue:]', symObjAddr: 0x39C, symBinAddr: 0xAE90, symSize: 0x8C }
+  - { offset: 0x6572, size: 0x8, addend: 0x0, symName: '-[MTLReversibleValueTransformer reverseTransformedValue:success:error:]', symObjAddr: 0x428, symBinAddr: 0xAF1C, symSize: 0xCC }
+  - { offset: 0x661E, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer(Deprecated) transformerWithBlock:]', symObjAddr: 0x4F4, symBinAddr: 0xAFE8, symSize: 0x90 }
+  - { offset: 0x6662, size: 0x8, addend: 0x0, symName: '___56+[MTLValueTransformer(Deprecated) transformerWithBlock:]_block_invoke', symObjAddr: 0x584, symBinAddr: 0xB078, symSize: 0xC }
+  - { offset: 0x66D8, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32b, symObjAddr: 0x590, symBinAddr: 0xB084, symSize: 0x10 }
+  - { offset: 0x66FE, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer(Deprecated) reversibleTransformerWithBlock:]', symObjAddr: 0x5A8, symBinAddr: 0xB094, symSize: 0x90 }
+  - { offset: 0x6742, size: 0x8, addend: 0x0, symName: '___66+[MTLValueTransformer(Deprecated) reversibleTransformerWithBlock:]_block_invoke', symObjAddr: 0x638, symBinAddr: 0xB124, symSize: 0xC }
+  - { offset: 0x67B8, size: 0x8, addend: 0x0, symName: '+[MTLValueTransformer(Deprecated) reversibleTransformerWithForwardBlock:reverseBlock:]', symObjAddr: 0x644, symBinAddr: 0xB130, symSize: 0xDC }
+  - { offset: 0x680B, size: 0x8, addend: 0x0, symName: '___86+[MTLValueTransformer(Deprecated) reversibleTransformerWithForwardBlock:reverseBlock:]_block_invoke', symObjAddr: 0x720, symBinAddr: 0xB20C, symSize: 0xC }
+  - { offset: 0x6882, size: 0x8, addend: 0x0, symName: '___86+[MTLValueTransformer(Deprecated) reversibleTransformerWithForwardBlock:reverseBlock:]_block_invoke_2', symObjAddr: 0x72C, symBinAddr: 0xB218, symSize: 0xC }
+  - { offset: 0x6B6C, size: 0x8, addend: 0x0, symName: '-[NSArray(MTLManipulationAdditions) mtl_firstObject]', symObjAddr: 0x0, symBinAddr: 0xB224, symSize: 0x4 }
+  - { offset: 0x6B7A, size: 0x8, addend: 0x0, symName: '-[NSArray(MTLManipulationAdditions) mtl_firstObject]', symObjAddr: 0x0, symBinAddr: 0xB224, symSize: 0x4 }
+  - { offset: 0x6BAC, size: 0x8, addend: 0x0, symName: '-[NSArray(MTLManipulationAdditions) mtl_arrayByRemovingObject:]', symObjAddr: 0x4, symBinAddr: 0xB228, symSize: 0x48 }
+  - { offset: 0x6BFE, size: 0x8, addend: 0x0, symName: '-[NSArray(MTLManipulationAdditions) mtl_arrayByRemovingFirstObject]', symObjAddr: 0x4C, symBinAddr: 0xB270, symSize: 0x50 }
+  - { offset: 0x6C32, size: 0x8, addend: 0x0, symName: '-[NSArray(MTLManipulationAdditions) mtl_arrayByRemovingLastObject]', symObjAddr: 0x9C, symBinAddr: 0xB2C0, symSize: 0x50 }
+  - { offset: 0x6D26, size: 0x8, addend: 0x0, symName: '-[NSDictionary(MTLJSONKeyPath) mtl_valueForJSONKeyPath:success:error:]', symObjAddr: 0x0, symBinAddr: 0xB310, symSize: 0x378 }
+  - { offset: 0x6D33, size: 0x8, addend: 0x0, symName: '-[NSDictionary(MTLJSONKeyPath) mtl_valueForJSONKeyPath:success:error:]', symObjAddr: 0x0, symBinAddr: 0xB310, symSize: 0x378 }
+  - { offset: 0x6ED6, size: 0x8, addend: 0x0, symName: '-[NSDictionary(MTLManipulationAdditions) mtl_dictionaryByAddingEntriesFromDictionary:]', symObjAddr: 0x0, symBinAddr: 0xB688, symSize: 0x48 }
+  - { offset: 0x6EE3, size: 0x8, addend: 0x0, symName: '-[NSDictionary(MTLManipulationAdditions) mtl_dictionaryByAddingEntriesFromDictionary:]', symObjAddr: 0x0, symBinAddr: 0xB688, symSize: 0x48 }
+  - { offset: 0x6F35, size: 0x8, addend: 0x0, symName: '-[NSDictionary(MTLManipulationAdditions) mtl_dictionaryByRemovingValuesForKeys:]', symObjAddr: 0x48, symBinAddr: 0xB6D0, symSize: 0x48 }
+  - { offset: 0x6F87, size: 0x8, addend: 0x0, symName: '-[NSDictionary(MTLManipulationAdditions_Deprecated) mtl_dictionaryByRemovingEntriesWithKeys:]', symObjAddr: 0x90, symBinAddr: 0xB718, symSize: 0x54 }
+  - { offset: 0x7089, size: 0x8, addend: 0x0, symName: '+[NSDictionary(MTLMappingAdditions) mtl_identityPropertyMapWithModel:]', symObjAddr: 0x0, symBinAddr: 0xB76C, symSize: 0x70 }
+  - { offset: 0x7096, size: 0x8, addend: 0x0, symName: '+[NSDictionary(MTLMappingAdditions) mtl_identityPropertyMapWithModel:]', symObjAddr: 0x0, symBinAddr: 0xB76C, symSize: 0x70 }
+  - { offset: 0x719F, size: 0x8, addend: 0x0, symName: '+[NSError(MTLModelException) mtl_modelErrorWithException:]', symObjAddr: 0x0, symBinAddr: 0xB7DC, symSize: 0x128 }
+  - { offset: 0x7200, size: 0x8, addend: 0x0, symName: '+[NSError(MTLModelException) mtl_modelErrorWithException:]', symObjAddr: 0x0, symBinAddr: 0xB7DC, symSize: 0x128 }
+  - { offset: 0x72C4, size: 0x8, addend: 0x0, symName: _MTLEqualObjects, symObjAddr: 0x0, symBinAddr: 0xB904, symSize: 0x18 }
+  - { offset: 0x72D2, size: 0x8, addend: 0x0, symName: _MTLEqualObjects, symObjAddr: 0x0, symBinAddr: 0xB904, symSize: 0x18 }
+  - { offset: 0x738C, size: 0x8, addend: 0x0, symName: '-[NSValueTransformer(MTLInversionAdditions) mtl_invertedTransformer]', symObjAddr: 0x0, symBinAddr: 0xB91C, symSize: 0x148 }
+  - { offset: 0x7399, size: 0x8, addend: 0x0, symName: '-[NSValueTransformer(MTLInversionAdditions) mtl_invertedTransformer]', symObjAddr: 0x0, symBinAddr: 0xB91C, symSize: 0x148 }
+  - { offset: 0x73E7, size: 0x8, addend: 0x0, symName: '___68-[NSValueTransformer(MTLInversionAdditions) mtl_invertedTransformer]_block_invoke', symObjAddr: 0x148, symBinAddr: 0xBA64, symSize: 0x14 }
+  - { offset: 0x7451, size: 0x8, addend: 0x0, symName: '___68-[NSValueTransformer(MTLInversionAdditions) mtl_invertedTransformer]_block_invoke.44', symObjAddr: 0x16C, symBinAddr: 0xBA78, symSize: 0x14 }
+  - { offset: 0x74BB, size: 0x8, addend: 0x0, symName: '___68-[NSValueTransformer(MTLInversionAdditions) mtl_invertedTransformer]_block_invoke_2', symObjAddr: 0x180, symBinAddr: 0xBA8C, symSize: 0xC }
+  - { offset: 0x7523, size: 0x8, addend: 0x0, symName: '___68-[NSValueTransformer(MTLInversionAdditions) mtl_invertedTransformer]_block_invoke_3', symObjAddr: 0x18C, symBinAddr: 0xBA98, symSize: 0xC }
+  - { offset: 0x7852, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]', symObjAddr: 0x0, symBinAddr: 0xBAA4, symSize: 0xF4 }
+  - { offset: 0x786B, size: 0x8, addend: 0x0, symName: _MTLURLValueTransformerName, symObjAddr: 0x3448, symBinAddr: 0x14520, symSize: 0x0 }
+  - { offset: 0x7990, size: 0x8, addend: 0x0, symName: _MTLUUIDValueTransformerName, symObjAddr: 0x3450, symBinAddr: 0x14528, symSize: 0x0 }
+  - { offset: 0x79A5, size: 0x8, addend: 0x0, symName: _MTLBooleanValueTransformerName, symObjAddr: 0x3458, symBinAddr: 0x14530, symSize: 0x0 }
+  - { offset: 0x79E0, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]', symObjAddr: 0x0, symBinAddr: 0xBAA4, symSize: 0xF4 }
+  - { offset: 0x7A47, size: 0x8, addend: 0x0, symName: '___61+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]_block_invoke', symObjAddr: 0xF4, symBinAddr: 0xBB98, symSize: 0x3B0 }
+  - { offset: 0x7AF4, size: 0x8, addend: 0x0, symName: '___61+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]_block_invoke_2', symObjAddr: 0x4A4, symBinAddr: 0xBF48, symSize: 0x234 }
+  - { offset: 0x7B67, size: 0x8, addend: 0x0, symName: '___61+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]_block_invoke_3', symObjAddr: 0x6D8, symBinAddr: 0xC17C, symSize: 0x3AC }
+  - { offset: 0x7C14, size: 0x8, addend: 0x0, symName: '___61+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]_block_invoke_4', symObjAddr: 0xA84, symBinAddr: 0xC528, symSize: 0x234 }
+  - { offset: 0x7C87, size: 0x8, addend: 0x0, symName: '___61+[NSValueTransformer(MTLPredefinedTransformerAdditions) load]_block_invoke_5', symObjAddr: 0xCB8, symBinAddr: 0xC75C, symSize: 0x24C }
+  - { offset: 0x7CFA, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_arrayMappingTransformerWithTransformer:]', symObjAddr: 0xF04, symBinAddr: 0xC9A8, symSize: 0x128 }
+  - { offset: 0x7D57, size: 0x8, addend: 0x0, symName: '___100+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_arrayMappingTransformerWithTransformer:]_block_invoke', symObjAddr: 0x102C, symBinAddr: 0xCAD0, symSize: 0x580 }
+  - { offset: 0x7E65, size: 0x8, addend: 0x0, symName: '___100+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_arrayMappingTransformerWithTransformer:]_block_invoke.100', symObjAddr: 0x15BC, symBinAddr: 0xD050, symSize: 0x5A0 }
+  - { offset: 0x7F73, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_validatingTransformerForClass:]', symObjAddr: 0x1B5C, symBinAddr: 0xD5F0, symSize: 0x60 }
+  - { offset: 0x7FB4, size: 0x8, addend: 0x0, symName: '___91+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_validatingTransformerForClass:]_block_invoke', symObjAddr: 0x1BBC, symBinAddr: 0xD650, symSize: 0x22C }
+  - { offset: 0x8041, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_valueMappingTransformerWithDictionary:defaultValue:reverseDefaultValue:]', symObjAddr: 0x1DE8, symBinAddr: 0xD87C, symSize: 0x144 }
+  - { offset: 0x80A2, size: 0x8, addend: 0x0, symName: '___132+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_valueMappingTransformerWithDictionary:defaultValue:reverseDefaultValue:]_block_invoke', symObjAddr: 0x1F2C, symBinAddr: 0xD9C0, symSize: 0x9C }
+  - { offset: 0x8119, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40s, symObjAddr: 0x1FC8, symBinAddr: 0xDA5C, symSize: 0x28 }
+  - { offset: 0x813F, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40s, symObjAddr: 0x1FF0, symBinAddr: 0xDA84, symSize: 0x28 }
+  - { offset: 0x815C, size: 0x8, addend: 0x0, symName: '___132+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_valueMappingTransformerWithDictionary:defaultValue:reverseDefaultValue:]_block_invoke.108', symObjAddr: 0x2018, symBinAddr: 0xDAAC, symSize: 0x100 }
+  - { offset: 0x81F5, size: 0x8, addend: 0x0, symName: ___Block_byref_object_copy_, symObjAddr: 0x2118, symBinAddr: 0xDBAC, symSize: 0x10 }
+  - { offset: 0x8217, size: 0x8, addend: 0x0, symName: ___Block_byref_object_dispose_, symObjAddr: 0x2128, symBinAddr: 0xDBBC, symSize: 0x8 }
+  - { offset: 0x8235, size: 0x8, addend: 0x0, symName: '___132+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_valueMappingTransformerWithDictionary:defaultValue:reverseDefaultValue:]_block_invoke.109', symObjAddr: 0x2130, symBinAddr: 0xDBC4, symSize: 0x74 }
+  - { offset: 0x82B0, size: 0x8, addend: 0x0, symName: ___copy_helper_block_e8_32s40r, symObjAddr: 0x21A4, symBinAddr: 0xDC38, symSize: 0x34 }
+  - { offset: 0x82D6, size: 0x8, addend: 0x0, symName: ___destroy_helper_block_e8_32s40r, symObjAddr: 0x21D8, symBinAddr: 0xDC6C, symSize: 0x2C }
+  - { offset: 0x82F3, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_valueMappingTransformerWithDictionary:]', symObjAddr: 0x2204, symBinAddr: 0xDC98, symSize: 0xC }
+  - { offset: 0x8334, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_dateTransformerWithDateFormat:calendar:locale:timeZone:defaultDate:]', symObjAddr: 0x2210, symBinAddr: 0xDCA4, symSize: 0x12C }
+  - { offset: 0x83C5, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_dateTransformerWithDateFormat:locale:]', symObjAddr: 0x233C, symBinAddr: 0xDDD0, symSize: 0x14 }
+  - { offset: 0x8416, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_numberTransformerWithNumberStyle:locale:]', symObjAddr: 0x2350, symBinAddr: 0xDDE4, symSize: 0x98 }
+  - { offset: 0x847B, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_transformerWithFormatter:forObjectClass:]', symObjAddr: 0x23E8, symBinAddr: 0xDE7C, symSize: 0xDC }
+  - { offset: 0x84CC, size: 0x8, addend: 0x0, symName: '___101+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_transformerWithFormatter:forObjectClass:]_block_invoke', symObjAddr: 0x24C4, symBinAddr: 0xDF58, symSize: 0x548 }
+  - { offset: 0x85D3, size: 0x8, addend: 0x0, symName: '___101+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_transformerWithFormatter:forObjectClass:]_block_invoke.121', symObjAddr: 0x2A0C, symBinAddr: 0xE4A0, symSize: 0x274 }
+  - { offset: 0x868E, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_JSONDictionaryTransformerWithModelClass:]', symObjAddr: 0x2C80, symBinAddr: 0xE714, symSize: 0xC }
+  - { offset: 0x86CD, size: 0x8, addend: 0x0, symName: '+[NSValueTransformer(MTLPredefinedTransformerAdditions) mtl_JSONArrayTransformerWithModelClass:]', symObjAddr: 0x2C8C, symBinAddr: 0xE720, symSize: 0xC }
+...
