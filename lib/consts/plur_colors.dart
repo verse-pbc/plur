@@ -83,6 +83,9 @@ class PlurColors {
   static const Color buttonBackground = primaryPurple;
   static const Color buttonText = Colors.white;
   
+  // Functionality colors
+  static const Color warningColor = Color(0xFFE53935); // Red color for warnings/danger actions
+  
   // THEME-AWARE TEXT STYLES
   
   // Original style getters

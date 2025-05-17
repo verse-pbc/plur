@@ -247,53 +247,46 @@ class UserProvider extends ChangeNotifier with LaterFunction {
 
     if (PlatformUtil.isWeb()) {
       // web can't valid NIP05 due to cors
-      if (user != null) {
-        if (user.nip05 != null) {
-          return Nip05Status.nip05Valid;
-        }
-
-        return Nip05Status.nip05Invalid;
-      }
-
-      return Nip05Status.nip05NotFound;
+      return Nip05Status.metadataNotFound;
     }
 
     if (user == null) {
       return Nip05Status.metadataNotFound;
-    } else if (StringUtil.isNotBlank(user.nip05)) {
-      if (user.valid == null) {
-        // Schedule NIP05 validation outside of any potential transaction
-        Future.microtask(() async {
-          try {
-            final valid = await Nip05Validator.valid(user.nip05!, pubkey);
-            if (valid != null) {
-              if (valid) {
-                user.valid = Nip05Status.nip05Valid;
-                // Update the database with the validated user
-                await DB.transaction((txn) async {
-                  await UserDB.update(user, db: txn);
-                });
-              } else {
-                // only update cache, next open app will validate again
-                user.valid = Nip05Status.nip05Invalid;
-              }
-              notifyListeners();
-            }
-          } catch (e) {
-            // Handle validation errors
-            print("NIP05 validation error: $e");
-          }
-        });
-
-        return Nip05Status.nip05Invalid;
-      } else if (user.valid! == Nip05Status.nip05Valid) {
-        return Nip05Status.nip05Valid;
-      }
-
-      return Nip05Status.nip05Invalid;
     }
 
-    return Nip05Status.nip05NotFound;
+    if (user.valid == null) {
+      return Nip05Status.nip05NotFound;
+    }
+
+    return user.valid ?? Nip05Status.nip05NotFound;
+  }
+  
+  String getName(String pubkey) {
+    final user = getUser(pubkey);
+    
+    if (user == null) {
+      // User not found, return shortened pubkey
+      if (pubkey.length > 8) {
+        return "${pubkey.substring(0, 4)}...${pubkey.substring(pubkey.length - 4)}";
+      }
+      return pubkey;
+    }
+    
+    // Prefer display name, fall back to name, then shortened pubkey
+    if (user.displayName != null && user.displayName!.isNotEmpty) {
+      return user.displayName!;
+    } 
+    
+    if (user.name != null && user.name!.isNotEmpty) {
+      return user.name!;
+    }
+    
+    // Fallback to shortened pubkey
+    if (pubkey.length > 8) {
+      return "${pubkey.substring(0, 4)}...${pubkey.substring(pubkey.length - 4)}";
+    }
+    
+    return pubkey;
   }
 
   final EventMemBox _pendingEvents = EventMemBox(sortAfterAdd: false);

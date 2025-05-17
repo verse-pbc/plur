@@ -44,6 +44,7 @@ import 'package:nostrmo/router/group/group_info/group_info_screen.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
 import 'package:nostrmo/router/group/invite_by_name_widget.dart';
 import 'package:nostrmo/router/group/group_media_grid_widget.dart';
+import 'package:nostrmo/router/group/moderation/report_management_screen.dart';
 // Media screen import temporarily commented out until file is created
 // import 'package:nostrmo/router/group/group_media_screen.dart';
 import 'package:nostrmo/router/login/login_widget.dart';
@@ -138,6 +139,8 @@ import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
 import 'package:nostrmo/features/asks_offers/models/listing_model.dart';
 import 'package:nostrmo/util/log_test_screen.dart';
 import 'package:nostrmo/util/app_logger.dart';
+import 'package:nostrmo/service/moderation_service.dart';
+import 'package:nostrmo/service/report_service.dart';
 
 late SharedPreferences sharedPreferences;
 
@@ -228,6 +231,9 @@ late TrieTextMatcher defaultTrieTextMatcher;
 
 late WotProvider wotProvider;
 
+late ModerationService moderationService;
+late ReportService reportService;
+
 Future<void> initializeProviders({bool isTesting = false}) async {
   try {
     log("Starting provider initialization");
@@ -287,6 +293,14 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   urlSpeedProvider = UrlSpeedProvider();
   nwcProvider = NWCProvider()..init();
   groupProvider = GroupProvider();
+  moderationService = ModerationService();
+  reportService = ReportService();
+  
+  // Optional: Start listening for reports for admin groups
+  if (nostr != null) {
+    reportService.subscribeToAdminGroupReports();
+  }
+
   wotProvider = WotProvider();
 
   defaultTrieTextMatcher = TrieTextMatcherBuilder.build();
@@ -665,6 +679,12 @@ class _MyApp extends State<MyApp> {
         ListenableProvider<GroupProvider>.value(
           value: groupProvider,
         ),
+        ListenableProvider<ModerationService>.value(
+          value: moderationService,
+        ),
+        ListenableProvider<ReportService>.value(
+          value: reportService,
+        ),
       ],
       child: HomeWidget(
         locale: locale,
@@ -822,6 +842,23 @@ class _MyApp extends State<MyApp> {
                 }
                 
                 return null;
+                
+              case RouterPath.reportManagement:
+                // If accessed from a specific group admin screen
+                if (settings.arguments is GroupIdentifier) {
+                  final groupId = settings.arguments as GroupIdentifier;
+                  return MaterialPageRoute(
+                    builder: (context) => Provider<GroupIdentifier>.value(
+                      value: groupId,
+                      child: ReportManagementScreen(selectedGroup: groupId),
+                    ),
+                  );
+                }
+                
+                // If accessed from the navigation drawer (reports across all groups)
+                return MaterialPageRoute(
+                  builder: (context) => const ReportManagementScreen(),
+                );
               
               default:
                 return null;

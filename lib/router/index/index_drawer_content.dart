@@ -10,6 +10,8 @@ import 'package:nostrmo/router/index/index_pc_drawer_wrapper.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart' as legacy_provider;
+import 'package:nostrmo/provider/group_provider.dart';
+import 'package:nostrmo/service/report_service.dart';
 
 import '../../data/user.dart';
 import '../../generated/l10n.dart';
@@ -59,16 +61,22 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
   @override
   Widget build(BuildContext context) {
-    var indexProvider = legacy_provider.Provider.of<IndexProvider>(context);
-
+    final themeData = Theme.of(context);
+    final scaffoldBackgroundColor = themeData.scaffoldBackgroundColor;
+    final userProvider = legacy_provider.Provider.of<UserProvider>(context);
+    final indexProvider = legacy_provider.Provider.of<IndexProvider>(context);
     final localization = S.of(context);
+    final hintColor = themeData.hintColor;
+    final mainColor = themeData.primaryColor;
+    final groupProvider = legacy_provider.Provider.of<GroupProvider>(context);
+    final reportService = legacy_provider.Provider.of<ReportService>(context);
     var pubkey = nostr!.publicKey;
     var paddingTop = mediaDataCache.padding.top;
-    final themeData = Theme.of(context);
-    var mainColor = themeData.primaryColor;
     var cardColor = themeData.cardColor;
-    var hintColor = themeData.hintColor;
+    
+    // List to hold drawer items
     List<Widget> list = [];
+
     _readOnly = nostr!.isReadOnly();
 
     // Add user profile picture or metadata display based on smallMode
@@ -173,6 +181,21 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       },
       smallMode: widget.smallMode,
     ));
+
+    // Add Reports Management option only if user is an admin of any group
+    if (nostr != null && groupProvider.isAdminOfAnyGroup(nostr!.publicKey)) {
+      final reportCount = reportService.getActiveReportCount();
+      
+      centerList.add(IndexDrawerItemWidget(
+        iconData: Icons.admin_panel_settings_rounded,
+        name: "Moderation Reports",  // Using string literal until translation is available
+        badge: reportCount > 0 ? "$reportCount" : null,
+        onTap: () {
+          RouterUtil.router(context, RouterPath.reportManagement);
+        },
+        smallMode: widget.smallMode,
+      ));
+    }
 
     // Add the Asks & Offers option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
@@ -349,6 +372,9 @@ class IndexDrawerItemWidget extends StatelessWidget {
   /// Indicates if the widget is being displayed in a compact mode.
   final bool smallMode;
 
+  /// Optional badge text for the item.
+  final String? badge;
+
   /// Creates an instance of [IndexDrawerItemWidget].
   ///
   /// The [iconData], [name], and [onTap] parameters are required.
@@ -358,52 +384,83 @@ class IndexDrawerItemWidget extends StatelessWidget {
     required this.iconData,
     required this.name,
     required this.onTap,
-    this.color,
     this.onDoubleTap,
     this.onLongPress,
+    this.color,
     this.smallMode = false,
+    this.badge,
   });
 
   @override
   Widget build(BuildContext context) {
-    // The icon widget
-    Widget iconWidget = Icon(
-      iconData,
-      color: color,
-    );
-
-    Widget mainWidget;
+    final themeData = Theme.of(context);
+    final primaryFontColor = themeData.customColors.primaryForegroundColor;
+    
+    Widget child;
     if (smallMode) {
-      // Compact mode: Only the icon is displayed with minimal padding.
-      mainWidget = Container(
-        decoration: BoxDecoration(
-          color: color != null ? Colors.white.withAlpha(26) : null,
-          borderRadius: BorderRadius.circular(14),
+      child = Container(
+        padding: const EdgeInsets.all(Base.basePadding),
+        child: Column(
+          children: [
+            Icon(
+              iconData,
+              color: color ?? primaryFontColor,
+            ),
+            if (badge != null)
+              Container(
+                margin: const EdgeInsets.only(top: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(
+                  color: themeData.primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  badge!,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+          ],
         ),
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.only(bottom: 2),
-        child: iconWidget,
       );
     } else {
-      // Normal mode: Display icon alongside text.
-      mainWidget = SizedBox(
-        height: 34,
+      child = Container(
+        padding: const EdgeInsets.all(Base.basePadding),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.only(
-                left: Base.basePadding * 2,
-                right: Base.basePadding,
-              ),
-              child: iconWidget,
+            Icon(
+              iconData,
+              color: color ?? primaryFontColor,
             ),
+            const SizedBox(width: Base.basePadding),
             Expanded(
               child: Text(
                 name,
-                style: TextStyle(color: color),
-                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: color ?? primaryFontColor,
+                  fontSize: 16,
+                ),
               ),
             ),
+            if (badge != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: themeData.primaryColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  badge!,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
           ],
         ),
       );
@@ -424,7 +481,7 @@ class IndexDrawerItemWidget extends StatelessWidget {
         }
       },
       behavior: HitTestBehavior.translucent,
-      child: mainWidget,
+      child: child,
     );
   }
 }

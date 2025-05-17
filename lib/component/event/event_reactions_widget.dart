@@ -35,6 +35,8 @@ import '../event_reply_callback.dart';
 import '../zap/zap_bottom_sheet_widget.dart';
 import 'event_top_zaps_widget.dart';
 import '../report_event_dialog.dart';
+import 'package:nostrmo/component/moderation/remove_post_dialog.dart';
+import 'package:nostrmo/provider/group_provider.dart';
 
 class EventReactionsWidget extends StatefulWidget {
   final ScreenshotController screenshotController;
@@ -489,6 +491,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
           }
         }
       });
+    } else if (value == "removePost") {
+      _removePost();
     }
   }
 
@@ -779,7 +783,7 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     );
     var myPubkey = settingsProvider.privateKey == null
         ? null
-        : settingsProvider.pubkey; // Use pubkey from settingsProvider instead of deriving it
+        : settingsProvider.pubkey;
 
     showModalBottomSheet(
       context: context,
@@ -874,6 +878,33 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
             },
           ),
         ];
+
+        // Determine if the user is an admin of the group this post belongs to
+        bool isAdmin = false;
+        GroupIdentifier? groupId = _extractGroupIdentifier();
+        if (groupId != null && myPubkey != null) {
+          // Get group admins from provider
+          final provider = Provider.of<GroupProvider>(context, listen: false);
+          final admins = provider.getAdmins(groupId);
+          if (admins != null) {
+            isAdmin = admins.containsUser(myPubkey);
+          }
+        }
+        
+        // Add "Remove Post" option for group admins
+        if (isAdmin) {
+          list.add(ListTile(
+            title: Text(
+              "Remove Post",
+              style: popFontStyle.copyWith(color: Colors.red),
+            ),
+            leading: const Icon(Icons.remove_circle, color: Colors.red),
+            onTap: () {
+              Navigator.of(context).pop();
+              onPopupSelected("removePost");
+            },
+          ));
+        }
 
         if (listProvider.privateBookmarkContains(widget.event.id)) {
           list.add(ListTile(
@@ -973,6 +1004,86 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
       return Icons.local_fire_department;
     }
 
+    return null;
+  }
+
+  /// Show dialog to confirm post removal and handle the removal action
+  Future<void> _removePost() async {
+    final groupId = _extractGroupIdentifier();
+    if (groupId == null) {
+      logger.e('Cannot remove post: no group identifier found in event', null, null, LogCategory.groups);
+      return;
+    }
+    
+    logger.d('Opening remove post dialog for post ${widget.event.id}', null, null, LogCategory.groups);
+    final result = await showDialog<Map<String, dynamic>>(
+      context: context,
+      builder: (context) => const RemovePostDialog(),
+    );
+    
+    if (result != null && context.mounted) {
+      final reason = result['reason'];
+      final details = result['details'];
+      
+      // Combine reason and details if both are provided
+      String? combinedReason;
+      if (details != null && details.isNotEmpty) {
+        combinedReason = '$reason: $details';
+      } else {
+        combinedReason = reason;
+      }
+      
+      logger.i('Removing post ${widget.event.id} from group ${groupId.groupId}', null, null, LogCategory.groups);
+      
+      try {
+        // Get the group provider and remove the post
+        final provider = Provider.of<GroupProvider>(context, listen: false);
+        final success = await provider.removePost(groupId, widget.event.id, reason: combinedReason);
+        
+        if (success && context.mounted) {
+          // Show success message
+          BotToast.showText(text: "Post removed from community");
+          
+          // If this is shown in a detail view, navigate back
+          if (Navigator.canPop(context)) {
+            Navigator.pop(context);
+          }
+        } else if (context.mounted) {
+          // Show error message
+          BotToast.showText(text: "${S.of(context).error}: Failed to remove post");
+        }
+      } catch (e, stackTrace) {
+        logger.e('Error removing post: $e', stackTrace, null, LogCategory.groups);
+        if (context.mounted) {
+          BotToast.showText(text: "${S.of(context).error}: Failed to remove post");
+        }
+      }
+    }
+  }
+  
+  /// Extract the group identifier from the event tags
+  GroupIdentifier? _extractGroupIdentifier() {
+    // Look for the 'h' tag in the event which contains the group ID
+    for (var tag in widget.event.tags) {
+      if (tag.length > 1 && tag[0] == 'h') {
+        final groupId = tag[1] as String;
+        
+        // Extract the group relay from event sources or use a default
+        String relay = '';
+        if (widget.event.sources.isNotEmpty) {
+          relay = widget.event.sources[0];
+        } else if (nostr != null) {
+          // Get default relay from user's settings
+          if (relayProvider.relayAddrs.isNotEmpty) {
+            relay = relayProvider.relayAddrs.first;
+          }
+        }
+        
+        if (relay.isNotEmpty) {
+          return GroupIdentifier(relay, groupId);
+        }
+      }
+    }
     return null;
   }
 }

@@ -60,6 +60,9 @@ class EventKind {
   /// Kind 1064 - File shared via relay.
   static const int storageSharedFile = 1064;
 
+  /// Kind 1984 - Content or user report event (NIP-56)
+  static const int reportEvent = 1984;
+
   /// Kind 2003 - Shared torrent information.
   static const int torrents = 2003;
 
@@ -129,6 +132,9 @@ class EventKind {
   /// Kind 13194 - NWC (Nostr Wallet Connect) info event.
   static const int nwcInfoEvent = 13194;
 
+  /// Kind 16402 - Group moderation event (content/user moderation).
+  static const int groupModeration = 16402;
+
   /// Kind 22242 - Authentication event (used in NIP-42).
   static const int authentication = 22242;
 
@@ -192,6 +198,7 @@ class EventKind {
     groupChatReply,
     groupNote,
     groupNoteReply,
+    groupModeration, // Don't cache moderation events
   ];
 
   /// Event kinds currently supported in the application.

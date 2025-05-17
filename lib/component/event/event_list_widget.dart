@@ -6,6 +6,8 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/provider/community_approved_provider.dart';
+import 'package:nostrmo/service/moderation_service.dart';
+import 'package:nostrmo/component/moderation/moderated_post_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -57,6 +59,19 @@ class _EventListWidgetState extends State<EventListWidget> {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
     var eventRelation = EventRelation.fromEvent(widget.event);
+    
+    // Check if this post has been moderated/removed
+    final moderationService = Provider.of<ModerationService>(context);
+    final isModerated = moderationService.isPostModerated(widget.event.id);
+    
+    // If moderated, show the moderation placeholder
+    if (isModerated) {
+      final moderationEvent = moderationService.getModerationEvent(widget.event.id);
+      return ModeratedPostWidget(
+        originalEvent: widget.event,
+        moderationEvent: moderationEvent,
+      );
+    }
 
     // Create a card with our new styling from design
     Widget main = Screenshot(

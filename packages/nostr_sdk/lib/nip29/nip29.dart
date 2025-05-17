@@ -74,4 +74,50 @@ class NIP29 {
 
     await nostr.sendEvent(event, tempRelays: relays, targetRelays: relays);
   }
+
+  /// Create a moderation event to remove a post from a group
+  /// 
+  /// This creates and sends a moderation event (kind 16402) to remove a post from a group
+  /// Only users with admin privileges should be able to remove posts
+  /// 
+  /// @param nostr The Nostr instance to use
+  /// @param groupIdentifier Group identifier (relay and group ID)
+  /// @param postId ID of the post to remove
+  /// @param reason Optional reason for removal
+  /// @return The created event if successful, null otherwise
+  static Future<Event?> removePost(
+      Nostr nostr, GroupIdentifier groupIdentifier, String postId, {String? reason}) async {
+    var relays = [groupIdentifier.host];
+    
+    // Create the tags for the moderation event
+    List<List<dynamic>> tags = [
+      ["h", groupIdentifier.groupId], // Group ID
+      ["e", postId], // Post ID
+      ["action", "remove"], // Action (remove)
+      ["type", "post"], // Type (post)
+    ];
+    
+    // Add reason if provided
+    if (reason != null && reason.isNotEmpty) {
+      tags.add(["reason", reason]);
+    }
+    
+    // Create the event - using kind 16402 for group moderation events
+    var event = Event(
+      nostr.publicKey,
+      EventKind.groupModeration, // Moderation event kind (16402)
+      tags,
+      "", // No content needed for moderation events
+    );
+    
+    try {
+      // Send the event to the group's relay
+      await nostr.sendEvent(event, tempRelays: relays, targetRelays: relays);
+      return event;
+    } catch (e) {
+      // Log error and return null on failure
+      print("Error sending post removal event: $e");
+      return null;
+    }
+  }
 }

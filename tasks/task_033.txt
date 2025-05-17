@@ -115,7 +115,7 @@ UI Implementation Plan for Content Reporting:
 Note: This initial implementation focuses solely on the user interface components. The actual Nostr event generation (kind 10030 or similar) and relay publishing will be implemented in the next phase after UI confirmation.
 </info added on 2025-05-17T09:00:15.915Z>
 
-## 2. Implement user reporting for abusive or spammy members [in-progress]
+## 2. Implement user reporting for abusive or spammy members [done]
 ### Dependencies: None
 ### Description: Allow users to report other group members for abusive or spammy behavior. Publish a Nostr event referencing the reported user's pubkey, reason, and reporter's pubkey. Ensure the reporting flow is clear, accessible, and meets Apple App Store moderation requirements.
 ### Details:
@@ -125,7 +125,66 @@ Note: This initial implementation focuses solely on the user interface component
 ### Dependencies: None
 ### Description: Enable group admins to remove posts by publishing a NIP-29-compliant moderation event to the group relay(s). Clients must interpret these events and hide the referenced post in the group feed, showing a placeholder message. Only admins (as defined in group metadata) can perform this action.
 ### Details:
+<info added on 2025-05-17T10:53:48.610Z>
+## Post Removal Implementation Plan
 
+### 1. Data Structure & Protocol
+- Use event kind 16402 for group moderation actions
+- Required tags:
+  - 'h' tag: group ID
+  - 'e' tag: ID of post being removed
+  - 'reason' tag: removal reason
+  - 'action' tag: value 'remove'
+  - 'type' tag: value 'post'
+
+### 2. Backend Implementation
+- Create `GroupModerationService` class
+- Implement `removePost(groupId, postId, reason)` method:
+  - Verify user is group admin
+  - Create formatted moderation event
+  - Sign with user's key
+  - Publish to group relays
+- Extend event subscription system to process moderation events
+- Validate incoming events (signature, admin status, post existence)
+- Update event store to mark posts as removed
+- Implement caching for removed posts
+
+### 3. UI Implementation
+- Add "Remove Post" option to post action menu for admins
+- Create confirmation dialog with:
+  - Explanation text
+  - Reason selection dropdown
+  - Custom reason field
+  - Cancel/Confirm buttons
+- Modify post rendering for removed posts:
+  - Display "This post has been removed by a community organizer"
+  - Show removal reason
+  - Maintain author context
+  - Apply distinct visual styling
+- Implement admin feedback (loading indicators, notifications)
+- Handle error cases and edge conditions
+
+### 4. Testing Strategy
+- Unit tests: event validation, permissions, publishing logic, UI state
+- Integration tests: end-to-end flow, relay publishing, event processing
+- Cross-device testing: rendering consistency, offline scenarios, synchronization
+
+### 5. Security Considerations
+- Strict admin validation
+- Rate limiting for removal actions
+- Audit logging
+- Optional author notification
+
+### 6. Implementation Steps
+1. Create moderation event data model
+2. Implement backend service
+3. Add event handling logic
+4. Modify UI for removed posts
+5. Add admin UI components
+6. Implement error handling
+7. Add tests
+8. Document the feature
+</info added on 2025-05-17T10:53:48.610Z>
 
 ## 4. Implement user removal (ban/kick) by group admins [pending]
 ### Dependencies: None
@@ -138,4 +197,197 @@ Note: This initial implementation focuses solely on the user interface component
 ### Description: Review and refine all moderation and reporting flows (reporting content, reporting users, removing content, removing users) to ensure they are accessible, clear, and meet Apple App Store guidelines for user safety, abuse reporting, and moderation transparency.
 ### Details:
 
+
+## 6. Update reporting copy to clarify reports go to community organizers [done]
+### Dependencies: None
+### Description: Modify the text in the report content dialog and toast messages to clearly indicate that reports are being sent to community organizers/admins rather than a central moderation team. Ensure users understand who will see their reports and how they will be handled within the community context.
+### Details:
+
+
+## 7. Implement shared group user reporting [pending]
+### Dependencies: None
+### Description: Enhance the user reporting feature to send reports to all groups that the reporting user and reported user have in common, ensuring community organizers in shared spaces receive notifications about problematic users.
+### Details:
+When a user reports another user, the report should be distributed to all shared communities:
+
+1. Technical analysis:
+   - Need to identify all groups both users belong to
+   - Requires querying membership data for both users
+   - Need to create and send separate report events for each shared group
+
+2. Implementation plan:
+   - Create a function to find common groups between two users by:
+     - Getting the current user's groups from ListProvider's groupIdentifiers
+     - Querying the reported user's group memberships
+     - Finding the intersection of these sets
+   - Modify _reportUser() in user_widget.dart to:
+     - Find shared groups between the current user and the reported user
+     - Generate a separate NIP-56 report event for each shared group
+     - Add group-specific tags to each report event ("h" tag with group ID)
+     - Send reports to appropriate relays for each group
+
+3. UI considerations:
+   - Update toast message to indicate reports are sent to shared communities
+   - Consider displaying the number of communities notified
+   - Add progress indication for multiple report submissions
+
+4. Testing:
+   - Verify reports are properly tagged with group identifiers
+   - Confirm reports appear in group contexts
+   - Test scenarios with multiple shared groups
+   - Test behavior when no shared groups exist
+
+## 8. Implement admin report management dashboard [pending]
+### Dependencies: None
+### Description: Create an admin dashboard for community organizers to view, categorize, and manage all user and content reports in their groups. This enables effective community moderation by providing a centralized interface for organizers to review and act on reports.
+### Details:
+## Admin Report Management Dashboard
+
+The admin report management dashboard will provide community organizers with tools to effectively handle content and user reports:
+
+### Functionality:
+1. **Report Aggregation & Viewing**
+   - Display all reports for the community in a tabular format with filtering options
+   - Highlight new/unreviewed reports to bring attention to fresh complaints
+   - Group similar reports together to identify patterns of problematic behavior
+   - Show report details including reporter, timestamp, reason, and context
+
+2. **Sorting and Filtering**
+   - Filter reports by type (content vs. user reports)
+   - Sort by date, reporter, status, or severity
+   - Search capability to find specific reports
+   - Filter by report status (new, in review, resolved, dismissed)
+
+3. **Report Actions**
+   - View the reported content/user profile directly from the dashboard
+   - Mark reports as reviewed, resolved, or dismissed
+   - Take moderation actions directly from the report view:
+     - Remove reported content
+     - Warn reported users
+     - Ban/kick users from the community
+   - Add internal notes to reports for admin team collaboration
+
+4. **Statistics and Patterns**
+   - Show report volume trends over time
+   - Identify users who receive multiple reports
+   - Display most common report reasons
+   - Track resolution rates and response times
+
+### Implementation Details:
+1. **Data Structure**
+   - Create a method to collect and parse NIP-56 report events from the relays
+   - Develop a local storage system to cache report data for quick access
+   - Implement a subscription system to receive real-time report notifications
+
+2. **UI Components**
+   - Design a dedicated "Reports" tab in the group administration interface
+   - Create a filterable/sortable table component for displaying reports
+   - Develop detailed report view panels with action buttons
+   - Implement status indicators for different report states
+
+3. **Access Control**
+   - Limit dashboard access strictly to group administrators
+   - Ensure proper authentication checks
+   - Create different permission levels for viewing vs. acting on reports
+
+4. **Usability**
+   - Design for both mobile and desktop interfaces
+   - Implement clear visual indicators for unread/new reports
+   - Create intuitive workflows for common moderation actions
+   - Add confirmation dialogs for irreversible actions
+
+### Technical Considerations:
+- Efficiently query report events (kind 1984) with appropriate filters
+- Implement background polling for new reports
+- Optimize data storage to handle potentially large numbers of reports
+- Ensure privacy by limiting access to sensitive report information
+
+## 9. Implement moderation audit log system [pending]
+### Dependencies: None
+### Description: Create a comprehensive audit log system that records all moderation actions taken by community organizers. This provides transparency, accountability, and history tracking for content removals, user bans, and report resolutions.
+### Details:
+## Moderation Audit Log System
+
+The moderation audit log will track and store all moderation actions, providing a permanent record of decisions made by community organizers.
+
+### Core Functionality:
+1. **Complete Action Logging**
+   - Record all moderation actions with full context:
+     - Type of action (content removal, user ban, warning, report resolution)
+     - Moderator who took the action
+     - Timestamp of action
+     - Target of action (content ID, user pubkey)
+     - Reason provided by moderator
+     - Related report IDs (if applicable)
+     - Original report details
+   - Generate unique identifiers for each moderation action
+   - Store actions in a structured, searchable format
+
+2. **Action Categorization**
+   - Classify actions by type (report handling, content moderation, user moderation)
+   - Track severity levels of actions
+   - Maintain relationships between related actions
+   - Link audit entries to original reports
+
+3. **Storage and Retention**
+   - Store audit logs as Nostr events with appropriate permissions
+   - Include encryption for sensitive details
+   - Implement appropriate retention policies based on group settings
+   - Ensure persistence across client reinstalls/updates
+
+4. **Viewing and Access**
+   - Create dedicated interface for viewing the audit log
+   - Implement filtering and search capabilities:
+     - By date range
+     - By moderator
+     - By action type
+     - By target user/content
+   - Support exporting logs in standard formats
+   - Add permission controls for log access (admin-only by default)
+
+5. **Notifications and Alerts**
+   - Notify admins of sensitive moderation actions
+   - Provide summaries of moderation activity
+   - Alert on unusual patterns of moderation
+   - Maintain privacy of reporters and sensitive information
+
+### Technical Implementation:
+1. **Data Structure**
+   - Design Nostr event format for storing audit records
+   - Create indexes for efficient querying
+   - Develop schema for local caching of audit data
+   - Build relationships between audit events and original reports/content
+
+2. **UI Components**
+   - Create an "Audit Log" tab in the admin interface
+   - Design filterable timeline view of all actions
+   - Implement detailed view for each audit entry
+   - Add visual indicators for different action types
+
+3. **Integration Points**
+   - Hook into all moderation action points:
+     - Report resolution flow
+     - Content removal system
+     - User ban/removal functionality
+     - Warning issuance
+   - Ensure audit logging occurs even in offline/queue mode operations
+
+4. **Privacy and Security**
+   - Implement fine-grained access controls
+   - Protect reporter information
+   - Prevent tampering with audit logs
+   - Handle private group information appropriately
+
+5. **Analytics and Dashboards**
+   - Create statistical views of moderation activities
+   - Show trends and patterns over time
+   - Track moderator activity levels
+   - Report on resolution times and effectiveness
+
+### Implementation Considerations:
+- Ensure all logs are immutable once created
+- Optimize for minimal performance impact on moderation actions
+- Support retrieving historical logs efficiently
+- Design the UI to be intuitive for non-technical community organizers
+- Consider ethical implications of storing sensitive moderation data
 

@@ -145,8 +145,18 @@ class AppLogger {
     );
   }
 
-  /// Log a verbose message
+  /// Log a verbose message (positional parameters for backward compatibility)
   void v(dynamic message, [dynamic error, StackTrace? stackTrace, LogCategory category = LogCategory.core]) {
+    _logVerbose(message, error, stackTrace, category);
+  }
+
+  /// Log a verbose message (named parameters for future use)
+  void vNamed(dynamic message, {Object? error, StackTrace? stackTrace, LogCategory category = LogCategory.core}) {
+    _logVerbose(message, error, stackTrace, category);
+  }
+
+  /// Internal verbose log implementation
+  void _logVerbose(dynamic message, dynamic error, StackTrace? stackTrace, LogCategory category) {
     if (!isCategoryActive(category)) return;
     
     if (error != null) {
@@ -156,8 +166,18 @@ class AppLogger {
     }
   }
 
-  /// Log a debug message
+  /// Log a debug message (positional parameters for backward compatibility)
   void d(dynamic message, [dynamic error, StackTrace? stackTrace, LogCategory category = LogCategory.core]) {
+    _logDebug(message, error, stackTrace, category);
+  }
+
+  /// Log a debug message (named parameters for future use)
+  void dNamed(dynamic message, {Object? error, StackTrace? stackTrace, LogCategory category = LogCategory.core}) {
+    _logDebug(message, error, stackTrace, category);
+  }
+
+  /// Internal debug log implementation
+  void _logDebug(dynamic message, dynamic error, StackTrace? stackTrace, LogCategory category) {
     if (!isCategoryActive(category)) return;
     
     if (error != null) {
@@ -167,8 +187,18 @@ class AppLogger {
     }
   }
 
-  /// Log an info message
+  /// Log an info message (positional parameters for backward compatibility)
   void i(dynamic message, [dynamic error, StackTrace? stackTrace, LogCategory category = LogCategory.core]) {
+    _logInfo(message, error, stackTrace, category);
+  }
+
+  /// Log an info message (named parameters for future use)
+  void iNamed(dynamic message, {Object? error, StackTrace? stackTrace, LogCategory category = LogCategory.core}) {
+    _logInfo(message, error, stackTrace, category);
+  }
+
+  /// Internal info log implementation
+  void _logInfo(dynamic message, dynamic error, StackTrace? stackTrace, LogCategory category) {
     if (!isCategoryActive(category)) return;
     
     if (error != null) {
@@ -178,8 +208,18 @@ class AppLogger {
     }
   }
 
-  /// Log a warning message
+  /// Log a warning message (positional parameters for backward compatibility)
   void w(dynamic message, [dynamic error, StackTrace? stackTrace, LogCategory category = LogCategory.core]) {
+    _logWarning(message, error, stackTrace, category);
+  }
+
+  /// Log a warning message (named parameters for future use)
+  void wNamed(dynamic message, {Object? error, StackTrace? stackTrace, LogCategory category = LogCategory.core}) {
+    _logWarning(message, error, stackTrace, category);
+  }
+
+  /// Internal warning log implementation
+  void _logWarning(dynamic message, dynamic error, StackTrace? stackTrace, LogCategory category) {
     if (!isCategoryActive(category)) return;
     
     if (error != null) {
@@ -189,8 +229,18 @@ class AppLogger {
     }
   }
 
-  /// Log an error message
+  /// Log an error message (positional parameters for backward compatibility)
   void e(dynamic message, [dynamic error, StackTrace? stackTrace, LogCategory category = LogCategory.core]) {
+    _logError(message, error, stackTrace, category);
+  }
+
+  /// Log an error message (named parameters for future use)
+  void eNamed(dynamic message, {Object? error, StackTrace? stackTrace, LogCategory category = LogCategory.core}) {
+    _logError(message, error, stackTrace, category);
+  }
+
+  /// Internal error log implementation
+  void _logError(dynamic message, dynamic error, StackTrace? stackTrace, LogCategory category) {
     if (!isCategoryActive(category)) return;
     
     if (error != null) {
@@ -200,8 +250,18 @@ class AppLogger {
     }
   }
 
-  /// Log a "What a Terrible Failure" message
+  /// Log a "What a Terrible Failure" message (positional parameters for backward compatibility)
   void wtf(dynamic message, [dynamic error, StackTrace? stackTrace, LogCategory category = LogCategory.core]) {
+    _logWtf(message, error, stackTrace, category);
+  }
+
+  /// Log a "What a Terrible Failure" message (named parameters for future use)
+  void wtfNamed(dynamic message, {Object? error, StackTrace? stackTrace, LogCategory category = LogCategory.core}) {
+    _logWtf(message, error, stackTrace, category);
+  }
+
+  /// Internal wtf log implementation
+  void _logWtf(dynamic message, dynamic error, StackTrace? stackTrace, LogCategory category) {
     if (!isCategoryActive(category)) return;
     
     if (error != null) {

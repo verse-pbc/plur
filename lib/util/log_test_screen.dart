@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nostrmo/util/app_logger.dart';
@@ -18,6 +19,8 @@ class _LogTestScreenState extends State<LogTestScreen> {
   LogCategory _selectedCategory = LogCategory.core;
   bool _includeError = false;
   bool _includeStackTrace = false;
+  String _selectedLevel = 'verbose';
+  bool _isLoading = false;
   
   @override
   void dispose() {
@@ -36,11 +39,20 @@ class _LogTestScreenState extends State<LogTestScreen> {
   }
 
   /// Log a message at a specific level
-  void _logAt(String level) {
+  void _logWithSelectedLevel() {
     final message = _messageController.text;
-    final (error, stack) = _getErrorAndStack();
     
-    switch (level) {
+    // For testing with error and stack trace
+    Exception? error;
+    StackTrace? stack;
+    
+    if (_includeError) {
+      error = Exception('Test exception for logging');
+      stack = StackTrace.current;
+    }
+    
+    // Log with the selected level and chosen parameters
+    switch (_selectedLevel) {
       case 'verbose':
         logger.v(message, error, stack, _selectedCategory);
         break;
@@ -64,6 +76,7 @@ class _LogTestScreenState extends State<LogTestScreen> {
 
   /// Test all log levels
   void _testAllLevels() {
+    // Test all log levels with the selected category
     logger.v('This is a VERBOSE message', null, null, _selectedCategory);
     logger.d('This is a DEBUG message', null, null, _selectedCategory);
     logger.i('This is an INFO message', null, null, _selectedCategory);
@@ -73,8 +86,8 @@ class _LogTestScreenState extends State<LogTestScreen> {
   }
 
   /// Test category filtering
-  void _testCategories() {
-    // Log to each category to test filtering
+  void _testAllCategories() {
+    // Test all categories with DEBUG level
     logger.d('Core category log message', null, null, LogCategory.core);
     logger.d('Network category log message', null, null, LogCategory.network);
     logger.d('Database category log message', null, null, LogCategory.database);
@@ -86,37 +99,61 @@ class _LogTestScreenState extends State<LogTestScreen> {
   }
 
   /// Test logging with errors and stack traces
-  void _testErrorLogging() {
+  void _testError() {
     try {
-      // Deliberately throw an error
-      throw Exception('Deliberate test error');
+      // Simulate an error
+      throw Exception('This is a test exception');
     } catch (e, stack) {
       logger.e('Caught an exception during testing', e, stack, _selectedCategory);
     }
   }
 
   /// Test a simulated network request with logging
-  Future<void> _testNetworkRequest() async {
+  void _simulateNetworkRequest() {
+    // Simulate a network request with logging
     logger.d('Starting simulated network request', null, null, LogCategory.network);
     
-    try {
-      // Simulate API call start
-      logger.d('GET: https://api.example.com/data', null, null, LogCategory.network);
-      
-      // Simulate some processing time
-      await Future.delayed(const Duration(seconds: 1));
-      
-      // Simulate a random error (50% chance)
-      if (DateTime.now().millisecondsSinceEpoch % 2 == 0) {
-        throw Exception('API returned status 500');
+    Future.delayed(const Duration(seconds: 1), () {
+      try {
+        logger.d('GET: https://api.example.com/data', null, null, LogCategory.network);
+        
+        // 50% chance of success or error
+        if (Random().nextBool()) {
+          // Success
+          Future.delayed(const Duration(seconds: 1), () {
+            if (mounted) {
+              setState(() {
+                _isLoading = false;
+              });
+              
+              logger.d('Network request completed successfully', null, null, LogCategory.network);
+              logger.v('Response data: {"status": "success", "data": {...}}', null, null, LogCategory.network);
+            }
+          });
+        } else {
+          // Error
+          Future.delayed(const Duration(milliseconds: 800), () {
+            if (mounted) {
+              final e = Exception('API Error: 503 Service Unavailable');
+              final stack = StackTrace.current;
+              
+              setState(() {
+                _isLoading = false;
+              });
+              
+              logger.e('Network request failed', e, stack, LogCategory.network);
+            }
+          });
+        }
+      } catch (e, stack) {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+          logger.e('Error in network simulation', e, stack, LogCategory.network);
+        }
       }
-      
-      // Success case
-      logger.d('Network request completed successfully', null, null, LogCategory.network);
-      logger.v('Response data: {"status": "success", "data": {...}}', null, null, LogCategory.network);
-    } catch (e, stack) {
-      logger.e('Network request failed', e, stack, LogCategory.network);
-    }
+    });
   }
 
   /// Show the log filter dialog
@@ -212,28 +249,8 @@ class _LogTestScreenState extends State<LogTestScreen> {
               runSpacing: 8,
               children: [
                 ElevatedButton(
-                  onPressed: () => _logAt('verbose'),
-                  child: const Text('VERBOSE'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _logAt('debug'),
-                  child: const Text('DEBUG'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _logAt('info'),
-                  child: const Text('INFO'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _logAt('warning'),
-                  child: const Text('WARNING'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _logAt('error'),
-                  child: const Text('ERROR'),
-                ),
-                ElevatedButton(
-                  onPressed: () => _logAt('wtf'),
-                  child: const Text('WTF'),
+                  onPressed: () => _logWithSelectedLevel(),
+                  child: const Text('Log'),
                 ),
               ],
             ),
@@ -251,15 +268,15 @@ class _LogTestScreenState extends State<LogTestScreen> {
                   child: const Text('Test All Levels'),
                 ),
                 ElevatedButton(
-                  onPressed: _testCategories,
-                  child: const Text('Test Categories'),
+                  onPressed: _testAllCategories,
+                  child: const Text('Test All Categories'),
                 ),
                 ElevatedButton(
-                  onPressed: _testErrorLogging,
+                  onPressed: _testError,
                   child: const Text('Test Error Logging'),
                 ),
                 ElevatedButton(
-                  onPressed: _testNetworkRequest,
+                  onPressed: _simulateNetworkRequest,
                   child: const Text('Test Network Request'),
                 ),
               ],

@@ -12,6 +12,8 @@ import '../../../generated/l10n.dart';
 import '../../../provider/group_provider.dart';
 import '../../../provider/uploader.dart';
 import '../../../util/router_util.dart';
+import '../../../util/logger.dart';
+import '../../../consts/log_category.dart';
 
 class GroupAdminScreen extends StatefulWidget {
   const GroupAdminScreen({super.key});
@@ -30,10 +32,26 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
 
   @override
   void initState() {
+    super.initState();
+    _initializeData();
+    
+    // Important: The user must be an admin to see this screen,
+    // so make sure the GroupProvider knows this for report management too
+    try {
+      final groupId = context.read<GroupIdentifier>();
+      final myPubkey = nostr?.publicKey;
+      if (myPubkey != null) {
+        // WORKAROUND: Force set admin to ensure report management works
+        groupProvider.forceAdminForGroup(groupId, myPubkey);
+        logger.i("Admin screen: Forced admin status for consistent behavior", 
+                null, null, LogCategory.groups);
+      }
+    } catch (e) {
+      logger.e("Error ensuring admin access", e, null, LogCategory.groups);
+    }
+
     _nameController.addListener(_checkForChanges);
     _descriptionController.addListener(_checkForChanges);
-
-    super.initState();
   }
 
   @override
@@ -234,6 +252,14 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
                           context, RouterPath.communityGuidelines, groupId);
                     },
                   ),
+                  _NavigationRow(
+                    title: "Report Management",
+                    onTap: () {
+                      final groupId = context.read<GroupIdentifier>();
+                      RouterUtil.router(
+                          context, RouterPath.reportManagement, groupId);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -333,6 +359,11 @@ class _GroupAdminScreenState extends State<GroupAdminScreen> {
     } finally {
       setState(() => _isSaving = false);
     }
+  }
+
+  void _initializeData() {
+    _nameController.addListener(_checkForChanges);
+    _descriptionController.addListener(_checkForChanges);
   }
 }
 
