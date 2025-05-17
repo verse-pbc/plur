@@ -66,9 +66,10 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     var paddingTop = mediaDataCache.padding.top;
     final appColors = Theme.of(context).extension<AppColors>()!;
     final loginBackground = appColors.loginBackground;
-    // Use primary text from AppColors, which should be white in dark mode
-    final primaryTextColor = appColors.primaryText;
-    var mainColor = primaryTextColor; // Using primary text color for all text elements
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    // Use white for text in dark mode, primary text in light mode
+    final primaryTextColor = isDarkMode ? Colors.white : appColors.primaryText;
+    var mainColor = primaryTextColor; // Using appropriate text color for the theme
     List<Widget> list = [];
 
     _readOnly = nostr!.isReadOnly();
@@ -434,9 +435,10 @@ class IndexDrawerItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appColors = Theme.of(context).extension<AppColors>()!;
-    final primaryTextColor = appColors.primaryText;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    final primaryTextColor = isDarkMode ? Colors.white : appColors.primaryText;
     
-    // Use color parameter if provided, otherwise use primary text color
+    // Use color parameter if provided, otherwise use appropriate text color
     final itemColor = color ?? primaryTextColor;
     
     // The icon widget
