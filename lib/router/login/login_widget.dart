@@ -103,11 +103,18 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     final accentColor = colors.accent;
     final primaryForegroundColor = colors.primaryText;
 
-    var maxWidth = mediaDataCache.size.width;
-    var mainWidth = maxWidth * 0.8;
-    if (TableModeUtil.isTableMode()) {
-      if (mainWidth > 550) {
-        mainWidth = 550;
+    var screenWidth = mediaDataCache.size.width;
+    bool isTablet = screenWidth >= 600;
+    bool isDesktop = screenWidth >= 900;
+    
+    // Responsive content width
+    var mainWidth = screenWidth * 0.8;
+    if (isDesktop) {
+      mainWidth = 550;
+    } else if (isTablet) {
+      mainWidth = screenWidth * 0.7;
+      if (mainWidth > 600) {
+        mainWidth = 600;
       }
     }
 
@@ -152,27 +159,45 @@ class _LoginSignupState extends State<LoginSignupWidget> {
       ),
     ));
 
-    // Create a Profile button (primary action)
-    mainList.add(SizedBox(
-      width: double.infinity,
-      child: GestureDetector(
-        onTap: _navigateToSignup,
-        child: Container(
-          key: const Key('signup_button'),
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          decoration: BoxDecoration(
-            color: accentColor,
-            borderRadius: BorderRadius.circular(32),
+    // Responsive button width
+    double maxButtonWidth = isDesktop ? 400 : (isTablet ? 500 : double.infinity);
+    
+    // Button wrapper for responsive width
+    Widget createButton(Widget button) {
+      if (isTablet || isDesktop) {
+        return Center(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: maxButtonWidth),
+            child: button,
           ),
-          alignment: Alignment.center,
-          child: Text(
-            "Create a Profile",
-            style: TextStyle(
-              fontFamily: 'SF Pro Rounded',
-              color: buttonTextColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.2,
+        );
+      }
+      return button;
+    }
+
+    // Create a Profile button (primary action)
+    mainList.add(createButton(
+      SizedBox(
+        width: double.infinity,
+        child: GestureDetector(
+          onTap: _navigateToSignup,
+          child: Container(
+            key: const Key('signup_button'),
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            decoration: BoxDecoration(
+              color: accentColor,
+              borderRadius: BorderRadius.circular(32),
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              "Create a Profile",
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: buttonTextColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.2,
+              ),
             ),
           ),
         ),
@@ -182,29 +207,31 @@ class _LoginSignupState extends State<LoginSignupWidget> {
     mainList.add(const SizedBox(height: 16));
 
     // Login with Nostr button (secondary action) 
-    mainList.add(SizedBox(
-      width: double.infinity,
-      child: GestureDetector(
-        onTap: _showLoginSheet,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(32),
-            border: Border.all(
-              color: buttonTextColor.withAlpha((255 * 0.3).round()),
-              width: 2,
+    mainList.add(createButton(
+      SizedBox(
+        width: double.infinity,
+        child: GestureDetector(
+          onTap: _showLoginSheet,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 18),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(32),
+              border: Border.all(
+                color: buttonTextColor.withAlpha((255 * 0.3).round()),
+                width: 2,
+              ),
             ),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            "Login with Nostr",
-            style: TextStyle(
-              fontFamily: 'SF Pro Rounded',
-              color: buttonTextColor,
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.2,
+            alignment: Alignment.center,
+            child: Text(
+              "Login with Nostr",
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: buttonTextColor,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                letterSpacing: 0.2,
+              ),
             ),
           ),
         ),
