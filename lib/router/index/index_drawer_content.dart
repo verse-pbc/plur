@@ -555,16 +555,31 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     color: const Color(0xFF98B9B4),
                     borderRadius: BorderRadius.circular(25),
                   ),
-                  child: Text(
-                    nip19PubKey,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: Color(0xFF181E26),
-                      fontFamily: 'SF Pro Text',
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          nip19PubKey.length > 35 
+                            ? '${nip19PubKey.substring(0, 35)}...' 
+                            : nip19PubKey,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: Color(0xFF181E26),
+                            fontFamily: 'SF Pro Text',
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      const Icon(
+                        Icons.content_copy,
+                        color: Color(0xFF181E26),
+                        size: 20,
+                      ),
+                    ],
                   ),
                 ),
               ),
