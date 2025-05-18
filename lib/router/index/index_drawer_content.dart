@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
@@ -539,23 +540,36 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               ),
               const SizedBox(height: Base.basePadding),
               // Public key - full width
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF98B9B4),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-                child: Text(
-                  nip19PubKey,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF181E26),
-                    fontFamily: 'SF Pro Text',
+              GestureDetector(
+                onTap: () {
+                  // Copy to clipboard
+                  Clipboard.setData(ClipboardData(text: nip19PubKey));
+                  // Show feedback
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Copied to clipboard'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF98B9B4),
+                    borderRadius: BorderRadius.circular(25),
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
+                  child: Text(
+                    nip19PubKey,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: Color(0xFF181E26),
+                      fontFamily: 'SF Pro Text',
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
               const SizedBox(height: Base.basePadding),
