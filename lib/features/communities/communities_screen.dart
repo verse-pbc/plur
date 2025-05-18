@@ -516,7 +516,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     super.dispose();
   }
   
-  /// Shows the no communities bottom sheet
+  /// Shows the no communities bottom sheet ONLY if user has no groups
   void _showNoCommunitiesSheet({bool forceForNewUsers = false}) {
     if (_isNoCommunitiesSheetOpen) { 
       developer.log("NoCommunitiesSheet is already open or being shown, skipping.", name: "CommunitiesScreen");
@@ -527,32 +527,23 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
     final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
     
     // Force a refresh of groups before checking
-    // This is critical for new users who might have just installed the app
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       try {
         if (!mounted) return;
         
-        // Do a more thorough check for communities
-        developer.log("Performing thorough community check before showing sheet", name: "CommunitiesScreen");
-        
-        // DEBUGGING OVERRIDE: If forceForNewUsers is true AND we have a special debug flag set, 
-        // we'll show the sheet even if the user has communities
-        final bool forceShowEmptyStateOverride = false;  // Set to false to attempt showing communities first
-        
-        // If we have any communities in ListProvider and we're not forcing the sheet, don't show it
-        if (listProvider.groupIdentifiers.isNotEmpty && !(forceForNewUsers && forceShowEmptyStateOverride)) {
-          developer.log("User has communities in ListProvider (${listProvider.groupIdentifiers.length}), not showing sheet", name: "CommunitiesScreen");
+        // CRITICAL CHECK: If user has ANY groups, DO NOT show the sheet
+        if (listProvider.groupIdentifiers.isNotEmpty) {
+          developer.log("User has communities (${listProvider.groupIdentifiers.length}), NOT showing NoCommunitiesSheet", 
+              name: "CommunitiesScreen");
           return;
         }
         
-        // If we got here, either the user has no communities, or we're forcing the sheet
-        developer.log("Showing sheet because: hasNoCommunities=${listProvider.groupIdentifiers.isEmpty} OR forceOverride=${forceForNewUsers && forceShowEmptyStateOverride}", 
-          name: "CommunitiesScreen");
+        // Log that we're going to show the sheet because there are NO groups
+        developer.log("User has NO communities. Showing NoCommunitiesSheet", name: "CommunitiesScreen");
         
-        // Check if we should show the dialog (based on previous dismissal)
-        // If forceForNewUsers is true, ignore previous dismissals
-        final shouldShow = forceForNewUsers || await NoCommunitiesSheet.shouldShowDialog();
-        if (!shouldShow) {
+        // Check if sheet was previously dismissed
+        final shouldShow = await NoCommunitiesSheet.shouldShowDialog();
+        if (!shouldShow && !forceForNewUsers) {
           developer.log("NoCommunitiesSheet was previously dismissed by user, not showing", name: "CommunitiesScreen");
           return;
         }
@@ -564,7 +555,6 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
         
         // Set flag to prevent multiple sheets
         _isNoCommunitiesSheetOpen = true; 
-        developer.log("Showing NoCommunitiesSheet for user", name: "CommunitiesScreen");
         
         // Show the sheet
         showModalBottomSheet(
@@ -572,7 +562,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
           isScrollControlled: true,
           backgroundColor: Colors.transparent, 
           builder: (BuildContext context) {
-            return NoCommunitiesSheet(forceShow: true);  // Always force show when we get to this point
+            return NoCommunitiesSheet(forceShow: forceForNewUsers);
           },
         ).whenComplete(() {
           developer.log("NoCommunitiesSheet dismissed.", name: "CommunitiesScreen");
