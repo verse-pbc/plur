@@ -33,11 +33,23 @@ class StyledBotToast {
     try {
       // Get theme data
       final themeData = Theme.of(context).customColors;
+      final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+      
+      // Use #98b9b4 for dark mode, otherwise use theme default
+      final backgroundColor = isDarkMode 
+        ? const Color(0xFF98B9B4) 
+        : themeData.secondaryForegroundColor;
+      
+      // Use dark blue text for the teal background in dark mode
+      final textColor = isDarkMode 
+        ? const Color(0xFF181E26)
+        : null; // Use default white for other themes
       
       // Show toast with proper error handling
       _safeShowToast(
         text,
-        contentColor: themeData.secondaryForegroundColor,
+        contentColor: backgroundColor,
+        textColor: textColor,
       );
     } catch (e, stack) {
       // Log errors but don't crash the app
@@ -117,7 +129,7 @@ class StyledBotToast {
   }
   
   /// Private method to safely call BotToast.showText with error handling
-  static void _safeShowToast(String text, {Color? contentColor}) {
+  static void _safeShowToast(String text, {Color? contentColor, Color? textColor}) {
     // Skip showing toasts for encoding errors
     if (_shouldSuppressMessage(text)) {
       logger.d("SUPPRESSED TOAST ERROR: $text");
@@ -148,8 +160,8 @@ class StyledBotToast {
       final cancelFunc = BotToast.showText(
         text: text,
         contentColor: contentColor ?? Colors.black87,
-        textStyle: const TextStyle(
-          color: Colors.white,
+        textStyle: TextStyle(
+          color: textColor ?? Colors.white,
           fontSize: 14,
         ),
         borderRadius: BorderRadius.circular(8),
