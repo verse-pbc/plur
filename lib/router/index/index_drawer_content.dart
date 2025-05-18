@@ -188,27 +188,20 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   ),
                 ),
                 // User info with avatar space
-                Transform.translate(
-                  offset: const Offset(0, -40),
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                      left: Base.basePadding,
-                      right: Base.basePadding,
-                      bottom: Base.basePadding,
-                    ),
-                    child: Column(
-                      children: [
-                        const SizedBox(height: 60), // Space for avatar
-                        legacy_provider.Selector<UserProvider, User?>(
-                          builder: (context, user, child) {
-                            return _buildUserInfoWidget(context, user, pubkey);
-                          },
-                          selector: (_, provider) {
-                            return provider.getUser(pubkey);
-                          },
-                        ),
-                      ],
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: Base.basePadding,
+                    right: Base.basePadding,
+                    bottom: Base.basePadding,
+                    top: 48, // Space for avatar to overlap
+                  ),
+                  child: legacy_provider.Selector<UserProvider, User?>(
+                    builder: (context, user, child) {
+                      return _buildUserInfoWidget(context, user, pubkey);
+                    },
+                    selector: (_, provider) {
+                      return provider.getUser(pubkey);
+                    },
                   ),
                 ),
               ],
@@ -578,20 +571,22 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               // Public key - full width
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
                   color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(25),
                 ),
-                child: Text(
-                  nip19PubKey,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: hintColor,
-                    fontFamily: 'monospace',
+                child: Center(
+                  child: Text(
+                    nip19PubKey,
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: hintColor,
+                      fontFamily: 'SF Pro Text',
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
               const SizedBox(height: Base.basePadding * 1.5),
@@ -604,33 +599,22 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          color: isDarkMode ? Colors.grey[800] : Colors.black,
-                          borderRadius: BorderRadius.circular(20),
+                          color: isDarkMode ? const Color(0xFF1C1C1E) : const Color(0xFF48484A),
+                          borderRadius: BorderRadius.circular(25),
                         ),
                         child: TextButton(
                           onPressed: _jumpToProfileEdit,
                           style: TextButton.styleFrom(
-                            foregroundColor: isDarkMode ? Colors.white : Colors.white,
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            foregroundColor: Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 14),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.edit,
-                                size: 16,
-                                color: isDarkMode ? Colors.white : Colors.white,
-                              ),
-                              const SizedBox(width: 8),
-                              Text(
-                                'Edit Profile',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color: isDarkMode ? Colors.white : Colors.white,
-                                ),
-                              ),
-                            ],
+                          child: Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
