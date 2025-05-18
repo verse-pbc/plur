@@ -121,19 +121,19 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipBackground: AppColorPalette.primaryPurple,
     buttonText: AppColorPalette.white,
     modalBackground: AppColorPalette.lightBackground,
-    titleText: AppColorPalette.lightPrimaryText,
-    paneSeparator: AppColorPalette.lightDivider,
+    titleText: Color(0xFF161E27),
+    paneSeparator: Color(0xFFCCCCCC), // Temporary light mode color
   );
   
   /// Dark theme colors
   static const AppColors dark = AppColors._(
     primary: AppColorPalette.primaryPurple,
     accent: AppColorPalette.accentTeal,
-    background: Color(0xFF161E27), // Use login background for all screens
+    background: AppColorPalette.darkBackground,
     surface: AppColorPalette.darkSurface,
     surfaceVariant: AppColorPalette.darkSurfaceVariant,
     divider: AppColorPalette.darkDivider,
-    primaryText: AppColorPalette.white,
+    primaryText: AppColorPalette.darkPrimaryText,
     secondaryText: AppColorPalette.darkSecondaryText,
     highlightText: AppColorPalette.darkHighlightText,
     error: Color(0xFFFF5252),
@@ -142,7 +142,7 @@ class AppColors extends ThemeExtension<AppColors> {
     loginBackground: Color(0xFF161E27), // Custom dark login background
     cardBackground: AppColorPalette.darkSurface,
     navBackground: AppColorPalette.darkSurface,
-    feedBackground: Color(0xFF161E27), // Use login background
+    feedBackground: AppColorPalette.darkBackground,
     notesBackground: AppColorPalette.darkSurface,
     tabsBackground: AppColorPalette.darkSurface,
     dimmed: AppColorPalette.dimmedDark,
@@ -150,7 +150,7 @@ class AppColors extends ThemeExtension<AppColors> {
     tooltipText: AppColorPalette.darkHighlightText,
     tooltipBackground: AppColorPalette.darkDivider,
     buttonText: AppColorPalette.white,
-    modalBackground: Color(0xFF161E27), // Use login background
+    modalBackground: AppColorPalette.darkBackground,
     titleText: AppColorPalette.white,
     paneSeparator: Color(0xFF324050),
   );
