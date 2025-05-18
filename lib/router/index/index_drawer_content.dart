@@ -608,7 +608,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                             foregroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(horizontal: 14),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Edit Profile',
                             style: TextStyle(
                               fontSize: 14,
