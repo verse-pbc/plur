@@ -121,15 +121,15 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           ),
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Stack(
-          clipBehavior: Clip.none,
+        child: Column(
           children: [
-            Column(
-              children: [
-                // Cover photo with 16:9 aspect ratio
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: legacy_provider.Selector<UserProvider, User?>(
+            // Cover photo with 16:9 aspect ratio and avatar
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  legacy_provider.Selector<UserProvider, User?>(
                     builder: (context, user, child) {
                       String? bannerUrl = user?.banner;
                       
@@ -186,50 +186,54 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                       return provider.getUser(pubkey);
                     },
                   ),
-                ),
-                // User info with avatar space
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: Base.basePadding,
-                    right: Base.basePadding,
-                    bottom: Base.basePadding,
-                    top: Base.basePadding,
-                  ),
-                  child: legacy_provider.Selector<UserProvider, User?>(
+                  // Avatar positioned at the bottom of the cover photo
+                  legacy_provider.Selector<UserProvider, User?>(
                     builder: (context, user, child) {
-                      return _buildUserInfoWidget(context, user, pubkey);
+                      const avatarSize = 80.0;
+                      const avatarPadding = Base.basePadding;
+                      
+                      return Positioned(
+                        left: avatarPadding,
+                        bottom: avatarPadding,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: const Color(0xFF2B2B2B),
+                              width: 5,
+                            ),
+                          ),
+                          child: UserPicWidget(
+                            pubkey: pubkey,
+                            width: avatarSize,
+                            user: user,
+                          ),
+                        ),
+                      );
                     },
                     selector: (_, provider) {
                       return provider.getUser(pubkey);
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-            // Avatar positioned on the edge between cover photo and info section
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return legacy_provider.Selector<UserProvider, User?>(
-                  builder: (context, user, child) {
-                    const avatarSize = 80.0;
-                    // Calculate based on actual container width
-                    final coverHeight = constraints.maxWidth * 9 / 16;
-                    
-                    return Positioned(
-                      left: Base.basePadding,
-                      top: coverHeight - (avatarSize / 2),
-                      child: UserPicWidget(
-                        pubkey: pubkey,
-                        width: avatarSize,
-                        user: user,
-                      ),
-                    );
-                  },
-                  selector: (_, provider) {
-                    return provider.getUser(pubkey);
-                  },
-                );
-              },
+            // User info section
+            Padding(
+              padding: const EdgeInsets.only(
+                left: Base.basePadding,
+                right: Base.basePadding,
+                bottom: Base.basePadding,
+                top: Base.basePadding,
+              ),
+              child: legacy_provider.Selector<UserProvider, User?>(
+                builder: (context, user, child) {
+                  return _buildUserInfoWidget(context, user, pubkey);
+                },
+                selector: (_, provider) {
+                  return provider.getUser(pubkey);
+                },
+              ),
             ),
           ],
         ),
@@ -531,8 +535,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Add space for avatar area
-              const SizedBox(height: 44),
+              // Add small space at top
+              const SizedBox(height: 8),
               Text(
                 displayName,
                 style: TextStyle(
