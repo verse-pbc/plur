@@ -177,6 +177,7 @@ flutter:
     - assets/imgs/thumbs-down.png
     - assets/imgs/holis-tag.png
     - assets/imgs/drivers-licence.png
+    - assets/imgs/user-avatar.png
     
   fonts:
     - family: "SF Pro Rounded"
