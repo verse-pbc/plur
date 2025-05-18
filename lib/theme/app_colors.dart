@@ -64,6 +64,7 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color buttonText;
   final Color modalBackground;
   final Color titleText;
+  final Color paneSeparator;
   
   const AppColors._({
     required this.primary,
@@ -91,6 +92,7 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.buttonText,
     required this.modalBackground,
     required this.titleText,
+    required this.paneSeparator,
   });
   
   /// Light theme colors
@@ -120,6 +122,7 @@ class AppColors extends ThemeExtension<AppColors> {
     buttonText: AppColorPalette.white,
     modalBackground: AppColorPalette.lightBackground,
     titleText: Color(0xFF161E27),
+    paneSeparator: Color(0xFFCCCCCC), // Temporary light mode color
   );
   
   /// Dark theme colors
@@ -149,6 +152,7 @@ class AppColors extends ThemeExtension<AppColors> {
     buttonText: AppColorPalette.white,
     modalBackground: AppColorPalette.darkBackground,
     titleText: AppColorPalette.white,
+    paneSeparator: Color(0xFF324050),
   );
   
   @override
@@ -178,6 +182,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? buttonText,
     Color? modalBackground,
     Color? titleText,
+    Color? paneSeparator,
   }) {
     return AppColors._(
       primary: primary ?? this.primary,
@@ -205,6 +210,7 @@ class AppColors extends ThemeExtension<AppColors> {
       buttonText: buttonText ?? this.buttonText,
       modalBackground: modalBackground ?? this.modalBackground,
       titleText: titleText ?? this.titleText,
+      paneSeparator: paneSeparator ?? this.paneSeparator,
     );
   }
   
@@ -239,6 +245,7 @@ class AppColors extends ThemeExtension<AppColors> {
       buttonText: Color.lerp(buttonText, other.buttonText, t) ?? buttonText,
       modalBackground: Color.lerp(modalBackground, other.modalBackground, t) ?? modalBackground,
       titleText: Color.lerp(titleText, other.titleText, t) ?? titleText,
+      paneSeparator: Color.lerp(paneSeparator, other.paneSeparator, t) ?? paneSeparator,
     );
   }
 }

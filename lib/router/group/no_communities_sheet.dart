@@ -222,15 +222,19 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                       GestureDetector(
                         onTap: _pasteJoinLink,
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              localization.haveInviteLink,
-                              style: TextStyle(
-                                fontFamily: 'SF Pro Rounded',
-                                fontSize: 14,
-                                fontStyle: FontStyle.italic,
-                                color: context.colors.dimmed,
+                            Flexible(
+                              child: Text(
+                                localization.haveInviteLink,
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  fontSize: 14,
+                                  fontStyle: FontStyle.italic,
+                                  color: context.colors.dimmed,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             const SizedBox(width: 4),

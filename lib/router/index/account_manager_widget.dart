@@ -83,26 +83,6 @@ class AccountManagerWidgetState extends State<AccountManagerWidget> {
           
           const SizedBox(height: 24),
           
-          // Account icon above title
-          Center(
-            child: Image.asset(
-              'assets/imgs/profile.png',
-              width: 80,
-              height: 80,
-              // No color tinting to show the original image
-              errorBuilder: (context, error, stackTrace) {
-                // Fallback icon if image fails to load
-                return Icon(
-                  Icons.account_circle,
-                  size: 80,
-                  color: buttonTextColor,
-                );
-              },
-            ),
-          ),
-          
-          const SizedBox(height: 16),
-          
           // Title
           wrapResponsive(
             Center(
@@ -436,6 +416,10 @@ class _AccountManagerItemWidgetState extends State<AccountManagerItemWidget> {
                   child: NameWidget(
                     pubkey: pubkey,
                     user: user,
+                    fontColor: appColors?.titleText ?? buttonTextColor,
+                    showName: false,
+                    fontSize: (themeData.textTheme.bodyMedium?.fontSize ?? 14) * 1.05,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 
