@@ -303,7 +303,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                             ),
                             const SizedBox(height: 16),
                             Text(
-                              S.of(context).noCommunities,
+                              S.of(context).noCommunitiesYet,
                               style: TextStyle(
                                 fontSize: 18,
                                 color: context.colors.secondaryText,
@@ -312,7 +312,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              S.of(context).tapCreatAddToComunity,
+                              S.of(context).startOrJoinACommunity,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: context.colors.secondaryText.withAlpha(178),
