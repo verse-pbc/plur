@@ -87,14 +87,12 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     }
     
     // Use default avatar if no custom image is available
-    if (imageWidget == null) {
-      imageWidget = Image.asset(
-        'assets/imgs/user-avatar.png',
-        width: widget.width - imageBorder * 2,
-        height: widget.width - imageBorder * 2,
-        fit: BoxFit.cover,
-      );
-    }
+    imageWidget ??= Image.asset(
+      'assets/imgs/user-avatar.png',
+      width: widget.width - imageBorder * 2,
+      height: widget.width - imageBorder * 2,
+      fit: BoxFit.cover,
+    );
 
     return Container(
       width: widget.width,
