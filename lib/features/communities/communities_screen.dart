@@ -173,20 +173,46 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     developer.log("🔔 MARKED HAS_EVER_SEEN_GROUPS=true because we found $originalGroupCount groups", name: "CommunitiesScreen");
                   }
                   
-                  // CRITICAL: Once we've had groups, don't show the empty state unless
-                  // explicitly requested, to prevent false emptiness during data refreshes
-                  if (groupIds.isEmpty && !_hasEverSeenGroups) {
-                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state sheet", name: "CommunitiesScreen");
-                    // Show the no communities sheet when no communities exist
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      // Always show for new users with a true flag to force showing regardless of previous dismissal
-                      _showNoCommunitiesSheet(forceForNewUsers: true);
-                    });
-                    // Return an empty scaffold while the sheet is being shown
-                    return Container(
-                      color: context.colors.background,
-                    );
-                  } else if (groupIds.isEmpty && (_hasEverSeenGroups || _cachedGridWidget != null)) {
+                  // CRITICAL: Show the no communities sheet in two scenarios:
+                  // 1. When no communities are found and we've never seen any before (new user)
+                  // 2. When communities are found but we need to show the sheet anyway (debug flag)
+                  // 
+                  // NOTE: We're setting this to false to attempt to show the communities list
+                  // before falling back to the empty state sheet
+                  final bool forceShowEmptyState = false; // Set to false to try showing communities first
+                  
+                  if (groupIds.isEmpty || forceShowEmptyState) {
+                    developer.log("🚫 SHOWING EMPTY STATE: groupIds is empty: ${groupIds.isEmpty}, forceShowEmptyState: $forceShowEmptyState", name: "CommunitiesScreen");
+                    
+                    // Don't show the empty state if we've had groups before and we're not forcing it
+                    if (_hasEverSeenGroups && !forceShowEmptyState) {
+                      developer.log("⚠️ Not showing empty state because _hasEverSeenGroups is true and not forcing", name: "CommunitiesScreen");
+                      // Use cached widgets if available
+                      if (_cachedGridWidget != null || _cachedListWidget != null || _cachedFeedWidget != null) {
+                        if (viewMode == CommunityViewMode.feed && _cachedFeedWidget != null) {
+                          return _cachedFeedWidget!;
+                        } else if (viewMode == CommunityViewMode.list && _cachedListWidget != null) {
+                          return _cachedListWidget!;
+                        } else if (_cachedGridWidget != null) {
+                          return _cachedGridWidget!;
+                        }
+                      }
+                    } else {
+                      // Show the no communities sheet
+                      developer.log("🚫 SHOWING NO COMMUNITIES SHEET", name: "CommunitiesScreen");
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        // Always show with a true flag to force showing regardless of previous dismissal
+                        _showNoCommunitiesSheet(forceForNewUsers: true);
+                      });
+                      // Return an empty scaffold while the sheet is being shown
+                      return Container(
+                        color: context.colors.background,
+                      );
+                    }
+                  }
+                  
+                  // Original code for when communities are empty but we've seen them before
+                  if (groupIds.isEmpty && (_hasEverSeenGroups || _cachedGridWidget != null)) {
                     // If we had groups before but now they're empty, use the last cached view
                     // This prevents flickering when groups are temporarily not available
                     developer.log("⚠️ WARNING: Group list is empty but using cached view to prevent flickering", name: "CommunitiesScreen");
@@ -203,57 +229,99 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   // Create a copy of the list to sort
                   final sortedGroupIds = List<GroupIdentifier>.from(groupIds);
                   
-                  if (viewMode == CommunityViewMode.feed) {
-                    // Only create feed widget if not already cached
-                    if (_cachedFeedWidget == null || viewModeChanged) {
-                      debugPrint("🏗️ CREATING CACHED FEED WIDGET for the first time");
-                      _cachedFeedWidget = const CommunitiesFeedWidget();
-                    } else {
-                      debugPrint("♻️ REUSING CACHED FEED WIDGET");
-                    }
-                    return _cachedFeedWidget!;
-                  } else if (viewMode == CommunityViewMode.list) {
-                    // Only create list widget if not already cached
-                    if (_cachedListWidget == null || viewModeChanged) {
-                      debugPrint("🏗️ CREATING CACHED LIST WIDGET: first time=${_cachedListWidget == null}, viewModeChanged=$viewModeChanged");
-                      
-                      // Apply Shimmer effect only if this is the first load
-                      // This prevents the flickering issue when switching views
-                      if (!_hasLoaded) {
-                        debugPrint("🏗️ CREATING LIST WIDGET WITH SHIMMER for first load");
-                        _cachedListWidget = Shimmer(
-                          linearGradient: shimmerGradient,
-                          child: CommunitiesListWidget(groupIds: sortedGroupIds),
-                        );
+                  try {
+                    // Log the number of groups we're trying to show
+                    debugPrint("🔍 ATTEMPTING TO SHOW ${sortedGroupIds.length} GROUPS in ${viewMode.toString()} mode");
+                    
+                    if (viewMode == CommunityViewMode.feed) {
+                      // Only create feed widget if not already cached
+                      if (_cachedFeedWidget == null || viewModeChanged) {
+                        debugPrint("🏗️ CREATING CACHED FEED WIDGET for the first time");
+                        _cachedFeedWidget = const CommunitiesFeedWidget();
                       } else {
-                        debugPrint("🏗️ CREATING LIST WIDGET WITHOUT SHIMMER for subsequent loads");
-                        _cachedListWidget = CommunitiesListWidget(groupIds: sortedGroupIds);
+                        debugPrint("♻️ REUSING CACHED FEED WIDGET");
                       }
-                    } else {
-                      debugPrint("♻️ REUSING CACHED LIST WIDGET");
-                    }
-                    return _cachedListWidget!;
-                  } else {
-                    // Only create grid widget if not already cached
-                    if (_cachedGridWidget == null || viewModeChanged) {
-                      debugPrint("🏗️ CREATING CACHED GRID WIDGET: first time=${_cachedGridWidget == null}, viewModeChanged=$viewModeChanged");
-                      
-                      // Apply Shimmer effect only if this is the first load
-                      // This prevents the flickering issue when switching views
-                      if (!_hasLoaded) {
-                        debugPrint("🏗️ CREATING GRID WIDGET WITH SHIMMER for first load");
-                        _cachedGridWidget = Shimmer(
-                          linearGradient: shimmerGradient,
-                          child: CommunitiesGridWidget(groupIds: sortedGroupIds),
-                        );
+                      return _cachedFeedWidget!;
+                    } else if (viewMode == CommunityViewMode.list) {
+                      // Only create list widget if not already cached
+                      if (_cachedListWidget == null || viewModeChanged) {
+                        debugPrint("🏗️ CREATING CACHED LIST WIDGET: first time=${_cachedListWidget == null}, viewModeChanged=$viewModeChanged");
+                        
+                        // Apply Shimmer effect only if this is the first load
+                        // This prevents the flickering issue when switching views
+                        if (!_hasLoaded) {
+                          debugPrint("🏗️ CREATING LIST WIDGET WITH SHIMMER for first load");
+                          _cachedListWidget = Shimmer(
+                            linearGradient: shimmerGradient,
+                            child: CommunitiesListWidget(groupIds: sortedGroupIds),
+                          );
+                        } else {
+                          debugPrint("🏗️ CREATING LIST WIDGET WITHOUT SHIMMER for subsequent loads");
+                          _cachedListWidget = CommunitiesListWidget(groupIds: sortedGroupIds);
+                        }
                       } else {
-                        debugPrint("🏗️ CREATING GRID WIDGET WITHOUT SHIMMER for subsequent loads");
-                        _cachedGridWidget = CommunitiesGridWidget(groupIds: sortedGroupIds);
+                        debugPrint("♻️ REUSING CACHED LIST WIDGET");
                       }
+                      return _cachedListWidget!;
                     } else {
-                      debugPrint("♻️ REUSING CACHED GRID WIDGET");
+                      // Only create grid widget if not already cached
+                      if (_cachedGridWidget == null || viewModeChanged) {
+                        debugPrint("🏗️ CREATING CACHED GRID WIDGET: first time=${_cachedGridWidget == null}, viewModeChanged=$viewModeChanged");
+                        
+                        // Apply Shimmer effect only if this is the first load
+                        // This prevents the flickering issue when switching views
+                        if (!_hasLoaded) {
+                          debugPrint("🏗️ CREATING GRID WIDGET WITH SHIMMER for first load");
+                          _cachedGridWidget = Shimmer(
+                            linearGradient: shimmerGradient,
+                            child: CommunitiesGridWidget(groupIds: sortedGroupIds),
+                          );
+                        } else {
+                          debugPrint("🏗️ CREATING GRID WIDGET WITHOUT SHIMMER for subsequent loads");
+                          _cachedGridWidget = CommunitiesGridWidget(groupIds: sortedGroupIds);
+                        }
+                      } else {
+                        debugPrint("♻️ REUSING CACHED GRID WIDGET");
+                      }
+                      return _cachedGridWidget!;
                     }
-                    return _cachedGridWidget!;
+                  } catch (e, stackTrace) {
+                    // If we get an error trying to display communities, show the no communities sheet
+                    debugPrint("⚠️ ERROR SHOWING COMMUNITIES: $e");
+                    debugPrint("🔄 STACK TRACE: $stackTrace");
+                    
+                    // Show the NoCommunitiesSheet as a fallback
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      // Only show if not already showing
+                      if (!_isNoCommunitiesSheetOpen && mounted) {
+                        _showNoCommunitiesSheet(forceForNewUsers: true);
+                      }
+                    });
+                    
+                    // Return an empty scaffold while the sheet is being shown
+                    return Container(
+                      color: context.colors.background,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CircularProgressIndicator(),
+                              const SizedBox(height: 20),
+                              Text(
+                                "Loading your communities...",
+                                style: TextStyle(
+                                  color: context.colors.primaryText,
+                                  fontSize: 16,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   }
                 },
                 error: (error, stackTrace) => Center(child: ErrorWidget(error)),
@@ -314,11 +382,19 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
         // Do a more thorough check for communities
         developer.log("Performing thorough community check before showing sheet", name: "CommunitiesScreen");
         
-        // If we have any communities in ListProvider, don't show the sheet
-        if (listProvider.groupIdentifiers.isNotEmpty) {
+        // DEBUGGING OVERRIDE: If forceForNewUsers is true AND we have a special debug flag set, 
+        // we'll show the sheet even if the user has communities
+        final bool forceShowEmptyStateOverride = false;  // Set to false to attempt showing communities first
+        
+        // If we have any communities in ListProvider and we're not forcing the sheet, don't show it
+        if (listProvider.groupIdentifiers.isNotEmpty && !(forceForNewUsers && forceShowEmptyStateOverride)) {
           developer.log("User has communities in ListProvider (${listProvider.groupIdentifiers.length}), not showing sheet", name: "CommunitiesScreen");
           return;
         }
+        
+        // If we got here, either the user has no communities, or we're forcing the sheet
+        developer.log("Showing sheet because: hasNoCommunities=${listProvider.groupIdentifiers.isEmpty} OR forceOverride=${forceForNewUsers && forceShowEmptyStateOverride}", 
+          name: "CommunitiesScreen");
         
         // Check if we should show the dialog (based on previous dismissal)
         // If forceForNewUsers is true, ignore previous dismissals
@@ -335,7 +411,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
         
         // Set flag to prevent multiple sheets
         _isNoCommunitiesSheetOpen = true; 
-        developer.log("Showing NoCommunitiesSheet for new user", name: "CommunitiesScreen");
+        developer.log("Showing NoCommunitiesSheet for user", name: "CommunitiesScreen");
         
         // Show the sheet
         showModalBottomSheet(
@@ -343,7 +419,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
           isScrollControlled: true,
           backgroundColor: Colors.transparent, 
           builder: (BuildContext context) {
-            return NoCommunitiesSheet(forceShow: forceForNewUsers);
+            return NoCommunitiesSheet(forceShow: true);  // Always force show when we get to this point
           },
         ).whenComplete(() {
           developer.log("NoCommunitiesSheet dismissed.", name: "CommunitiesScreen");
