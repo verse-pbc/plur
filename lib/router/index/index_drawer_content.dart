@@ -199,8 +199,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: const Color(0xFF2B2B2B),
-                              width: 5,
+                              color: const Color(0xFF439793),
+                              width: 3,
                             ),
                           ),
                           child: UserPicWidget(
@@ -508,8 +508,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
   /// Builds a custom user info widget without the banner
   Widget _buildUserInfoWidget(BuildContext context, User? user, String pubkey) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    
     String displayName = "";
     
     if (user != null) {
@@ -539,11 +537,11 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               const SizedBox(height: 8),
               Text(
                 displayName,
-                style: TextStyle(
+                style: const TextStyle(
                   fontFamily: 'SF Pro Rounded',
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Colors.white : Colors.black,
+                  color: Color(0xFF181E26),
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
