@@ -25,6 +25,7 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
   int _currentPage = 0;
   String? _userName;
   bool _isLoading = false;
+  bool _skipCommunities = false;
 
   @override
   void dispose() {
@@ -32,18 +33,42 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
     super.dispose();
   }
 
-  late final List<Widget> _steps = [
-    AgeVerificationStep(
-      onVerified: _nextPage,
-      onDenied: _onAgeDenied,
-    ),
-    NameInputStepWidget(
-      onContinue: (name) {
-        _userName = name;
-        _nextPage();
-      },
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    
+    // Initialize steps
+    _initializeSteps();
+  }
+  
+  late List<Widget> _steps;
+  
+  // Initialize steps with callback references
+  void _initializeSteps() {
+    _steps = [
+      AgeVerificationStep(
+        onVerified: _nextPage,
+        onDenied: _onAgeDenied,
+      ),
+      NameInputStepWidget(
+        onContinue: (name) {
+          _userName = name;
+          _nextPage();
+        },
+      ),
+      CommunityIntroStepWidget(
+        onContinue: _nextPage,
+      ),
+      DiscoverCommunitiesStepWidget(
+        onJoinCommunities: _onJoinCommunities,
+        onCreateCommunity: _onCreateCommunity,
+        onSkip: () {
+          _skipCommunities = true;
+          _completeOnboarding();
+        },
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,22 +132,78 @@ class _OnboardingWidgetState extends State<OnboardingWidget> {
     }
   }
 
-  void _completeOnboarding() {
+  // Handle joining communities flow
+  void _onJoinCommunities() async {
+    // First generate the account
+    await _generateAccount();
+    
+    // Return flag for communities
+    Map<String, dynamic> result = {
+      'privateKey': _generatedPrivateKey,
+      'userName': _userName ?? '',
+      'joinCommunities': true,
+      'skipCommunities': false,
+    };
+    
+    // Return to login screen
+    if (mounted) {
+      Navigator.of(context).pop(result);
+    }
+  }
+  
+  // Handle creating a community flow
+  void _onCreateCommunity() async {
+    // First generate the account
+    await _generateAccount();
+    
+    // Return flag for creating community
+    Map<String, dynamic> result = {
+      'privateKey': _generatedPrivateKey,
+      'userName': _userName ?? '',
+      'joinCommunities': false,
+      'createCommunity': true,
+      'skipCommunities': false,
+    };
+    
+    // Return to login screen
+    if (mounted) {
+      Navigator.of(context).pop(result);
+    }
+  }
+  
+  // Store generated private key
+  String? _generatedPrivateKey;
+  
+  // Generate account but don't navigate yet
+  Future<void> _generateAccount() async {
     setState(() {
       _isLoading = true;
     });
     
     // Import nostr_sdk to generate a private key
     final String privateKey = generatePrivateKey();
+    _generatedPrivateKey = privateKey;
     
-    // Return both the private key and username in a map
-    Map<String, String> result = {
-      'privateKey': privateKey,
+    // Wait a moment for UI to update
+    await Future.delayed(const Duration(milliseconds: 300));
+  }
+
+  void _completeOnboarding() {
+    setState(() {
+      _isLoading = true;
+    });
+    
+    // Import nostr_sdk to generate a private key if not already generated
+    if (_generatedPrivateKey == null) {
+      _generatedPrivateKey = generatePrivateKey();
+    }
+    
+    // Return the private key, username and skip flag in a map
+    Map<String, dynamic> result = {
+      'privateKey': _generatedPrivateKey,
       'userName': _userName ?? '',
+      'skipCommunities': _skipCommunities,
     };
-    
-    // Don't auto-join any groups during onboarding
-    // This was causing confusion for new users
     
     // Use a short delay and complete the operation
     Future.delayed(const Duration(milliseconds: 300)).then((_) {

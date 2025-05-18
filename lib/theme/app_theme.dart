@@ -88,6 +88,7 @@ class AppTheme {
         fillColor: colors.surface,
         hintStyle: TextStyle(
           fontFamily: 'SF Pro Rounded',
+          
           color: colors.secondaryText,
         ),
       ),
@@ -181,6 +182,7 @@ class AppTheme {
         fillColor: colors.surface,
         hintStyle: TextStyle(
           fontFamily: 'SF Pro Rounded',
+          
           color: colors.secondaryText,
         ),
       ),
@@ -201,6 +203,7 @@ class AppTheme {
       ),
       displayMedium: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 8,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -208,6 +211,7 @@ class AppTheme {
       ),
       displaySmall: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 6,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -215,6 +219,7 @@ class AppTheme {
       ),
       headlineLarge: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 6,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -222,6 +227,7 @@ class AppTheme {
       ),
       headlineMedium: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 4,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -229,6 +235,7 @@ class AppTheme {
       ),
       headlineSmall: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 2,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -236,6 +243,7 @@ class AppTheme {
       ),
       titleLarge: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 4,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -243,6 +251,7 @@ class AppTheme {
       ),
       titleMedium: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 2,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -250,6 +259,7 @@ class AppTheme {
       ),
       titleSmall: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize,
         fontWeight: FontWeight.bold,
         color: foregroundColor,
@@ -257,24 +267,28 @@ class AppTheme {
       ),
       bodyLarge: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize + 2,
         color: foregroundColor,
         height: 1.4,
       ),
       bodyMedium: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize,
         color: foregroundColor,
         height: 1.4,
       ),
       bodySmall: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize - 2,
         color: foregroundColor,
         height: 1.4,
       ),
       labelLarge: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
@@ -282,6 +296,7 @@ class AppTheme {
       ),
       labelMedium: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize - 1,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
@@ -289,6 +304,7 @@ class AppTheme {
       ),
       labelSmall: TextStyle(
         fontFamily: 'SF Pro Rounded',
+        
         fontSize: baseFontSize - 2,
         fontWeight: FontWeight.w500,
         color: foregroundColor,
