@@ -415,6 +415,9 @@ class ListProvider extends ChangeNotifier {
       // This is a safeguard in case metadata wasn't properly loaded before
       _queryGroupMetadata(groupId);
       
+      // Always notify listeners to ensure UI updates
+      notifyListeners();
+      
       if (context != null && context.mounted) {
         // Navigate to the group immediately
         try {
@@ -439,6 +442,15 @@ class ListProvider extends ChangeNotifier {
     _addGroupIdentifier(groupId);
     try {
       _updateGroups();
+      
+      // Critical: Notify all listeners immediately to update UI
+      notifyListeners();
+      
+      if (groupFeedProvider != null) {
+        // Force GroupFeedProvider to refresh if it exists
+        log("JoinGroup INFO: Forcing GroupFeedProvider refresh", name: "ListProvider.joinGroup");
+        groupFeedProvider!.refresh();
+      }
     } catch (e) {
       log("JoinGroup ERROR: Failed to update groups: $e", name: "ListProvider.joinGroup");
     }
@@ -454,6 +466,9 @@ class ListProvider extends ChangeNotifier {
       
       // Show error toast
       _safeShowToast("Error joining group: $e");
+      
+      // Make sure we notify listeners even on error
+      notifyListeners();
       
       // Navigate despite error to avoid blank screen
       if (context != null && context.mounted) {
@@ -479,15 +494,24 @@ class ListProvider extends ChangeNotifier {
     
     if (success) {
       _safeShowToast("Successfully joined group!");
+      
+      // If successful, set newUser flag to false since they now have a community
+      if (newUser == true) {
+        log("SETTING newUser flag to FALSE after successful join", name: "ListProvider.joinGroup");
+        newUser = false;
+      }
     } else {
       _safeShowToast("Group join may have failed, but we've added it to your list anyway.");
     }
+    
+    // Make absolutely sure we've notified listeners
+    notifyListeners();
     
     // Navigation should have been handled in joinGroups / _handleJoinResults
     // but let's ensure we don't leave the user stranded
     if (context != null && context.mounted) {
       // Delay navigation to avoid conflicts with _handleJoinResults
-      Future.delayed(const Duration(milliseconds: 1500), () {
+      Future.delayed(const Duration(milliseconds: 1000), () {
         if (context.mounted && success) {
           try {
             // Double-check if the group exists in our list
@@ -1001,24 +1025,42 @@ class ListProvider extends ChangeNotifier {
     );
     
     try {
-      // Send to all available relays for maximum propagation
-      await nostr!.sendEvent(updateGroupListEvent);
-      log("_updateGroups SUCCESS: Successfully sent updated group list event (event ID: ${updateGroupListEvent.id}).", name: "ListProvider._updateGroups");
-      _safeShowToast("UPD_GROUPS_SENT: Count: ${_groupIdentifiers.length}");
+      // Notify listeners BEFORE sending the event - critical for UI updates
+      // This ensures we display the new groups in the UI immediately
+      notifyListeners();
       
-      // Force GroupFeedProvider to refresh if it exists
+      // Force GroupFeedProvider to refresh if it exists - also critical for UI updates
       if (groupFeedProvider != null) {
         log("_updateGroups INFO: Refreshing GroupFeedProvider to show new groups.", name: "ListProvider._updateGroups");
         groupFeedProvider!.refresh();
       } else {
         log("_updateGroups INFO: GroupFeedProvider not available, can't refresh.", name: "ListProvider._updateGroups");
       }
+      
+      // Send to all available relays for maximum propagation
+      await nostr!.sendEvent(updateGroupListEvent);
+      log("_updateGroups SUCCESS: Successfully sent updated group list event (event ID: ${updateGroupListEvent.id}).", name: "ListProvider._updateGroups");
+      
+      // For debugging only
+      if (_groupIdentifiers.length > 0) {
+        _safeShowToast("UPD_GROUPS_SENT: Count: ${_groupIdentifiers.length}");
+      }
+      
+      // Reset the newUser flag if we now have groups
+      if (_groupIdentifiers.isNotEmpty && newUser) {
+        log("_updateGroups INFO: Setting newUser flag to FALSE since user now has groups", name: "ListProvider._updateGroups");
+        newUser = false;
+      }
+      
+      // Notify listeners again after the event is sent successfully
+      notifyListeners();
     } catch (e) {
       log("_updateGroups ERROR: Error sending updated group list event: $e", name: "ListProvider._updateGroups");
+      
+      // Still notify listeners even if sending fails, to ensure UI updates
+      notifyListeners();
     }
 
-    // Notify listeners to update UI
-    notifyListeners();
     log("_updateGroups END", name: "ListProvider._updateGroups");
   }
 
@@ -1026,12 +1068,32 @@ class ListProvider extends ChangeNotifier {
     log("_addGroupIdentifier START: Attempting to add GroupId: ${groupIdentifier.groupId}, Host: ${groupIdentifier.host}", name: "ListProvider._addGroupIdentifier");
     if (!_groupIdentifiers.any((gi) => gi.groupId == groupIdentifier.groupId && gi.host == groupIdentifier.host)) {
       _groupIdentifiers.add(groupIdentifier);
-      _queryGroupMetadata(groupIdentifier); // Query metadata when adding new group
+      
+      // Query metadata when adding new group
+      _queryGroupMetadata(groupIdentifier);
+      
       log("_addGroupIdentifier SUCCESS: Added GroupId: ${groupIdentifier.groupId}. Total: ${_groupIdentifiers.length}. Queried metadata.", name: "ListProvider._addGroupIdentifier");
       _safeShowToast("ADD_GROUP_ID: ${groupIdentifier.groupId}. Total: ${_groupIdentifiers.length}.");
+      
+      // Reset the newUser flag if we now have groups
+      if (newUser == true && _groupIdentifiers.isNotEmpty) {
+        log("_addGroupIdentifier INFO: Setting newUser flag to FALSE since user now has groups", name: "ListProvider._addGroupIdentifier");
+        newUser = false;
+      }
+      
+      // Critically important to notify listeners here so UI can update
       notifyListeners();
+      
+      // Also notify group feed provider if it exists
+      if (groupFeedProvider != null) {
+        log("_addGroupIdentifier INFO: Refreshing GroupFeedProvider to show new group", name: "ListProvider._addGroupIdentifier");
+        groupFeedProvider!.refresh();
+      }
     } else {
-      log("_addGroupIdentifier INFO: GroupId: ${groupIdentifier.groupId} already exists. Not adding.", name: "ListProvider._addGroupIdentifier");
+      log("_addGroupIdentifier INFO: GroupId: ${groupIdentifier.groupId} already exists. Querying metadata anyway.", name: "ListProvider._addGroupIdentifier");
+      
+      // Still query metadata to ensure we have the latest
+      _queryGroupMetadata(groupIdentifier);
     }
   }
 
