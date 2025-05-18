@@ -14,11 +14,6 @@
 	<false/>
 	<key>signingStyle</key>
 	<string>automatic</string>
-	<key>provisioningProfiles</key>
-	<dict>
-		<key>social.holis.app</key>
-		<string>match AppStore social.holis.app</string>
-	</dict>
 </dict>
 </plist>
 

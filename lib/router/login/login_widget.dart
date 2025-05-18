@@ -16,6 +16,7 @@ import '../../component/styled_bot_toast.dart';
 import '../../component/styled_input_field_widget.dart';
 import '../../theme/app_colors.dart';
 import '../../consts/plur_colors.dart';
+import '../../features/create_community/create_community_dialog.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
 class LoginSignupWidget extends StatefulWidget {
@@ -397,9 +398,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   /// Navigates to the Signup screen.
   Future<void> _navigateToSignup() async {
     final userData = await Navigator.of(context).pushNamed(RouterPath.onboarding);
-    if (userData != null && userData is Map<String, String>) {
+    if (userData != null && userData is Map<String, dynamic>) {
       final privateKey = userData['privateKey'];
       final userName = userData['userName'];
+      final bool joinCommunities = userData['joinCommunities'] == true;
+      final bool createCommunity = userData['createCommunity'] == true;
       
       if (privateKey != null && privateKey.isNotEmpty) {
         _doPreLogin();
@@ -431,7 +434,28 @@ class _LoginSignupState extends State<LoginSignupWidget> {
           // Update UI and mark as first login to properly download contact data
           settingsProvider.notifyListeners();
           firstLogin = true;
-          indexProvider.setCurrentTap(0);
+          newUser = true; // Mark as new user
+          
+          // Handle communities onboarding path
+          if (joinCommunities) {
+            // Navigate directly to communities screen
+            debugPrint("Directing new user to join communities");
+            indexProvider.setCurrentTap(1); // Communities tab
+          } else if (createCommunity) {
+            // Navigate to communities and show create dialog
+            debugPrint("Directing new user to create a community");
+            indexProvider.setCurrentTap(1); // Communities tab
+            
+            // Schedule community creation dialog after UI settles
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) {
+                CreateCommunityDialog.show(context);
+              }
+            });
+          } else {
+            // Normal flow
+            indexProvider.setCurrentTap(0);
+          }
           
           // Auto join testing group for dev/local builds
           _joinTestGroupIfDev();
