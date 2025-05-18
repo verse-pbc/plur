@@ -206,31 +206,22 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 ),
               ],
             ),
-            // Avatar positioned on the edge of the cover photo (left aligned)
+            // Avatar positioned on the edge between cover photo and info section
             LayoutBuilder(
               builder: (context, constraints) {
                 return legacy_provider.Selector<UserProvider, User?>(
                   builder: (context, user, child) {
-                    const avatarSize = 72.0;
+                    const avatarSize = 80.0;
                     // Calculate based on actual container width
                     final coverHeight = constraints.maxWidth * 9 / 16;
                     
                     return Positioned(
                       left: Base.basePadding,
                       top: coverHeight - (avatarSize / 2),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: const Color(0xFF1C1C1E),
-                            width: 3,
-                          ),
-                        ),
-                        child: UserPicWidget(
-                          pubkey: pubkey,
-                          width: avatarSize,
-                          user: user,
-                        ),
+                      child: UserPicWidget(
+                        pubkey: pubkey,
+                        width: avatarSize,
+                        user: user,
                       ),
                     );
                   },
@@ -541,7 +532,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Add space for avatar area
-              const SizedBox(height: 36),
+              const SizedBox(height: 44),
               Text(
                 displayName,
                 style: TextStyle(
