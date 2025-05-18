@@ -13,6 +13,7 @@ import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
 import '../../theme/app_colors.dart';
+import '../../generated/l10n.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';
@@ -291,6 +292,36 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     // Return an empty scaffold while the sheet is being shown
                     return Container(
                       color: context.colors.background,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.groups_outlined,
+                              size: 64,
+                              color: context.colors.secondaryText.withAlpha(128),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              S.of(context).noCommunities,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: context.colors.secondaryText,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              S.of(context).tapCreatAddToComunity,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: context.colors.secondaryText.withAlpha(178),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   }
                   
