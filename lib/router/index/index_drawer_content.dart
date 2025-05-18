@@ -543,7 +543,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFAABDBC),
+                  color: const Color(0xFF98B9B4),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Text(
@@ -568,7 +568,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFFAABDBC),
+                          color: const Color(0xFF98B9B4),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: TextButton(
@@ -595,7 +595,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFAABDBC),
+                      color: const Color(0xFF98B9B4),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: IconButton(
@@ -616,7 +616,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFAABDBC),
+                      color: const Color(0xFF98B9B4),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: IconButton(
