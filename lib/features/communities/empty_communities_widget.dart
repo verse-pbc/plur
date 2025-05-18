@@ -7,7 +7,6 @@ import 'package:nostrmo/theme/app_colors.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/user_provider.dart';
 import 'package:provider/provider.dart';
-import '../../generated/l10n.dart';
 import '../../data/user.dart';
 
 /// A widget that displays options when no communities are available
@@ -18,7 +17,6 @@ class EmptyCommunitiesWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final l10n = S.of(context);
     final pubkey = nostr!.publicKey;
     
     return Container(
@@ -49,7 +47,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                     }
                     
                     return Text(
-                      "Welcome $displayName!",
+                      "Welcome, $displayName!",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
@@ -70,8 +68,8 @@ class EmptyCommunitiesWidget extends StatelessWidget {
               child: _buildOptionTile(
                 context: context,
                 icon: Icons.add_circle_outline,
-                title: l10n.createGroup,
-                subtitle: "Create a new community for your interests",
+                title: "Create a Community",
+                subtitle: "Start your own community around a topic or activity you care about.",
                 onTap: () {
                   CreateCommunityDialog.show(context);
                 },
@@ -85,8 +83,8 @@ class EmptyCommunitiesWidget extends StatelessWidget {
               child: _buildOptionTile(
                 context: context,
                 icon: Icons.people_outline,
-                title: "Join Plur Test Users",
-                subtitle: "Join the official Plur test community",
+                title: "Join Holis Open Community",
+                subtitle: "Be part of our official test group and help us shape the future of Plur.",
                 onTap: () {
                   _joinTestUsersGroup(context);
                 },
@@ -100,8 +98,8 @@ class EmptyCommunitiesWidget extends StatelessWidget {
               child: _buildOptionTile(
                 context: context,
                 icon: Icons.link,
-                title: l10n.joinGroup,
-                subtitle: l10n.haveInviteLink,
+                title: "Join with an Invite",
+                subtitle: "Got an invite link? Use it here to join a private group instantly.",
                 onTap: () {
                   // Navigate to join community page
                   Navigator.of(context).push(
@@ -128,7 +126,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                 context: context,
                 icon: Icons.search,
                 title: "Find Communities",
-                subtitle: "Search for public communities",
+                subtitle: "Explore and join open communities that match your interests.",
                 enabled: false,
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -216,7 +214,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
-            "Join Plur Test Users Group",
+            "Join Holis Open Community",
             style: TextStyle(
               color: colors.primaryText,
               fontSize: 20,
@@ -224,8 +222,8 @@ class EmptyCommunitiesWidget extends StatelessWidget {
             ),
           ),
           content: Text(
-            "Would you like to join the Plur Test Users community? "
-            "This is a public group for testing features and connecting with other users.",
+            "Would you like to join the Holis Open Community? "
+            "This is our official test group where you can help us shape the future of Plur.",
             style: TextStyle(
               color: colors.primaryText,
               fontSize: 16,
@@ -251,7 +249,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                 // Show loading indicator
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text("Joining Plur Test Users group..."),
+                    content: const Text("Joining Holis Open Community..."),
                     duration: const Duration(seconds: 1),
                     backgroundColor: colors.primary.withAlpha(230),
                   ),
@@ -264,7 +262,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                   // Show error message if joining failed
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("Failed to join test users group. Please try again later."),
+                      content: Text("Failed to join Holis Open Community. Please try again later."),
                       duration: Duration(seconds: 3),
                     ),
                   );
