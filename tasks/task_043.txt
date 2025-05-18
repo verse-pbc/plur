@@ -45,3 +45,35 @@ Testing should verify that zap icons appear and function correctly only when app
    - Verify that the conditional display doesn't affect screen reader functionality
 
 Document all test cases and results, including screenshots of the UI both with and without zap icons visible.
+
+# Subtasks:
+## 1. Audit Zap Icon Usage Across the Application [pending]
+### Dependencies: None
+### Description: Identify and document all UI components and locations where zap icons are currently displayed, including posts, comments, profiles, and any other relevant sections.
+### Details:
+Perform a thorough review of the codebase and UI to ensure no zap icon usage is missed. Create a comprehensive list or map of all instances.
+
+## 2. Enhance Wallet Status Check Functionality [pending]
+### Dependencies: 43.1
+### Description: Develop or refine a reliable mechanism to determine if a user has successfully set up an NWC wallet.
+### Details:
+Ensure the wallet status check is accurate, efficient, and accessible to all components that require it. Consider edge cases such as partially configured wallets or errors in wallet setup.
+
+## 3. Implement Conditional Rendering for Zap Icons [pending]
+### Dependencies: 43.2
+### Description: Modify zap icon components to render only when the wallet status check confirms a configured NWC wallet.
+### Details:
+Use React conditional rendering patterns (e.g., &&, ternary operator, or returning null) to hide zap icons when appropriate, ensuring no unnecessary DOM elements are rendered.
+
+## 4. Update UI Components and Handle Layout Gracefully [pending]
+### Dependencies: 43.3
+### Description: Refactor affected UI components to ensure the absence of zap icons does not disrupt layout or user experience, and optionally add a tooltip or notification explaining their absence.
+### Details:
+Adjust spacing, alignment, and any related UI logic. If zap icons are hidden, provide a clear, non-intrusive explanation (e.g., tooltip or small message) for users without a wallet.
+
+## 5. Update Documentation and Optimize Performance [pending]
+### Dependencies: 43.4
+### Description: Revise developer and user documentation to reflect the new conditional zap icon behavior, and ensure the wallet status check does not introduce performance issues.
+### Details:
+Document the conditional logic and user experience changes. Profile the application to confirm that wallet status checks are efficient, especially on pages with multiple zap icons.
+
