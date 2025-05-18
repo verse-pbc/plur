@@ -207,32 +207,37 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
               ],
             ),
             // Avatar positioned on the edge of the cover photo (left aligned)
-            legacy_provider.Selector<UserProvider, User?>(
-              builder: (context, user, child) {
-                const avatarSize = 72.0;
-                final coverHeight = (MediaQuery.of(context).size.width - 48) * 9 / 16;
-                
-                return Positioned(
-                  left: Base.basePadding,
-                  top: coverHeight - avatarSize / 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFF2B2B2B),
-                        width: 3,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return legacy_provider.Selector<UserProvider, User?>(
+                  builder: (context, user, child) {
+                    const avatarSize = 72.0;
+                    // Calculate based on actual container width
+                    final coverHeight = constraints.maxWidth * 9 / 16;
+                    
+                    return Positioned(
+                      left: Base.basePadding,
+                      top: coverHeight - (avatarSize / 2),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: const Color(0xFF1C1C1E),
+                            width: 3,
+                          ),
+                        ),
+                        child: UserPicWidget(
+                          pubkey: pubkey,
+                          width: avatarSize,
+                          user: user,
+                        ),
                       ),
-                    ),
-                    child: UserPicWidget(
-                      pubkey: pubkey,
-                      width: avatarSize,
-                      user: user,
-                    ),
-                  ),
+                    );
+                  },
+                  selector: (_, provider) {
+                    return provider.getUser(pubkey);
+                  },
                 );
-              },
-              selector: (_, provider) {
-                return provider.getUser(pubkey);
               },
             ),
           ],
