@@ -14,6 +14,8 @@ class NameWidget extends StatefulWidget {
 
   final Color? fontColor;
 
+  final FontWeight? fontWeight;
+
   final TextOverflow? textOverflow;
 
   final int? maxLines;
@@ -27,6 +29,7 @@ class NameWidget extends StatefulWidget {
     this.showNip05 = true,
     this.fontSize,
     this.fontColor,
+    this.fontWeight,
     this.textOverflow,
     this.maxLines = 3,
     this.showName = true,
@@ -90,7 +93,7 @@ class _NameWidgetState extends State<NameWidget> {
       text: StringUtil.breakWord(displayName),
       style: TextStyle(
         fontFamily: 'SF Pro Rounded',
-        fontWeight: FontWeight.bold,
+        fontWeight: widget.fontWeight ?? FontWeight.bold,
         fontSize: widget.fontSize ?? textSize,
         color: widget.fontColor,
       ),

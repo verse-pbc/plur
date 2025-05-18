@@ -239,13 +239,16 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           spacing: 4,
                           children: [
-                            Text(
-                              localization.haveInviteLink,
-                              style: TextStyle(
-                                fontFamily: 'SF Pro Rounded',
-                                fontSize: 14,
-                                fontStyle: FontStyle.italic,
-                                color: context.colors.dimmed,
+                            Flexible(
+                              child: Text(
+                                localization.haveInviteLink,
+                                style: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  fontSize: 14,
+                                  fontStyle: FontStyle.italic,
+                                  color: context.colors.dimmed,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             Icon(

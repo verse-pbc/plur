@@ -253,28 +253,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       ));
     }
     
-    // Add the DMs option to the list of drawer items.
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.chat_rounded,
-      name: localization.dms,
-      color: indexProvider.currentTap == 1 ? mainColor : null,
-      onTap: () {
-        indexProvider.setCurrentTap(1);
-      },
-      smallMode: widget.smallMode,
-    ));
-    
-    // Add the SEARCH option to the list of drawer items.
-    centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.search_rounded,
-      name: localization.search,
-      color: indexProvider.currentTap == 2 ? mainColor : null,
-      onTap: () {
-        indexProvider.setCurrentTap(2);
-      },
-      smallMode: widget.smallMode,
-    ));
-    
     // Add the COMMUNITIES option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
       iconData: Icons.groups_rounded,
@@ -282,6 +260,17 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       color: indexProvider.currentTap == 0 ? mainColor : null,
       onTap: () {
         indexProvider.setCurrentTap(0);
+      },
+      smallMode: widget.smallMode,
+    ));
+    
+    // Add the DMs option to the list of drawer items.
+    centerList.add(IndexDrawerItemWidget(
+      iconData: Icons.chat_rounded,
+      name: localization.dms,
+      color: indexProvider.currentTap == 1 ? mainColor : null,
+      onTap: () {
+        indexProvider.setCurrentTap(1);
       },
       smallMode: widget.smallMode,
     ));
@@ -310,13 +299,14 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       },
       smallMode: widget.smallMode,
     ));
-
-    // Add the SETTINGS option to the list of drawer items.
+    
+    // Add the SEARCH option to the list of drawer items.
     centerList.add(IndexDrawerItemWidget(
-      iconData: Icons.settings_rounded,
-      name: localization.settings,
+      iconData: Icons.search_rounded,
+      name: localization.search,
+      color: indexProvider.currentTap == 2 ? mainColor : null,
       onTap: () {
-        RouterUtil.router(context, RouterPath.settings);
+        indexProvider.setCurrentTap(2);
       },
       smallMode: widget.smallMode,
     ));
@@ -330,10 +320,22 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       ),
     ));
 
+    // Add the SETTINGS option at the bottom of drawer items.
+    list.add(IndexDrawerItemWidget(
+      iconData: Icons.settings_rounded,
+      name: localization.settings,
+      color: appColors.secondaryText,
+      onTap: () {
+        RouterUtil.router(context, RouterPath.settings);
+      },
+      smallMode: widget.smallMode,
+    ));
+
     // Add the Account Manager widget.
     list.add(IndexDrawerItemWidget(
       iconData: Icons.account_box_rounded,
       name: localization.accountManager,
+      color: appColors.secondaryText,
       onTap: () {
         _showBasicModalBottomSheet(context);
       },
@@ -361,7 +363,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       Widget versionWidget = Text(
         "${localization.version}: $versionText",
         style: TextStyle(
-          color: mainColor,
+          color: appColors.paneSeparator,
           fontSize: 14,
         ),
       );
@@ -397,7 +399,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           border: Border(
             top: BorderSide(
               width: 1,
-              color: mainColor.withValues(alpha: 0.2),
+              color: appColors.paneSeparator,
             ),
           ),
         ),
@@ -760,22 +762,25 @@ class IndexDrawerItemWidget extends StatelessWidget {
       );
     }
 
-    return GestureDetector(
-      onTap: () {
-        onTap();
-      },
-      onDoubleTap: () {
-        if (onDoubleTap != null) {
-          onDoubleTap!();
-        }
-      },
-      onLongPress: () {
-        if (onLongPress != null) {
-          onLongPress!();
-        }
-      },
-      behavior: HitTestBehavior.translucent,
-      child: mainWidget,
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      child: GestureDetector(
+        onTap: () {
+          onTap();
+        },
+        onDoubleTap: () {
+          if (onDoubleTap != null) {
+            onDoubleTap!();
+          }
+        },
+        onLongPress: () {
+          if (onLongPress != null) {
+            onLongPress!();
+          }
+        },
+        behavior: HitTestBehavior.translucent,
+        child: mainWidget,
+      ),
     );
   }
 }
