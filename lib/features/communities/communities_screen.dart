@@ -11,10 +11,6 @@ import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
 import '../../theme/app_colors.dart';
-import '../../generated/l10n.dart';
-import '../../router/group/join_community_widget.dart';
-import '../../util/community_join_util.dart';
-import '../../features/create_community/create_community_dialog.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';

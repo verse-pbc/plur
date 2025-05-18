@@ -20,128 +20,125 @@ class EmptyCommunitiesWidget extends StatelessWidget {
     final colors = context.colors;
     final l10n = S.of(context);
     final pubkey = nostr!.publicKey;
-    final userProvider = Provider.of<UserProvider>(context);
     
     return Container(
       color: colors.background,
-      child: Center(
-        child: SingleChildScrollView(
-          child: Container(
-            // Remove card, directly show the content
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title - changed to Welcome and centered with username
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: Selector<UserProvider, User?>(
-                      builder: (context, user, child) {
-                        String displayName = "";
-                        
-                        if (user != null) {
-                          if (user.displayName != null && user.displayName!.isNotEmpty) {
-                            displayName = user.displayName!;
-                          } else if (user.name != null && user.name!.isNotEmpty) {
-                            displayName = user.name!;
-                          }
-                        }
-                        
-                        if (displayName.isEmpty) {
-                          displayName = Nip19.encodeSimplePubKey(pubkey);
-                        }
-                        
-                        return Text(
-                          "Welcome $displayName!",
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: colors.primaryText,
-                          ),
-                        );
-                      },
-                      selector: (_, provider) {
-                        return provider.getUser(pubkey);
-                      },
-                    ),
-                  ),
-                ),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Title with padding matching login sheet
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40, 32, 40, 32),
+              child: Center(
+                child: Selector<UserProvider, User?>(
+                  builder: (context, user, child) {
+                    String displayName = "";
                     
-                // Create new community option
-                _buildOptionTile(
-                  context: context,
-                  icon: Icons.add_circle_outline,
-                  title: l10n.createGroup,
-                  subtitle: "Create a new community for your interests",
-                  onTap: () {
-                    CreateCommunityDialog.show(context);
-                  },
-                ),
-                
-                const SizedBox(height: 12),
-                Divider(color: colors.paneSeparator),
-                const SizedBox(height: 12),
-                
-                // Join test community option
-                _buildOptionTile(
-                  context: context,
-                  icon: Icons.people_outline,
-                  title: "Join Plur Test Users",
-                  subtitle: "Join the official Plur test community",
-                  onTap: () {
-                    _joinTestUsersGroup(context);
-                  },
-                ),
-                
-                const SizedBox(height: 12),
-                Divider(color: colors.paneSeparator),
-                const SizedBox(height: 12),
-                
-                // Join with invite link option
-                _buildOptionTile(
-                  context: context,
-                  icon: Icons.link,
-                  title: l10n.joinGroup,
-                  subtitle: l10n.haveInviteLink,
-                  onTap: () {
-                    // Navigate to join community page
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => JoinCommunityWidget(
-                          onJoinCommunity: (String link) {
-                            final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
-                            if (success) {
-                              Navigator.of(context).pop();
-                            }
-                          },
-                        ),
+                    if (user != null) {
+                      if (user.displayName != null && user.displayName!.isNotEmpty) {
+                        displayName = user.displayName!;
+                      } else if (user.name != null && user.name!.isNotEmpty) {
+                        displayName = user.name!;
+                      }
+                    }
+                    
+                    if (displayName.isEmpty) {
+                      displayName = Nip19.encodeSimplePubKey(pubkey);
+                    }
+                    
+                    return Text(
+                      "Welcome $displayName!",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: colors.primaryText,
                       ),
                     );
                   },
-                ),
-                
-                const SizedBox(height: 12),
-                Divider(color: colors.paneSeparator),
-                const SizedBox(height: 12),
-                
-                // Search for communities
-                _buildOptionTile(
-                  context: context,
-                  icon: Icons.search,
-                  title: "Find Communities",
-                  subtitle: "Search for public communities",
-                  enabled: false,
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Public community search coming soon!")),
-                    );
+                  selector: (_, provider) {
+                    return provider.getUser(pubkey);
                   },
                 ),
-              ],
+              ),
             ),
-          ),
+                    
+            // Option tiles with proper padding
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildOptionTile(
+                context: context,
+                icon: Icons.add_circle_outline,
+                title: l10n.createGroup,
+                subtitle: "Create a new community for your interests",
+                onTap: () {
+                  CreateCommunityDialog.show(context);
+                },
+              ),
+            ),
+            
+            const SizedBox(height: 24),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildOptionTile(
+                context: context,
+                icon: Icons.people_outline,
+                title: "Join Plur Test Users",
+                subtitle: "Join the official Plur test community",
+                onTap: () {
+                  _joinTestUsersGroup(context);
+                },
+              ),
+            ),
+            
+            const SizedBox(height: 24),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildOptionTile(
+                context: context,
+                icon: Icons.link,
+                title: l10n.joinGroup,
+                subtitle: l10n.haveInviteLink,
+                onTap: () {
+                  // Navigate to join community page
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => JoinCommunityWidget(
+                        onJoinCommunity: (String link) {
+                          final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
+                          if (success) {
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            
+            const SizedBox(height: 24),
+            
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32),
+              child: _buildOptionTile(
+                context: context,
+                icon: Icons.search,
+                title: "Find Communities",
+                subtitle: "Search for public communities",
+                enabled: false,
+                onTap: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Public community search coming soon!")),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 48), // Bottom padding matching login sheet
+          ],
         ),
       ),
     );
@@ -157,41 +154,47 @@ class EmptyCommunitiesWidget extends StatelessWidget {
     bool enabled = true,
   }) {
     final colors = context.colors;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     final color = enabled ? colors.accent : colors.secondaryText.withAlpha(153);
     
-    return InkWell(
-      onTap: enabled ? onTap : null,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Icon(icon, color: color, size: 28),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: enabled ? colors.primaryText : colors.secondaryText,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: colors.secondaryText,
-                    ),
-                  ),
-                ],
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: isDarkMode ? const Color(0xFF1E2936) : null,
+        border: Border.all(
+          color: colors.paneSeparator,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: InkWell(
+        onTap: enabled ? onTap : null,
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, color: color, size: 28),
+              const SizedBox(height: 16),
+              Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: enabled ? colors.primaryText : colors.secondaryText,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              Text(
+                subtitle,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: colors.secondaryText,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
