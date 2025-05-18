@@ -193,7 +193,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     left: Base.basePadding,
                     right: Base.basePadding,
                     bottom: Base.basePadding,
-                    top: 48, // Space for avatar to overlap
+                    top: Base.basePadding,
                   ),
                   child: legacy_provider.Selector<UserProvider, User?>(
                     builder: (context, user, child) {
@@ -206,30 +206,27 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 ),
               ],
             ),
-            // Avatar positioned on the edge of the cover photo
+            // Avatar positioned on the edge of the cover photo (left aligned)
             legacy_provider.Selector<UserProvider, User?>(
               builder: (context, user, child) {
-                const avatarSize = 80.0;
+                const avatarSize = 72.0;
                 final coverHeight = (MediaQuery.of(context).size.width - 48) * 9 / 16;
                 
                 return Positioned(
-                  left: 0,
-                  right: 0,
+                  left: Base.basePadding,
                   top: coverHeight - avatarSize / 2,
-                  child: Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
-                          width: 4,
-                        ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF2B2B2B),
+                        width: 3,
                       ),
-                      child: UserPicWidget(
-                        pubkey: pubkey,
-                        width: avatarSize,
-                        user: user,
-                      ),
+                    ),
+                    child: UserPicWidget(
+                      pubkey: pubkey,
+                      width: avatarSize,
+                      user: user,
                     ),
                   ),
                 );
@@ -511,19 +508,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
 
   /// Builds a custom user info widget without the banner
   Widget _buildUserInfoWidget(BuildContext context, User? user, String pubkey) {
-    final themeData = Theme.of(context);
-    final hintColor = themeData.hintColor;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
     String displayName = "";
-    String? name;
     
     if (user != null) {
       if (user.displayName != null && user.displayName!.isNotEmpty) {
         displayName = user.displayName!;
-        if (user.name != null && user.name!.isNotEmpty) {
-          name = user.name;
-        }
       } else if (user.name != null && user.name!.isNotEmpty) {
         displayName = user.name!;
       }
@@ -539,12 +530,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         // Name section
-        Container(
+        SizedBox(
           width: double.infinity,
-          alignment: Alignment.center,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Add space for avatar area
+              const SizedBox(height: 36),
               Text(
                 displayName,
                 style: TextStyle(
@@ -556,40 +548,28 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              if (name != null && name != displayName)
-                Text(
-                  '@$name',
-                  style: TextStyle(
-                    fontFamily: 'SF Pro Rounded',
-                    fontSize: 16,
-                    color: hintColor,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
               const SizedBox(height: Base.basePadding),
               // Public key - full width
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
-                  color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
+                  color: const Color(0xFF464646),
                   borderRadius: BorderRadius.circular(25),
                 ),
-                child: Center(
-                  child: Text(
-                    nip19PubKey,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: hintColor,
-                      fontFamily: 'SF Pro Text',
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                child: Text(
+                  nip19PubKey,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white.withValues(alpha: 0.6),
+                    fontFamily: 'SF Pro Text',
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
                 ),
               ),
-              const SizedBox(height: Base.basePadding * 1.5),
+              const SizedBox(height: Base.basePadding),
               // Button row
               Row(
                 children: [
@@ -599,7 +579,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          color: isDarkMode ? const Color(0xFF1C1C1E) : const Color(0xFF48484A),
+                          color: const Color(0xFF1C1C1E),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: TextButton(
@@ -626,17 +606,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
+                      color: const Color(0xFF464646),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: isDarkMode ? Colors.grey[600]! : Colors.grey[400]!,
-                        width: 1,
-                      ),
                     ),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.qr_code_scanner,
-                        color: isDarkMode ? Colors.white : Colors.black,
+                        color: Colors.white,
                         size: 20,
                       ),
                       onPressed: () {
@@ -651,17 +627,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
+                      color: const Color(0xFF464646),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: isDarkMode ? Colors.grey[600]! : Colors.grey[400]!,
-                        width: 1,
-                      ),
                     ),
                     child: IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.qr_code_2,
-                        color: isDarkMode ? Colors.white : Colors.black,
+                        color: Colors.white,
                         size: 20,
                       ),
                       onPressed: () {
