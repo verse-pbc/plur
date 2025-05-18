@@ -14,7 +14,7 @@ class AppTheme {
       extensions: const [AppColors.light],
       brightness: Brightness.light,
       primaryColor: colors.primary,
-      scaffoldBackgroundColor: colors.background,
+      scaffoldBackgroundColor: colors.loginBackground,
       colorScheme: ColorScheme.fromSeed(
         seedColor: colors.primary,
         brightness: Brightness.light,
@@ -106,7 +106,7 @@ class AppTheme {
       extensions: const [AppColors.dark],
       brightness: Brightness.dark,
       primaryColor: colors.primary,
-      scaffoldBackgroundColor: colors.background,
+      scaffoldBackgroundColor: colors.loginBackground,
       colorScheme: ColorScheme.fromSeed(
         seedColor: colors.primary,
         brightness: Brightness.dark,

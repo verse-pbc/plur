@@ -292,31 +292,26 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
       child: Center(
         child: SingleChildScrollView(
           child: Container(
-            margin: const EdgeInsets.all(30.0),
-            child: Card(
-              elevation: 4,
-              color: colors.cardBackground,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Title
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: Text(
-                        l10n.communities,
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: colors.primaryText,
-                        ),
+            // Remove card, directly show the content
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title - changed to Welcome and centered
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: Text(
+                      "Welcome!",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: colors.primaryText,
                       ),
                     ),
+                  ),
+                ),
                     
                     // Create new community option
                     _buildOptionTile(
@@ -390,12 +385,10 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     ),
                   ],
                 ),
-              ),
             ),
           ),
         ),
-      ),
-    );
+      );
   }
   
   // Helper to build a consistent option tile

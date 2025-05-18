@@ -21,8 +21,6 @@ import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
 
 import '../../features/communities/communities_screen.dart';
-import '../../features/create_community/create_community_dialog.dart';
-import '../../features/create_community/community_options_dialog.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
@@ -308,11 +306,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         // Build the toggle control for switching between grid and feed views
         center = _buildCommunityViewToggle(indexProvider, themeData);
         
-        // Create community button
-        right = GestureDetector(
-          onTap: () => CommunityOptionsDialog.show(context),
-          child: const Icon(Icons.group_add),
-        );
+        // No button needed in top right for communities
         break;
       case 1: // DMs
         center = TabBar(
@@ -363,12 +357,6 @@ class _IndexWidgetState extends CustState<IndexWidget>
     );
   }
 
-  Widget _buildCreateGroupButton(BuildContext context) {
-    return GestureDetector(
-      onTap: () => CreateCommunityDialog.show(context),
-      child: const Icon(Icons.group_add),
-    );
-  }
 
   Widget _buildGlobalsTabBar(S localization, TextStyle titleTextStyle, Color? indicatorColor) {
     return TabBar(

@@ -49,7 +49,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
         topRight: Radius.circular(24),
       ),
       child: Container(
-        color: context.colors.loginBackground,
+        color: context.colors.background,
         child: SafeArea(
           bottom: true,
           child: Padding(
@@ -96,7 +96,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                     fontFamily: 'SF Pro Rounded',
                     fontSize: 24,
                     fontWeight: FontWeight.w700,
-                    color: context.colors.titleText,
+                    color: context.colors.primaryText,
                     height: 1.2,
                   ),
                   textAlign: TextAlign.center,

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/features/create_community/create_community_dialog.dart';
 import '../../theme/app_colors.dart';
-import 'package:nostrmo/component/primary_button_widget.dart';
 import 'package:nostrmo/util/community_join_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Used for logging
 import 'dart:developer' as developer;
+import 'package:nostrmo/router/group/join_community_widget.dart';
 
 class NoCommunitiesWidget extends StatefulWidget {
   /// If forceShow is true, this dialog will be shown even if the user dismissed it before
@@ -38,18 +37,6 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
   // Key used to store whether the user has dismissed this dialog
   static const String _dismissedDialogKey = 'community_intro_dismissed';
   
-  // Method to save state when user dismisses the dialog
-  Future<void> _dismissDialog() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool(_dismissedDialogKey, true);
-    
-    // Pop the dialog if in a dialog, otherwise just hide this widget
-    if (mounted) {
-      Navigator.of(context).canPop() 
-          ? Navigator.of(context).pop() 
-          : setState(() {}); // Force refresh
-    }
-  }
 
   bool _dialogDismissed = false;
   
@@ -81,176 +68,117 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     
     developer.log("Showing dialog, dismissed=$_dialogDismissed, forceShow=${widget.forceShow}", name: "NoCommunitiesWidget");
 
-    return Center(
-        child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.all(30.0),
-            child: Card(
-              elevation: 4,
-              color: context.colors.cardBackground,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Welcome title
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(vertical: 40),
+            child: Text(
+              "Welcome!",
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: appColors.titleText,
+                fontSize: 32,
+                fontWeight: FontWeight.w700,
+                height: 1.2,
               ),
-              child: Stack(
-                children: [
-                  // Close button
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.close,
-                        color: context.colors.secondaryText,
-                      ),
-                      onPressed: _dismissDialog,
-                    ),
-                  ),
-                  // Main content
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Title section
-                        Text(
-                          localization.communities,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontWeight: FontWeight.bold,
-                            color: context.colors.primaryText,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          
+          // Transparent container with the options
+          Container(
+            color: Colors.transparent,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                
+                // Create new community option
+                _buildOptionItem(
+                  context: context,
+                  appColors: appColors,
+                  icon: Icons.add_circle_outline,
+                  title: localization.createGroup,
+                  subtitle: "Create a new community for your interests",
+                  onTap: _createCommunity,
+                ),
+                
+                Divider(color: appColors.paneSeparator, height: 1),
+                
+                // Join test community option
+                _buildOptionItem(
+                  context: context,
+                  appColors: appColors,
+                  icon: Icons.group_outlined,
+                  title: "Join Plur Test Users",
+                  subtitle: "Join the official Plur test community",
+                  onTap: _joinTestUsersGroup,
+                ),
+                
+                Divider(color: appColors.paneSeparator, height: 1),
+                
+                // Join with invite link option
+                _buildOptionItem(
+                  context: context,
+                  appColors: appColors,
+                  icon: Icons.link,
+                  title: localization.joinGroup,
+                  subtitle: "Have an invite link? Tap on it to join a community.",
+                  onTap: () {
+                    // Show JoinCommunityWidget in a bottom sheet or navigate
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      builder: (_) => FractionallySizedBox(
+                        heightFactor: 0.8,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: appColors.modalBackground,
+                            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                           ),
-                          textAlign: TextAlign.center,
-                        ),
-                    const SizedBox(height: 24),
-
-                    // Image section
-                    Container(
-                      width: 180,
-                      height: 180,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: context.colors.dimmed.withAlpha((255 * 0.5).round()),
-                      ),
-                      child: Center(
-                        child: ColorFiltered(
-                          colorFilter: ColorFilter.mode(
-                            context.colors.dimmed,
-                            BlendMode.srcIn,
-                          ),
-                          child: Image.asset(
-                            "assets/imgs/welcome_groups.png",
-                            width: 120,
-                            height: 120,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.group,
-                                size: 120,
-                                color: context.colors.dimmed,
-                              );
+                          child: JoinCommunityWidget(
+                            onJoinCommunity: (String link) {
+                              Navigator.of(context).pop();
+                              final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
+                              if (success) {
+                                // Optionally close the NoCommunitiesWidget as well
+                                if (mounted) setState(() {});
+                              }
                             },
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 24),
-
-                    // Create community section
-                    Text(
-                      localization.startOrJoinACommunity,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontWeight: FontWeight.bold,
-                        color: context.colors.primaryText,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 12),
-                    Text(
-                      localization.connectWithOthers,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: context.colors.primaryText,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 32),
-
-                    // Action buttons
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: _isCreatingCommunity
-                          ? Center(
-                              child: CircularProgressIndicator(
-                                color: context.colors.accent,
-                              ),
-                            )
-                          : PrimaryButtonWidget(
-                              text: localization.createGroup,
-                              borderRadius: 8,
-                              onTap: _createCommunity,
-                            ),
-                    ),
-                    const SizedBox(height: 16),
-                    
-                    // Join Test Users Group button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: OutlinedButton(
-                        onPressed: _joinTestUsersGroup,
-                        style: OutlinedButton.styleFrom(
-                          side: BorderSide(color: context.colors.accent),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: Text(
-                          "Join Plur Test Users",
-                          style: TextStyle(
-                            color: context.colors.accent,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-
-                    // Hint text with paste option
-                    GestureDetector(
-                      onTap: _pasteJoinLink,
-                      child: Wrap( // Replace Row with Wrap to prevent overflow
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        spacing: 4, // Horizontal spacing between items
-                        children: [
-                          Text(
-                            localization.haveInviteLink,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontStyle: FontStyle.italic,
-                              color: context.colors.dimmed,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          Icon(
-                            Icons.content_paste,
-                            size: 16,
-                            color: context.colors.accent,
-                          ),
-                        ],
-                      ),
-                    ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+                    );
+                  },
+                ),
+                
+                Divider(color: appColors.paneSeparator, height: 1),
+                
+                // Search for communities
+                _buildOptionItem(
+                  context: context,
+                  appColors: appColors,
+                  icon: Icons.search,
+                  title: "Find Communities",
+                  subtitle: "Search for public communities",
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("Public community search coming soon!")),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
-        ),
+        ],
+      ),
     );
   }
 
@@ -272,36 +200,6 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
         });
       }
     });
-  }
-  
-  Future<void> _pasteJoinLink() async {
-    try {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-      final clipboardText = clipboardData?.text?.trim();
-      
-      if (clipboardText != null) {
-        bool success = CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
-        
-        if (!success && mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(S.of(context).noValidCommunityLink),
-              duration: const Duration(seconds: 2),
-            ),
-          );
-        }
-      }
-    } catch (e) {
-      // Handle clipboard permission errors
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(S.of(context).cannotAccessClipboard),
-            duration: const Duration(seconds: 3),
-          ),
-        );
-      }
-    }
   }
   
   /// Joins the Plur Test Users community group
@@ -394,6 +292,70 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
           ],
         );
       },
+    );
+  }
+  
+  Widget _buildOptionItem({
+    required BuildContext context,
+    required AppColors appColors,
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: appColors.primary.withAlpha(26),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: appColors.primary,
+                size: 24,
+              ),
+            ),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: appColors.primaryText,
+                      height: 1.2,
+                    ),
+                  ),
+                  if (subtitle.isNotEmpty) ...[  
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontFamily: 'SF Pro Rounded',
+                        fontSize: 15,
+                        color: appColors.secondaryText,
+                        height: 1.3,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
