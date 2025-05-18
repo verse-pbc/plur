@@ -6,12 +6,12 @@ import 'package:nostrmo/provider/group_read_status_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
-import 'package:nostrmo/router/group/no_communities_sheet.dart';
 // Import Provider package with an alias to avoid conflicts
 import 'package:provider/provider.dart' as provider;
 
 import '../../component/shimmer/shimmer.dart';
 import '../../theme/app_colors.dart';
+import '../../generated/l10n.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';
@@ -173,14 +173,40 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                   // CRITICAL: Once we've had groups, don't show the empty state unless
                   // explicitly requested, to prevent false emptiness during data refreshes
                   if (groupIds.isEmpty && !_hasEverSeenGroups) {
-                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state sheet", name: "CommunitiesScreen");
-                    // Show the no communities sheet when no communities exist
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _showNoCommunitiesSheet();
-                    });
-                    // Return an empty scaffold while the sheet is being shown
+                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state", name: "CommunitiesScreen");
+                    // Show an empty state directly instead of the sheet
                     return Container(
                       color: context.colors.background,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.groups_outlined,
+                              size: 64,
+                              color: context.colors.secondaryText.withAlpha(128),
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              S.of(context).noCommunities,
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: context.colors.secondaryText,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              S.of(context).tapCreatAddToComunity,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: context.colors.secondaryText.withAlpha(178),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
                     );
                   } else if (groupIds.isEmpty && (_hasEverSeenGroups || _cachedGridWidget != null)) {
                     // If we had groups before but now they're empty, use the last cached view
@@ -289,26 +315,5 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
   void dispose() {
     // No need to dispose providers here - they'll be disposed automatically
     super.dispose();
-  }
-  
-  /// Shows the no communities bottom sheet
-  void _showNoCommunitiesSheet() {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      isDismissible: true,
-      enableDrag: true,
-      builder: (sheetContext) => GestureDetector(
-        onTap: () => Navigator.of(sheetContext).pop(),
-        child: Container(
-          color: Colors.transparent,
-          child: GestureDetector(
-            onTap: () {}, // Prevent taps from propagating to dismiss
-            child: const NoCommunitiesSheet(),
-          ),
-        ),
-      ),
-    );
   }
 }

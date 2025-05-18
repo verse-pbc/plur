@@ -22,6 +22,7 @@ import 'package:provider/provider.dart';
 
 import '../../features/communities/communities_screen.dart';
 import '../../features/create_community/create_community_dialog.dart';
+import '../../features/create_community/community_options_dialog.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../../provider/index_provider.dart';
@@ -309,7 +310,7 @@ class _IndexWidgetState extends CustState<IndexWidget>
         
         // Create community button
         right = GestureDetector(
-          onTap: () => CreateCommunityDialog.show(context),
+          onTap: () => CommunityOptionsDialog.show(context),
           child: const Icon(Icons.group_add),
         );
         break;
