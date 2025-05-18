@@ -5,6 +5,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/image_widget.dart';
 import 'package:nostrmo/component/qrcode_dialog.dart';
+import 'package:nostrmo/component/styled_bot_toast.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/features/asks_offers/screens/listings_screen.dart';
@@ -544,13 +545,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 onTap: () {
                   // Copy to clipboard
                   Clipboard.setData(ClipboardData(text: nip19PubKey));
-                  // Show feedback
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Copied to clipboard'),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
+                  // Show feedback using high-level overlay
+                  StyledBotToast.show(context, text: 'Copied to clipboard');
                 },
                 child: Container(
                   width: double.infinity,
