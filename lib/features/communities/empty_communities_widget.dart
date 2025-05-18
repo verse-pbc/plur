@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../data/user.dart';
 
 /// A widget that displays options when no communities are available
-/// Provides options to create, join, or search for communities
+/// Provides options to create or join communities
 class EmptyCommunitiesWidget extends StatelessWidget {
   const EmptyCommunitiesWidget({super.key});
 
@@ -26,7 +26,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Title with padding matching login sheet
+            // Title at the top
             Padding(
               padding: const EdgeInsets.fromLTRB(40, 32, 40, 32),
               child: Center(
@@ -61,8 +61,11 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                 ),
               ),
             ),
+            
+            // Add extra spacing after the title
+            const SizedBox(height: 24),
                     
-            // Option tiles with proper padding
+            // Option tiles at the bottom
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: _buildOptionTile(
@@ -118,23 +121,6 @@ class EmptyCommunitiesWidget extends StatelessWidget {
               ),
             ),
             
-            const SizedBox(height: 24),
-            
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: _buildOptionTile(
-                context: context,
-                icon: Icons.search,
-                title: "Find Communities",
-                subtitle: "Explore and join open communities that match your interests.",
-                enabled: false,
-                onTap: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("Public community search coming soon!")),
-                  );
-                },
-              ),
-            ),
             const SizedBox(height: 48), // Bottom padding matching login sheet
           ],
         ),
