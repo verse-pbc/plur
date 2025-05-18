@@ -543,14 +543,14 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF439793),
+                  color: const Color(0xFFAABDBC),
                   borderRadius: BorderRadius.circular(25),
                 ),
                 child: Text(
                   nip19PubKey,
                   style: const TextStyle(
                     fontSize: 14,
-                    color: Colors.white,
+                    color: Color(0xFF181E26),
                     fontFamily: 'SF Pro Text',
                   ),
                   maxLines: 1,
@@ -568,13 +568,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                       child: Container(
                         height: 40,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF439793),
+                          color: const Color(0xFFAABDBC),
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: TextButton(
                           onPressed: _jumpToProfileEdit,
                           style: TextButton.styleFrom(
-                            foregroundColor: Colors.white,
+                            foregroundColor: const Color(0xFF181E26),
                             padding: const EdgeInsets.symmetric(horizontal: 14),
                           ),
                           child: const Text(
@@ -582,7 +582,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white,
+                              color: Color(0xFF181E26),
                             ),
                           ),
                         ),
@@ -595,13 +595,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF439793),
+                      color: const Color(0xFFAABDBC),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: IconButton(
                       icon: const Icon(
                         Icons.qr_code_scanner,
-                        color: Colors.white,
+                        color: Color(0xFF181E26),
                         size: 20,
                       ),
                       onPressed: () {
@@ -616,13 +616,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF439793),
+                      color: const Color(0xFFAABDBC),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: IconButton(
                       icon: const Icon(
                         Icons.qr_code_2,
-                        color: Colors.white,
+                        color: Color(0xFF181E26),
                         size: 20,
                       ),
                       onPressed: () {
