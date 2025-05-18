@@ -110,7 +110,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
           top: 24 + paddingTop,
           left: 24,
           right: 24,
-          bottom: Base.basePaddingHalf,
+          bottom: Base.basePaddingHalf + 20,
         ),
         decoration: BoxDecoration(
           gradient: const LinearGradient(
