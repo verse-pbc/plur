@@ -66,7 +66,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     var provider = Provider.of<SettingsProvider>(context);
 
     // Calculate the border size for the image based on widget width.
-    double imageBorder = widget.width / 28;
+    double imageBorder = widget.width / 14;
 
     Widget? imageWidget;
     if (user != null) {
@@ -87,12 +87,14 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     }
     
     // Use default avatar if no custom image is available
-    imageWidget ??= Image.asset(
-      'assets/imgs/user-avatar.png',
-      width: widget.width - imageBorder * 2,
-      height: widget.width - imageBorder * 2,
-      fit: BoxFit.cover,
-    );
+    if (imageWidget == null) {
+      imageWidget = Image.asset(
+        'assets/imgs/user-avatar.png',
+        width: widget.width - imageBorder * 2,
+        height: widget.width - imageBorder * 2,
+        fit: BoxFit.cover,
+      );
+    }
 
     return Container(
       width: widget.width,
