@@ -504,7 +504,9 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
   /// Builds a custom user info widget without the banner
   Widget _buildUserInfoWidget(BuildContext context, User? user, String pubkey) {
     final themeData = Theme.of(context);
-    final mainColor = themeData.primaryColor;
+    final appColors = Theme.of(context).extension<AppColors>()!;
+    final loginBackground = appColors.loginBackground;
+    final mainColor = loginBackground; // Use login background color
     final hintColor = themeData.hintColor;
     
     String displayName = "";
@@ -550,7 +552,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   fontFamily: 'SF Pro Rounded',
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: mainColor,
+                  color: loginBackground,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -590,13 +592,13 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   padding: const EdgeInsets.only(bottom: 8),
                   child: Row(
                     children: [
-                      Icon(Icons.link, size: 16, color: mainColor),
+                      Icon(Icons.link, size: 16, color: loginBackground),
                       const SizedBox(width: 8),
                       Text(
                         user!.nip05!,
                         style: TextStyle(
                           fontSize: 14,
-                          color: mainColor,
+                          color: loginBackground,
                         ),
                       ),
                     ],
@@ -628,12 +630,12 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     height: 40,
                     margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
-                      color: mainColor.withValues(alpha: 0.1),
+                      color: loginBackground.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: mainColor, width: 1.5),
+                      border: Border.all(color: loginBackground, width: 1.5),
                     ),
                     child: IconButton(
-                      icon: Icon(Icons.qr_code_scanner, color: mainColor, size: 20),
+                      icon: Icon(Icons.qr_code_scanner, color: loginBackground, size: 20),
                       onPressed: () {
                         // Handle QR scanner
                       },
@@ -646,12 +648,12 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                     height: 40,
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
-                      color: mainColor.withValues(alpha: 0.1),
+                      color: loginBackground.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: mainColor, width: 1.5),
+                      border: Border.all(color: loginBackground, width: 1.5),
                     ),
                     child: IconButton(
-                      icon: Icon(Icons.qr_code, color: mainColor, size: 20),
+                      icon: Icon(Icons.qr_code, color: loginBackground, size: 20),
                       onPressed: () {
                         // Handle QR code display
                         QrcodeDialog.show(context, pubkey);
