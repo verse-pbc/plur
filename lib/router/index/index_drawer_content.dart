@@ -34,10 +34,6 @@ class IndexDrawerContent extends ConsumerStatefulWidget {
 
 /// The state class for [IndexDrawerContent].
 class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
-  /// Width of the profile edit button.
-  ///
-  /// Defaults to 40.
-  final double _profileEditBtnWidth = 40;
 
   /// Determines if the drawer is in read-only mode.
   ///
@@ -109,9 +105,9 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     } else {
       sideMenuHeader = Container(
         margin: EdgeInsets.only(
-          top: 24 + paddingTop, // 24pt separation from top
-          left: 24, // 24pt separation from left
-          right: 24, // 24pt separation from right
+          top: 24 + paddingTop,
+          left: 24,
+          right: 24,
           bottom: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
@@ -119,116 +115,135 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Color(0xFF9ECCC3), // Light tealish color
-              Color(0xFFB8D0CE), // Silver-ish color
+              Color(0xFF9ECCC3),
+              Color(0xFFB8D0CE),
             ],
           ),
-          borderRadius: BorderRadius.circular(8), // 8pt rounded corners
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Column(
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            // Cover photo with 16:9 aspect ratio
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: legacy_provider.Selector<UserProvider, User?>(
-                builder: (context, user, child) {
-                  // Get the banner/cover photo URL from user metadata
-                  String? bannerUrl = user?.banner;
-                  
-                  return ClipRRect(
-                    borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                    child: Stack(
-                      children: [
-                        // Background image
-                        Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                          ),
-                          child: bannerUrl != null && bannerUrl.isNotEmpty
-                            ? ImageWidget(
-                                url: bannerUrl,
-                                width: double.infinity,
-                                height: double.infinity,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => Container(
-                                  color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                                  child: const Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                              )
-                            : Container(
+            Column(
+              children: [
+                // Cover photo with 16:9 aspect ratio
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: legacy_provider.Selector<UserProvider, User?>(
+                    builder: (context, user, child) {
+                      String? bannerUrl = user?.banner;
+                      
+                      return ClipRRect(
+                        borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                        child: Stack(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
                                 color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                                child: Icon(
-                                  Icons.landscape,
-                                  size: 48,
-                                  color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                              ),
+                              child: bannerUrl != null && bannerUrl.isNotEmpty
+                                ? ImageWidget(
+                                    url: bannerUrl,
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => Container(
+                                      color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                                      child: const Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                                    child: Icon(
+                                      Icons.landscape,
+                                      size: 48,
+                                      color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                                    ),
+                                  ),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              height: double.infinity,
+                              decoration: const BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Color(0xFF29525e),
+                                    Color(0xFF508e8d),
+                                  ],
                                 ),
                               ),
-                        ),
-                        // Gradient overlay
-                        Container(
-                          width: double.infinity,
-                          height: double.infinity,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(0xFF29525e),
-                                Color(0xFF508e8d),
-                              ],
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  );
-                },
-                selector: (_, provider) {
-                  return provider.getUser(pubkey);
-                },
-              ),
-            ),
-            // User info below the cover photo
-            Padding(
-              padding: const EdgeInsets.all(Base.basePadding),
-              child: Stack(
-                children: [
-                  legacy_provider.Selector<UserProvider, User?>(
-                    builder: (context, user, child) {
-                      // Custom user info widget without banner
-                      return _buildUserInfoWidget(context, user, pubkey);
+                      );
                     },
                     selector: (_, provider) {
                       return provider.getUser(pubkey);
                     },
                   ),
-                  if (!_readOnly)
-                    Positioned(
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        height: _profileEditBtnWidth,
-                        width: _profileEditBtnWidth,
-                        decoration: BoxDecoration(
-                          color: loginBackground,
-                          borderRadius: BorderRadius.circular(
-                            _profileEditBtnWidth / 2,
-                          ),
+                ),
+                // User info with avatar space
+                Transform.translate(
+                  offset: const Offset(0, -40),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: Base.basePadding,
+                      right: Base.basePadding,
+                      bottom: Base.basePadding,
+                    ),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 60), // Space for avatar
+                        legacy_provider.Selector<UserProvider, User?>(
+                          builder: (context, user, child) {
+                            return _buildUserInfoWidget(context, user, pubkey);
+                          },
+                          selector: (_, provider) {
+                            return provider.getUser(pubkey);
+                          },
                         ),
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.edit_square,
-                            color: mainColor,
-                          ),
-                          onPressed: _jumpToProfileEdit,
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Avatar positioned on the edge of the cover photo
+            legacy_provider.Selector<UserProvider, User?>(
+              builder: (context, user, child) {
+                const avatarSize = 80.0;
+                final coverHeight = (MediaQuery.of(context).size.width - 48) * 9 / 16;
+                
+                return Positioned(
+                  left: 0,
+                  right: 0,
+                  top: coverHeight - avatarSize / 2,
+                  child: Center(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isDarkMode ? const Color(0xFF1E1E1E) : Colors.white,
+                          width: 4,
                         ),
                       ),
+                      child: UserPicWidget(
+                        pubkey: pubkey,
+                        width: avatarSize,
+                        user: user,
+                      ),
                     ),
-                ],
-              ),
+                  ),
+                );
+              },
+              selector: (_, provider) {
+                return provider.getUser(pubkey);
+              },
             ),
           ],
         ),
@@ -504,9 +519,8 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
   /// Builds a custom user info widget without the banner
   Widget _buildUserInfoWidget(BuildContext context, User? user, String pubkey) {
     final themeData = Theme.of(context);
-    final appColors = Theme.of(context).extension<AppColors>()!;
-    final loginBackground = appColors.loginBackground;
     final hintColor = themeData.hintColor;
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     
     String displayName = "";
     String? name;
@@ -531,19 +545,12 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        // User avatar
-        UserPicWidget(
-          pubkey: pubkey,
-          width: 80,
-          user: user,
-        ),
-        const SizedBox(height: Base.basePadding),
         // Name section
         Container(
           width: double.infinity,
-          alignment: Alignment.centerLeft,
+          alignment: Alignment.center,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 displayName,
@@ -551,7 +558,7 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   fontFamily: 'SF Pro Rounded',
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: loginBackground,
+                  color: isDarkMode ? Colors.white : Colors.black,
                 ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -568,93 +575,112 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   overflow: TextOverflow.ellipsis,
                 ),
               const SizedBox(height: Base.basePadding),
-              // Public key
+              // Public key - full width
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 decoration: BoxDecoration(
-                  color: hintColor.withValues(alpha: 0.2),
+                  color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  '${nip19PubKey.substring(0, 20)}...',
+                  nip19PubKey,
                   style: TextStyle(
                     fontSize: 14,
                     color: hintColor,
                     fontFamily: 'monospace',
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
-              const SizedBox(height: Base.basePadding),
-              // NIP-05 identifier
-              if (user?.nip05 != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Row(
-                    children: [
-                      Icon(Icons.link, size: 16, color: loginBackground),
-                      const SizedBox(width: 8),
-                      Text(
-                        user!.nip05!,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: loginBackground,
+              const SizedBox(height: Base.basePadding * 1.5),
+              // Button row
+              Row(
+                children: [
+                  // Edit profile button - expanded
+                  if (!_readOnly)
+                    Expanded(
+                      child: Container(
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: isDarkMode ? Colors.grey[800] : Colors.black,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: TextButton(
+                          onPressed: _jumpToProfileEdit,
+                          style: TextButton.styleFrom(
+                            foregroundColor: isDarkMode ? Colors.white : Colors.white,
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.edit,
+                                size: 16,
+                                color: isDarkMode ? Colors.white : Colors.white,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                'Edit Profile',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: isDarkMode ? Colors.white : Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              // Lightning address
-              if (user?.lud16 != null)
-                Row(
-                  children: [
-                    const Icon(Icons.bolt, size: 16, color: Colors.orange),
-                    const SizedBox(width: 8),
-                    Text(
-                      user!.lud16!,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.orange,
-                      ),
                     ),
-                  ],
-                ),
-              const SizedBox(height: Base.basePadding),
-              // QR code buttons
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                  if (!_readOnly)
+                    const SizedBox(width: 12),
                   // QR Scanner button
                   Container(
                     width: 40,
                     height: 40,
-                    margin: const EdgeInsets.only(right: 8),
                     decoration: BoxDecoration(
-                      color: loginBackground.withValues(alpha: 0.1),
+                      color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: loginBackground, width: 1.5),
+                      border: Border.all(
+                        color: isDarkMode ? Colors.grey[600]! : Colors.grey[400]!,
+                        width: 1,
+                      ),
                     ),
                     child: IconButton(
-                      icon: Icon(Icons.qr_code_scanner, color: loginBackground, size: 20),
+                      icon: Icon(
+                        Icons.qr_code_scanner,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                        size: 20,
+                      ),
                       onPressed: () {
-                        // Handle QR scanner
+                        // TODO: Handle QR scanner navigation
                       },
                       padding: EdgeInsets.zero,
                     ),
                   ),
+                  const SizedBox(width: 8),
                   // QR Code button
                   Container(
                     width: 40,
                     height: 40,
-                    margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
-                      color: loginBackground.withValues(alpha: 0.1),
+                      color: isDarkMode ? Colors.grey[800] : Colors.grey[200],
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: loginBackground, width: 1.5),
+                      border: Border.all(
+                        color: isDarkMode ? Colors.grey[600]! : Colors.grey[400]!,
+                        width: 1,
+                      ),
                     ),
                     child: IconButton(
-                      icon: Icon(Icons.qr_code, color: loginBackground, size: 20),
+                      icon: Icon(
+                        Icons.qr_code_2,
+                        color: isDarkMode ? Colors.white : Colors.black,
+                        size: 20,
+                      ),
                       onPressed: () {
-                        // Handle QR code display
                         QrcodeDialog.show(context, pubkey);
                       },
                       padding: EdgeInsets.zero,
