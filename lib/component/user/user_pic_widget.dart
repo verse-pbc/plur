@@ -66,7 +66,7 @@ class _UserPicWidgetState extends State<UserPicWidget> {
     var provider = Provider.of<SettingsProvider>(context);
 
     // Calculate the border size for the image based on widget width.
-    double imageBorder = widget.width / 14;
+    double imageBorder = widget.width / 28;
 
     Widget? imageWidget;
     if (user != null) {
