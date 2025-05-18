@@ -261,42 +261,21 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     debugPrint("🔄 INITIALIZING TRACKING FOR NEW USER: $_currentUserKey");
                   }
                   
-                  if (groupIds.isEmpty || forceShowEmptyState) {
-                    developer.log("🚫 SHOWING EMPTY STATE: groupIds is empty: ${groupIds.isEmpty}, forceShowEmptyState: $forceShowEmptyState", name: "CommunitiesScreen");
+                  // IMPORTANT: ONLY check for empty groups if this is the first time seeing the screen
+                  // This prevents the "Create/Join" sheet from showing when groups exist but aren't loaded yet
+                  if (groupIds.isEmpty && originalGroupCount == 0 && !_hasEverSeenGroupsByUser.containsKey(_currentUserKey ?? '')) {
+                    // We ONLY show the empty state sheet for completely new users who have never seen any groups
+                    developer.log("🚫 NEW USER WITH ZERO GROUPS: Showing empty state sheet", name: "CommunitiesScreen");
                     
-                    final bool hasEverSeenGroups = _currentUserKey != null ? 
-                        (_hasEverSeenGroupsByUser[_currentUserKey!] ?? false) : false;
+                    // Show the no communities sheet
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _showNoCommunitiesSheet(forceForNewUsers: true);
+                    });
                     
-                    // Don't show the empty state if we've had groups before and we're not forcing it
-                    if (_hasEverSeenGroupsByUser[_currentUserKey ?? ''] == true && !forceShowEmptyState) {
-                      developer.log("⚠️ Not showing empty state because user $_currentUserKey has seen groups before and not forcing", name: "CommunitiesScreen");
-                      // Use cached widgets if available
-                      
-                      final cachedFeedWidget = _currentUserKey != null ? _cachedFeedWidgets[_currentUserKey!] : null;
-                      final cachedListWidget = _currentUserKey != null ? _cachedListWidgets[_currentUserKey!] : null;
-                      final cachedGridWidget = _currentUserKey != null ? _cachedGridWidgets[_currentUserKey!] : null;
-                      
-                      if (cachedGridWidget != null || cachedListWidget != null || cachedFeedWidget != null) {
-                        if (viewMode == CommunityViewMode.feed && cachedFeedWidget != null) {
-                          return cachedFeedWidget;
-                        } else if (viewMode == CommunityViewMode.list && cachedListWidget != null) {
-                          return cachedListWidget;
-                        } else if (cachedGridWidget != null) {
-                          return cachedGridWidget;
-                        }
-                      }
-                    } else {
-                      // Show the no communities sheet
-                      developer.log("🚫 SHOWING NO COMMUNITIES SHEET", name: "CommunitiesScreen");
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        // Always show with a true flag to force showing regardless of previous dismissal
-                        _showNoCommunitiesSheet(forceForNewUsers: true);
-                      });
-                      // Return an empty scaffold while the sheet is being shown
-                      return Container(
-                        color: context.colors.background,
-                      );
-                    }
+                    // Return an empty scaffold while the sheet is being shown
+                    return Container(
+                      color: context.colors.background,
+                    );
                   }
                   
                   // Handle case when communities are empty but we've seen them before
