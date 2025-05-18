@@ -5,7 +5,12 @@ import '../../theme/app_colors.dart';
 import 'age_verification_step.dart';
 import 'age_verification_dialog_widget.dart';
 import 'name_input_step_widget.dart';
+import 'community_intro_step_widget.dart';
+import 'discover_communities_step_widget.dart';
 import '../../consts/base.dart';
+import '../../consts/router_path.dart';
+import '../../router/group/no_communities_sheet.dart';
+import '../../features/create_community/create_community_dialog.dart';
 
 /// Manages the onboarding process through multiple steps.
 class OnboardingWidget extends StatefulWidget {

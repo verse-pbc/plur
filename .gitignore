@@ -36,7 +36,9 @@ migrate_working_dir/
 ios/build
 packages/nostr_sdk/build/**
 Plur.ipa
+Holis.ipa
 Plur.app.dSYM.zip
+*.dSYM.zip
 
 # Symbolication related
 app.*.symbols

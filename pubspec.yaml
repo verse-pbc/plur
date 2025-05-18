@@ -204,6 +204,9 @@ flutter_native_splash:
   color: "#f6f3f3"
   image: assets/imgs/logo/logo512.png
   fullscreen: true
+  android: true
+  ios: true
+  web: false
 
 flutter_intl:
   enabled: true
