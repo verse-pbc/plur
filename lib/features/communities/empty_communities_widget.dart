@@ -21,109 +21,108 @@ class EmptyCommunitiesWidget extends StatelessWidget {
     
     return Container(
       color: colors.background,
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Title at the top
-            Padding(
-              padding: const EdgeInsets.fromLTRB(40, 32, 40, 32),
-              child: Center(
-                child: Selector<UserProvider, User?>(
-                  builder: (context, user, child) {
-                    String displayName = "";
-                    
-                    if (user != null) {
-                      if (user.displayName != null && user.displayName!.isNotEmpty) {
-                        displayName = user.displayName!;
-                      } else if (user.name != null && user.name!.isNotEmpty) {
-                        displayName = user.name!;
-                      }
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Title at the top
+          Padding(
+            padding: const EdgeInsets.fromLTRB(40, 60, 40, 0),
+            child: Center(
+              child: Selector<UserProvider, User?>(
+                builder: (context, user, child) {
+                  String displayName = "";
+                  
+                  if (user != null) {
+                    if (user.displayName != null && user.displayName!.isNotEmpty) {
+                      displayName = user.displayName!;
+                    } else if (user.name != null && user.name!.isNotEmpty) {
+                      displayName = user.name!;
                     }
-                    
-                    if (displayName.isEmpty) {
-                      displayName = Nip19.encodeSimplePubKey(pubkey);
-                    }
-                    
-                    return Text(
-                      "Welcome, $displayName!",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: colors.primaryText,
-                      ),
-                    );
-                  },
-                  selector: (_, provider) {
-                    return provider.getUser(pubkey);
-                  },
-                ),
-              ),
-            ),
-            
-            // Add extra spacing after the title
-            const SizedBox(height: 24),
-                    
-            // Option tiles at the bottom
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: _buildOptionTile(
-                context: context,
-                icon: Icons.add_circle_outline,
-                title: "Create a Community",
-                subtitle: "Start your own community around a topic or activity you care about.",
-                onTap: () {
-                  CreateCommunityDialog.show(context);
-                },
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: _buildOptionTile(
-                context: context,
-                icon: Icons.people_outline,
-                title: "Join Holis Community",
-                subtitle: "Be part of our official test group and help us shape the future of Holis.",
-                onTap: () {
-                  _joinTestUsersGroup(context);
-                },
-              ),
-            ),
-            
-            const SizedBox(height: 24),
-            
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: _buildOptionTile(
-                context: context,
-                icon: Icons.link,
-                title: "Join with an Invite",
-                subtitle: "Got an invite link? Use it here to join a private group instantly.",
-                onTap: () {
-                  // Navigate to join community page
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => JoinCommunityWidget(
-                        onJoinCommunity: (String link) {
-                          final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
-                          if (success) {
-                            Navigator.of(context).pop();
-                          }
-                        },
-                      ),
+                  }
+                  
+                  if (displayName.isEmpty) {
+                    displayName = Nip19.encodeSimplePubKey(pubkey);
+                  }
+                  
+                  return Text(
+                    "Welcome, $displayName!",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: colors.primaryText,
                     ),
                   );
                 },
+                selector: (_, provider) {
+                  return provider.getUser(pubkey);
+                },
               ),
             ),
-            
-            const SizedBox(height: 48), // Bottom padding matching login sheet
-          ],
-        ),
+          ),
+          
+          // Option tiles at the bottom
+          Padding(
+            padding: const EdgeInsets.only(bottom: 48),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: _buildOptionTile(
+                    context: context,
+                    icon: Icons.add_circle_outline,
+                    title: "Create a Community",
+                    subtitle: "Start your own community around a topic or activity you care about.",
+                    onTap: () {
+                      CreateCommunityDialog.show(context);
+                    },
+                  ),
+                ),
+                
+                const SizedBox(height: 24),
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: _buildOptionTile(
+                    context: context,
+                    icon: Icons.people_outline,
+                    title: "Join Holis Community",
+                    subtitle: "Be part of our official test group and help us shape the future of Holis.",
+                    onTap: () {
+                      _joinTestUsersGroup(context);
+                    },
+                  ),
+                ),
+                
+                const SizedBox(height: 24),
+                
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: _buildOptionTile(
+                    context: context,
+                    icon: Icons.link,
+                    title: "Join with an Invite",
+                    subtitle: "Got an invite link? Use it here to join a private group instantly.",
+                    onTap: () {
+                      // Navigate to join community page
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => JoinCommunityWidget(
+                            onJoinCommunity: (String link) {
+                              final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
+                              if (success) {
+                                Navigator.of(context).pop();
+                              }
+                            },
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
