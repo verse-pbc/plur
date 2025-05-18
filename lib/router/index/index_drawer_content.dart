@@ -137,32 +137,52 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
                   
                   return ClipRRect(
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                      ),
-                      child: bannerUrl != null && bannerUrl.isNotEmpty
-                        ? ImageWidget(
-                            url: bannerUrl,
-                            width: double.infinity,
-                            height: double.infinity,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                              child: const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            ),
-                          )
-                        : Container(
+                    child: Stack(
+                      children: [
+                        // Background image
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
                             color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
-                            child: Icon(
-                              Icons.landscape,
-                              size: 48,
-                              color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                          ),
+                          child: bannerUrl != null && bannerUrl.isNotEmpty
+                            ? ImageWidget(
+                                url: bannerUrl,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) => Container(
+                                  color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                color: isDarkMode ? Colors.grey[800] : Colors.grey[300],
+                                child: Icon(
+                                  Icons.landscape,
+                                  size: 48,
+                                  color: isDarkMode ? Colors.grey[600] : Colors.grey[500],
+                                ),
+                              ),
+                        ),
+                        // Gradient overlay
+                        Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color(0xFF29525e),
+                                Color(0xFF508e8d),
+                              ],
                             ),
                           ),
+                        ),
+                      ],
                     ),
                   );
                 },
