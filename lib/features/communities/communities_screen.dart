@@ -260,15 +260,31 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     debugPrint("🔄 INITIALIZING TRACKING FOR NEW USER: $_currentUserKey");
                   }
                   
-                  // IMPORTANT: ONLY check for empty groups if this is the first time seeing the screen
-                  // This prevents the "Create/Join" sheet from showing when groups exist but aren't loaded yet
-                  if (groupIds.isEmpty && originalGroupCount == 0 && !_hasEverSeenGroupsByUser.containsKey(_currentUserKey ?? '')) {
-                    // We ONLY show the empty state sheet for completely new users who have never seen any groups
-                    developer.log("🚫 NEW USER WITH ZERO GROUPS: Showing empty state sheet", name: "CommunitiesScreen");
+                  // Force check with the list provider to get actual count
+                  final actualGroupCount = provider.Provider.of<ListProvider>(context, listen: false).groupIdentifiers.length;
+                  developer.log("📊 ACTUAL GROUP COUNT FROM ListProvider: $actualGroupCount", name: "CommunitiesScreen");
+                  
+                  // IMPORTANT: Check if we should show the empty state
+                  // Either for new users or when the newUser flag is set from the login flow
+                  final bool isNewUser = actualGroupCount == 0 && originalGroupCount == 0 && 
+                      (!_hasEverSeenGroupsByUser.containsKey(_currentUserKey ?? '') ||
+                       (_currentUserKey != null && _hasEverSeenGroupsByUser[_currentUserKey!] == false));
+                  
+                  if (isNewUser || newUser == true) {
+                    // We show the empty state sheet for completely new users who have never seen any groups
+                    developer.log("🚫 NEW USER WITH ZERO GROUPS: Showing empty state sheet. newUser flag: ${newUser == true}", 
+                        name: "CommunitiesScreen");
                     
                     // Show the no communities sheet
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       _showNoCommunitiesSheet(forceForNewUsers: true);
+                      
+                      // Reset the newUser flag after showing the sheet to prevent showing it again
+                      if (newUser == true) {
+                        Future.delayed(const Duration(seconds: 1), () {
+                          newUser = false;
+                        });
+                      }
                     });
                     
                     // Return an empty scaffold while the sheet is being shown
@@ -510,10 +526,25 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
       try {
         if (!mounted) return;
         
+        // Perform an additional check with the ListProvider
+        // This is critical for the case where the user has just joined a community
+        // and we need to make sure we have the latest data
+        final groupCount = listProvider.groupIdentifiers.length;
+        developer.log("📊 Checking community count before showing sheet: $groupCount", name: "CommunitiesScreen");
+        
         // CRITICAL CHECK: If user has ANY groups, DO NOT show the sheet
-        if (listProvider.groupIdentifiers.isNotEmpty) {
-          developer.log("User has communities (${listProvider.groupIdentifiers.length}), NOT showing NoCommunitiesSheet", 
+        if (groupCount > 0) {
+          developer.log("User has communities ($groupCount), NOT showing NoCommunitiesSheet", 
               name: "CommunitiesScreen");
+          
+          // Force update the screen to show the communities immediately
+          if (mounted) {
+            setState(() {
+              // This will trigger a rebuild with the latest data
+              _hasEverSeenGroupsByUser[_currentUserKey ?? ''] = true;
+              _hasEverSeenGroups = true;
+            });
+          }
           return;
         }
         
@@ -548,6 +579,13 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
           if (mounted) { 
             setState(() { 
               _isNoCommunitiesSheetOpen = false; 
+              
+              // Check again for communities after dismissal
+              // in case the user joined a community while the sheet was open
+              if (listProvider.groupIdentifiers.isNotEmpty) {
+                _hasEverSeenGroupsByUser[_currentUserKey ?? ''] = true;
+                _hasEverSeenGroups = true;
+              }
             });
           } else {
             _isNoCommunitiesSheetOpen = false; 
