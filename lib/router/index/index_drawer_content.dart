@@ -506,7 +506,6 @@ class _IndexDrawerContentState extends ConsumerState<IndexDrawerContent> {
     final themeData = Theme.of(context);
     final appColors = Theme.of(context).extension<AppColors>()!;
     final loginBackground = appColors.loginBackground;
-    final mainColor = loginBackground; // Use login background color
     final hintColor = themeData.hintColor;
     
     String displayName = "";
