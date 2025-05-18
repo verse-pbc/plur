@@ -83,7 +83,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
               child: _buildOptionTile(
                 context: context,
                 icon: Icons.people_outline,
-                title: "Join Holis Open Community",
+                title: "Join Holis Community",
                 subtitle: "Be part of our official test group and help us shape the future of Plur.",
                 onTap: () {
                   _joinTestUsersGroup(context);
@@ -214,7 +214,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
-            "Join Holis Open Community",
+            "Join Holis Community",
             style: TextStyle(
               color: colors.primaryText,
               fontSize: 20,
@@ -222,7 +222,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
             ),
           ),
           content: Text(
-            "Would you like to join the Holis Open Community? "
+            "Would you like to join the Holis Community? "
             "This is our official test group where you can help us shape the future of Plur.",
             style: TextStyle(
               color: colors.primaryText,
@@ -249,7 +249,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                 // Show loading indicator
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text("Joining Holis Open Community..."),
+                    content: const Text("Joining Holis Community..."),
                     duration: const Duration(seconds: 1),
                     backgroundColor: colors.primary.withAlpha(230),
                   ),
@@ -262,7 +262,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                   // Show error message if joining failed
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text("Failed to join Holis Open Community. Please try again later."),
+                      content: Text("Failed to join Holis Community. Please try again later."),
                       duration: Duration(seconds: 3),
                     ),
                   );
