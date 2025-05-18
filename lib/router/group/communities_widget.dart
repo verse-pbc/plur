@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/create_community_dialog.dart';
-import 'package:nostrmo/router/group/no_communities_widget.dart';
+import 'package:nostrmo/features/communities/empty_communities_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/keep_alive_cust_state.dart';
@@ -52,9 +52,7 @@ class _CommunitiesWidgetState extends KeepAliveCustState<CommunitiesWidget>
     // If no communities, show empty state
     if (groupIds.isEmpty) {
       return const Scaffold(
-        body: Center(
-          child: NoCommunitiesWidget(),
-        ),
+        body: EmptyCommunitiesWidget(),
       );
     }
 

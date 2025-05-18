@@ -5,3 +5,4 @@ output-dir: lib/generated
 output-class: S
 nullable-getter: false
 format: true
+untranslated-messages-file: untranslated-messages.txt

@@ -6,7 +6,7 @@ import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/provider/relay_provider.dart';
 import 'package:nostrmo/features/communities/community_widget.dart';
-import 'package:nostrmo/router/group/no_communities_widget.dart';
+import 'package:nostrmo/features/communities/empty_communities_widget.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:nostrmo/util/time_util.dart';
 import 'package:provider/provider.dart';
@@ -44,9 +44,7 @@ class _CommunitiesGridWidgetState extends KeepAliveCustState<CommunitiesGridWidg
 
     return Container(
       child: groupIds.isEmpty
-          ? const Center(
-              child: NoCommunitiesWidget(),
-            )
+          ? const EmptyCommunitiesWidget()
           : RefreshIndicator(
               onRefresh: refresh,
               child: GridView.builder(

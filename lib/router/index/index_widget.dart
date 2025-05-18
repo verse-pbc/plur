@@ -274,10 +274,12 @@ class _IndexWidgetState extends CustState<IndexWidget>
       children: [
         Column(
           children: [
-            IndexAppBar(
-              center: appBarContent._center,
-              right: appBarContent._right,
-            ),
+            // Conditionally show app bar based on IndexProvider
+            if (indexProvider.shouldShowAppBar)
+              IndexAppBar(
+                center: appBarContent._center,
+                right: appBarContent._right,
+              ),
             mainContent,
           ],
         ),

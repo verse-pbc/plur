@@ -16,6 +16,9 @@ class IndexProvider extends ChangeNotifier {
   // Default to list view for communities
   CommunityViewMode _communityViewMode = CommunityViewMode.list;
   
+  // Controls whether the app bar should be visible
+  bool _shouldShowAppBar = true;
+  
   @override
   void dispose() {
     // Clear the static reference when disposed
@@ -52,6 +55,7 @@ class IndexProvider extends ChangeNotifier {
 
   int get currentTap => _currentTap;
   CommunityViewMode get communityViewMode => _communityViewMode;
+  bool get shouldShowAppBar => _shouldShowAppBar;
 
   IndexProvider({int? indexTap}) {
     if (indexTap != null) {
@@ -66,6 +70,14 @@ class IndexProvider extends ChangeNotifier {
   void setCommunityViewMode(CommunityViewMode mode) {
     _communityViewMode = mode;
     notifyListeners();
+  }
+  
+  // Set app bar visibility
+  void setAppBarVisibility(bool show) {
+    if (_shouldShowAppBar != show) {
+      _shouldShowAppBar = show;
+      notifyListeners();
+    }
   }
 
   // Track if we're currently animating
@@ -102,6 +114,13 @@ class IndexProvider extends ChangeNotifier {
     
     // Store the previous tab
     _previousTap = _currentTap;
+    
+    // When switching tabs, always show the app bar unless we're on the communities tab
+    // with no communities
+    if (v != 0) {
+      // Switching away from communities, always show app bar
+      setAppBarVisibility(true);
+    }
     
     // Throttle rapid tab switches to prevent UI jank
     final now = DateTime.now();
