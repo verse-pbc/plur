@@ -84,7 +84,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                 context: context,
                 icon: Icons.people_outline,
                 title: "Join Holis Community",
-                subtitle: "Be part of our official test group and help us shape the future of Plur.",
+                subtitle: "Be part of our official test group and help us shape the future of Holis.",
                 onTap: () {
                   _joinTestUsersGroup(context);
                 },
@@ -223,7 +223,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
           ),
           content: Text(
             "Would you like to join the Holis Community? "
-            "This is our official test group where you can help us shape the future of Plur.",
+            "This is our official test group where you can help us shape the future of Holis.",
             style: TextStyle(
               color: colors.primaryText,
               fontSize: 16,
