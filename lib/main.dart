@@ -8,8 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-// Import custom web plugin registrant - will gracefully handle non-web platforms
-import 'web_plugin_registrant_custom.dart';
+// Flutter now handles plugin registration automatically via the build system
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' as riverpod;
@@ -342,16 +341,8 @@ Future<void> main() async {
     log("Starting application initialization");
     WidgetsFlutterBinding.ensureInitialized();
     
-    // Register web plugins manually for web platform to avoid conflicts
-    if (kIsWeb) {
-      try {
-        log("Using custom web plugin registration");
-        registerPlugins();
-        log("Custom web plugin registration complete");
-      } catch (e) {
-        log("Error in custom web plugin registration: $e");
-      }
-    }
+    // Flutter now handles plugin registration automatically
+    // Custom web plugin registration removed - no longer needed with modern Flutter
     
     log("Flutter binding initialized");
     
