@@ -19,17 +19,26 @@ class NameInputStepWidget extends StatefulWidget {
 class _NameInputStepWidgetState extends State<NameInputStepWidget> {
   final TextEditingController _nameController = TextEditingController();
   bool _isButtonEnabled = false;
+  bool _isHovered = false;
+  bool _isFocused = false;
+  final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
     _nameController.addListener(_updateButtonState);
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
   }
 
   @override
   void dispose() {
     _nameController.removeListener(_updateButtonState);
     _nameController.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
@@ -40,6 +49,57 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
         _isButtonEnabled = newState;
       });
     }
+  }
+  
+  /// Builds a custom input field with hover and focus effects
+  /// based on the nsec input field from the Login with Nostr sheet
+  Widget _buildCustomInputField(Color accentColor, Color secondaryTextColor) {
+    // Determine border color based on state
+    Color borderColor = _isFocused || _isHovered 
+        ? accentColor
+        : const Color(0xFF2E4052);
+    
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: borderColor,
+            width: 1,
+          ),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(7),
+          child: TextField(
+            controller: _nameController,
+            focusNode: _focusNode,
+            autofocus: true,
+            style: const TextStyle(
+              fontFamily: 'SF Pro Rounded',
+              color: Colors.white,
+              fontSize: 16,
+            ),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(0xFF11171F),
+              hintText: S.of(context).onboardingNameInputHint,
+              hintStyle: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: secondaryTextColor,
+                fontSize: 16,
+              ),
+              border: InputBorder.none,
+              enabledBorder: InputBorder.none,
+              focusedBorder: InputBorder.none,
+              hoverColor: Colors.transparent,
+              contentPadding: const EdgeInsets.all(16),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -137,45 +197,11 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
               
               const SizedBox(height: 48),
               
-              // Input field
+              // Input field with styles from the Login with Nostr sheet
               Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: buttonMaxWidth),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: const Color(0xFF2E4052),
-                        width: 1,
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
-                      child: TextField(
-                        controller: _nameController,
-                        autofocus: true,
-                        style: const TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: Colors.white,
-                          fontSize: 16,
-                        ),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: const Color(0xFF11171F),
-                          hintText: localization.onboardingNameInputHint,
-                          hintStyle: TextStyle(
-                            fontFamily: 'SF Pro Rounded',
-                            color: colors.secondaryText,
-                            fontSize: 16,
-                          ),
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: const EdgeInsets.all(16),
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: _buildCustomInputField(colors.accent, colors.secondaryText),
                 ),
               ),
               
