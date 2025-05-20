@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostrmo/router/group/invite_people_widget.dart';
-import 'package:nostrmo/util/router_util.dart';
-import 'package:nostrmo/util/theme_util.dart';
+import 'package:nostrmo/theme/app_colors.dart';
 
 import '../../generated/l10n.dart';
 import 'create_community_controller.dart';
@@ -11,12 +10,59 @@ import 'create_community_widget.dart';
 class CreateCommunityDialog extends ConsumerStatefulWidget {
   const CreateCommunityDialog({super.key});
 
+  // New method to show the content as a bottom sheet instead of a dialog
   static Future<void> show(BuildContext context) async {
-    await showDialog<void>(
+    await showModalBottomSheet<void>(
       context: context,
-      useRootNavigator: false,
-      builder: (_) {
-        return const CreateCommunityDialog();
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      enableDrag: true,
+      isDismissible: true,
+      builder: (BuildContext context) {
+        // Get responsive width values
+        var screenWidth = MediaQuery.of(context).size.width;
+        bool isTablet = screenWidth >= 600;
+        bool isDesktop = screenWidth >= 900;
+        double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
+        
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: Container(
+                color: Colors.transparent,
+                height: 100,  // Touch area above sheet
+              ),
+            ),
+            AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 100),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.colors.loginBackground,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
+                    ),
+                    child: const SafeArea(
+                      top: false,
+                      bottom: true,
+                      child: CreateCommunityDialog(),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
       },
     );
   }
@@ -30,76 +76,79 @@ class CreateCommunityDialog extends ConsumerStatefulWidget {
 class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   @override
   Widget build(BuildContext context) {
-    final themeData = Theme.of(context);
-    Color cardColor = themeData.cardColor;
+    final colors = context.colors;
     final controller = ref.watch(createCommunityControllerProvider);
-    return Scaffold(
-      backgroundColor: ThemeUtil.getDialogCoverColor(themeData),
-      resizeToAvoidBottomInset: true,
-      body: Stack(
+    
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              RouterUtil.back(context);
-            },
-            child: Container(
-              color: Colors.black54,
-            ),
-          ),
-          SingleChildScrollView(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              alignment: Alignment.center,
-              child: GestureDetector(
-                onTap: () {},
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: cardColor,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          icon: const Icon(Icons.close),
-                          onPressed: () {
-                            RouterUtil.back(context);
-                          },
-                        ),
-                      ),
-                      controller.when(
-                        data: (model) {
-                          if (model == null) {
-                            return CreateCommunityWidget(
-                              onCreateCommunity: _onCreateCommunity,
-                            );
-                          } else {
-                            return InvitePeopleWidget(
-                              shareableLink: model.$2,
-                              groupIdentifier: model.$1,
-                              showCreatePostButton: true,
-                            );
-                          }
-                        },
-                        error: (error, stackTrace) {
-                          return Center(child: ErrorWidget(error));
-                        },
-                        loading: () {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
+          // Close button
+          Align(
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: colors.buttonText.withAlpha((255 * 0.1).round()),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.close,
+                  color: colors.buttonText,
+                  size: 20,
                 ),
               ),
             ),
+          ),
+          
+          // Community icon
+          Center(
+            child: Image.asset(
+              'assets/imgs/welcome_groups.png',
+              width: 80,
+              height: 80,
+              errorBuilder: (context, error, stackTrace) {
+                return Icon(
+                  Icons.people_alt_rounded,
+                  size: 80,
+                  color: colors.buttonText,
+                );
+              },
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          controller.when(
+            data: (model) {
+              if (model == null) {
+                return CreateCommunityWidget(
+                  onCreateCommunity: _onCreateCommunity,
+                );
+              } else {
+                return InvitePeopleWidget(
+                  shareableLink: model.$2,
+                  groupIdentifier: model.$1,
+                  showCreatePostButton: true,
+                );
+              }
+            },
+            error: (error, stackTrace) {
+              return Center(child: ErrorWidget(error));
+            },
+            loading: () {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(32.0),
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -117,7 +166,7 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
         barrierDismissible: true,
         builder: (context) => AlertDialog.adaptive(
           title: Text(localization.error),
-          content: Text("Failed to create community"),
+          content: const Text("Failed to create community"),
           actions: [
             TextButton(
               child: Text(localization.retry),
