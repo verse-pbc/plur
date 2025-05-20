@@ -164,7 +164,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                     icon,
                     width: 28,
                     height: 28,
-                    color: color,
+                    // Removed the color tinting to show original image colors
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(Icons.error_outline, color: color, size: 28);
                     },
