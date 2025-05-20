@@ -109,7 +109,7 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
           // Community icon
           Center(
             child: Image.asset(
-              'assets/imgs/welcome_groups.png',
+              'assets/imgs/create-community.png',
               width: 80,
               height: 80,
               errorBuilder: (context, error, stackTrace) {

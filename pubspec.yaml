@@ -179,6 +179,7 @@ flutter:
     - assets/imgs/drivers-licence.png
     - assets/imgs/user-avatar.png
     - assets/imgs/join-community.png
+    - assets/imgs/create-community.png
     
   fonts:
     - family: "SF Pro Rounded"
