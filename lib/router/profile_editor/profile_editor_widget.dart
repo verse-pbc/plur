@@ -8,6 +8,7 @@ import 'package:nostrmo/util/router_util.dart';
 
 import '../../component/appbar4stack.dart';
 import '../../component/cust_state.dart';
+import '../../component/styled_input_field_widget.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
@@ -103,9 +104,9 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
       padding: padding,
       child: Row(children: [
         Expanded(
-          child: TextField(
+          child: StyledInputFieldWidget(
             controller: displayNameController,
-            decoration: InputDecoration(labelText: localization.displayName),
+            hintText: localization.displayName,
           ),
         ),
         Container(
@@ -116,9 +117,9 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
           child: const Text(" @ "),
         ),
         Expanded(
-          child: TextField(
+          child: StyledInputFieldWidget(
             controller: nameController,
-            decoration: InputDecoration(labelText: localization.name),
+            hintText: localization.name,
           ),
         ),
       ]),
@@ -127,25 +128,24 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     list.add(Container(
       margin: margin,
       padding: padding,
-      child: TextField(
-        minLines: 2,
-        maxLines: 10,
-        controller: aboutController,
-        decoration: InputDecoration(labelText: localization.about),
+      child: Container(
+        height: 100, // Set a fixed height for multiline text
+        child: StyledInputFieldWidget(
+          controller: aboutController,
+          hintText: localization.about,
+        ),
       ),
     ));
 
     list.add(Container(
       margin: margin,
       padding: padding,
-      child: TextField(
+      child: StyledInputFieldWidget(
         controller: pictureController,
-        decoration: InputDecoration(
-          prefixIcon: GestureDetector(
-            onTap: pickPicture,
-            child: const Icon(Icons.image),
-          ),
-          labelText: localization.picture,
+        hintText: localization.picture,
+        prefixIcon: GestureDetector(
+          onTap: pickPicture,
+          child: const Icon(Icons.image),
         ),
       ),
     ));
@@ -153,14 +153,12 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     list.add(Container(
       margin: margin,
       padding: padding,
-      child: TextField(
+      child: StyledInputFieldWidget(
         controller: bannerController,
-        decoration: InputDecoration(
-          prefixIcon: GestureDetector(
-            onTap: pickBanner,
-            child: const Icon(Icons.image),
-          ),
-          labelText: localization.banner,
+        hintText: localization.banner,
+        prefixIcon: GestureDetector(
+          onTap: pickBanner,
+          child: const Icon(Icons.image),
         ),
       ),
     ));
@@ -168,29 +166,27 @@ class _ProfileEditorWidgetState extends CustState<ProfileEditorWidget> {
     list.add(Container(
       margin: margin,
       padding: padding,
-      child: TextField(
+      child: StyledInputFieldWidget(
         controller: websiteController,
-        decoration: InputDecoration(labelText: localization.website),
+        hintText: localization.website,
       ),
     ));
 
     list.add(Container(
       margin: margin,
       padding: padding,
-      child: TextField(
+      child: StyledInputFieldWidget(
         controller: nip05Controller,
-        decoration: InputDecoration(labelText: "Nostr ${localization.address}"),
+        hintText: "Nostr ${localization.address}",
       ),
     ));
 
     list.add(Container(
       margin: margin,
       padding: padding,
-      child: TextField(
+      child: StyledInputFieldWidget(
         controller: lud16Controller,
-        decoration: InputDecoration(
-            labelText: localization.lightningAddress,
-            hintText: "walletname@walletservice.com"),
+        hintText: "walletname@walletservice.com",
       ),
     ));
 

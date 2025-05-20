@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:nostrmo/component/cust_state.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/colors_util.dart';
@@ -42,14 +43,12 @@ class _NwcSettingWidgetState extends CustState<NwcSettingWidget> {
 
     List<Widget> list = [];
 
-    list.add(TextField(
-      minLines: 4,
-      maxLines: 4,
-      autofocus: true,
-      controller: textEditingController,
-      decoration: InputDecoration(
+    list.add(Container(
+      height: 120, // Set a fixed height for the multiline input
+      child: StyledInputFieldWidget(
+        controller: textEditingController,
         hintText: localization.pleaseInputNWCURL,
-        border: const OutlineInputBorder(borderSide: BorderSide(width: 1)),
+        autofocus: true,
       ),
     ));
 

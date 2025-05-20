@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -205,23 +206,26 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
             const SizedBox(height: 16),
             
             // Message field
-            TextField(
-              controller: _contentController,
-              maxLines: 4,
-              decoration: InputDecoration(
-                labelText: 'Your message',
-                hintText: _getMessageHint(),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                    color: customColors.separatorColor.withOpacity(0.5),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Your message',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: customColors.secondaryForegroundColor,
+                    fontSize: 14,
                   ),
                 ),
-                filled: true,
-                fillColor: customColors.feedBgColor,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-              ),
+                const SizedBox(height: 8),
+                Container(
+                  height: 120, // Fixed height for multiline
+                  child: StyledInputFieldWidget(
+                    controller: _contentController,
+                    hintText: _getMessageHint(),
+                  ),
+                ),
+              ],
             ),
             
             const SizedBox(height: 16),
@@ -236,71 +240,68 @@ class _ResponseDialogState extends ConsumerState<ResponseDialog> {
               textColor: themeData.primaryColor,
               children: [
                 if (_responseType == ResponseType.help || _responseType == ResponseType.offer)
-                  TextField(
-                    controller: _priceController,
-                    decoration: InputDecoration(
-                      labelText: 'Price (if applicable)',
-                      hintText: 'e.g., 50 sats, Free, etc.',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: customColors.separatorColor.withOpacity(0.5),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Price (if applicable)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: customColors.secondaryForegroundColor,
+                          fontSize: 14,
                         ),
                       ),
-                      filled: true,
-                      fillColor: customColors.feedBgColor,
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      prefixIcon: Container(
-                        padding: const EdgeInsets.all(10),
-                        child: Icon(Icons.attach_money, color: Colors.green),
+                      const SizedBox(height: 8),
+                      StyledInputFieldWidget(
+                        controller: _priceController,
+                        hintText: 'e.g., 50 sats, Free, etc.',
+                        prefixIcon: Icon(Icons.attach_money, color: Colors.green),
                       ),
-                    ),
+                    ],
                   ),
                 
                 const SizedBox(height: 12),
                 
-                TextField(
-                  controller: _availabilityController,
-                  decoration: InputDecoration(
-                    labelText: 'When are you available?',
-                    hintText: 'e.g., Weekday evenings, This Saturday, etc.',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: customColors.separatorColor.withOpacity(0.5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'When are you available?',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: customColors.secondaryForegroundColor,
+                        fontSize: 14,
                       ),
                     ),
-                    filled: true,
-                    fillColor: customColors.feedBgColor,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    prefixIcon: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Icon(Icons.access_time, color: Colors.blue),
+                    const SizedBox(height: 8),
+                    StyledInputFieldWidget(
+                      controller: _availabilityController,
+                      hintText: 'e.g., Weekday evenings, This Saturday, etc.',
+                      prefixIcon: Icon(Icons.access_time, color: Colors.blue),
                     ),
-                  ),
+                  ],
                 ),
                 
                 const SizedBox(height: 12),
                 
-                TextField(
-                  controller: _locationController,
-                  decoration: InputDecoration(
-                    labelText: 'Location (if applicable)',
-                    hintText: 'e.g., Downtown, Can deliver, etc.',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(
-                        color: customColors.separatorColor.withOpacity(0.5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Location (if applicable)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: customColors.secondaryForegroundColor,
+                        fontSize: 14,
                       ),
                     ),
-                    filled: true,
-                    fillColor: customColors.feedBgColor,
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    prefixIcon: Container(
-                      padding: const EdgeInsets.all(10),
-                      child: Icon(Icons.location_on, color: Colors.orange),
+                    const SizedBox(height: 8),
+                    StyledInputFieldWidget(
+                      controller: _locationController,
+                      hintText: 'e.g., Downtown, Can deliver, etc.',
+                      prefixIcon: Icon(Icons.location_on, color: Colors.orange),
                     ),
-                  ),
+                  ],
                 ),
               ],
             ),

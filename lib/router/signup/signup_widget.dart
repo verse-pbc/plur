@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostr_sdk/client_utils/keys.dart';
 
+import '../../component/styled_input_field_widget.dart';
 import '../../generated/l10n.dart';
 import '../../theme/app_colors.dart';
 import '../../util/dirtywords_util.dart';
@@ -474,48 +475,27 @@ class _SignupWidgetState extends State<SignupWidget> {
           Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: buttonMaxWidth),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: const Color(0xFF2E4052),
-                    width: 1,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(7),
-                  child: TextField(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StyledInputFieldWidget(
                     controller: _nicknameController,
                     autofocus: true,
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: buttonTextColor,
-                      fontSize: 16,
-                    ),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color(0xFF11171F),
-                      hintText: "Enter nickname (min. 3 characters)",
-                      hintStyle: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: secondaryTextColor,
-                        fontSize: 16,
-                      ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(16),
-                      errorText: _nicknameController.text.isNotEmpty && !_isNicknameValid
-                        ? "Nickname must be at least 3 characters and appropriate"
-                        : null,
-                      errorStyle: const TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                    ),
+                    hintText: "Enter nickname (min. 3 characters)",
                   ),
-                ),
+                  if (_nicknameController.text.isNotEmpty && !_isNicknameValid)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 8),
+                      child: Text(
+                        "Nickname must be at least 3 characters and appropriate",
+                        style: const TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Colors.red,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),
@@ -625,47 +605,27 @@ class _SignupWidgetState extends State<SignupWidget> {
           Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: buttonMaxWidth),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(
-                    color: const Color(0xFF2E4052),
-                    width: 1,
-                  ),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(7),
-                  child: TextField(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StyledInputFieldWidget(
                     controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
                     autofocus: true,
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: buttonTextColor,
-                      fontSize: 16,
-                    ),
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: const Color(0xFF11171F),
-                      hintText: "Enter email address (optional)",
-                      hintStyle: TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: secondaryTextColor,
-                        fontSize: 16,
-                      ),
-                      border: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      contentPadding: const EdgeInsets.all(16),
-                      errorText: !_isEmailValid ? "Please enter a valid email address" : null,
-                      errorStyle: const TextStyle(
-                        fontFamily: 'SF Pro Rounded',
-                        color: Colors.red,
-                        fontSize: 14,
-                      ),
-                    ),
+                    hintText: "Enter email address (optional)",
                   ),
-                ),
+                  if (!_isEmailValid)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 8),
+                      child: Text(
+                        "Please enter a valid email address",
+                        style: const TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Colors.red,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                ],
               ),
             ),
           ),

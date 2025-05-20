@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/group_provider.dart';
@@ -62,10 +63,16 @@ class _UserBanDialogState extends State<UserBanDialog> {
   void initState() {
     super.initState();
     _selectedDuration = _durationOptions[1]; // Default to 1 day
+    _reasonController.addListener(() {
+      setState(() {
+        // Update for character count display
+      });
+    });
   }
   
   @override
   void dispose() {
+    _reasonController.removeListener(() {});
     _reasonController.dispose();
     super.dispose();
   }
@@ -144,15 +151,24 @@ class _UserBanDialogState extends State<UserBanDialog> {
               style: theme.textTheme.bodyMedium,
             ),
             const SizedBox(height: 16),
-            TextField(
-              controller: _reasonController,
-              decoration: InputDecoration(
-                labelText: "Reason (Optional)",
-                border: const OutlineInputBorder(),
-                hintText: "Optional explanation for why this user is being banned...",
-              ),
-              maxLines: 3,
-              maxLength: 200,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  height: 100, // Fixed height for multiline text
+                  child: StyledInputFieldWidget(
+                    controller: _reasonController,
+                    hintText: "Optional explanation for why this user is being banned...",
+                  ),
+                ),
+                Text(
+                  "${_reasonController.text.length}/200",
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             

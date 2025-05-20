@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nostrmo/component/primary_button_widget.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/generated/l10n.dart';
 
 /// A widget that provides a UI for joining an existing community by pasting an invitation link.
@@ -116,13 +117,11 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
         const SizedBox(height: 15),
         
         // Link input field
-        TextField(
-          controller: _linkController,
-          maxLines: 3,
-          minLines: 1,
-          decoration: InputDecoration(
+        Container(
+          height: 100, // Set a fixed height for multiline input
+          child: StyledInputFieldWidget(
+            controller: _linkController,
             hintText: l10n.pleaseInput,
-            border: const OutlineInputBorder(),
             suffixIcon: _linkController.text.isNotEmpty 
               ? IconButton(
                   icon: const Icon(Icons.clear),
@@ -134,8 +133,8 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
                   },
                 )
               : null,
+            onChanged: _validateLink,
           ),
-          onChanged: _validateLink,
         ),
         const SizedBox(height: 10),
         

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/component/user/simple_user_widget.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/generated/l10n.dart';
@@ -148,15 +149,17 @@ class _FollowSetDetailWidgetState extends State<FollowSetDetailWidget> {
             ),
           ),
         ),
-        TextField(
-          controller: controller,
-          decoration: InputDecoration(
+        Padding(
+          padding: const EdgeInsets.all(Base.basePaddingHalf),
+          child: StyledInputFieldWidget(
+            controller: controller,
             prefixIcon: const Icon(Icons.person),
             hintText: localization.pleaseInputUserPubkey,
             suffixIcon: IconButton(
               icon: const Icon(Icons.add),
               onPressed: onTap,
             ),
+            onSubmitted: (_) => onTap(),
           ),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nostr_sdk/nip29/group_identifier.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/data/group_metadata_repository.dart';
 import 'package:nostrmo/util/theme_util.dart';
 import 'package:nostrmo/util/group_id_util.dart';
@@ -200,18 +201,10 @@ class _ListingsScreenState extends ConsumerState<ListingsScreen> with SingleTick
             // Search bar
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search asks & offers...',
-                  prefixIcon: const Icon(Icons.search),
-                  filled: true,
-                  fillColor: customColors.feedBgColor,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                ),
+              child: StyledInputFieldWidget(
+                controller: TextEditingController(text: _searchQuery),
+                hintText: 'Search asks & offers...',
+                prefixIcon: const Icon(Icons.search),
                 onChanged: (value) {
                   setState(() {
                     _searchQuery = value;

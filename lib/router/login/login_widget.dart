@@ -13,6 +13,7 @@ import '../../generated/l10n.dart';
 import '../../main.dart';
 import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
+import '../../component/styled_input_field_widget.dart';
 import '../../theme/app_colors.dart';
 import '../../consts/plur_colors.dart';
 
@@ -610,11 +611,11 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                 
                 // Private key input field
                 wrapResponsive(
-                  CustomInputField(
+                  StyledInputFieldWidget(
                     controller: _controller,
-                    isObscured: _isTextObscured,
-                    accentColor: accentColor,
-                    secondaryTextColor: colors.secondaryText,
+                    obscureText: _isTextObscured,
+                    hintText: 'nsec',
+                    autofocus: true,
                     onToggleObscure: () {
                       setSheetState(() {
                         _isTextObscured = !_isTextObscured;
@@ -1078,109 +1079,3 @@ class _LoginSignupState extends State<LoginSignupWidget> {
   }
 }
 
-/// Custom input field with hover and focus border color changes
-class CustomInputField extends StatefulWidget {
-  final TextEditingController controller;
-  final bool isObscured;
-  final Color accentColor;
-  final Color secondaryTextColor;
-  final VoidCallback onToggleObscure;
-  final ValueChanged<String>? onChanged;
-  
-  const CustomInputField({
-    super.key,
-    required this.controller,
-    required this.isObscured,
-    required this.accentColor,
-    required this.secondaryTextColor,
-    required this.onToggleObscure,
-    this.onChanged,
-  });
-  
-  @override
-  State<CustomInputField> createState() => _CustomInputFieldState();
-}
-
-class _CustomInputFieldState extends State<CustomInputField> {
-  bool _isHovered = false;
-  bool _isFocused = false;
-  final FocusNode _focusNode = FocusNode();
-  
-  @override
-  void initState() {
-    super.initState();
-    _focusNode.addListener(() {
-      setState(() {
-        _isFocused = _focusNode.hasFocus;
-      });
-    });
-  }
-  
-  @override
-  void dispose() {
-    _focusNode.dispose();
-    super.dispose();
-  }
-  
-  @override
-  Widget build(BuildContext context) {
-    // Determine border color based on state
-    Color borderColor = _isFocused || _isHovered 
-        ? widget.accentColor
-        : const Color(0xFF2E4052);
-    
-    return MouseRegion(
-      onEnter: (_) => setState(() => _isHovered = true),
-      onExit: (_) => setState(() => _isHovered = false),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: borderColor,
-            width: 1,
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(7),
-          child: TextField(
-            controller: widget.controller,
-            focusNode: _focusNode,
-            autofocus: true,
-            onChanged: widget.onChanged,
-            style: TextStyle(
-              fontFamily: 'SF Pro Rounded',
-              color: Colors.white,
-              fontSize: 16,
-            ),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(0xFF11171F),
-              hintText: 'nsec',
-              hintStyle: TextStyle(
-                fontFamily: 'SF Pro Rounded',
-                color: widget.secondaryTextColor,
-                fontSize: 16,
-              ),
-              border: InputBorder.none,
-              enabledBorder: InputBorder.none,
-              focusedBorder: InputBorder.none,
-              hoverColor: Colors.transparent,
-              contentPadding: const EdgeInsets.all(16),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  widget.isObscured ? Icons.visibility : Icons.visibility_off,
-                  color: widget.secondaryTextColor,
-                ),
-                onPressed: widget.onToggleObscure,
-                hoverColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-            ),
-            obscureText: widget.isObscured,
-          ),
-        ),
-      ),
-    );
-  }
-}

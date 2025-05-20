@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/util/app_logger.dart';
 import 'package:nostrmo/util/log_filter_dialog.dart';
 
@@ -180,12 +181,9 @@ class _LogTestScreenState extends State<LogTestScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Custom message input
-            TextField(
+            StyledInputFieldWidget(
               controller: _messageController,
-              decoration: const InputDecoration(
-                labelText: 'Log Message',
-                border: OutlineInputBorder(),
-              ),
+              hintText: 'Log Message',
             ),
             const SizedBox(height: 16),
             

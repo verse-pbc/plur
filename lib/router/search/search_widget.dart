@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../component/cust_state.dart';
 import '../../component/event/event_list_widget.dart';
 import '../../component/event_delete_callback.dart';
+import '../../component/styled_input_field_widget.dart';
 import '../../consts/base_consts.dart';
 import '../../consts/router_path.dart';
 import '../../generated/l10n.dart';
@@ -194,14 +195,13 @@ class _SearchWidgetState extends CustState<SearchWidget>
         child: Column(children: [
           Container(
             color: themeData.cardColor,
-            child: TextField(
+            padding: const EdgeInsets.all(8),
+            child: StyledInputFieldWidget(
               controller: controller,
-              decoration: InputDecoration(
-                prefixIcon: const Icon(Icons.search),
-                hintText: localization.pleaseInputSearchContent,
-                suffixIcon: suffixWidget,
-              ),
-              onEditingComplete: onEditingComplete,
+              hintText: localization.pleaseInputSearchContent,
+              prefixIcon: const Icon(Icons.search),
+              suffixIcon: suffixWidget,
+              onSubmitted: (_) => onEditingComplete(),
             ),
           ),
           Expanded(

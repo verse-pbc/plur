@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/consts/colors.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/util/theme_util.dart';
@@ -144,18 +145,10 @@ class _MyListingsScreenState extends ConsumerState<MyListingsScreen> with Single
         // Search bar
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Search your listings...',
-              prefixIcon: const Icon(Icons.search),
-              filled: true,
-              fillColor: customColors.feedBgColor,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide.none,
-              ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 0),
-            ),
+          child: StyledInputFieldWidget(
+            controller: TextEditingController(text: _searchQuery),
+            hintText: 'Search your listings...',
+            prefixIcon: const Icon(Icons.search),
             onChanged: (value) {
               setState(() {
                 _searchQuery = value;

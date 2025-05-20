@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/appbar_back_btn_widget.dart';
 import 'package:flutter/services.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/provider/group_provider.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -342,30 +343,32 @@ class _GroupEditWidgetState extends State<GroupEditWidget> {
           ),
         ),
         const SizedBox(height: 8),
-        TextField(
-          controller: controller,
-          maxLines: maxLines,
-          maxLength: maxLength,
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: TextStyle(
-              color: customColors.dimmedColor,
+        maxLines > 1 
+          ? Container(
+              height: maxLines * 24.0, // Approximate line height
+              child: StyledInputFieldWidget(
+                controller: controller,
+                hintText: hint,
+              ),
+            )
+          : StyledInputFieldWidget(
+              controller: controller,
+              hintText: hint,
             ),
-            filled: true,
-            fillColor: customColors.feedBgColor,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8),
-              borderSide: BorderSide.none,
-            ),
-            counterStyle: TextStyle(
-              color: customColors.dimmedColor,
+        if (maxLength != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(
+                '${controller.text.length}/$maxLength',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: customColors.dimmedColor,
+                ),
+              ),
             ),
           ),
-          style: TextStyle(
-            color: customColors.primaryForegroundColor,
-          ),
-        ),
       ],
     );
   }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../component/appbar_back_btn_widget.dart';
 import '../../component/cust_state.dart';
+import '../../component/styled_input_field_widget.dart';
 import '../../consts/base.dart';
 import '../../generated/l10n.dart';
 import '../../main.dart';
@@ -227,15 +228,14 @@ class _RelaysWidgetState extends CustState<RelaysWidget> with WhenStopFunction {
             },
           ),
           Expanded(
-            child: TextField(
+            child: StyledInputFieldWidget(
               controller: controller,
-              decoration: InputDecoration(
-                hintText: localization.inputRelayAddress,
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.add),
-                  onPressed: addRelay,
-                ),
+              hintText: localization.inputRelayAddress,
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: addRelay,
               ),
+              onSubmitted: (_) => addRelay(),
             ),
           ),
         ]),

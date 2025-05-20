@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../component/primary_button_widget.dart';
+import '../../component/styled_input_field_widget.dart';
 import '../../generated/l10n.dart';
 
 class CreateCommunityWidget extends StatefulWidget {
@@ -38,12 +39,9 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
             const SizedBox(height: 20),
             Text(localization.nameYourCommunity),
             const SizedBox(height: 10),
-            TextField(
+            StyledInputFieldWidget(
               controller: _communityNameController,
-              decoration: InputDecoration(
-                hintText: localization.communityName,
-                border: const OutlineInputBorder(),
-              ),
+              hintText: localization.communityName,
               onChanged: (text) {
                 setState(() {});
               },

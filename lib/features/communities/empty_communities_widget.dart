@@ -187,91 +187,261 @@ class EmptyCommunitiesWidget extends StatelessWidget {
   void _joinTestUsersGroup(BuildContext context) {
     const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
-    // Show confirmation dialog first
-    showDialog(
+    // Show join community sheet (similar to login sheet)
+    showModalBottomSheet(
       context: context,
-      builder: (BuildContext dialogContext) {
-        final colors = context.colors;
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Colors.black.withAlpha((255 * 0.5).round()),
+      enableDrag: true,
+      isDismissible: true,
+      builder: (BuildContext context) {
+        // Get responsive width values
+        var screenWidth = MediaQuery.of(context).size.width;
+        bool isTablet = screenWidth >= 600;
+        bool isDesktop = screenWidth >= 900;
+        double sheetMaxWidth = isDesktop ? 600 : (isTablet ? 600 : double.infinity);
         
-        return AlertDialog(
-          backgroundColor: colors.cardBackground,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          title: Text(
-            "Join Holis Community",
-            style: TextStyle(
-              color: colors.primaryText,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: Text(
-            "Would you like to join the Holis Community? "
-            "This is our official test group where you can help us shape the future of Holis.",
-            style: TextStyle(
-              color: colors.primaryText,
-              fontSize: 16,
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
               },
-              child: Text(
-                "Cancel",
-                style: TextStyle(
-                  color: colors.secondaryText,
-                  fontSize: 16,
-                ),
+              child: Container(
+                color: Colors.transparent,
+                height: 100,  // Touch area above sheet
               ),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                
-                // Show loading indicator
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text("Joining Holis Community..."),
-                    duration: const Duration(seconds: 1),
-                    backgroundColor: colors.primary.withAlpha(230),
-                  ),
-                );
-                
-                // Attempt to join the group
-                bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
-                
-                if (!success && context.mounted) {
-                  // Show error message if joining failed
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Failed to join Holis Community. Please try again later."),
-                      duration: Duration(seconds: 3),
+            AnimatedPadding(
+              padding: MediaQuery.of(context).viewInsets,
+              duration: const Duration(milliseconds: 100),
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: sheetMaxWidth),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.colors.loginBackground,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(24),
+                        topRight: Radius.circular(24),
+                      ),
                     ),
-                  );
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colors.primary,
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              child: const Text(
-                "Join Group",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                    child: SafeArea(
+                      top: false,
+                      bottom: true,
+                      child: _buildJoinHolisSheet(context, testUsersGroupLink),
+                    ),
+                  ),
                 ),
               ),
             ),
           ],
         );
       },
+    );
+  }
+  
+  // Builds the join Holis community sheet content (similar to login sheet)
+  Widget _buildJoinHolisSheet(BuildContext context, String testUsersGroupLink) {
+    final colors = context.colors;
+    Color accentColor = colors.accent;
+    Color buttonTextColor = colors.buttonText;
+    
+    // Get screen width for responsive design
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isDesktop = screenWidth >= 900;
+
+    // Wrapper function for responsive elements
+    Widget wrapResponsive(Widget child) {
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: isDesktop ? 400 : 500),
+          child: child,
+        ),
+      );
+    }
+    
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Close button
+          Align(
+            alignment: Alignment.centerRight,
+            child: GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: Container(
+                width: 32,
+                height: 32,
+                decoration: BoxDecoration(
+                  color: buttonTextColor.withAlpha((255 * 0.1).round()),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.close,
+                  color: buttonTextColor,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Community join icon above title
+          Center(
+            child: Image.asset(
+              'assets/imgs/join-community.png',
+              width: 80,
+              height: 80,
+              // No color tinting to show the original image
+              errorBuilder: (context, error, stackTrace) {
+                // Fallback icon if image fails to load
+                return Icon(
+                  Icons.people_rounded,
+                  size: 80,
+                  color: buttonTextColor,
+                );
+              },
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // Title
+          wrapResponsive(
+            Center(
+              child: Text(
+                "Join Holis Community",
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: buttonTextColor,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  height: 1.2,
+                ),
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 20),
+          
+          // Description
+          wrapResponsive(
+            Text(
+              "Would you like to join the Holis Community? This is our official test group where you can help us shape the future of Holis.",
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: colors.secondaryText,
+                fontSize: 16,
+                height: 1.4,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          
+          const SizedBox(height: 32),
+          
+          // Cancel button
+          wrapResponsive(
+            SizedBox(
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border.all(
+                      color: colors.secondaryText.withAlpha((255 * 0.3).round()),
+                      width: 2,
+                    ),
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: buttonTextColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          
+          const SizedBox(height: 16),
+          
+          // Join Group button
+          wrapResponsive(
+            SizedBox(
+              width: double.infinity,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  
+                  // Show loading indicator
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text("Joining Holis Community..."),
+                      duration: const Duration(seconds: 1),
+                      backgroundColor: colors.primary.withAlpha(230),
+                    ),
+                  );
+                  
+                  // Attempt to join the group
+                  bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                  
+                  if (!success && context.mounted) {
+                    // Show error message if joining failed
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text("Failed to join Holis Community. Please try again later."),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                  decoration: BoxDecoration(
+                    color: accentColor,
+                    borderRadius: BorderRadius.circular(32),
+                    boxShadow: [
+                      BoxShadow(
+                        color: accentColor.withAlpha(77),
+                        blurRadius: 8,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Join Group",
+                    style: TextStyle(
+                      fontFamily: 'SF Pro Rounded',
+                      color: buttonTextColor,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 0.2,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

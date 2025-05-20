@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/util/app_logger.dart';
 
 /// A dialog that allows runtime configuration of logging filters
@@ -182,12 +183,9 @@ class _LogFilterDialogState extends State<LogFilterDialog> {
             Row(
               children: [
                 Expanded(
-                  child: TextField(
+                  child: StyledInputFieldWidget(
                     controller: _tagController,
-                    decoration: const InputDecoration(
-                      hintText: 'Enter tag to exclude',
-                      isDense: true,
-                    ),
+                    hintText: 'Enter tag to exclude',
                     onSubmitted: (_) => _addExcludedTag(),
                   ),
                 ),

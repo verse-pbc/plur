@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:nostrmo/component/styled_input_field_widget.dart';
 import 'package:nostrmo/features/events/models/event_model.dart';
 import 'package:nostrmo/features/events/providers/event_provider.dart';
 import 'package:nostrmo/generated/l10n.dart';
@@ -54,6 +55,7 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
   
   // State variables
   bool _isSubmitting = false;
+  bool _formSubmitted = false;
   
   @override
   void initState() {
@@ -142,41 +144,54 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
             children: [
               // Title
               _buildSectionTitle("Title", themeData),
-              TextFormField(
-                controller: _titleController,
-                decoration: InputDecoration(
-                  hintText: "Add a title for your event",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StyledInputFieldWidget(
+                    controller: _titleController,
+                    hintText: "Add a title for your event",
                   ),
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Please enter a title";
-                  }
-                  return null;
-                },
+                  if (_titleController.text.isEmpty && _formSubmitted)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 8),
+                      child: Text(
+                        "Please enter a title",
+                        style: const TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Colors.red,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                ],
               ),
               const SizedBox(height: 24),
               
               // Description
               _buildSectionTitle("Description", themeData),
-              TextFormField(
-                controller: _descriptionController,
-                decoration: InputDecoration(
-                  hintText: "Describe what your event is about",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 150, // Set a fixed height for multiline text
+                    child: StyledInputFieldWidget(
+                      controller: _descriptionController,
+                      hintText: "Describe what your event is about",
+                    ),
                   ),
-                  alignLabelWithHint: true,
-                ),
-                maxLines: 5,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Please enter a description";
-                  }
-                  return null;
-                },
+                  if (_descriptionController.text.isEmpty && _formSubmitted)
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16, top: 8),
+                      child: Text(
+                        "Please enter a description",
+                        style: const TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Colors.red,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                ],
               ),
               const SizedBox(height: 24),
               
@@ -308,14 +323,9 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
               
               // Location
               _buildSectionTitle("Location", themeData),
-              TextFormField(
+              StyledInputFieldWidget(
                 controller: _locationController,
-                decoration: InputDecoration(
-                  hintText: "Add a location or virtual meeting link",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
+                hintText: "Add a location or virtual meeting link",
               ),
               const SizedBox(height: 24),
               
@@ -364,15 +374,9 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
                   // Cover image URL
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: TextFormField(
+                    child: StyledInputFieldWidget(
                       controller: _coverImageController,
-                      decoration: InputDecoration(
-                        labelText: "Cover Image URL",
-                        hintText: 'https://example.com/image.jpg',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
+                      hintText: 'https://example.com/image.jpg',
                     ),
                   ),
                   
@@ -622,13 +626,10 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
       context: context,
       builder: (context) => AlertDialog(
         title: const Text("Add Tag"),
-        content: TextField(
+        content: StyledInputFieldWidget(
           controller: textController,
-          decoration: const InputDecoration(
-            hintText: "Tag Name",
-          ),
+          hintText: "Tag Name",
           autofocus: true,
-          textCapitalization: TextCapitalization.none,
         ),
         actions: [
           TextButton(
@@ -653,8 +654,12 @@ class _EventCreationScreenState extends ConsumerState<EventCreationScreen> {
   }
   
   Future<void> _submitEvent() async {
-    // Validate form
-    if (!_formKey.currentState!.validate()) {
+    setState(() {
+      _formSubmitted = true;
+    });
+
+    // Check title and description
+    if (_titleController.text.trim().isEmpty || _descriptionController.text.trim().isEmpty) {
       return;
     }
     
