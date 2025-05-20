@@ -171,6 +171,7 @@ flutter:
     - assets/imgs/cashu_logo.png
     - assets/imgs/alby_logo.png
     - assets/imgs/logo/logo512.png
+    - assets/imgs/logo/holis_logo.png
     - assets/imgs/music/wavlake.png
     - assets/imgs/profile.png
     - assets/imgs/nostrich.png
@@ -190,8 +191,8 @@ flutter:
           weight: 700
 
 flutter_launcher_icons:
-  image_path_ios: 'assets/imgs/logo/logo_ios.png'
-  image_path_android: 'assets/imgs/logo/logo_android.png'
+  image_path_ios: 'assets/imgs/logo/holis_logo.png'
+  image_path_android: 'assets/imgs/logo/holis_logo.png'
   android: true
   ios: true
   windows:
@@ -203,7 +204,7 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#f6f3f3"
-  image: assets/imgs/logo/logo512.png
+  image: assets/imgs/logo/holis_logo.png
   fullscreen: true
   android: true
   ios: true

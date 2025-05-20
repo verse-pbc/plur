@@ -6,7 +6,7 @@ import 'package:nostrmo/provider/group_read_status_provider.dart';
 import 'package:nostrmo/provider/index_provider.dart';
 import 'package:nostrmo/provider/list_provider.dart';
 import 'package:nostrmo/router/group/communities_feed_widget.dart';
-import 'package:nostrmo/router/group/no_communities_sheet.dart';
+import 'package:nostrmo/features/create_community/community_options_dialog.dart';
 import 'package:nostrmo/main.dart';
 // Import Provider package with an alias to avoid conflicts
 import 'package:provider/provider.dart' as provider;
@@ -17,7 +17,6 @@ import '../../generated/l10n.dart';
 import 'communities_controller.dart';
 import 'communities_grid_widget.dart';
 import 'communities_list_widget.dart';
-import 'empty_communities_widget.dart';
 
 // Used for logging
 import 'dart:developer' as developer;
@@ -242,54 +241,46 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     developer.log("🔔 MARKED HAS_EVER_SEEN_GROUPS=true because we found $originalGroupCount groups", name: "CommunitiesScreen");
                   }
                   
-                  // CRITICAL: Show the no communities sheet in two scenarios:
-                  // 1. When no communities are found and we've never seen any before (new user)
-                  // 2. When communities are found but we need to show the sheet anyway (debug flag)
-                  // 
-                  // NOTE: We're setting this to false to attempt to show the communities list
-                  // before falling back to the empty state sheet
-                  final bool forceShowEmptyState = false; // Set to false to try showing communities first
-                  
-                  // Safety check - make sure we have a current user key
-                  if (_currentUserKey == null) {
-                    _currentUserKey = nostr?.publicKey;
-                    debugPrint("🔑 UPDATING USER KEY DURING BUILD: $_currentUserKey");
-                  }
-                  
-                  // Initialize tracking for this user if needed
-                  if (_currentUserKey != null && !_hasEverSeenGroupsByUser.containsKey(_currentUserKey!)) {
-                    _hasEverSeenGroupsByUser[_currentUserKey!] = false;
-                    debugPrint("🔄 INITIALIZING TRACKING FOR NEW USER: $_currentUserKey");
-                  }
-                  
-                  // Force check with the list provider to get actual count
-                  final actualGroupCount = provider.Provider.of<ListProvider>(context, listen: false).groupIdentifiers.length;
-                  developer.log("📊 ACTUAL GROUP COUNT FROM ListProvider: $actualGroupCount", name: "CommunitiesScreen");
-                  
-                  // IMPORTANT: Check if we should show the empty state
-                  // Either for new users or when the newUser flag is set from the login flow
-                  final bool isNewUser = actualGroupCount == 0 && originalGroupCount == 0 && 
-                      (!_hasEverSeenGroupsByUser.containsKey(_currentUserKey ?? '') ||
-                       (_currentUserKey != null && _hasEverSeenGroupsByUser[_currentUserKey!] == false));
-                  
-                  if (isNewUser || newUser == true) {
-                    // We show the empty state sheet for completely new users who have never seen any groups
-                    developer.log("🚫 NEW USER WITH ZERO GROUPS: Showing empty state sheet. newUser flag: ${newUser == true}", 
-                        name: "CommunitiesScreen");
+                  // CRITICAL: Once we've had groups, don't show the empty state unless
+                  // explicitly requested, to prevent false emptiness during data refreshes
+                  if (groupIds.isEmpty && !_hasEverSeenGroups) {
+                    developer.log("🚫 NO COMMUNITIES FOUND: Showing empty state", name: "CommunitiesScreen");
                     
-                    // Show the no communities sheet
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _showNoCommunitiesSheet(forceForNewUsers: true);
-                      
-                      // Reset the newUser flag after showing the sheet to prevent showing it again
-                      if (newUser == true) {
-                        Future.delayed(const Duration(seconds: 1), () {
-                          newUser = false;
-                        });
-                      }
-                    });
+                    // Safety check - make sure we have a current user key
+                    if (_currentUserKey == null) {
+                      _currentUserKey = nostr?.publicKey;
+                      debugPrint("🔑 UPDATING USER KEY DURING BUILD: $_currentUserKey");
+                    }
                     
-                    // Return an empty scaffold while the sheet is being shown
+                    // Initialize tracking for this user if needed
+                    if (_currentUserKey != null && !_hasEverSeenGroupsByUser.containsKey(_currentUserKey!)) {
+                      _hasEverSeenGroupsByUser[_currentUserKey!] = false;
+                      debugPrint("🔄 INITIALIZING TRACKING FOR NEW USER: $_currentUserKey");
+                    }
+                    
+                    // Force check with the list provider to get actual count
+                    final actualGroupCount = provider.Provider.of<ListProvider>(context, listen: false).groupIdentifiers.length;
+                    developer.log("📊 ACTUAL GROUP COUNT FROM ListProvider: $actualGroupCount", name: "CommunitiesScreen");
+                    
+                    // IMPORTANT: Check if we should show the empty state
+                    // Either for new users or when the newUser flag is set from the login flow
+                    final bool isNewUser = actualGroupCount == 0 && originalGroupCount == 0 && 
+                        (!_hasEverSeenGroupsByUser.containsKey(_currentUserKey ?? '') ||
+                         (_currentUserKey != null && _hasEverSeenGroupsByUser[_currentUserKey!] == false));
+                    
+                    if (isNewUser || newUser == true) {
+                      // Show community options dialog for new users
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        CommunityOptionsDialog.show(context);
+                        
+                        // Reset the newUser flag after showing the dialog
+                        if (newUser == true) {
+                          Future.delayed(const Duration(seconds: 1), () {
+                            newUser = false;
+                          });
+                        }
+                      });
+                    }
                     return Container(
                       color: context.colors.background,
                       child: Center(
@@ -312,7 +303,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              S.of(context).startOrJoinACommunity,
+                              S.of(context).createCommunity,
                               style: TextStyle(
                                 fontSize: 14,
                                 color: context.colors.secondaryText.withAlpha(178),
@@ -368,12 +359,6 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                       }
                     }
                   }
-                  
-                  // Show the app bar when communities are available
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    final indexProvider = provider.Provider.of<IndexProvider>(context, listen: false);
-                    indexProvider.setAppBarVisibility(true);
-                  });
                   
                   // Choose content based on view mode with persistent caching
                   // Create a copy of the list to sort
@@ -480,7 +465,7 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       // Only show if not already showing
                       if (!_isNoCommunitiesSheetOpen && mounted) {
-                        _showNoCommunitiesSheet(forceForNewUsers: true);
+                        CommunityOptionsDialog.show(context);
                       }
                     });
                     
@@ -542,97 +527,10 @@ class _CommunitiesScreenState extends ConsumerState<CommunitiesScreen> with Auto
       child: child,
     );
   }
-
+  
   @override
   void dispose() {
     // No need to dispose providers here - they'll be disposed automatically
     super.dispose();
-  }
-  
-  /// Shows the no communities bottom sheet ONLY if user has no groups
-  void _showNoCommunitiesSheet({bool forceForNewUsers = false}) {
-    if (_isNoCommunitiesSheetOpen) { 
-      developer.log("NoCommunitiesSheet is already open or being shown, skipping.", name: "CommunitiesScreen");
-      return;
-    }
-
-    // Get the ListProvider to check if user actually has any groups
-    final listProvider = provider.Provider.of<ListProvider>(context, listen: false);
-    
-    // Force a refresh of groups before checking
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      try {
-        if (!mounted) return;
-        
-        // Perform an additional check with the ListProvider
-        // This is critical for the case where the user has just joined a community
-        // and we need to make sure we have the latest data
-        final groupCount = listProvider.groupIdentifiers.length;
-        developer.log("📊 Checking community count before showing sheet: $groupCount", name: "CommunitiesScreen");
-        
-        // CRITICAL CHECK: If user has ANY groups, DO NOT show the sheet
-        if (groupCount > 0) {
-          developer.log("User has communities ($groupCount), NOT showing NoCommunitiesSheet", 
-              name: "CommunitiesScreen");
-          
-          // Force update the screen to show the communities immediately
-          if (mounted) {
-            setState(() {
-              // This will trigger a rebuild with the latest data
-              _hasEverSeenGroupsByUser[_currentUserKey ?? ''] = true;
-              _hasEverSeenGroups = true;
-            });
-          }
-          return;
-        }
-        
-        // Log that we're going to show the sheet because there are NO groups
-        developer.log("User has NO communities. Showing NoCommunitiesSheet", name: "CommunitiesScreen");
-        
-        // Check if sheet was previously dismissed
-        final shouldShow = await NoCommunitiesSheet.shouldShowDialog();
-        if (!shouldShow && !forceForNewUsers) {
-          developer.log("NoCommunitiesSheet was previously dismissed by user, not showing", name: "CommunitiesScreen");
-          return;
-        }
-        
-        if (!mounted || ModalRoute.of(context)?.isCurrent != true) {
-          developer.log("Context is no longer valid, not showing sheet", name: "CommunitiesScreen");
-          return;
-        }
-        
-        // Set flag to prevent multiple sheets
-        _isNoCommunitiesSheetOpen = true; 
-        
-        // Show the sheet
-        showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent, 
-          builder: (BuildContext context) {
-            return NoCommunitiesSheet(forceShow: forceForNewUsers);
-          },
-        ).whenComplete(() {
-          developer.log("NoCommunitiesSheet dismissed.", name: "CommunitiesScreen");
-          if (mounted) { 
-            setState(() { 
-              _isNoCommunitiesSheetOpen = false; 
-              
-              // Check again for communities after dismissal
-              // in case the user joined a community while the sheet was open
-              if (listProvider.groupIdentifiers.isNotEmpty) {
-                _hasEverSeenGroupsByUser[_currentUserKey ?? ''] = true;
-                _hasEverSeenGroups = true;
-              }
-            });
-          } else {
-            _isNoCommunitiesSheetOpen = false; 
-          }
-        });
-      } catch (e) {
-        developer.log("Error showing NoCommunitiesSheet: $e", name: "CommunitiesScreen");
-        _isNoCommunitiesSheetOpen = false;
-      }
-    });
   }
 }

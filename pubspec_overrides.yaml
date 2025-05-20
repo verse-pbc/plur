@@ -1,2 +1,3 @@
 # Cross-platform dependency overrides
 dependency_overrides:
+  cryptography_flutter: 2.3.2

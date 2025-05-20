@@ -211,7 +211,9 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
           color: accentColor,
           onTap: () {
             // Placeholder for future implementation
-            ScaffoldMessenger.of(context).showSnackBar(
+            // Capture scaffold messenger to avoid potential widget deactivation issues
+            final scaffoldMessenger = ScaffoldMessenger.of(context);
+            scaffoldMessenger.showSnackBar(
               const SnackBar(content: Text("Public community search coming soon!")),
             );
           },
@@ -325,21 +327,26 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Close dialog
                 
-                // Show loading indicator
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: const Text("Joining Plur Test Users group..."),
-                    duration: const Duration(seconds: 1),
-                    backgroundColor: plurPurple.withAlpha(230), // 0.9 opacity converted to alpha
-                  ),
-                );
+                // Capture scaffold messenger before closing dialog
+                final scaffoldMessenger = ScaffoldMessenger.of(context);
+                
+                // Show loading indicator after ensuring we have a valid reference
+                if (context.mounted) {
+                  scaffoldMessenger.showSnackBar(
+                    SnackBar(
+                      content: const Text("Joining Plur Test Users group..."),
+                      duration: const Duration(seconds: 1),
+                      backgroundColor: plurPurple.withAlpha(230), // 0.9 opacity converted to alpha
+                    ),
+                  );
+                }
                 
                 // Attempt to join the group
                 bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
                 
                 if (!success && context.mounted) {
                   // Show error message if joining failed
-                  ScaffoldMessenger.of(context).showSnackBar(
+                  scaffoldMessenger.showSnackBar(
                     const SnackBar(
                       content: Text("Failed to join test users group. Please try again later."),
                       duration: Duration(seconds: 3),

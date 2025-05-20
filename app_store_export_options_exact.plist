@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>method</key>
+    <string>app-store</string>
+    <key>teamID</key>
+    <string>GZCZBKH7MY</string>
+    <key>uploadSymbols</key>
+    <true/>
+    <key>compileBitcode</key>
+    <false/>
+    <key>signingStyle</key>
+    <string>manual</string>
+    <key>signingCertificate</key>
+    <string>Apple Distribution: Verse Communications, Inc. (GZCZBKH7MY)</string>
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>social.holis.app</key>
+        <string>00308e58-0114-4227-9948-acb87bac7c1f</string>
+    </dict>
+</dict>
+</plist>

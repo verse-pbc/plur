@@ -8,7 +8,7 @@ if ! command -v convert &> /dev/null; then
 fi
 
 # Source logo
-SOURCE_LOGO="/Users/rabble/code/verse/plur/holis_logo.png"
+SOURCE_LOGO="/Users/rabble/code/verse/plur/assets/imgs/logo/holis_logo.png"
 ICONS_DIR="/Users/rabble/code/verse/plur/ios/Runner/Assets.xcassets/AppIcon.appiconset"
 LAUNCH_DIR="/Users/rabble/code/verse/plur/ios/Runner/Assets.xcassets/LaunchImage.imageset"
 
