@@ -180,6 +180,7 @@ flutter:
     - assets/imgs/user-avatar.png
     - assets/imgs/join-community.png
     - assets/imgs/create-community.png
+    - assets/imgs/icon-link.png
     
   fonts:
     - family: "SF Pro Rounded"

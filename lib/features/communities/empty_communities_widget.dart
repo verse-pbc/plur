@@ -69,7 +69,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: _buildOptionTile(
                     context: context,
-                    icon: Icons.add_circle_outline,
+                    icon: 'assets/imgs/create-community.png',
                     title: "Create a Community",
                     subtitle: "Start your own community around a topic or activity you care about.",
                     onTap: () {
@@ -84,7 +84,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: _buildOptionTile(
                     context: context,
-                    icon: Icons.people_outline,
+                    icon: 'assets/imgs/join-community.png',
                     title: "Join Holis Community",
                     subtitle: "Be part of our official test group and help us shape the future of Holis.",
                     onTap: () {
@@ -99,7 +99,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 32),
                   child: _buildOptionTile(
                     context: context,
-                    icon: Icons.link,
+                    icon: 'assets/imgs/icon-link.png',
                     title: "Join with an Invite",
                     subtitle: "Got an invite link? Use it here to join a private group instantly.",
                     onTap: () {
@@ -130,7 +130,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
   // Helper to build a consistent option tile
   Widget _buildOptionTile({
     required BuildContext context,
-    required IconData icon,
+    required dynamic icon, // Can be IconData or String (asset path)
     required String title,
     required String subtitle,
     required VoidCallback onTap,
@@ -158,7 +158,18 @@ class EmptyCommunitiesWidget extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(icon, color: color, size: 28),
+              // Show image if icon is a String (asset path), otherwise show Icon
+              icon is String
+                ? Image.asset(
+                    icon,
+                    width: 28,
+                    height: 28,
+                    color: color,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error_outline, color: color, size: 28);
+                    },
+                  )
+                : Icon(icon, color: color, size: 28),
               const SizedBox(height: 16),
               Text(
                 title,
