@@ -131,10 +131,25 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
                   onCreateCommunity: _onCreateCommunity,
                 );
               } else {
-                return InvitePeopleWidget(
-                  shareableLink: model.$2,
-                  groupIdentifier: model.$1,
-                  showCreatePostButton: true,
+                // Dismiss this dialog and navigate to the InvitePeopleWidget
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => InvitePeopleWidget(
+                        shareableLink: model.$2,
+                        groupIdentifier: model.$1,
+                        showCreatePostButton: true,
+                      ),
+                    ),
+                  );
+                });
+                // Return loading widget while navigation occurs
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
             },

@@ -219,7 +219,10 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                 width: double.infinity, // Ensure the widget has a defined width
                                 child: ElevatedButton(
                                   onPressed: () {
-                                    RouterUtil.back(context);
+                                    // Dismiss current context first
+                                    Navigator.of(context, rootNavigator: true).popUntil((route) => route.isFirst);
+                                    
+                                    // Then navigate to the group detail
                                     RouterUtil.router(context, RouterPath.groupDetail, groupId);
                                   },
                                   style: ElevatedButton.styleFrom(
@@ -230,9 +233,9 @@ class _InvitePeopleWidgetState extends State<InvitePeopleWidget> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     'Create your first post',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16,
                                     ),
