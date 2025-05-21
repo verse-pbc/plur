@@ -340,18 +340,6 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
             ),
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop(); // Close dialog without joining
-              },
-              child: Text(
-                "Cancel",
-                style: TextStyle(
-                  color: colors.secondaryText,
-                  fontSize: 16,
-                ),
-              ),
-            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Close dialog

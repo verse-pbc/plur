@@ -41,7 +41,8 @@ class GroupInviteRepository {
     );
 
     // Return the formatted invite link
-    return 'plur://join-community?group-id=${group.groupId}&code=$inviteCode';
+    // The internal format is kept for deep linking but we display web format in UI
+    return 'holis.is/c/$inviteCode';
   }
 }
 

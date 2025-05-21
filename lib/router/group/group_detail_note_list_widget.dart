@@ -16,6 +16,7 @@ import '../../util/load_more_event.dart';
 import '../../util/theme_util.dart';
 import '../../util/time_util.dart';
 import '../../provider/relay_provider.dart';
+import '../../theme/app_colors.dart';
 
 class GroupDetailNoteListWidget extends StatefulWidget {
   final GroupIdentifier groupIdentifier;
@@ -116,13 +117,34 @@ class _GroupDetailNoteListWidgetState
 
     Widget content;
     if (events.isEmpty) {
-      // Show loading indicator while actively loading
+      // Show loading indicator with improved styling while actively loading
       if (groupDetailProvider!.isLoading) {
-        content = const Center(
-          child: CircularProgressIndicator(),
+        content = Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  valueColor: AlwaysStoppedAnimation<Color>(context.colors.accent),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                "Loading posts...",
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  fontSize: 16,
+                  color: context.colors.secondaryText,
+                ),
+              ),
+            ],
+          ),
         );
       } else {
-        // Show empty state only when confirmed no data
+        // Show enhanced empty state when confirmed no data
         content = NoNotesWidget(
           groupName: widget.groupName,
           onRefresh: onRefresh,
@@ -131,15 +153,25 @@ class _GroupDetailNoteListWidgetState
     } else {
       preBuild();
 
+      // Enhanced list with optimized performance
       var main = RefreshIndicator(
+        color: context.colors.accent, // Themed refresh indicator
+        backgroundColor: context.colors.surface,
         onRefresh: onRefresh,
         child: ListView.builder(
-          padding: EdgeInsets.zero,
+          padding: const EdgeInsets.only(top: 8, bottom: 16),
           controller: scrollController,
-          // Add caching for better performance
-          cacheExtent: 500, // Cache more items to reduce rebuilds
+          // Advanced performance optimizations
+          cacheExtent: 1000, // Cache even more items for smoother scrolling
+          addAutomaticKeepAlives: false, // Helps with memory usage
+          addRepaintBoundaries: true, // Each item gets its own repaint boundary
+          clipBehavior: Clip.none, // Avoid clipping for better performance
+          physics: const BouncingScrollPhysics(
+            parent: AlwaysScrollableScrollPhysics(),
+          ),
           itemBuilder: (context, index) {
             var event = events[index];
+            // Use RepaintBoundary for each item to isolate repaints
             return RepaintBoundary(
               child: EventListWidget(
                 event: event,
@@ -152,6 +184,7 @@ class _GroupDetailNoteListWidgetState
         ),
       );
 
+      // Show new posts indicator with improved styling
       var newNotesLength = groupDetailProvider!.newNotesBox.length();
       if (newNotesLength <= 0) {
         content = main;
@@ -159,12 +192,22 @@ class _GroupDetailNoteListWidgetState
         List<Widget> stackList = [main];
         stackList.add(Positioned(
           top: Base.basePadding,
-          child: NewNotesUpdatedWidget(
-            num: newNotesLength,
-            onTap: () {
-              groupDetailProvider!.mergeNewEvent();
-              scrollController.jumpTo(0);
-            },
+          child: Material(
+            elevation: 4,
+            borderRadius: BorderRadius.circular(30),
+            color: context.colors.primary,
+            child: NewNotesUpdatedWidget(
+              num: newNotesLength,
+              onTap: () {
+                groupDetailProvider!.mergeNewEvent();
+                // Smooth scroll to top with animation
+                scrollController.animateTo(
+                  0, 
+                  duration: const Duration(milliseconds: 300), 
+                  curve: Curves.easeOutCubic
+                );
+              },
+            ),
           ),
         ));
         content = Stack(
@@ -177,8 +220,9 @@ class _GroupDetailNoteListWidgetState
     // Cache the content widget for future use
     _cachedContentWidget = content;
 
+    // Use theme-aware background color from AppColors extension
     return Container(
-      color: themeData.customColors.feedBgColor,
+      color: context.colors.feedBackground,
       child: content,
     );
   }

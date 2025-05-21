@@ -5,7 +5,7 @@ import '../../component/styled_input_field_widget.dart';
 import '../../generated/l10n.dart';
 
 class CreateCommunityWidget extends StatefulWidget {
-  final void Function(String) onCreateCommunity;
+  final void Function(String, String?) onCreateCommunity;
 
   const CreateCommunityWidget({super.key, required this.onCreateCommunity});
 
@@ -14,9 +14,10 @@ class CreateCommunityWidget extends StatefulWidget {
 }
 
 class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
-  final TextEditingController _communityNameController =
-      TextEditingController();
+  final TextEditingController _communityNameController = TextEditingController();
+  final TextEditingController _customInviteLinkController = TextEditingController();
   bool _isLoading = false;
+  bool _showCustomLinkField = false;
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +91,93 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           ),
         ),
         
+        const SizedBox(height: 16),
+        
+        // Custom invite link toggle
+        wrapResponsive(
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _showCustomLinkField = !_showCustomLinkField;
+              });
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  _showCustomLinkField 
+                      ? Icons.keyboard_arrow_up 
+                      : Icons.keyboard_arrow_down,
+                  size: 18,
+                  color: colors.secondaryText,
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  _showCustomLinkField 
+                      ? "Hide custom invite link" 
+                      : "Use custom invite link",
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    color: colors.secondaryText,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        
+        // Custom invite link field (conditional)
+        if (_showCustomLinkField) ...[
+          const SizedBox(height: 16),
+          wrapResponsive(
+            StyledInputFieldWidget(
+              controller: _customInviteLinkController,
+              hintText: "Custom link suffix (optional)",
+              onChanged: (text) {
+                // Sanitize the text - allow only alphanumeric and hyphens
+                if (text.isNotEmpty) {
+                  final sanitized = text.replaceAll(RegExp(r'[^a-zA-Z0-9-]'), '');
+                  if (sanitized != text) {
+                    _customInviteLinkController.value = TextEditingValue(
+                      text: sanitized,
+                      selection: TextSelection.collapsed(offset: sanitized.length),
+                    );
+                  }
+                }
+                setState(() {});
+              },
+            ),
+          ),
+          const SizedBox(height: 8),
+          wrapResponsive(
+            Text(
+              "The link will be holis.is/c/your-custom-link",
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: colors.secondaryText,
+                fontSize: 12,
+                fontStyle: FontStyle.italic,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          if (_customInviteLinkController.text.isNotEmpty && _customInviteLinkController.text.length < 4) ...[
+            const SizedBox(height: 4),
+            wrapResponsive(
+              Text(
+                "Custom link should be at least 4 characters",
+                style: TextStyle(
+                  fontFamily: 'SF Pro Rounded',
+                  color: Colors.redAccent,
+                  fontSize: 12,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ],
+        ],
+        
         const SizedBox(height: 32),
         
         // Confirm button
@@ -97,17 +185,15 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           SizedBox(
             width: double.infinity,
             child: GestureDetector(
-              onTap: _communityNameController.text.isNotEmpty
-                  ? _createCommunity
-                  : null,
+              onTap: _isButtonEnabled() ? _createCommunity : null,
               child: Container(
                 padding: const EdgeInsets.symmetric(vertical: 18),
                 decoration: BoxDecoration(
-                  color: _communityNameController.text.isNotEmpty
+                  color: _isButtonEnabled() 
                     ? accentColor
                     : accentColor.withAlpha((255 * 0.4).round()),
                   borderRadius: BorderRadius.circular(32),
-                  boxShadow: _communityNameController.text.isNotEmpty
+                  boxShadow: _isButtonEnabled()
                     ? [
                         BoxShadow(
                           color: accentColor.withAlpha(77),
@@ -122,7 +208,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                   localization.confirm,
                   style: TextStyle(
                     fontFamily: 'SF Pro Rounded',
-                    color: _communityNameController.text.isNotEmpty
+                    color: _isButtonEnabled()
                       ? buttonTextColor
                       : buttonTextColor.withAlpha((255 * 0.4).round()),
                     fontSize: 18,
@@ -141,17 +227,46 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
   void _createCommunity() {
     if (_isLoading) return;
 
+    // Validate custom invite link if visible and non-empty
+    if (_showCustomLinkField && 
+        _customInviteLinkController.text.isNotEmpty && 
+        _customInviteLinkController.text.length < 4) {
+      // Don't proceed if custom link is too short
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
 
-    widget.onCreateCommunity(_communityNameController.text);
+    // Pass the custom invite link if it's provided, visible, and valid
+    String? customInviteLink = null;
+    if (_showCustomLinkField && 
+        _customInviteLinkController.text.isNotEmpty && 
+        _customInviteLinkController.text.length >= 4) {
+      customInviteLink = _customInviteLinkController.text;
+    }
+
+    widget.onCreateCommunity(_communityNameController.text, customInviteLink);
     // No need to set _isLoading back to false as we'll transition to the next screen
+  }
+
+  // Check if the button should be enabled based on validation rules
+  bool _isButtonEnabled() {
+    bool isCommunityNameValid = _communityNameController.text.isNotEmpty;
+    
+    // If custom link field is shown and has content, it must be valid
+    bool isCustomLinkValid = !_showCustomLinkField || 
+                            _customInviteLinkController.text.isEmpty || 
+                            _customInviteLinkController.text.length >= 4;
+    
+    return isCommunityNameValid && isCustomLinkValid;
   }
 
   @override
   void dispose() {
     _communityNameController.dispose();
+    _customInviteLinkController.dispose();
     super.dispose();
   }
 }

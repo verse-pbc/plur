@@ -404,41 +404,6 @@ class EmptyCommunitiesWidget extends StatelessWidget {
           
           const SizedBox(height: 32),
           
-          // Cancel button
-          wrapResponsive(
-            SizedBox(
-              width: double.infinity,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(
-                      color: colors.secondaryText.withAlpha((255 * 0.3).round()),
-                      width: 2,
-                    ),
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Rounded',
-                      color: buttonTextColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          
-          const SizedBox(height: 16),
           
           // Join Group button
           wrapResponsive(

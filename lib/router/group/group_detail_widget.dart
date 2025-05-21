@@ -429,17 +429,40 @@ class _GroupDetailWidgetState extends State<GroupDetailWidget> with SingleTicker
   }
 
   Widget? _buildFloatingActionButton() {
-    final themeData = Theme.of(context);
+    final colors = context.colors;
     
     switch (_tabController.index) {
       case 0:
-        // Posts tab - show add note button
-        return FloatingActionButton(
-          heroTag: 'group_detail_add_note_fab',
-          onPressed: _jumpToAddNote,
-          backgroundColor: context.colors.accent,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 29),
+        // Posts tab - show enhanced add note button
+        return Container(
+          margin: const EdgeInsets.only(bottom: 16, right: 4),
+          child: FloatingActionButton.extended(
+            heroTag: 'group_detail_add_note_fab',
+            onPressed: _jumpToAddNote,
+            backgroundColor: colors.accent,
+            elevation: 4,
+            highlightElevation: 8,
+            extendedPadding: const EdgeInsets.symmetric(horizontal: 24),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(32),
+            ),
+            label: Row(
+              children: [
+                const Icon(Icons.edit_rounded, color: Colors.white, size: 20),
+                const SizedBox(width: 8),
+                const Text(
+                  "New Post",
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+            icon: null, // Using custom icon in the label instead
+          ),
         );
         
       // Tabs 1 and 2 (Chat and Asks/Offers) don't need FAB

@@ -14,6 +14,7 @@ import 'package:screenshot/screenshot.dart';
 import '../../consts/base.dart';
 import '../../consts/router_path.dart';
 import '../../util/router_util.dart';
+import '../../theme/app_colors.dart';
 import 'event_bitcoin_icon_widget.dart';
 import 'event_main_widget.dart';
 
@@ -73,25 +74,30 @@ class _EventListWidgetState extends State<EventListWidget> {
       );
     }
 
-    // Create a card with our new styling from design
+    // Create a card with enhanced styling following design system
     Widget main = Screenshot(
       controller: screenshotController,
       child: Container(
-        // Apply new card styling
+        // Improved card styling with refined margins
         margin: const EdgeInsets.symmetric(
           horizontal: Base.basePadding, 
           vertical: Base.basePaddingHalf,
         ),
         decoration: BoxDecoration(
-          color: themeData.customColors.cardBgColor, // Use theme extension for card background
-          borderRadius: BorderRadius.circular(12),
+          color: context.colors.cardBackground, // Use theme extension from the new AppColors
+          borderRadius: BorderRadius.circular(16), // Slightly more rounded corners
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withAlpha(20),
-              blurRadius: 6,
-              offset: const Offset(0, 2),
+              color: Colors.black.withOpacity(0.08), // More subtle shadow
+              blurRadius: 8,
+              offset: const Offset(0, 3),
+              spreadRadius: 1,
             ),
           ],
+          border: Border.all(
+            color: context.colors.divider.withOpacity(0.3), // Subtle border
+            width: 0.5,
+          ),
         ),
         clipBehavior: Clip.antiAlias, // Ensures content respects border radius
         child: Column(
@@ -100,6 +106,8 @@ class _EventListWidgetState extends State<EventListWidget> {
             // Main content (profile pic, name, content, etc.)
             Padding(
               padding: const EdgeInsets.only(
+                left: Base.basePadding,
+                right: Base.basePadding,
                 top: Base.basePadding,
                 bottom: Base.basePaddingHalf,
               ),
@@ -117,10 +125,23 @@ class _EventListWidgetState extends State<EventListWidget> {
               ),
             ),
             
-            // Optional separator line
+            // Refined separator with gradient fade at edges for a more polished look
             Container(
               height: 1,
-              color: themeData.customColors.separatorColor.withAlpha(102),
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    Colors.transparent,
+                    context.colors.divider.withOpacity(0.6),
+                    context.colors.divider.withOpacity(0.6),
+                    Colors.transparent,
+                  ],
+                  stops: const [0.0, 0.05, 0.95, 1.0],
+                ),
+              ),
             ),
           ],
         ),
