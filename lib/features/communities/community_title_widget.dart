@@ -29,8 +29,13 @@ class CommunityTitleWidget extends StatelessWidget {
         ],
       );
     } else {
+      // Ensure we show a valid name - check if metadata name is empty or null
+      final displayName = (metadata!.name != null && metadata!.name!.isNotEmpty)
+          ? metadata!.name!
+          : identifier;
+      
       return Text(
-        metadata!.name ?? identifier,
+        displayName,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20,

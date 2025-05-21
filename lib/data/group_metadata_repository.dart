@@ -13,19 +13,24 @@ class GroupMetadataRepository {
   /// Fetches the metadata for a given group identifier.
   ///
   /// This function queries events from the `nostr` instance based on the
-  /// provided group identifier and filters. If no metadata is found or `nostr`
-  /// is null, an exception is thrown.
+  /// provided group identifier and filters. If no metadata is found on the primary
+  /// relay, it will try fallback relays. If no metadata is found on any relay
+  /// or `nostr` is null, null is returned.
   ///
   /// - Parameters:
   ///   - id: The identifier of the group for which metadata is to be fetched.
   ///   - cached: Whether to retrieve metadata from cache. Defaults to false.
   /// - Returns: A `Future` that resolves to the `GroupMetadata` of the
-  /// specified group.
+  /// specified group, or null if not found.
   Future<GroupMetadata?> fetchGroupMetadata(GroupIdentifier id,
       {bool cached = false}) async {
     assert(nostr != null, "nostr instance is null");
+    
+    // Start with the specified host
     final host = id.host;
     final groupId = id.groupId;
+    
+    // Create a filter for group metadata
     var filter = Filter(
       kinds: [EventKind.groupMetadata],
     );
@@ -33,40 +38,127 @@ class GroupMetadataRepository {
     var json = filter.toJson();
     json["#d"] = [groupId];
     final filters = [json];
+    
     log(
       "Querying metadata for group $groupId...\n$json",
       level: Level.FINE.value,
       name: _logName,
     );
     
-    // Use default timeout for events query
-    final events = await nostr?.queryEvents(
-      filters,
-      tempRelays: [host],
-      targetRelays: [host],
-      relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
-      sendAfterAuth: true,
+    // First try with the specified host
+    GroupMetadata? metadata = await _tryFetchMetadata(
+      filters: filters,
+      relays: [host],
+      groupId: groupId,
+      cached: cached,
     );
     
-    // Events can be empty if the group never got a name for example
-    final event = events?.firstOrNull;
-    if (event == null) {
+    // If metadata is found, return it immediately
+    if (metadata != null) {
+      return metadata;
+    }
+    
+    // If not in cached mode, try fallback relays
+    if (!cached) {
+      log(
+        "No metadata found for group $groupId on primary relay. Trying fallbacks...",
+        level: Level.INFO.value,
+        name: _logName,
+      );
+      
+      // Import relay provider info without creating a circular dependency
+      const backupRelays = [
+        'wss://relay.nos.social',
+        'wss://feeds.nostr.band',
+        'wss://nos.lol',
+        'wss://relay.damus.io',
+      ];
+      
+      // Try each fallback relay
+      for (final fallbackRelay in backupRelays) {
+        if (fallbackRelay == host) continue; // Skip if it's the same as the original host
+        
+        metadata = await _tryFetchMetadata(
+          filters: filters,
+          relays: [fallbackRelay],
+          groupId: groupId,
+          cached: cached,
+        );
+        
+        if (metadata != null) {
+          log(
+            "Found metadata for group $groupId on fallback relay: $fallbackRelay",
+            level: Level.INFO.value,
+            name: _logName,
+          );
+          return metadata;
+        }
+      }
+      
+      log(
+        "No metadata found for group $groupId on any relay",
+        level: Level.WARNING.value,
+        name: _logName,
+      );
+    }
+    
+    // Return null if metadata isn't found
+    return null;
+  }
+  
+  /// Helper method to try fetching metadata from specified relays
+  /// Returns parsed metadata if found, null otherwise
+  Future<GroupMetadata?> _tryFetchMetadata({
+    required List<Map<String, dynamic>> filters,
+    required List<String> relays,
+    required String groupId,
+    bool cached = false,
+  }) async {
+    try {
+      final events = await nostr?.queryEvents(
+        filters,
+        tempRelays: relays,
+        targetRelays: relays,
+        relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
+        sendAfterAuth: true,
+      ).timeout(const Duration(seconds: 8), onTimeout: () {
+        log(
+          "Timeout querying metadata for group $groupId on relays: $relays",
+          level: Level.WARNING.value,
+          name: _logName,
+        );
+        return [];
+      });
+      
+      final event = events?.firstOrNull;
+      if (event == null) {
+        return null;
+      }
+      
+      log(
+        "Received metadata for group $groupId from relay: ${relays.firstOrNull}",
+        level: Level.FINE.value,
+        name: _logName,
+      );
+      
+      final metadata = GroupMetadata.loadFromEvent(event);
+      return metadata;
+    } catch (e, stackTrace) {
+      log(
+        "Error fetching metadata for group $groupId from relays $relays: $e",
+        level: Level.WARNING.value,
+        name: _logName,
+      );
+      log(stackTrace.toString(), level: Level.FINE.value, name: _logName);
       return null;
     }
-    log(
-      "Received metadata for group $groupId\n${event.toJson()}",
-      level: Level.FINE.value,
-      name: _logName,
-    );
-    var metadata = GroupMetadata.loadFromEvent(event);
-    assert(metadata != null, "Couldn't parse group metadata for $groupId");
-    return metadata;
   }
   
   /// Fetches metadata for multiple group identifiers at once
   ///
   /// This function optimizes fetching metadata for multiple groups
-  /// by batching requests where possible.
+  /// by batching requests where possible. If metadata is missing from the primary relay,
+  /// it will try fallback relays.
   ///
   /// - Parameters:
   ///   - ids: The list of group identifiers to fetch metadata for
@@ -104,20 +196,112 @@ class GroupMetadataRepository {
         name: _logName,
       );
       
-      final events = await nostr?.queryEvents(
-        [json],
-        tempRelays: [host],
-        targetRelays: [host],
-        relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
-        sendAfterAuth: true,
-      );
+      try {
+        // First try the primary host
+        final events = await nostr?.queryEvents(
+          [json],
+          tempRelays: [host],
+          targetRelays: [host],
+          relayTypes: cached ? [RelayType.local] : RelayType.onlyTemp,
+          sendAfterAuth: true,
+        ).timeout(const Duration(seconds: 8), onTimeout: () {
+          log(
+            "Timeout bulk querying metadata on relay: $host",
+            level: Level.WARNING.value,
+            name: _logName,
+          );
+          return [];
+        });
+        
+        // Map events to their group IDs
+        if (events != null && events.isNotEmpty) {
+          for (final event in events) {
+            final metadata = GroupMetadata.loadFromEvent(event);
+            if (metadata != null) {
+              results[metadata.groupId] = metadata;
+            }
+          }
+        }
+      } catch (e, stackTrace) {
+        log(
+          "Error bulk querying metadata on relay $host: $e",
+          level: Level.WARNING.value,
+          name: _logName,
+        );
+        log(stackTrace.toString(), level: Level.FINE.value, name: _logName);
+      }
       
-      // Map events to their group IDs
-      if (events != null) {
-        for (final event in events) {
-          final metadata = GroupMetadata.loadFromEvent(event);
-          if (metadata != null) {
-            results[metadata.groupId] = metadata;
+      // For missing IDs, try fallback relays (only if not in cached mode)
+      if (!cached) {
+        // Figure out which IDs are still missing
+        final missingGroupIds = dValues.where((id) => !results.containsKey(id)).toList();
+        
+        if (missingGroupIds.isNotEmpty) {
+          log(
+            "Missing metadata for ${missingGroupIds.length} groups. Trying fallback relays...",
+            level: Level.INFO.value,
+            name: _logName,
+          );
+          
+          // Import relay provider info without creating a circular dependency
+          const backupRelays = [
+            'wss://relay.nos.social',
+            'wss://feeds.nostr.band',
+            'wss://nos.lol',
+            'wss://relay.damus.io',
+          ];
+          
+          // Try each fallback relay for the missing IDs
+          for (final fallbackRelay in backupRelays) {
+            if (fallbackRelay == host) continue; // Skip if it's the same as the original host
+            
+            try {
+              // Try this fallback relay
+              final fallbackJson = filter.toJson();
+              fallbackJson["#d"] = missingGroupIds;
+              
+              final fallbackEvents = await nostr?.queryEvents(
+                [fallbackJson],
+                tempRelays: [fallbackRelay],
+                targetRelays: [fallbackRelay],
+                relayTypes: RelayType.onlyTemp,
+                sendAfterAuth: true,
+              ).timeout(const Duration(seconds: 8), onTimeout: () {
+                log(
+                  "Timeout querying metadata on fallback relay: $fallbackRelay",
+                  level: Level.WARNING.value,
+                  name: _logName,
+                );
+                return [];
+              });
+              
+              // Process any events found
+              if (fallbackEvents != null && fallbackEvents.isNotEmpty) {
+                for (final event in fallbackEvents) {
+                  final metadata = GroupMetadata.loadFromEvent(event);
+                  if (metadata != null) {
+                    results[metadata.groupId] = metadata;
+                    log(
+                      "Found metadata for group ${metadata.groupId} on fallback relay: $fallbackRelay",
+                      level: Level.INFO.value,
+                      name: _logName,
+                    );
+                  }
+                }
+              }
+              
+              // Update the list of missing IDs
+              final stillMissingGroupIds = missingGroupIds.where((id) => !results.containsKey(id)).toList();
+              if (stillMissingGroupIds.isEmpty) {
+                break; // Found all missing IDs, can stop trying more relays
+              }
+            } catch (e) {
+              log(
+                "Error querying metadata on fallback relay $fallbackRelay: $e",
+                level: Level.WARNING.value,
+                name: _logName,
+              );
+            }
           }
         }
       }
@@ -224,8 +408,31 @@ final bulkGroupMetadataProvider =
   // Use the optimized bulk fetching method
   final results = await repository.fetchMultipleGroupMetadata(groupIds, cached: true);
   
-  // We've already loaded all data in bulk
-  // The individual providers will access this data from the cache when requested
+  // For any communities without metadata, try a direct network fetch
+  final keysWithNullValues = results.entries
+      .where((entry) => entry.value == null || entry.value?.name == null || entry.value!.name!.isEmpty)
+      .map((entry) => entry.key)
+      .toList();
   
+  if (keysWithNullValues.isNotEmpty) {
+    for (final groupId in keysWithNullValues) {
+      final correspondingIdentifier = groupIds.firstWhere(
+        (id) => id.groupId == groupId, 
+        orElse: () => groupIds.first
+      );
+      
+      // Try to fetch metadata from network for this specific group
+      final freshMetadata = await repository.fetchGroupMetadata(
+        correspondingIdentifier,
+        cached: false, // Explicitly fetch from network
+      );
+      
+      if (freshMetadata != null) {
+        results[groupId] = freshMetadata;
+      }
+    }
+  }
+  
+  // The individual providers will access this data from the cache when requested
   return results;
 });

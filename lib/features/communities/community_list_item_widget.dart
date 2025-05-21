@@ -37,6 +37,18 @@ class CommunityListItemWidget extends ConsumerWidget {
     final customColors = context.colors;
     final localization = S.of(context);
     
+    // If metadata is null or empty and we're trying to use the fallback,
+    // try to fetch fresh metadata from the network instead of using cache
+    if (controller is AsyncData && 
+        (controller.value == null || controller.value?.name == null || controller.value!.name!.isEmpty)) {
+      // Use a microtask to avoid triggering a build during the current build phase
+      Future.microtask(() {
+        // Try to refresh the metadata from network
+        debugPrint("Refreshing metadata for group ${groupIdentifier.groupId} from network");
+        ref.refresh(groupMetadataProvider(groupIdentifier));
+      });
+    }
+    
     // Get the GroupFeedProvider and GroupReadStatusProvider
     GroupFeedProvider? feedProvider;
     GroupReadStatusProvider? readStatusProvider;
@@ -149,7 +161,9 @@ class CommunityListItemWidget extends ConsumerWidget {
                     children: [
                       // Community name with hashtag
                       Text(
-                        "# ${metadata?.name ?? groupIdentifier.groupId.substring(0, math.min(8, groupIdentifier.groupId.length))}",
+                        metadata?.name != null && metadata!.name!.isNotEmpty
+                            ? "# ${metadata!.name}"
+                            : "# ${groupIdentifier.groupId.substring(0, math.min(8, groupIdentifier.groupId.length))}",
                         style: TextStyle(
                           fontFamily: 'SF Pro Rounded',
                           fontWeight: FontWeight.bold,
