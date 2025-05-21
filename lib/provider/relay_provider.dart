@@ -11,6 +11,12 @@ import 'data_util.dart';
 
 class RelayProvider extends ChangeNotifier {
   static const defaultGroupsRelayAddress = 'wss://communities.nos.social';
+  static const backupGroupsRelayAddresses = [
+    'wss://relay.nos.social',
+    'wss://feeds.nostr.band',
+    'wss://nos.lol',
+    'wss://relay.damus.io'
+  ];
   static RelayProvider? _relayProvider;
 
   List<String> relayAddrs = [];

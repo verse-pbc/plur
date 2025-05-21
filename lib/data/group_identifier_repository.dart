@@ -28,38 +28,95 @@ class GroupIdentifierRepository {
 
   /// Creates a group and adds it to the group list
   Future<GroupIdentifier?> createGroupIdentifier(String groupId) async {
-    const host = _defaultRelay;
+    try {
+      log(
+        "Creating group identifier for group ID: $groupId",
+        level: Level.FINE.value,
+        name: _logName,
+      );
+      
+      const host = _defaultRelay;
+      
+      // Check if nostr instance is available
+      if (nostr == null) {
+        log(
+          "Nostr instance is null - cannot create group",
+          level: Level.SEVERE.value,
+          name: _logName,
+        );
+        return null;
+      }
 
-    // Create the event for creating a group.
-    // We only support private closed group for now.
-    final createGroupEvent = Event(
-      nostr!.publicKey,
-      EventKind.groupCreateGroup,
-      [
-        ["h", groupId]
-      ],
-      "",
-    );
+      // Create the event for creating a group.
+      // We only support private closed group for now.
+      final createGroupEvent = Event(
+        nostr!.publicKey,
+        EventKind.groupCreateGroup,
+        [
+          ["h", groupId]
+        ],
+        "",
+      );
+      
+      log(
+        "Sending group creation event to relay: $host",
+        level: Level.FINE.value,
+        name: _logName,
+      );
 
-    final resultEvent = await nostr!.sendEvent(
-      createGroupEvent,
-      tempRelays: [host],
-      targetRelays: [host],
-    );
+      final resultEvent = await nostr!.sendEvent(
+        createGroupEvent,
+        tempRelays: [host],
+        targetRelays: [host],
+      );
 
-    if (resultEvent == null) {
+      if (resultEvent == null) {
+        log(
+          "Failed to create group - sendEvent returned null",
+          level: Level.SEVERE.value,
+          name: _logName,
+        );
+        return null;
+      }
+
+      final groupIdentifier = GroupIdentifier(host, groupId);
+      
+      log(
+        "Group created successfully, adding to local list",
+        level: Level.FINE.value,
+        name: _logName,
+      );
+      
+      List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
+      updated.add(groupIdentifier);
+      _groupIdentifiers.add(updated);
+      
+      // Update the global group list
+      final groupIdentifiersInList = await _fetchGroupList();
+      GroupIdentifiers updatedList = List.from(groupIdentifiersInList);
+      updatedList.remove(groupIdentifier);
+      await _setGroupList(updatedList);
+      
+      log(
+        "Group identifier created and added to list: $groupId",
+        level: Level.FINE.value,
+        name: _logName,
+      );
+      
+      return groupIdentifier;
+    } catch (e, stackTrace) {
+      log(
+        "Exception during group creation: $e",
+        level: Level.SEVERE.value,
+        name: _logName,
+      );
+      log(
+        stackTrace.toString(),
+        level: Level.SEVERE.value,
+        name: _logName,
+      );
       return null;
     }
-
-    final groupIdentifier = GroupIdentifier(host, groupId);
-    List<GroupIdentifier> updated = List.from(_groupIdentifiers.value);
-    updated.add(groupIdentifier);
-    _groupIdentifiers.add(updated);
-    final groupIdentifiersInList = await _fetchGroupList();
-    GroupIdentifiers updatedList = List.from(groupIdentifiersInList);
-    updatedList.remove(groupIdentifier);
-    await _setGroupList(updatedList);
-    return groupIdentifier;
   }
 
   Future<void> removeGroupIdentifier(GroupIdentifier groupIdentifier) async {

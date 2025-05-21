@@ -1,16 +1,29 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nostrmo/router/group/invite_people_widget.dart';
-import 'package:nostrmo/theme/app_colors.dart';
+import 'dart:developer';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:nostrmo/theme/app_colors.dart';
+import 'package:nostrmo/util/router_util.dart';
+import 'package:nostrmo/consts/router_path.dart';
+import 'package:bot_toast/bot_toast.dart';
+
+import '../../component/styled_input_field_widget.dart';
 import '../../generated/l10n.dart';
 import 'create_community_controller.dart';
 import 'create_community_widget.dart';
 
+// Enum for tracking the dialog state - must be at top level
+enum DialogState {
+  nameInput,
+  creating,
+  inviteLink
+}
+
 class CreateCommunityDialog extends ConsumerStatefulWidget {
   const CreateCommunityDialog({super.key});
 
-  // New method to show the content as a bottom sheet instead of a dialog
+  // Method to show the content as a bottom sheet
   static Future<void> show(BuildContext context) async {
     await showModalBottomSheet<void>(
       context: context,
@@ -74,10 +87,16 @@ class CreateCommunityDialog extends ConsumerStatefulWidget {
 }
 
 class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
+  // Current state of the dialog
+  DialogState _currentState = DialogState.nameInput;
+  CreateCommunityModel? _communityModel;
+  
+  // Controller for the invite link field
+  TextEditingController? _inviteLinkController;
+  
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
-    final controller = ref.watch(createCommunityControllerProvider);
     
     return Padding(
       padding: const EdgeInsets.fromLTRB(40, 32, 40, 48),
@@ -109,12 +128,12 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
           // Community icon
           Center(
             child: Image.asset(
-              'assets/imgs/create-community.png',
+              _getIconAssetForState(),
               width: 80,
               height: 80,
               errorBuilder: (context, error, stackTrace) {
                 return Icon(
-                  Icons.people_alt_rounded,
+                  _getIconForState(),
                   size: 80,
                   color: colors.buttonText,
                 );
@@ -124,79 +143,299 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
           
           const SizedBox(height: 16),
           
-          controller.when(
-            data: (model) {
-              if (model == null) {
-                return CreateCommunityWidget(
-                  onCreateCommunity: _onCreateCommunity,
-                );
-              } else {
-                // Dismiss this dialog and navigate to the InvitePeopleWidget
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => InvitePeopleWidget(
-                        shareableLink: model.$2,
-                        groupIdentifier: model.$1,
-                        showCreatePostButton: true,
-                      ),
+          // Content based on current state
+          if (_currentState == DialogState.nameInput)
+            CreateCommunityWidget(
+              onCreateCommunity: (name, customInviteLink) => _onCreateCommunity(name, customInviteLink),
+            )
+          else if (_currentState == DialogState.creating)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.all(32.0),
+                child: CircularProgressIndicator(),
+              ),
+            )
+          else if (_currentState == DialogState.inviteLink)
+            _buildInviteLinkContent(),
+        ],
+      ),
+    );
+  }
+  
+  // Helper method to get the appropriate icon asset based on state
+  String _getIconAssetForState() {
+    switch (_currentState) {
+      case DialogState.nameInput:
+        return 'assets/imgs/create-community.png';
+      case DialogState.creating:
+        return 'assets/imgs/create-community.png';
+      case DialogState.inviteLink:
+        return 'assets/imgs/join-community.png';
+    }
+  }
+  
+  // Helper method to get the appropriate icon for error case
+  IconData _getIconForState() {
+    switch (_currentState) {
+      case DialogState.nameInput:
+        return Icons.people_alt_rounded;
+      case DialogState.creating:
+        return Icons.people_alt_rounded;
+      case DialogState.inviteLink:
+        return Icons.link_rounded;
+    }
+  }
+  
+  // Build the invite link content
+  Widget _buildInviteLinkContent() {
+    final colors = context.colors;
+    final localization = S.of(context);
+    
+    // Get screen width for responsive design
+    var screenWidth = MediaQuery.of(context).size.width;
+    bool isDesktop = screenWidth >= 900;
+
+    // Wrapper function for responsive elements
+    Widget wrapResponsive(Widget child) {
+      return Center(
+        child: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: isDesktop ? 400 : 500),
+          child: child,
+        ),
+      );
+    }
+    
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Title
+        wrapResponsive(
+          Center(
+            child: Text(
+              localization.invite,
+              style: TextStyle(
+                fontFamily: 'SF Pro Rounded',
+                color: colors.buttonText,
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                height: 1.2,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        
+        const SizedBox(height: 16),
+        
+        // Description
+        wrapResponsive(
+          Text(
+            localization.invitePeopleToJoin,
+            style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
+              color: colors.secondaryText,
+              fontSize: 16,
+              height: 1.4,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // Invite link field
+        wrapResponsive(
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: StyledInputFieldWidget(
+                  controller: _inviteLinkController ?? TextEditingController(),
+                  hintText: "Invite link",
+                  // Make the field read-only but still selectable
+                  onChanged: null,
+                  // Add a key for testing
+                  fieldKey: const Key('invite_link_field'),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      Icons.copy_rounded,
+                      color: colors.accent,
+                      size: 22,
                     ),
-                  );
-                });
-                // Return loading widget while navigation occurs
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(32.0),
-                    child: CircularProgressIndicator(),
+                    onPressed: () {
+                      if (_communityModel != null) {
+                        Clipboard.setData(ClipboardData(text: _communityModel!.$2));
+                        BotToast.showText(text: localization.copySuccess);
+                      }
+                    },
                   ),
-                );
-              }
-            },
-            error: (error, stackTrace) {
-              return Center(child: ErrorWidget(error));
-            },
-            loading: () {
-              return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: CircularProgressIndicator(),
                 ),
-              );
+              ),
+            ],
+          ),
+        ),
+        
+        const SizedBox(height: 16),
+        
+        // Description text
+        wrapResponsive(
+          Text(
+            localization.shareInviteDescription,
+            style: TextStyle(
+              fontFamily: 'SF Pro Rounded',
+              color: colors.secondaryText,
+              fontSize: 14,
+              height: 1.4,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        
+        const SizedBox(height: 32),
+        
+        // Create first post button
+        wrapResponsive(
+          SizedBox(
+            width: double.infinity,
+            child: GestureDetector(
+              onTap: () {
+                if (_communityModel != null) {
+                  // Close the dialog
+                  Navigator.of(context).pop();
+                  
+                  // Navigate to the group detail
+                  RouterUtil.router(context, RouterPath.groupDetail, _communityModel!.$1);
+                }
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 18),
+                decoration: BoxDecoration(
+                  color: colors.accent,
+                  borderRadius: BorderRadius.circular(32),
+                  boxShadow: [
+                    BoxShadow(
+                      color: colors.accent.withAlpha(77),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Create your first post',
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Rounded',
+                    color: colors.buttonText,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 0.2,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void _onCreateCommunity(String communityName, String? customInviteLink) async {
+    // Update state to show loading spinner
+    setState(() {
+      _currentState = DialogState.creating;
+    });
+    
+    final controller = ref.read(createCommunityControllerProvider.notifier);
+    final result = await controller.createCommunity(
+      communityName, 
+      customInviteCode: customInviteLink
+    );
+    
+    if (!mounted) return;
+    
+    if (result) {
+      // Get the community model from the controller
+      final model = ref.read(createCommunityControllerProvider).value;
+      
+      if (model != null) {
+        // Store the model and update state to show invite link
+        setState(() {
+          _communityModel = model;
+          _currentState = DialogState.inviteLink;
+          
+          // Initialize the controller with the invite link
+          if (_inviteLinkController != null) {
+            _inviteLinkController!.dispose();
+          }
+          _inviteLinkController = TextEditingController(text: model.$2);
+        });
+      } else {
+        // Show error dialog
+        _showErrorDialog();
+      }
+    } else {
+      // Show error dialog
+      _showErrorDialog();
+    }
+  }
+  
+  // Helper method to show error dialog with specific error message
+  void _showErrorDialog() {
+    final localization = S.of(context);
+    final controller = ref.read(createCommunityControllerProvider.notifier);
+    
+    // Get the specific error message from the controller
+    final errorMessage = controller.lastError;
+    
+    String userFriendlyError;
+    
+    // Convert technical error message to user-friendly message
+    if (errorMessage.contains("Group identifier creation failed on all relays") || 
+        errorMessage.contains("Failed to create group on any relay")) {
+      userFriendlyError = "Could not create community on any available relay. We tried multiple relay servers but all failed. Please check your internet connection and try again.";
+    } else if (errorMessage.contains("Failed to set group metadata on any relay")) {
+      userFriendlyError = "Could not set community name on any available relay. Please try again later.";
+    } else if (errorMessage.contains("Failed to create invite on any relay")) {
+      userFriendlyError = "Could not generate invite link on any available relay. Please try again with a different name.";
+    } else if (errorMessage.contains("timed out")) {
+      userFriendlyError = "Operation timed out. The relay servers might be slow or unavailable right now. Please try again later.";
+    } else if (errorMessage.toLowerCase().contains("connection")) {
+      userFriendlyError = "Connection error. Please check your internet connection and try again.";
+    } else {
+      // Log the full error for debugging but show a simplified message to the user
+      log("Error creating community: $errorMessage", name: '_CreateCommunityDialogState');
+      userFriendlyError = "Failed to create community. Please try again later.";
+    }
+    
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) => AlertDialog.adaptive(
+        title: Text(localization.error),
+        content: Text(userFriendlyError),
+        actions: [
+          TextButton(
+            child: Text(localization.retry),
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                _currentState = DialogState.nameInput;
+              });
             },
+          ),
+          TextButton(
+            child: Text(localization.cancel),
+            onPressed: () => Navigator.of(context).pop(),
           ),
         ],
       ),
     );
   }
-
-  void _onCreateCommunity(String communityName) async {
-    final controller = ref.read(createCommunityControllerProvider.notifier);
-    final result = await controller.createCommunity(communityName);
-    if (!mounted) return;
-    final localization = S.of(context);
-    if (!result) {
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) => AlertDialog.adaptive(
-          title: Text(localization.error),
-          content: const Text("Failed to create community"),
-          actions: [
-            TextButton(
-              child: Text(localization.retry),
-              onPressed: () {
-                Navigator.of(context).pop();
-                _onCreateCommunity(communityName);
-              },
-            ),
-            TextButton(
-              child: Text(localization.cancel),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ],
-        ),
-      );
-    }
+  
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed
+    _inviteLinkController?.dispose();
+    super.dispose();
   }
 }
