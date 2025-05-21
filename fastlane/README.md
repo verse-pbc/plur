@@ -55,6 +55,14 @@ Refresh certificates in the match repo
 
 Clean App Store Connect of certificates
 
+### ios export_archive
+
+```sh
+[bundle exec] fastlane ios export_archive
+```
+
+Export existing archive to IPA
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

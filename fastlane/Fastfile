@@ -196,26 +196,52 @@ platform :ios do
 
   desc "Refresh certificates in the match repo"
   lane :certs do
-    if asc_key_id && asc_issuer_id && asc_key_content
-      app_store_connect_api_key(
-        key_id: asc_key_id,
-        issuer_id: asc_issuer_id,
-        key_content: asc_key_content
-      )
-    end
+    # Skip API key for now due to format issues
+    # if asc_key_id && asc_issuer_id && asc_key_content
+    #   app_store_connect_api_key(
+    #     key_id: asc_key_id,
+    #     issuer_id: asc_issuer_id,
+    #     key_content: asc_key_content
+    #   )
+    # end
     match(type: "appstore", app_identifier: ["app.verse.prototype.plur", "app.verse.prototype.plur-staging", "app.verse.prototype.plur-dev"])
   end
 
   desc "Clean App Store Connect of certificates"
   lane :nuke_certs do
-    if asc_key_id && asc_issuer_id && asc_key_content
-      app_store_connect_api_key(
-        key_id: asc_key_id,
-        issuer_id: asc_issuer_id,
-        key_content: asc_key_content
-      )
-    end
+    # Skip API key for now due to format issues
+    # if asc_key_id && asc_issuer_id && asc_key_content
+    #   app_store_connect_api_key(
+    #     key_id: asc_key_id,
+    #     issuer_id: asc_issuer_id,
+    #     key_content: asc_key_content
+    #   )
+    # end
     match_nuke(type: "appstore")
+  end
+
+  desc "Export existing archive to IPA"
+  lane :export_archive do
+    gym(
+      skip_build_archive: true,
+      archive_path: "/Users/rabble/code/verse/plur/build/ios/archive/Runner.xcarchive",
+      workspace: "ios/Runner.xcworkspace",
+      scheme: "Runner",
+      export_method: "app-store",
+      export_options: {
+        method: "app-store",
+        signingStyle: "manual",
+        provisioningProfiles: {
+          "social.holis.app" => "social.holis.app provisioning profile distribution"
+        },
+        uploadBitcode: false,
+        uploadSymbols: true
+      },
+      output_directory: "../build/ios/ipa",
+      output_name: "Holis",
+      include_bitcode: false,
+      include_symbols: true
+    )
   end
 end
 

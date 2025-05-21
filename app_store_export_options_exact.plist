@@ -16,8 +16,8 @@
     <string>Apple Distribution: Verse Communications, Inc. (GZCZBKH7MY)</string>
     <key>provisioningProfiles</key>
     <dict>
-        <key>social.holis.app</key>
-        <string>00308e58-0114-4227-9948-acb87bac7c1f</string>
+        <key>app.verse.prototype.plur</key>
+        <string>match AppStore app.verse.prototype.plur</string>
     </dict>
 </dict>
 </plist>

@@ -18,6 +18,56 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Install pods: `cd ios && pod install`
 - Build iOS: `flutter build ios --no-codesign`
 
+## iOS Code Signing & Distribution
+
+### Current Signing Setup (Working)
+The iOS app signing is successfully configured with the following setup:
+
+**Bundle ID**: `social.holis.app`
+**Team ID**: `GZCZBKH7MY` (Verse Communications, Inc.)
+**Certificate**: Apple Distribution: Verse Communications, Inc. (GZCZBKH7MY)
+
+### Build Commands
+- **IPA with Automatic Signing**: `flutter build ipa --export-options-plist=/Users/rabble/code/verse/plur/app_store_export_options_auto.plist`
+- **Archive Only**: `flutter build ios --no-codesign` (for development/testing)
+
+### Fastlane Configuration
+Fastlane is configured with:
+- **Ruby Environment**: Ruby 3.2.2+ with bundler
+- **Match Setup**: Temporarily uses local git repo (see `fastlane/Matchfile`)
+- **Auto Build Increment**: Fastlane automatically increments build numbers based on latest TestFlight build + 1
+- **Lanes Available**:
+  - `fastlane ios release` - Build and upload production app
+  - `fastlane ios deploy_staging` - Build and upload staging app
+  - `fastlane ios certs` - Refresh certificates
+
+### Key Configuration Files
+- `app_store_export_options_auto.plist` - Configured for automatic code signing
+- `ios/Runner/Runner.entitlements` - Contains app entitlements and bundle ID
+- `fastlane/Fastfile` - Build automation (API key section commented out due to format issues)
+- `fastlane/Matchfile` - Certificate management configuration
+
+### Environment Setup
+Required environment variables in `~/.env.secret`:
+```bash
+APP_STORE_CONNECT_API_KEY_ID="your_key_id"
+APP_STORE_CONNECT_ISSUER_ID="your_issuer_id" 
+APP_STORE_CONNECT_API_KEY_CONTENT="your_key_content"
+MATCH_PASSWORD="your_match_password"
+```
+
+### Distribution Process
+1. Build IPA: `flutter build ipa --export-options-plist=app_store_export_options_auto.plist`
+2. IPA will be created at: `build/ios/iphoneos/Runner.ipa`
+3. For TestFlight: Use Fastlane lanes or manual upload via Xcode/Transporter
+4. Build numbers are automatically incremented by Fastlane
+
+### Troubleshooting Notes
+- If API key issues occur, use username/password authentication (API key section is commented out)
+- Match repository uses local git repo temporarily to avoid decryption issues
+- Automatic signing is preferred over manual certificate management
+- **Entitlements**: The `Runner.entitlements` file is properly linked in Xcode project via `CODE_SIGN_ENTITLEMENTS = "Runner/Runner.entitlements"`
+
 ### iOS Build Troubleshooting
 If iOS build fails, check the following common issues:
 1. **Deployment target issues**: The Podfile enforces iOS 15.5 minimum deployment target
