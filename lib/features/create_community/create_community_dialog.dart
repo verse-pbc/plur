@@ -347,98 +347,82 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   void _onCreateCommunity(String communityName, String? customInviteLink) async {
     debugPrint("🎯 _onCreateCommunity CALLED with name='$communityName', customLink='$customInviteLink'");
     try {
-      debugPrint("🎯 About to call setState to change to creating state");
       // Update state to show loading spinner
-      setState(() {
-        debugPrint("🎯 Inside setState, changing to DialogState.creating");
-        _currentState = DialogState.creating;
-      });
-      debugPrint("🎯 setState completed successfully");
+      if (mounted) {
+        setState(() {
+          _currentState = DialogState.creating;
+        });
+      }
       
       log("🔄 Starting community creation: name='$communityName', customLink='$customInviteLink'", name: 'CreateCommunityDialog');
       
-      debugPrint("🎯 About to get controller from provider");
       final controller = ref.read(createCommunityControllerProvider.notifier);
-      debugPrint("🎯 Controller obtained, about to call createCommunity");
-      
       final result = await controller.createCommunity(
         communityName, 
         customInviteCode: customInviteLink
       );
-      debugPrint("🎯 createCommunity call completed with result: $result");
-    
-      debugPrint("🎯 Checking if widget is still mounted: $mounted");
-      if (!mounted) {
-        debugPrint("🎯 Widget is not mounted, but continuing anyway to see what happens");
-        // Don't return early - let's see what happens
-      } else {
-        debugPrint("🎯 Widget is still mounted, continuing...");
-      }
-    
-    log("✅ Community creation result: success=$result", name: 'CreateCommunityDialog');
-    
-    if (result) {
-      // Get the async value to check for errors
-      final asyncValue = ref.read(createCommunityControllerProvider);
-      log("✅ AsyncValue state: $asyncValue", name: 'CreateCommunityDialog');
       
-      // Get the community model from the controller BEFORE doing any refresh operations
-      final model = asyncValue.value;
+      log("✅ Community creation result: success=$result", name: 'CreateCommunityDialog');
       
-      log("✅ Model after creation: $model", name: 'CreateCommunityDialog');
-      
-      if (model != null) {
-        // Log the community creation for debugging
-        log("🎉 Community created successfully: ${model.$1.groupId} with invite link: ${model.$2}", 
-          name: 'CreateCommunityDialog');
+      if (result) {
+        // Get the community model immediately while we know it exists
+        final asyncValue = ref.read(createCommunityControllerProvider);
+        final model = asyncValue.value;
         
-        // Store the model first before any refresh operations that might reset the provider state
-        final storedModel = model;
-        
-        // Store the model and update state to show invite link
-        setState(() {
-          _communityModel = storedModel;
-          _currentState = DialogState.inviteLink;
+        if (model != null) {
+          log("🎉 Community created successfully: ${model.$1.groupId} with invite link: ${model.$2}", 
+            name: 'CreateCommunityDialog');
           
-          // Initialize the controller with the invite link
-          if (_inviteLinkController != null) {
-            _inviteLinkController!.dispose();
-          }
-          _inviteLinkController = TextEditingController(text: storedModel.$2);
-        });
-        
-        // Only do minimal refresh operations that won't interfere with the dialog flow
-        Future.delayed(const Duration(seconds: 1), () {
-          if (mounted) {
-            // Refresh only the metadata for this specific community
-            ref.refresh(groupMetadataProvider(storedModel.$1));
-            ref.refresh(cachedGroupMetadataProvider(storedModel.$1));
-          }
-        });
-        
-        // Refresh the communities list after a longer delay to show the new community
-        Future.delayed(const Duration(seconds: 3), () {
-          if (mounted) {
-            ref.refresh(communitiesControllerProvider);
-          }
-        });
+          // Store the model data locally to survive any rebuilds
+          final groupId = model.$1.groupId;
+          final inviteLink = model.$2;
+          
+          // Use post-frame callback to ensure we update state after any rebuilds
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) {
+              setState(() {
+                _communityModel = model;
+                _currentState = DialogState.inviteLink;
+                
+                // Initialize the controller with the invite link
+                if (_inviteLinkController != null) {
+                  _inviteLinkController!.dispose();
+                }
+                _inviteLinkController = TextEditingController(text: inviteLink);
+              });
+            }
+          });
+          
+          // Schedule metadata refresh for later
+          Future.delayed(const Duration(seconds: 1), () {
+            ref.refresh(groupMetadataProvider(model.$1));
+            ref.refresh(cachedGroupMetadataProvider(model.$1));
+          });
+          
+          return; // Success - exit early
+        } else {
+          log("❌ Model is null after successful community creation", name: 'CreateCommunityDialog');
+        }
       } else {
-        // Show error dialog
-        log("❌ Model is null after successful community creation - this shouldn't happen", name: 'CreateCommunityDialog');
-        _showErrorDialog();
-      }
-    } else {
-        // Show error dialog
         log("❌ Community creation failed", name: 'CreateCommunityDialog');
-        _showErrorDialog();
       }
+      
+      // If we get here, show error dialog
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showErrorDialog();
+        }
+      });
+      
     } catch (e, stackTrace) {
       log("💥 Exception during community creation: $e", name: 'CreateCommunityDialog');
       log("Stack trace: $stackTrace", name: 'CreateCommunityDialog');
       
-      if (mounted) {
-        _showErrorDialog();
-      }
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _showErrorDialog();
+        }
+      });
     }
   }
   
