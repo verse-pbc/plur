@@ -10,6 +10,7 @@ import 'package:bot_toast/bot_toast.dart';
 
 import '../../component/styled_input_field_widget.dart';
 import '../../generated/l10n.dart';
+import '../../data/group_metadata_repository.dart';
 import 'create_community_controller.dart';
 import 'create_community_widget.dart';
 
@@ -358,6 +359,19 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
       final model = ref.read(createCommunityControllerProvider).value;
       
       if (model != null) {
+        // Force refresh the metadata for the newly created community
+        // This ensures it shows up correctly in the communities list
+        ref.refresh(groupMetadataProvider(model.$1));
+        ref.refresh(cachedGroupMetadataProvider(model.$1));
+        
+        // Also refresh after a short delay to account for network propagation
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            ref.refresh(groupMetadataProvider(model.$1));
+            ref.refresh(cachedGroupMetadataProvider(model.$1));
+          }
+        });
+        
         // Store the model and update state to show invite link
         setState(() {
           _communityModel = model;

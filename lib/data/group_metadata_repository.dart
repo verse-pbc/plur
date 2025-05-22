@@ -31,8 +31,9 @@ class GroupMetadataRepository {
     final groupId = id.groupId;
     
     // Create a filter for group metadata
+    // Look for both groupMetadata and groupEditMetadata events
     var filter = Filter(
-      kinds: [EventKind.groupMetadata],
+      kinds: [EventKind.groupMetadata, EventKind.groupEditMetadata],
     );
     filter.limit = 1;
     var json = filter.toJson();
@@ -185,7 +186,7 @@ class GroupMetadataRepository {
       // Create a filter with all group IDs for this host
       final dValues = idsForHost.map((id) => id.groupId).toList();
       var filter = Filter(
-        kinds: [EventKind.groupMetadata],
+        kinds: [EventKind.groupMetadata, EventKind.groupEditMetadata],
       );
       var json = filter.toJson();
       json["#d"] = dValues;
@@ -256,8 +257,11 @@ class GroupMetadataRepository {
             if (fallbackRelay == host) continue; // Skip if it's the same as the original host
             
             try {
-              // Try this fallback relay
-              final fallbackJson = filter.toJson();
+              // Try this fallback relay with the same filter kinds
+              final fallbackFilter = Filter(
+                kinds: [EventKind.groupMetadata, EventKind.groupEditMetadata],
+              );
+              final fallbackJson = fallbackFilter.toJson();
               fallbackJson["#d"] = missingGroupIds;
               
               final fallbackEvents = await nostr?.queryEvents(

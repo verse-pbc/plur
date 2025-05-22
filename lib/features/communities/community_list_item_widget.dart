@@ -46,6 +46,12 @@ class CommunityListItemWidget extends ConsumerWidget {
         // Try to refresh the metadata from network
         debugPrint("Refreshing metadata for group ${groupIdentifier.groupId} from network");
         ref.refresh(groupMetadataProvider(groupIdentifier));
+        
+        // Also try a delayed refresh in case it takes time for the metadata to propagate
+        Future.delayed(const Duration(seconds: 2), () {
+          debugPrint("Delayed refresh for group ${groupIdentifier.groupId}");
+          ref.refresh(groupMetadataProvider(groupIdentifier));
+        });
       });
     }
     
