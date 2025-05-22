@@ -18,6 +18,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
   final TextEditingController _customInviteLinkController = TextEditingController();
   bool _isLoading = false;
   bool _showCustomLinkField = false;
+  bool _isCustomLinkManuallyEdited = false; // Track if user manually edited the custom link
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +87,11 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
             hintText: localization.communityName,
             autofocus: true,
             onChanged: (text) {
+              // Auto-populate custom invite link if it hasn't been manually edited
+              if (_showCustomLinkField && !_isCustomLinkManuallyEdited) {
+                final sanitizedName = _sanitizeForUrl(text);
+                _customInviteLinkController.text = sanitizedName;
+              }
               setState(() {});
             },
           ),
@@ -99,6 +105,13 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
             onTap: () {
               setState(() {
                 _showCustomLinkField = !_showCustomLinkField;
+                
+                // If opening the custom link field and it's empty, auto-populate from community name
+                if (_showCustomLinkField && _customInviteLinkController.text.isEmpty) {
+                  final sanitizedName = _sanitizeForUrl(_communityNameController.text);
+                  _customInviteLinkController.text = sanitizedName;
+                  _isCustomLinkManuallyEdited = false; // Reset manual edit flag
+                }
               });
             },
             child: Row(
@@ -135,6 +148,9 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
               controller: _customInviteLinkController,
               hintText: "Custom link suffix (optional)",
               onChanged: (text) {
+                // Mark as manually edited when user types in this field
+                _isCustomLinkManuallyEdited = true;
+                
                 // Sanitize the text - allow only alphanumeric and hyphens
                 if (text.isNotEmpty) {
                   final sanitized = text.replaceAll(RegExp(r'[^a-zA-Z0-9-]'), '');
@@ -152,7 +168,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
           const SizedBox(height: 8),
           wrapResponsive(
             Text(
-              "The link will be holis.is/c/your-custom-link",
+              _getDynamicLinkCaption(),
               style: TextStyle(
                 fontFamily: 'SF Pro Rounded',
                 color: colors.secondaryText,
@@ -240,7 +256,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
     });
 
     // Pass the custom invite link if it's provided, visible, and valid
-    String? customInviteLink = null;
+    String? customInviteLink;
     if (_showCustomLinkField && 
         _customInviteLinkController.text.isNotEmpty && 
         _customInviteLinkController.text.length >= 4) {
@@ -261,6 +277,38 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
                             _customInviteLinkController.text.length >= 4;
     
     return isCommunityNameValid && isCustomLinkValid;
+  }
+
+  /// Generates the dynamic link caption based on current state
+  String _getDynamicLinkCaption() {
+    String linkSuffix;
+    
+    if (_customInviteLinkController.text.isNotEmpty) {
+      // Use the custom link text
+      linkSuffix = _customInviteLinkController.text;
+    } else if (_communityNameController.text.isNotEmpty) {
+      // Use the sanitized community name
+      linkSuffix = _sanitizeForUrl(_communityNameController.text);
+    } else {
+      // Default placeholder
+      linkSuffix = "your-custom-link";
+    }
+    
+    return "The link will be holis.is/c/$linkSuffix";
+  }
+  
+  /// Sanitizes a string to be URL-friendly
+  /// Converts to lowercase, replaces spaces with hyphens, removes special characters
+  String _sanitizeForUrl(String input) {
+    if (input.isEmpty) return "";
+    
+    return input
+        .toLowerCase()
+        .trim()
+        .replaceAll(RegExp(r'\s+'), '-') // Replace spaces with hyphens
+        .replaceAll(RegExp(r'[^a-z0-9-]'), '') // Remove special characters except hyphens
+        .replaceAll(RegExp(r'-+'), '-') // Replace multiple hyphens with single hyphen
+        .replaceAll(RegExp(r'^-|-$'), ''); // Remove leading/trailing hyphens
   }
 
   @override
