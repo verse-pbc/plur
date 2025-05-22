@@ -347,6 +347,8 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
       _currentState = DialogState.creating;
     });
     
+    log("🔄 Starting community creation: name='$communityName', customLink='$customInviteLink'", name: 'CreateCommunityDialog');
+    
     final controller = ref.read(createCommunityControllerProvider.notifier);
     final result = await controller.createCommunity(
       communityName, 
@@ -355,11 +357,17 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
     
     if (!mounted) return;
     
+    log("✅ Community creation result: success=$result", name: 'CreateCommunityDialog');
+    
     if (result) {
-      // Get the community model from the controller BEFORE doing any refresh operations
-      final model = ref.read(createCommunityControllerProvider).value;
+      // Get the async value to check for errors
+      final asyncValue = ref.read(createCommunityControllerProvider);
+      log("✅ AsyncValue state: $asyncValue", name: 'CreateCommunityDialog');
       
-      log("✅ Community creation result: success=$result, model=$model", name: 'CreateCommunityDialog');
+      // Get the community model from the controller BEFORE doing any refresh operations
+      final model = asyncValue.value;
+      
+      log("✅ Model after creation: $model", name: 'CreateCommunityDialog');
       
       if (model != null) {
         // Log the community creation for debugging
@@ -381,39 +389,19 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
           _inviteLinkController = TextEditingController(text: storedModel.$2);
         });
         
-        // Schedule refresh operations after UI state is updated
-        // Use a microtask to avoid interfering with the success flow
-        Future.microtask(() {
-          // Force complete refresh of all community-related providers
-          // This ensures the new community shows up correctly
-          ref.refresh(communitiesControllerProvider);
-          ref.refresh(groupMetadataProvider(storedModel.$1));
-          ref.refresh(cachedGroupMetadataProvider(storedModel.$1));
-          
-          // Also invalidate the bulk metadata provider to force fresh fetching
-          ref.invalidate(bulkGroupMetadataProvider);
-        });
-        
-        // Add multiple delayed refreshes with increasing delays to handle network propagation
-        Future.delayed(const Duration(milliseconds: 500), () {
+        // Only do minimal refresh operations that won't interfere with the dialog flow
+        Future.delayed(const Duration(seconds: 1), () {
           if (mounted) {
+            // Refresh only the metadata for this specific community
             ref.refresh(groupMetadataProvider(storedModel.$1));
             ref.refresh(cachedGroupMetadataProvider(storedModel.$1));
           }
         });
         
-        Future.delayed(const Duration(seconds: 2), () {
+        // Refresh the communities list after a longer delay to show the new community
+        Future.delayed(const Duration(seconds: 3), () {
           if (mounted) {
-            ref.refresh(groupMetadataProvider(storedModel.$1));
-            ref.refresh(cachedGroupMetadataProvider(storedModel.$1));
             ref.refresh(communitiesControllerProvider);
-          }
-        });
-        
-        Future.delayed(const Duration(seconds: 5), () {
-          if (mounted) {
-            ref.refresh(groupMetadataProvider(storedModel.$1));
-            ref.refresh(cachedGroupMetadataProvider(storedModel.$1));
           }
         });
       } else {
