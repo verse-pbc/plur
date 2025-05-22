@@ -11,6 +11,7 @@ import 'package:bot_toast/bot_toast.dart';
 import '../../component/styled_input_field_widget.dart';
 import '../../generated/l10n.dart';
 import '../../data/group_metadata_repository.dart';
+import '../communities/communities_controller.dart';
 import 'create_community_controller.dart';
 import 'create_community_widget.dart';
 
@@ -359,18 +360,18 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
       final model = ref.read(createCommunityControllerProvider).value;
       
       if (model != null) {
-        // Force refresh the metadata for the newly created community
-        // This ensures it shows up correctly in the communities list
+        // Force complete refresh of all community-related providers
+        // This ensures the new community shows up correctly
+        ref.refresh(communitiesControllerProvider);
         ref.refresh(groupMetadataProvider(model.$1));
         ref.refresh(cachedGroupMetadataProvider(model.$1));
         
-        // Also refresh after a short delay to account for network propagation
-        Future.delayed(const Duration(milliseconds: 500), () {
-          if (mounted) {
-            ref.refresh(groupMetadataProvider(model.$1));
-            ref.refresh(cachedGroupMetadataProvider(model.$1));
-          }
-        });
+        // Also invalidate the bulk metadata provider to force fresh fetching
+        ref.invalidate(bulkGroupMetadataProvider);
+        
+        // Log the community creation for debugging
+        log("🎉 Community created successfully: ${model.$1.groupId} with invite link: ${model.$2}", 
+          name: 'CreateCommunityDialog');
         
         // Store the model and update state to show invite link
         setState(() {
@@ -382,6 +383,29 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
             _inviteLinkController!.dispose();
           }
           _inviteLinkController = TextEditingController(text: model.$2);
+        });
+        
+        // Add multiple delayed refreshes with increasing delays to handle network propagation
+        Future.delayed(const Duration(milliseconds: 500), () {
+          if (mounted) {
+            ref.refresh(groupMetadataProvider(model.$1));
+            ref.refresh(cachedGroupMetadataProvider(model.$1));
+          }
+        });
+        
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            ref.refresh(groupMetadataProvider(model.$1));
+            ref.refresh(cachedGroupMetadataProvider(model.$1));
+            ref.refresh(communitiesControllerProvider);
+          }
+        });
+        
+        Future.delayed(const Duration(seconds: 5), () {
+          if (mounted) {
+            ref.refresh(groupMetadataProvider(model.$1));
+            ref.refresh(cachedGroupMetadataProvider(model.$1));
+          }
         });
       } else {
         // Show error dialog

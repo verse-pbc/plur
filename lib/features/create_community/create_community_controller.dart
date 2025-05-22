@@ -171,6 +171,10 @@ class CreateCommunityController
       }
       
       log("Group name set successfully for $groupId", name: 'CreateCommunityController');
+      
+      // Add a small delay to ensure the metadata is properly propagated
+      // before we consider the operation complete
+      await Future.delayed(const Duration(milliseconds: 200));
     } catch (e, stackTrace) {
       log("Error setting group name: ${e.toString()}", 
         level: Level.SEVERE.value, name: 'CreateCommunityController');

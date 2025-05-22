@@ -43,13 +43,25 @@ class CommunityListItemWidget extends ConsumerWidget {
         (controller.value == null || controller.value?.name == null || controller.value!.name!.isEmpty)) {
       // Use a microtask to avoid triggering a build during the current build phase
       Future.microtask(() {
-        // Try to refresh the metadata from network
-        debugPrint("Refreshing metadata for group ${groupIdentifier.groupId} from network");
+        // Try to refresh the metadata from network with multiple attempts
+        debugPrint("🔄 Refreshing metadata for group ${groupIdentifier.groupId} from network");
         ref.refresh(groupMetadataProvider(groupIdentifier));
+        ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
         
-        // Also try a delayed refresh in case it takes time for the metadata to propagate
+        // Multiple retry attempts with exponential backoff for network propagation
+        Future.delayed(const Duration(milliseconds: 500), () {
+          debugPrint("🔄 Retry 1: Refreshing metadata for group ${groupIdentifier.groupId}");
+          ref.refresh(groupMetadataProvider(groupIdentifier));
+        });
+        
         Future.delayed(const Duration(seconds: 2), () {
-          debugPrint("Delayed refresh for group ${groupIdentifier.groupId}");
+          debugPrint("🔄 Retry 2: Refreshing metadata for group ${groupIdentifier.groupId}");
+          ref.refresh(groupMetadataProvider(groupIdentifier));
+          ref.invalidate(cachedGroupMetadataProvider(groupIdentifier));
+        });
+        
+        Future.delayed(const Duration(seconds: 5), () {
+          debugPrint("🔄 Retry 3: Final refresh attempt for group ${groupIdentifier.groupId}");
           ref.refresh(groupMetadataProvider(groupIdentifier));
         });
       });
