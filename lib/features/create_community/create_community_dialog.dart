@@ -347,18 +347,25 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   void _onCreateCommunity(String communityName, String? customInviteLink) async {
     debugPrint("🎯 _onCreateCommunity CALLED with name='$communityName', customLink='$customInviteLink'");
     try {
+      debugPrint("🎯 About to call setState to change to creating state");
       // Update state to show loading spinner
       setState(() {
+        debugPrint("🎯 Inside setState, changing to DialogState.creating");
         _currentState = DialogState.creating;
       });
+      debugPrint("🎯 setState completed successfully");
       
       log("🔄 Starting community creation: name='$communityName', customLink='$customInviteLink'", name: 'CreateCommunityDialog');
       
+      debugPrint("🎯 About to get controller from provider");
       final controller = ref.read(createCommunityControllerProvider.notifier);
+      debugPrint("🎯 Controller obtained, about to call createCommunity");
+      
       final result = await controller.createCommunity(
         communityName, 
         customInviteCode: customInviteLink
       );
+      debugPrint("🎯 createCommunity call completed with result: $result");
     
     if (!mounted) return;
     
