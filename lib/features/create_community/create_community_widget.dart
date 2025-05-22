@@ -263,6 +263,7 @@ class _CreateCommunityWidgetState extends State<CreateCommunityWidget> {
       customInviteLink = _customInviteLinkController.text;
     }
 
+    debugPrint("🚀 CreateCommunityWidget: Calling onCreateCommunity with name='${_communityNameController.text}', customLink='$customInviteLink'");
     widget.onCreateCommunity(_communityNameController.text, customInviteLink);
     // No need to set _isLoading back to false as we'll transition to the next screen
   }

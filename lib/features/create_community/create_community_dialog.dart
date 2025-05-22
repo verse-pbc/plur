@@ -342,18 +342,19 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   }
 
   void _onCreateCommunity(String communityName, String? customInviteLink) async {
-    // Update state to show loading spinner
-    setState(() {
-      _currentState = DialogState.creating;
-    });
-    
-    log("🔄 Starting community creation: name='$communityName', customLink='$customInviteLink'", name: 'CreateCommunityDialog');
-    
-    final controller = ref.read(createCommunityControllerProvider.notifier);
-    final result = await controller.createCommunity(
-      communityName, 
-      customInviteCode: customInviteLink
-    );
+    try {
+      // Update state to show loading spinner
+      setState(() {
+        _currentState = DialogState.creating;
+      });
+      
+      log("🔄 Starting community creation: name='$communityName', customLink='$customInviteLink'", name: 'CreateCommunityDialog');
+      
+      final controller = ref.read(createCommunityControllerProvider.notifier);
+      final result = await controller.createCommunity(
+        communityName, 
+        customInviteCode: customInviteLink
+      );
     
     if (!mounted) return;
     
@@ -410,9 +411,17 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
         _showErrorDialog();
       }
     } else {
-      // Show error dialog
-      log("❌ Community creation failed", name: 'CreateCommunityDialog');
-      _showErrorDialog();
+        // Show error dialog
+        log("❌ Community creation failed", name: 'CreateCommunityDialog');
+        _showErrorDialog();
+      }
+    } catch (e, stackTrace) {
+      log("💥 Exception during community creation: $e", name: 'CreateCommunityDialog');
+      log("Stack trace: $stackTrace", name: 'CreateCommunityDialog');
+      
+      if (mounted) {
+        _showErrorDialog();
+      }
     }
   }
   
