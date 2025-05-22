@@ -367,7 +367,13 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
       );
       debugPrint("🎯 createCommunity call completed with result: $result");
     
-    if (!mounted) return;
+      debugPrint("🎯 Checking if widget is still mounted: $mounted");
+      if (!mounted) {
+        debugPrint("🎯 Widget is not mounted, but continuing anyway to see what happens");
+        // Don't return early - let's see what happens
+      } else {
+        debugPrint("🎯 Widget is still mounted, continuing...");
+      }
     
     log("✅ Community creation result: success=$result", name: 'CreateCommunityDialog');
     
