@@ -148,7 +148,10 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
           // Content based on current state
           if (_currentState == DialogState.nameInput)
             CreateCommunityWidget(
-              onCreateCommunity: (name, customInviteLink) => _onCreateCommunity(name, customInviteLink),
+              onCreateCommunity: (name, customInviteLink) {
+                debugPrint("🎯 onCreateCommunity callback triggered with name='$name', customLink='$customInviteLink'");
+                _onCreateCommunity(name, customInviteLink);
+              },
             )
           else if (_currentState == DialogState.creating)
             const Center(
@@ -342,6 +345,7 @@ class _CreateCommunityDialogState extends ConsumerState<CreateCommunityDialog> {
   }
 
   void _onCreateCommunity(String communityName, String? customInviteLink) async {
+    debugPrint("🎯 _onCreateCommunity CALLED with name='$communityName', customLink='$customInviteLink'");
     try {
       // Update state to show loading spinner
       setState(() {
