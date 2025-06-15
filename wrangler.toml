@@ -1,4 +1,4 @@
-name = "holis-app"
+name = "plur-app"
 compatibility_date = "2023-01-01"
 compatibility_flags = ["streams_enable_constructors"]
 
@@ -8,4 +8,4 @@ pages_build_output_dir = "build/web"
 [env.production]
 
 [env.preview]
-name = "holis-app-preview"
+name = "plur-app-preview"
