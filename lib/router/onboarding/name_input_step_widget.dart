@@ -3,6 +3,7 @@ import '../../generated/l10n.dart';
 import '../../theme/app_colors.dart';
 import '../../widget/material_icon_fix.dart';
 import '../../component/styled_input_field_widget.dart';
+import '../../util/fake_name_generator.dart';
 
 /// Handles name/nickname collection in the onboarding process.
 class NameInputStepWidget extends StatefulWidget {
@@ -33,6 +34,14 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
         _isFocused = _focusNode.hasFocus;
       });
     });
+    
+    // Generate and set a fake name based on the current locale
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final locale = Localizations.of(context).languageCode;
+      final fakeName = FakeNameGenerator.generateFakeName(locale);
+      _nameController.text = fakeName;
+      _updateButtonState();
+    });
   }
 
   @override
@@ -50,6 +59,13 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
         _isButtonEnabled = newState;
       });
     }
+  }
+
+  void _generateNewFakeName() {
+    final locale = Localizations.of(context).languageCode;
+    final fakeName = FakeNameGenerator.generateFakeName(locale);
+    _nameController.text = fakeName;
+    _updateButtonState();
   }
   
 
@@ -148,44 +164,72 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
               
               const SizedBox(height: 48),
               
-              // Input field with styles from the Login with Nostr sheet
+              // Input field with refresh button
               Center(
                 child: ConstrainedBox(
                   constraints: BoxConstraints(maxWidth: buttonMaxWidth),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: colors.divider,
-                        width: 1,
-                      ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(7),
-                      child: TextField(
-                        controller: _nameController,
-                        autofocus: true,
-                        style: TextStyle(
-                          fontFamily: 'SF Pro Rounded',
-                          color: colors.primaryText,
-                          fontSize: 16,
-                        ),
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: colors.cardBackground,
-                          hintText: localization.onboardingNameInputHint,
-                          hintStyle: TextStyle(
-                            fontFamily: 'SF Pro Rounded',
-                            color: colors.secondaryText,
-                            fontSize: 16,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: colors.divider,
+                              width: 1,
+                            ),
                           ),
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: const EdgeInsets.all(16),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(7),
+                            child: TextField(
+                              controller: _nameController,
+                              autofocus: true,
+                              style: TextStyle(
+                                fontFamily: 'SF Pro Rounded',
+                                color: colors.primaryText,
+                                fontSize: 16,
+                              ),
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: colors.cardBackground,
+                                hintText: localization.onboardingNameInputHint,
+                                hintStyle: TextStyle(
+                                  fontFamily: 'SF Pro Rounded',
+                                  color: colors.secondaryText,
+                                  fontSize: 16,
+                                ),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                contentPadding: const EdgeInsets.all(16),
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                      const SizedBox(width: 12),
+                      // Refresh button to generate new fake name
+                      GestureDetector(
+                        onTap: _generateNewFakeName,
+                        child: Container(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: colors.cardBackground,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: colors.divider,
+                              width: 1,
+                            ),
+                          ),
+                          child: Icon(
+                            Icons.refresh_rounded,
+                            color: colors.accent,
+                            size: 24,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),

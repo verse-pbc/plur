@@ -1095,7 +1095,8 @@ class SKo extends S {
   String get ageVerificationQuestion => '16세 이상입니까?';
 
   @override
-  String get ageVerificationMessage => '법적 이유로 Plur를 사용하려면 이 나이 이상인지 확인해야 합니다.';
+  String get ageVerificationMessage =>
+      '법적 이유로 Holis를 사용하려면 이 나이 이상인지 확인해야 합니다.';
 
   @override
   String get no => '아니오';
@@ -1553,4 +1554,22 @@ class SKo extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }

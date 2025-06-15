@@ -6,7 +6,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/component/relative_date_widget.dart';
 import 'package:nostrmo/component/user/name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/consts/holis_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'package:provider/provider.dart';
@@ -116,7 +116,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                               Text(
                                 displayName,
                                 style: GoogleFonts.nunito(
-                                  textStyle: PlurColors.usernameStyle(context),
+                                  textStyle: HolisColors.usernameStyle(context),
                                 ),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -128,7 +128,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                           RelativeDateWidget(
                             widget.event.createdAt,
                             style: GoogleFonts.nunito(
-                              textStyle: PlurColors.timestampStyle(context),
+                              textStyle: HolisColors.timestampStyle(context),
                             ),
                           ),
                         ],
@@ -141,7 +141,7 @@ class _EventTopWidgetState extends State<EventTopWidget> {
                             child: Text(
                               nip05Text,
                               style: GoogleFonts.nunito(
-                                textStyle: PlurColors.handleStyle(context),
+                                textStyle: HolisColors.handleStyle(context),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,

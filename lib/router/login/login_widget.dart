@@ -15,7 +15,7 @@ import '../index/account_manager_widget.dart';
 import '../../component/styled_bot_toast.dart';
 import '../../component/styled_input_field_widget.dart';
 import '../../theme/app_colors.dart';
-import '../../consts/plur_colors.dart';
+import '../../consts/holis_colors.dart';
 import '../../features/create_community/create_community_dialog.dart';
 
 /// A stateful widget that manages the Login (or Landing) screen.
@@ -219,7 +219,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   const SizedBox(width: 8),
                   Flexible(
                     child: Text(
-                      "Create a Profile",
+                      S.of(context).createProfile,
                       style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
                         color: Colors.white, // Always white for button text, regardless of theme
@@ -240,7 +240,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
 
     mainList.add(const SizedBox(height: 16));
 
-    // Login with Nostr button (secondary action) 
+    // Login button (secondary action) 
     mainList.add(createButton(
       SizedBox(
         width: double.infinity,
@@ -284,7 +284,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
                   const SizedBox(width: 8),
                   Flexible(
                     child: Text(
-                      "Login with Nostr",
+                      S.of(context).login,
                       style: TextStyle(
                         fontFamily: 'SF Pro Rounded',
                         color: themeData.brightness == Brightness.dark 
@@ -304,6 +304,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
         ),
       ),
     ));
+
 
     // Bottom spacing and terms
     mainList.add(Expanded(flex: 1, child: Container()));
@@ -604,7 +605,7 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               wrapResponsive(
                 Center(
                   child: Text(
-                    "Login with Nostr",
+                    S.of(context).login,
                     style: TextStyle(
                       fontFamily: 'SF Pro Rounded',
                       color: buttonTextColor,
@@ -618,10 +619,83 @@ class _LoginSignupState extends State<LoginSignupWidget> {
               
               const SizedBox(height: 20),
               
+              // How it works explanation
+              wrapResponsive(
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).brightness == Brightness.dark 
+                      ? Colors.white.withOpacity(0.05)
+                      : Colors.black.withOpacity(0.03),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Theme.of(context).brightness == Brightness.dark 
+                        ? Colors.white.withOpacity(0.1)
+                        : Colors.black.withOpacity(0.1),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            color: Theme.of(context).brightness == Brightness.dark 
+                              ? Colors.white.withOpacity(0.7)
+                              : Colors.black.withOpacity(0.6),
+                            size: 18,
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            S.of(context).easyToRead,
+                            style: TextStyle(
+                              fontFamily: 'SF Pro Rounded',
+                              color: Theme.of(context).brightness == Brightness.dark 
+                                ? Colors.white.withOpacity(0.8)
+                                : Colors.black.withOpacity(0.7),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        S.of(context).holisAccountExplanation,
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Theme.of(context).brightness == Brightness.dark 
+                            ? Colors.white.withOpacity(0.9)
+                            : Colors.black.withOpacity(0.8),
+                          fontSize: 14,
+                          height: 1.3,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        S.of(context).holisAccountBenefits,
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Rounded',
+                          color: Theme.of(context).brightness == Brightness.dark 
+                            ? Colors.white.withOpacity(0.7)
+                            : Colors.black.withOpacity(0.6),
+                          fontSize: 13,
+                          height: 1.3,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              
+              const SizedBox(height: 20),
+              
               // Login options explainer
               wrapResponsive(
                 Text(
-                  "Enter your nsec private key or nsecBunker URL. For identities like user@nsec.app, you must set up a bunker URL in your NIP-05 metadata. Read-only access is not supported.",
+                  S.of(context).enterPrivateKeyOrId,
                   style: TextStyle(
                     fontFamily: 'SF Pro Rounded',
                     color: colors.secondaryText,

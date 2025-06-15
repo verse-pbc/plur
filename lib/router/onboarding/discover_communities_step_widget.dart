@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../generated/l10n.dart';
 import '../../theme/app_colors.dart';
 import '../../widget/material_icon_fix.dart';
-import '../../consts/plur_colors.dart';
+import '../../consts/holis_colors.dart';
 import '../../consts/base.dart';
 
 /// Helps users discover and join their first communities.

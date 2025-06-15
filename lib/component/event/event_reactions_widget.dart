@@ -14,7 +14,7 @@ import 'package:nostrmo/component/json_view_dialog.dart';
 import 'package:nostrmo/component/like_text_select_bottom_sheet.dart';
 import 'package:nostrmo/consts/base.dart';
 import 'package:nostrmo/consts/like_select_type.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/consts/holis_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
@@ -310,8 +310,8 @@ class _EventReactionsWidgetState extends State<EventReactionsWidget> {
     
     // Choose color based on active state
     final buttonColor = isActive 
-        ? PlurColors.primaryPurple // Active buttons always use primary color
-        : PlurColors.secondaryTextColor(context); // Non-active buttons use secondary text color
+        ? HolisColors.primaryPurple // Active buttons always use primary color
+        : HolisColors.secondaryTextColor(context); // Non-active buttons use secondary text color
     
     return Material(
       color: Colors.transparent,

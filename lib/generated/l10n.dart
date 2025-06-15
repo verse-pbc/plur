@@ -2273,7 +2273,7 @@ abstract class S {
   /// No description provided for @ageVerificationMessage.
   ///
   /// In en, this message translates to:
-  /// **'For legal reasons, we need to make sure you\'re over this age to use Plur.'**
+  /// **'For legal reasons, we need to make sure you\'re over this age to use Holis.'**
   String get ageVerificationMessage;
 
   /// No description provided for @no.
@@ -3175,6 +3175,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Paste Invite Link'**
   String get pasteInviteLink;
+
+  /// No description provided for @createProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Profile'**
+  String get createProfile;
+
+  /// No description provided for @holisAccountExplanation.
+  ///
+  /// In en, this message translates to:
+  /// **'You control your data with your own secure key.'**
+  String get holisAccountExplanation;
+
+  /// No description provided for @holisAccountBenefits.
+  ///
+  /// In en, this message translates to:
+  /// **'Your identity works across all communities.'**
+  String get holisAccountBenefits;
+
+  /// No description provided for @easyToRead.
+  ///
+  /// In en, this message translates to:
+  /// **'How it works'**
+  String get easyToRead;
+
+  /// No description provided for @enterPrivateKeyOrId.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your private key or nsec ID to login to your existing account'**
+  String get enterPrivateKeyOrId;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -35,7 +35,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "adminPanel": MessageLookupByLibrary.simpleMessage("प्रशासक पैनल"),
         "admins": MessageLookupByLibrary.simpleMessage("प्रशासक"),
         "ageVerificationMessage": MessageLookupByLibrary.simpleMessage(
-            "कानूनी कारणों से, हमें यह सुनिश्चित करने की आवश्यकता है कि Plur का उपयोग करने के लिए आप इस उम्र से अधिक हैं।"),
+            "कानूनी कारणों से, हमें यह सुनिश्चित करने की आवश्यकता है कि Holis का उपयोग करने के लिए आप इस उम्र से अधिक हैं।"),
         "ageVerificationQuestion": MessageLookupByLibrary.simpleMessage(
             "क्या आप 16 साल से अधिक उम्र के हैं?"),
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(

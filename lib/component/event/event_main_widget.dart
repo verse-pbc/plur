@@ -13,7 +13,7 @@ import 'package:nostrmo/component/event/event_zap_goals_widget.dart';
 import 'package:nostrmo/component/user/simple_name_widget.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base64.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/consts/holis_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 
@@ -807,7 +807,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.warning, color: PlurColors.textColor(context)),
+              Icon(Icons.warning, color: HolisColors.textColor(context)),
               Container(
                 margin: const EdgeInsets.only(left: Base.basePaddingHalf),
                 child: Text(
@@ -815,7 +815,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                   style: GoogleFonts.nunito(
                     textStyle: TextStyle(
                       fontSize: largeTextSize,
-                      color: PlurColors.textColor(context),
+                      color: HolisColors.textColor(context),
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -826,7 +826,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
           Text(
             localization.thisNoteContainsSensitiveContent,
             style: GoogleFonts.nunito(
-              textStyle: PlurColors.contentStyle(context),
+              textStyle: HolisColors.contentStyle(context),
             ),
           ),
           GestureDetector(
@@ -844,7 +844,7 @@ class _EventMainWidgetState extends State<EventMainWidget> {
                 right: Base.basePadding,
               ),
               decoration: BoxDecoration(
-                color: PlurColors.primaryPurple, // Use our primary brand color 
+                color: HolisColors.primaryPurple, // Use our primary brand color 
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(

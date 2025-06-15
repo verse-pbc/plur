@@ -1096,7 +1096,7 @@ class STh extends S {
 
   @override
   String get ageVerificationMessage =>
-      'ด้วยเหตุผลทางกฎหมาย เราต้องตรวจสอบว่าคุณมีอายุมากกว่านี้เพื่อใช้ Plur';
+      'ด้วยเหตุผลทางกฎหมาย เราต้องตรวจสอบว่าคุณมีอายุมากกว่านี้เพื่อใช้ Holis';
 
   @override
   String get no => 'ไม่';
@@ -1558,4 +1558,22 @@ class STh extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }

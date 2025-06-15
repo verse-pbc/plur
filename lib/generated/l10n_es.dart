@@ -1110,7 +1110,7 @@ class SEs extends S {
 
   @override
   String get ageVerificationMessage =>
-      'Por razones legales, necesitamos asegurarnos de que tienes más de esta edad para usar Plur.';
+      'Por razones legales, necesitamos asegurarnos de que tienes más de esta edad para usar Holis.';
 
   @override
   String get no => 'No';
@@ -1575,4 +1575,22 @@ class SEs extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Crear Perfil';
+
+  @override
+  String get holisAccountExplanation =>
+      'Controlas tus datos con tu propia clave segura.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Tu identidad funciona en todas las comunidades.';
+
+  @override
+  String get easyToRead => 'Cómo funciona';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Ingresa tu clave privada o ID nsec para iniciar sesión en tu cuenta existente';
 }

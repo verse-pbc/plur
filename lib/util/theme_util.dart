@@ -64,17 +64,17 @@ class CustomColors extends ThemeExtension<CustomColors> {
   /// Light theme values based on Plur design system
   static const CustomColors light = CustomColors(
     accentColor: Color(0xFF7445FE), // Changed to Plur primary purple
-    appBgColor: Color(0xFFFFFFFF), // From PlurColors.lightAppBackground
+    appBgColor: Color(0xFFFFFFFF), // From HolisColors.lightAppBackground
     buttonTextColor: Color(0xFFFFFFFF),
-    cardBgColor: Color(0xFFF5F2FF), // From PlurColors.lightCardBackground
-    dimmedColor: Color(0xFF837AA0), // Secondary text color from PlurColors
+    cardBgColor: Color(0xFFF5F2FF), // From HolisColors.lightCardBackground
+    dimmedColor: Color(0xFF837AA0), // Secondary text color from HolisColors
     feedBgColor: Color(0xFFF5F2FF), // Light background
     loginBgColor: Color(0xFFFFFFFF),
     navBgColor: Color(0xFFFFFFFF),
     notesBgColor: Color(0xFFF5F2FF),
-    primaryForegroundColor: Color(0xFF4B3997), // Primary text color from PlurColors
-    secondaryForegroundColor: Color(0xFF837AA0), // Secondary text color from PlurColors
-    separatorColor: Color(0xFFE5DBFF), // From PlurColors.lightSeparator
+    primaryForegroundColor: Color(0xFF4B3997), // Primary text color from HolisColors
+    secondaryForegroundColor: Color(0xFF837AA0), // Secondary text color from HolisColors
+    separatorColor: Color(0xFFE5DBFF), // From HolisColors.lightSeparator
     tabsBgColor: Color(0xFFFFFFFF),
     tooltipText: Color(0xFFFFFFFF),
     tooltipBackground: Color(0xFF7445FE), // Plur purple for tooltips

@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addPhotosToYourPosts": MessageLookupByLibrary.simpleMessage(
             "เพิ่มรูปภาพในโพสต์ของคุณเพื่อดูที่นี่"),
         "ageVerificationMessage": MessageLookupByLibrary.simpleMessage(
-            "ด้วยเหตุผลทางกฎหมาย เราต้องตรวจสอบว่าคุณมีอายุมากกว่านี้เพื่อใช้ Plur"),
+            "ด้วยเหตุผลทางกฎหมาย เราต้องตรวจสอบว่าคุณมีอายุมากกว่านี้เพื่อใช้ Holis"),
         "ageVerificationQuestion": MessageLookupByLibrary.simpleMessage(
             "คุณอายุมากกว่า 16 ปีหรือไม่?"),
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(

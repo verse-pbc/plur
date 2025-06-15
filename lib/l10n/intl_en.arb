@@ -367,7 +367,7 @@
       }
     },
     "ageVerificationQuestion": "Are you over 16 years old?",
-    "ageVerificationMessage": "For legal reasons, we need to make sure you're over this age to use Plur.",
+    "ageVerificationMessage": "For legal reasons, we need to make sure you're over this age to use Holis.",
     "no": "No",
     "yes": "Yes",
     "createYourCommunity": "Create your community",
@@ -518,5 +518,10 @@
     "noValidCommunityLink": "No valid community link in clipboard",
     "noCommunitiesYet": "No communities yet",
     "createCommunity": "Create a community",
-    "pasteInviteLink": "Paste Invite Link"
+    "pasteInviteLink": "Paste Invite Link",
+    "createProfile": "Create Profile",
+    "holisAccountExplanation": "You control your data with your own secure key.",
+    "holisAccountBenefits": "Your identity works across all communities.",
+    "easyToRead": "How it works",
+    "enterPrivateKeyOrId": "Enter your private key or nsec ID to login to your existing account"
 }

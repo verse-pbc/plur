@@ -1557,4 +1557,22 @@ class SAr extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }

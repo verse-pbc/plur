@@ -31,7 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "addPhotosToYourPosts":
             MessageLookupByLibrary.simpleMessage("게시물에 사진을 추가하면 여기에 표시됩니다."),
         "ageVerificationMessage": MessageLookupByLibrary.simpleMessage(
-            "법적 이유로 Plur를 사용하려면 이 나이 이상인지 확인해야 합니다."),
+            "법적 이유로 Holis를 사용하려면 이 나이 이상인지 확인해야 합니다."),
         "ageVerificationQuestion":
             MessageLookupByLibrary.simpleMessage("16세 이상입니까?"),
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(

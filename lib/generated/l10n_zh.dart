@@ -1095,7 +1095,7 @@ class SZh extends S {
   String get ageVerificationQuestion => '你年满16岁吗？';
 
   @override
-  String get ageVerificationMessage => '出于法律原因，我们需要确认你已超过此年龄才能使用Plur。';
+  String get ageVerificationMessage => '出于法律原因，我们需要确认你已超过此年龄才能使用Holis。';
 
   @override
   String get no => '否';
@@ -1552,6 +1552,24 @@ class SZh extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }
 
 /// The translations for Chinese, as used in Taiwan (`zh_TW`).
@@ -1653,7 +1671,7 @@ class SZhTw extends SZh {
   String get ageVerificationQuestion => '你年滿16歲嗎？';
 
   @override
-  String get ageVerificationMessage => '出於法律原因，我們需要確認你已超過此年齡才能使用Plur。';
+  String get ageVerificationMessage => '出於法律原因，我們需要確認你已超過此年齡才能使用Holis。';
 
   @override
   String get no => '否';

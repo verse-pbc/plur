@@ -1098,7 +1098,7 @@ class SHi extends S {
 
   @override
   String get ageVerificationMessage =>
-      'कानूनी कारणों से, हमें यह सुनिश्चित करने की आवश्यकता है कि Plur का उपयोग करने के लिए आप इस उम्र से अधिक हैं।';
+      'कानूनी कारणों से, हमें यह सुनिश्चित करने की आवश्यकता है कि Holis का उपयोग करने के लिए आप इस उम्र से अधिक हैं।';
 
   @override
   String get no => 'नहीं';
@@ -1563,4 +1563,22 @@ class SHi extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }

@@ -6,7 +6,7 @@ import 'package:nostrmo/component/content/content_widget.dart';
 import 'package:nostrmo/component/content/content_image_widget.dart';
 import 'package:nostrmo/component/content/content_video_widget.dart';
 import 'package:nostrmo/component/json_view_dialog.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/consts/holis_colors.dart';
 import 'package:nostrmo/consts/router_path.dart';
 import 'package:nostrmo/util/router_util.dart';
 import 'dart:convert';
@@ -314,7 +314,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
     final timeWidget = Text(
       timeStr,
       style: GoogleFonts.nunito(
-        textStyle: PlurColors.timestampStyle(context),
+        textStyle: HolisColors.timestampStyle(context),
       ),
     );
     
@@ -329,7 +329,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
         child: Icon(
           Icons.enhanced_encryption,
           size: 14,
-          color: PlurColors.secondaryTextColor(context),
+          color: HolisColors.secondaryTextColor(context),
         ),
       );
     }
@@ -355,7 +355,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
             Icon(
               Icons.reply,
               size: 14,
-              color: PlurColors.secondaryTextColor(context),
+              color: HolisColors.secondaryTextColor(context),
             ),
             const SizedBox(width: 4),
             Text(
@@ -363,7 +363,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
               style: GoogleFonts.nunito(
                 textStyle: TextStyle(
                   fontSize: 12,
-                  color: PlurColors.secondaryTextColor(context),
+                  color: HolisColors.secondaryTextColor(context),
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -399,9 +399,9 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
             decoration: BoxDecoration(
               color: widget.isLocal 
                 ? (themeData.brightness == Brightness.dark 
-                    ? PlurColors.buttonBackground.withOpacity(0.25) 
-                    : PlurColors.buttonBackground.withOpacity(0.15))
-                : PlurColors.cardBg(context),
+                    ? HolisColors.buttonBackground.withOpacity(0.25) 
+                    : HolisColors.buttonBackground.withOpacity(0.15))
+                : HolisColors.cardBg(context),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(!widget.isLocal ? 4 : 16),
                 topRight: Radius.circular(widget.isLocal ? 4 : 16),
@@ -450,12 +450,12 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                         children: [
                           Icon(Icons.reply, color: themeData.brightness == Brightness.dark 
                             ? null 
-                            : PlurColors.lightPrimaryText),
+                            : HolisColors.lightPrimaryText),
                           const SizedBox(width: 8),
                           Text('Reply', style: TextStyle(
                             color: themeData.brightness == Brightness.dark 
                               ? null 
-                              : PlurColors.lightPrimaryText,
+                              : HolisColors.lightPrimaryText,
                           )),
                         ],
                       ),
@@ -466,12 +466,12 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                         children: [
                           Icon(Icons.code, color: themeData.brightness == Brightness.dark 
                             ? null 
-                            : PlurColors.lightPrimaryText),
+                            : HolisColors.lightPrimaryText),
                           const SizedBox(width: 8),
                           Text('View Raw Event', style: TextStyle(
                             color: themeData.brightness == Brightness.dark 
                               ? null 
-                              : PlurColors.lightPrimaryText,
+                              : HolisColors.lightPrimaryText,
                           )),
                         ],
                       ),
@@ -504,7 +504,7 @@ class _DMDetailItemWidgetState extends State<DMDetailItemWidget>
                       displayContent,
                       style: GoogleFonts.nunito(
                         textStyle: TextStyle(
-                          color: PlurColors.textColor(context),
+                          color: HolisColors.textColor(context),
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
                           height: 1.35,

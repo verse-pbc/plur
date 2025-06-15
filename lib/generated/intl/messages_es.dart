@@ -62,7 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Panel de administración"),
         "admins": MessageLookupByLibrary.simpleMessage("Administradores"),
         "ageVerificationMessage": MessageLookupByLibrary.simpleMessage(
-            "Por razones legales, necesitamos asegurarnos de que tienes más de esta edad para usar Plur."),
+            "Por razones legales, necesitamos asegurarnos de que tienes más de esta edad para usar Holis."),
         "ageVerificationQuestion":
             MessageLookupByLibrary.simpleMessage("¿Tienes más de 16 años?"),
         "allMediaPublic": MessageLookupByLibrary.simpleMessage(
@@ -147,6 +147,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "copySuccess":
             MessageLookupByLibrary.simpleMessage("¡Copiado con éxito!"),
         "createGroup": MessageLookupByLibrary.simpleMessage("Crear grupo"),
+        "createProfile": MessageLookupByLibrary.simpleMessage("Crear Perfil"),
         "createYourCommunity":
             MessageLookupByLibrary.simpleMessage("Crea tu comunidad"),
         "creator": MessageLookupByLibrary.simpleMessage("Creador"),
@@ -190,6 +191,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "done": MessageLookupByLibrary.simpleMessage("Hecho"),
         "dontCompress": MessageLookupByLibrary.simpleMessage("Sin compresión"),
         "download": MessageLookupByLibrary.simpleMessage("Descargar"),
+        "easyToRead": MessageLookupByLibrary.simpleMessage("Cómo funciona"),
         "edit": MessageLookupByLibrary.simpleMessage("Editar"),
         "editDetails": MessageLookupByLibrary.simpleMessage("Editar detalles"),
         "editGroup": MessageLookupByLibrary.simpleMessage("Editar grupo"),
@@ -203,6 +205,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Introduce las directrices de tu comunidad"),
         "enterCommunityName": MessageLookupByLibrary.simpleMessage(
             "Introduce un nombre para tu comunidad"),
+        "enterPrivateKeyOrId": MessageLookupByLibrary.simpleMessage(
+            "Ingresa tu clave privada o ID nsec para iniciar sesión en tu cuenta existente"),
         "error": MessageLookupByLibrary.simpleMessage("Error"),
         "eventSignCheck": MessageLookupByLibrary.simpleMessage(
             "Verificación de firma de evento"),
@@ -270,6 +274,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "hide": MessageLookupByLibrary.simpleMessage("Ocultar"),
         "hideRelayNotices": MessageLookupByLibrary.simpleMessage(
             "Ocultar notificaciones de relés"),
+        "holisAccountBenefits": MessageLookupByLibrary.simpleMessage(
+            "Tu identidad funciona en todas las comunidades."),
+        "holisAccountExplanation": MessageLookupByLibrary.simpleMessage(
+            "Controlas tus datos con tu propia clave segura."),
         "home": MessageLookupByLibrary.simpleMessage("Inicio"),
         "hour": MessageLookupByLibrary.simpleMessage("Hora"),
         "iUnderstandIShouldntShareThisKey": MessageLookupByLibrary.simpleMessage(

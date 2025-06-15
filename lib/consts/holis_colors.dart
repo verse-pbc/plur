@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-/// Plur theme colors based on the design documents.
-class PlurColors {
+/// Holis theme colors based on the design documents.
+class HolisColors {
   // Main brand color - used in both dark and light modes
   static const Color primaryPurple = Color(0xFF7445FE);
   

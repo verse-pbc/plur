@@ -1096,7 +1096,7 @@ class SJa extends S {
 
   @override
   String get ageVerificationMessage =>
-      '法的理由により、Plurを使用するには、この年齢以上であることを確認する必要があります。';
+      '法的理由により、Holisを使用するには、この年齢以上であることを確認する必要があります。';
 
   @override
   String get no => 'いいえ';
@@ -1554,4 +1554,22 @@ class SJa extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }

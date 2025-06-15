@@ -4,7 +4,7 @@ import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostr_sdk/utils/string_util.dart';
 import 'package:nostrmo/component/user/user_pic_widget.dart';
 import 'package:nostrmo/consts/base.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/consts/holis_colors.dart';
 import 'package:nostrmo/generated/l10n.dart';
 import 'package:nostrmo/main.dart';
 import 'package:nostrmo/provider/group_provider.dart';

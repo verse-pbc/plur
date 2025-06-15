@@ -12,7 +12,7 @@ import 'package:nostrmo/component/content/trie_text_matcher/trie_text_matcher_bu
 import 'package:nostrmo/component/music/wavlake/wavlake_track_music_info_builder.dart';
 import 'package:nostrmo/consts/base64.dart';
 import 'package:nostrmo/consts/base_consts.dart';
-import 'package:nostrmo/consts/plur_colors.dart';
+import 'package:nostrmo/consts/holis_colors.dart';
 import 'package:nostrmo/provider/settings_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -1161,7 +1161,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     } else {
       // If no style is set, use our Plur design style for content with theme support
       textStyle = textStyle ?? GoogleFonts.nunito(
-        textStyle: PlurColors.contentStyle(context),
+        textStyle: HolisColors.contentStyle(context),
       );
     }
 

@@ -362,7 +362,7 @@
       }
     },
     "ageVerificationQuestion": "¿Tienes más de 16 años?",
-    "ageVerificationMessage": "Por razones legales, necesitamos asegurarnos de que tienes más de esta edad para usar Plur.",
+    "ageVerificationMessage": "Por razones legales, necesitamos asegurarnos de que tienes más de esta edad para usar Holis.",
     "no": "No",
     "yes": "Sí",
     "createYourCommunity": "Crea tu comunidad",
@@ -410,5 +410,10 @@
     "joinSomeCommunities": "Únete a algunas comunidades para verlas aparecer aquí",
     "noNotes": "Aún no hay publicaciones",
     "beFirstToPub": "Sé el primero en publicar en esta comunidad",
-    "communityNameHeader": "Nombre de la comunidad"
+    "communityNameHeader": "Nombre de la comunidad",
+    "createProfile": "Crear Perfil",
+    "holisAccountExplanation": "Controlas tus datos con tu propia clave segura.",
+    "holisAccountBenefits": "Tu identidad funciona en todas las comunidades.",
+    "easyToRead": "Cómo funciona",
+    "enterPrivateKeyOrId": "Ingresa tu clave privada o ID nsec para iniciar sesión en tu cuenta existente"
 }

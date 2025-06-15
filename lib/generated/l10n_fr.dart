@@ -1114,7 +1114,7 @@ class SFr extends S {
 
   @override
   String get ageVerificationMessage =>
-      'Pour des raisons légales, nous devons nous assurer que vous avez plus de cet âge pour utiliser Plur.';
+      'Pour des raisons légales, nous devons nous assurer que vous avez plus de cet âge pour utiliser Holis.';
 
   @override
   String get no => 'Non';
@@ -1580,4 +1580,22 @@ class SFr extends S {
 
   @override
   String get pasteInviteLink => 'Paste Invite Link';
+
+  @override
+  String get createProfile => 'Create Profile';
+
+  @override
+  String get holisAccountExplanation =>
+      'You control your data with your own secure key.';
+
+  @override
+  String get holisAccountBenefits =>
+      'Your identity works across all communities.';
+
+  @override
+  String get easyToRead => 'How it works';
+
+  @override
+  String get enterPrivateKeyOrId =>
+      'Enter your private key or nsec ID to login to your existing account';
 }
