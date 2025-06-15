@@ -36,6 +36,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: plur-app  # Your Cloudflare Pages project name
+          projectName: holis-app  # Your Cloudflare Pages project name
           directory: build/web
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}

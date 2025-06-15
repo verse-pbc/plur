@@ -34,7 +34,7 @@ jobs:
         run: npm install -g wrangler
         
       - name: Deploy to Cloudflare Pages
-        run: npx wrangler pages deploy build/web --project-name=plur-app
+        run: npx wrangler pages deploy build/web --project-name=holis-app
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: c84e7a9bf7ed99cb41b8e73566568c75
