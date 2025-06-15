@@ -403,7 +403,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "bg": [
@@ -810,7 +815,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "cs": [
@@ -1310,7 +1320,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "da": [
@@ -1810,7 +1825,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "de": [
@@ -2222,7 +2242,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "el": [
@@ -2722,7 +2747,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "es": [
@@ -3339,7 +3369,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "fi": [
@@ -3839,7 +3874,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "fr": [
@@ -3956,7 +3996,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "hi": [
@@ -4369,7 +4414,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "hu": [
@@ -4869,7 +4919,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "it": [
@@ -5281,7 +5336,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "ja": [
@@ -5717,7 +5777,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "ko": [
@@ -6153,7 +6218,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "nl": [
@@ -6653,7 +6723,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "pl": [
@@ -7153,7 +7228,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "pt": [
@@ -7653,7 +7733,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "ro": [
@@ -8153,7 +8238,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "ru": [
@@ -8653,7 +8743,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "sl": [
@@ -9153,7 +9248,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "sv": [
@@ -9653,7 +9753,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "th": [
@@ -10089,7 +10194,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "vi": [
@@ -10589,7 +10699,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "zh": [
@@ -11025,7 +11140,12 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ],
 
   "zh_TW": [
@@ -11461,6 +11581,11 @@
     "noValidCommunityLink",
     "noCommunitiesYet",
     "createCommunity",
-    "pasteInviteLink"
+    "pasteInviteLink",
+    "createProfile",
+    "holisAccountExplanation",
+    "holisAccountBenefits",
+    "easyToRead",
+    "enterPrivateKeyOrId"
   ]
 }
