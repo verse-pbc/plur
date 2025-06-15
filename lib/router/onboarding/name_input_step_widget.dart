@@ -37,7 +37,7 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
     
     // Generate and set a fake name based on the current locale
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final locale = Localizations.of(context).languageCode;
+      final locale = Localizations.localeOf(context).languageCode;
       final fakeName = FakeNameGenerator.generateFakeName(locale);
       _nameController.text = fakeName;
       _updateButtonState();
@@ -62,7 +62,7 @@ class _NameInputStepWidgetState extends State<NameInputStepWidget> {
   }
 
   void _generateNewFakeName() {
-    final locale = Localizations.of(context).languageCode;
+    final locale = Localizations.localeOf(context).languageCode;
     final fakeName = FakeNameGenerator.generateFakeName(locale);
     _nameController.text = fakeName;
     _updateButtonState();
