@@ -259,6 +259,9 @@ Future<void> initializeProviders({bool isTesting = false}) async {
   var futureResultList = await Future.wait([settingTask, userTask]);
   settingsProvider = futureResultList[0] as SettingsProvider;
   userProvider = futureResultList[1] as UserProvider;
+  
+  // Automatically detect and set locale based on device language if not already set
+  settingsProvider.autoDetectAndSetLocale();
   contactListProvider = ContactListProvider.getInstance();
   followEventProvider = FollowEventProvider();
   followNewEventProvider = FollowNewEventProvider();

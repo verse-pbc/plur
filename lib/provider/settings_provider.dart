@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:nostr_sdk/nostr_sdk.dart';
 import 'package:nostrmo/util/encrypt_util.dart';
+import 'package:nostrmo/util/locale_util.dart';
 import 'package:nostrmo/util/table_mode_util.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -437,6 +438,20 @@ class SettingsProvider extends ChangeNotifier {
     _settingData!.i18n = i18n;
     _settingData!.i18nCC = i18nCC;
     saveAndNotifyListeners();
+  }
+
+  /// Automatically detects and sets the locale based on device settings if supported
+  /// Only sets the locale if it hasn't been set before (first launch)
+  void autoDetectAndSetLocale() {
+    // Only auto-detect if locale hasn't been set manually
+    if (StringUtil.isBlank(_settingData!.i18n)) {
+      var detectedLocale = LocaleUtil.detectSupportedDeviceLocale();
+      if (detectedLocale != null) {
+        _settingData!.i18n = detectedLocale.languageCode;
+        _settingData!.i18nCC = detectedLocale.countryCode;
+        saveAndNotifyListeners();
+      }
+    }
   }
 
   /// image compress
