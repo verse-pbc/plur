@@ -25,8 +25,8 @@ class LinkRouterUtil {
       return;
     }
     
-    // Handle plur:// protocol links
-    if (link.startsWith("plur://")) {
+    // Handle holis:// protocol links
+    if (link.startsWith("holis://")) {
       try {
         Uri uri = Uri.parse(link);
         
@@ -40,7 +40,7 @@ class LinkRouterUtil {
             return;
           }
         } else if (uri.host == "group") {
-          // Handle direct group navigation format plur://group/{groupId}
+          // Handle direct group navigation format holis://group/{groupId}
           List<String> pathSegments = uri.pathSegments;
           if (pathSegments.isNotEmpty) {
             String groupId = pathSegments[0];
@@ -52,7 +52,7 @@ class LinkRouterUtil {
           }
         }
       } catch (e) {
-        log('Error parsing plur:// URL: $e', name: 'DeepLink');
+        log('Error parsing holis:// URL: $e', name: 'DeepLink');
       }
     }
     
@@ -166,7 +166,7 @@ class LinkRouterUtil {
           String pathSegment = pathSegments[1];
           
           // Check if it's a direct protocol URL embedded in the universal link
-          if (pathSegment.startsWith('plur://')) {
+          if (pathSegment.startsWith('holis://')) {
             // Process the embedded protocol URL
             router(context, pathSegment);
           } else {

@@ -437,7 +437,7 @@ class _FindCommunityWidgetState extends State<FindCommunityWidget> {
   
   void _joinGroup(PublicGroupInfo group) {
     // Generate join link to use with the existing join mechanism
-    final joinLink = 'plur://join-community?group-id=${group.identifier.groupId}';
+    final joinLink = 'holis://join-community?group-id=${group.identifier.groupId}';
     widget.onJoinCommunity(joinLink);
   }
 }

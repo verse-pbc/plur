@@ -324,7 +324,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
   /// Joins the Plur Test Users community group
   void _joinTestUsersGroup() {
     const String testUsersGroupId = "R6PCSLSWB45E";
-    const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
+    const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
     // Check if already a member
     final listProvider = Provider.of<ListProvider>(context, listen: false);

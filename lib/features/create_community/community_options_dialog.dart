@@ -272,7 +272,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
   
   /// Joins the Plur Test Users community group
   void _joinTestUsersGroup(BuildContext context) {
-    const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
+    const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
     // Show confirmation dialog first
     showDialog(

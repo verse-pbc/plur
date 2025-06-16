@@ -23,14 +23,14 @@ class GroupInviteLinkUtil {
   
   /// Generates a direct protocol URL with full parameters
   /// 
-  /// This format is meant to be used directly by the app: plur://join-community?group-id=X&code=Y&relay=Z
+  /// This format is meant to be used directly by the app: holis://join-community?group-id=X&code=Y&relay=Z
   static String generateDirectProtocolUrl(String groupId, String code, String relay) {
     try {
       // Encode relay to ensure it works in URL parameters
       String encodedRelay = Uri.encodeComponent(relay);
       
       // Build direct protocol URL
-      return "plur://join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
+      return "holis://join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
     } catch (e) {
       log('Error generating direct protocol URL: $e', name: 'GroupInviteLinkUtil');
       return "";
@@ -97,11 +97,11 @@ class GroupInviteLinkUtil {
   /// custom protocols aren't supported or on first use.
   static String generateUniversalLink(String groupId, String code, String relay) {
     try {
-      // Generate proper format: chus.me/invite/plur://join-community?group-id=X&code=Y&relay=Z
+      // Generate proper format: chus.me/invite/holis://join-community?group-id=X&code=Y&relay=Z
       String encodedRelay = Uri.encodeComponent(relay);
 
       // Build the direct protocol part
-      String protocolPart = "plur://join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
+      String protocolPart = "holis://join-community?group-id=$groupId&code=$code&relay=$encodedRelay";
 
       // Create the universal link with /invite/ path
       return "https://chus.me/invite/$protocolPart";

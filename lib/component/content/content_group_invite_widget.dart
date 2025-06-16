@@ -491,7 +491,7 @@ class _ContentGroupInviteWidgetState extends State<ContentGroupInviteWidget> {
   }
   
   void _copyInviteLink() {
-    final link = "plur://join-community?group-id=$groupId&code=$inviteCode&relay=${Uri.encodeComponent(relay)}";
+    final link = "holis://join-community?group-id=$groupId&code=$inviteCode&relay=${Uri.encodeComponent(relay)}";
     
     // Copy to clipboard
     RouterUtil.copyToClipboard(link, () {

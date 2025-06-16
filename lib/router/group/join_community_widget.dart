@@ -33,7 +33,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
       
       // If clipboard contains what looks like a community link, pre-fill it
       if (clipboardText != null && 
-          (clipboardText.startsWith('plur://join-community') || clipboardText.startsWith('plur:join-community')) &&
+          (clipboardText.startsWith('holis://join-community') || clipboardText.startsWith('holis:join-community')) &&
           clipboardText.contains('group-id=')) {
         _linkController.text = clipboardText;
         _validateLink(clipboardText);
@@ -49,8 +49,8 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
     setState(() {
       // Basic validation - we'll do more thorough validation when processing
       final trimmedText = text.trim();
-      _hasValidFormat = (trimmedText.startsWith('plur://join-community') || 
-                         trimmedText.startsWith('plur:join-community')) && 
+      _hasValidFormat = (trimmedText.startsWith('holis://join-community') || 
+                         trimmedText.startsWith('holis:join-community')) && 
                         trimmedText.contains('group-id=');
     });
   }
@@ -106,7 +106,7 @@ class _JoinCommunityWidgetState extends State<JoinCommunityWidget> {
             borderRadius: BorderRadius.circular(4),
           ),
           child: const Text(
-            "Example: plur://join-community?group-id=ABC123&code=XYZ789",
+            "Example: holis://join-community?group-id=ABC123&code=XYZ789",
             style: TextStyle(
               fontSize: 12,
               fontFamily: 'monospace',

@@ -1587,7 +1587,7 @@ class ListProvider extends ChangeNotifier {
     }
 
     // Generate both the direct protocol link and the web-friendly link
-    final directLink = 'plur://join-community?group-id=${group.groupId}&code=$inviteCode&relay=${Uri.encodeComponent(group.host)}';
+    final directLink = 'holis://join-community?group-id=${group.groupId}&code=$inviteCode&relay=${Uri.encodeComponent(group.host)}';
     log("Generated direct protocol link: $directLink", name: "ListProvider");
     
     // For web-friendly links, we'll use our GroupInviteLinkUtil

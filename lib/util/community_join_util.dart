@@ -15,7 +15,7 @@ class CommunityJoinUtil {
       debugPrint("Parsing join link: $joinLink");
       
       Uri uri = Uri.parse(joinLink.trim());
-      if (uri.scheme.toLowerCase() == 'plur' && uri.host.toLowerCase() == 'join-community') {
+      if (uri.scheme.toLowerCase() == 'holis' && uri.host.toLowerCase() == 'join-community') {
         String? groupId = uri.queryParameters['group-id'];
         String? code = uri.queryParameters['code'];
         String? relayParam = uri.queryParameters['relay'];
@@ -126,7 +126,7 @@ class CommunityJoinUtil {
           return false;
         }
       } else {
-        debugPrint("❌ Invalid join link format - not a plur://join-community URL");
+        debugPrint("❌ Invalid join link format - not a holis://join-community URL");
       }
     } catch (e) {
       debugPrint("⚠️ Error parsing join link: $e");

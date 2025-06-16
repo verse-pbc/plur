@@ -186,7 +186,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
   
   // Joins the Plur Test Users community group
   void _joinTestUsersGroup(BuildContext context) {
-    const String testUsersGroupLink = "plur://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
+    const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
     // Show join community sheet (similar to login sheet)
     showModalBottomSheet(
@@ -496,7 +496,7 @@ class _JoinWithInviteSheetContentState extends State<_JoinWithInviteSheetContent
       
       // If clipboard contains what looks like a community link, pre-fill it
       if (clipboardText != null && 
-          (clipboardText.startsWith('plur://join-community') || clipboardText.startsWith('plur:join-community')) &&
+          (clipboardText.startsWith('holis://join-community') || clipboardText.startsWith('holis:join-community')) &&
           clipboardText.contains('group-id=')) {
         _linkController.text = clipboardText;
         _validateLink(clipboardText);
@@ -512,8 +512,8 @@ class _JoinWithInviteSheetContentState extends State<_JoinWithInviteSheetContent
     setState(() {
       // Basic validation - we'll do more thorough validation when processing
       final trimmedText = text.trim();
-      _hasValidFormat = (trimmedText.startsWith('plur://join-community') || 
-                         trimmedText.startsWith('plur:join-community')) && 
+      _hasValidFormat = (trimmedText.startsWith('holis://join-community') || 
+                         trimmedText.startsWith('holis:join-community')) && 
                         trimmedText.contains('group-id=');
     });
   }
@@ -657,7 +657,7 @@ class _JoinWithInviteSheetContentState extends State<_JoinWithInviteSheetContent
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
-                "Example: plur://join-community?group-id=ABC123&code=XYZ789",
+                "Example: holis://join-community?group-id=ABC123&code=XYZ789",
                 style: TextStyle(
                   fontSize: 12,
                   fontFamily: 'monospace',

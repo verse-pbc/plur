@@ -15,7 +15,7 @@ import 'dart:developer' as dev;
 enum LinkType {
   universal,  // chus.me standard link
   short,      // chus.me/j/ short link
-  direct,     // direct plur:// link
+  direct,     // direct holis:// link
   nostr       // nostr NIP-29 groups join
 }
 
@@ -53,9 +53,9 @@ class InviteToCommunityDialog extends StatefulWidget {
 class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
   late final String inviteCode;
   late String standardChusmeLink;         // chus.me/i/CODE link
-  late String directInChusmeLink;         // chus.me/i/plur://...full link option
+  late String directInChusmeLink;         // chus.me/i/holis://...full link option
   late String generatedShortLink;         // chus.me/j/CODE short link
-  late String directPlurLink;             // direct plur:// protocol link
+  late String directHolisLink;            // direct holis:// protocol link
   late String nostrNip29Link;             // nostr: protocol link for NIP-29
 
   bool isGeneratingShortUrl = false;
@@ -75,14 +75,14 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
 
     // Generate the direct protocol link (most reliable)
     // Generate the direct protocol link first (this is the primary/default one)
-    directPlurLink = GroupInviteLinkUtil.generateDirectProtocolUrl(widget.groupIdentifier!.groupId, inviteCode, widget.groupIdentifier!.host);
-    dev.log('Direct plur:// link: $directPlurLink', name: 'InviteDebug');
+    directHolisLink = GroupInviteLinkUtil.generateDirectProtocolUrl(widget.groupIdentifier!.groupId, inviteCode, widget.groupIdentifier!.host);
+    dev.log('Direct holis:// link: $directHolisLink', name: 'InviteDebug');
 
     // Generate the standard chus.me link
     standardChusmeLink = GroupInviteLinkUtil.generateStandardInviteUrl(inviteCode);
     dev.log('Standard chus.me/i/ link: $standardChusmeLink', name: 'InviteDebug');
 
-    // Generate the chus.me link with embedded plur:// URI
+    // Generate the chus.me link with embedded holis:// URI
     directInChusmeLink = GroupInviteLinkUtil.generateUniversalLink(widget.groupIdentifier!.groupId, inviteCode, widget.groupIdentifier!.host);
     dev.log('Universal chus.me link with embedded protocol: $directInChusmeLink', name: 'InviteDebug');
 
@@ -95,7 +95,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
     dev.log('Nostr NIP-29 link: $nostrNip29Link', name: 'InviteDebug');
 
     // Default to the direct link as it's more reliable
-    activeLinkNotifier.value = directPlurLink;
+    activeLinkNotifier.value = directHolisLink;
 
     // Start the process of generating a short URL (which is currently mocked)
     _generateMockedShortUrl();
@@ -188,8 +188,8 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
           activeLinkNotifier.value = standardChusmeLink; // Fallback to standard link
         }
         break;
-      case LinkType.direct: // Direct plur:// protocol link
-        activeLinkNotifier.value = directPlurLink;
+      case LinkType.direct: // Direct holis:// protocol link
+        activeLinkNotifier.value = directHolisLink;
         break;
       case LinkType.nostr: // Nostr NIP-29 protocol link
         activeLinkNotifier.value = nostrNip29Link;
@@ -354,12 +354,12 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const Text(
-                              "🐛 AVAILABLE LINK FORMATS (plur:// preferred) 🐛",
+                              "🐛 AVAILABLE LINK FORMATS (holis:// preferred) 🐛",
                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.yellowAccent),
                             ),
                             const SizedBox(height: 6),
                             _DebugInfoRow(label: "Invite Code:", value: inviteCode, valueColor: Colors.lightGreenAccent),
-                            _DebugInfoRow(label: "1. Direct plur:// Link:", value: directPlurLink, isLink: true),
+                            _DebugInfoRow(label: "1. Direct holis:// Link:", value: directHolisLink, isLink: true),
                             _DebugInfoRow(label: "2. Standard chus.me/i Link:", value: standardChusmeLink, isLink: true),
                             _DebugInfoRow(label: "3. chus.me Universal:", value: directInChusmeLink, isLink: true),
                             _DebugInfoRow(label: "4. Nostr NIP-29 Link:", value: nostrNip29Link, isLink: true),
@@ -404,7 +404,7 @@ class _InviteToCommunityDialogState extends State<InviteToCommunityDialog> {
                                   context,
                                   type: LinkType.direct,
                                   icon: Icons.smartphone,
-                                  label: 'plur://'
+                                  label: 'holis://'
                                 ),
                               ),
                               const SizedBox(width: 8),
