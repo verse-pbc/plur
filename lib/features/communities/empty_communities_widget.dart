@@ -184,7 +184,7 @@ class EmptyCommunitiesWidget extends StatelessWidget {
     );
   }
   
-  // Joins the Plur Test Users community group
+  // Joins the Holis Test Users community group
   void _joinTestUsersGroup(BuildContext context) {
     const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
@@ -410,29 +410,50 @@ class EmptyCommunitiesWidget extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: GestureDetector(
-                onTap: () {
+                onTap: () async {
                   Navigator.of(context).pop();
                   
                   // Show loading indicator
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text("Joining Holis Community..."),
-                      duration: const Duration(seconds: 1),
+                      duration: const Duration(seconds: 3),
                       backgroundColor: colors.primary.withAlpha(230),
                     ),
                   );
                   
-                  // Attempt to join the group
-                  bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
-                  
-                  if (!success && context.mounted) {
-                    // Show error message if joining failed
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Failed to join Holis Community. Please try again later."),
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
+                  try {
+                    // Attempt to join the group
+                    bool success = await CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                    
+                    if (!success && context.mounted) {
+                      // Show error message if joining failed
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Failed to join Holis Community. Please try again later."),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    } else if (success && context.mounted) {
+                      // Show success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Successfully joined Holis Test Users group!"),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Error joining group: $e"),
+                          duration: const Duration(seconds: 3),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   }
                 },
                 child: Container(
@@ -727,23 +748,52 @@ class _JoinWithInviteSheetContentState extends State<_JoinWithInviteSheetContent
             SizedBox(
               width: double.infinity,
               child: GestureDetector(
-                onTap: _hasValidFormat ? () {
+                onTap: _hasValidFormat ? () async {
                   Navigator.of(context).pop();
                   
-                  // Attempt to join the group
-                  final success = CommunityJoinUtil.parseAndJoinCommunity(
-                    context, 
-                    _linkController.text
+                  // Show loading indicator
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("Joining community..."),
+                      duration: Duration(seconds: 3),
+                    ),
                   );
                   
-                  if (!success && context.mounted) {
-                    // Show error message if joining failed
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text("Failed to join community. Please try again later."),
-                        duration: Duration(seconds: 3),
-                      ),
+                  try {
+                    // Attempt to join the group
+                    bool success = await CommunityJoinUtil.parseAndJoinCommunity(
+                      context, 
+                      _linkController.text
                     );
+                    
+                    if (!success && context.mounted) {
+                      // Show error message if joining failed
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Failed to join community. Please try again later."),
+                          duration: Duration(seconds: 3),
+                        ),
+                      );
+                    } else if (success && context.mounted) {
+                      // Show success message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text("Successfully joined community!"),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Error joining community: $e"),
+                          duration: const Duration(seconds: 3),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                    }
                   }
                 } : null,
                 child: Container(

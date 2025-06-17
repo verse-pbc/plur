@@ -68,7 +68,7 @@ class _PasteJoinLinkButtonState extends State<PasteJoinLinkButton> {
               final clipboardText = clipboardData?.text?.trim();
               
               if (clipboardText != null) {
-                final success = CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
+                final success = await CommunityJoinUtil.parseAndJoinCommunity(context, clipboardText);
                 if (!success) {
                   if (context.mounted) {
                     BotToast.showText(text: "Invalid community link format");

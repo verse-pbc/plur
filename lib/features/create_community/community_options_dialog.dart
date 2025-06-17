@@ -101,9 +101,9 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
       return _buildMainOptionsView(context, textColor, accentColor, l10n);
     } else {
       return JoinCommunityWidget(
-        onJoinCommunity: (String link) {
+        onJoinCommunity: (String link) async {
           // Attempt to join the community
-          final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
+          final success = await CommunityJoinUtil.parseAndJoinCommunity(context, link);
           if (success) {
             // Close the dialog on success
             RouterUtil.back(context);
@@ -177,7 +177,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
         _buildOptionTile(
           context: context,
           icon: Icons.groups,
-          title: "Join Plur Test Users",
+          title: "Join Holis Test Users",
           subtitle: "",
           color: accentColor,
           onTap: () {
@@ -270,7 +270,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
     );
   }
   
-  /// Joins the Plur Test Users community group
+  /// Joins the Holis Test Users community group
   void _joinTestUsersGroup(BuildContext context) {
     const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
     
@@ -292,7 +292,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
-            "Join Plur Test Users Group",
+            "Join Holis Test Users Group",
             style: TextStyle(
               fontFamily: 'SF Pro Rounded',
               color: plurHighlightText,
@@ -301,7 +301,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
             ),
           ),
           content: Text(
-            "Would you like to join the Plur Test Users community? "
+            "Would you like to join the Holis Test Users community? "
             "This is a public group for testing features and connecting with other users.",
             style: TextStyle(
               fontFamily: 'SF Pro Rounded',
@@ -324,7 +324,7 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 Navigator.of(dialogContext).pop(); // Close dialog
                 
                 // Capture scaffold messenger before closing dialog
@@ -334,24 +334,45 @@ class _CommunityOptionsDialogState extends ConsumerState<CommunityOptionsDialog>
                 if (context.mounted) {
                   scaffoldMessenger.showSnackBar(
                     SnackBar(
-                      content: const Text("Joining Plur Test Users group..."),
-                      duration: const Duration(seconds: 1),
+                      content: const Text("Joining Holis Test Users group..."),
+                      duration: const Duration(seconds: 3),
                       backgroundColor: plurPurple.withAlpha(230), // 0.9 opacity converted to alpha
                     ),
                   );
                 }
                 
-                // Attempt to join the group
-                bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
-                
-                if (!success && context.mounted) {
-                  // Show error message if joining failed
-                  scaffoldMessenger.showSnackBar(
-                    const SnackBar(
-                      content: Text("Failed to join test users group. Please try again later."),
-                      duration: Duration(seconds: 3),
-                    ),
-                  );
+                try {
+                  // Attempt to join the group
+                  bool success = await CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                  
+                  if (!success && context.mounted) {
+                    // Show error message if joining failed
+                    scaffoldMessenger.showSnackBar(
+                      const SnackBar(
+                        content: Text("Failed to join test users group. Please try again later."),
+                        duration: Duration(seconds: 3),
+                      ),
+                    );
+                  } else if (success && context.mounted) {
+                    // Show success message
+                    scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: const Text("Successfully joined Holis Test Users group!"),
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                  }
+                } catch (e) {
+                  if (context.mounted) {
+                    scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: Text("Error joining group: $e"),
+                        duration: const Duration(seconds: 3),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
                 }
               },
               style: ElevatedButton.styleFrom(

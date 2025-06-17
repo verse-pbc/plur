@@ -9,7 +9,7 @@ class CommunityJoinUtil {
   /// 
   /// Returns true if the link was successfully parsed and join attempt was initiated
   /// Returns false if the link was invalid
-  static bool parseAndJoinCommunity(BuildContext context, String joinLink) {
+  static Future<bool> parseAndJoinCommunity(BuildContext context, String joinLink) async {
     try {
       debugPrint("=== START JOIN COMMUNITY PROCESS ===");
       debugPrint("Parsing join link: $joinLink");
@@ -86,8 +86,9 @@ class CommunityJoinUtil {
           
           // Use a try-catch to ensure we don't crash if the join fails
           try {
-            listProvider.joinGroup(joinParams, context: currentContext);
-            debugPrint("==== JOIN PROCESS INITIATED: Success=true ====");
+            bool joinResult = await listProvider.joinGroup(joinParams, context: currentContext);
+            debugPrint("==== JOIN PROCESS COMPLETED: Success=$joinResult ====");
+            return joinResult;
           } catch (e) {
             debugPrint("⚠️ Error during join process: $e");
             
@@ -99,15 +100,9 @@ class CommunityJoinUtil {
               ),
             );
             
-            // Still return true since we initiated the process
-            // The error will be handled within joinGroup method
+            // Return false since the join failed
+            return false;
           }
-          
-          // Add a delay before returning to let the join process get started
-          // This can help prevent UI flicker
-          Future.delayed(const Duration(milliseconds: 500));
-          
-          return true;
         } catch (e) {
           debugPrint("⚠️ Error during join process: $e");
           
@@ -151,7 +146,7 @@ class CommunityJoinUtil {
     
     try {
       Uri uri = Uri.parse(text.trim());
-      return uri.scheme.toLowerCase() == 'plur' && 
+      return uri.scheme.toLowerCase() == 'holis' && 
              uri.host.toLowerCase() == 'join-community' &&
              uri.queryParameters.containsKey('group-id');
     } catch (e) {

@@ -217,7 +217,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                               ),
                               const SizedBox(width: 12),
                               Text(
-                                "Join Plur Test Users",
+                                "Join Holis Test Users",
                                 style: TextStyle(
                                   fontFamily: 'SF Pro Rounded',
                                   color: context.colors.primary,
@@ -321,7 +321,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
     }
   }
   
-  /// Joins the Plur Test Users community group
+  /// Joins the Holis Test Users community group
   void _joinTestUsersGroup() {
     const String testUsersGroupId = "R6PCSLSWB45E";
     const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
@@ -337,7 +337,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
       // Show message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("You're already a member of the Plur Test Users group."),
+          content: Text("You're already a member of the Holis Test Users group."),
           duration: Duration(seconds: 2),
         ),
       );
@@ -361,7 +361,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
-            "Join Plur Test Users Group",
+            "Join Holis Test Users Group",
             style: TextStyle(
               color: colors.primaryText,
               fontSize: 20,
@@ -369,7 +369,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
             ),
           ),
           content: Text(
-            "Would you like to join the Plur Test Users community? "
+            "Would you like to join the Holis Test Users community? "
             "This is a public group for testing features and connecting with other users.",
             style: TextStyle(
               color: colors.primaryText,
@@ -384,7 +384,7 @@ class _NoCommunitiesSheetState extends State<NoCommunitiesSheet> {
                 // Show loading indicator
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text("Joining Plur Test Users group..."),
+                    content: const Text("Joining Holis Test Users group..."),
                     duration: const Duration(seconds: 1),
                     backgroundColor: colors.primary.withAlpha((255 * 0.9).round()),
                   ),

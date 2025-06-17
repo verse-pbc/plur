@@ -124,8 +124,8 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                   context: context,
                   appColors: appColors,
                   icon: Icons.group_outlined,
-                  title: "Join Plur Test Users",
-                  subtitle: "Join the official Plur test community",
+                  title: "Join Holis Test Users",
+                  subtitle: "Join the official Holis test community",
                   onTap: _joinTestUsersGroup,
                 ),
                 
@@ -152,9 +152,9 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
                           ),
                           child: JoinCommunityWidget(
-                            onJoinCommunity: (String link) {
+                            onJoinCommunity: (String link) async {
                               Navigator.of(context).pop();
-                              final success = CommunityJoinUtil.parseAndJoinCommunity(context, link);
+                              final success = await CommunityJoinUtil.parseAndJoinCommunity(context, link);
                               if (success) {
                                 // Optionally close the NoCommunitiesWidget as well
                                 if (mounted) setState(() {});
@@ -218,7 +218,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                           ),
                         ),
                         child: Text(
-                          "Join Plur Test Users",
+                          "Join Holis Test Users",
                           style: TextStyle(
                             color: context.colors.accent,
                             fontSize: 16,
@@ -299,7 +299,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
       if (clipboardText != null) {
         if (!contextMounted) return; // Check if widget is still mounted
         
-        bool success = CommunityJoinUtil.parseAndJoinCommunity(currentContext, clipboardText);
+        bool success = await CommunityJoinUtil.parseAndJoinCommunity(currentContext, clipboardText);
         
         if (!success && mounted) {
           ScaffoldMessenger.of(currentContext).showSnackBar(
@@ -323,7 +323,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     }
   }
   
-  /// Joins the Plur Test Users community group
+  /// Joins the Holis Test Users community group
   void _joinTestUsersGroup() {
     const String testUsersGroupId = "R6PCSLSWB45E";
     const String testUsersGroupLink = "holis://join-community?group-id=R6PCSLSWB45E&code=Z2PWD5ML";
@@ -348,12 +348,12 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
     
     if (isMember) {
       // Already a member, just navigate to the group
-      developer.log("User is already a member of the Plur Test Users group, navigating to detail view", name: "NoCommunitiesWidget");
+      developer.log("User is already a member of the Holis Test Users group, navigating to detail view", name: "NoCommunitiesWidget");
       
       // Show message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("You're already a member of the Plur Test Users group."),
+          content: Text("You're already a member of the Holis Test Users group."),
           duration: Duration(seconds: 2),
         ),
       );
@@ -364,7 +364,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
       return;
     }
     
-    developer.log("User is not a member of the Plur Test Users group (or dialog forced), showing join dialog", name: "NoCommunitiesWidget");
+    developer.log("User is not a member of the Holis Test Users group (or dialog forced), showing join dialog", name: "NoCommunitiesWidget");
     
     // Show confirmation dialog first
     showDialog(
@@ -379,7 +379,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
             borderRadius: BorderRadius.circular(16),
           ),
           title: Text(
-            "Join Plur Test Users Group",
+            "Join Holis Test Users Group",
             style: TextStyle(
               color: colors.primaryText,
               fontSize: 20,
@@ -387,7 +387,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
             ),
           ),
           content: Text(
-            "Would you like to join the Plur Test Users community? "
+            "Would you like to join the Holis Test Users community? "
             "This is a public group for testing features and connecting with other users.",
             style: TextStyle(
               color: colors.primaryText,
@@ -409,14 +409,14 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 developer.log("Join dialog: Join Group button pressed", name: "NoCommunitiesWidget");
                 Navigator.of(dialogContext).pop(); // Close dialog
                 
                 // Show loading indicator
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text("Joining Plur Test Users group..."),
+                    content: const Text("Joining Holis Test Users group..."),
                     duration: const Duration(seconds: 1),
                     backgroundColor: colors.primary.withAlpha((255 * 0.9).round()),
                   ),
@@ -424,7 +424,7 @@ class _NoCommunitiesWidgetState extends State<NoCommunitiesWidget> {
                 
                 // Attempt to join the group
                 developer.log("Attempting to join group using CommunityJoinUtil.parseAndJoinCommunity", name: "NoCommunitiesWidget");
-                bool success = CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
+                bool success = await CommunityJoinUtil.parseAndJoinCommunity(context, testUsersGroupLink);
                 developer.log("Join result: $success", name: "NoCommunitiesWidget");
                 
                 if (!success && mounted) {
