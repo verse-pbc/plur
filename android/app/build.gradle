@@ -49,6 +49,8 @@ android {
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        // Add all supported language codes for localization
+        resConfigs "en", "ar", "bg", "cs", "da", "de", "el", "es", "et", "fi", "fr", "hi", "hu", "it", "ja", "ko", "nl", "pl", "pt", "ro", "ru", "sl", "sv", "th", "vi", "zh", "zh-rTW"
     }
 
     // signingConfigs {

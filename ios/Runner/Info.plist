@@ -59,5 +59,35 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>CFBundleLocalizations</key>
+		<array>
+			<string>en</string>
+			<string>ar</string>
+			<string>bg</string>
+			<string>cs</string>
+			<string>da</string>
+			<string>de</string>
+			<string>el</string>
+			<string>es</string>
+			<string>et</string>
+			<string>fi</string>
+			<string>fr</string>
+			<string>hi</string>
+			<string>hu</string>
+			<string>it</string>
+			<string>ja</string>
+			<string>ko</string>
+			<string>nl</string>
+			<string>pl</string>
+			<string>pt</string>
+			<string>ro</string>
+			<string>ru</string>
+			<string>sl</string>
+			<string>sv</string>
+			<string>th</string>
+			<string>vi</string>
+			<string>zh</string>
+			<string>zh-TW</string>
+		</array>
 	</dict>
 </plist>
