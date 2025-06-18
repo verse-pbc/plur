@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Release Notes
+- **Fixed Spanish localization for users worldwide**: Users in Mexico, Argentina, Spain, Colombia, Chile, Peru, and all other Spanish-speaking countries will now see Spanish translations instead of English. This also fixes similar issues for users of other languages with regional variants (French in Canada, German in Austria/Switzerland, Portuguese in Brazil, etc.)
 - Added warning notices on Asks & Offers documentation to prevent premature implementation
 - Enabled text selection throughout the entire web application for better accessibility and user experience
 - Fixed App Store rejection by adding NSPhotoLibraryUsageDescription to Info.plist
@@ -25,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced button styles with rounded corners and cohesive theme
 
 ### Internal Changes
+- Added native locale configuration for iOS (CFBundleLocalizations), Android (resConfigs), and web (HTML lang attribute) to enable proper regional locale fallback for all 26 supported languages
 - Fixed duplicate 'actions' property in Listings Screen causing build errors
 - Implemented comprehensive structured logging system:
   - Added category-based filtering (core, network, database, ui, auth, groups, events, performance)

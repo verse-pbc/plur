@@ -12,6 +12,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Auto fix: `dart fix --apply`
 - Generate localizations: `flutter pub run intl_utils:generate`
 
+## Internationalization Setup
+The app supports 26 languages with proper native locale configuration:
+- **iOS**: `CFBundleLocalizations` array in `ios/Runner/Info.plist` declares all supported languages
+- **Android**: `resConfigs` in `android/app/build.gradle` enables regional locale fallback  
+- **Web**: HTML `lang` attribute in `web/index.html` for browser locale detection
+- **Automatic Detection**: `SettingsProvider.autoDetectAndSetLocale()` detects device language on first launch
+
+This enables users with regional locales (e.g., `es_MX`, `fr_CA`, `de_AT`) to see translations in their language instead of falling back to English.
+
 ## iOS Build Instructions
 - Initialize rbenv: `eval "$(rbenv init -)"` (requires Ruby 3.2.2+)
 - Clean Flutter: `flutter clean && flutter pub get`
